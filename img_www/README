@@ -1,0 +1,40 @@
+
+Web Images
+
+This directory holds copys of standard web images used for general decoration
+and 'fluff' in the example HTML documents.  For example arrows, mathematical
+symbols, spacing and document icons.
+
+The favicon.ico used by web servers is generated as follows....
+
+  convert ../images/splash.gif -bordercolor white -border 0 \
+          \( -clone 0 -resize 16x16 \) \
+          \( -clone 0 -resize 32x32 \) \
+          \( -clone 0 -resize 48x48 \) \
+          \( -clone 0 -resize 64x64 \) \
+          -delete 0 -alpha off -colors 256 favicon.ico
+
+The doc_art.png comes from IM examples
+  convert ~/icons/www/art.xpm  doc_art.png
+
+I can't seem to locate the source images I used for
+"doc_ps.png" and "doc_svg.png"
+
+For others on Fedora 10 (until better can be found).
+  source=/usr/share/icons/gnome/scalable/mimetypes
+  rsvg -w 48 -h 48 $source/misc.svg doc_text.png
+  rsvg -w 48 -h 48 $source/document.svg doc_doc.png
+  rsvg -w 48 -h 48 $source/spreadsheet.svg doc_data.png
+  rsvg -w 48 -h 48 $source/x-office-drawing.svg doc_draw.png
+
+  source=/usr/share/icons/gnome/48x48/mimetypes
+  cp $source/video-x-generic.png doc_video.png
+  cp $source/text-html.png doc_html.png
+
+  source=/usr/share/icons/oxygen/48x48/mimetypes/
+  cp $source/text-x-generic.png doc_txt.png
+
+
+The many mathematical symbols are extracted from many different
+fonts using the "generate_symbols" script (one directory up)
+

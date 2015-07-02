@@ -1,0 +1,92 @@
+
+ImageMagick Examples Photo Store...
+
+Contributed by Anthony Thyssen
+
+Personal Photos
+
+  KiteFlyers Photo (scaned image, for manual thumbnail generation)
+    cp ~/qks/fests/gatton_2001/Rons_Trills_flyers.jpg  kiteflyers.jpg
+    convert kiteflyers.jpg -thumbnail 200x90 kiteflyers_auto.gif
+    convert kiteflyers.jpg -crop 176x202+262+225 +repage \
+            -thumbnail 200x90  kiteflyers_man.gif
+
+  2005 Trip to China
+    Pagoda Kunming Zoo  (EXIF data preserved in 'sm' version)
+    Chinese Chess       (Bad contrast image - taken though a glass window)
+
+  2006 European Trip
+    Berlin Holicast Memorial (2006 European Trip)
+    Spiral Stairs in Arc Le Trumph   (with Added JPEG Comment)
+       jhead -cl 'Arc de Trumph, Paris' spiral_stairs_orig.jpg
+
+  2008 Trip to China
+    Beijing             Large traditional chinese buildings in Beijing.
+       convert beijing_orig.jpg -auto-orient -gravity south \
+               -crop 100%x50%+0+0  -thumbnail 640x beijing_md.jpg
+       convert beijing_orig.jpg -auto-orient -gravity south \
+               -crop 100%x50%+0+0  -thumbnail x150 beijing_tn.gif
+
+Contributed by Others
+
+  Martin Herrmann <Martin-Herrmann@gmx.de>
+    vegas_sm.jpg  nikon18-70dx_18mm_f3.5.jpg      (Vignettation Photos)
+    convert vegas_sm.jpg \( nikon18-70dx_18mm_f3.5.jpg -fx intensity \) \
+            -fx '(u/v)*v.p{w/2,h/2}'   vegas_fixed.jpg
+
+  Walter Dnes
+    night_scape.jpg   night_club.jpg    (Under-Exposed Photos)
+
+  Wolfgang Hugemann
+     building_sm.jpg    (Perspective Building Rectification)
+
+  Fred Weinhaus
+     rings.gif          (resize filter aliasing test image)
+
+
+Download from Net
+
+  Linux Hatching (Large Desktop Picture, with added comment)...
+    jhead -cl 'Hatching of Linux' hatching.jpg
+    convert hatching.jpg -thumbnail 320x320 hatching_sm.jpg
+
+  Standard Image Processing Test Images
+  found via http://en.wikipedia.org/wiki/Standard_test_image
+
+    http://sipi.usc.edu/database/   (miscellaneous still images)
+      lena_orig.png            (very common research test image)
+      mandrill_orig.png        (actually its a baboon)
+      peppers_orig.png
+      zelda_dark.png       (item 4.1.01, 256x256 pixels)
+    http://www.hlevkin.com/TestImages/
+      goldhill_orig.png
+      zelda_orig.png       (a different 'zelda' image, cropped)
+      cameraman_orig.png   (Black and white cameraman - old classic)
+    http://r0k.us/graphics/kodak/   (kodak sample photos)
+      hats_orig.png        (kodim03.png)
+      parrots_orig.png     (kodim23.png)
+    http://sipi.usc.edu/database/   (aerials, time sequence, textures)
+      (none at this time)
+
+  Port (a badly contrasted image)
+    http://www.webdesign.org/web/photoshop/photoshop-basics/photo-correction-101-auto-color.8149.html
+
+  Gimp Filters
+    http://docs.gimp.org/en/plug-in-photocopy.html
+       taj_mahal_orig.jpg
+
+  EarthMap
+     http://phong.informatik.uni-leipzig.de/~kuska/oglscript/EarthMap.png
+
+  Compound Eyes
+     http://upload.wikimedia.org/wikipedia/commons/8/85/Calliphora_sp_Portrait.jpg
+       This is a really a tough case. Down-sampling it to 480x720 and under
+       different algorithms there may easilly show...
+
+       a) moire patterns on the compound eyes
+       b) increase in overall brightness (probably due to haloing)
+       c) lose of rainbow-shine
+       d) aliasing on the hairs or, in contrast, blurriness of the hairs
+
+    See  IM Discussion forum  viewtopic.php?f=22&t=19636&p=83863#p83834
+
