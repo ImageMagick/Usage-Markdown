@@ -1,0 +1,4 @@
+# X  Y  color    location
+160 283  red     Accademia
+254 166  blue    Rialto
+298 225  violet  St Mark's Basilica

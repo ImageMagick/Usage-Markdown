@@ -1,0 +1,17 @@
+#
+# Setup Automatic Index
+#
+Options Indexes FollowSymLinks
+IndexOptions FancyIndexing IconWidth=12 NameWidth=*
+IndexOptions SuppressColumnSorting SuppressLastModified
+IndexIgnore .*
+
+DefaultIcon  ../img_www/scroll.gif
+AddIconByType (TXT,../img_www/scroll.gif) text/*
+AddIcon ../img_www/scroll.gif .pl
+AddType text/plain .pl
+
+HeaderName ".header.html"
+ReadmeName ".footer.html"
+
+#AddDescription "Generate an affine matrix from SRT args"     affine_distort

@@ -1,0 +1,52 @@
+<markup><!--
+This is of course a SGML/XML comment which can be ignored and
+as such can also be used to add hidden newlines into this demo.
+
+Markup language syntax...
+  http://www.pygtk.org/docs/pygtk/pango-markup-language.html
+  http://www.ibm.com/developerworks/library/l-u-pango1/
+
+Viewing this file...
+  pango-view --dpi=72 --markup pango_test.txt
+
+  convert pango:@pango_test.txt show:
+
+--><span size="50000">Pango Markup Demo</span>
+Size: <small><small><small>smallest</small> smaller</small> small</small><!--
+-->  normal <!--
+--> <big>big <big>bigger <big>biggest</big></big></big>
+
+Styles:<!--
+--> <b>bold</b><!--
+--> <i>italic</i><!--
+--> <u>underlined</u><!--
+--> <s>strikethrough</s><!--
+--> <tt>monospaced</tt>
+
+<sup>super</sup>--normal--<sub>sup</sub>
+
+Underline:<!--
+--> <span underline="single">single</span><!--
+--> <span underline="double">double</span><!--
+--> <span underline="low">low</span><!--
+--> <span underline="error">error</span>
+
+Colors:<!--
+--> <span fgcolor="red">red</span><!--
+--> <span fgcolor="blue">blue</span><!--
+--> -- <!--
+--> <span bgcolor="yellow">yellow bg</span><!--
+--> <span bgcolor="skyblue">skyblue bg</span><!--
+--> -- <!--
+--> <span underline_color="blue"><u>underline</u></span><!--
+--> <span strikethrough_color="red"><s>strikethrough</s></span>
+
+Rise: ---<!--
+--><span rise="10000">-</span><!--
+--><span rise="20000">---</span><!--
+--><span rise="10000">-</span><!--
+-->-<!--
+--><span rise="-10000">-</span><!--
+--><span rise="-20000">---</span><!--
+--><span rise="-10000">-</span><!--
+-->---</markup>

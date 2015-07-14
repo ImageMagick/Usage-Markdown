@@ -1,0 +1,224 @@
+
+ImageMagick Images Store Sources...
+
+Logo
+  im_examples_logo
+  mv logo.gif images/
+
+Avatar Reduction (down to 60x60 pixels)
+  convert avatar.gif -trim +repage \
+          -bordercolor white -border 2 \
+          -thumbnail 60x60 -gravity center -extent 60x60 \
+          avatar_60x60.png
+
+Color Fill Test Image
+  convert -size 100x60 xc:skyblue \
+          -fill dodgerblue  -draw "ellipse  50,30 40,20 0,360" \
+          -fill blue        -draw "circle   50,30 40,20" \
+          -fill black       -draw "rectangle 0,28 99,32" \
+          -fill royalblue   -draw "rectangle 48,0 52,59" \
+          color_test.png
+
+Built-In Rose (general)
+  convert rose: rose.gif
+  convert rose: -colorspace Gray rose_grey.gif
+
+Built-In Netscape (general)
+  convert netscape: -scale 50% netscape.gif
+
+Built-In Face (from logo) for Convolution Examples
+  convert logo: -resize 50% -crop 80x80+150+60 +repage  face.png
+
+Faerie Dragon (for annotations)
+   convert ~/icons/dragons/dragon_faerie_orig.gif -resize 100x100  dragon.gif
+   convert ~/icons/dragons/dragon_faerie_orig.gif -resize 75x75    dragon_sm.gif
+
+Cyclops Drawing (for background removal)
+   convert ~/icons/large/cyclops.gif  -resize x100 \
+        -gravity center -crop 100x100+0+0 +repage cyclops.png
+   convert ~/icons/large/cyclops.gif -blur 0x2 -resize 12% cyclops_sm.gif
+
+Koala  (distortion examples)
+  source of image is unknown, but I think the koala was holding a kite.
+  Ensure it is 75x75 pixels and has pure white and black colors
+    convert {source} -crop 75x75+??+?? +repage \
+            -channel RGB -contrast-stretch 0 koala.gif
+    convert koala.gif -transparent white -transparent-color white \
+            koala_trans.gif
+
+#Golem from DQ  -- not used yet
+
+Knight - RogueKight
+  ( cd ~/store/images/monsters/dq/;
+    ./Remove_logo.sh rogueknight.jpg miff:-;
+  ) | convert - -trim +repage  -bordercolor white -border 1 \
+          -matte -fill none -fuzz 80% \
+          -draw 'matte 0,0 floodfill  matte 215,210 floodfill' \
+          -resize 96x96 -gravity south -background none -extent 100x100 \
+          knight.png
+
+Pokemon - Azumarill on pink background (for reflections)
+  convert ~/store/images/monsters/pokemon/azumarill.gif \
+          -trim +repage -resize 60x60 \
+          -gravity center -background pink -extent 64x64 \
+          -roll +0+2 +repage  pokemon.gif
+
+Terminal (small GIF image for resize examples)
+   convert ~/icons/desc/std-cl/terminal_tiny.xpm \
+           -trim +repage -compose Over -bordercolor white -border 2 \
+           terminal.gif
+
+Star (transparency GIF)
+WARNING: be careful that one point color does not become transparent.
+   convert ~/icons/desc/std-cl/star_rainbow.xpm -trim +repage \
+           -background '#C0C0C0'  -transparent '#C0C0C0'  star.gif
+
+Blue Bubble 32x32 Font (for numbers and letters)...
+   cp ~/icons/prog/fonts/bubble_blue.xpm   font.xpm
+   ../generate_font_chars --numbers
+
+Small 32x32 image with transparency (and colored alpha index color)
+   convert  ~/icons/desc/cl-32/hand_point.xpm  hand_point.gif
+
+Small 32x32 images (for appending, mosacis, and animation examples)
+   convert  $HOME/icons/desc/cl-32/eye2.xpm           eye.gif
+   convert  $HOME/icons/desc/cl-32/Network/news.xpm   news.gif
+   convert  $HOME/icons/desc/cl-32/weather_storm.xpm  storm.gif
+   convert  $HOME/icons/desc/cl-32/tree.xpm           tree.gif
+   convert  $HOME/icons/desc/cl-32/balloon.xpm        balloon.gif
+   convert  $HOME/icons/desc/cl-32/medical.xpm        medical.gif
+   convert  $HOME/icons/desc/cl-32/present.xpm        present.gif
+   convert  $HOME/icons/desc/cl-32/shading.xpm        shading.gif
+   convert  $HOME/icons/desc/cl-32/brush2.xpm         paint_brush.gif
+
+With transparency
+   convert  $HOME/icons/desc/cl-32/eyeguy.xpm         eyeguy.gif
+   convert  $HOME/icons/desc/cl-32/noseguy.xpm        noseguy.gif
+   convert  $HOME/icons/desc/cl-32/ghost.xpm          ghost.gif
+   convert  $HOME/icons/desc/cl-32/pencil.xpm         pencil.gif
+   convert  $HOME/icons/desc/cl-32/recycle.xpm        recycle.gif
+   convert  $HOME/icons/desc/cl-32/skull.xpm          skull.gif
+   convert  $HOME/icons/desc/cl-32/snowman.xpm        snowman.gif
+   convert  $HOME/icons/desc/cl-32/Games/puzzle2.xpm  jigsaw.gif
+   convert  $HOME/icons/desc/cl-32/Games/chess4.xpm   knight.gif
+
+Very Small Symbols Set (symbol dither pattern)
+   convert \
+      $HOME/icons/desc/bw-16/{abc,flag,shine,thumbs_up,golfball}.xbm \
+      $HOME/icons/desc/bw-16/{glasses,eye2,bomb,magnify2,tick,info}.xbm \
+      $HOME/icons/desc/bw-16/{lightning,paw,card_d*,apple,card_h*}.xbm \
+      dpat_symbols.gif
+A set of images for maps.
+   convert \
+      $HOME/icons/prog/map/misc/sea_*.xpm \
+      $HOME/icons/prog/map/misc/{grass,forest}_small.xpm \
+      $HOME/icons/prog/map/misc/jungle.xpm \
+      dpat_map.gif
+
+Frame image 40x40, for a 32x32 images
+   convert  $HOME/icons/prog/frames/button.xpm        frame.gif
+
+Fancy Corner (manually edited)
+   convert $HOME/icons/prog/frames/corner_outline3.xbm  fancy_orig.gif
+   Hand edit to for   fancy_add.gif  fancy_sub.gif
+
+Watermark Dragon (mostly black and white, with transparent shape)
+   convert ~/icons/dragons/dragon_water.gif -resize 40% wmark_image.png
+   convert wmark_image.png -fill LightSteelBlue -draw 'color 0,0 reset' \
+           wmark_image.png -composite  wmark_image.jpg
+
+Sphinx (black and white watermark)
+   convert ~/icons/desc/std/sphinx.xbm -matte \
+           -bordercolor white -border 1 \
+           -fill none -draw 'color 0,0 floodfill' \
+           -trim +repage sphinx.gif
+   composite -compose Dst_Over -tile pattern:checkerboard sphinx.gif x:
+
+Large Scroll (for overlay bumbmap annotation)
+   convert icons/large/map.gif -resize 30%  scroll.gif
+
+Background Tiling
+   cp ~/icons/desc/cl-bgnd/light/blue_rough.gif           bg.gif
+   cp ~/icons/desc/cl-bgnd/display/weave-purple.gif       tile_weave.gif
+   cp ~/icons/desc/cl-bgnd/display/colored_disks.jpg      tile_disks.jpg
+   convert ~/icons/desc/cl-bgnd/medium/aqua.jpg -gamma 2  tile_aqua.jpg
+   cp ~/icons/desc/cl-bgnd/medium/water.jpg               tile_water.jpg
+   cp ~/icons/desc/cl-bgnd/medium/linen_blue.gif          tile_fabric.gif
+
+Colormap images (for color quantization and replacement)
+  convert ~/icons/local/colormap.xpm colormap.gif
+  convert ~/icons/local/colortable.xpm colortable.gif
+
+Image Error (for Compose Table Generation)
+   composite -compose over -gravity center ~/icons/www/answer_bad.xpm \
+             ~/icons/www/art.xpm  image_error.gif
+
+Script O and K, drawn letter animations (complex overlay animation)
+   Downloaded from WWW as a single "OK" animation "script_ok_orig.gif"
+   and separated into letters for example: time-wise appending of animations
+   Heavily modified and improved, both programmically and by hand.
+
+List Operator Test Image (all list_test checks should produce this image)
+   convert eye.gif news.gif  storm.gif  +append  list_test.gif
+
+Miscellanious Animations
+
+  smoke_skull_anim.gif  (croped to 100x100)
+    gif_anim_montage x2 smoke_skull_anim.gif smoke_skull_frames.gif
+
+  bunny_anim.gif bunny_grass.gif
+    gif_anim_montage bunny_anim.gif bunny_frames.gif
+
+  convert dl_world_orig.gif -coalesce -fill gray  \
+          -draw 'color 0,0 floodfill'  -deconstruct +map dl_world.gif
+  gif_anim_montage dl_world.gif dl_world_frames.gif
+
+-------------------------------------------------------------------------------
+Generated or Contributed by Anthony Thyssen
+
+Special Dither Patterns
+   dpat_hlines.gif    dpat_2x2x7.gif
+
+Download from Net
+
+Linux Hatching (Large JPG Picture, with comment)...
+  for photo and thumbnail handling
+    wrjpgcom -replace -comment 'Hatching of Linux' \
+             ~/store/images/linux/Hatching_1600.jpg > hatching.jpg
+    convert hatching.jpg -thumbnail 320x320 hatching_sm.jpg
+
+ColorWheel PNG (Orig)
+    convert -filter box colorwheel_orig.png -resize 128x128 colorwheel.png
+
+Contributed by Others
+
+Background Overlay Removal (for overlay extraction)
+   Downloaded from Jesper Eije <jjwe@bredband.net>
+     convert http://img.photobucket.com/albums/v601/JJWE/background.png \
+         -crop 100x125+270+160 +repage bgnd.png
+     convert http://img.photobucket.com/albums/v601/JJWE/sprite.png \
+         -crop 100x125+270+160 +repage bgnd_overlaid.png
+
+Piglet from RubbleWeb
+  This has a thick patchy black outline for testing cartoon edge detection
+    http://www.rubblewebs.co.uk/imagemagick/piglet.gif
+
+Badly split GIF Animation
+  The original "bag_left.gif" and "bad_right.gif" images donated by
+  "gmabrys" on the IM forums (u=8005).  Image modified to include some basic
+  frame optimization.
+
+Plane AVI  (plane flying over animation)
+   Benoit Rouleau   http://software.benetonfilms.com/"
+
+swirl_video.mpg
+   Complex Animation of the swirl distortion, see "STORE/swirl_video.txt"
+   Florent Monnier <fmonnier@linux-nantes.fr.eu.org>
+
+blackthin_corner.gif
+   Provided by Micheal slate, with the images blackthin_top.gif and
+   blackthin_bottom.gif extracted from and modified to be the same width.
+   used in thumbnail tiled edge framing.
+
+
+-------------------------------------------------------------------------------

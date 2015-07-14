@@ -1,0 +1,3 @@
+180  west    red    10  10 10   This is left aligned
+120  east    green  12  30 40   Right aligned
+140  center  blue   16  50 70   Centered text
