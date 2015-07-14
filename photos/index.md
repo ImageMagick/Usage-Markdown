@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../img_www/space.gif) Digital Photo Handling
+# Digital Photo Handling
 
 **Index**
 [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)

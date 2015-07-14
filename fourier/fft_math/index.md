@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../img_www/space.gif) Fourier Multiply/Divide
+# Fourier Multiply/Divide
 
 **Index**
 [![](../../img_www/granitesm_left.gif)ImageMagick Examples Preface and Index](../../)

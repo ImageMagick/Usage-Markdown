@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../img_www/space.gif) Masks
+# Masks
 
 **Index**
 [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)

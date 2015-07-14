@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../img_www/space.gif) Compound Font Effects
+# Compound Font Effects
 
 **Index**  
 [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)  

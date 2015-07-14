@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../img_www/space.gif) Resampling by Nicolas Robidoux
+# Resampling by Nicolas Robidoux
 
 **Index**  
   

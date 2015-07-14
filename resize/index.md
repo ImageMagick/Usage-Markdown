@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../img_www/space.gif) Resize or Scaling (General Techniques)
+# Resize or Scaling (General Techniques)
 
 **Index**  
   

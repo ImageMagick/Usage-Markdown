@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../img_www/space.gif) Creating Thumbnails and Framing
+# Creating Thumbnails and Framing
 
 [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
 [![](../img_www/granitesm_right.gif) Thumbnail Storage](#storage)

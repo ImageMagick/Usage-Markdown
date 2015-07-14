@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../../w_images/space.gif) Background Examples
+# Background Examples
 
 [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
 This is a table of applying various transforms against some 'random' canvases, showing methods of producing interesting random backgrounds at whatever size you desire, whether it is a single large image, or a background tile for a web page.

@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../img_www/space.gif) Usage under Windows
+# Usage under Windows
 
 **Index**
 [![](../img_www/granitesm_right.gif) Introduction](#intro)

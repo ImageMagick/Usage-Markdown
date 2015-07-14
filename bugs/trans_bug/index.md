@@ -1,5 +1,4 @@
-# ImageMagick 5.5.7 --  
- ![](../../img_www/space.gif) Semi-Transparent Draw and Overlay Bug -- FIXED
+# Semi-Transparent Draw and Overlay Bug -- FIXED
 
 **Index**
 [![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)

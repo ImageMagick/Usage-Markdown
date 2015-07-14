@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../../img_www/space.gif) Resize Halo Bug -- FIXED
+# Resize Halo Bug -- FIXED
 
 **Index**
 [![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)

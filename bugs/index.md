@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../img_www/space.gif) Development and Bugs
+# Development and Bugs
 
 [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
 These pages demonstrate and provide workarounds for various bugs known to exist, *or used to exist* within IM.

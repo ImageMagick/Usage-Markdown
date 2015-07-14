@@ -1,5 +1,4 @@
-# ImageMagick v6 Examples --  
- ![](../../img_www/space.gif) Drawing a Percent Bug - FIXED
+# Drawing a Percent Bug - FIXED
 
 **Index**
 [![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
