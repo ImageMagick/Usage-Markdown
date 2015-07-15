@@ -204,9 +204,8 @@ Just remember, as the default "`-channel`" setting is '`RGB`', the default actio
 
 Aren't you glad that "`-blur`" is no longer always a pure grey-scale operator. Though you can use it in that way if you really want. You didn't always have this choice however...
   
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-Before IM version 6.2.4-4, the "`-blur`", and "`-gaussian-blur`" operators were applied as pure grey-scale operation, and as such did not adjust color weighting according to their alpha channel 'visibility'. The result was that any form of blurring with transparency, almost always produced horrible 'black halo' effects, such as purposefully generated in the previous example.
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM version 6.2.4-4, the "`-blur`", and "`-gaussian-blur`" operators were applied as pure grey-scale operation, and as such did not adjust color weighting according to their alpha channel 'visibility'. The result was that any form of blurring with transparency, almost always produced horrible 'black halo' effects, such as purposefully generated in the previous example.
   
 This was classed as a major long term bug within the IM distribution, and one that was very hard to workaround. For more details of this problem, see the [Blur with Transparency Bug](../bugs/blur_trans/) page.
 

@@ -1,75 +1,74 @@
 # Canvas Creation
 
 **Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Solid Color Canvases](#solid)
--   [Direct Generation](#solid)
--   [Blanking Existing Images](#blank)
--   [Blanking Image with Picked Color](#blank_pick)
--   [Overlay a Specific Color](#specific)
--   [Other Canvas Techniques](#other)
 
-[![](../img_www/granitesm_right.gif) Gradients of Colors](#gradient)
--   [Gradient Image Generator](#gradient)
--   [Radial Gradient Generator](#radial-gradient)
--   [Gradients with Transparency](#gradient_transparent)
--   [Histogram Adjusted Gradients](#gradient_histogram)
--   [Evaluated Gradients](#gradient_functions)
--   [Distorted Gradients](#gradient_distort)
--   [Gradients by Composition](#gradient_compose)
--   [Gradients in other Colorspaces](#gradient_colorspace)
--   [Resized Image Gradients](#gradient_resize)
--   [Interpolated Lookup Gradients](#gradient_interpolate)
--   [Roll your own Gradient](#gradient_fx)
--   [More Complex DIY Gradients](#gradient_complex)
--   [DIY Gradients and Hues](#gradient_complex_hues)
+ * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
+   * [![](../img_www/granitesm_right.gif) Solid Color Canvases](#solid)
+     * [Direct Generation](#solid)
+     * [Blanking Existing Images](#blank)
+     * [Blanking Image with Picked Color](#blank_pick)
+     * [Overlay a Specific Color](#specific)
+     * [Other Canvas Techniques](#other)
 
-[![](../img_www/granitesm_right.gif) Sparse Points of Color](#sparse-color)
--   [**Barycentric** - The Triangle Gradient](#barycentric)
-    -   [Two Color Gradients](#two_color_gradients)
-    -   [Diagonal Gradients](#diagonal_gradients)
-    -   [Barycentric and Two Color Gradients](#two_point_gradients)
-    -   [Generating the Perfect Gradient](#perfect_gradients)
--   [**Bilinear** - 4 Point Gradient](#bilinear)
--   [**Voronoi** - Nearest Color](#voronoi)
--   [**Shepards** - Spotlights of Color](#shepards)
--   [**Inverse** - Sharp Points of Color](#inverse)
--   [Shepards Power Factor](#shepards_power)
--   [Summery of Sparse Color Methods](#sparse_summery)
--   [Channel Setting and Sparse Color](#sparse_channel)
--   [Sparse Color as a Fill Operator](#sparse_fill)
--   [Sparse Color Shepards, a Blur Alternative](#sparse_blur)
--   [Shepards Method 'Leaks'](#shepards_leakage)
+   * [![](../img_www/granitesm_right.gif) Gradients of Colors](#gradient)
+     * [Gradient Image Generator](#gradient)
+     * [Radial Gradient Generator](#radial-gradient)
+     * [Gradients with Transparency](#gradient_transparent)
+     * [Histogram Adjusted Gradients](#gradient_histogram)
+     * [Evaluated Gradients](#gradient_functions)
+     * [Distorted Gradients](#gradient_distort)
+     * [Gradients by Composition](#gradient_compose)
+     * [Gradients in other Colorspaces](#gradient_colorspace)
+     * [Resized Image Gradients](#gradient_resize)
+     * [Interpolated Lookup Gradients](#gradient_interpolate)
+     * [Roll your own Gradient](#gradient_fx)
+     * [More Complex DIY Gradients](#gradient_complex)
+     * [DIY Gradients and Hues](#gradient_complex_hues)
 
-[![](../img_www/granitesm_right.gif) Plasma Images](#plasma)
--   [Plasma Gradients](#plasma_gradients)
--   [Fractal Plasma](#plasma_fractal)
--   [Gray-scale Plasma](#plasma_greyscale)
--   [Seeded Plasma](#plasma_seeded)
--   [Problems using Plasma](#plasma_problems)
+   * [![](../img_www/granitesm_right.gif) Sparse Points of Color](#sparse-color)
+     * [**Barycentric** - The Triangle Gradient](#barycentric)
+       * [Two Color Gradients](#two_color_gradients)
+       * [Diagonal Gradients](#diagonal_gradients)
+       * [Barycentric and Two Color Gradients](#two_point_gradients)
+       * [Generating the Perfect Gradient](#perfect_gradients)
+     * [**Bilinear** - 4 Point Gradient](#bilinear)
+     * [**Voronoi** - Nearest Color](#voronoi)
+     * [**Shepards** - Spotlights of Color](#shepards)
+     * [**Inverse** - Sharp Points of Color](#inverse)
+     * [Shepards Power Factor](#shepards_power)
+     * [Summery of Sparse Color Methods](#sparse_summery)
+     * [Channel Setting and Sparse Color](#sparse_channel)
+     * [Sparse Color as a Fill Operator](#sparse_fill)
+     * [Sparse Color Shepards, a Blur Alternative](#sparse_blur)
+     * [Shepards Method 'Leaks'](#shepards_leakage)
 
- 
-[![](../img_www/granitesm_right.gif) Random Images](#random)
--   [Raw Random Noise](#random_noise) - pure random
--   [Plasma Gradients](#plasma_gradients)
--   [Random Speckles](#random_specks) - pixel dust
--   [Blurred Random Images](#random_blur) - random blobs
--   [Random Granularity](#granularity) - order in the chaos
--   [Random Flux](#random_flux) - animated randomness
--   [Random Ripples](#random_ripples) - dispersion maps
+   * [![](../img_www/granitesm_right.gif) Plasma Images](#plasma)
+     * [Plasma Gradients](#plasma_gradients)
+     * [Fractal Plasma](#plasma_fractal)
+     * [Gray-scale Plasma](#plasma_greyscale)
+     * [Seeded Plasma](#plasma_seeded)
+     * [Problems using Plasma](#plasma_problems)
 
- 
-[![](../img_www/granitesm_right.gif) Tiled Canvases](#tile)
--   [Tiled Canvas](#tile)
--   [Offset Tiling Canvases](#tile-offset)
--   [Tiling with an Image In Memory](#tile_memory)
--   [Modifying Built-in Patterns](#pattern)
--   [Modifying Tile Images](#tile_mod)
--   [Generating Tile Images](#tile_gen)
--   [Random Noise Tiles](#tile_random)
--   [Hexagonal Tiling](#tile_hex)
--   [Triple Hex Tiling](#tile_triple_hex)
--   [Diagonal Mirror Tiling](#tile_diagonal)
+   * [![](../img_www/granitesm_right.gif) Random Images](#random)
+     * [Raw Random Noise](#random_noise) - pure random
+     * [Plasma Gradients](#plasma_gradients)
+     * [Random Speckles](#random_specks) - pixel dust
+     * [Blurred Random Images](#random_blur) - random blobs
+     * [Random Granularity](#granularity) - order in the chaos
+     * [Random Flux](#random_flux) - animated randomness
+     * [Random Ripples](#random_ripples) - dispersion maps
+
+   * [![](../img_www/granitesm_right.gif) Tiled Canvases](#tile)
+     * [Tiled Canvas](#tile)
+     * [Offset Tiling Canvases](#tile-offset)
+     * [Tiling with an Image In Memory](#tile_memory)
+     * [Modifying Built-in Patterns](#pattern)
+     * [Modifying Tile Images](#tile_mod)
+     * [Generating Tile Images](#tile_gen)
+     * [Random Noise Tiles](#tile_random)
+     * [Hexagonal Tiling](#tile_hex)
+     * [Triple Hex Tiling](#tile_triple_hex)
+     * [Diagonal Mirror Tiling](#tile_diagonal)
 
 Canvases are used by ImageMagick both as a starting image for drawing on, backgrounds to overlay images with transparent areas, or even just as part of general image processing. They can be a solid color, or a range of colors, or even a tile of a smaller image. Here we look at just some of the methods that can be used to generate a whole range of canvas images.
 
@@ -109,10 +108,13 @@ Here we grab a rose color from the built-in "`rose:`" image.
 
   
 [![\[IM Output\]](canvas_pick.gif)](canvas_pick.gif)
+
 ### Create Image of same size
 
 One most basic techniques, when using ImageMagick, is to generate a canvas of the same size as some existing image. This can be done by converting that existing image into the canvas needed, but preserving the image's original size.
+
 Generally it is not just the images size that needs to be preserved, but all the images meta-data as well. That in things such as labels, comments, color profiles, time delays, as well as the save compression and depth. This meta-data can be important if you want to annotate those such information on the newly blanked canvas, or you plan to overlay the original image onto the new canvas.
+
 Naturally IM provides a large number of ways to do this, usually as a side-effect of using various image operations. Only a few are very obvious about there use in clearing an image to a solid color.
   
 To the left is a test image... Don't worry above how I actually generated this image, it is not important for the exercise. I did design it to contain a range of colors, transparencies and other features, specifically to give IM a good workout when used.
@@ -120,6 +122,7 @@ To the left is a test image... Don't worry above how I actually generated this i
 *If you are really interested in the commands used to generate this image you can look at the special script, "[generate\_test](../scripts/generate_test)", I use to create it.*
   
 [![\[IM Output\]](test.png)](test.png)
+
 ### Overlay a Specific Color
 
   
@@ -129,6 +132,7 @@ As of IM v6.4.2-1 you can use the "`+level-colors`" with a single color and no c
 
   
 [![\[IM Output\]](color_levelc.gif)](color_levelc.gif)
+
 Note the use of the "`-alpha`" operator to set the transparency to something useful before (or after) the color has been added. Altrunativally you could use "`-channel All`" to ensure the transparency channel is also set by the color resetting operation.
   
 Another older technique is to use "`-colorize`" to overlay the fill color but with a fully opaque value. However before IM v6.7.9 it did not change the the original images alpha channel, so it is a good idea if to disable the alpha channel first, using "`-alpha Off`", or make it opaque with "`-alpha Opaque`" even though you would get the same result without it.
@@ -138,11 +142,11 @@ Another older technique is to use "`-colorize`" to overlay the fill color but wi
   
 [![\[IM Output\]](color_colorize.gif)](color_colorize.gif)
   
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Note that "`-alpha Off`" (or the older equivelent "`+matte`") only disables the alpha channel. if you turn it [On](../masking/#alpha_on) again afterwards, the original alpha channel (which was preserved) will be restored. If was automatically done before IM v6.7.9
-  
-As of IM v6.4.3-0 you can use the "`-sparse-color`" operator to set a single point to the color wanted, using just about any method it provides (see [Sparse Points of Color](#sparse-color) below).
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Note that "`-alpha Off`" (or the older equivelent "`+matte`") only disables the alpha channel. if you turn it [On](../masking/#alpha_on) again afterwards, the original alpha channel (which was preserved) will be restored. If was automatically done before IM v6.7.9
+>  
+> As of IM v6.4.3-0 you can use the "`-sparse-color`" operator to set a single point to the color wanted, using just about any method it provides (see [Sparse Points of Color](#sparse-color) below).
+
   
       convert test.png  -alpha Off \
               -sparse-color Voronoi '0,0 Peru' color_sparse.gif
@@ -156,6 +160,7 @@ A more general way is to use "`-draw`" to directly reset all the colors in the c
 
   
 [![\[IM Output\]](color_reset.gif)](color_reset.gif)
+
 This was the recommended method in ImageMagick version 5.
 The major complaint about all the above 'simple' methods is that none simply resets the image to the current "`-background`" color.
   
@@ -168,6 +173,7 @@ For example you can use the "`-flatten`" (See [Flatten onto Background](../layer
 
   
 [![\[IM Output\]](color_flatten.gif)](color_flatten.gif)
+
 The above works as uses a '`Dst`' compose method to place the background canvas the operator created in front of the original image.
   
 If you are just wanting to grab the original images meta-data (such as the comment or label data), but replace the image itself with a specific color and size of canvas image, then "`-extent`" operator (See [Extent, Direct Image Size Adjustment](../crop/#extent)) may be the best solution. Color will again come from the "`-background`" setting.
@@ -185,12 +191,12 @@ Or you can use "`-border`" (See [Adding a Border](../crop/#border)), using the "
 
   
 [![\[IM Output\]](color_border.gif)](color_border.gif)
+
 This last method has the added advantage of also letting you slightly enlarge the image canvas, relative to the original images size.
   
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The "`-border`" method of generating canvases will not work with versions of IM before version 6.1.4. Before this the background generated by the "`-border`" operator was not a simple solid color, but a black canvas surrounded by the border color. Not very useful.*
-  
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The "`-border`" method of generating canvases will not work with versions of IM before version 6.1.4. Before this the background generated by the "`-border`" operator was not a simple solid color, but a black canvas surrounded by the border color. Not very useful.
+
 A more flexible (but very slow) method of canvas generation was provided by the "`FX, DIY Operator`" operator. You will also need to turn off the input image's transparency channel as by default "`-fx`" will not touch the transparency channel.
   
       convert test.png -alpha off -fx Gold  color_fx_constant.gif
@@ -204,6 +210,7 @@ The "`-fx`" operator will even let you do a little color mathematics. For exampl
 
   
 [![\[IM Output\]](color_fx_math.gif)](color_fx_math.gif)
+
 All the above methods cannot only fill using a fully-opaque color, but can also use semi-transparent colors. However it is a good idea to ensure the image you have a transparency channel before hand.
   
 Here for example we create a canvas with a semi-transparent red. However when overlaid on the web pages 'bluish' background we get a off purple-pink color.
@@ -213,23 +220,27 @@ Here for example we create a canvas with a semi-transparent red. However when ov
 
   
 [![\[IM Output\]](color_semitrans.png)](color_semitrans.png)
+
 Also note that when using "`-fx`" operator with transparency, you will need to set "`-channel`" to modify all four '`RGBA`' color channels.
 ### Blanking Image with Picked Color
 
 Blanking images using a color from the original image is also posible, though can be tricky. It is a useful technique when you want to use a specific pixel as a 'background color'. For example pixel 0,0 is a common choice.
 [![\[IM Output\]](rose.png)](rose.png) In the following examples I will select colors from various pixels from the built in rose image (shown left), as I blank the image.
+
 The most obvious (though slow) method is to simply use the "`FX, DIY Operator`" to select the pixel to use color blanking.
   
       convert rose: -fx 'p{0,0}'  color_pick_fx.png
 
   
 [![\[IM Output\]](color_pick_fx.png)](color_pick_fx.png)
+
 However this can be speed up by only selecting the pixel once.this can be done by using the fx formula as a argument for [Sparse Color](#sparse-color). It may seem less simple, but it is much faster.
   
       convert rose: -sparse-color voronoi '0,0 %[pixel:p{40,30}]' color_pick_sparse.png
 
   
 [![\[IM Output\]](color_pick_sparse.png)](color_pick_sparse.png)
+
 Another more complex method is to crop out that one pixel and tile it across the image, using techniques described later in detail in [Tiling with an Image already In Memory](#tile_memory)
   
       convert rose: \( +clone -crop 1x1+64+22 -write MPR:pixel +delete \) \
@@ -249,7 +260,9 @@ Another more complex method is to crop out that one pixel and tile it across the
 ### Other Canvas Techniques
 
 Their lots of other ways of generating canvases of very specific colors, but they are rather obtuse. As such without some heavy commenting, it may not be obvious which you are doing when you look at your IM script months or years later.
+
 I don't recommend these techniques, but are useful to know if you are using older less flexible versions of IM.
+
 #### Black Canvas
 
   
@@ -301,6 +314,7 @@ You can ensure the image is fully transparent then '`extract`' the images mask, 
 
   
 [![\[IM Output\]](black_alpha.png)](black_alpha.png)
+
 #### White Canvas
 
   
@@ -352,6 +366,7 @@ You can ensure the image is fully opaque (no transparency) then '`extract`' the 
 
   
 [![\[IM Output\]](white_alpha.png)](white_alpha.png)
+
 #### Transparent Canvas
 
 Probably the most important canvas you want to generate from a existing image is a transparent canvas.
@@ -362,6 +377,7 @@ The fastest and easiest way it to just get IM to directly clear the image to tra
 
   
 [![\[IM Output\]](trans_alpha.png)](trans_alpha.png)
+
 However as this is a very recent addition it is probably not widely available yet.
   
 We can make a fully-transparent 'black' canvas using the '[Clear](../compose/#clear) alpha composition operator, with any overlay image (a single pixel "`null:`" in this case) as it will be ignored.
@@ -398,15 +414,21 @@ Another way to just make the image fully transparent is to use "`-threshold`" bu
 
   
 [![\[IM Output\]](trans_threshold.png)](trans_threshold.png)
+
 Actually in this case we are mathematically dealing with a 'matte' channel, using threshold to set it to the maximum value, rather than zero as we did with the "`-fx`" operator. This is why a '`-1`' was used in the above, rather than something like `101%`'.
+
 The original RGB colors are still present in many of the images above. That is the original colors of the image are still present, they have just been made transparent.
+
 For example, here we read in one of the above images and ask IM to turn off the matte/alpha channel in the image so as to make the colors visible again.
   
       convert  trans_fx.png -alpha off  trans_fx_alpha_off.jpg
 
 Note however that not all image formats and very few image operations will preserve the partially-transparent RGB colors that are still present in the image.
+
 [![\[IM Output\]](trans_fx_alpha_off.jpg)](trans_fx_alpha_off.jpg)
+
 As mentioned before, and worth repeating, many of the above methods rely on an image already having a matte channel. If it doesn't, add one using the "`-alpha On`", but in that case you may as well just use the "`-alpha Transparent`" operator. See the examples on [Controlling Image Transparency](../masking/#alpha).
+
 #### Miscellaneous Canvas Coloring
 
 Other than using a specific color, only the "`-gamma`" operator is truly flexible enough to generate a canvas of any primary/secondary color. You basically use `0` to zero out a channel, and `-1` to maximize a channel values.
