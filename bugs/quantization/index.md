@@ -10,14 +10,14 @@ Exploration of the distance algorithm used by [-colors](../option_link.cgi?color
 ## Quantization vs Dithering -- Where is the bug?
 
 The problem with debugging the color quantization process is separating color selection (quantization) from the actual replacement of colors (dither).
-At this time thier is no perfect method of extracting the exact color table that quantization selected. Viewing those colors to see how they are arranged in 3D Color Space is another problem.
+At this time there is no perfect method of extracting the exact color table that quantization selected. Viewing those colors to see how they are arranged in 3D Color Space is another problem.
 Even if dithering is turned off you still need to replace colors, which requires a fast way of determining exactly what color should be used, and currently in Imagemagick this is NOT a straight forward.
 
 ------------------------------------------------------------------------
 
 ## Quantization and Color Spacing
 
-Quantization of a gradient should space colors along the gradient equally,
+Quantization of a gradient should space colors along the gradient equally:
   
       convert -size 20x640  gradient: -rotate 90    gradient_gray.png
       convert gradient_gray.png  +dither  -colors 3   gray_3.png
