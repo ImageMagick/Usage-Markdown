@@ -689,7 +689,7 @@ See also [Transparency Optimization](../anim_opt/#opt_trans).
 >
 > In this case each frame is overlaid onto the previous overlaid frames using a '`Copy`' alpha composition method, before the frames are compared.
 > This alpha composition method ensures that any transparency in a layer will also be added to the destination image.
-Without this the above would not find pixels that get cleared to transparency in a coalesced image sequence.
+> Without this the above would not find pixels that get cleared to transparency in a coalesced image sequence.
 >  
 > Note that this is different to the more normal '`Over`' composition method that the "`-coalesce`" operator would use for handling the 'dispose/overlay' cycle needed to display a GIF animation.
 
