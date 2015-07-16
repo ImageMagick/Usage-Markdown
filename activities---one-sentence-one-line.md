@@ -2,6 +2,21 @@
 
 <!--
  table below as Markdown `pipe_table` (with "lazy"/"ugly" formatting)
+
+ To see it as HTML, use:
+
+   pandoc \
+    -o activities---one-sentence-one-line.html \
+       activities---one-sentence-one-line.md 
+
+ To get a nicer table view within Markdown, use:
+
+   pandoc \
+    -o activities---one-sentence-one-line.ghmd
+    -f markdown \
+    -t markdown_github \
+       activities---one-sentence-one-line.md \
+
 -->
 
 
