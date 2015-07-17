@@ -55,7 +55,7 @@ Complete?|Mark|./compare/index.md
 ?|?|./crop/index.md
 Complete?|Mark|./distorts/affine/index.md
 ?|?|./distorts/index.md
-Taken, work-in-progress|Eric|./draw/index.md
+DONE|Eric|./draw/index.md
 ?|?|./files/index.md
 ?|?|./filter/index.md
 ?|?|./filter/nicolas/index.md
