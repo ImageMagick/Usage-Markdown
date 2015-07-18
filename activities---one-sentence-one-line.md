@@ -12,10 +12,10 @@
  To get a nicer table view within Markdown, use:
 
    pandoc \
-    -o activities---one-sentence-one-line.ghmd
+    -o activities---one-sentence-one-line.ghmd \
     -f markdown \
     -t markdown_github \
-       activities---one-sentence-one-line.md \
+       activities---one-sentence-one-line.md
 
 -->
 

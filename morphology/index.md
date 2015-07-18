@@ -1,5 +1,7 @@
 # Morphology of Shapes
 
+<!-- Keep this only for reference. New ToC will be auto-generated...
+
 **Index**
 
 [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
@@ -65,6 +67,9 @@
 -   [Distance to Skeleton](#distance_skeleton)
 -   [Skeleton using Autotrace](#autotrace_skeleton)
 
+-->
+
+
 Morphology modifies an image in various ways based on the nearby 'neighbourhood' of the other pixels that surround it.
 This in turn can provide a huge range of effects, Shape expansion and contraction (dilate/erode), to distance from edge, to thining down to a skeleton, or mid-line axis.
 
@@ -89,21 +94,14 @@ Exactly what size and shape this 'neighbourhood' often depends on just what you 
 
 Here are some examples of various kernels that have been converted into images (using a special script "`kernel2image"`") showing some of the 'neighbourhoods' around a central pixel, 'origin'.
 
-[![\[IM Output\]](kernel_diamond.gif)](kernel_diamond.gif)
-
-[![\[IM Output\]](kernel_square.gif)](kernel_square.gif)
-
-[![\[IM Output\]](kernel_octagon.gif)](kernel_octagon.gif)
-
-[![\[IM Output\]](kernel_disk.gif)](kernel_disk.gif)
-
-[![\[IM Output\]](kernel_plus.gif)](kernel_plus.gif)
-
-[![\[IM Output\]](kernel_rectangle.gif)](kernel_rectangle.gif)
-
-[![\[IM Output\]](kernel_corner.gif)](kernel_corner.gif)
-
-[![\[IM Output\]](kernel_gaussian.gif)](kernel_gaussian.gif)
+[![\[IM Output\]](kernel_diamond.gif)](kernel_diamond.gif "Diamond")
+[![\[IM Output\]](kernel_square.gif)](kernel_square.gif "Square")
+[![\[IM Output\]](kernel_octagon.gif)](kernel_octagon.gif "Octagon")
+[![\[IM Output\]](kernel_disk.gif)](kernel_disk.gif "Disk")
+[![\[IM Output\]](kernel_plus.gif)](kernel_plus.gif "Plus")
+[![\[IM Output\]](kernel_rectangle.gif)](kernel_rectangle.gif "Rectangle 7x4+3+2")
+[![\[IM Output\]](kernel_corner.gif)](kernel_corner.gif "Corner #0")
+[![\[IM Output\]](kernel_gaussian.gif)](kernel_gaussian.gif "Gaussian 5x2")
 
 The images have been scaled to highlight the individual elements of the 'kernel', and as you can see typical kernels are often very small.
 In fact the 'Disk' kernel show above is actually "![\[Raw Disk Kernel Image\]](kernel_disk_raw.gif)", and that is one of the largest kernels shown above.
@@ -181,6 +179,7 @@ That is a '*radius*' of '`2`' will create a kernel that is 5×5 pixels square.
 While a '*radius*' typically defines the size of the final kernel, and thus the overall speed of the morphological operation over the images, it may not be the most important factor, especially for [Convolution Kernels](#convolve_kernels) where the values have a greater effect on results than the kernels size.
 
 If a '*radius*' set to 0, or left undefined the '*radius*' will automatically default to some reasonable or most commonly used value, depending on the kernel involved.
+
 [![\[IM Output\]](kernel_unity.gif)](kernel_unity.gif)
 
 #### Unity
@@ -191,6 +190,7 @@ Most morphological methods using this kernel will either re-produce the original
 The kernel has no arguments.
 
 This exact same single element kernel can also be generated using '`Disk:0.5`', which also allow you to specify a scaling argument as part of the kernels generation.
+
 [![\[IM Output\]](kernel_diamond.gif)](kernel_diamond.gif)
 
 #### Diamond
@@ -306,15 +306,16 @@ Note that at radius 1, you get the same kernel as a "Diamond" kernel.
 Because of this the default octagon size is of radius '`2`'.
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> 
+>
 > :REMINDER:
 > From this point on I will be using a special [kernel2image](#kernel2image) script to generate images of the kernels as they are much clearer than using a raw "dilate-scale" method (as above).
 > Remember however the kernels are in generally very small, though Octagon and Disk kernels (see next) can become very large for specific uses.
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> 
+>
 > :REMINDER:
 > The "`Octagon`" kernel was added in IM v6.6.9-4, along with the "`Octagonal`" distance kernel.
+>
 > [![\[IM Output\]](kernel_disk.gif)](kernel_disk.gif)
 
 #### Disk
@@ -717,9 +718,12 @@ This time of a '`Comet`' convolution kernel.
 [![\[IM Text\]](k_comet.txt.gif)](k_comet.txt)
 
 This is actually half a 1 Dimensional Gaussian Curve (sigma of 1.0), and can provide a nice way of extracting such a curve from ImageMagick.
+
 Also notice that this specific kernel's 'origin' (the pixel that it effects), is off-center, which is unusual.
+
 The size and spacing of the values in the output can be controlled by the special [Precision Operational Control](../basics/#precision).
 That was added to IM at about the same time as the morphology operator.
+
 For example here is a repeat of the previous example but using "`-precision`" to limit the number of significant digits from the default of 6 to 3.
 
 ~~~
@@ -741,6 +745,7 @@ For example here is a repeat of the previous example but using "`-precision`" to
 
 To make it easier to see kernels, rather than using [Dilating](#dilate) or [Convolution](../convolve/#convolve) on a a single pixel image to see what it produces, I created a special script called "`kernel2image`".
 This script extracts the exact [Show Kernel](#showkernel) output, and converts it into a image of the kernel.
+
 The "`kernel2image` script has lots of options, from output the raw image of the kernel (the default) to specifying the amount of scaling, inter-pixel gaps, montage, labeling, and even coloring of the resultant 'kernel image'.
 
 For example here is how I generated the "`Octagon`" kernel image, which has now been shown a number times in these examples.
@@ -766,9 +771,12 @@ And here I generate a 'kernel image' of the 'L' shaped kernel, I demonstrated pr
 [![\[IM Output\]](kernel_lman.gif)](kernel_lman.gif)
 
 This script makes it a lot easier to view and understand the various kernels, and is used extensivally in these programs.
+
 If you want to create a kernel from an existing image, a script "`image2kernel`" can be used to create a kernel data file from a image.
 This script normally takes a gray-scale image, but if a multi-colored image is given each channel of the image is converted as a separate kernel data file.
+
 For an example of using kernels generated from images see the convolution method of [Alternatives to Drawing Symbols](../draw/#symbol_alts).
+
 Be warned that you should not to use too big an image, otherwise the later morphology processing will become very slow.
 The larger the image the slower it becomes.
 Remember kernels are generally kept as small as posible.
@@ -780,6 +788,7 @@ Remember kernels are generally kept as small as posible.
 As of IM v6.6.2-0 you can specify multiple kernels which will be applied to the image one at a time.
 To specify multiple kernels you would just append each kernel definition together, separated by a semicolon '`;`'.
 A final semicolon at the end is optional.
+
 For example here I define a special kernel list containing a list that can be used for 'pattern matching' corner pixels.
 
 ~~~
@@ -791,6 +800,7 @@ For example here I define a special kernel list containing a list that can be us
 
 Extra semicolons ('`;`') do not matter, as long as at least one is provided between kernel specifications.
 Nor does extra white space (including newlines), in any kernel specification.
+
 Here is a [Show Kernel Output](#showkernel) of this definition.
 
 ~~~
@@ -817,8 +827,8 @@ And here is a [Kernel Image](#kernel2image) of these four kernel using the speci
 [![\[IM Text\]](kernel_multi.gif)](kernel_multi.gif)
 
 Now this definition actually consists of just the one kernel which has been expanded to form a set of 4 kernels each rotated by 90 degrees.
-ASIDE: This definition is almost equivalent to the the special '`Corners`' pattern matching kernel (see below).
-except that it limits itself to corners of the actual shape, and not just any corner, background or foreground.
+
+ASIDE: This definition is almost equivalent to the the special '`Corners`' pattern matching kernel (see below), except that it limits itself to corners of the actual shape, and not just any corner, background or foreground.
 
 #### Expanding to a Rotated Kernel List
 
@@ -880,7 +890,9 @@ For example here I take a symmetrical '`Blur`' kernel and expand it into a 90 de
 
 Note that only 2 kernels were generated as a third kernel, would just reproduce the first kernel exactly.
 This is discovered and the generation of rotated kernels stops.
+
 However if the 'origin' is off centered, then the full sequence of 4 rotated kernels would have been generated as while the kernel 'shape' matches, the origin location would not be the same.
+
 Many built-in kernel definitions automatically generate a multi-kernel list, so you do not need to specify any flags for that purpose.
 That is, the rotation expansion is also 'built-in' to the specific kernel definition.
 Such kernels typically also provide 'sub-types' of the original single kernel definition, so that you can pick and choose specific kernels for specific purposes.
@@ -897,6 +909,7 @@ This can be controlled by the use of a global [Define](../basics/#define)...
 The default for most morphology methods is a setting of '`None`'.
 This means that after each kernel has been applied using the morphology method given, the resulting image should be used as the source for next kernel.
 That is simply '*re-iterate*' or reuse the resulting image from applying one kernel, for the next kernel.
+
 For example, if I [Convolve](../convolve/#convolve) using 2, 90 degree rotated '`Blur`' kernels we get the following.
 
 ~~~
@@ -911,6 +924,7 @@ For example, if I [Convolve](../convolve/#convolve) using 2, 90 degree rotated '
 
 As you can see both kernels were applied to the image one after the other, so that each kernel works with the result of the previous kernel.
 That is it '*re-iterates*' the result of one kernel with the next kernel, in sequence.
+
 This is equivalent to doing the two steps like this.
 
 ~~~
@@ -928,8 +942,9 @@ This is equivalent to doing the two steps like this.
 Actually this is how the [Blur Operator](../blur/#blur) really works, to generate image blurs more quickly.
 See [Gaussian vs Blur Kernels](../convolve/#gaussian_vs_blur) which demonstrates this use more throughly.
 
- By setting the '`{compose_method}`' to any method other than '`None`', the operation will NOT be *re-iterated*.
+By setting the '`{compose_method}`' to any method other than '`None`', the operation will NOT be *re-iterated*.
 Instead each kernel will be applied *to the original image*, and the resulting images will be then be [Composited](../compose/) together using the '`{compose_method}`' method specified.
+
 For example if I use a '`Lighten`' morphology method to generate a [Union](../compose/#set_theory) of the separate results, we would get..
 
 ~~~
@@ -986,7 +1001,9 @@ And here is the verbose output of a [Union](../compose/#set_theory) ([Lighten Co
 Both of which clearly shows what ImageMagick is doing to generate the final image.
 The number after the decimal point represents the kernel number that is being applied, at each step.
 Followed at the end by how it composes the images together according to the '`morphology:compose`' setting.
+
 Many of the [Mathematical Composition Methods](../compose/#math) and their equivelent [Set Theory](../compose/#set_theory) type operations, can also be used to merge the results of applying each kernel to the original image.
+
 In summery this setting defines how the individual kernels of a multi-kernel list will be applied to the given image.
 The default is the compose value of '`None`' meaning to simply 're-iterate' results, otherwise it will merge all the results based on the compose method given.
 
@@ -996,18 +1013,21 @@ The default is the compose value of '`None`' meaning to simply 're-iterate' resu
 
 Morphological Methods is a image processing technique for the finding, and analysis of shapes of objects withing an image.
 Expanding, shrinking, locating specific shapes, and so on.
+
 It was original developed with binary (pure black and white) images in mind, and because of this it most commonly applied to [Thresholded](../quantize/#threshold) images containing simple black and white shapes.
 By convention white in a binary image represents foreground, while black represents background.
 The method names are thus described according to this convention.
+
 That is not to say the operators will not work with gray-scale image, or in some cases color images, but their original purpose was to handle binary shapes.
+
 The basic [Shape Kernels](#man_kernels) already looked at above, are the most commonly used neighbourhood defining 'shapes', for morphological methods.
 Such kernels are often called 'Structure Elements' as they are typically used to determine the structure of the shapes within the image.
 
-### Erode   (
-![](../img_www/mph_erode.gif) )
+### Erode   ( ![](../img_www/mph_erode.gif) )
 
 As the name implies the '`Erode`' method 'eats away' the white shape, from any background pixel making it smaller.
 You can also think of it as expanding the black areas of the image.
+
 For example here is a simple binary 'man-like' shape that has been eroded using a '`Octagon`' kernel.
 
 ~~~
@@ -1021,8 +1041,7 @@ For example here is a simple binary 'man-like' shape that has been eroded using 
 Its basic effects is to make any protuberances or points the image may have thinner, or remove them completely, but it also makes any holes that is present (such as caused by this images 'arm') in an image larger.
 In general the size of kernel, determines how many pixels are removed.
 
-### Dilate   (
-![](../img_www/mph_dilate.gif) )
+### Dilate   ( ![](../img_www/mph_dilate.gif) )
 
 The '`Dilate`' method is the dual of '`Erode`'.
 It expands the white shapes, making a shape bigger according to the kernel (and the number of iterations) specified.
@@ -1066,9 +1085,11 @@ Here is the effect of the '`Open`' method, but this time using much larger '`Dis
 
 As a result you will see that '`Open`' smoothed the outline, by rounding off any sharp points, and remove any parts that is smaller than the shape used.
 It will also disconnect or 'open' any thin bridges.
+
 However it does not remove any 'holes', or gaps that may be present in the image.
 such as between the shapes 'legs'.
 Also it does not make the basic 'core' size of the shape larger or smaller.
+
 In actual real terms, what it does is to '`Erode`' an image then '`Dilate`' it again using the same kernel that was provided
 
 ~~~
@@ -1107,6 +1128,7 @@ This has the general effect of making the effective 'neighbourhood' defined by t
 
 Here you can see that the resulting larger neighbourhood resulted in both the man's 'head' and 'feet' extremities being removed.
 The main body of the shape basically intact, though also smoother in appearance, while the leg gap remains untouched.
+
 This is the same effect as doubling the size of the kernel, though its exact shape may not be exactly the same as a kernel of double the radius.
 
 ### Close   ( ![](../img_www/mph_close.gif) )
@@ -1125,6 +1147,7 @@ That is 'close' parts of the background that are about that size.
 The basic effect of this operator is to smooth the outline of the shape, by filling in (closing) any holes, and indentations.
 It also will form connecting 'bridges' to other shapes that are close enough for the kernel to touch both simultaneously.
 But it does not make the basic 'core' size of the shape larger or smaller.
+
 In actual real terms, what it does is to '`Dilate`' the image then '`Erode`' it again using the same kernel that was provided, causing the image to become first larger, then smaller.
 This is the opposite order of what '`Open`' does.
 
@@ -1140,7 +1163,8 @@ This is the opposite order of what '`Open`' does.
 
 The results is that the external points of the image will be left as is, but any 'bays' smoothed and thickened, and 'holes' and 'gaps' closed.
 Disconnected objects that are very close together can be come linked together.
-as with '`Open`', repeating the '`Close`' method with the same kernel does not make any further changes to the image.
+
+As with '`Open`', repeating the '`Close`' method with the same kernel does not make any further changes to the image.
 Using an '*iteration*' with the operator will however repeat the internal sub-methods, so as to produce a stronger rounding effect, similar to using a larger kernel.
 
 And just as with the '`Dilate`' and '`Erode`' methods, the '`Open`' and '`Close`' methods are duals.
@@ -1149,7 +1173,6 @@ You can reproduce the effect of the other 'dual' by [Negating](../color_mods/#ne
 ~~~
       convert man.gif   -negate -morphology Close Disk -negate   close_man_neg.gif
 ~~~
-
 
 [![\[IM Output\]](close_man_neg.gif)](close_man_neg.gif)
 
@@ -1163,32 +1186,39 @@ Here we smooth the image using a mid-range '`Octagon:3`' kernel.
       convert man.gif  -morphology Smooth  Octagon:3  smooth_man.gif
 ~~~
 
-
 [![\[IM Output\]](smooth_man.gif)](smooth_man.gif)
+
 As you can see all the 'indents', 'gaps', 'holes', and 'points' have been smoothed and rounded off according to the size and shape of the kernel.
+
 The '`Smooth`' operator is also often repeated with slowly increasing sized Structure Elements, so as to slowly remove noise from images.
 If the parts removed are preserved, you get a morphological 'decomposition' of the image which can be used for further study.
 See [Granularity](#granularity) below.
 The method is particularly good for cleaning up scanned documents.
+
 Note that this is actually applying 4 separate 'primitive' operations to the original image.
 It is thus 4 times slower than just a simple '`Erode`' or '`Dilate`'.
 
 ### Flat Grey-scale Morphology
 
 While essentially all four of the Basic Morphological Methods, and later ones which are defined in terms of these four methods, are specifically designed to work with binary images, they can be applied to both grey-scale and color images (though color images may generate some odd color effects).
+
 *Practical Example of Grey-scale Operation Wanted Here*
+
 However the kernel itself will always be regarded as a simple 'on' or 'off' neighbourhood.
 Any kernel value that is either a 'nan' or less than '`0.5`' will be regards as outside the 'neighbourhood' that it defines.
+
 In summery, the above operators apply a 'flat' kernel without any 'height' or '3-dimensional' features, but can still be applied to gray-scale images.
 
 ### True Gray-scale or 3-dimensional Morphology
 
 True gray-scale or 3-dimensional morphology (as one library put it) will actually add or subtract the values found in the kernel from the neighbouring pixels in the image, before looking for the maximum/minimum values as the result.
 What this means is that it treats a gray-scale image as a 'height field' of a 3-dimensional morphology object and the gray-scale shape of the kernel the smoothing shape to adjust that height field.
+
 While the implementation details of true gray-scale morphology is well documented, is usage in practical situations is not.
 That is I have not found any useful example of using true grey-scale morphology beyond 'flat shaped kernels', other than a comment about its use in 'photometric' processing.
 Because of this I have not implemented true 3-dimensional grey-scale morphology.
 However if people really do need such non-flat grey-scale morphological operators, please let me know, and I will implement the appropriate operators.
+
 Note the special '`Distance`' method (see below) is actually similar to how true gray-scale morphology works, in that it adds the kernel's value to each pixel value, before taking the smallest 'minimum' value.
 However this method does not match either 3D erode (subtract and take minimum) or dilate (add and take maximum) morphology definitions.
 It is however very closely related, and probably could be implemented using those methods.
@@ -1197,15 +1227,20 @@ It is however very closely related, and probably could be implemented using thos
 
 As the above four methods, are grey-scale [Channel](#channel) methods, using them on color images can generate off color effects where one channel is modified, but another isn't.
 They are really not designed for use with multi-channel color images, only with grey-scale and binary images.
+
 The result is that for color images, the colors become distorted, becoming a brighter or darker shade depending on the operation.
+
 With this in mind I have created 'Intensity' versions of these methods.
 '`ErodeIntensity`', '`DilateIntensity`', '`OpenIntensity`', '`CloseIntensity`'.
+
 These compare the pixels within the defined 'neighbourhood', and replaces the current pixel color according to the pixels intensity.
 That is the whole color pixel is copied, and not just the individual channel values.
 As a result...
-**Intensity Variants do not generate any 'new' colors in images.**
+
+> **Intensity Variants do not generate any 'new' colors in images.**
 
 Because of their nature the [Intensity Methods](#intensity) will ignore the current "`-channel`" setting completely.
+
 For example here I use the binary and intensity variants of '`Dilate`' Morphology (expand bright areas), on the built-in "`rose:`" image.
 
 ~~~
@@ -1219,38 +1254,41 @@ For example here I use the binary and intensity variants of '`Dilate`' Morpholog
 
 As you can see the normal '`Dilate`' method can generate different shades in each of the large dilated spots, as each channel is separately handled.
 The second intensity dilation however preserves the full color of the brightest spots, expanding them according to the boolean kernel shape.
+
 The intensity methods also has a short hand naming scheme, by replacing the word '`Intensity`' with just a '`I`'.
 As such here I use a '`CloseIntensity`' method but use the short hand name of '`CloseI`'.
+
 For example here are the results of using each of the four 'Intensity' variants on the built-in rose image.
 
 ~~~
       convert rose: -morphology ErodeI Octagon:3 rose_erode_intensity.gif
 ~~~
 
-
 [![\[IM Output\]](rose_erode_intensity.gif)](rose_erode_intensity.gif)
+
 
 ~~~
       convert rose: -morphology DilateI Octagon:3 rose_dilate_intensity.gif
 ~~~
 
-
 [![\[IM Output\]](rose_dilate_intensity.gif)](rose_dilate_intensity.gif)
+
 
 ~~~
       convert rose: -morphology OpenI Octagon:3 rose_open_intensity.gif
 ~~~
 
-
 [![\[IM Output\]](rose_open_intensity.gif)](rose_open_intensity.gif)
+
 
 ~~~
       convert rose: -morphology CloseI Octagon:3 rose_close_intensity.gif
 ~~~
 
-
 [![\[IM Output\]](rose_close_intensity.gif)](rose_close_intensity.gif)
+
 The last two may be particularly suitable as a replacement operator for the [Paint Operator](../transform/#paint).
+
 *These methods are classed as experimental*, and comments or problems with its use is welcome.
 If I do not hear comments, nothing more will be added!
 
@@ -1259,7 +1297,7 @@ If I do not hear comments, nothing more will be added!
     For people with versions of IM older than v6.5.9-0 you can still implement some basic morphology methods.
 
     You can generate a kernel that is all ones.
-For example a 7x7 array of 1's (radius=3), by use a extremely large sigma and specify the appropriate radius, using a Gaussian blur.
+    For example a 7x7 array of 1's (radius=3), by use a extremely large sigma and specify the appropriate radius, using a Gaussian blur.
 
     As such
         -convolve 1,1,1,1,1,.....
@@ -1296,6 +1334,7 @@ For example a 7x7 array of 1's (radius=3), by use a extremely large sigma and sp
 
 The next level of morphological methods is something I term difference morphology.
 That is the results of these morphology methods is the difference between one of the previous basic morphology methods, and the original image, or some other morphological method.
+
 Essentially they return the changes that was made to the original image by one of the simpler methods, giving you the outlines, the additions or subtractions between the images.
 They are essentially a '`Difference`' or '`Minus`' image compositions of the image results.
 
@@ -1314,6 +1353,7 @@ As a result the pixels that are closest to the edge, but which were part of the 
 
 The resulting edge is about half the size of the kernel given, which for a '`Octagon`' kernel is rather thick.
 More typically the you would use a much smaller '`Diamond`' or '`Square`' kernel, to produce a single pixel pixel outline of the shape.
+
 An example of using '`EdgeIn`' with the alpha channel, to extract edge pixels is shown in [Sparse Color as a Fill Operator](../canvas/#sparse_fill).
 
 ### EdgeOut
@@ -1359,7 +1399,9 @@ The edge is two pixels thick as it contains the pixels that lie on either side o
 The only way to make this edge thinner is actually to offset the whole image diagonally by half-a-pixel.
 
 [![\[IM Text\]](man_outline.gif)](man_outline.gif)
+
 For more details of getting outlines of shapes in various ways see the section on [Edge Detection](../transform/#edge).
+
 *Future: generating the edge using a 'diagonal line'.*
 
 ### Top-Hat
@@ -1375,7 +1417,9 @@ The '`TopHat`' method, or more specifically '*White Top Hat*', returns the pixel
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](tophat_man.gif)](tophat_man.gif)
 
 As you can see the pixels often form small highly disjoint islands, with no set of pixels any thicker that the kernel used.
+
 The methods name '*Top Hat*' actually refers to the operators use when applied using the method for gray-scale 3-dimensional morphology, and not with binary images as we have done here.
+
 This operator is more commonly used with greyscale images.
 
 *FUTURE: Example of greyscale top-hat*
@@ -1405,7 +1449,9 @@ However they are always a completely different set of islands to the previous me
 ### Basic Morphology and Channels
 
 All the above basic morphology methods are channel methods, as such they are applied to the individual channels of an image according to the current "`-channel`" setting.
+
 This means you can apply these methods to color images, provided you are not too fussy about 'color leakage' from undefined transparent areas.
+
 For example lets '`Erode`' the alpha channel of the original 'man figure' image, without modifying the color channels.
 
 ~~~
@@ -1418,6 +1464,7 @@ For example lets '`Erode`' the alpha channel of the original 'man figure' image,
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](figure_erode.gif)](figure_erode.gif)
 
 As you can see it works fine.
+
 For other examples see [Sparse Color as a Fill Operator](../canvas/#sparse_fill), using the '`EdgeIn`' method to find the edge pixels of an image.
 Also [Outline or Halo Transparency](../masking/#outline) using '`EdgeOut`' to expand the edges of an image with a specific color.
 
@@ -1437,11 +1484,15 @@ Also [Outline or Halo Transparency](../masking/#outline) using '`EdgeOut`' to ex
 ### Granularity of a collection of Shapes
 
 By using a series of '`Open`' operations in an image of slowly increasing size structuring elements, and measuring the resulting area, you can quickly get a summery of number of such shapes that can be found in the image.
+
 By taking the derivative (slope) of that result you get a 'spectrum' of the number and size those shapes that form the image.
 This graph is the '**granularity**' of the image for some particular shape.
+
 See [Granulometry (morphology), Wikipedia](http://en.wikipedia.org/wiki/Granulometry_%28morphology%29).
+
 The differences from one size to the next will also let you separate and count specific elements based on size, and in turn separate areas containing different sized and shaped elements.
 The result is a method of texture segmentation.
+
 *Demonstration of determining the number and size a collection of shapes.
 However this requires a 'counting' method (to be added) to implement fully.*
 
@@ -1450,6 +1501,7 @@ However this requires a 'counting' method (to be added) to implement fully.*
 This usage was in fact the original driving force behind the original creation of morphology methods, at a Paris mining company, in the 1960's.
 It allowed the creators to create a automated system to analyze the grain structure of microscopic photos of mineral samples to determine their suitability for mining.
 That is locate and count the size and amount of mineral in samples.
+
 For example: Two mineral ores may have the same amount of desired mineral (usually as grains or crystals in the rock), but only the ore with larger grains could be effectively mined as it allowed you to more easily separate the large pure mineral from the surrounding ore bearing rock.
 This was a very labour intensive task, which morphology made a lot easier.
 
@@ -1465,34 +1517,39 @@ For example here I apply a user defined 'L' shape against a special morphologica
       done
 ~~~
 
-
 [![\[IM Text\]](test_mag.gif)](test.gif)
+
 Which has the following results...
-[![\[IM Text\]](test_erode_mag.gif)](test_erode.gif) **'`Erode`'** results in any exact match of the kernel shape, becoming a single white pixel at the matching point 'origin'.
+
+[![\[IM Text\]](test_erode_mag.gif)](test_erode.gif)\
+**'`Erode`'** results in any exact match of the kernel shape, becoming a single white pixel at the matching point 'origin'.
 It will also expand any single pixel 'hole' into that same shape but 'reflected' around the 'origin', that is as if the kernel had been rotated 180 degrees.
  
 
-[![\[IM Text\]](test_dilate_mag.gif)](test_dilate.gif) **'`Dilate`'** As expected produces that same results but for a 'negative' and 'reflected' form of either the image or the kernel.
+[![\[IM Text\]](test_dilate_mag.gif)](test_dilate.gif)\
+**'`Dilate`'** As expected produces that same results but for a 'negative' and 'reflected' form of either the image or the kernel.
 A single white pixel expands to the kernel shape, while any matching 'reflected' shaped hole, shrinks down to a single pixel 'hole'.
  
 Note also that the boundary between positive and negative halves of the test image does move as consequence of applying the above basic morphological methods.
 That is to be expected.
+
 This brings up a specific point about these two methods.
 To convert a '`Erode`' methods into a '`Dilate`' or visa-versa, you not only need to [Negate](../color_mods/#negate) the images before and after, but you also need to rotate or reflect the kernel about the origin.
 Normally this second aspect can be ignored, as most kernels are 'symmetrical'.
 It only becomes important with user defined asymmetrical kernels.
-[![\[IM Text\]](test_open_mag.gif)](test_open.gif) **'`Open`'** as mentioned before, generally does not remove any 'holes' in the image, however an exactly matching shape will remain unchanged.
+
+[![\[IM Text\]](test_open_mag.gif)](test_open.gif)\
+**'`Open`'** as mentioned before, generally does not remove any 'holes' in the image, however an exactly matching shape will remain unchanged.
 Larger shapes (such as the negative half of the test image, may also remain, but perhaps slightly modified.
  
-[![\[IM Text\]](test_close_mag.gif)](test_close.gif) **'`Close`'** is an exact negative result of the previous, but is defined such that it does not need the kernel to be reflected (as it is reflected by its internal definition), only the image negated.
+[![\[IM Text\]](test_close_mag.gif)](test_close.gif)\
+**'`Close`'** is an exact negative result of the previous, but is defined such that it does not need the kernel to be reflected (as it is reflected by its internal definition), only the image negated.
  
-
 ----
 
 ## Hit And Miss (HMT) Pattern Matching
 
-### Hit-And-Miss   (
-![](../img_www/mph_hitmiss.gif) )
+### Hit-And-Miss   ( ![](../img_www/mph_hitmiss.gif) )
 
 The '`Hit-And-Miss`' morphology method, also commonly known as "*HMT*" in computer science literature, is a high level morphology method that is specifically designed to find and locate specific patterns in images.
 It does this by looking for a specific configuration of 'foreground' and 'background' pixels around the 'origin'.
@@ -1515,9 +1572,12 @@ For example we could look for a 'foreground' pixel, which has a 'background' pix
 
 As you can see the small 2 element kernel only matched the pixels, that were on the right side of the image.
 That is the method only returned a specific pixel which matched the given pattern.
+
 The 'Kernel' or 'Structuring Element' used can contain a pattern of 3 types of elements only: a value of '`1`' meaning 'foreground', a value of '`0`' meaning 'background', and also a third element which can be specified as either '`Nan`', or '`-`' or a value of '`0.5`' which means 'I Don't Care' or 'Any Pixel'
+
 What value you use for the 'origin' is very important as it will define whether you only want to 'hit' the foreground shape, or the background pattern.
 But if you specifically set the 'origin' value to a value of 'I Don't Care', then you can match either foreground and background pixels who has the correct surrounding neighbourhood.
+
 For example if I use a structured element like...
 
 ~~~
@@ -1531,18 +1591,21 @@ For example if I use a structured element like...
 You get any right edge pixels which are either inside or outside.
 As such you are now marking both sides of the shape boundary, and extracting a 2 pixel wide edge.
 However not all pixels match the patten, so not ever pixel is doubled, but in general that is what you get.
+
 The use of a 'I Don't Care' value for the 'origin' is actually very common, especially when we later look at [Thicken](#thicken) and [Thinning](#thinning) methods, which restrict themselves to either adding or removing pixels.
 By 'Not Caring' the same kernel definition could be used for either operation, as the operation itself defines what type of 'hits' you are interest in.
 
- Here is another example, but this time I again limit my 'hits' to pixels that fall inside the shape but which form a North-West facing corner.
+Here is another example, but this time I again limit my 'hits' to pixels that fall inside the shape but which form a North-West facing corner.
 
 ~~~
       convert man.gif   -morphology HMT "3:0,0,- 0,1,1 -,1,-" hmt_nw_corner.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
-![o](../img_www/mph_hitmiss.gif) [![\[IM Output\]](kernel_nw_corner.gif)](kernel_nw_corner.gif)
-![==&gt;](../img_www/right.gif) [![\[IM Output\]](hmt_nw_corner.gif)](hmt_nw_corner.gif)
+![o](../img_www/mph_hitmiss.gif)
+[![\[IM Output\]](kernel_nw_corner.gif)](kernel_nw_corner.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](hmt_nw_corner.gif)](hmt_nw_corner.gif)
 
 By expanding this single corner to a set of 90 degree Rotated Corners by adding a '`>`' flag, we can find all corners that appear within the shape.
 
@@ -1550,10 +1613,9 @@ By expanding this single corner to a set of 90 degree Rotated Corners by adding 
       convert man.gif  -morphology HMT "3>:0,0,- 0,1,1 -,1,-" hmt_corners.gif
 ~~~
 
-
 [![\[IM Output\]](kernel_hmt_corners.gif)](kernel_hmt_corners.gif)
-
 [![\[IM Output\]](hmt_corners.gif)](hmt_corners.gif)
+
 As you can see the '`Hit-And-Miss`' method locates and returns ALL the pixel positions which match any of the kernel patterns provided.
 
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
@@ -1585,6 +1647,7 @@ Then you can use the '`LineJunctions`' kernel set, which is designed specificall
 As you can see only a sprinkling of locations match any of the kernels in that set.
 However the results can make it very difficult to actually see where the matching locations were in the original image.
 This is especially bad if you are dealing with a grey-scale image.
+
 One solution is to expand the matches using '`Dilate`' with some [Shape Kernel](man_kernels), such as a '`Ring`'.
 For example...
 
@@ -1596,11 +1659,13 @@ For example...
               \) -composite              hmt_junctions_rings.gif
 ~~~
 
-
 [![\[IM Output\]](hmt_junctions_rings.gif)](hmt_junctions_rings.gif)
+
 You can now clearly see locations where this particular set of kernels found Junctions of 3 or more lines.
+
 Each of the kernels in '`LineJunctions`' may only match a couple of specific locations, as such pattern matching in this way can be slow.
 Still it is very precise and works very well.
+
 Another similar '`Hit-And-Miss`' kernel set is the '`LineEnds`' kernel which can be used to find the free ends of all the lines in the image.
 
 ~~~
@@ -1613,22 +1678,28 @@ Another similar '`Hit-And-Miss`' kernel set is the '`LineEnds`' kernel which can
 
 
 [![\[IM Output\]](hmt_lineends_rings.gif)](hmt_lineends_rings.gif)
+
 *HitandMiss - with foreground pixels only -&gt; erode*
+
 *HitandMiss - with background only -&gt; negated dilate*
 
 #### Hit And Miss with Gray-scale Images
 
 When the '`Hit-And-Miss`' method is applied to a gray-scale image, that actual value returned will be the difference between the minimum 'foreground' value and the maximum 'background' value.
 If a negative result occurs (no math) the result is 'clipped to zero' as negatives have no real meaning.
+
 In other words it returned the '*minimum separation*' of values between the two sets of pixels.
+
 For Boolean shapes, that will be either '`0.0`' (black) or '`1.0`' (white).
 But for gray-scale images this is equivalent to the 'gradient' of the matching pixels.
 It can for example be used to identify just how much contrast is present between a particular foreground and background in the matching pattern.
+
 If you really only want a Boolean (on/off) result of what pixels actually match the pattern in a grey-scale image, you should add a "`-threshold 0`" option after the command.
 
 ### Thicken (Adding Pixels to a Shape)
 
 The '`Thicken`' method will add pixels to the original shape at every matching location.
+
 For example here I look for a background pixel that is two pixels away from the right edge of the shape.
 
 ~~~
@@ -1648,12 +1719,14 @@ You can [Iterate](#iteration) this '`Thicken`' method a few times to continue th
       convert man.gif   -morphology Thicken:4 '3x1+2+0:1,0,0'  thick_right2.gif
 ~~~
 
-
 [![\[IM Output\]](thick_right2.gif)](thick_right2.gif)
+
 However as pixels are being added, the origin of the pattern matching kernel should NOT match foreground pixel, or you will essentially be adding a pixel, where a pixel is already present.
+
 In the above set the origin pixel to a background pattern, so only background patterns will actually match.
 An alternative is to always set the origin to a 'Do Not Care' element value.
 By doing this you will be able to use the same kernel pattern for thicken '`Thicken`', and as you will see later for '`Thinning`' as well.
+
 So the better rule is set origin to 'Do Not Care'.
 
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
@@ -1674,6 +1747,7 @@ So the better rule is set origin to 'Do Not Care'.
 
 Typically '`Thicken`' is used to enlarge shapes such as lines, but without making the lines longer.
 A special set of kernels known as the '`ConvexHull`' kernel, allows you to do this
+
 For example...
 
 ~~~
@@ -1700,16 +1774,19 @@ That is it will try to fill in all the gaps between the extremes until it produc
 [![\[IM Output\]](man.gif)](man.gif)
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](man_hull_full.gif)](man_hull_full.gif)  
 
- See '`ConvexHull`' kernel definition for more details, and why the two '`Close`' methods are needed.
+See '`ConvexHull`' kernel definition for more details, and why the two '`Close`' methods are needed.
 
 You can watch the iterations being performed by turning on the [Verbose Output Setting](#verbose).
 However this will show that the above is very very slow.
+
 Each '`Thicken`' iteration will only actually add a few pixels to the shape on each iteration.
 As such it can take a lot of iterations before the full 'hull' is completed.
 In this specific case, the image required 80 '`Thicken`' iterations, with a 8 kernel '`ConvexHull`'.
 That means the above actually required 640 primitive iterations, plus another 4 primitive iterations needed to do the two '`Close`' methods.
 That can take quite a large amount of time.
+
 Basically iterating using [Hit And Miss Pattern Matching](#hmt) can be very very '*slow*', and if an alternative technique can be found, it should be used instead.
+
 You can use this to also find the what points of the original image caused the creation of this octagonal shape, by getting an intersection ([Darken Composition](../compose/#darken)) and the edge of the convex hull and the original shape.
 
 ~~~
@@ -1729,7 +1806,9 @@ Any connected shape that fits inside the convex hull, but also includes at least
 #### Thicken with Gray-scale Images
 
 When handling a gray-scale image '`Thicken`' will **add** the '`Hit-And-Miss`' foreground and background separation result to the origin pixel.
+
 This can thus be used to make the matching pixels brighter, even when the 'origin' pixel is not in the 'background' set.
+
 For example, lets repeat the corner-find example from above but with a 50% grey version of the shape.
 
 ~~~
@@ -1747,6 +1826,7 @@ When using a [HDRI version of Imagemagick](../basics/#hdri) with '`Thicken`' it 
 
 The '`Thinning`' method is the dual of '`Thicken`'.
 Rather than adding pixels, this method subtracts them from the original image.
+
 For example lets remove any pixel that is 4 pixels in from the right edge.
 
       convert man.gif   -morphology Thinning '5x1+0+0:1,1,1,1,0' thin_right.gif
@@ -1791,9 +1871,11 @@ One of the most common uses of thinning is to reduce the threshold output of an 
 
 '`Thinning`' images is actually more commonly used than '`Thicken`', as it is used to reduce the shapes into more manageable forms, such as [Skeletons](#skeletons).
 Which, as will be discussed later, are meant to be the center line of pixels between any two (or more) edges of the shape.
+
 A skeleton is important as it provides a very good description of a very complex shape.
 For example processing the image to find the number of loops, line segments, and how they are arranged, will tell you a lot about the shape that you have.
-So lets produce a '*Thinned Skeleton*' by '`Thinning`' the edges of the man shape down repeatedly, until only the center lines are left.
+
+So let's produce a '*Thinned Skeleton*' by '`Thinning`' the edges of the man shape down repeatedly, until only the center lines are left.
 
 ~~~
       convert man.gif  -morphology Thinning:-1 Skeleton  man_raw_thinned.gif
@@ -1806,7 +1888,9 @@ A [Verbose](#verbose) report on the above would have shown that 18 iterations, w
 this is actually a lot faster than finding its [Convex Hull](#thicken_convexhull) (above), as the thinning kernels remove whole rows and columns of pixels with each iteration, and not just a few at a time.
 Note how the '`Skeleton`' kernel set failed to expand the hole, so that it did not find the center line between the hole and the outside edge.
 This is a serious failing of this specific skeleton thinning kernel, and is caused by the kernels all requiring at least background pixels before they will make any thinning match.
+
 You can use sets of skeleton thinning kernels to solve this problem.
+
 A simplier solution is to [Erode](#erode) the image slightly to give the kernels something to work with.
 I will also only erode and thin the 'Red' and 'Green' channels, so as to leave original shape in blue.
 
@@ -1829,14 +1913,16 @@ Here is a close up of loop around the eroded hole.
               -scale 120x120    man_skeleton_zoom.gif
 ~~~
 
-
 [![\[IM Output\]](man_skeleton_zoom.gif)](man_skeleton_zoom.gif)
+
 Note that it did not produce an exact center-line between the hole and the edge.
 Also as the shape was eroded, the lines do not go right the edge of the original the shape but stop one pixel short.
 That is the end of lines have been 'pruned' slightly.
 That is the disadvantage of the 'erode' soltion.
+
 The skeleton is also limited to octagonal lines, which means it is missing a lot of detail, though in this case that simplification can be a good thing.
 See the section on [Skeletons](#skeletons) below.
+
 This is a traditional '`Skeleton`' kernel, which as you can see produces 'thick' diagonal lines, so that all parts of the skeleton are '4-connected' or 'diamond connected'.
 There are other variations of '`Skeleton`' kernels, which will produce other variations in the resulting '*Thinned Skeleton*'.
 
@@ -1865,13 +1951,14 @@ And here is a zoom of the loop area, showing how the resulting skeleton is 8-con
               -scale 120x120    man_skeleton_hipr_zoom.gif
 ~~~
 
-
 [![\[IM Output\]](man_skeleton_hipr_zoom.gif)](man_skeleton_hipr_zoom.gif)
+
 However I have found such skeletons to not be as accurate as the 'traditional' skeleton.
 Basically in test cases I have found that the diagonals were 'thinned' on the wrong side.
 Basically because the side of the diagonals that is removed is controlled purely by the order of the 'corner' thinning kernel in the kernel set, and not by any decision due to the nature of the shape.
 
- The alternative is to take a 'traditional' skeleton, and thin it so that the diagonals are always thinned on the 'outside' of the diagonal, as defined by the end points of the diagonal.
+The alternative is to take a 'traditional' skeleton, and thin it so that the diagonals are always thinned on the 'outside' of the diagonal, as defined by the end points of the diagonal.
+
 The special '`Diagonals`' thinning kernel, is designed to do this, with a '`Corners`' kernel being used afterward to 'finish'.
 So lets thin the previous 'traditional' skeleton further..
 
@@ -1886,8 +1973,10 @@ So lets thin the previous 'traditional' skeleton further..
 
 This technique of thinning a traditional 4-connected skeleton, is slightly slower, than simply directly using the '`Skeleton:2`' variant.
 The extra thinning required 8 thinning iterations of the 8 kernels, or 64 primitive iterations.
+
 Alternately you can just use the '`Corners`' kernel only, though that will just generate the 'HIPR' variant, with just a 'random' choice of which side of the diagonals was thinned.
 However it will only take 1 pass of all 4 kernels, and as such it much much faster than using '`Diagonals`'.
+
 In any case by starting with a 'traditional' 4-connected skeleton, you can then generated an 8-connected version (of some kind), Very easily.
 
 #### Skeleton Information
@@ -1934,17 +2023,21 @@ Do not mix two different skeleton generation variants.
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](man_junctions.gif)](man_junctions.gif)
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](man_junctions_marked.gif)](man_junctions_marked.gif)
 
-If you did try try this kernel directly with a traditional 4-connected skeleton, you will get multiple matches for some of the '`T`' junctions, making the count very inaccurate.
+If you did try this kernel directly with a traditional 4-connected skeleton, you will get multiple matches for some of the '`T`' junctions, making the count very inaccurate.
+
 The result as you can see are 12 line junctions, which for this specific shape is correct.
+
 However for some junctions the '`LineJunctions`' kernel is inaccurate.
 For example a 4-line diagonal '`X`' junction will only produce 1 match, while a orthogonal '`+`' junction, will produce 4 matches.
 Both of these special junctions should produce 2 matches, to keep the line junction count correct.
+
 As such to get an accurate count you will need to add 1 more value for every '`X`' junction, and subtract 2 counts for every '`+`' junction.
 
- For a skeleton that has no loops the number of junctions should be 2 less than the number of line ends.
+For a skeleton that has no loops the number of junctions should be 2 less than the number of line ends.
 However if the number of line ends equals the number of line junctions it means you have one or more loops in the skeleton.
+
 Now this skeleton has 12 line ends and 12 junctions.
-so it contains at least one continuous loop of pixels somewhere in the image.
+So it contains at least one continuous loop of pixels somewhere in the image.
 
 *FUTURE: Number of Loops*
 
@@ -1955,6 +2048,7 @@ so it contains at least one continuous loop of pixels somewhere in the image.
 So you know this image has at least one loop.
 Suppose you want to simplify the shape to just those loop(s).
 The solution to to '*Prune*' all the line ends repeatedly until you have removed them all.
+
 For a 4-connected skeleton such as this you can even use a smaller set of '`LineEnds`' kernels to make process about twice as fast.
 
 ~~~
@@ -2729,8 +2823,8 @@ Here is an magnification of the gradient between the shapes 'legs' which highlig
               -scale 500% chebyshev_magnify.gif
 ~~~
 
-
 [![\[IM Output\]](chebyshev_magnify.gif)](chebyshev_magnify.gif)
+
 As you can see the '`Chebyshev`' distance kernel produces a very square like gradient.
 This is a specific feature of this simple form of distance metric, and directly reflect the square nature of the distance kernel itself.
 The above also shows the 4 maximum distance pixels in the figures 'belly' close to the top of the image.
