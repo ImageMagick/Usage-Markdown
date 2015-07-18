@@ -60,9 +60,9 @@ DONE|Eric|./draw/index.md
 ?|?|./filter/index.md
 ?|?|./filter/nicolas/index.md
 ?|?|./fonts/index.md
-Taken, work-in-progress|Eric|./formats/index.md
-?|?|./fourier/fft_math/index.md
-?|?|./fourier/index.md
+DONE|Eric|./formats/index.md
+Taken|Eric|./fourier/fft_math/index.md
+Taken|Eric|./fourier/index.md
 ?|?|./index.md
 ?|?|./layers/index.md
 ?|?|./lens/index.md
