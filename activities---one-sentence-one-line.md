@@ -60,7 +60,7 @@ DONE|Eric|./draw/index.md
 ?|?|./filter/index.md
 ?|?|./filter/nicolas/index.md
 Complete?|Mark|./fonts/index.md
-?|?|./formats/index.md
+Taken, work-in-progress|Eric|./formats/index.md
 ?|?|./fourier/fft_math/index.md
 ?|?|./fourier/index.md
 ?|?|./index.md
