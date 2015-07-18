@@ -70,7 +70,7 @@ Complete?|Mark|./fonts/index.md
 ?|?|./masking/index.md
 ?|?|./misc/index.md
 Complete?|Mark|./montage/index.md
-Taken, work-in-progress|Kurt|./morphology/index.md
+Mostly Done|Kurt|./morphology/index.md
 Taken, work-in-progress|Kurt|./photos/index.md
 Taken, work-in-progress|Kurt|./quantize/index.md
 Taken, work-in-progress|Kurt|./resize/index.md
