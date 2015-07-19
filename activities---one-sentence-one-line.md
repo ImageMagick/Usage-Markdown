@@ -61,7 +61,7 @@ DONE|Eric|./draw/index.md
 ?|?|./filter/nicolas/index.md
 ?|?|./fonts/index.md
 DONE|Eric|./formats/index.md
-Taken|Eric|./fourier/fft_math/index.md
+DONE|Eric|./fourier/fft_math/index.md
 Taken|Eric|./fourier/index.md
 ?|?|./index.md
 ?|?|./layers/index.md
