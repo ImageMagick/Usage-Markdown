@@ -70,8 +70,8 @@ DONE|Eric|./fourier/index.md
 ?|?|./masking/index.md
 ?|?|./misc/index.md
 Work in progress|Mark|./montage/index.md
-Done|Kurt|./morphology/index.md
-Taken, work-in-progress|Kurt|./photos/index.md
+DONE|Kurt|./morphology/index.md
+DONE|Kurt|./photos/index.md
 Taken, work-in-progress|Kurt|./quantize/index.md
 Taken, work-in-progress|Kurt|./resize/index.md
 Taken, work-in-progress|Kurt|./text/index.md
