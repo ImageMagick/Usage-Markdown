@@ -48,7 +48,7 @@
     -   [Fast Pruning of Lines](#thinning_prune_fast)
     -   [Thinning Style - Sequential vs Simultaneous](#thinning_style)
 -   [Pattern Matching Kernels](#pattern_kernels)
-    -   [`Peaks`](#peaks),  [`Edges`](#edges),  [`Corners`](#corners),  [`Diagonals`](#diagonals),  [`LineEnds`](#lineends),  [`LineJunctions`](#linejunctions),   
+    -   [`Peaks`](#peaks),  [`Edges`](#edges),  [`Corners`](#corners),  [`Diagonals`](#diagonals),  [`LineEnds`](#lineends),  [`LineJunctions`](#linejunctions),\
         [`Ridges`](#ridges),  [`ConvexHull`](#convexhull),  [`Skeleton`](#skeleton),  [`ThinSE`](#thinse)
 
 [![](../img_www/granitesm_right.gif) Distance Morphology Method](#distance)
@@ -143,9 +143,11 @@ We will be looking at these actual values (which was converted into an image for
 
 ### Morphology Operator
 
-The "`-morphology`" operator is a very complex, as it provides the user with a lot of controls over its actions.
+The "`-morphology`" operator is very complex, as it provides the user with a lot of controls over its actions.
 
-      -morphology {method}[:{iterations}]   {kernel}[:[k_args}]
+~~~
+ -morphology {method}[:{iterations}]   {kernel}[:[k_args}]
+~~~
 
 Note that you need to provide at least two items, the morphology '*method*', telling the operator type of operation you want to apply to the image, and a '*kernel*' specifying what 'neighbouring' pixels should effect the final result.
 Both are equally important and both can have far reaching consequences.
@@ -202,12 +204,12 @@ This basically expands the single pixel into the 'shape' of the kernels neighbou
 Here is the result of a using '`Dilate`' with the minimal '`Diamond`' built-in kernel, and scaling the result larger to make it more visible.
 
 ~~~
-      convert xc: -bordercolor black -border 5x5 pixel.gif
+convert xc: -bordercolor black -border 5x5 pixel.gif
 
-      convert pixel.gif -scale 800% pixel_mag.gif
+convert pixel.gif -scale 800% pixel_mag.gif
 
-      convert pixel.gif -morphology Dilate Diamond \
-                        -scale 800% k_diamond.gif
+convert pixel.gif -morphology Dilate Diamond \
+                  -scale 800% k_diamond.gif
 ~~~
 
 
@@ -230,7 +232,7 @@ The diamond shape only becomes apparent as the radius increases.
 The optional *k\_arg* for this kernel can take two values, like this...
 
 ~~~
-         Diamond[:{radius}[,{scale}]]
+ Diamond[:{radius}[,{scale}]]
 ~~~
 
 For all the shape kernels the most important argument is *radius* and as mentioned before is an integer that represents the distance from the center 'origin' to the nearest edge.
@@ -239,9 +241,9 @@ As such the final '`Diamond`' kernel is a square (2 times *radius* plus 1) conta
 Here is the results of using a larger *radius* to generate a large kernel.
 
 ~~~
-      for r in 1 2 3 4; do
-        convert pixel.gif -morphology Dilate Diamond:$r -scale 800% k_diamond:$r.gif
-      done
+for r in 1 2 3 4; do
+    convert pixel.gif -morphology Dilate Diamond:$r -scale 800% k_diamond:$r.gif
+done
 ~~~
 
 
@@ -264,7 +266,7 @@ However it is not the most minimal kernel (see '`Diamond`' above).
 By default the '`Square`' kernel uses a 3x3 pixel neighbourhood around the 'center'.
 
 ~~~
-      convert pixel.gif  -morphology Dilate Square -scale 800% k_square.gif
+convert pixel.gif  -morphology Dilate Square -scale 800% k_square.gif
 ~~~
 
 
@@ -275,9 +277,9 @@ As a result it is a good kernel for averaging pixels, or expanding/shrinking som
 As with all the shape kernels it takes the same *k\_arguments* as shown for the [Diamond Kernel](#diamond) above, with the first argument *radius* being the most important.
 
 ~~~
-      for r in 1 2 3 4; do
-        convert pixel.gif  -morphology Dilate Square:$r -scale 800% k_square:$r.gif
-      done
+for r in 1 2 3 4; do
+    convert pixel.gif  -morphology Dilate Square:$r -scale 800% k_square:$r.gif
+done
 ~~~
 
 
@@ -395,7 +397,7 @@ The '`Ring`' kernel, like the '`Plus`' kernel is also designed as a special 'sha
 However it does not just take one radius, it can take two radii and is defined in the same way as [Disk Kernels](#disk)...
 
 ~~~
-         Ring[:{radius1}[,{radius2}[,{scale}]]]
+ Ring[:{radius1}[,{radius2}[,{scale}]]]
 ~~~
 
 What it does it turn 'on' any pixel that falls between the two radii, regardless of the order of the two radii given.
@@ -465,7 +467,7 @@ All its kernel values will be set to 1.0 only.
 You are not restricted to just the built-in kernels, but can also specify your own kernel, and giving the exact values you want the kernel to use...
 
 ~~~
-       "[{geometry}:] {value}, {value}, {value},....."
+ "[{geometry}:] {value}, {value}, {value},....."
 ~~~
 
 The '*geometry*' specification is basically exactly like that of the argument previous '`Rectangle`' kernel.
@@ -482,9 +484,9 @@ A special value of '`NaN`' (meaning "Not a Number") or a '`-`' on its own, can b
 For example here is a specification for a square kernel of width 3, that can be used as for convolution blurring of the single pixel image.
 
 ~~~
-      convert pixel.gif   -morphology Convolve \
-                "3:  0.3,0.6,0.3   0.6,1.0,0.6   0.3,0.6,0.3" \
-                                             -scale 800%  k_user_3.gif
+convert pixel.gif   -morphology Convolve \
+        "3:  0.3,0.6,0.3   0.6,1.0,0.6   0.3,0.6,0.3" \
+        -scale 800%  k_user_3.gif
 ~~~
 
 [![\[IM Output\]](k_user_3.gif)](k_user_3.gif)
@@ -504,9 +506,9 @@ Note how you can add extra spacing to the input string so as to separate the the
 And here I defined a 5×3 rectangular area, but use the special 'nan' (not a number) values to cut off the corners to make an oval shaped kernel...
 
 ~~~
-      convert pixel.gif   -morphology Dilate \
-                "5x3: nan,1,1,1,nan   1,1,1,1,1   nan,1,1,1,nan " \
-                                        -scale 800%   k_user_5x3.gif
+convert pixel.gif   -morphology Dilate \
+        "5x3: nan,1,1,1,nan   1,1,1,1,1   nan,1,1,1,nan " \
+        -scale 800%   k_user_5x3.gif
 ~~~
 
 [![\[IM Output\]](k_user_5x3.gif)](k_user_5x3.gif)
@@ -515,8 +517,8 @@ And finally here is an example of specifying a rectangular neighbourhood, that f
 Note that the origin of this kernel is not even part of its own neighbourhood!
 
 ~~~
-      convert pixel.gif   -morphology Dilate \
-                "2x3+1+1:   1,-   1,-   1,1   "  -scale 800% k_lman.gif
+convert pixel.gif   -morphology Dilate \
+        "2x3+1+1:   1,-   1,-   1,1   "  -scale 800% k_lman.gif
 ~~~
 
 [![\[IM Output\]](k_lman.gif)](k_lspace.gif)
@@ -536,9 +538,9 @@ This means that the effect of that operator will be carried further, having the 
 For example, to produce the same result as a '`Diamond:3`' you could repeat the operation three times using the default radius 1 kernel...
 
 ~~~
-      convert pixel.gif  -morphology Dilate Diamond \
-                         -morphology Dilate Diamond \
-                         -morphology Dilate Diamond  -scale 800% k_diamond_x3.gif
+convert pixel.gif  -morphology Dilate Diamond \
+                   -morphology Dilate Diamond \
+                   -morphology Dilate Diamond  -scale 800% k_diamond_x3.gif
 ~~~
 
 
@@ -550,7 +552,7 @@ In fact repeating small kernels like this is actually a good deal faster than us
 Because repeating a morphological operation is very common, rather than repeating the operation multiple times, you can just ask IM to loop or iterate the operation, that many times.
 
 ~~~
-      convert pixel.gif   -morphology Dilate:3 Diamond -scale 800%  k_diamond_3.gif
+convert pixel.gif   -morphology Dilate:3 Diamond -scale 800%  k_diamond_3.gif
 ~~~
 
 [![\[IM Output\]](k_diamond_3.gif)](k_diamond_3.gif)
@@ -562,7 +564,7 @@ For example for a non-convex kernel such as a '`Plus`' (which is not a convex sh
 For example...
 
 ~~~
-      convert pixel.gif   -morphology Dilate:2 Plus  -scale 800%  k_plus_2.gif
+convert pixel.gif   -morphology Dilate:2 Plus  -scale 800%  k_plus_2.gif
 ~~~
 
 [![\[IM Output\]](k_plus_2.gif)](k_plus_2.gif)
@@ -596,9 +598,9 @@ For example lets '`Dilate`' the single pixel image using the larger '`Octagon`' 
 Remember an iteration limit of '`-1`' means iterate forever, or until no more changes are seen.
 
 ~~~
-      MAGICK_THREAD_LIMIT=1 \
-        convert pixel.gif -verbose  -morphology Dilate:-1 Octagon \
-                +verbose  -scale 800% iterate_infinite.gif
+MAGICK_THREAD_LIMIT=1 \
+    convert pixel.gif -verbose  -morphology Dilate:-1 Octagon \
+                      +verbose  -scale 800% iterate_infinite.gif
 ~~~
 
 [![\[IM Output\]](iterate_infinite.gif)](iterate_infinite.gif)
@@ -623,8 +625,8 @@ For example a '`Smooth`' method for example is one such compound method.
 The "`-verbose`" output that is generated when using this method, shows the multiple internal steps that goes to make up its processing.
 
 ~~~
-      MAGICK_THREAD_LIMIT=1 \
-        convert man.gif   -verbose -morphology Smooth:2 Diamond +verbose   null:
+MAGICK_THREAD_LIMIT=1 \
+    convert man.gif   -verbose -morphology Smooth:2 Diamond +verbose   null:
 ~~~
 
 
@@ -695,7 +697,7 @@ Any of the above defines causes IM to output (to 'standard error') all the infor
 For example, here is the actual values of the built-in '`Disk`' kernel...
 
 ~~~
-      convert xc: -define showkernel=1 -morphology Dilate:0 Disk null:
+convert xc: -define showkernel=1 -morphology Dilate:0 Disk null:
 ~~~
 
 
@@ -712,7 +714,7 @@ Here is another example.
 This time of a '`Comet`' convolution kernel.
 
 ~~~
-      convert xc:  -define showkernel=1 -morphology Dilate:0 Comet:0x2  null:
+convert xc:  -define showkernel=1 -morphology Dilate:0 Comet:0x2  null:
 ~~~
 
 
@@ -728,8 +730,8 @@ That was added to IM at about the same time as the morphology operator.
 For example here is a repeat of the previous example but using "`-precision`" to limit the number of significant digits from the default of 6 to 3.
 
 ~~~
-      convert xc:  -define showkernel=1 -precision 3 \
-              -morphology Dilate:0 Comet:0x2  null:
+convert xc:  -define showkernel=1 -precision 3 \
+             -morphology Dilate:0 Comet:0x2  null:
 ~~~
 
 
@@ -752,7 +754,7 @@ The "`kernel2image` script has lots of options, from output the raw image of the
 For example here is how I generated the "`Octagon`" kernel image, which has now been shown a number times in these examples.
 
 ~~~
-      kernel2image -10.1  -m "Octagon"  kernel_octagon.gif
+ kernel2image -10.1  -m "Octagon"  kernel_octagon.gif
 ~~~
 
 
@@ -765,7 +767,7 @@ The '`-m`' then specifies that I it to create a [Montage](../montage/) of the im
 And here I generate a 'kernel image' of the 'L' shaped kernel, I demonstrated previously.
 
 ~~~
-      kernel2image -20.2 -ml 'L-Shape'  "3: 1,-,-  1,-,-  1,1,- " kernel_lman.gif
+ kernel2image -20.2 -ml 'L-Shape'  "3: 1,-,-  1,-,-  1,1,- " kernel_lman.gif
 ~~~
 
 
@@ -793,10 +795,10 @@ A final semicolon at the end is optional.
 For example here I define a special kernel list containing a list that can be used for 'pattern matching' corner pixels.
 
 ~~~
-         3: 0,0,- 0,1,1 -,1,-  ;      
-         3: -,0,0 1,1,1 -,1,-  ;
-         3: -,1,- 1,1,0 -,0,0  ;
-         3: -,1,- 0,1,1 0,0,-  ;
+   3: 0,0,- 0,1,1 -,1,-  ;      
+   3: -,0,0 1,1,1 -,1,-  ;
+   3: -,1,- 1,1,0 -,0,0  ;
+   3: -,1,- 0,1,1 0,0,-  ;
 ~~~
 
 Extra semicolons ('`;`') do not matter, as long as at least one is provided between kernel specifications.
@@ -805,11 +807,11 @@ Nor does extra white space (including newlines), in any kernel specification.
 Here is a [Show Kernel Output](#showkernel) of this definition.
 
 ~~~
-      convert xc: -define showkernel=1 -morphology Dilate:0 \
-                 ' 3: 0,0,- 0,1,1 -,1,-  ;
-                   3: -,1,- 1,1,0 -,0,0  ;
-                   3: -,0,0 1,1,1 -,1,-  ;
-                   3: -,1,- 0,1,1 0,0,-  ; '   null:
+convert xc: -define showkernel=1 -morphology Dilate:0 \
+      ' 3: 0,0,- 0,1,1 -,1,-  ;
+        3: -,1,- 1,1,0 -,0,0  ;
+        3: -,0,0 1,1,1 -,1,-  ;
+        3: -,1,- 0,1,1 0,0,-  ; '   null:
 ~~~
 
 
@@ -818,11 +820,11 @@ Here is a [Show Kernel Output](#showkernel) of this definition.
 And here is a [Kernel Image](#kernel2image) of these four kernel using the special "`kernel2image`" script.
 
 ~~~
-       kernel2image -20.2 -ml '' -mt x1 \
-                 ' 3: 0,0,- 0,1,1 -,1,-  ;
-                   3: -,1,- 1,1,0 -,0,0  ;
-                   3: -,0,0 1,1,0 -,1,-  ;
-                   3: -,1,- 0,1,1 0,0,-  ; '  kernel_multi.gif
+kernel2image -20.2 -ml '' -mt x1 \
+             ' 3: 0,0,- 0,1,1 -,1,-  ;
+               3: -,1,- 1,1,0 -,0,0  ;
+               3: -,0,0 1,1,0 -,1,-  ;
+               3: -,1,- 0,1,1 0,0,-  ; '  kernel_multi.gif
 ~~~
 
 [![\[IM Text\]](kernel_multi.gif)](kernel_multi.gif)
@@ -858,15 +860,15 @@ The three special flags are...
 For example that same kernel above be specified more simply as...
 
 ~~~
-        ' 3>:  0,0,-  0,1,1  -,1,- '
+ ' 3>:  0,0,-  0,1,1  -,1,- '
 ~~~
 
 This defines one kernel, which the '`>`' flag then tells IM to expand into a 90 degree rotated list.
 And here is a image of the resulting multi-kernel list
 
 ~~~
-       kernel2image -20.2 -ml '' -mt x1 \
-                    '3>: 0,0,- 0,1,1 -,1,- '  kernel_rotated_list.gif
+ kernel2image -20.2 -ml '' -mt x1 \
+              '3>: 0,0,- 0,1,1 -,1,- '  kernel_rotated_list.gif
 ~~~
 
 [![\[IM Text\]](kernel_rotated_list.gif)](kernel_rotated_list.gif)
@@ -874,8 +876,8 @@ And here is a image of the resulting multi-kernel list
 And here I rotate a 3x3 kernel in a 'cyclic' 45 degree rotation, expanding it to a list of 8 kernels.
 
 ~~~
-       kernel2image -20.2 -ml '' -mt x1 \
-                    '3@: -,1,- -,0,- 1,1,1 '  kernel_rotated_list2.gif
+ kernel2image -20.2 -ml '' -mt x1 \
+              '3@: -,1,- -,0,- 1,1,1 '  kernel_rotated_list2.gif
 ~~~
 
 [![\[IM Text\]](kernel_rotated_list2.gif)](kernel_rotated_list2.gif)
@@ -884,7 +886,7 @@ You can also do the same for any 'single' built-in named kernel IM, using the sa
 For example here I take a symmetrical '`Blur`' kernel and expand it into a 90 degree rotated list using a '`>`' flag.
 
 ~~~
-       kernel2image -12.1 -n -ml ''   "Blur:0x1>"  blur_kernels.gif
+ kernel2image -12.1 -n -ml ''   "Blur:0x1>"  blur_kernels.gif
 ~~~
 
 [![\[IM Text\]](blur_kernels.gif)](blur_kernels.gif)
@@ -904,7 +906,7 @@ When you have defined multiple kernels, the morphology method also needs to know
 This can be controlled by the use of a global [Define](../basics/#define)...
 
 ~~~
-        -define morphology:compose={compose_method}    
+ -define morphology:compose={compose_method}    
 ~~~
 
 The default for most morphology methods is a setting of '`None`'.
@@ -914,8 +916,8 @@ That is simply '*re-iterate*' or reuse the resulting image from applying one ker
 For example, if I [Convolve](../convolve/#convolve) using 2, 90 degree rotated '`Blur`' kernels we get the following.
 
 ~~~
-      convert pixel.gif  -morphology Convolve "Blur:0x1>" \
-              -auto-level  blur_re-iterate.gif
+convert pixel.gif  -morphology Convolve "Blur:0x1>" \
+                   -auto-level  blur_re-iterate.gif
 ~~~
 
 [![\[IM Output\]](pixel_mag.gif)](pixel.gif)
@@ -932,9 +934,11 @@ That is it '*re-iterates*' the result of one kernel with the next kernel, in seq
 This is equivalent to doing the two steps like this.
 
 ~~~
-      convert pixel.gif -morphology Convolve "Blur:0x1" -auto-level blur_1.gif
-      convert blur_1.gif -morphology Convolve "Blur:0x1+90" \
-              -auto-level blur_re-iterate.gif
+convert pixel.gif -morphology Convolve "Blur:0x1" \
+                  -auto-level blur_1.gif
+
+convert blur_1.gif -morphology Convolve "Blur:0x1+90" \
+                   -auto-level blur_re-iterate.gif
 ~~~
 
 [![\[IM Output\]](pixel_mag.gif)](pixel.gif)
@@ -956,9 +960,9 @@ Instead each kernel will be applied *to the original image*, and the resulting i
 For example if I use a '`Lighten`' morphology method to generate a [Union](../compose/#set_theory) of the separate results, we would get..
 
 ~~~
-      convert pixel.gif  -define morphology:compose=Lighten \
-                         -morphology Convolve "Blur:0x1>" \
-              -auto-level blur_union.gif
+convert pixel.gif  -define morphology:compose=Lighten \
+                   -morphology Convolve "Blur:0x1>" \
+                   -auto-level blur_union.gif
 ~~~
 
 [![\[IM Output\]](pixel_mag.gif)](pixel.gif)
@@ -972,10 +976,12 @@ For example if I use a '`Lighten`' morphology method to generate a [Union](../co
 That was equivalent to doing...
 
 ~~~
-      convert pixel.gif -morphology Convolve "Blur:0x1"  -auto-level blur_1.gif
-      convert pixel.gif -morphology Convolve "Blur:0x1+90" -auto-level blur_2.gif
-      convert blur_1.gif blur_2.gif -compose Lighten -composite \
-              -auto-level blur_union.gif
+convert pixel.gif -morphology Convolve "Blur:0x1"  -auto-level blur_1.gif
+
+convert pixel.gif -morphology Convolve "Blur:0x1+90" -auto-level blur_2.gif
+
+convert blur_1.gif blur_2.gif -compose Lighten -composite \
+                  -auto-level blur_union.gif
 ~~~
 
 [![\[IM Output\]](pixel_mag.gif)](pixel.gif)
@@ -998,8 +1004,8 @@ If you are not sure what IM is actually doing during a morphology, turn on the [
 For example here the verbose output of re-iterating with each kernel...
 
 ~~~
-      convert pixel.gif  -define morphology:compose=None \
-              -verbose -morphology Convolve "Blur:0x1>" +verbose  null:
+convert pixel.gif  -define morphology:compose=None \
+                   -verbose -morphology Convolve "Blur:0x1>" +verbose  null:
 ~~~
 
 
@@ -1008,8 +1014,8 @@ For example here the verbose output of re-iterating with each kernel...
 And here is the verbose output of a [Union](../compose/#set_theory) ([Lighten Composition](../compose/#lighten)) of each kernel result....
 
 ~~~
-      convert pixel.gif  -define morphology:compose=Lighten \
-              -verbose -morphology Convolve "Blur:0x1>" +verbose  null:
+convert pixel.gif  -define morphology:compose=Lighten \
+                   -verbose -morphology Convolve "Blur:0x1>" +verbose  null:
 ~~~
 
 
@@ -1048,7 +1054,7 @@ You can also think of it as expanding the black areas of the image.
 For example here is a simple binary 'man-like' shape that has been eroded using a '`Octagon`' kernel.
 
 ~~~
-      convert man.gif   -morphology Erode Octagon  erode_man.gif
+convert man.gif   -morphology Erode Octagon  erode_man.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1067,7 +1073,7 @@ It expands the white shapes, making a shape bigger according to the kernel (and 
 Of course that also means it will 'erode' the black areas of the image.
 
 ~~~
-      convert man.gif   -morphology Dilate Octagon  dilate_man.gif
+convert man.gif   -morphology Dilate Octagon  dilate_man.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1085,8 +1091,8 @@ That is (at least with a symmetrical kernel) by negating the image before and af
 For example here I perform a erosion by using '`Dilate`' on the [Negated Images](../color_mods/#negate).
 
 ~~~
-      convert man.gif -negate \
-                 -morphology Dilate Octagon   -negate dilate_man_neg.gif
+convert man.gif -negate \
+                -morphology Dilate Octagon   -negate dilate_man_neg.gif
 ~~~
 
 
@@ -1097,7 +1103,7 @@ For example here I perform a erosion by using '`Dilate`' on the [Negated Images]
 Here is the effect of the '`Open`' method, but this time using much larger '`Disk`' kernel.
 
 ~~~
-      convert man.gif   -morphology Open Disk  open_man.gif
+convert man.gif   -morphology Open Disk  open_man.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1116,9 +1122,9 @@ Also it does not make the basic 'core' size of the shape larger or smaller.
 In actual real terms, what it does is to '`Erode`' an image then '`Dilate`' it again using the same kernel that was provided
 
 ~~~
-      convert man.gif         -morphology Erode  Disk  open_erode.gif
+convert man.gif         -morphology Erode  Disk  open_erode.gif
 
-      convert open_erode.gif  -morphology Dilate Disk  open_man_2.gif
+convert open_erode.gif  -morphology Dilate Disk  open_man_2.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1131,7 +1137,7 @@ Note that performing a '`Open`' on a shape that has already been opened, with th
 For example...
 
 ~~~
-      convert open_man.gif  -morphology Open Disk  open_man_twice.gif
+convert open_man.gif  -morphology Open Disk  open_man_twice.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1148,7 +1154,7 @@ That is a '*Open:2*' iteration will actually be applied as a '`Erode:2`, followe
 This has the general effect of making the effective 'neighbourhood' defined by the kernel larger.
 
 ~~~
-      convert man.gif   -morphology Open:2  Disk  open_man_x2.gif
+convert man.gif   -morphology Open:2  Disk  open_man_x2.gif
 ~~~
 
 [![\[IM Output\]](open_man_x2.gif)](open_man_x2.gif)
@@ -1164,7 +1170,7 @@ The basic use of the '`Close`' method is to reduce or remove any 'holes' or 'gap
 That is 'close' parts of the background that are about that size.
 
 ~~~
-      convert man.gif    -morphology Close Disk   close_man.gif
+convert man.gif    -morphology Close Disk   close_man.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1181,9 +1187,9 @@ In actual real terms, what it does is to '`Dilate`' the image then '`Erode`' it 
 This is the opposite order of what '`Open`' does.
 
 ~~~
-      convert man.gif           -morphology Dilate Disk  close_dilate.gif
+convert man.gif           -morphology Dilate Disk  close_dilate.gif
 
-      convert close_dilate.gif  -morphology Erode  Disk  close_man_2.gif
+convert close_dilate.gif  -morphology Erode  Disk  close_man_2.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1202,7 +1208,7 @@ And just as with the '`Dilate`' and '`Erode`' methods, the '`Open`' and '`Close`
 You can reproduce the effect of the other 'dual' by [Negating](../color_mods/#negate) the image before and after the operation.
 
 ~~~
-      convert man.gif   -negate -morphology Close Disk -negate   close_man_neg.gif
+convert man.gif   -negate -morphology Close Disk -negate   close_man_neg.gif
 ~~~
 
 [![\[IM Output\]](close_man_neg.gif)](close_man_neg.gif)
@@ -1214,7 +1220,7 @@ The '`Smooth`' method applies a '`Open`' followed by a '`Close`' of the shape, w
 Here we smooth the image using a mid-range '`Octagon:3`' kernel.
 
 ~~~
-      convert man.gif  -morphology Smooth  Octagon:3  smooth_man.gif
+convert man.gif  -morphology Smooth  Octagon:3  smooth_man.gif
 ~~~
 
 [![\[IM Output\]](smooth_man.gif)](smooth_man.gif)
@@ -1233,7 +1239,7 @@ It is thus 4 times slower than just a simple '`Erode`' or '`Dilate`'.
 
 While essentially all four of the Basic Morphological Methods, and later ones which are defined in terms of these four methods, are specifically designed to work with binary images, they can be applied to both grey-scale and color images (though color images may generate some odd color effects).
 
-*Practical Example of Grey-scale Operation Wanted Here*
+*FUTURE: Practical Example of Grey-scale Operation Wanted Here*
 
 However the kernel itself will always be regarded as a simple 'on' or 'off' neighbourhood.
 Any kernel value that is either a 'nan' or less than '`0.5`' will be regards as outside the 'neighbourhood' that it defines.
@@ -1275,9 +1281,9 @@ Because of their nature the [Intensity Methods](#intensity) will ignore the curr
 For example here I use the binary and intensity variants of '`Dilate`' Morphology (expand bright areas), on the built-in "`rose:`" image.
 
 ~~~
-      convert rose: -morphology Dilate          Octagon:3  rose_dilate.gif
+convert rose: -morphology Dilate          Octagon:3  rose_dilate.gif
 
-      convert rose: -morphology DilateIntensity Octagon:3  rose_dilate_intensity.gif
+convert rose: -morphology DilateIntensity Octagon:3  rose_dilate_intensity.gif
 ~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif)
@@ -1294,28 +1300,28 @@ As such here I use a '`CloseIntensity`' method but use the short hand name of '`
 For example here are the results of using each of the four 'Intensity' variants on the built-in rose image.
 
 ~~~
-      convert rose: -morphology ErodeI Octagon:3 rose_erode_intensity.gif
+convert rose: -morphology ErodeI Octagon:3 rose_erode_intensity.gif
 ~~~
 
 [![\[IM Output\]](rose_erode_intensity.gif)](rose_erode_intensity.gif)
 
 
 ~~~
-      convert rose: -morphology DilateI Octagon:3 rose_dilate_intensity.gif
+convert rose: -morphology DilateI Octagon:3 rose_dilate_intensity.gif
 ~~~
 
 [![\[IM Output\]](rose_dilate_intensity.gif)](rose_dilate_intensity.gif)
 
 
 ~~~
-      convert rose: -morphology OpenI Octagon:3 rose_open_intensity.gif
+convert rose: -morphology OpenI Octagon:3 rose_open_intensity.gif
 ~~~
 
 [![\[IM Output\]](rose_open_intensity.gif)](rose_open_intensity.gif)
 
 
 ~~~
-      convert rose: -morphology CloseI Octagon:3 rose_close_intensity.gif
+convert rose: -morphology CloseI Octagon:3 rose_close_intensity.gif
 ~~~
 
 [![\[IM Output\]](rose_close_intensity.gif)](rose_close_intensity.gif)
@@ -1377,7 +1383,7 @@ The '`EdgeIn` method, also called a '*Internal Gradient*', find the pixels that 
 As a result the pixels that are closest to the edge, but which were part of the original shape is returned.
 
 ~~~
-      convert man.gif   -morphology EdgeIn Octagon  edgein_man.gif
+convert man.gif   -morphology EdgeIn Octagon  edgein_man.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1397,7 +1403,7 @@ The '`EdgeOut`' method, also called '*External Gradient*', finds the pixels that
 As a result the background pixels immediately next to the shape is returned.
 
 ~~~
-      convert man.gif   -morphology EdgeOut Octagon  edgeout_man.gif
+convert man.gif   -morphology EdgeOut Octagon  edgeout_man.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1413,7 +1419,7 @@ An example of using '`EdgeOut`' with the alpha channel, is shown in [Outline or 
 The '`Edge`' method returns a '*Morphological Gradient*', which can be described as either the addition of the last two 'edge' methods, or more specifically the difference between the [Eroded](#erode) shape from its [Dilated](#dilate) shape.
 
 ~~~
-      convert man.gif   -morphology Edge Octagon  edge_man.gif
+convert man.gif   -morphology Edge Octagon  edge_man.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1431,9 +1437,8 @@ As such a kernel of radius 3 will generally produce a '`Edge`' which 6 pixels th
 Here for example is the '`Edge`' outline of the shape using the minimal '`Diamond`' kernel.
 
 ~~~
-      convert man.gif  -morphology Edge Diamond  man_outline.gif
+convert man.gif  -morphology Edge Diamond  man_outline.gif
 ~~~
-
 
 The edge is two pixels thick as it contains the pixels that lie on either side of the actual 'pixel edge' of the original shape.
 The only way to make this edge thinner is actually to offset the whole image diagonally by half-a-pixel.
@@ -1442,14 +1447,14 @@ The only way to make this edge thinner is actually to offset the whole image dia
 
 For more details of getting outlines of shapes in various ways see the section on [Edge Detection](../transform/#edge).
 
-*Future: generating the edge using a 'diagonal line'.*
+*FUTURE: generating the edge using a 'diagonal line'.*
 
 ### Top-Hat
 
 The '`TopHat`' method, or more specifically '*White Top Hat*', returns the pixels that were removed by a [Opening](#open) of the shape, that is the pixels that were removed to round off the points, and the connecting bridged between shapes.
 
 ~~~
-      convert man.gif   -morphology TopHat Disk  tophat_man.gif
+convert man.gif   -morphology TopHat Disk  tophat_man.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1472,7 +1477,7 @@ The '`BottomHat`' method, also known as '*Black TopHat*' is the pixels that a [C
 That is the the pixels that were used to fill in the 'holes', 'gaps', and 'bridges'.
 
 ~~~
-      convert man.gif   -morphology BottomHat Disk  bottomhat_man.gif
+convert man.gif   -morphology BottomHat Disk  bottomhat_man.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1499,8 +1504,8 @@ This means you can apply these methods to color images, provided you are not too
 For example lets '`Erode`' the alpha channel of the original 'man figure' image, without modifying the color channels.
 
 ~~~
-      convert figure.gif -channel A  -morphology Erode Diamond:3 \
-              +channel   figure_erode.gif
+convert figure.gif -channel A  -morphology Erode Diamond:3 \
+                   +channel   figure_erode.gif
 ~~~
 
 [![\[IM Output\]](figure.gif)](figure.gif)
@@ -1557,25 +1562,26 @@ Lets have a look at how these basic method work when used with a kernel which is
 For example here I apply a user defined 'L' shape against a special morphological test image (enlarged for viewing individual pixels).
 
 ~~~
-      for method in  erode dilate open close; do
-        convert test.gif \
-                 -morphology $method  '2x3+1+1: 1,-  1,-  1,1 '  test_$method.gif
-      done
+for method in  erode dilate open close; do
+    convert test.gif \
+           -morphology $method  '2x3+1+1: 1,-  1,-  1,1 '  test_$method.gif
+done
 ~~~
 
 [![\[IM Text\]](test_mag.gif)](test.gif)
 
 Which has the following results...
 
-[![\[IM Text\]](test_erode_mag.gif)](test_erode.gif)\
+[![\[IM Text\]](test_erode_mag.gif)](test_erode.gif)
+
 **'`Erode`'** results in any exact match of the kernel shape, becoming a single white pixel at the matching point 'origin'.
 It will also expand any single pixel 'hole' into that same shape but 'reflected' around the 'origin', that is as if the kernel had been rotated 180 degrees.
- 
 
-[![\[IM Text\]](test_dilate_mag.gif)](test_dilate.gif)\
+[![\[IM Text\]](test_dilate_mag.gif)](test_dilate.gif)
+
 **'`Dilate`'** As expected produces that same results but for a 'negative' and 'reflected' form of either the image or the kernel.
 A single white pixel expands to the kernel shape, while any matching 'reflected' shaped hole, shrinks down to a single pixel 'hole'.
- 
+
 Note also that the boundary between positive and negative halves of the test image does move as consequence of applying the above basic morphological methods.
 That is to be expected.
 
@@ -1584,13 +1590,15 @@ To convert a '`Erode`' methods into a '`Dilate`' or visa-versa, you not only nee
 Normally this second aspect can be ignored, as most kernels are 'symmetrical'.
 It only becomes important with user defined asymmetrical kernels.
 
-[![\[IM Text\]](test_open_mag.gif)](test_open.gif)\
+[![\[IM Text\]](test_open_mag.gif)](test_open.gif)
+
 **'`Open`'** as mentioned before, generally does not remove any 'holes' in the image, however an exactly matching shape will remain unchanged.
 Larger shapes (such as the negative half of the test image, may also remain, but perhaps slightly modified.
  
-[![\[IM Text\]](test_close_mag.gif)](test_close.gif)\
+[![\[IM Text\]](test_close_mag.gif)](test_close.gif)
+
 **'`Close`'** is an exact negative result of the previous, but is defined such that it does not need the kernel to be reflected (as it is reflected by its internal definition), only the image negated.
- 
+
 ----
 
 ## Hit And Miss (HMT) Pattern Matching
@@ -1609,7 +1617,7 @@ It does this by looking for a specific configuration of 'foreground' and 'backgr
 For example we could look for a 'foreground' pixel, which has a 'background' pixel immediately to its right.
 
 ~~~
-       convert man.gif   -morphology Hit-and-Miss '2x1:1,0'  hmt_right.gif
+convert man.gif   -morphology Hit-and-Miss '2x1:1,0'  hmt_right.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1629,7 +1637,7 @@ But if you specifically set the 'origin' value to a value of 'I Don't Care', the
 For example if I use a structured element like...
 
 ~~~
-      convert man.gif   -morphology Hit-and-Miss '3x1:1,-,0'  hmt_right2.gif
+convert man.gif   -morphology Hit-and-Miss '3x1:1,-,0'  hmt_right2.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1648,7 +1656,7 @@ By 'Not Caring' the same kernel definition could be used for either operation, a
 Here is another example, but this time I again limit my 'hits' to pixels that fall inside the shape but which form a North-West facing corner.
 
 ~~~
-      convert man.gif   -morphology HMT "3:0,0,- 0,1,1 -,1,-" hmt_nw_corner.gif
+convert man.gif   -morphology HMT "3:0,0,- 0,1,1 -,1,-" hmt_nw_corner.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1660,7 +1668,7 @@ Here is another example, but this time I again limit my 'hits' to pixels that fa
 By expanding this single corner to a set of 90 degree Rotated Corners by adding a '`>`' flag, we can find all corners that appear within the shape.
 
 ~~~
-      convert man.gif  -morphology HMT "3>:0,0,- 0,1,1 -,1,-" hmt_corners.gif
+convert man.gif  -morphology HMT "3>:0,0,- 0,1,1 -,1,-" hmt_corners.gif
 ~~~
 
 [![\[IM Output\]](kernel_hmt_corners.gif)](kernel_hmt_corners.gif)
@@ -1688,7 +1696,7 @@ For example suppose you are interested in the points where three lines meet.
 Then you can use the '`LineJunctions`' kernel set, which is designed specifically for this purpose.
 
 ~~~
-      convert lines.gif -morphology HMT LineJunctions hmt_junctions.gif
+convert lines.gif -morphology HMT LineJunctions hmt_junctions.gif
 ~~~
 
 [![\[IM Output\]](lines.gif)](lines.gif)
@@ -1703,11 +1711,11 @@ One solution is to expand the matches using '`Dilate`' with some [Shape Kernel](
 For example...
 
 ~~~
-      convert lines.gif \( +clone \
-                 -morphology HMT LineJunctions \
-                 -morphology Dilate Ring \
-                 -background red -alpha shape \
-              \) -composite              hmt_junctions_rings.gif
+convert lines.gif \( +clone                         \
+                     -morphology HMT LineJunctions  \
+                     -morphology Dilate Ring        \
+                     -background red -alpha shape   \
+                  \) -composite       hmt_junctions_rings.gif
 ~~~
 
 [![\[IM Output\]](hmt_junctions_rings.gif)](hmt_junctions_rings.gif)
@@ -1720,19 +1728,19 @@ Still it is very precise and works very well.
 Another similar '`Hit-And-Miss`' kernel set is the '`LineEnds`' kernel which can be used to find the free ends of all the lines in the image.
 
 ~~~
-      convert lines.gif \( +clone \
-                 -morphology HMT LineEnds \
-                 -morphology Dilate Ring \
-                 -background red -alpha shape \
-              \) -composite                  hmt_lineends_rings.gif
+convert lines.gif \( +clone                         \
+                     -morphology HMT LineEnds       \
+                     -morphology Dilate Ring        \
+                     -background red -alpha shape   \
+                  \) -composite       hmt_lineends_rings.gif
 ~~~
 
 
 [![\[IM Output\]](hmt_lineends_rings.gif)](hmt_lineends_rings.gif)
 
-*HitandMiss - with foreground pixels only -&gt; erode*
+*FUTURE: HitandMiss - with foreground pixels only -&gt; erode*
 
-*HitandMiss - with background only -&gt; negated dilate*
+*FUTURE: HitandMiss - with background only -&gt; negated dilate*
 
 #### Hit And Miss with Gray-scale Images
 
@@ -1754,7 +1762,7 @@ The '`Thicken`' method will add pixels to the original shape at every matching l
 For example here I look for a background pixel that is two pixels away from the right edge of the shape.
 
 ~~~
-      convert man.gif   -morphology Thicken '3x1+2+0:1,0,0'  thick_right.gif
+convert man.gif   -morphology Thicken '3x1+2+0:1,0,0'  thick_right.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1769,7 +1777,7 @@ As you can see you ended up with a line of pixels just outside the shapes origin
 You can [Iterate](#iteration) this '`Thicken`' method a few times to continue the sequence.
 
 ~~~
-      convert man.gif   -morphology Thicken:4 '3x1+2+0:1,0,0'  thick_right2.gif
+convert man.gif   -morphology Thicken:4 '3x1+2+0:1,0,0'  thick_right2.gif
 ~~~
 
 [![\[IM Output\]](thick_right2.gif)](thick_right2.gif)
@@ -1805,10 +1813,10 @@ A special set of kernels known as the '`ConvexHull`' kernel, allows you to do th
 For example...
 
 ~~~
-      convert -size 80x80 xc:black -fill none -stroke white \
-              +antialias   -draw 'line 10,20 70,60'     man_line.gif
+convert -size 80x80 xc:black -fill none -stroke white \
+        +antialias   -draw 'line 10,20 70,60'     man_line.gif
 
-      convert man_line.gif   -morphology Thicken ConvexHull  thick_line.gif
+convert man_line.gif   -morphology Thicken ConvexHull  thick_line.gif
 ~~~
 
 [![\[IM Output\]](man_line.gif)](man_line.gif)
@@ -1821,9 +1829,9 @@ The actual '`ConvexHull`' kernel is really designed to work with image shapes, a
 That is it will try to fill in all the gaps between the extremes until it produces a 'octagonal shaped' object.
 
 ~~~
-      convert man.gif -morphology Close Diamond \
-                      -morphology Thicken:-1 ConvexHull \
-                      -morphology Close Diamond       man_hull_full.gif
+convert man.gif -morphology Close Diamond \
+                -morphology Thicken:-1 ConvexHull \
+                -morphology Close Diamond       man_hull_full.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1846,11 +1854,11 @@ Basically iterating using [Hit And Miss Pattern Matching](#hmt) can be very very
 You can use this to also find the what points of the original image caused the creation of this octagonal shape, by getting an intersection ([Darken Composition](../compose/#darken)) and the edge of the convex hull and the original shape.
 
 ~~~
-      convert man_hull_full.gif \
-                  -morphology EdgeIn Diamond man_convex_edge.gif
+convert man_hull_full.gif \
+       -morphology EdgeIn Diamond man_convex_edge.gif
 
-      convert man.gif man_convex_edge.gif \
-              -compose Darken -composite man_extremities.gif
+convert man.gif man_convex_edge.gif \
+       -compose Darken -composite man_extremities.gif
 ~~~
 
 [![\[IM Output\]](man_convex_edge.gif)](man_convex_edge.gif)
@@ -1870,9 +1878,9 @@ This can thus be used to make the matching pixels brighter, even when the 'origi
 For example, lets repeat the corner-find example from above but with a 50% grey version of the shape.
 
 ~~~
-      convert man.gif   -evaluate multiply 0.5   man_grey.gif
+convert man.gif   -evaluate multiply 0.5   man_grey.gif
 
-      convert man_grey.gif  -morphology Thicken Corners  thick_corners.gif
+convert man_grey.gif  -morphology Thicken Corners  thick_corners.gif
 ~~~
 
 [![\[IM Output\]](man_grey.gif)](man_grey.gif)
@@ -1888,7 +1896,9 @@ Rather than adding pixels, this method subtracts them from the original image.
 
 For example lets remove any pixel that is 4 pixels in from the right edge.
 
-      convert man.gif   -morphology Thinning '5x1+0+0:1,1,1,1,0' thin_right.gif
+~~~
+convert man.gif   -morphology Thinning '5x1+0+0:1,1,1,1,0' thin_right.gif
+~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
 ![](../img_www/mph_thinning.gif)
@@ -1927,7 +1937,7 @@ See discussion in IM forums, [From 8-connected to 4-connected lines](../forum_li
 
 One of the most common uses of thinning is to reduce the threshold output of an [Edge Detector](../convolve/#edgedet) such as [Sobel Convolution](../convolve/#sobel), to lines of a single pixel thickness, while preserving the full length of those lines.
 
-*Future: Example using a Distance Gradient Image*.
+*FUTURE: Example using a Distance Gradient Image*.
 
 #### Thinning down to a Skeleton
 
@@ -1940,7 +1950,7 @@ For example processing the image to find the number of loops, line segments, and
 So let's produce a '*Thinned Skeleton*' by '`Thinning`' the edges of the man shape down repeatedly, until only the center lines are left.
 
 ~~~
-      convert man.gif  -morphology Thinning:-1 Skeleton  man_raw_thinned.gif
+convert man.gif  -morphology Thinning:-1 Skeleton  man_raw_thinned.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -1958,10 +1968,10 @@ A simplier solution is to [Erode](#erode) the image slightly to give the kernels
 I will also only erode and thin the 'Red' and 'Green' channels, so as to leave original shape in blue.
 
 ~~~
-      convert man.gif -channel RG -morphology Erode Diamond  man_erode.gif
+convert man.gif -channel RG -morphology Erode Diamond  man_erode.gif
 
-      convert man_erode.gif -channel RG \
-              -morphology Thinning:-1 Skeleton +channel  man_skeleton.gif
+convert man_erode.gif -channel RG \
+                      -morphology Thinning:-1 Skeleton +channel  man_skeleton.gif
 ~~~
 
 [![\[IM Output\]](man_erode.gif)](man_erode.gif)
@@ -1973,8 +1983,8 @@ You can also see that any hole in the image has now expanded to produce larger c
 Here is a close up of loop around the eroded hole.
 
 ~~~
-      convert man_skeleton.gif -crop 22x22+47+29 +repage \
-              -scale 120x120    man_skeleton_zoom.gif
+convert man_skeleton.gif -crop 22x22+47+29 +repage \
+                         -scale 120x120    man_skeleton_zoom.gif
 ~~~
 
 [![\[IM Output\]](man_skeleton_zoom.gif)](man_skeleton_zoom.gif)
@@ -2001,8 +2011,8 @@ One solution is to use a different skeleton generation variant, such as generate
 For example...
 
 ~~~
-      convert man.gif   -channel RG  -morphology Erode Diamond \
-              -morphology Thinning:-1 Skeleton:2 +channel  man_skeleton_hipr.gif
+convert man.gif -channel RG  -morphology Erode Diamond \
+                -morphology Thinning:-1 Skeleton:2 +channel  man_skeleton_hipr.gif
 ~~~
 
 
@@ -2011,8 +2021,8 @@ For example...
 And here is a zoom of the loop area, showing how the resulting skeleton is 8-connected, with thinner diagonals.
 
 ~~~
-      convert man_skeleton_hipr.gif -crop 22x22+47+29 +repage \
-              -scale 120x120    man_skeleton_hipr_zoom.gif
+convert man_skeleton_hipr.gif -crop 22x22+47+29 +repage \
+       -scale 120x120    man_skeleton_hipr_zoom.gif
 ~~~
 
 [![\[IM Output\]](man_skeleton_hipr_zoom.gif)](man_skeleton_hipr_zoom.gif)
@@ -2027,9 +2037,9 @@ The special '`Diagonals`' thinning kernel, is designed to do this, with a '`Corn
 So lets thin the previous 'traditional' skeleton further..
 
 ~~~
-      convert man_skeleton.gif -channel RG \
-              -morphology Thinning:-1 Diagonals \
-              -morphology Thinning Corners   man_thin_skeleton.gif
+convert man_skeleton.gif -channel RG \
+       -morphology Thinning:-1 Diagonals \
+       -morphology Thinning Corners   man_thin_skeleton.gif
 ~~~
 
 [![\[IM Output\]](man_skeleton.gif)](man_skeleton.gif)
@@ -2049,17 +2059,17 @@ In any case by starting with a 'traditional' 4-connected skeleton, you can then 
 When you have a skeleton (perhaps even both a 4 and 8 connected version) the next step is usually to find out more information about the skeleton.
 For example how many 'free end of lines', 'line junctions', and 'line loops' are present.
 
-*Number of Line Ends*
+##### Number of Line Ends
 
-Here I use the a [Hit And Miss Search](#hitmiss) for '`LineEnds`' on the skeleton we generated previously (extracting it from the 'red' channel).
+Here I use a [Hit And Miss Search](#hitmiss) for '`LineEnds`' on the skeleton we generated previously (extracting it from the 'red' channel).
 I then [Dilate](#dilate) those line ends into [Rings](#ring) and color them before merging with the original skeleton, to make their locations highly visible.
 
 ~~~
-      convert man_skeleton.gif -channel R -separate +channel \
-              -morphology HMT LineEnds man_ends.gif
+convert man_skeleton.gif -channel R -separate +channel \
+        -morphology HMT LineEnds man_ends.gif
 
-      convert man_ends.gif -morphology Dilate Ring -background Red -alpha Shape \
-              man_skeleton.gif +swap -composite man_ends_marked.gif
+convert man_ends.gif -morphology Dilate Ring -background Red -alpha Shape \
+        man_skeleton.gif +swap -composite man_ends_marked.gif
 ~~~
 
 [![\[IM Output\]](man_skeleton.gif)](man_skeleton.gif)
@@ -2072,18 +2082,18 @@ Note that the lines all connect each other, or to the loop of pixels were not fo
 Only the free line ends were indicated.
 If you did a pixel count (using a [Histogram Output](../files/#histogram)) you would see that this skeleton generated 12 line ends.
 
-*Number of Line Junctions*
+##### Number of Line Junctions
 
 You can get a rough count count of the number of line junctions in an image by using the '`LineJunctions`' kernel with a **8-connected skeleton**, preferably one that was thinned down from the original skeleton used for counting line-ends.
 Do not mix two different skeleton generation variants.
 
 ~~~
-      convert man_thin_skeleton.gif -channel R -separate +channel \
-                -morphology HMT LineJunctions  man_junctions.gif
+convert man_thin_skeleton.gif -channel R -separate +channel \
+       -morphology HMT LineJunctions  man_junctions.gif
 
-      convert man_junctions.gif -morphology Dilate Ring \
-              -background Red -alpha Shape \
-                man_thin_skeleton.gif +swap -composite man_junctions_marked.gif
+convert man_junctions.gif -morphology Dilate Ring \
+       -background Red -alpha Shape \
+       man_thin_skeleton.gif +swap -composite man_junctions_marked.gif
 ~~~
 
 [![\[IM Output\]](man_thin_skeleton.gif)](man_thin_skeleton.gif)
@@ -2121,8 +2131,8 @@ The solution to to '*Prune*' all the line ends repeatedly until you have removed
 For a 4-connected skeleton such as this you can even use a smaller set of '`LineEnds`' kernels to make process about twice as fast.
 
 ~~~
-      convert man_skeleton.gif -channel G \
-              -morphology Thinning:-1 'LineEnds:1>' man_loop.gif
+convert man_skeleton.gif -channel G \
+       -morphology Thinning:-1 'LineEnds:1>' man_loop.gif
 ~~~
 
 [![\[IM Output\]](man_skeleton.gif)](man_skeleton.gif)
@@ -2147,8 +2157,8 @@ Using a full set of '`LineEnds`' kernels (8 kernels), would also have taken 75 i
 We have already covered the first step... resulting in...
 
 ~~~
-      convert man_skeleton.gif -channel R -separate +channel \
-              -morphology HMT LineEnds man_ends.gif
+convert man_skeleton.gif -channel R -separate +channel \
+       -morphology HMT LineEnds man_ends.gif
 ~~~
 
 [![\[IM Output\]](man_ends.gif)](man_ends.gif)
@@ -2160,9 +2170,9 @@ To properly disconnect all line segment you will also need to add orthogonal '`T
 For example.
 
 ~~~
-      convert man_skeleton.gif -channel R -separate +channel \
-          -morphology HMT 'LineJunctions;LineJunctions:3>;LineJunctions:5' \
-          man_disconnect.gif
+convert man_skeleton.gif -channel R -separate +channel \
+       -morphology HMT 'LineJunctions;LineJunctions:3>;LineJunctions:5' \
+        man_disconnect.gif
 ~~~
 
 
@@ -2171,10 +2181,10 @@ For example.
 Thinning with these matches will actually disconnect the segments, however you must do this all in one step, (see [Thinning Style](#thinning_style)), or it will not work correctly.
 
 ~~~
-      convert man_skeleton.gif -channel R -separate +channel \
-          -define morphology:compose=Darken \
-          -morphology Thinning 'LineJunctions;LineJunctions:3>;LineJunctions:5' \
-          man_line_segments.gif
+convert man_skeleton.gif -channel R -separate +channel \
+       -define morphology:compose=Darken \
+       -morphology Thinning 'LineJunctions;LineJunctions:3>;LineJunctions:5' \
+        man_line_segments.gif
 ~~~
 
 
@@ -2183,8 +2193,8 @@ Thinning with these matches will actually disconnect the segments, however you m
 Here is a zoom of the 'loop' showing the disconnected segments.
 
 ~~~
-      convert man_line_segments.gif -crop 22x22+47+29 +repage \
-              -scale 120x120    man_line_segments_zoom.gif
+convert man_line_segments.gif -crop 22x22+47+29 +repage \
+       -scale 120x120    man_line_segments_zoom.gif
 ~~~
 
 
@@ -2195,11 +2205,11 @@ At this point we can now remove any line segment that contains a match with the 
 This can be done either by 'flood filling' from those 'seed' points, to delete them.
 However this only works for a 4 connected skeleton, which is what flood filling assumes.
 
-*Example Here*
+*FUTURE: Example Here*
 
 Alternatively we can use [Conditional Dilatation](#cond_dilation) to find all all the points simultaneously, and remove them.
 
-*Example Here - when Conditional Dilate or Erode is available.*
+*FUTURE: Example Here - when Conditional Dilate or Erode is available.*
 
 If you now restore the line junctions, do one prune, and remove any single pixels that are left, you will now have removed all the line segments quickly.
 
@@ -2212,11 +2222,11 @@ If you were to do one single 'pruning' of the end of the line segments, and comp
 For example (resulting image enlarged) is is a default line ends thining
 
 ~~~
-      convert -size 10x10 xc:black -fill white \
-              +antialias  -draw 'line 1,7 8,3' line.gif
+convert -size 10x10 xc:black -fill white \
+       +antialias  -draw 'line 1,7 8,3' line.gif
 
-      convert line.gif -channel GB \
-              -morphology Thinning LineEnds  line_seqential.gif
+convert line.gif -channel GB \
+       -morphology Thinning LineEnds  line_seqential.gif
 ~~~
 
 [![\[IM Output\]](line_mag.gif)](line_mag.gif)
@@ -2238,8 +2248,8 @@ Specifically merging all the selected pixels for a single removal of selected pi
 For example...
 
 ~~~
-      convert line.gif -channel GB  -define morphology:compose=darken \
-              -morphology Thinning LineEnds  line_simultaneous.gif
+convert line.gif -channel GB  -define morphology:compose=darken \
+       -morphology Thinning LineEnds  line_simultaneous.gif
 ~~~
 
 
@@ -2260,10 +2270,10 @@ However, while this will make the pruning of line ends more well-behaved, it wil
 Take the case of '`Thinning`' some boxes by thinning both the left and right edges simultaneously.
 
 ~~~
-      convert -size 10x10 xc:black -fill white -draw 'rectangle 4,1 5,7' rect.gif
+convert -size 10x10 xc:black -fill white -draw 'rectangle 4,1 5,7' rect.gif
 
-      convert rect.gif -channel GB  -define morphology:compose=darken \
-              -morphology Thinning Edges  rect_simultaneous.gif
+convert rect.gif -channel GB  -define morphology:compose=darken \
+       -morphology Thinning Edges  rect_simultaneous.gif
 ~~~
 
 [![\[IM Output\]](rect_mag.gif)](rect_mag.gif)
@@ -2277,8 +2287,8 @@ The same thing will happen if you do this when [Thinning down Skeletons](#thinni
 The default 'Sequential Thinning' on the other hand produced...
 
 ~~~
-      convert rect.gif -channel GB \
-              -morphology Thinning Edges rect_seqential.gif
+convert rect.gif -channel GB \
+       -morphology Thinning Edges rect_seqential.gif
 ~~~
 
 [![\[IM Output\]](rect_seqential_mag.gif)](rect_seqential_mag.gif)
@@ -2331,8 +2341,8 @@ Typically this kernel is used as a type of image '`Thinning`' kernel, however as
 For example...
 
 ~~~
-      convert man.gif -channel RG \
-              -morphology Thinning:-1 Edges   thin_edges.gif
+convert man.gif -channel RG \
+       -morphology Thinning:-1 Edges   thin_edges.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -2351,8 +2361,8 @@ See '`Hit-And-Miss`' above for an example of its use.
 Here for example I used it to try and thin all diagonal edges...
 
 ~~~
-      convert man.gif -channel RG \
-              -morphology Thinning:-1 Corners  thin_corners.gif
+convert man.gif -channel RG \
+       -morphology Thinning:-1 Corners  thin_corners.gif
 ~~~
 
 
@@ -2384,13 +2394,13 @@ This will let you specify your own specific set of kernels, to thin diagonals in
 For example, you could separately thin each of the four types of diagonals (using both the above kernels with the same *angle* value).
 By doing this you can do an iterative reducing of each type of diagonal one at a time, aborting as soon as all those specific diagonals has been thinned, and thus reducing the overall number of '*primitive morphology steps*' that are performed.
 
-*Future: example needed*
+*FUTURE: example needed*
 
 As it is given, the default kernel set will simply try to thin all the diagonals simultaneously and repeatedly until they have all been thinned.
 That means the all the kernel will be applied until all the diagonals have been thinned, rather than just the diagonals that need thinning.
 That means it perform many '*primitive morphology steps*' that are no longer needed, with most kernels making no changes to the image during each loop.
 
-*Future: full example needed*
+*FUTURE: full example needed*
 
 Remember each of the four diagonals should still be performed using both pairs of kernels (for each specific angle) so that both ends of each specific diagonal are thinned together, such as when the diagonal is part of an 'arc'.
 
@@ -2408,7 +2418,7 @@ As you can see, it will only match lines that have at least two pixels, with the
 For example, here we use '`Hit-And-Miss`' to find all the line ends.
 
 ~~~
-      convert lines.gif -morphology HMT LineEnds  hmt_lineends.gif
+convert lines.gif -morphology HMT LineEnds  hmt_lineends.gif
 ~~~
 
 [![\[IM Output\]](lines.gif)](lines.gif)
@@ -2451,7 +2461,7 @@ Where '`LineEnds`' find the ends of a group of lines, '`LineJunctions`' will fin
 For example, here we use '`Hit-And-Miss`' to find all the line junctions.
 
 ~~~
-      convert lines.gif -morphology HMT LineJunctions hmt_junctions.gif
+convert lines.gif -morphology HMT LineJunctions hmt_junctions.gif
 ~~~
 
 [![\[IM Output\]](lines.gif)](lines.gif)
@@ -2531,8 +2541,8 @@ As the origin is actually a 'background' element, it is really only meant to be 
 However the kernel will fail for images containing horizontal or vertical 'slots', such as we have in the 'man' shape.
 
 ~~~
-      convert man.gif -channel R \
-              -morphology Thicken:-1 ConvexHull  man_hull.gif
+convert man.gif -channel R \
+        -morphology Thicken:-1 ConvexHull  man_hull.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -2542,9 +2552,9 @@ However the kernel will fail for images containing horizontal or vertical 'slots
 The solution is to '`Close`' these slots (and the central hole) before using '`ConvexHull`'.
 
 ~~~
-      convert man.gif -morphology Close Diamond \
-                      -morphology Thicken:-1 ConvexHull \
-                      -morphology Close Diamond       man_hull_full.gif
+convert man.gif -morphology Close Diamond \
+                -morphology Thicken:-1 ConvexHull \
+                -morphology Close Diamond       man_hull_full.gif
 ~~~
 
 [![\[IM Output\]](man_hull_full.gif)](man_hull_full.gif)
@@ -2556,8 +2566,8 @@ Repeating the '`Close`' removes those holes without effecting the final shape.
 Here is another example, where the original shape (white) was expanded using a convex hull thickening (red).
 
 ~~~
-      convert circles.gif -channel R \
-              -morphology Thicken:-1 ConvexHull  circles_hull.gif
+convert circles.gif -channel R \
+       -morphology Thicken:-1 ConvexHull  circles_hull.gif
 ~~~
 
 [![\[IM Output\]](circles_hull.gif)](circles_hull.gif)
@@ -2578,8 +2588,8 @@ This is basically exactly like the '`Edges`' kernel above, but cyclically rotate
 [![\[IM Output\]](kernel_skeleton1.gif)](kernel_skeleton1.gif)
 
 ~~~
-      convert man.gif -channel RG \
-              -morphology Thinning:-1 Skeleton   thin_skeleton1.gif
+convert man.gif -channel RG \
+      -morphology Thinning:-1 Skeleton   thin_skeleton1.gif
 ~~~
 
 [![\[IM Output\]](thin_skeleton1.gif)](thin_skeleton1.gif)
@@ -2600,8 +2610,8 @@ It was found in the [HIPR2 Image Processing Resources](http://homepages.inf.ed.a
 [![\[IM Output\]](kernel_skeleton2.gif)](kernel_skeleton2.gif)
 
 ~~~
-      convert man.gif -channel RG \
-              -morphology Thinning:-1 Skeleton:2   thin_skeleton2.gif
+convert man.gif -channel RG \
+      -morphology Thinning:-1 Skeleton:2   thin_skeleton2.gif
 ~~~
 
 [![\[IM Output\]](thin_skeleton2.gif)](thin_skeleton2.gif)
@@ -2615,8 +2625,8 @@ The '`Skeleton:2`' variant is very closely related to just using a combined '`Ed
 [![\[IM Output\]](kernel_edge-corner.gif)](kernel_edge-corner.gif)
 
 ~~~
-      convert man.gif -channel RG \
-              -morphology Thinning:-1 'Edges;Corners' thin_edge-corner.gif
+convert man.gif -channel RG \
+       -morphology Thinning:-1 'Edges;Corners' thin_edge-corner.gif
 ~~~
 
 [![\[IM Output\]](thin_edge-corner.gif)](thin_edge-corner.gif)
@@ -2637,8 +2647,8 @@ However unlike previous skeletons this requires the use of 3 rotated kernels (12
 [![\[IM Output\]](kernel_skeleton3.gif)](kernel_skeleton3.gif)
 
 ~~~
-      convert man.gif -channel RG \
-              -morphology Thinning:-1 Skeleton:3   thin_skeleton3.gif
+convert man.gif -channel RG \
+      -morphology Thinning:-1 Skeleton:3   thin_skeleton3.gif
 ~~~
 
 [![\[IM Output\]](thin_skeleton3.gif)](thin_skeleton3.gif)
@@ -2716,9 +2726,9 @@ As it is applied across the whole image, no '*iteration*' argument is needed, as
 Here is an example of using the '`Distance`' method, on our 'man' shape.
 
 ~~~
-      convert man.gif -threshold 50% \
-              -morphology Distance Euclidean:4 \
-              +depth  distance.png
+convert man.gif -threshold 50% \
+                -morphology Distance Euclidean:4 \
+                +depth  distance.png
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -2755,7 +2765,7 @@ Exactly how many units will be assigned is given by the [Distance Kernel](#dista
 So lets look at the largest color value that was set in the above image.
 
 ~~~
-      identify -verbose distance.png | grep max:
+identify -verbose distance.png | grep max:
 ~~~
 
 [![\[IM Text\]](distance_max.txt.gif)](distance_max.txt)
@@ -2767,7 +2777,7 @@ Lets use the mathematical "`-auto-level`" to adjust the resulting color values s
 This way we can actually see the full effect of the 'distance gradient' generated.
 
 ~~~
-      convert distance.png -auto-level  distance_man.gif
+convert distance.png -auto-level  distance_man.gif
 ~~~
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -2783,8 +2793,8 @@ Generate a gradient across the given shape defining how far each pixel is from t
 Another way of making the resulting 'distance' image brighter is to actually use a larger distance kernel '*scale*' value, for example a value of 3000 units (Q8 users can probably use a value of 20).
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance Euclidean:4,3000     distance_scaled.gif
+convert man.gif -threshold 50% +depth \
+                -morphology Distance Euclidean:4,3000     distance_scaled.gif
 ~~~
 
 [![\[IM Output\]](distance_scaled.gif)](distance_scaled.gif)
@@ -2795,8 +2805,8 @@ As we already know the 'distance of the peak, we can calculate that maximum peak
 You can also use a percentage scaling factor, for example use a 8% color range value for each pixel distance from the edge.
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance Euclidean:4,8%    distance_scale_percent.gif
+convert man.gif -threshold 50% +depth \
+        -morphology Distance Euclidean:4,8%    distance_scale_percent.gif
 ~~~
 
 [![\[IM Output\]](distance_scale_percent.gif)](distance_scale_percent.gif)
@@ -2811,8 +2821,8 @@ As we already know out shape as a maximum distance from edge of 16.16.
 least request a limit of 18 pixel.
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance Euclidean:4,'18!'   distance_range.gif
+convert man.gif -threshold 50% +depth \
+       -morphology Distance Euclidean:4,'18!'   distance_range.gif
 ~~~
 
 [![\[IM Output\]](distance_range.gif)](distance_range.gif)
@@ -2833,10 +2843,10 @@ One solution to this is to remove that hole, by using '`Close`', so as to make t
 For example...
 
 ~~~
-      convert man.gif -morphology Close Diamond  man_clean.gif
+convert man.gif -morphology Close Diamond  man_clean.gif
 
-      convert man_clean.gif   -morphology Distance Euclidean \
-                                        -auto-level   distance_clean.gif
+convert man_clean.gif   -morphology Distance Euclidean \
+       -auto-level   distance_clean.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -2852,12 +2862,12 @@ The result is that any holes have been closed, but the outside boundary of the i
 For example..
 
 ~~~
-      convert man.gif -gamma 0,1,1 -bordercolor black -border 1x1 \
-              -fill red -floodfill +0+0 black -shave 1x1 \
-              -channel R -separate +channel -negate  man_floodfill.gif
+convert man.gif -gamma 0,1,1 -bordercolor black -border 1x1 \
+       -fill red -floodfill +0+0 black -shave 1x1 \
+       -channel R -separate +channel -negate  man_floodfill.gif
 
-      convert man_floodfill.gif    -morphology Distance Euclidean \
-                                        -auto-level   distance_floodfill.gif
+convert man_floodfill.gif    -morphology Distance Euclidean \
+       -auto-level   distance_floodfill.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -2872,8 +2882,8 @@ The kernel given is very special, as it is used to define the actual distance me
 For example here the [Show Kernel](#showkernel) output of one of the built-in 'Distance Kernels'.
 
 ~~~
-      convert xc: -define showkernel=1 -precision 3 \
-              -morphology Distance:0 Chebyshev:3     null:
+convert xc: -define showkernel=1 -precision 3 \
+       -morphology Distance:0 Chebyshev:3     null:
 ~~~
 
 
@@ -2890,7 +2900,7 @@ The result is that 'white' pixels are made darker the closer they are to an edge
 All the provided built-in Distance kernels can take two optional *k\_arguments*...
 
 ~~~
-         {distance_kernel}[:{radius}[,{scale}[%][!]]]
+  {distance_kernel}[:{radius}[,{scale}[%][!]]]
 ~~~
 
 The first argument like all the [Shape Kernels](#kernels) is the kernels *radius* which defines how big to make the generated kernel.
@@ -2943,8 +2953,8 @@ This was also the kernel that was used in the previous examples above.
 Here is the actual kernel it generates...
 
 ~~~
-      convert xc: -define showkernel=1  -precision 4 \
-              -morphology Distance:0 Chebyshev       null:
+convert xc: -define showkernel=1  -precision 4 \
+        -morphology Distance:0 Chebyshev       null:
 ~~~
 
 [![\[IM Text\]](k_chebyshev.txt.gif)](k_chebyshev.txt)
@@ -2959,15 +2969,15 @@ Lets generate a 'distance gradient' using this kernel 'metric'.
 However so we can see what is going on lets use a slower '`Iterative Distance`' morphology method using a infinite iteration count.
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -verbose  -morphology IterativeDistance:-1 Chebyshev  +verbose \
-              chebyshev_gradient.png
+convert man.gif -threshold 50% +depth \
+        -verbose  -morphology IterativeDistance:-1 Chebyshev  +verbose \
+        chebyshev_gradient.png
 
-      identify -format 'Maximum Distance = %[max]' chebyshev_gradient.png
+identify -format 'Maximum Distance = %[max]' chebyshev_gradient.png
 
-      convert chebyshev_gradient.png -auto-level chebyshev_gradient.gif
+convert chebyshev_gradient.png -auto-level chebyshev_gradient.gif
 
-      rm chebyshev_gradient.png
+rm chebyshev_gradient.png
 ~~~
 
 [![\[IM Output\]](chebyshev_gradient.gif)](chebyshev_gradient.gif)
@@ -2999,8 +3009,8 @@ This is recommended if you are using a [Q8 version of ImageMagick](../basics/#qu
 Here is an magnification of the gradient between the shapes 'legs' which highlights the features of the distance gradient generated.
 
 ~~~
-      convert chebyshev_gradient.gif -crop 25x20+39+69 +repage \
-              -scale 500% chebyshev_magnify.gif
+convert chebyshev_gradient.gif -crop 25x20+39+69 +repage \
+        -scale 500% chebyshev_magnify.gif
 ~~~
 
 [![\[IM Output\]](chebyshev_magnify.gif)](chebyshev_magnify.gif)
@@ -3024,8 +3034,8 @@ You can find out more on [Wikipedia, Manhattan Distance](http://en.wikipedia.org
 Here is the actual kernel it generates...
 
 ~~~
-      convert xc: -define showkernel=1  -precision 4 \
-              -morphology Distance:0 Manhattan     null:
+convert xc: -define showkernel=1  -precision 4 \
+        -morphology Distance:0 Manhattan     null:
 ~~~
 
 [![\[IM Text\]](k_manhattan.txt.gif)](k_manhattan.txt)
@@ -3037,14 +3047,14 @@ As a result of this, diagonals tend to be larger than expected, as such the fina
 Lets again get extract the maximum distance and the 'distance gradient' image using this 'metric'.
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance Manhattan      manhattan_gradient.png
+convert man.gif -threshold 50% +depth \
+        -morphology Distance Manhattan      manhattan_gradient.png
 
-      identify -format 'Maximum Distance = %[max]' manhattan_gradient.png
+identify -format 'Maximum Distance = %[max]' manhattan_gradient.png
 
-      convert manhattan_gradient.png -auto-level manhattan_gradient.gif
+convert manhattan_gradient.png -auto-level manhattan_gradient.gif
 
-      rm manhattan_gradient.png
+rm manhattan_gradient.png
 ~~~
 
 [![\[IM Output\]](manhattan_gradient.gif)](manhattan_gradient.gif)
@@ -3061,8 +3071,8 @@ This distance kernel is also a 'integer' kernel and as such you can set the *sca
 Here is an magnification of the gradient.
 
 ~~~
-      convert manhattan_gradient.gif -crop 25x20+39+69 +repage \
-              -scale 500% manhattan_magnify.gif
+convert manhattan_gradient.gif -crop 25x20+39+69 +repage \
+        -scale 500% manhattan_magnify.gif
 ~~~
 
 [![\[IM Output\]](manhattan_magnify.gif)](manhattan_magnify.gif)
@@ -3084,8 +3094,8 @@ The distance shape is also a mixture of the two kernels and as such produces a t
 Here is the actual kernel it generates...
 
 ~~~
-      convert xc: -define showkernel=1  -precision 4 \
-              -morphology Distance:0 Octagonal     null:
+convert xc: -define showkernel=1  -precision 4 \
+        -morphology Distance:0 Octagonal     null:
 ~~~
 
 [![\[IM Text\]](k_octagonal.txt.gif)](k_octagonal.txt)
@@ -3097,14 +3107,14 @@ The overall distance will generally be very slightly smaller than a true distanc
 Here we again calculate the maximum distance...
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance Octagonal  octagonal_gradient.png
+convert man.gif -threshold 50% +depth \
+        -morphology Distance Octagonal  octagonal_gradient.png
 
-      identify -format 'Maximum Distance = %[max]' octagonal_gradient.png
+identify -format 'Maximum Distance = %[max]' octagonal_gradient.png
 
-      convert octagonal_gradient.png -auto-level octagonal_gradient.gif
+convert octagonal_gradient.png -auto-level octagonal_gradient.gif
 
-      rm octagonal_gradient.png
+rm octagonal_gradient.png
 ~~~
 
 [![\[IM Output\]](octagonal_gradient.gif)](octagonal_gradient.gif)
@@ -3117,8 +3127,8 @@ However in general it should be reasonably close to the real actual distance to 
 Here is an magnification of the gradient.
 
 ~~~
-      convert octagonal_gradient.gif -crop 25x20+39+69 +repage \
-              -scale 500% octagonal_magnify.gif
+convert octagonal_gradient.gif -crop 25x20+39+69 +repage \
+        -scale 500% octagonal_magnify.gif
 ~~~
 
 [![\[IM Output\]](octagonal_magnify.gif)](octagonal_magnify.gif)
@@ -3129,8 +3139,8 @@ You can also see that the diagonal was generated using an interleaving of thick 
 #### Fractional Octogon Distance Kernel
 
 *A named distance kernel has not been provided.
-
 But it fits into the distance kernel sequence we are studing nicely at this point.*
+
 You can generate another type of integer distance kernel using a octagonal shape.
 However the integer distance in this case uses a unit value of 2 per pixel, so really the distance values generated needs to be halved, generating a frational value from the small integers that are generated.
 This the name "Fractional Octogon".
@@ -3159,15 +3169,15 @@ If you want to scaling this the same as previous IM distance kernels you can use
 Here is an example:
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance '3:3,2,3 2,0,2 3,2,3' \
-              fractional_gradient.png
+convert man.gif -threshold 50% +depth \
+        -morphology Distance '3:3,2,3 2,0,2 3,2,3' \
+        fractional_gradient.png
 
-      identify -format 'Maximum Distance = %[max]' fractional_gradient.png
+identify -format 'Maximum Distance = %[max]' fractional_gradient.png
 
-      convert fractional_gradient.png -auto-level fractional_gradient.gif
+convert fractional_gradient.png -auto-level fractional_gradient.gif
 
-      rm fractional_gradient.png
+rm fractional_gradient.png
 ~~~
 
 [![\[IM Output\]](fractional_gradient.gif)](fractional_gradient.gif)
@@ -3182,8 +3192,8 @@ This fractional aspect of distance results is why most kernels are defined using
 Here is an magnification of the gradient.
 
 ~~~
-      convert fractional_gradient.gif -crop 25x20+39+69 +repage \
-              -scale 500% fractional_magnify.gif
+convert fractional_gradient.gif -crop 25x20+39+69 +repage \
+        -scale 500% fractional_magnify.gif
 ~~~
 
 [![\[IM Output\]](fractional_magnify.gif)](fractional_magnify.gif)
@@ -3193,8 +3203,8 @@ But it is hard to see the pixels that have common distance values.
 To see the shape more clearly, I have taken the above image and colored one set of pixels with the same color value, red.
 
 ~~~
-      convert fractional_magnify.gif -fill red -opaque gray53 \
-              fractional_magnify_shape.gif
+convert fractional_magnify.gif -fill red -opaque gray53 \
+        fractional_magnify_shape.gif
 ~~~
 
 [![\[IM Output\]](fractional_magnify_shape.gif)](fractional_magnify_shape.gif)
@@ -3221,7 +3231,6 @@ This may or may not be the best idea, but it is the most mathematically logical 
 #### Chamfer Distance Kernels
 
 *A named distance kernel has not been provided.
-
 But it fits into the distance kernel sequence we are studing nicely at this point.*
 
 A 'Chamfer' Distance kernel (not yet implemented), is defined using just the numbers (typically integers) that is to be used to fill in the distance matrix.
@@ -3304,8 +3313,8 @@ To allow this to work the distances are scaled by a value of 100 (as in all the 
 Here is the default kernel it generates...
 
 ~~~
-      convert xc: -define showkernel=1  -precision 4 \
-              -morphology Distance:0 Euclidean    null:
+convert xc: -define showkernel=1  -precision 4 \
+        -morphology Distance:0 Euclidean    null:
 ~~~
 
 [![\[IM Text\]](k_knight.txt.gif)](k_knight.txt)
@@ -3317,14 +3326,14 @@ That is the distances are somewhat like a '*Knight's Move*' in the game of chess
 Here is the maximum distance and the 'distance gradient' image that was created using the default '`Euclidean`' or 'Knight Move' kernel.
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance Euclidean    knight_gradient.png
+convert man.gif -threshold 50% +depth \
+        -morphology Distance Euclidean    knight_gradient.png
 
-      identify -format 'Maximum Distance = %[max]' knight_gradient.png
+identify -format 'Maximum Distance = %[max]' knight_gradient.png
 
-      convert knight_gradient.png -auto-level knight_gradient.gif
+convert knight_gradient.png -auto-level knight_gradient.gif
 
-      rm knight_gradient.png
+rm knight_gradient.png
 ~~~
 
 [![\[IM Output\]](knight_gradient.gif)](knight_gradient.gif)
@@ -3341,8 +3350,8 @@ That is not quite a perfect Euclidean distance, but it is the closest to it you 
 Here is an magnification of the gradient between the shapes 'legs'.
 
 ~~~
-      convert knight_gradient.gif -crop 25x20+39+69 +repage \
-              -scale 500% knight_magnify.gif
+convert knight_gradient.gif -crop 25x20+39+69 +repage \
+        -scale 500% knight_magnify.gif
 ~~~
 
 [![\[IM Output\]](knight_magnify.gif)](knight_magnify.gif)
@@ -3367,8 +3376,8 @@ See [Distance with an Anti-Aliased Shape](#distance_anti-alias) below for some e
 Here is a true '`Euclidean`' kernel using the recommended radius of 4, which generates a larger 9×9 kernel...
 
 ~~~
-      convert xc: -define showkernel=1  -precision 4 \
-              -morphology Distance:0 Euclidean:4     null:
+convert xc: -define showkernel=1  -precision 4 \
+        -morphology Distance:0 Euclidean:4     null:
 ~~~
 
 [![\[IM Text\]](k_euclidean.txt.gif)](k_euclidean.txt)
@@ -3380,14 +3389,14 @@ Still it is a logical choice for more accuracy.
 Here is its application...
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance Euclidean:4     euclidean_gradient.png
+convert man.gif -threshold 50% +depth \
+        -morphology Distance Euclidean:4     euclidean_gradient.png
 
-      identify -format 'Maximum Distance = %[max]' euclidean_gradient.png
+identify -format 'Maximum Distance = %[max]' euclidean_gradient.png
 
-      convert euclidean_gradient.png -auto-level euclidean_gradient.gif
+convert euclidean_gradient.png -auto-level euclidean_gradient.gif
 
-      rm euclidean_gradient.png
+rm euclidean_gradient.png
 ~~~
 
 [![\[IM Output\]](euclidean_gradient.gif)](euclidean_gradient.gif)
@@ -3400,8 +3409,8 @@ It also makes in unlikely for you to get more than one 'brightest' pixel in the 
 Here is an magnification of the gradient between the shapes 'legs'.
 
 ~~~
-      convert euclidean_gradient.gif -crop 25x20+39+69 +repage \
-              -scale 500% euclidean_magnify.gif
+convert euclidean_gradient.gif -crop 25x20+39+69 +repage \
+        -scale 500% euclidean_magnify.gif
 ~~~
 
 [![\[IM Output\]](euclidean_magnify.gif)](euclidean_magnify.gif)
@@ -3428,13 +3437,13 @@ This clearly shows the very different gradients generated by each of each of the
 Here is another comparision this time getting the distance away from a single black pixel close to the lower left corner, without any magnification of the pixels.
 
 ~~~
-      convert -size 100x100 xc: -draw 'point 20,80'  distance_start.png
+convert -size 100x100 xc: -draw 'point 20,80'  distance_start.png
 
-      for kernel in chebyshev manhattan octagonal euclidean euclidean:2 euclidean:4
-      do
-        convert distance_start.png    -morphology Distance $kernel \
-                -auto-level  point_$kernel.png
-      done
+for kernel in chebyshev manhattan octagonal euclidean euclidean:2 euclidean:4
+do
+  convert distance_start.png    -morphology Distance $kernel \
+          -auto-level  point_$kernel.png
+done
 ~~~
 
 [![\[IM Output\]](point_chebyshev.png)](point_chebyshev.png      "Chebyshev  (Chessboard)")
@@ -3468,9 +3477,9 @@ As long as you stick to the rules, of using a zero value at the 'origin', and an
 For example here I apply a very small [User Defined Kernel](#user) that simply says make any pixel to the right larger in value.
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance  '2x1+0+0: 0,100 ' \
-              -auto-level    distance_linear.gif
+convert man.gif -threshold 50% +depth \
+        -morphology Distance  '2x1+0+0: 0,100 ' \
+        -auto-level    distance_linear.gif
 ~~~
 
 [![\[IM Output\]](distance_linear.gif)](distance_linear.gif)
@@ -3480,9 +3489,9 @@ Notice the effect of the gap between the legs, which 'resets' the slowly increas
 And here I create a distance gradient from just the two sides, but with different scales for each side!
 
 ~~~
-      convert man.gif -threshold 50% +depth \
-              -morphology Distance  '3x1: 50,0,100 ' \
-              -auto-level    distance_sides.gif
+convert man.gif -threshold 50% +depth \
+        -morphology Distance  '3x1: 50,0,100 ' \
+        -auto-level    distance_sides.gif
 ~~~
 
 [![\[IM Output\]](distance_sides.gif)](distance_sides.gif)
@@ -3499,14 +3508,14 @@ The Distance method works very well.
 But the best test of its functionality is to apply the distance function to a circle, and then [Shade](../transform/#shade) it so as to highlight even the smallest error that may be generated by the function.
 
 ~~~
-      convert -size 129x129 xc: -draw 'circle 64,64 60,4' \
-              -negate  circle_shape.png
+convert -size 129x129 xc: -draw 'circle 64,64 60,4' \
+        -negate  circle_shape.png
 
-      convert circle_shape.png  -morphology Distance Euclidean:4 \
-              -auto-level cone_distance.png
+convert circle_shape.png  -morphology Distance Euclidean:4 \
+        -auto-level cone_distance.png
 
-      convert cone_distance.png -shade 135x30 -auto-level \
-              +level 10,90%  cone_distance_shade.png
+convert cone_distance.png -shade 135x30 -auto-level \
+        +level 10,90%  cone_distance_shade.png
 ~~~
 
 [![\[IM Output\]](circle_shape.png)](circle_shape.png)
@@ -3528,9 +3537,9 @@ In fact any 'grey' pixel is generally being thought of as a whole pixel rather t
 What we need to do is somehow include those grey edge values in the result, and this is done using a pre-processing step before the distance method is applied.
 
 ~~~
-      convert circle_shape.png  -gamma 2 +level 0,100 -white-threshold 99 \
-              -morphology Distance Euclidean:4   -auto-level \
-              -shade 135x30 -auto-level +level 10,90%   cone_antialiased.png
+convert circle_shape.png  -gamma 2 +level 0,100 -white-threshold 99 \
+        -morphology Distance Euclidean:4   -auto-level \
+        -shade 135x30 -auto-level +level 10,90%   cone_antialiased.png
 ~~~
 
 [![\[IM Output\]](cone_antialiased.png)](cone_antialiased.png)
@@ -3547,9 +3556,9 @@ This is typically not a problem in most situations, but you can reduce, or possi
 However this does take longer to generate.
 
 ~~~
-      convert circle_shape.png  -gamma 2 +level 0,100 -white-threshold 99 \
-              -morphology Distance Euclidean:7   -auto-level \
-              -shade 135x30 -auto-level +level 10,90%   cone_improved.png
+convert circle_shape.png  -gamma 2 +level 0,100 -white-threshold 99 \
+        -morphology Distance Euclidean:7   -auto-level \
+        -shade 135x30 -auto-level +level 10,90%   cone_improved.png
 ~~~
 
 [![\[IM Output\]](cone_improved.png)](cone_improved.png)
@@ -3558,13 +3567,13 @@ The result is an almost perfect distance function for an anti-aliased or smooth 
 Here is another example, this time using the two [User Defined Distance Kernels](#distance_user) from the previous section.
 
 ~~~
-       convert circle_shape.png -gamma 2 +level 0,100 -white-threshold 99 \
-               -morphology Distance  '2x1+0+0:0,100'  -auto-level \
-               circle_gradient.png
+ convert circle_shape.png -gamma 2 +level 0,100 -white-threshold 99 \
+         -morphology Distance  '2x1+0+0:0,100'  -auto-level \
+         circle_gradient.png
 
-       convert circle_shape.png -gamma 2 +level 0,100 -white-threshold 99 \
-               -morphology Distance  '3x1:50,0,100'  -auto-level \
-               circle_ridge.png
+ convert circle_shape.png -gamma 2 +level 0,100 -white-threshold 99 \
+         -morphology Distance  '3x1:50,0,100'  -auto-level \
+         circle_ridge.png
 ~~~
 
 [![\[IM Output\]](circle_gradient.png)](circle_gradient.png)
@@ -3580,19 +3589,19 @@ The above technique can be applied to the Alpha Channel of a shape so as to prop
 For example here is a 10 pixel 'smoothed' feather around an shaped object.
 
 ~~~
-       convert rose_orig.png \
-               \( +clone -fill black -colorize 100% \
-                  -fill white -draw 'circle 114,75 110,2' \
-               \) -alpha off -compose CopyOpacity -composite \
-               -trim +repage rose_shape.png
+ convert rose_orig.png \
+         \( +clone -fill black -colorize 100% \
+            -fill white -draw 'circle 114,75 110,2' \
+         \) -alpha off -compose CopyOpacity -composite \
+         -trim +repage rose_shape.png
 
-       convert rose_shape.png \
-               \( +clone -alpha extract -virtual-pixel black \
-                  -gamma 2 +level 0,100 -white-threshold 99 \
-                  -morphology Distance Euclidean:4,10! \
-                  -sigmoidal-contrast 3,0% \
-               \) -compose CopyOpacity -composite \
-               rose_feathered.png
+ convert rose_shape.png \
+         \( +clone -alpha extract -virtual-pixel black \
+            -gamma 2 +level 0,100 -white-threshold 99 \
+            -morphology Distance Euclidean:4,10! \
+            -sigmoidal-contrast 3,0% \
+         \) -compose CopyOpacity -composite \
+         rose_feathered.png
 ~~~
 
 [![\[IM Output\]](rose_shape.png)](rose_shape.png)
@@ -3621,8 +3630,8 @@ If the shape is a bitmap, such as from a GIF image, or a [Image Masks](../maskin
 For example...
 
 ~~~
-      convert figure.gif -channel A -virtual-pixel transparent \
-              -morphology Distance Euclidean:4,3!  boolean_feathered.png
+convert figure.gif -channel A -virtual-pixel transparent \
+        -morphology Distance Euclidean:4,3!  boolean_feathered.png
 ~~~
 
 [![\[IM Output\]](figure.gif)](figure.gif)
@@ -3659,8 +3668,8 @@ It will simply fill any orthogonal ([Diamond Kernel](#diamond) neighbourhood) th
 For example, we can select a single point in one of number of disks, and conditionally dilate (flood fill) until that disk has been completely recolored, seperating it from the other shapes.
 
 ~~~
-      convert disks.gif -fill red -draw 'color 60,60 floodfill' \
-              cond_dilate_draw.gif
+convert disks.gif -fill red -draw 'color 60,60 floodfill' \
+        cond_dilate_draw.gif
 ~~~
 
 [![\[IM Output\]](disks.gif)](disks.gif)
@@ -3670,10 +3679,10 @@ For example, we can select a single point in one of number of disks, and conditi
 Similarly you can use the [Floodfill Operator](../color_basics/#floodfill) to do the same thing but only if the start point also matches a user provided 'conditional color'.
 
 ~~~
-      convert disks.gif \
-              -fill green -floodfill +10+40 white \
-              -fill blue  -floodfill +30+50 white \
-              cond_dilate_floodfill.gif
+convert disks.gif \
+        -fill green -floodfill +10+40 white \
+        -fill blue  -floodfill +30+50 white \
+        cond_dilate_floodfill.gif
 ~~~
 
 [![\[IM Output\]](cond_dilate_floodfill.gif)](cond_dilate_floodfill.gif)
@@ -3689,12 +3698,12 @@ To limit its effects we need to provide not only the 'starting points' but also 
 To do this we create a [Write Protect Mask](../masking/#write_mask) (what parts of the image which are write protected).
 
 ~~~
-      convert disks.gif disks.gif -morphology Erode:7 Diamond disks_big_center.gif
+convert disks.gif disks.gif -morphology Erode:7 Diamond disks_big_center.gif
 
-      convert disks.gif -negate  disks_mask.gif
+convert disks.gif -negate  disks_mask.gif
 
-      convert disks_big_center.gif  -mask disks_mask.gif \
-              -morphology Dilate:15 Diamond    +mask disks_big_found.gif
+convert disks_big_center.gif  -mask disks_mask.gif \
+        -morphology Dilate:15 Diamond    +mask disks_big_found.gif
 ~~~
 
 [![\[IM Output\]](disks.gif)](disks.gif)
@@ -3733,14 +3742,14 @@ Here is another example of the versitility of using a [Write Protect Mask](../ma
 Find the disks will be hit by a diagonal line across the image.
 
 ~~~
-      convert -size 80x80 xc:black -fill white \
-                            -draw 'line 0,0 79,79'   disks_line.gif
+convert -size 80x80 xc:black -fill white \
+                      -draw 'line 0,0 79,79'   disks_line.gif
 
-      convert disks_line.gif disks.gif \
-              -compose Multiply  -composite    disks_line_find.gif
+convert disks_line.gif disks.gif \
+        -compose Multiply  -composite    disks_line_find.gif
 
-      convert disks_line_find.gif  -mask disks_mask.gif \
-              -morphology Dilate:15 Diamond    +mask disks_line_found.gif
+convert disks_line_find.gif  -mask disks_mask.gif \
+        -morphology Dilate:15 Diamond    +mask disks_line_found.gif
 ~~~
 
 [![\[IM Output\]](disks.gif)](disks.gif)
@@ -3769,17 +3778,17 @@ But it can also be used to find how distant each point within the object is from
 For example here I discover how far each point is from a single 'seed' point (as the crow flys)...
 
 ~~~
-      convert -size 100x100 xc: -draw 'point 20,80'  distance_start.png
+convert -size 100x100 xc: -draw 'point 20,80'  distance_start.png
 
-      convert distance_start.png -morphology Distance Euclidean \
-              -auto-level  distance_point.png
+convert distance_start.png -morphology Distance Euclidean \
+        -auto-level  distance_point.png
 
-      convert -font Casual -pointsize 140 label:D \
-              -trim +repage -gravity center -extent 100x100 \
-              -threshold 20% distance_bounds.png
+convert -font Casual -pointsize 140 label:D \
+        -trim +repage -gravity center -extent 100x100 \
+        -threshold 20% distance_bounds.png
 
-      convert distance_point.png \( distance_bounds.png -negate \)  \
-              -compose multiply -composite  -auto-level distance_direct.png
+convert distance_point.png \( distance_bounds.png -negate \)  \
+        -compose multiply -composite  -auto-level distance_direct.png
 ~~~
 
 [![\[IM Output\]](distance_start.png)](distance_start.png)
@@ -3803,10 +3812,10 @@ That is you want the distance to be 'constrained' by the object itself, and foll
 To do this we can set up a [Write Protect Mask](../maskng/#write_mask) so that as the distance gradient is calculated it does not cross (write to) the 'no go' areas or background of the image.
 
 ~~~
-      convert distance_start.png  -mask distance_bounds.png \
-              -morphology IterativeDistance:150 Euclidean \
-              +mask -fill black -opaque white -auto-level \
-              distance_constrained.png
+convert distance_start.png  -mask distance_bounds.png \
+        -morphology IterativeDistance:150 Euclidean \
+        +mask -fill black -opaque white -auto-level \
+        distance_constrained.png
 ~~~
 
 [![\[IM Output\]](distance_start.png)](distance_start.png)
@@ -3908,11 +3917,11 @@ One quick and dirty way to generate a raw 'morphological skeleton' from an image
 For example, here is a skeleton of the shape after it is been [Opened](#open) a little to smooth its outline a bit.
 
 ~~~
-      convert man.gif \
-              -morphology Open  Diamond \
-              -morphology Distance  Chebyshev \
-              -morphology TopHat Diamond \
-              -auto-level    chebyshev_dist_skel.gif
+convert man.gif \
+        -morphology Open  Diamond \
+        -morphology Distance  Chebyshev \
+        -morphology TopHat Diamond \
+        -auto-level    chebyshev_dist_skel.gif
 ~~~
 
 [![\[IM Output\]](chebyshev_dist_skel.gif)](chebyshev_dist_skel.gif)
@@ -3927,11 +3936,11 @@ Without the '`Open`' the result is very bad, due to the shape having such a roug
 Using a Euclidean distance measure produces a better skeleton of the shape.
 
 ~~~
-      convert man.gif \
-              -morphology Open  Diamond \
-              -morphology Distance Euclidean:4 \
-              -morphology TopHat Diamond \
-              -auto-level    euclidean_dist_skel.gif
+convert man.gif \
+        -morphology Open  Diamond \
+        -morphology Distance Euclidean:4 \
+        -morphology TopHat Diamond \
+        -auto-level    euclidean_dist_skel.gif
 ~~~
 
 [![\[IM Output\]](euclidean_dist_skel.gif)](euclidean_dist_skel.gif)
@@ -3941,8 +3950,8 @@ But as you can see you also get more noise and the skeleton while more complete 
 Here is an enlargement of the 'head' of the skeleton, showing how it remains disjointed.
 
 ~~~
-      convert euclidean_dist_skel.gif -crop 35x28+30+13 +repage \
-              -scale 400%   euclidean_dist_skel_mag.gif
+convert euclidean_dist_skel.gif -crop 35x28+30+13 +repage \
+        -scale 400%   euclidean_dist_skel_mag.gif
 ~~~
 
 [![\[IM Output\]](euclidean_dist_skel_mag.gif)](euclidean_dist_skel_mag.gif)
@@ -3958,13 +3967,13 @@ Note that it assumes black on white for its processing due to it involvement wit
 For example...
 
 ~~~
-      convert man.gif -negate man_at_prep.png
+convert man.gif -negate man_at_prep.png
 
-      autotrace -centerline -output-format svg man_at_prep.png |\
-          convert SVG:-  man_centerline.gif
+autotrace -centerline -output-format svg man_at_prep.png |\
+    convert SVG:-  man_centerline.gif
 
-      convert man.gif man_centerline.gif \
-              -compose multiply -composite man_at_skeleton.gif
+convert man.gif man_centerline.gif \
+        -compose multiply -composite man_at_skeleton.gif
 ~~~
 
 [![\[IM Output\]](man.gif)](man.gif)
@@ -3983,9 +3992,9 @@ For other example of using "`AutoTrace`", see [SVG Output Handling](../draw/#svg
 
 ----
 
-Created: 4 January 2010  
- Updated: 15 Feburary 2013  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Major Input: [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink.net&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
+Created: 4 January 2010\
+ Updated: 15 Feburary 2013\
+ Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;\
+ Major Input: [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink.net&gt;\
+ Examples Generated with: ![\[version image\]](version.gif)\
  URL: `http://www.imagemagick.org/Usage/morphology/`
