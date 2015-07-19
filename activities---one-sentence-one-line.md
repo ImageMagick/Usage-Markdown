@@ -57,8 +57,8 @@ Work in progress|Mark|./compare/index.md
 ?|?|./distorts/index.md
 DONE|Eric|./draw/index.md
 ?|?|./files/index.md
-?|?|./filter/index.md
-?|?|./filter/nicolas/index.md
+Taken|Eric|./filter/index.md
+Taken|Eric|./filter/nicolas/index.md
 DONE|Eric|./fonts/index.md
 DONE|Eric|./formats/index.md
 DONE|Eric|./fourier/fft_math/index.md
