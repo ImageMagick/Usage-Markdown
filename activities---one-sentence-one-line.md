@@ -59,7 +59,7 @@ DONE|Eric|./draw/index.md
 ?|?|./files/index.md
 ?|?|./filter/index.md
 ?|?|./filter/nicolas/index.md
-Taken|Eric|./fonts/index.md
+DONE|Eric|./fonts/index.md
 DONE|Eric|./formats/index.md
 DONE|Eric|./fourier/fft_math/index.md
 DONE|Eric|./fourier/index.md
