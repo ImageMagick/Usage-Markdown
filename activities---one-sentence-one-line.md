@@ -12,10 +12,10 @@
  To get a nicer table view within Markdown, use:
 
    pandoc \
-    -o activities---one-sentence-one-line.ghmd
+    -o activities---one-sentence-one-line.ghmd \
     -f markdown \
     -t markdown_github \
-       activities---one-sentence-one-line.md \
+       activities---one-sentence-one-line.md
 
 -->
 
@@ -70,7 +70,7 @@ Taken, work-in-progress|Eric|./formats/index.md
 ?|?|./masking/index.md
 ?|?|./misc/index.md
 Complete?|Mark|./montage/index.md
-Taken, work-in-progress|Kurt|./morphology/index.md
+Done|Kurt|./morphology/index.md
 Taken, work-in-progress|Kurt|./photos/index.md
 Taken, work-in-progress|Kurt|./quantize/index.md
 Taken, work-in-progress|Kurt|./resize/index.md
