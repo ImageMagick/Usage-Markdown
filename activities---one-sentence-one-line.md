@@ -22,7 +22,7 @@
 
 Status|Who|File
 :-:|:-|:-
-Work in progress|Mark|./advanced/index.md
+DONE|Mark|./advanced/index.md
 ?|?|./anim_basics/index.md
 ?|?|./anim_mods/index.md
 ?|?|./anim_opt/index.md
@@ -48,7 +48,7 @@ Work in progress|Mark|./advanced/index.md
 ?|?|./canvas/index.md
 ?|?|./color_basics/index.md
 ?|?|./color_mods/index.md
-Work in progress|Mark|./compare/index.md
+DONE|Mark|./compare/index.md
 ?|?|./compose/index.md
 ?|?|./compose/tables/index.md
 ?|?|./convolve/index.md
@@ -66,10 +66,10 @@ DONE|Eric|./fourier/index.md
 ?|?|./index.md
 ?|?|./layers/index.md
 ?|?|./lens/index.md
-?|?|./mapping/index.md
-?|?|./masking/index.md
-?|?|./misc/index.md
-Work in progress|Mark|./montage/index.md
+Work in progress|Mark|./mapping/index.md
+Work in progress|Mark|./masking/index.md
+Work in progress|Mark|./misc/index.md
+DONE|Mark|./montage/index.md
 DONE|Kurt|./morphology/index.md
 DONE|Kurt|./photos/index.md
 Taken, work-in-progress|Kurt|./quantize/index.md
