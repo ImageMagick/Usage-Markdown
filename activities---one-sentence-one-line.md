@@ -56,7 +56,7 @@ DONE|Mark|./compare/index.md
 ?|?|./distorts/affine/index.md
 ?|?|./distorts/index.md
 DONE|Eric|./draw/index.md
-Taken|Eric|./files/index.md
+DONE|Eric|./files/index.md
 DONE|Eric|./filter/index.md
 DONE|Eric|./filter/nicolas/index.md
 DONE|Eric|./fonts/index.md
