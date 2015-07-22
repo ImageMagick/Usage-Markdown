@@ -54,7 +54,7 @@ DONE|Mark|./compare/index.md
 ?|?|./convolve/index.md
 ?|?|./crop/index.md
 ?|?|./distorts/affine/index.md
-Taken|Eric|./distorts/index.md <<<--- and this is the largest one
+DONE|Eric|./distorts/index.md
 DONE|Eric|./draw/index.md
 DONE|Eric|./files/index.md
 DONE|Eric|./filter/index.md
