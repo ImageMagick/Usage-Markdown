@@ -1500,7 +1500,7 @@ I will annotate...
            and a vertical circular arc of 7 pixels (about 1/8 the original width)
            giving a rough 30 degree isometric view of cylinder
 
-    Result...  a rose wrapped correctly into a cylindar
+    Result...  a rose wrapped correctly into a cylinder
 
 This displacement distortion method has been built into the "`cylinderize`" script by Fred Weinhaus.
 
