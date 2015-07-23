@@ -531,7 +531,7 @@ The "`-distort`" operator takes two arguments, one of the distortion *methods* a
 convert ... -distort  {method}  "{list_of_floating_point_values}" ...
 ~~~
 
-The number floating point values given is however highly dependant on the distortion method being used, and their meanings also depend not only on the *method* chosen, but can also depend on the exact number of control points or attributes needed for a particular method.
+The number floating point values given is however highly dependent on the distortion method being used, and their meanings also depend not only on the *method* chosen, but can also depend on the exact number of control points or attributes needed for a particular method.
 
 This is especially the case for the '`Scale-Rotate-Translate`' (or '`SRT`' for short) distortion, which really combines three separate '`Affine`' distortions into a single distortion.
 
@@ -551,7 +551,7 @@ However this particular 'mode' of operation also goes further and also sets the 
 This way you can later [Layers Merge](../layers/#merge) this image onto another image, at the correct position according to your control points, using the appropriate [Alpha Composition](../compose/) (see [3d Cubes, using Affine Layering](#cube3d) as a basic example.
 
 Also (depending on the distortion method) a "`+distort`" will attempt to take into account any existing [Virtual Canvas Offset](../basics/#page) that may be present in the source image, and use it as part of the distortion process.
-See the notes about the individual disortion methods.
+See the notes about the individual distortion methods.
 
 As such you may need to make judicious use of the "`+repage`" attribute setting operator to clear or adjust that offset *before* using the 'best-fit' "`+distort`" form of the General Distortion Operator.
 You also may need to use it *after* if the virtual canvas and offset is not required.
