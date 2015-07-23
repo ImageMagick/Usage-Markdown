@@ -50,7 +50,7 @@ DONE|Mark|./advanced/index.md
 ?|?|./color_mods/index.md
 DONE|Mark|./compare/index.md
 DONE|Eric|./compose/index.md
-Taken|Eric|./compose/tables/index.md
+DONE|Eric|./compose/tables/index.md
 Taken|Eric|./convolve/index.md
 DONE|Eric|./crop/index.md
 DONE|Eric|./distorts/affine/index.md
