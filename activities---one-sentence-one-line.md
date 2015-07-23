@@ -66,8 +66,8 @@ DONE|Eric|./fourier/index.md
 ?|?|./index.md
 ?|?|./layers/index.md
 ?|?|./lens/index.md
-Work in progress|Mark|./mapping/index.md
-Work in progress|Mark|./masking/index.md
+DONE|Mark|./mapping/index.md
+DONE|Mark|./masking/index.md
 DONE|Mark|./misc/index.md
 DONE|Mark|./montage/index.md
 DONE|Kurt|./morphology/index.md
@@ -79,4 +79,4 @@ Taken, work-in-progress|Kurt|./thumbnails/index.md
 Taken, work-in-progress|Kurt|./transform/index.md
 Taken, work-in-progress|Kurt|./video/index.md
 Taken, work-in-progress|Kurt|./warping/index.md
-Work in progress|Mark|./windows/index.md
+DONE|Mark|./windows/index.md
