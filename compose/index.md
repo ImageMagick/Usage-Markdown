@@ -1430,7 +1430,7 @@ Its formula is:
 
 $$
 \begin{align}
-if \quad Dest <= 0.5 \quad &{then} \quad 2*Src*Dest \\
+if \quad Dest \leq 0.5 \quad &{then} \quad 2*Src*Dest \\
                            &{else} \quad 1-2*(1-Src)*(1-Dest
 \end{align}
 $$
@@ -1540,7 +1540,7 @@ Its formula is:
 
 $$
 \begin{align}
-if \quad Src <= 0.5 \quad &{then} \quad 2*Src*Dest \\
+if \quad Src \leq 0.5 \quad &{then} \quad 2*Src*Dest \\
                           &{else} \quad 1-2*(1-Src)*(1-Dest)
 \end{align}
 $$
@@ -1697,7 +1697,7 @@ Its formula is:
 
 $$
 \begin{align}
-If \quad Src <= 0.5 \quad &{then} \quad 1-(1-Dest)/(2*Src) \\
+If \quad Src \leq 0.5 \quad &{then} \quad 1-(1-Dest)/(2*Src) \\
                           &{else} \quad Dest/(2*(1-Src))
 \end{align}
 $$

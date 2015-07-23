@@ -2,7 +2,8 @@
 
 **Index**
 
-The Affine Projection Matrix is not a simple distortion operator to understand$1\nBut it is very versatile and fast to distort an image using it.
+The Affine Projection Matrix is not a simple distortion operator to understand.
+But it is very versatile and fast to distort an image using it.
 In this section we take a look at how the affine matrix works, both in ImageMagick and all other Image Processors.
 
 WARNING: See the first ![](../../img_www/warning.gif) message below.
