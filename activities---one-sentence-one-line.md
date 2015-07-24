@@ -47,7 +47,7 @@ DONE|Mark|./advanced/index.md
 ?|?|./bugs/trans_bug/index.md
 ?|?|./canvas/index.md
 ?|?|./color_basics/index.md
-?|?|./color_mods/index.md
+DONE|Eric|./color_mods/index.md
 DONE|Mark|./compare/index.md
 DONE|Eric|./compose/index.md
 DONE|Eric|./compose/tables/index.md
