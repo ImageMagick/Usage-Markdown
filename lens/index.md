@@ -12,7 +12,9 @@
 
 [![](../img_www/granitesm_right.gif) Example](#examples)
 [![](../img_www/granitesm_right.gif) Keyboard Example](#keyboard) (by El-Supremo)
+
 When taking photographs, the images generated are actually distorted by both lens effects and spherical perspective effects. If you plane to use photos you will generally need to correct for these effects, and that is what will be looked at in this section.
+
 The majority of section was contributed by Wolfgang Hugemann.
 
 ------------------------------------------------------------------------
@@ -20,21 +22,29 @@ The majority of section was contributed by Wolfgang Hugemann.
 ## Introduction to Lens Correction
 
 Fisheye lenses and low-cost wide-angle lenses (or rather zoom lenses when set to short focal length) typically produce a pronounced barrel distortion. This distortion can however be mostly corrected by applying suitable algorithmic transformations to the digital photograph. One of the most-used lens correction algorithms, introduced by Panorama Tools and used by [PTlens](http://epaperpress.com/ptlens), is also offered by ImageMagick, as [Barrel Correction Distortion Method](../distorts/#barrel).
+
 In this approach to the problem, the distortion is controlled by four transformation parameters `a, b, c, d`, which have to be chosen sensibly in order to correct the distortion produced by a specific lens (or rather a zoom camera when set to a certain focal length). Suitable values for these parameters can hardly be found by trial and error. In the following, we describe how to determine the lens correction parameters of this model effectively by the use of [Hugin](http://hugin.sourceforge.net), a free graphical user interface for [Panorama Tools](http://panotools.sourceforge.net), which is available for various operating systems.
+
 If you don't want to deal with the details of lens correction, you may skip the rest of this page and just buy [PTlens](http://epaperpress.com/ptlens), which offers sophisticated lens correction for a vast number of digital cameras and lenses at a reasonable price (by use of its large lens database). Nowadays, some digital cameras (such as the Nikon P7000) even incorporate lens correction in their internal image processing steps. For photographs taken with cameras that don't offer this possibility, ImageMagick enables you to integrate lens correction as one step of a larger image processing script.
+
 The following text is an abridged version of paper [Correcting Lens Distortion (PDF)](correcting_lens_distortions.pdf) (dealing with applications in accident reconstruction). The explanations given here are a more hands-on approach, concentrating on the ways to get in hold of the adequate lens correction parameters.
+
 ## Non-scaling Restraint
 
 As described in the [Barrel Distortions](../distorts/#barrel) The barrel distortion is defined by the mathematical formula
+
       R = ( a * r^3  +  b * r^2  +  c * r  +  d ) * r
 
 with `r` as the distance to the geometrical image center of the digital photograph and `R` as the equivalent radius for the corrected image. The radii `r` and `R` are normalised by half of the smaller image dimension (i.e. usually the height of the image), such that `r` = 1 for the midpoints of the equivalent edges of the photograph. When correcting digital photographs, we should pay attention to the non-scaling restraint
+
       a + b + c + d = 1
 
 which obviously gives `R` = 1 for `r` = 1. Panorama Tools calculates the parameter `d` by the other parameters via
+
       d = 1 - a - b - c
 
 leaving us with three free model parameters, so the parameter `d` is typically omitted. ImageMagick will automatically calculate `d` by the non-scaling restraint, if it is omitted. So a typical ImageMagick command line for lens correction would look something like
+
       convert input.jpg -distort barrel '0.06335 -0.18432 -0.13008' output.jpg
 
 leaving the calculation of `d` to ImageMagick. The lens correction method of Panorama Tools that we are speaking of here assumes the optical axis of the lens and the centre of the image to be identical, which is not strictly the case in practice (due to manufacturing tolerances). Furthermore, it leaves effects like [mustache distortion](http://en.wikipedia.org/wiki/Distortion_%28optics%29#Radial_distortion) aside. Nevertheless, it proves to work astonishingly precisely in practice.
@@ -44,6 +54,7 @@ leaving the calculation of `d` to ImageMagick. The lens correction method of Pan
 ## Ready-made Parameter Sets
 
 PTlens's current lens database, being the "marrow" of the program, is encrypted and can only be read by PTlens itself (and few other software whose programmers obviously licensed it). Until February 2006, however, PTlens's database was coded in XML format, i.e. an easily editable text format. This 2006 version of PTlens's XML database is still (legally) available at [Hugin's SourceForge Website](http://sourceforge.net/projects/hugin/files/PTLens%20Database/) and provides data for a lot of older camera models.
+
 When PTlens's database became encrypted, the authors of Hugin tried to establish a free XML coded lens database as an alternative. This database is called [LensFun](http://sourceforge.net/projects/lensfun/) and can be downloaded. It comes with a complete programming interface, but all you basically need is the information for your camera in the XML file. As an example, the lens correction parameters for the once popular Nikon Coolpix 995 are found in the file `compact-nikon.xml`, which resides in the directory `\data\db`. The file can be examined by the use of a text editor or an XML viewer:
   
       <lens>
@@ -63,16 +74,21 @@ When PTlens's database became encrypted, the authors of Hugin tried to establish
       </lens>
 
 As can be taken from the camera's technical data sheet, the zoom range of the Nikon Coolpix 995 is 8.2 – 31.0 mm, corresponding to 38 – 152 mm for 35 mm film cameras. This gives a crop factor of 152 / 31 = 4.90, which roughly corresponds to the 4.843 given the XML file. The coefficients of the correction by barrel distortion are supplied for six focal lengths, namely 8.2 mm, 10.1 mm, 13.6 mm, 18.4 mm, 23.4 mm, 28.3 mm and 31.0 mm. The coefficients `a` and `c` are, for this lens, set to zero, i.e. the distortion is described only by the second-order term `b`.
+
 Note that many lens's will also have values for `a` and `c` parameters as well, and these should also be interpolated in a similar way.
+
 If we have a photograph `DSCN0001.jpg` taken with a Nikon Coolpix 995 set to the shortest focal length, this photograph could be corrected by ImageMagick via
   
        convert DSCN0001.jpg -distort barrel '0.0 -0.019966 0.0' DSCN0001_pt.jpg
 
 (The file name extension `_pt` is used by PTlens to mark corrected images.)
+
 For the six focal lengths provided, the correction coefficient `b` can be read from the XML file. For other focal lengths, the suitable value can be determined by interpolation between the two neighbouring focal lengths. As an alternative, the dependency of `b` on the focal length `f` can be approximated by the polynomial
+
       b = 0.000005142 * f^3 - 0.000380839 * f^2 + 0.009606325 * f - 0.075316854
 
 So the focal length (as read from the EXIF information) is used to calculate the lens correction parameter `b` in the first step, and then, in a second step, the lens correction (i.e. barrel distortion) is performed using this value as the `b` parameter.
+
 The Windows section shows a [VBScript Example](../windows/#vb_example) in which the above equations are used, with the focal length being extracted from a Nikon Coolpix 995 photograph via `identify`.
 
 ------------------------------------------------------------------------
@@ -82,25 +98,34 @@ The Windows section shows a [VBScript Example](../windows/#vb_example) in which 
 ### Basic Approach
 
 When determining the lens parameters, all programs rely on the same paradigm: the ideal perspective mapping should map real world straight lines to straight lines in the image. So if a set of real-world points P<sub>0</sub>, P<sub>1</sub>, ..., P<sub>n</sub> is known to lie on a straight line, their images p<sub>0</sub>, p<sub>1</sub>, ..., p<sub>n</sub> must also fall onto a straight line. Any deviation from this rule has to be attributed to lens distortion.
+
 We need two points to determine the two parameters defining a straight line (e.g. slope and intersection on the y-axis). Each additional point supplied will provide another equation to determine the lens correction parameters. So if our functional approach has only one free parameter `b` (as for the Nikon Coolpix 995 above), we would have to provide at least three points on a real-world straight line and its image in order to determine the sought lens correction parameter `b`.
+
 Putting it more concrete: The distortions model only uses the parameter `b`, i.e. the coordinates of the corrected image `X1, Y1` can be calculated from the coordinates of the digital photograph by
+
     r = s * sqrt(x1^2 + y1^2)
     X1 = [(1-b) + b r^2] * x1
     Y1 = [(1-b) + b r^2] * y1
     Y1 = k1 * X1 + k2
 
 This results in one equation for each point supplied on the same straight line
+
     [(1-b) + b r^2] * y1 = k1 * [(1-b) + b r^2] * x1 + k2
 
     with: r = s * sqrt(x1^2 + y1^2)
 
 Thus three real-world points and their corresponding image points would suffice to determine the parameters describing the straight line and the lens distortion `k1, k2, b`.
+
 In practice, the coordinates of the real-world points are rarely known, such that one needs more than just three points to determine the sought parameters. Most calibration software uses a rectangular grid of straight lines (often a chequerboard) to generate a set of equations and then calculate the mapping parameters by a nonlinear least-squares fit. Some programs generate the set of control points on their own, often using pre-defined templates; other programs require the user to select the control points from the calibration image.
+
 ### Determining lens parameter sets with Hugin
 
 In the following, we will demonstrate how to determine a set of lens correction parameters by the use of Hugin. There is also a ready-made "Simple Lens Calibration Tutorial" on Hugin's Website, but at the time of this writing (2014), it seems to be too simple to provide reliable parameters that can later be used for a multitude of corrections.
+
 First of all, you have to get hold of a suitable test pattern. Basically, a checkerboard pattern with about 10 × 7 squares, printed on [ISO 216 A3](http://en.wikipedia.org/wiki/Paper_size#A_series) or alike would do and is often used. Low-cost zoom lenses (so-called [varifocal lenses](http://en.wikipedia.org/wiki/Varifocal_lens)) should however be set to infinite focus during calibration, as their true focal length might largely differ from that embedded in the EXIF for near focus.
+
 For fixed focus lenses you may as well use a checkerboard test pattern, which is especially recommendable when calibrating a fisheye lens, as it may be difficult to find a real-word object large enough to cover its field of view.
+
 So especially when calibrating zoom lenses / zoom cameras, you should rather take a photograph of a modern building, as proposed on [PTlens' website](http://epaperpress.com/ptlens/calTargets.html). Follow the instructions given there. The photographs may show perspective distortion:
   
 [![\[IM Output\]](building_1.gif)](building_1.jpg)  
@@ -110,18 +135,22 @@ perspective
 non-perspective
 
 Start Hugin, and click the 'Add images ...' button on the first tab and open the calibration image. (See [hugin.sourceforge.net](http://hugin.sourceforge.net/) for a screenshot of Hugin's interface.) At the button of the tab set 'Optimise' to 'Custom parameters' (which will add a new tab named 'Optimiser', you would otherwise not come to see). On the 'Stitcher' tab, set the 'Projection' to 'Rectilinear'. On the 'Control Points' tab, you see your test photograph twice and you can define sets of points that lie on the same straight line by picking these point groups in both versions of the photograph.
+
 But do not pick the exact same points in both versions, such that the points are identical in both images, as this would mislead the optimiser to take the easy way and determine the parameters of a one-to-one correspondence. Instead, you should rather choose different points on the same line in both versions of the image. For test purposes, you can define a few of such point sets, at best near the edges of the image, where the straight lines are more distorted. You will find that definining such point sets in Hugin is a rather tedious business (which may be one of the reasons for the lensfun database being so small).
 
 Then switch to the 'Optimiser' tab and chose the parameters to optimise by left-clicking them with the ctrl-key pressed. (See hint at the top of the tab.) I would recommend to optimise 'Yaw(y)', 'Pitch (p)' and the lens parameters 'a', 'b' and 'c'. The horizontal field of view 'Hfov (f)' is calculated from the EXIF data in the test image, by use of the FocalLengthIn35mmFilm entry `f`:
+
      Hfov = 2 × arctan (18 mm / f) 
 
 with 18 mm being half of the width of a 35 mm negative (which measures 36 × 24 mm).
+
 Then press the button 'Optimize now!'. The resulting parameters 'a', 'b' and 'c' should fall below 0.01 for wide angle lenses and below 0.1 for fisheye lenses. If the values are larger, the optimisation has probably failed. If so, check the point sets on the 'Control Points' tab: the control points are probably out of order or not correctly associated with their corresponding lines.
+
 The optimiser also seems to be sensitive to the start set (mathematically speaking: the start vector) provided, i.e. setting all parameters to zero might be the wrong choice. You can edit the start vector by either double-clicking the values on the 'Optimiser' tab or by activating the check box 'Edit script before optimising' at the right buttom of tab page. This will bring up a text box prior to the optimisation, which will allow you to edit the corresponding section of the Hugin project file. Set the start vector a, b, c back to `a0.0 b0.0 c0.0` (or some other suitable values) before re-starting the optimiser. Experience shows that it might help to set 'a' to some positive value, especially for fisheye lenses.
+
 For a camera equipped with a fixed lens, one does this calibration once and for all. For a camera with a zoom lens, one has to cover the entire range of focal lengths by calibrating at about five different focal lengths.
+
 When having determined such a parameter set, give it a test in ImageMagick via
-
-
 
       convert calibration_image.jpg -distort barrel 'a b c' flat.jpg
 
@@ -251,6 +280,7 @@ However for some older versions of IM, The barrel distortion correction requires
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
 *IM will work out this value automatically, of it is not provided as a distortion argument, but some older versions of IM did not do this.*
+
 That makes the actual [Barrel Distortion](../distorts/#barrel), to correct the lens distortion...
 
   
@@ -264,6 +294,7 @@ That makes the actual [Barrel Distortion](../distorts/#barrel), to correct the l
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
 *Of course you should not save to JPEG until you have finished processing your image completely, due to the JPEG lossy compression.*
+
 In the original photo the distortion is particularly obvious along the bottom of the music stand and along the upper keyboard. These distortions are almost completely gone in the output photo. A visual comparison of this result with that obtained from Canon's software shows essentially the same result.
 
 *El-Supremo*
