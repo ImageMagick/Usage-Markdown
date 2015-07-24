@@ -413,7 +413,10 @@ Close to infinities it may even have to include all the pixels in the source ima
 
 Also the area that a destination pixel represents in the source image, may not be a simple square, circle, or even ellipse but may actually be a highly distorted shape, according to the distortion being used.
 Calculating and handling such awkward shapes can be very time consuming, or near impossible to achieve.
-![\[Diagram\]](../img_diagrams/ewa_mapping.gif) For example here is a diagram showing how a round pixel in various parts of the final image needs to use all the colors from a larger, elliptical area in the source image (or texture as it is sometimes called).
+
+![\[Diagram\]](../img_diagrams/ewa_mapping.gif)
+
+For example here is a diagram showing how a round pixel in various parts of the final image needs to use all the colors from a larger, elliptical area in the source image (or texture as it is sometimes called).
 
 Using an elliptical area of the source image to calculate colors for each destination pixel, is a method known as Elliptical Weighted Average (EWA) Re-sampling, and was outlined in the PDF research paper "[Fundamentals of Texture Mapping and Image Warping](http://www.cs.cmu.edu/~ph/texfund/texfund.pdf)" by *Paul Heckbert* (who also wrote the 'zoom' program from which practically all resize algorithms are derived).
 This was then used to define the new [Generalized Distortion Operator](#distort) (see below).
@@ -1270,7 +1273,7 @@ X_1 & Y_1 & I_1 & J_1 \\
 X_2 & Y_2 & I_2 & J_2 \\
 X_3 & Y_3 & I_3 & J_3 \\
 X_4 & Y_4 & I_4 & J_4 \\
-.   & .   & .   & .
+\vdots & \vdots & \vdots & \vdots
 \end{array}
 $$
 
