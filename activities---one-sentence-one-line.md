@@ -46,7 +46,7 @@ DONE|Eric|./bugs/resize_halo/index.md
 DONE|Eric|./bugs/testing/index.md
 DONE|Eric|./bugs/trans_bug/index.md
 DONE|Eric|./canvas/index.md
-Taken|Eric|./color_basics/index.md
+DONE|Eric|./color_basics/index.md
 DONE|Eric|./color_mods/index.md
 DONE|Mark|./compare/index.md
 DONE|Eric|./compose/index.md

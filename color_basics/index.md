@@ -317,10 +317,9 @@ convert -size 100x100 gradient:'gray(100%)-gray(0)' \
 ~~~
 
 [![\[IM Output\]](gradient_sRGB.gif)](gradient_sRGB.gif)
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*As of IM v6.7.7 the above is simplified to just*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> As of IM v6.7.7 the above is simplified to just
   
 
 ~~~
@@ -331,12 +330,11 @@ convert -size 100x100 gradient:white-black gradient_sRGB.gif
 This is because the linear gradient will always be generated in a linear (RGB) colorspace (which is the only sensible way for the operator to work).
   
 However as sRGB colors 'white-black' is being requested, the linear-data gradient will be automatically converted to sRGB colorspace, producing non-linear data values, and a perceptually linear gradient.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before IM version 6.7.5 the above would have failed as IM had the meanings of 'sRGB' and 'RGB' colorspace reversed.
-As such on older versions of IM the two colorspace names needed to be swapped.
-For example...*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM version 6.7.5 the above would have failed as IM had the meanings of 'sRGB' and 'RGB' colorspace reversed.
+> As such on older versions of IM the two colorspace names needed to be swapped.
+> For example...
 
 ~~~
 convert -size 100x100 gradient: -set colorspace sRGB \
@@ -389,17 +387,16 @@ However the colorspace of an image can greatly influence the final result of man
 As such doing image processing in a different color space can generate improved results than if you directly applied the operation in the normal linear RGB colorspace (or worse sRGB colorspace).
 
 This is especially true of [Color Quantization](../quantize/#quantize) (color reduction), but also in [Image Resizing](../resize/) and more generatally [Image Distorting](../distorts/).
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Cristy, the ImageMagick Coordinator, recommends '`YIQ`' colorspace for color quantization.
-Basically as this color space emphasizes mid-tones and pastel colors, which is more suitable for skin-tones, rather than the less common primary colors.
-This is espeically useful for GIF and palette PNG images, used for generating image thumbnails.
-  
-Helmut Dersch (of Barrel Distortion and Len Correction fame) recommends that you should consider using the linear '`LAB`' colorspace for processing images, especially for resizing and image distortions.
-  
-I only recommend that you move from the 'input' sRGB colorspace to some other 'linear' colorspace, when doing drawing, compositions, resizing or distortions of images.
-Whether this is linear-RGB or LAB should not matter that much.
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Cristy, the ImageMagick Coordinator, recommends '`YIQ`' colorspace for color quantization.
+> Basically as this color space emphasizes mid-tones and pastel colors, which is more suitable for skin-tones, rather than the less common primary colors.
+> This is espeically useful for GIF and palette PNG images, used for generating image thumbnails.
+>
+> Helmut Dersch (of Barrel Distortion and Len Correction fame) recommends that you should consider using the linear '`LAB`' colorspace for processing images, especially for resizing and image distortions.
+>
+> I only recommend that you move from the 'input' sRGB colorspace to some other 'linear' colorspace, when doing drawing, compositions, resizing or distortions of images.
+> Whether this is linear-RGB or LAB should not matter that much.
 
 For examples of processing images with reagrd to colorspace see [Resizing with Colorspace Correction](../resize/#resize_colorspace).
 
@@ -477,13 +474,12 @@ The colors were first sorted into 3 groups, Off-Whites, Mid-Tones, and Dark Colo
 Pure white and black colors appear as there own separate spots at the very top and bottom of the chart, to form the extremes of the vertical range.
 
 The script that generated it is "`hsl_named_colors`" and follows a technique looked at in [Programmed Positioning of Layered Images](../layers/#example).
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-Technically as I draw the HSL colors in the 3-dimensional form of a 'bi-cone' rather than a 'cylinder', the radius of each color spot has been set equal to the 'Chroma' of the color ('Saturation'/'Brightness'), rather than just its 'Saturation'.
-See [Wikipeadia: HSL and HSV](http://en.wikipedia.org/wiki/HSL_and_HSV#Basic_idea).
-  
-To be even more correct, Hexagonal Pyramids should also have be used instead of Cones, though that is much harder to calculate, for little gain.
+
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> Technically as I draw the HSL colors in the 3-dimensional form of a 'bi-cone' rather than a 'cylinder', the radius of each color spot has been set equal to the 'Chroma' of the color ('Saturation'/'Brightness'), rather than just its 'Saturation'.
+> See [Wikipeadia: HSL and HSV](http://en.wikipedia.org/wiki/HSL_and_HSV#Basic_idea).
+>
+> To be even more correct, Hexagonal Pyramids should also have be used instead of Cones, though that is much harder to calculate, for little gain.
 
 As you can see you there a lot of color names associated with red to yellow and a smaller group in the cyan to green hues.
 With a similar cluster in off-white yellows and cyans.
@@ -563,63 +559,62 @@ The most common method of setting a semi-transparent color is to use a hex value
 
 For example here are some color specifications showing various levels of color transparency.
 I have displayed the generated color images on a background pattern so that you can see that pattern though the image transparency.
-  
-      convert -size 50x50    xc:'#00FF00FF'   color_hex_1.png
-      convert -size 50x50    xc:'#00FF00C0'   color_hex_2.png
-      convert -size 50x50    xc:'#00FF0090'   color_hex_3.png
-      convert -size 50x50    xc:'#00FF0060'   color_hex_4.png
-      convert -size 50x50    xc:'#00FF0030'   color_hex_5.png
-      convert -size 50x50    xc:'#00FF0000'   color_hex_6.png
 
-  
+~~~
+convert -size 50x50    xc:'#00FF00FF'   color_hex_1.png
+convert -size 50x50    xc:'#00FF00C0'   color_hex_2.png
+convert -size 50x50    xc:'#00FF0090'   color_hex_3.png
+convert -size 50x50    xc:'#00FF0060'   color_hex_4.png
+convert -size 50x50    xc:'#00FF0030'   color_hex_5.png
+convert -size 50x50    xc:'#00FF0000'   color_hex_6.png
+~~~
+
 [![\[IM Output\]](color_hex_1.png)](color_hex_1.png) [![\[IM Output\]](color_hex_2.png)](color_hex_2.png) [![\[IM Output\]](color_hex_3.png)](color_hex_3.png) [![\[IM Output\]](color_hex_4.png)](color_hex_4.png) [![\[IM Output\]](color_hex_5.png)](color_hex_5.png) [![\[IM Output\]](color_hex_6.png)](color_hex_6.png)
 
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-Before IM v6.3.0, the last set of hex digits contained the colors transparency in the form of a 'matte' or 'opacity' value.
-That is the final hexadecimal '`00`' represented 'opaque' and '`FF`' was transparent.
-  
-However after IM v6.3.0, this value was inverted so as to represent an 'alpha' transparency value, to bring IM in line with SVG standards and other graphics packages.
-In other words '`FF`' now represented fully-opaque and '`00`' is fully transparent.
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM v6.3.0, the last set of hex digits contained the colors transparency in the form of a 'matte' or 'opacity' value.
+> That is the final hexadecimal '`00`' represented 'opaque' and '`FF`' was transparent.
+>
+> However after IM v6.3.0, this value was inverted so as to represent an 'alpha' transparency value, to bring IM in line with SVG standards and other graphics packages.
+> In other words '`FF`' now represented fully-opaque and '`00`' is fully transparent.
 
 You can also specify colors using the special '`rgba()`' color function.
 Where RGB values goes from 0 to 255, and the alpha channel is specified as a decimal fraction between 0.0 (transparent) to 1.0 (opaque).
-  
-      convert -size 50x50   xc:'rgba(255,0,0, 1.0)'   color_rgba_1.png
-      convert -size 50x50   xc:'rgba(255,0,0, 0.8)'   color_rgba_2.png
-      convert -size 50x50   xc:'rgba(255,0,0, 0.6)'   color_rgba_3.png
-      convert -size 50x50   xc:'rgba(255,0,0, 0.4)'   color_rgba_4.png
-      convert -size 50x50   xc:'rgba(255,0,0, 0.2)'   color_rgba_5.png
-      convert -size 50x50   xc:'rgba(255,0,0, 0.0)'   color_rgba_6.png
 
-  
+~~~
+convert -size 50x50   xc:'rgba(255,0,0, 1.0)'   color_rgba_1.png
+convert -size 50x50   xc:'rgba(255,0,0, 0.8)'   color_rgba_2.png
+convert -size 50x50   xc:'rgba(255,0,0, 0.6)'   color_rgba_3.png
+convert -size 50x50   xc:'rgba(255,0,0, 0.4)'   color_rgba_4.png
+convert -size 50x50   xc:'rgba(255,0,0, 0.2)'   color_rgba_5.png
+convert -size 50x50   xc:'rgba(255,0,0, 0.0)'   color_rgba_6.png
+~~~
+
 [![\[IM Output\]](color_rgba_1.png)](color_rgba_1.png) [![\[IM Output\]](color_rgba_2.png)](color_rgba_2.png) [![\[IM Output\]](color_rgba_3.png)](color_rgba_3.png) [![\[IM Output\]](color_rgba_4.png)](color_rgba_4.png) [![\[IM Output\]](color_rgba_5.png)](color_rgba_5.png) [![\[IM Output\]](color_rgba_6.png)](color_rgba_6.png)
 
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before IM version 6.2.7, the '`rgba()`' also used a matte value for the alpha channel value.
-That is a value of 0 for fully opaque and 255 for fully-transparent.
-This was changed as defined by the "W3C CSS3 Color Module recommendation for specifying colors", as part of IM becoming more compliant with other image standards, particularly for WWW and SVG use.*
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM version 6.2.7, the '`rgba()`' also used a matte value for the alpha channel value.
+> That is a value of 0 for fully opaque and 255 for fully-transparent.
+> This was changed as defined by the "W3C CSS3 Color Module recommendation for specifying colors", as part of IM becoming more compliant with other image standards, particularly for WWW and SVG use.
 
 It is currently impossible to directly specify a semi-transparent color by name, with an extra alpha value setting.
 However you can fudge it by generating that named color, then modifying the transparency of the image.
 You also have the added complication that you must [Set the Alpha Channel](../masking/#alpha_set), before you can actually set the colors transparency.
-  
-      convert -size 50x50   xc:RoyalBlue                   color_name_1.png
-      convert -size 50x50   xc:RoyalBlue -alpha set \
-                            -channel A -evaluate set 80%   color_name_2.png
-      convert -size 50x50   xc:RoyalBlue -alpha set \
-                            -channel A -evaluate set 60%   color_name_3.png
-      convert -size 50x50   xc:RoyalBlue -alpha set \
-                            -channel A -evaluate set 40%   color_name_4.png
-      convert -size 50x50   xc:RoyalBlue -alpha set \
-                            -channel A -evaluate set 20%   color_name_5.png
-      convert -size 50x50   xc:RoyalBlue -alpha set \
-                            -channel A -evaluate set  0    color_name_6.png
 
-  
+~~~
+convert -size 50x50   xc:RoyalBlue                   color_name_1.png
+convert -size 50x50   xc:RoyalBlue -alpha set \
+                      -channel A -evaluate set 80%   color_name_2.png
+convert -size 50x50   xc:RoyalBlue -alpha set \
+                      -channel A -evaluate set 60%   color_name_3.png
+convert -size 50x50   xc:RoyalBlue -alpha set \
+                      -channel A -evaluate set 40%   color_name_4.png
+convert -size 50x50   xc:RoyalBlue -alpha set \
+                      -channel A -evaluate set 20%   color_name_5.png
+convert -size 50x50   xc:RoyalBlue -alpha set \
+                      -channel A -evaluate set  0    color_name_6.png
+~~~
+
 [![\[IM Output\]](color_name_1.png)](color_name_1.png) [![\[IM Output\]](color_name_2.png)](color_name_2.png) [![\[IM Output\]](color_name_3.png)](color_name_3.png) [![\[IM Output\]](color_name_4.png)](color_name_4.png) [![\[IM Output\]](color_name_5.png)](color_name_5.png) [![\[IM Output\]](color_name_6.png)](color_name_6.png)
 
 Yes this is a pain, and it would be nice if transparency could set as part of the color name specification.
@@ -627,19 +622,19 @@ If you like to see this make a request on the [IM Developers Forum](../forum_lin
 
 It is also posible to draw a named fill color using [MVG Drawing Settings](../draw/#mvg_settings), though you will need a transparent starting canvas for this to work correctly.
 For example...
-  
-      convert -size 50x50 xc:none \
-              -draw "fill Tomato fill-opacity 0.5 rectangle 0,0 49,49" \
-              color_name_draw.png
 
-  
+~~~
+convert -size 50x50 xc:none \
+        -draw "fill Tomato fill-opacity 0.5 rectangle 0,0 49,49" \
+        color_name_draw.png
+~~~
+
 [![\[IM Output\]](color_name_draw.png)](color_name_draw.png)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Note that a fully-transparent colors while completely invisible, still has a color.
-However most IM operators recognise that any color that is fully-transparent, is the same as any other fully-transparent color.
-Because of this and the way the internal mathematics works, many operators will often replace a fully-transparent color with fully-transparent black, (also known as the special color '`none`').*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Note that a fully-transparent colors while completely invisible, still has a color.
+> However most IM operators recognise that any color that is fully-transparent, is the same as any other fully-transparent color.
+> Because of this and the way the internal mathematics works, many operators will often replace a fully-transparent color with fully-transparent black, (also known as the special color '`none`').
 
 ------------------------------------------------------------------------
 
@@ -692,38 +687,43 @@ All the channels would then combine together to represent that actual color of e
 ### Separating Channel Images
 
 The easiest way separating out the individual color channels is to use the "`-separate`" operator to extract the current contents of each channel as a gray-scale image.
-  
-      convert rose: -channel R -separate separate_red.gif
-      convert rose: -channel G -separate separate_green.gif
-      convert rose: -channel B -separate separate_blue.gif
+
+~~~
+convert rose: -channel R -separate separate_red.gif
+convert rose: -channel G -separate separate_green.gif
+convert rose: -channel B -separate separate_blue.gif
+~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](separate_red.gif)](separate_red.gif) [![\[IM Output\]](separate_green.gif)](separate_green.gif) [![\[IM Output\]](separate_blue.gif)](separate_blue.gif)
 
 Notice how the red rose is prominent in the red channel image, while it is quite dark in the blue and green channels.
 On the other hand the green leaves are prominent in the green channel but not the others.
 The white near the bottom of the image is bright in all the channels.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*In IM v5 and before "[`-channel`](../option_link.cgi?channel)" was not only a setting for later image operations but also on occasion an 'image operator' that converted the specified channel into a grey scale image.
-Very confusing!*
-  
-The IM v6 the "[`-separate`](../option_link.cgi?separate)", was created to 'separate' these two very different different tasks.
-The "[`-channel`](../option_link.cgi?channel)" option is only a setting that is used by later image operations, while "[`-separate`](../option_link.cgi?separate)" will extract the specified channels into separate gray-scale and fully opaque images.
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> In IM v5 and before "[`-channel`](../option_link.cgi?channel)" was not only a setting for later image operations but also on occasion an 'image operator' that converted the specified channel into a grey scale image.
+> Very confusing!
+>
+> The IM v6 the "[`-separate`](../option_link.cgi?separate)", was created to 'separate' these two very different different tasks.
+> The "[`-channel`](../option_link.cgi?channel)" option is only a setting that is used by later image operations, while "[`-separate`](../option_link.cgi?separate)" will extract the specified channels into separate gray-scale and fully opaque images.
 
 As of IM v6.2.9-3, the "[`-separate`](../option_link.cgi?separate)" operator will let you separate multiple color channels according to the "[`-channel`](../option_link.cgi?channel)" setting.
 The number of items in the "[`-channel`](../option_link.cgi?channel)" setting will determine the number of images created (in RGBA order).
 
 For example as the default "[`-channel`](../option_link.cgi?channel)" setting is '`RGB`' the default action is to create three images, which I output below.
-  
-      convert rose: -separate separate_RGB_%d.gif
+
+~~~
+convert rose: -separate separate_RGB_%d.gif
+~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](separate_RGB_0.gif)](separate_RGB_0.gif) [![\[IM Output\]](separate_RGB_1.gif)](separate_RGB_1.gif) [![\[IM Output\]](separate_RGB_2.gif)](separate_RGB_2.gif)
 
 And here we use the "[`-colorspace`](../option_link.cgi?colorspace)" operator to convert the way IM is storing the color data of the image into a [CMYK color representation](#cmyk).
 Then we extract the four color channels involved.
-  
-      convert rose: -colorspace CMYK -separate separate_CMYK_%d.gif
+
+~~~
+convert rose: -colorspace CMYK -separate separate_CMYK_%d.gif
+~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](separate_CMYK_0.gif)](separate_CMYK_0.gif) [![\[IM Output\]](separate_CMYK_1.gif)](separate_CMYK_1.gif) [![\[IM Output\]](separate_CMYK_2.gif)](separate_CMYK_2.gif) [![\[IM Output\]](separate_CMYK_3.gif)](separate_CMYK_3.gif)
 
@@ -737,17 +737,18 @@ If you want to always generate all channels that is present, you can use a "`-ch
 
 You can extract specific channel values from colorspaces for special purposes.
 For example here we extract the images grayscale brightness or intensity from the rose image, using a number of different representations.
-  
-      convert rose: -colorspace Gray                      channel_gray.gif
-      convert rose: -grayscale Rec709Luma                 channel_luma709.gif
-      convert rose: -grayscale Rec601Luma                 channel_luma601.gif
-      convert rose: -colorspace HSI  -channel B -separate channel_average.gif
-      convert rose: -colorspace HSL  -channel B -separate channel_lightness.gif
-      convert rose: -colorspace HSB  -channel B -separate channel_brilliance.gif
-      convert rose: -colorspace CMYK -channel K -negate -separate channel_black.gif
-      convert rose: -colorspace LAB  -channel R -separate channel_lab_light.gif
 
-  
+~~~
+convert rose: -colorspace Gray                      channel_gray.gif
+convert rose: -grayscale Rec709Luma                 channel_luma709.gif
+convert rose: -grayscale Rec601Luma                 channel_luma601.gif
+convert rose: -colorspace HSI  -channel B -separate channel_average.gif
+convert rose: -colorspace HSL  -channel B -separate channel_lightness.gif
+convert rose: -colorspace HSB  -channel B -separate channel_brilliance.gif
+convert rose: -colorspace CMYK -channel K -negate -separate channel_black.gif
+convert rose: -colorspace LAB  -channel R -separate channel_lab_light.gif
+~~~
+
 [![\[IM Output\]](channel_gray.gif)](channel_gray.gif)  
 Gray  
 Gray
@@ -795,10 +796,12 @@ Note that if given a grayscale image, all the colorspace grayscale images produc
 
 One method is to copy one channel to all the other channels, to generate a grayscale gray-scale image, just as what the [Separate Operator](#separate) generates.
 A simple, but slow, method is to use the [FX DIY Operator](../transform/#fx).
-  
-      convert  rose: -fx R channel_red.gif
-      convert  rose: -fx G channel_green.gif
-      convert  rose: -fx B channel_blue.gif
+
+~~~
+convert  rose: -fx R channel_red.gif
+convert  rose: -fx G channel_green.gif
+convert  rose: -fx B channel_blue.gif
+~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](channel_red.gif)](channel_red.gif) [![\[IM Output\]](channel_green.gif)](channel_green.gif) [![\[IM Output\]](channel_blue.gif)](channel_blue.gif)
 
@@ -812,9 +815,11 @@ These are listed in [Zeroing Color Channels](#zeroing) below, and are usally a l
 Once you have separated out all the image color channels, and processed them, you will also need to be able to rejoin the images back together again.
 
 This can be done using the special list operator "`-combine`", which is basically exactly the reverse of "[`-separate`](../option_link.cgi?separate)".
-  
-      convert  separate_red.gif separate_green.gif separate_blue.gif \
-               -set colorspace RGB -combine -set colorspace sRGB rose_combined.gif
+
+~~~
+convert  separate_red.gif separate_green.gif separate_blue.gif \
+         -set colorspace RGB -combine -set colorspace sRGB rose_combined.gif
+~~~
 
 [![\[IM Output\]](separate_red.gif)](separate_red.gif) [![\[IM Output\]](separate_green.gif)](separate_green.gif) [![\[IM Output\]](separate_blue.gif)](separate_blue.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_combined.gif)](rose_combined.gif)
 
@@ -839,9 +844,11 @@ Channels will always be processed and generated in the standard '`Red,Green,Blue
 As such, even if you use a "`-channel BR`" setting or just "`blue,red`", the "[`-combine`](../option_link.cgi?combine)" operator will still expect the two images be red first then the blue.
 The green and alpha values (if images have transparency) will be set from the current "[`-background`](../option_link.cgi?background)" setting values.
 For Example...
-  
-      convert  separate_red.gif separate_blue.gif -background black \
-               -channel blue,red  -combine    rose_red_blue.gif
+
+~~~
+convert  separate_red.gif separate_blue.gif -background black \
+         -channel blue,red  -combine    rose_red_blue.gif
+~~~
 
 [![\[IM Output\]](separate_red.gif)](separate_red.gif) [![\[IM Output\]](separate_blue.gif)](separate_blue.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_red_blue.gif)](rose_red_blue.gif)
 
@@ -853,67 +860,70 @@ This is done by using the special "`-set colorspace`" operator.
 This basically changes the colorspace of an image in memory but without mapping the images pixel data, leaving it as is.
 
 Once the image has been combined in the right colorspace you can use a normal "`-colorspace`" operator to map the pixel data back to normal RGB data.
-  
-      convert separate_HSB_?.gif  -set colorspace HSB  -combine  \
-              -colorspace RGB  rose_HSB_combined.gif
 
-  
+~~~
+convert separate_HSB_?.gif  -set colorspace HSB  -combine  \
+        -colorspace RGB  rose_HSB_combined.gif
+~~~
+
 [![\[IM Output\]](rose_HSB_combined.gif)](rose_HSB_combined.gif)
 
 This method also works for CMYK images, which is often difficult to handle due to the need for a fourth color channel.
-  
-      convert separate_CMYK_?.gif  -set colorspace CMYK  -combine  \
-              -colorspace RGB  rose_CMYK_combined.gif
 
-  
+~~~
+convert separate_CMYK_?.gif  -set colorspace CMYK  -combine  \
+        -colorspace RGB  rose_CMYK_combined.gif
+~~~
+
 [![\[IM Output\]](rose_CMYK_combined.gif)](rose_CMYK_combined.gif)
 
 An alternative workaround (for earlier versions of IM) is to load one image (the red channel) and changing it so that it is in the right colorspace.
 After that each individual channel image can be loaded and [Channel Copied](../compose/#channel) into that pre-prepared image.
-  
-      convert separate_HSB_0.gif -colorspace HSB \
-              separate_HSB_0.gif -compose CopyRed   -composite \
-              separate_HSB_1.gif -compose CopyGreen -composite \
-              separate_HSB_2.gif -compose CopyBlue  -composite \
-              -colorspace RGB   rose_HSB_combined_alt.gif
 
-  
+~~~
+convert separate_HSB_0.gif -colorspace HSB \
+        separate_HSB_0.gif -compose CopyRed   -composite \
+        separate_HSB_1.gif -compose CopyGreen -composite \
+        separate_HSB_2.gif -compose CopyBlue  -composite \
+        -colorspace RGB   rose_HSB_combined_alt.gif
+~~~
+
 [![\[IM Output\]](rose_HSB_combined_alt.gif)](rose_HSB_combined_alt.gif)
 
 Of course if you used "`-set colorspace`" operation, the data for the first channel will already be in place, as this does not change the actual pixel data, only the way the data is interpreted.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The last example will not work for '`CMYK`' images, as the '`Black`' channel image does not actually contain a black channel!
-As such "`-compose CopyBlack`" will fail to find valid data to copy.
-I regarded this as a bug, but is currently unlikely to be fixed.*
-  
- Using other colorspaces can be useful.
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The last example will not work for '`CMYK`' images, as the '`Black`' channel image does not actually contain a black channel!
+> As such "`-compose CopyBlack`" will fail to find valid data to copy.
+> I regarded this as a bug, but is currently unlikely to be fixed.
+
+Using other colorspaces can be useful.
 For example here I take the built-in rose image and want to negate the luminance channel of the image in '`Lab`' colorspace.
 When finished I re-combine to build a sRGB image again.
-  
-      convert rose: -colorspace Lab -separate \
-              \( -clone 0 -negate \) -swap 0 +delete \
-              -combine -set colorspace Lab \
-              -colorspace sRGB   rose_light_neg.gif
 
-  
+~~~
+convert rose: -colorspace Lab -separate \
+        \( -clone 0 -negate \) -swap 0 +delete \
+        -combine -set colorspace Lab \
+        -colorspace sRGB   rose_light_neg.gif
+~~~
+
 [![\[IM Output\]](rose_light_neg.gif)](rose_light_neg.gif)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Previously this example used '`HSL`' colorspace, but that is a linear colorspace, and we want to negate in a 'perceptual colorspace' as provided by '`Lab`'.
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Previously this example used '`HSL`' colorspace, but that is a linear colorspace, and we want to negate in a 'perceptual colorspace' as provided by '`Lab`'.
 
 Note that the image still has the same colors, but the brightness (lightness) of the colors were reversed, producing a weird effect.
 You can replace the "[`-negate`](../option_link.cgi?negate)" with your own set of operations to adjust an images brightness levels.
 
 However as "[`-negate`](../option_link.cgi?negate)" is itself a channel controlled operator we did not have to "[`-separate`](../option_link.cgi?separate)" out the luminance channel in order to negate it.
-  
-      convert rose: -colorspace Lab \
-              -channel R   -negate   +channel \
-              -colorspace sRGB rose_light_neg2.gif
 
-  
+~~~
+convert rose: -colorspace Lab \
+        -channel R   -negate   +channel \
+        -colorspace sRGB rose_light_neg2.gif
+~~~
+
 [![\[IM Output\]](rose_light_neg2.gif)](rose_light_neg2.gif)
 
 As you can see this simplifies things, but it may not always be practical, for the effect you want to achieve.
@@ -926,12 +936,13 @@ For example, to make a greyscale image without using a RGB [Gray-Scaling Techniq
 The 'Hue' value has no meaning when saturation is zero, so you are left with a greyscale image.
 
 The most direct technique, is often to use the [Evaluate Operator](../transform/#evaluate) to zero all the values in the unwanted channel...
-  
-      convert rose: -colorspace HSL \
-              -channel G  -evaluate set 0  +channel \
-              -colorspace sRGB rose_grey.gif
 
-  
+~~~
+convert rose: -colorspace HSL \
+        -channel G  -evaluate set 0  +channel \
+        -colorspace sRGB rose_grey.gif
+~~~
+
 [![\[IM Output\]](rose_grey.gif)](rose_grey.gif)
 
 However there are many not so obvious ways you can do this...
@@ -992,16 +1003,20 @@ And this specified how dark or light a color was.
 The key feature of this change was a a simple conversion from RGB values that spaced the primary colors equally around this axis, so as to form a Hue that cycles from red, though green, then blue and back to red.
 
 How far away the color was from this axis (radially) was known as saturation or chroma.
-  
- For example lets [Separate](#separate) the channels of the builtin '`rose:`' image afetr transforming it into the '`HSB`' (Hue, Saturation, Brilliance, also known as HSV, with V for Value), colorspace.
-  
-      convert rose: -colorspace HSB -separate separate_HSB_%d.gif
+
+For example lets [Separate](#separate) the channels of the builtin '`rose:`' image afetr transforming it into the '`HSB`' (Hue, Saturation, Brilliance, also known as HSV, with V for Value), colorspace.
+
+~~~
+convert rose: -colorspace HSB -separate separate_HSB_%d.gif
+~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](separate_HSB_0.gif)](separate_HSB_0.gif) [![\[IM Output\]](separate_HSB_1.gif)](separate_HSB_1.gif) [![\[IM Output\]](separate_HSB_2.gif)](separate_HSB_2.gif)
 
 Or a similar but not quite the same '`HSL`' (Hue, Saturation, Lightness).
-  
-      convert rose: -colorspace HSL -separate separate_HSL_%d.gif
+
+~~~
+convert rose: -colorspace HSL -separate separate_HSL_%d.gif
+~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](separate_HSL_0.gif)](separate_HSL_0.gif) [![\[IM Output\]](separate_HSL_1.gif)](separate_HSL_1.gif) [![\[IM Output\]](separate_HSL_2.gif)](separate_HSL_2.gif)
 
@@ -1022,18 +1037,19 @@ To better understand the colorspace, we need to try and view it The colorspace i
 
 You can generate the separate channel value images, and [Combine](#combine) them images to generate specific types of images which are hard to generate in other ways.
 For example here we generate perfect '`HSL`' color wheel.
-  
-      convert -size 100x300 gradient: -rotate 90 \
-              -distort Arc '360 -90.1 50' +repage \
-              -gravity center -crop 100x100+0+0 +repage  angular.png
-      convert -size 100x100 xc:white                     solid.png
-      convert -size 100x100 radial-gradient: -negate     radial.png
 
-      convert angular.png solid.png radial.png \
-              -combine -set colorspace HSL \
-              -colorspace sRGB colorwheel_HSL.png
+~~~
+convert -size 100x300 gradient: -rotate 90 \
+        -distort Arc '360 -90.1 50' +repage \
+        -gravity center -crop 100x100+0+0 +repage  angular.png
+convert -size 100x100 xc:white                     solid.png
+convert -size 100x100 radial-gradient: -negate     radial.png
 
-  
+convert angular.png solid.png radial.png \
+        -combine -set colorspace HSL \
+        -colorspace sRGB colorwheel_HSL.png
+~~~
+
 [![\[IM Output\]](angular.png)](angular.png)  
 Hue
   
@@ -1048,14 +1064,12 @@ Luminance
 [![\[IM Output\]](colorwheel_HSL.png)](colorwheel_HSL.png)  
 HSL Colorwheel
 
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-The grey scale images are generated as a linear gradient using sRGB values.
-As such the gradients tend to look a little darker than they should.
-It is however tha values in the input images that is important here, not the viewing colorspace.
-  
-On the other hand the resulting image while generated in linear RGB colorspace, is being saved as sRGB colorspace to ensure that browsers and other image display programs, display the gradient in a way that works well visually.
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The grey scale images are generated as a linear gradient using sRGB values.
+> As such the gradients tend to look a little darker than they should.
+> It is however tha values in the input images that is important here, not the viewing colorspace.
+>
+> On the other hand the resulting image while generated in linear RGB colorspace, is being saved as sRGB colorspace to ensure that browsers and other image display programs, display the gradient in a way that works well visually.
 
 Also note that the Hue is a 'modulus' value, that wraps around at red (hue value = 0).
 This can be a pain when doing image processing as you have two red colors that visually are identical, but in terms of value are a maximum hue distance apart.
@@ -1071,21 +1085,22 @@ Caution is advised.
 There are a number of colorpsaces that also use this same 'hex cone' based, hue system.
 HSB, HCL and HCLp (perceptual HCL) .
 Here are colorwheels of all four of these 'hex-cone' colorspaces.
-  
-      convert angular.png solid.png radial.png \
-              -combine -set colorspace HSL \
-              -colorspace sRGB colorwheel_HSL.png
-      convert angular.png solid.png radial.png \
-              -combine -set colorspace HSB \
-              -colorspace sRGB colorwheel_HSB.png
-      convert angular.png solid.png radial.png \
-              -combine -set colorspace HCL \
-              -colorspace sRGB colorwheel_HCL.png
-      convert angular.png solid.png radial.png \
-              -combine -set colorspace HCLp \
-              -colorspace sRGB colorwheel_HCLp.png
 
-  
+~~~
+convert angular.png solid.png radial.png \
+        -combine -set colorspace HSL \
+        -colorspace sRGB colorwheel_HSL.png
+convert angular.png solid.png radial.png \
+        -combine -set colorspace HSB \
+        -colorspace sRGB colorwheel_HSB.png
+convert angular.png solid.png radial.png \
+        -combine -set colorspace HCL \
+        -colorspace sRGB colorwheel_HCL.png
+convert angular.png solid.png radial.png \
+        -combine -set colorspace HCLp \
+        -colorspace sRGB colorwheel_HCLp.png
+~~~
+
 [![\[IM Output\]](colorwheel_HSL.png)](colorwheel_HSL.png)  
 HSL
   
@@ -1109,23 +1124,24 @@ As a result when using a the '`HCL`' The primary colors are located at different
 The 50% intensity area of the '`HCL`' colorspace does not produce strong colors but instead generates more natural pastel colors.
 
 For example, here is a comparison of the saturated hues between HSL and HCL colorspaces at a 50% intensity.
-  
-      convert -size 100x100 xc:black \
-              -fill white  -draw 'circle 49.5,49.5 40,4' \
-              -fill black  -draw 'circle 49.5,49.5 40,30' \
-              -alpha copy -channel A -morphology dilate diamond anulus.png
-      convert hue_angular.png -size 100x100 xc:white xc:gray50 \
-              -combine -set colorspace HSL -colorspace RGB \
-              anulus.png -alpha off -compose Multiply -composite \
-              anulus.png -alpha on  -compose DstIn -composite \
-              -colorspace sRGB hues_HSL.png
-      convert hue_angular.png -size 100x100 xc:white xc:gray50 \
-              -combine -set colorspace HCL -colorspace RGB \
-              anulus.png -alpha off -compose Multiply -composite \
-              anulus.png -alpha on  -compose DstIn -composite \
-              -colorspace sRGB hues_HCL.png
 
-  
+~~~
+convert -size 100x100 xc:black \
+        -fill white  -draw 'circle 49.5,49.5 40,4' \
+        -fill black  -draw 'circle 49.5,49.5 40,30' \
+        -alpha copy -channel A -morphology dilate diamond anulus.png
+convert hue_angular.png -size 100x100 xc:white xc:gray50 \
+        -combine -set colorspace HSL -colorspace RGB \
+        anulus.png -alpha off -compose Multiply -composite \
+        anulus.png -alpha on  -compose DstIn -composite \
+        -colorspace sRGB hues_HSL.png
+convert hue_angular.png -size 100x100 xc:white xc:gray50 \
+        -combine -set colorspace HCL -colorspace RGB \
+        anulus.png -alpha off -compose Multiply -composite \
+        anulus.png -alpha on  -compose DstIn -composite \
+        -colorspace sRGB hues_HCL.png
+~~~
+
 [![\[IM Output\]](hues_HSL.png)](hues_HSL.png)  
 HSL/HSB
   
@@ -1153,12 +1169,13 @@ This make LUV colorspace much better suited for image difference comparisions.
 
 The two colorspaces are very similar, and generaly produce similar results when processing image.
 Here we separate the channels for the colorspaces LAB and LUV, just to show just how similar the two colorspaces actually are.
-  
-      convert rose: \( -clone 0 -colorspace LAB -separate +append \) \
-                    \( -clone 0 -colorspace LUV -separate +append \) \
-              -delete 0 -append -set colorspace sRGB separate_lab_luv.png
 
-  
+~~~
+convert rose: \( -clone 0 -colorspace LAB -separate +append \) \
+              \( -clone 0 -colorspace LUV -separate +append \) \
+        -delete 0 -append -set colorspace sRGB separate_lab_luv.png
+~~~
+
 [![\[IM Output\]](rose.gif)](rose.gif)
   
 ![==&gt;](../img_www/right.gif)
@@ -1181,15 +1198,16 @@ The '`HCL`' colorspace is based on the '`LCHuv`' colorspace, which is a cylindri
 For completeneed here are the cylindrical representations of the '`Lab`' and '`Luv`' colorspaces, which are known as '`LCHab`' and '`LCHuv`' respectively.
 
 However note that the order of the channels is the reverse of the equivelent '`HCL`' colorspace shown above.
-  
-      convert radial.png solid.png angular.png \
-              -combine -set colorspace LCHab \
-              -colorspace sRGB colorwheel_LCHab.png
-      convert radial.png solid.png angular.png \
-              -combine -set colorspace LCHuv \
-              -colorspace sRGB colorwheel_LCHuv.png
 
-  
+~~~
+convert radial.png solid.png angular.png \
+        -combine -set colorspace LCHab \
+        -colorspace sRGB colorwheel_LCHab.png
+convert radial.png solid.png angular.png \
+        -combine -set colorspace LCHuv \
+        -colorspace sRGB colorwheel_LCHuv.png
+~~~
+
 [![\[IM Output\]](radial.png)](radial.png)  
 Lightness<sup>\*</sup>
   
@@ -1267,11 +1285,12 @@ Basically any color that was 'blue' has been replaced with the current "`-fill`"
 However as of IM v6.2.7, this operator is limited by the "`-channel`" setting.
 As such, to convert a color (say blue) to transparency, you will need to specify a "`-channel`" to include the alpha channel to make colors transparent.
 You will also need to ensure the image has a 'matte' or [alpha channel](../basics/#alpha) enabled, to hold the transparency information.
-  
-      convert balloon.gif   -alpha set  -channel RGBA \
-                            -fill none -opaque blue   balloon_none.gif
 
-  
+~~~
+convert balloon.gif   -alpha set  -channel RGBA \
+                      -fill none -opaque blue   balloon_none.gif
+~~~
+
 [![\[IM Output\]](balloon.gif)](balloon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](balloon_none.gif)](balloon_none.gif)
 
 Because replacing a color with transparency is such a common operation the above has its own special replace with transparency operator "`-transparent`".
@@ -1293,33 +1312,32 @@ convert balloon.gif  -fill white +opaque black   balloon_borders.gif
 [![\[IM Output\]](balloon.gif)](balloon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](balloon_borders.gif)](balloon_borders.gif)
 
 This may not seem like much, but when you combine it with a [Fuzz Factor](#fuzz) (see below), this becomes a very powerful tool.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before IM v6.3.7-10, the inverse operation required the use of some trickiness using image masks.
-Basically you replace the color you want to preserve with transparency, then "`-colorize`" all the other colors to the desired color to create an overlay mask.
-This is then overlaid on the original image to 'mask out' the colors that did not match!*
-  
-      convert balloon.gif \
-              \( +clone -matte -transparent black \
-                 -fill white  -colorize 100% \) \
-              -composite    balloon_mask_non-black.gif
 
-  
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM v6.3.7-10, the inverse operation required the use of some trickiness using image masks.
+> Basically you replace the color you want to preserve with transparency, then "`-colorize`" all the other colors to the desired color to create an overlay mask.
+> This is then overlaid on the original image to 'mask out' the colors that did not match!
+
+~~~
+convert balloon.gif \
+        \( +clone -matte -transparent black \
+           -fill white  -colorize 100% \) \
+        -composite    balloon_mask_non-black.gif
+~~~
+
 [![\[IM Output\]](balloon.gif)](balloon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](balloon_mask_non-black.gif)](balloon_mask_non-black.gif)
   
 *As you can see the 'plus' form of the operator simplified the 'not this color' replacement operation enormously.*
 
 For more advanced replacement techniques, I suggest you look at [Background Removal](../masking/#bg_remove).
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Be warned that as all matching colors (especially 'fuzzy matched colors', see below) is replaced with a single uniform color, you will not get any anti-aliasing of the edges of the colored areas.
-And you will lose any an all shadow or other shading effects that may be present.
-This can have a seriously detrimental effect to the look off any non-simple non-cartoon like images.
-  
-This type of color replacement is not designed with practical real world images in mind, but more for image masking effects.
-Caution is advised.
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Be warned that as all matching colors (especially 'fuzzy matched colors', see below) is replaced with a single uniform color, you will not get any anti-aliasing of the edges of the colored areas.
+> And you will lose any an all shadow or other shading effects that may be present.
+> This can have a seriously detrimental effect to the look off any non-simple non-cartoon like images.
+>
+> This type of color replacement is not designed with practical real world images in mind, but more for image masking effects.
+> Caution is advised.
 
 The "`-opaque`" color replacement cannot replace a color with a tiled pattern.
 It will only replace colors with another single specific color.
@@ -1341,11 +1359,12 @@ It is the color at that location that is used for 'matching' what areas is to be
 You can see in the above example the problem with color replacement, the specific color may appear in other places that you intend, giving us a line of red pixels within the 'present' image above.
 
 Transparency also presents no problem, though some internal parts of the image was also made transparent just as they became red in the above...
-  
-      convert present.gif -matte -fill none \
-                          -draw 'color 0,0 replace' present_none.gif
 
-  
+~~~
+convert present.gif -matte -fill none \
+                    -draw 'color 0,0 replace' present_none.gif
+~~~
+
 [![\[IM Output\]](present.gif)](present.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](present_none.gif)](present_none.gif)
 
 Note however that unlike "`-opaque`" and "`-transparent`" the [Draw Color Replacement](../draw/#color), does not let you invert the 'matching colors' to be replaced.
@@ -1353,22 +1372,24 @@ Note however that unlike "`-opaque`" and "`-transparent`" the [Draw Color Replac
 Draw also has a special [Matte Replacement](../draw/#matte), where only the transparency of the fill color is replaced.
 That is, you can make all matching colors transparent, or semi-transparent, without actually changing the color of the pixel itself.
 With the appropriate file format of course.
-  
-      convert present.gif -matte -fill '#00000080' \
-                -draw 'matte 0,0 replace' present_semi.png
 
-  
+~~~
+convert present.gif -matte -fill '#00000080' \
+          -draw 'matte 0,0 replace' present_semi.png
+~~~
+
 [![\[IM Output\]](present.gif)](present.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](present_semi.png)](present_semi.png)
 
 This becomes much more useful when a [Fuzz Factor](#fuzz) is also specified.
 
 The biggest advantage of using "`-draw`" is that you can also replace the color with a tile pattern.
 For example..
-  
-      convert present.gif -tile pattern:right30 \
-                    -draw 'color 0,0 replace' present_tile.gif
 
-  
+~~~
+convert present.gif -tile pattern:right30 \
+              -draw 'color 0,0 replace' present_tile.gif
+~~~
+
 [![\[IM Output\]](present.gif)](present.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](present_tile.gif)](present_tile.gif)
 
 For more advanced replacement techniques, I suggest you look at [Background Removal](../masking/#bg_remove).
@@ -1390,12 +1411,13 @@ Note that the red areas which was not 'attached' to the 0,0 pixel was note repla
 
 For background replacing that can be a problem, but the solution is just as easy.
 Expand the image slightly so the floodfill can 'leak' into the image from all directions, then remove that extra space when finished.
-  
-      convert present.gif -bordercolor white -border 1x1 \
-              -fill red     -draw 'color 0,0 floodfill' \
-              -shave 1x1               present_bgnd.gif
 
-  
+~~~
+convert present.gif -bordercolor white -border 1x1 \
+        -fill red     -draw 'color 0,0 floodfill' \
+        -shave 1x1               present_bgnd.gif
+~~~
+
 [![\[IM Output\]](present.gif)](present.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](present_bgnd.gif)](present_bgnd.gif)
 
 Of course you can adjust what colors are 'matched' using the [Fuzz Factor](#fuzz) control setting below, which is especially important for [JPEG](../formats/#jpeg) images.
@@ -1412,36 +1434,39 @@ This can be regarded as the operators feature as well as its curse.
 Or ensure seed point exactly matches looked for color.**
 
 For example, add a border of known color to flood fill from edges...
-  
-      convert present.gif -bordercolor white -border 1x1 \
-              -fill red    -floodfill +0+0 white \
-              -shave 1x1              present_floodfill.gif
 
-  
+~~~
+convert present.gif -bordercolor white -border 1x1 \
+        -fill red    -floodfill +0+0 white \
+        -shave 1x1              present_floodfill.gif
+~~~
+
 [![\[IM Output\]](present.gif)](present.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](present_floodfill.gif)](present_floodfill.gif)
 
 This will replace any color that is 'white' to 'red' that is directly part of the area surrounding the seed pixel starting at +0+0, which is guranteed to be 'white' due to the added border.
 
 You can also floodfill with a tile pattern.
-  
-      convert present.gif -bordercolor white -border 1x1 \
-                    -tile pattern:left30   -floodfill +0+0 white \
-                    -shave 1x1           present_pattern.gif
 
-  
+~~~
+convert present.gif -bordercolor white -border 1x1 \
+              -tile pattern:left30   -floodfill +0+0 white \
+              -shave 1x1           present_pattern.gif
+~~~
+
 [![\[IM Output\]](present.gif)](present.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](present_pattern.gif)](present_pattern.gif)
 
 The '*color*' argument can sometimes be a pain, in that it must match color of the seed point, or no action will take place.
 But this can also be useful, as it will ensure the floodfill does exactly what you wanted, and not the unexpected.
 For example, here I try to fill white disks with various colors...
-  
-      convert disks.gif \
-              -fill Red   -floodfill +30+50 white \
-              -fill Green -floodfill +60+60 white \
-              -fill Blue  -floodfill +10+40 white \
-              floodfill_hit_miss.gif
 
-  
+~~~
+convert disks.gif \
+        -fill Red   -floodfill +30+50 white \
+        -fill Green -floodfill +60+60 white \
+        -fill Blue  -floodfill +10+40 white \
+        floodfill_hit_miss.gif
+~~~
+
 [![\[IM Output\]](floodfill_hit_miss.gif)](floodfill_hit_miss.gif)
 
 In this case only the '`Green`' and '`Blue`' flood-fill operations 'hit a disk' (and filled it), while the '`Red`' flood-fill, did not match a disk, so no disk was filled, without accidentally filling the background of the image.
@@ -1456,8 +1481,10 @@ The edges or areas of solid colors generally have a mix of colors at the edge, d
 As such you should avoid direct color replace if possible.
 
 For example here I take what looks like a simple black and white 'cow' and try to make it a red cow.
-  
-      convert cow.gif -fill red -opaque black  cow_replace_red.gif
+
+~~~
+convert cow.gif -fill red -opaque black  cow_replace_red.gif
+~~~
 
 [![\[IM Output\]](cow.gif)](cow.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](cow_replace_red.gif)](cow_replace_red.gif)
 
@@ -1473,8 +1500,10 @@ Another color will be treated as being *same* as the color being looked for, if 
 The larger the 'fuzz factor' and more 'near' colors will match and be replaced.
 
 So lets try that on our cow image so as to convert not only pure-black but also near-black colors to red.
-  
-      convert cow.gif -fuzz 40%  -fill red -opaque black  cow_replace_fuzz.gif
+
+~~~
+convert cow.gif -fuzz 40%  -fill red -opaque black  cow_replace_fuzz.gif
+~~~
 
 [![\[IM Output\]](cow.gif)](cow.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](cow_replace_fuzz.gif)](cow_replace_fuzz.gif)
 
