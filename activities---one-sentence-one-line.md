@@ -28,7 +28,7 @@ DONE|Mark|./advanced/index.md
 ?|?|./anim_opt/index.md
 ?|?|./annotating/index.md
 ?|?|./antialiasing/index.md
-Taken|Eric|./api/index.md
+DONE|Eric|./api/index.md
 DONE|Eric|./backgrounds/index.md
 DONE|Eric|./basics/index.md
 DONE|Eric|./blur/index.md
