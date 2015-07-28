@@ -42,29 +42,31 @@ This is recommended reading before going further in any of the later animation s
 
 The default way ImageMagick handles the output of a image list is to generate a multi-page image.
 For the GIF image format, however, this takes the special form of a 'GIF animation'.
-  
-      convert -delay 100  -size 100x100 xc:SkyBlue \
-              -page +5+10  balloon.gif   -page +35+30 medical.gif  \
-              -page +62+50 present.gif   -page +10+55 shading.gif  \
-              -loop 0  animation.gif
 
-  
+~~~
+convert -delay 100  -size 100x100 xc:SkyBlue \
+        -page +5+10  balloon.gif   -page +35+30 medical.gif  \
+        -page +62+50 present.gif   -page +10+55 shading.gif  \
+        -loop 0  animation.gif
+~~~
+
 [![\[IM Output\]](animation.gif)](animation.gif)
 
 Here is a more advanced 'sparkle' example that uses a shell script "**`star_field`**".
 This script was developed from my experiments in generating [random star fields](../advanced/#stars).
-  
-      star_field 70x46  stars1.gif
-      star_field 70x46  stars2.gif
-      star_field 70x46  stars3.gif
-      convert rose:   -compose Screen \
-              \( -clone 0 stars1.gif -composite \) \
-              \( -clone 0 stars2.gif -composite \) \
-              \( -clone 0 stars3.gif -composite \) \
-              -delete 0 -set delay 25 -layers Optimize rose_sparkle.gif
-      rm stars[123].gif
 
-  
+~~~
+star_field 70x46  stars1.gif
+star_field 70x46  stars2.gif
+star_field 70x46  stars3.gif
+convert rose:   -compose Screen \
+        \( -clone 0 stars1.gif -composite \) \
+        \( -clone 0 stars2.gif -composite \) \
+        \( -clone 0 stars3.gif -composite \) \
+        -delete 0 -set delay 25 -layers Optimize rose_sparkle.gif
+rm stars[123].gif
+~~~
+
 [![\[IM Output\]](rose_sparkle.gif)](rose_sparkle.gif)
 
 Basically three random star fields are generated, at the right size, then overlaid onto our image, the IM built-in "`rose:`", using a '`Screen`' alpha composition to brighten the image with the given star patterns.
@@ -104,7 +106,7 @@ For example if you specify '`1x160`' will set a delay that is appropriate for 16
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > GIF animation delays must be specified in hundredths of a second for correct working, which is why that is the default time unit.
-The '`x`' factor is used more for generating other more movie like formats, such a MNG's, and AVI's.
+> The '`x`' factor is used more for generating other more movie like formats, such a MNG's, and AVI's.
 
 `-set dispose {method} -set delay {time}`
 
@@ -128,11 +130,11 @@ The size of the first image defines the canvas size of the whole animation.
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > The GIF image format can not specify a negative offset for images on a canvas.
-If you try to use a negative offset IM will reset it to zero when that image (or animation frame) is written to a GIF file.
+> If you try to use a negative offset IM will reset it to zero when that image (or animation frame) is written to a GIF file.
 >
 > Positive offsets larger than the image canvas are quite acceptable but may result in the image not appearing in the canvas drawing area when displayed.
-How a GIF animation display program handles this is undefined.
-Caution is advised.
+> How a GIF animation display program handles this is undefined.
+> Caution is advised.
 
 `-repage {w}x{h}+{x}+{y}`
 
@@ -180,29 +182,31 @@ Basically this tells the computer to just leave whatever is overlaid by this spe
 Or more precisely, 'do nothing'.
 However please note that the whole canvas is always cleared at the end of the animation sequence, before it loops and repeats.
 Here for example is a standard 'None dispose' animation...
-  
-      convert -delay 100 -dispose None \
-                  -page 100x100+5+10  balloon.gif  \
-                  -page +35+30 medical.gif  \
-                  -page +62+50 present.gif  \
-                  -page +10+55 shading.gif  \
-              -loop 0  anim_none.gif
 
-  
+~~~
+convert -delay 100 -dispose None \
+            -page 100x100+5+10  balloon.gif  \
+            -page +35+30 medical.gif  \
+            -page +62+50 present.gif  \
+            -page +10+55 shading.gif  \
+        -loop 0  anim_none.gif
+~~~
+
 [![\[IM Output\]](anim_none.gif)](anim_none.gif)
 
 This disposal technique is ideal for animations which involve no form of transparency, such as animations drawn on a solid, or patterned background.
-  
-      convert -dispose none  -delay 100 \
-                    -size 100x100 xc:SkyBlue +antialias \
-                    -fill DodgerBlue -draw 'circle 50,50 15,25' \
-                    -page +5+10  balloon.gif  \
-                    -page +35+30 medical.gif  \
-                    -page +62+50 present.gif  \
-                    -page +10+55 shading.gif  \
-              -loop 0  canvas_none.gif
 
-  
+~~~
+convert -dispose none  -delay 100 \
+              -size 100x100 xc:SkyBlue +antialias \
+              -fill DodgerBlue -draw 'circle 50,50 15,25' \
+              -page +5+10  balloon.gif  \
+              -page +35+30 medical.gif  \
+              -page +62+50 present.gif  \
+              -page +10+55 shading.gif  \
+        -loop 0  canvas_none.gif
+~~~
+
 [![\[IM Output\]](canvas_none.gif)](canvas_none.gif)
 
 Note that this technique can only add visible colors to an animation.
@@ -215,26 +219,25 @@ To also handle transparency need to use one of the other sorts of disposal metho
 
 The '`Previous`' disposal method is relatively simple.
 When the current image is finished, return the canvas to what it looked like before the image was overlaid.
-If the previous frame image also used a '`Previous`' disposal method, then the result will be that same as what it was before that frame..
-etc..
-etc..
-etc...
+If the previous frame image also used a '`Previous`' disposal method, then the result will be that same as what it was before that frame.. etc.. etc.. etc...
 For example in this animation each of the later frames will return to the very first frame of the image, which has a '`None` disposal setting, before overlaying the image associated with that frame.
 
 The result is a background canvas that has just each frame image overlaid for just the duration of that image...
-  
-      convert -dispose none  -delay 0 \
-                    -size 100x100 xc:SkyBlue +antialias \
-                    -fill DodgerBlue -draw 'circle 50,50 15,25' \
-              -dispose previous -delay 100 \
-                    -page +5+10  balloon.gif  \
-                    -page +35+30 medical.gif  \
-                    -page +62+50 present.gif  \
-                    -page +10+55 shading.gif  \
-              -loop 0  canvas_prev.gif
 
-  
+~~~
+convert -dispose none  -delay 0 \
+              -size 100x100 xc:SkyBlue +antialias \
+              -fill DodgerBlue -draw 'circle 50,50 15,25' \
+        -dispose previous -delay 100 \
+              -page +5+10  balloon.gif  \
+              -page +35+30 medical.gif  \
+              -page +62+50 present.gif  \
+              -page +10+55 shading.gif  \
+        -loop 0  canvas_prev.gif
+~~~
+
 [![\[IM Output\]](canvas_prev.gif)](canvas_prev.gif)
+
 Note the "`-dispose`" method '`None`' used for the first image.
 This is important, otherwise the 'previous' frame will go all the way back to the original empty canvas that was present before the first frame.
 
@@ -249,7 +252,8 @@ Though that is quite rarely seen these days, the flicker itself is still present
 See [Zero Delay Frames](#zero) below for more specifics.
 
 Few animations make use of a dispose previous style of animation, the reason is that it is very difficult for computers to optimise.
-The problem is just what frame should the computer pick to become the background image? Simple for us humans to figure out the best image to use, but difficult for a computer decide.
+The problem is just what frame should the computer pick to become the background image?
+Simple for us humans to figure out the best image to use, but difficult for a computer decide.
 The best background image to use in an animation may not even be meant to be displayed, such as in the current example, and as such may not exist in a un-optimized version of that animation.
 
 ### Dispose Background - clear to background
@@ -261,30 +265,32 @@ Not the whole canvas, just the area that was overlaid.
 Once that is done then the resulting canvas is what is passed to the next frame of the animation, to be overlaid by that frames image.
 
 Here for example we just replace each frame with the next frame.
-  
-      convert -delay 100 -dispose Background \
-                  -page 100x100+5+10  balloon.gif  \
-                  -page +35+30 medical.gif  \
-                  -page +62+50 present.gif  \
-                  -page +10+55 shading.gif  \
-              -loop 0  anim_bgnd.gif
 
-  
+~~~
+convert -delay 100 -dispose Background \
+            -page 100x100+5+10  balloon.gif  \
+            -page +35+30 medical.gif  \
+            -page +62+50 present.gif  \
+            -page +10+55 shading.gif  \
+        -loop 0  anim_bgnd.gif
+~~~
+
 [![\[IM Output\]](anim_bgnd.gif)](anim_bgnd.gif)
 
 So you can see exactly what is going on, lets add an initial canvas image to the animation, so you can see how a '`Background`' actually 'disposes' that frame from the animation display.
-  
-      convert -delay 100 -dispose none \
-                    -size 100x100 xc:SkyBlue +antialias \
-                    -fill DodgerBlue -draw 'circle 50,50 15,25' \
-              -dispose background \
-                    -page +5+10  balloon.gif  \
-                    -page +35+30 medical.gif  \
-                    -page +62+50 present.gif  \
-                    -page +10+55 shading.gif  \
-              -loop 0  canvas_bgnd.gif
 
-  
+~~~
+convert -delay 100 -dispose none \
+              -size 100x100 xc:SkyBlue +antialias \
+              -fill DodgerBlue -draw 'circle 50,50 15,25' \
+        -dispose background \
+              -page +5+10  balloon.gif  \
+              -page +35+30 medical.gif  \
+              -page +62+50 present.gif  \
+              -page +10+55 shading.gif  \
+        -loop 0  canvas_bgnd.gif
+~~~
+
 [![\[IM Output\]](canvas_bgnd.gif)](canvas_bgnd.gif)
 
 As you can see as each overlaid frame is disposed of, that frames area is cleared to transparency, before the next image is overlaid.
@@ -317,25 +323,27 @@ Before we can continue with the basics of GIF animation, their types, optimizati
 
 Now an animation consists of a lot of information packed into each individual frame.
 You can see some of this information using the default IM "`identify`" command.
-  
-      identify canvas_prev.gif
 
-  
+~~~
+identify canvas_prev.gif
+~~~
+
 [![\[IM Text\]](identify_prev.txt.gif)](identify_prev.txt)
 
-  
+
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
->  If you did not see output like the above your IM is a little old, and you really should upgrade your installed version of ImageMagick, to the latest version.
-If you don't you will be missing out on a lot of the new advances in IM's handling and control of GIF animations.
+> If you did not see output like the above your IM is a little old, and you really should upgrade your installed version of ImageMagick, to the latest version.
+> If you don't you will be missing out on a lot of the new advances in IM's handling and control of GIF animations.
 
 
 As you can see the actual image saved for the second and later frames is only 32x32 pixels, but all the frames sits on a 100x100 pixel 'virtual canvas' with a 'virtual offset' on that larger canvas.
 To see more of the various bits of meta-data that is present you need to use some of the more specialized [percent Escape Formats](http://imagemagick.org/script/escape.php) to get IM to output it.
-  
-      identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" \
-               canvas_prev.gif
 
-  
+~~~
+identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" \
+         canvas_prev.gif
+~~~
+
 [![\[IM Text\]](identify_prev_more.txt.gif)](identify_prev_more.txt)
 
 Which clearly shows not only the canvas size, image size and offset, but also the disposal and time delays used for each individual frame.
@@ -347,10 +355,16 @@ Now as you saw above, ImageMagick will by default try to save multiple images in
 However as discussed in [Writing a Multi-Image List](../files/#write_list) IM will let you use the "`+adjoin`" setting to tell it to save each image to disk as a separate individual image.
 
 For example, here we read in one of the GIF animations and output the individual frame images in the animation sequence.
-  
-      convert canvas_prev.gif -scene 1 +adjoin  frame_%03d.gif
 
-[![\[IM Output\]](frame_001.gif)](frame_001.gif) [![\[IM Output\]](frame_002.gif)](frame_002.gif) [![\[IM Output\]](frame_003.gif)](frame_003.gif) [![\[IM Output\]](frame_004.gif)](frame_004.gif) [![\[IM Output\]](frame_005.gif)](frame_005.gif)
+~~~
+convert canvas_prev.gif -scene 1 +adjoin  frame_%03d.gif
+~~~
+
+[![\[IM Output\]](frame_001.gif)](frame_001.gif)
+[![\[IM Output\]](frame_002.gif)](frame_002.gif)
+[![\[IM Output\]](frame_003.gif)](frame_003.gif)
+[![\[IM Output\]](frame_004.gif)](frame_004.gif)
+[![\[IM Output\]](frame_005.gif)](frame_005.gif)
 
 If you were to examine the actual images above you will find that although most web browsers show a larger 100x100 area, on which each sub-frame appears.
 In fact most of the actual images show are really only just 32x32 pixels, just as show in the previous 'identify' commands above.
@@ -363,10 +377,11 @@ As as such you can easily re-build the GIF animation.
 Not only is the page information preserved in each separate frame image, but also any delay, looping and GIF dispose settings, is also preserved.
   
 This means that to rebuild the animation you only need to read all the images in.
-  
-      convert frame_???.gif  anim_rebuilt.gif
 
-  
+~~~
+convert frame_???.gif  anim_rebuilt.gif
+~~~
+
 [![\[IM Output\]](anim_rebuilt.gif)](anim_rebuilt.gif)
 
 Sometimes however you don't want to preserve this page geometry information.
@@ -376,11 +391,17 @@ You can reset the page size and offset using the "`+repage`" option, to remove t
  Normally when extracting animation sub-images you also generally reset the images delay and dispose settings too to ensure they don't interfer with the editing and display.
  
 For example here I remove the unwanted virtual canvas and offset and reset the timing delays and disposals.
-  
-      convert canvas_prev.gif  +repage  -set delay 0   -set dispose None \
-              +adjoin  repage_%03d.gif
 
-[![\[IM Output\]](repage_000.gif)](repage_000.gif) [![\[IM Output\]](repage_001.gif)](repage_001.gif) [![\[IM Output\]](repage_002.gif)](repage_002.gif) [![\[IM Output\]](repage_003.gif)](repage_003.gif) [![\[IM Output\]](repage_004.gif)](repage_004.gif)
+~~~
+convert canvas_prev.gif  +repage  -set delay 0   -set dispose None \
+        +adjoin  repage_%03d.gif
+~~~
+
+[![\[IM Output\]](repage_000.gif)](repage_000.gif)
+[![\[IM Output\]](repage_001.gif)](repage_001.gif)
+[![\[IM Output\]](repage_002.gif)](repage_002.gif)
+[![\[IM Output\]](repage_003.gif)](repage_003.gif)
+[![\[IM Output\]](repage_004.gif)](repage_004.gif)
 
 Of course if you junk that meta-data, you need some way of recording and editing that data.
 See [Animation List Information](#list_info) (below) for a script that extracts both the sub-images and saves the animation meta-data, in a form that can be used to re-build the animation.
@@ -393,8 +414,10 @@ For one thing, a highly optimized animation can consist of lots of very small pa
 It can also have a lot of other 'noise' that was added for [Compression Optimization](../anim_opt/#compress_opt) to reduce the overall file size of the animation.
 
 For example, it is very difficult to figure out what this animation actually did, just by looking at the individual sub-frames of the animation.
-  
-      convert script_k.gif  +repage  +adjoin  script_k_%02d.gif
+
+~~~
+convert script_k.gif  +repage  +adjoin  script_k_%02d.gif
+~~~
 
 [![\[IM Output\]](script_k_00.gif)](script_k_00.gif) [![\[IM Output\]](script_k_01.gif)](script_k_01.gif) [![\[IM Output\]](script_k_02.gif)](script_k_02.gif) [![\[IM Output\]](script_k_03.gif)](script_k_03.gif) [![\[IM Output\]](script_k_04.gif)](script_k_04.gif) [![\[IM Output\]](script_k_05.gif)](script_k_05.gif) [![\[IM Output\]](script_k_06.gif)](script_k_06.gif) [![\[IM Output\]](script_k_07.gif)](script_k_07.gif) [![\[IM Output\]](script_k_08.gif)](script_k_08.gif) [![\[IM Output\]](script_k_09.gif)](script_k_09.gif) [![\[IM Output\]](script_k_10.gif)](script_k_10.gif)
 
@@ -405,12 +428,13 @@ This operator creates a complete view of the animation at each point, a bit like
 Such a sequence, known as a [Coalesced Animation](#coalesced) is much easier to study, edit, modify and re-optimize.
 
 Here for example will generate a montage of the same 'confusing' animation sequence I showed above, but this time we'll "`-coalesce`" the sequences, so you can see what is really happening.
-  
-      montage script_k.gif -coalesce \
-              -tile x1 -frame 4 -geometry '+2+2' \
-              -background none -bordercolor none coalesce_k_montage.gif
 
-  
+~~~
+montage script_k.gif -coalesce \
+        -tile x1 -frame 4 -geometry '+2+2' \
+        -background none -bordercolor none coalesce_k_montage.gif
+~~~
+
 [![\[IM Output\]](script_k.gif)](script_k.gif)
 [![\[IM Output\]](coalesce_k_montage.gif)](coalesce_k_montage.gif)
 
@@ -442,11 +466,13 @@ While "`+adjoin`" operator will let you extract the actual images from an animat
 
 By using some very careful manipulation of the animation images, you can display the frames so as to show not only the actual frames, but also the placement of those frames on the larger canvas.
 Here is one such method of displaying an animation.
-  
-      convert -dispose Background   script_k.gif  -matte \
-              -compose Copy -bordercolor black -border 1x1 -compose Over \
-              -coalesce  -bordercolor none   -frame 4x4+2+2 \
-              -bordercolor none -border 2x2 +append  script_k_parts.gif
+
+~~~
+convert -dispose Background   script_k.gif  -matte \
+        -compose Copy -bordercolor black -border 1x1 -compose Over \
+        -coalesce  -bordercolor none   -frame 4x4+2+2 \
+        -bordercolor none -border 2x2 +append  script_k_parts.gif
+~~~
 
 [![\[IM Output\]](script_k_parts.gif)](script_k_parts.gif)
 
@@ -456,8 +482,10 @@ The result is a slowly growing picture.
 Each frame is also a lot smaller than the 'virtual canvas' on which it is positioned.
 
 I use this display technique a lot during the development and debugging of GIF animations, as such I converted it into a shell script "**`gif_anim_montage`**", and expanded it to also list some of the details above each frame in the animation.
-  
-      gif_anim_montage   script_k.gif   script_k_frames.gif
+
+~~~
+gif_anim_montage   script_k.gif   script_k_frames.gif
+~~~
 
 [![\[IM Output\]](script_k_frames.gif)](script_k_frames.gif)
 
@@ -466,8 +494,10 @@ Animations with variable timing can be some of the most interesting, but also mo
 
 The "`gif_anim_montage`" script also the special option '`-u`' which will also underlay a semi-transparent copy of the coalesced animation.
 This lets you see how the new sub-frames modifies the displayed animation.
-  
-      gif_anim_montage  -u  script_k.gif  script_k_frames.png
+
+~~~
+gif_anim_montage  -u  script_k.gif  script_k_frames.png
+~~~
 
 [![\[IM Output\]](script_k_frames.png)](script_k_frames.png)
 
@@ -492,10 +522,11 @@ The "**`gif2anim`**" script will separate the individual frames of the animation
 You can think of "`gif2anim`" as a animation disassembler, producing a summary of the animation in terms of IM options.
 
 For example, lets decode the animation example we have been using to recover the original "`convert`" settings used to create it, as well as individual images used...
-  
-      gif2anim canvas_prev.gif
 
-  
+~~~
+gif2anim canvas_prev.gif
+~~~
+
 [![\[IM Text\]](canvas_prev.anim.gif)](canvas_prev.anim)
   
 [![\[IM Output\]](canvas_prev_001.gif)](canvas_prev_001.gif)  
@@ -512,15 +543,17 @@ Also while it is not important to actually generating an animation, the size, an
 
 Rather than save the results to a file you can just list the animation sequence options to the screen using a "`-l`" flag.
 That is just output the animation sequence file, rather than save it, or the individual frame images of the animation.
-  
-      gif2anim -l canvas_prev.gif
 
-  
+~~~
+gif2anim -l canvas_prev.gif
+~~~
+
 Given a "`.anim`" file and the individual framing images, a complementary script "**`anim2gif`**" can be used to re-build the animation.
-  
-      anim2gif canvas_prev.anim
 
-  
+~~~
+anim2gif canvas_prev.anim
+~~~
+
 [![\[IM Output\]](canvas_prev_anim.gif)](canvas_prev_anim.gif)
 
 The "`anim2gif`" by default will re-create the GIF animation with a "`_anim.gif`" suffix.
@@ -552,23 +585,29 @@ In other words this show exactly what the GIF "`-dispose`" method setting actual
 For example here is how each of our three [Dispose Method Example Animations](#dispose) look like after the individual frame dispose method was applied.
 Remember each of these animations consist of a 'canvas image' that was set with a '`None`' "`-dispose`" setting, then followed by four smaller images overlaid then disposed of by the various GIF dispose methods.
 '`None`' dispose animation...
-  
-      convert  canvas_none.gif -layers Dispose canvas_none_dispose.gif
-      gif_anim_montage canvas_none_dispose.gif canvas_none_dispose_frames.gif
+
+~~~
+convert  canvas_none.gif -layers Dispose canvas_none_dispose.gif
+gif_anim_montage canvas_none_dispose.gif canvas_none_dispose_frames.gif
+~~~
 
 [![\[IM Output\]](canvas_none_dispose_frames.gif)](canvas_none_dispose_frames.gif)
 
 '`Previous`' dispose animation...
-  
-      convert  canvas_prev.gif -layers Dispose canvas_prev_dispose.gif
-      gif_anim_montage canvas_prev_dispose.gif canvas_prev_dispose_frames.gif
+
+~~~
+convert  canvas_prev.gif -layers Dispose canvas_prev_dispose.gif
+gif_anim_montage canvas_prev_dispose.gif canvas_prev_dispose_frames.gif
+~~~
 
 [![\[IM Output\]](canvas_prev_dispose_frames.gif)](canvas_prev_dispose_frames.gif)
 
 '`Background`' dispose animation...
-  
-      convert  canvas_bgnd.gif -layers Dispose canvas_bgnd_dispose.gif
-      gif_anim_montage canvas_bgnd_dispose.gif canvas_bgnd_dispose_frames.gif
+
+~~~
+convert  canvas_bgnd.gif -layers Dispose canvas_bgnd_dispose.gif
+gif_anim_montage canvas_bgnd_dispose.gif canvas_bgnd_dispose_frames.gif
+~~~
 
 [![\[IM Output\]](canvas_bgnd_dispose_frames.gif)](canvas_bgnd_dispose_frames.gif)
 
@@ -583,10 +622,10 @@ It is the effect of the dispose method in the later frames that is imporant.
 >
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > The look of the final frame after the GIF dispose method is normally of no consequence to a GIF animation, as the whole canvas is completely cleared before the animation repeats (loops).
-If it does not 'loop' but stops at the end of the animation sequence, then the final frames disposal is not applied.
+> If it does not 'loop' but stops at the end of the animation sequence, then the final frames disposal is not applied.
 >  
 > In other words the appearance of the last frame (after disposal) as shown above, or even the actual dispose setting of the last frame, does have any effect on a GIF animation.
-IM generally sets this to same as the previous frame when it trys to work out an appropriate disposal method, during a [Frame Optimize](../anim_opt/#optframe) an animation.
+> IM generally sets this to same as the previous frame when it trys to work out an appropriate disposal method, during a [Frame Optimize](../anim_opt/#optframe) an animation.
 
 ### Deconstruct - report areas of frame differences
 
@@ -601,15 +640,21 @@ Any pixel change, will count, regardless of if it is a color change (overlay) or
 This is quite simple, and for a typical [Overlay Animations](#overlay) will generate an optimal [Frame Optimization](../anim_opt/#frame_opt) for that animation.
 An [Overlay Animations](#overlay) animation however only use a '`None`' dispose method only.
 For example lets take the [coalesce previous animation](#coalesce) we generated above, which happens to form a [Overlay Animation](#overlay), and run it though the "`-deconstruct`" operator.
-  
-      convert  canvas_prev.gif   -coalesce     coalesce.gif
-      convert  coalesce.gif     -deconstruct   deconstruct.gif
-      gif_anim_montage  coalesce.gif     coalesce_frames.gif
-      gif_anim_montage  deconstruct.gif  deconstruct_frames.gif
+
+~~~
+convert  canvas_prev.gif   -coalesce     coalesce.gif
+convert  coalesce.gif     -deconstruct   deconstruct.gif
+gif_anim_montage  coalesce.gif     coalesce_frames.gif
+gif_anim_montage  deconstruct.gif  deconstruct_frames.gif
+~~~
 
 [![\[IM Output\]](deconstruct.gif)](deconstruct.gif)
-[![\[IM Output\]](coalesce_frames.gif)](coalesce_frames.gif) ![==&gt;](../img_www/space.gif)  
-![==&gt;](../img_www/right.gif) [![\[IM Output\]](deconstruct_frames.gif)](deconstruct_frames.gif)
+[![\[IM Output\]](coalesce_frames.gif)](coalesce_frames.gif)
+![==&gt;](../img_www/space.gif)
+
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](deconstruct_frames.gif)](deconstruct_frames.gif)
+
 A 'previous dispose animation' if you remember clears each frame to the last non-previous disposed frame, in this case the initial background canvas.
 As you can see "`-deconstruct`" returned the area that changed from one coalesced frame to the next.
 Resulting in a optimized [Overlay Animation](#overlay), that requires no special dispose setting.
@@ -622,10 +667,11 @@ Consequently if you try this on an animation that clears pixels from one frame t
 [![\[IM Output\]](canvas_bgnd.gif)](canvas_bgnd.gif)
   
 Here we take the just shown animation, and run it though a "`-coalesce`" and "`-deconstruct`" cycle.
-  
-      convert canvas_bgnd.gif  -coalesce  -deconstruct  deconstruct_erase.gif
 
-  
+~~~
+convert canvas_bgnd.gif  -coalesce  -deconstruct  deconstruct_erase.gif
+~~~
+
 [![\[IM Output\]](deconstruct_erase.gif)](deconstruct_erase.gif)
 
 As you can see "`-deconstruct`", slowly destroys the animation.
@@ -642,24 +688,31 @@ The "`-layers`" method '`CompareAny`' is actually exactly the same as "`-deconst
 In fact the "`-deconstruct`" operator is only a functional alias for the '`CompareAny`' method.
 
 Again lets look at the actual image results of a 'deconstruct' or '`CompareAny`' of the '[background disposed](#background)' animation.
-  
-      convert canvas_bgnd.gif  -coalesce  canvas_bgnd_coal.gif
-      gif_anim_montage canvas_bgnd_coal.gif canvas_bgnd_coal_frames.gif
 
-      convert canvas_bgnd_coal.gif  -layers CompareAny   compare_any.gif
-      gif_anim_montage compare_any.gif compare_any_frames.gif
+~~~
+convert canvas_bgnd.gif  -coalesce  canvas_bgnd_coal.gif
+gif_anim_montage canvas_bgnd_coal.gif canvas_bgnd_coal_frames.gif
 
-[![\[IM Output\]](canvas_bgnd_coal_frames.gif)](canvas_bgnd_coal_frames.gif) ![==&gt;](../img_www/space.gif)  
-![==&gt;](../img_www/right.gif) [![\[IM Output\]](compare_any_frames.gif)](compare_any_frames.gif)
+convert canvas_bgnd_coal.gif  -layers CompareAny   compare_any.gif
+gif_anim_montage compare_any.gif compare_any_frames.gif
+~~~
+
+[![\[IM Output\]](canvas_bgnd_coal_frames.gif)](canvas_bgnd_coal_frames.gif)
+![==&gt;](../img_www/space.gif)
+
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](compare_any_frames.gif)](compare_any_frames.gif)
 
 As you can see the second and later images, is the minimal rectangular area that contains all the pixels that have changed, whether it is a overlay of a new pixel color, or a clearing of an old pixel to transparency.
 
 #### Compare\_Clear
 
 The "`-layers`" method '`CompareClear`' will show the smallest rectangular area that contains all the pixels that needed to be cleared from one frame to the next.
-  
-      convert canvas_bgnd_coal.gif -quiet -layers CompareClear compare_clear.gif
-      gif_anim_montage compare_clear.gif compare_clear_frames.gif
+
+~~~
+convert canvas_bgnd_coal.gif -quiet -layers CompareClear compare_clear.gif
+gif_anim_montage compare_clear.gif compare_clear_frames.gif
+~~~
 
 [![\[IM Output\]](compare_clear_frames.gif)](compare_clear_frames.gif)
 
@@ -670,9 +723,11 @@ If all the later frames all become 'missed' images, then the GIF animation never
 #### Compare\_Overlay
 
 The last "`-layers`" comparison method, '`CompareOverlay`', returns the area of pixels that were overlaid (added or changed in color, but not cleared) since the previous frame.
-  
-      convert canvas_bgnd_coal.gif  -layers CompareOverlay  compare_overlay.gif
-      gif_anim_montage compare_overlay.gif compare_overlay_frames.gif
+
+~~~
+convert canvas_bgnd_coal.gif  -layers CompareOverlay  compare_overlay.gif
+gif_anim_montage compare_overlay.gif compare_overlay_frames.gif
+~~~
 
 [![\[IM Output\]](compare_overlay_frames.gif)](compare_overlay_frames.gif)
 
@@ -750,7 +805,9 @@ It never adds new transparency to the resulting image (except as part of the fir
 [![\[IM Output\]](script_k_frames.gif)](script_k_frames.gif)
   
 [![\[IM Output\]](script_k.gif)](script_k.gif)
-[![\[IM Output\]](dl_world_anim.gif)](dl_world_anim.gif) That is not to say an moving object can't be handled by an overlay animation, it just means you need a non-transparent background so you can also 'erase' the old positions of the moving parts without needing transparency.
+[![\[IM Output\]](dl_world_anim.gif)](dl_world_anim.gif)
+
+That is not to say an moving object can't be handled by an overlay animation, it just means you need a non-transparent background so you can also 'erase' the old positions of the moving parts without needing transparency.
 For example look at the frames of this "download the world into a folder" animation...
 
 
@@ -768,9 +825,10 @@ With some human skill you can still optimize a overlay animation better, for exa
 Typically 'Overlay Animations' display no transparency at all (they can use it as part of optimization, but they don't display it).
 And if no transparency is displayed, then the animation is guaranteed to be a 'Overlay Animation'.
 
-Why is 'Overlay Animations' so important? Because there is software out there that are limited to this type of animation.
+Why is 'Overlay Animations' so important?
+Because there is software out there that are limited to this type of animation.
 It is much simpler.
- to handle as only overlay is performed without need to handle transparency, or save the previous frame to handle GIF disposal methods.
+To handle as only overlay is performed without need to handle transparency, or save the previous frame to handle GIF disposal methods.
 Such software is rare but does exist.
 
 ### Cleared Frame Animations
@@ -811,10 +869,11 @@ Specifically we need to make sure all the disposals are set to '`Previous`' (whi
 If that is done, then you can just pre-pend a image (with a zero delay) to underlay a background.
   
 For example lets place our bunny on some grass....
-  
-      convert bunny_grass.gif bunny_anim.gif -loop 0  bunny_on_grass.gif
 
-  
+~~~
+convert bunny_grass.gif bunny_anim.gif -loop 0  bunny_on_grass.gif
+~~~
+
 [![\[IM Output\]](bunny_on_grass.gif)](bunny_on_grass.gif)
 
 As you can see this is so simple that many applications use these types of GIF animations to add symbols or other indicators (file locks, smileys, stars, etc) to larger objects.
@@ -826,17 +885,19 @@ This is also the reason why a '`Previous`' disposal is the preferred disposal fo
 
 Unlike a [Overlay Animation](#overlay) which are only a special sub-set of GIF animations, ALL animations can be saved as a [Cleared Frame Animation](#cleared).
 Just [coalesce](#coalesce) the animation, and optionally [trim](../crop/#trim) any surrounding transparent edges to frame optimize it, and reset the disposals.
-  
-      convert any_animation.gif -coalesce -trim \
-              -set dispose previous   cleared_frame_animation.gif
 
-  
+~~~
+convert any_animation.gif -coalesce -trim \
+        -set dispose previous   cleared_frame_animation.gif
+~~~
+
 You can even re-position the animation on that background...
-  
-      convert bunny_grass.gif \( bunny_anim.gif -repage 0x0+5+15\! \) \
-              -loop 0  bunny_on_grass2.gif
 
-  
+~~~
+convert bunny_grass.gif \( bunny_anim.gif -repage 0x0+5+15\! \) \
+        -loop 0  bunny_on_grass2.gif
+~~~
+
 [![\[IM Output\]](bunny_on_grass2.gif)](bunny_on_grass2.gif)
 As such a [Cleared Frame Animation](#cleared) typically consists of a small, constantly changing or moving object on a transparent background.
 These are directly usable on web pages, or as animated symbols, or can be merged with other animations to produce much more complex animations.
@@ -855,12 +916,13 @@ That is add that background to every frame of the animation, rather than give an
 You can do that by either, [Coalescing](#coalesce) the above animation, then deleting the [Zero Delay](#zero) Background frame, OR [Layer Composite](../anim_mods/#composite) the original animation onto a [Static Background](../anim_mods/#background).
 
 For example...
-  
-      convert bunny_grass.gif \( bunny_anim.gif -repage 0x0+5+15\! \) \
-              -coalesce -delete 0 -deconstruct -loop 0  bunny_bgnd.gif
-      gif_anim_montage  bunny_bgnd.gif  bunny_bgnd_frames.gif
 
-  
+~~~
+convert bunny_grass.gif \( bunny_anim.gif -repage 0x0+5+15\! \) \
+        -coalesce -delete 0 -deconstruct -loop 0  bunny_bgnd.gif
+gif_anim_montage  bunny_bgnd.gif  bunny_bgnd_frames.gif
+~~~
+
 [![\[IM Output\]](bunny_bgnd.gif)](bunny_bgnd.gif)
 [![\[IM Output\]](bunny_bgnd_frames.gif)](bunny_bgnd_frames.gif)
 
@@ -871,8 +933,8 @@ See [Transparency Optimization](../anim_opt/#opt_trans) for a continuation of th
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > The IM forum member [el\_supremo](../forum_link.cgi?u=3499), Pete, has contributed a MagickWand equivelent script, [Cleared Frame onto Background example](http://members.shaw.ca/el.supremo/MagickWand/bunny.htm).
-  
-This example is also discussed in detail in the IM Forum [Creating a Cleared Frame GIF Animation in the MagickWand](../forum_link.cgi?f=6&t=20472).
+>
+> This example is also discussed in detail in the IM Forum [Creating a Cleared Frame GIF Animation in the MagickWand](../forum_link.cgi?f=6&t=20472).
 
 ### Mixed Disposal Animations - multi-background animations
 
@@ -958,7 +1020,8 @@ These special frames are actually a lot more common then people would probably t
 They represent not only methods to prepend a background 'canvas' to an animation (such as I have used them for above).
 But they are also a must for some of the more complex [Frame Optimization](../anim_opt/#opt_frame) techniques, such as [Frame Doubling](../anim_opt/#doubling) and [Splitting Frame Updates](../anim_opt/#splitting).
 
-Another (very old pre-PNG format) usage was to allow you to create static GIF images that contained more than the 256 color limit! That is each frame provides 256 colors, and the next frame the next set of 256 colors, all with zero delay and no looping at the end.
+Another (very old pre-PNG format) usage was to allow you to create static GIF images that contained more than the 256 color limit!
+That is each frame provides 256 colors, and the next frame the next set of 256 colors, all with zero delay and no looping at the end.
 Thanks to [TLUL](../forum_link.cgi?u=23894) in the discussion [Creating unquantized GIFs](../forum_link.cgi?f=1&t=22855) for pointing this out.
 
 These '*zero delay intermediate frames*' are not meant to be displayed to a user.
@@ -971,25 +1034,24 @@ In summary...
 
 ImageMagick not only will create such frame in animations as part of its automatic '[OptimizePlus](../anim_opt/#optimizeplus)', but also provides a way to remove them using the '[RemoveZero](../anim_opt/#removezero)' layers method.
 Watch out for them, as they will often complicate your handling of Animations.
-Okay so they are important, what of it? Because many applications don't like them, or incorrectly handle them.
+Okay so they are important, what of it?
+Because many applications don't like them, or incorrectly handle them.
 They consider 'Zero Delay Frames' as a bad thing, even when you purposely add them to animations, for some reason or another.
 
 Here is summary of applications that I know about or have been told, 'do the wrong thing'...
   
-**Gimp**
+### Gimp
   
 Will not save a 'Zero Delay Frame', they always add a minimal time delay to any frame that has a zero time delay.
 :-(  
- 
-  
-**FireFox**
+
+### FireFox
   
 Will give a slight non-zero pause on such frames.
 This presumably is so that animations that have no time delays at all, do use up all the computers CPU cycles.
 But "`firefox`" still doesn't relax that restriction if an animation has an overall non-zero display time.
- 
-  
-**Internet Explorer**
+
+### Internet Explorer
   
 Has a minimum time delay of 6 centi-seconds, and ignores any delay smaller than this.
   

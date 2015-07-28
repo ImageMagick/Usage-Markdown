@@ -23,7 +23,7 @@
 Status|Who|File
 :-:|:-|:-
 DONE|Mark|./advanced/index.md
-?|?|./anim_basics/index.md
+DONE|Eric|./anim_basics/index.md
 ?|?|./anim_mods/index.md
 ?|?|./anim_opt/index.md
 DONE|Eric|./annotating/index.md
