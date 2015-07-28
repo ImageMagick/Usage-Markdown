@@ -8,54 +8,77 @@
    * [![](../img_www/granitesm_right.gif) Drawing Thin Bitmapped Circles](#thin_circles)
    * [![](../img_www/granitesm_right.gif) Anti-Aliasing and Flood Fill Problems](#floodfill)
 
-Anti-aliasing is a major part of all drawing operations within ImageMagick. Unfortunately it can also cause many problems. This page tries to cover these problems and present solutions to them.
+Anti-aliasing is a major part of all drawing operations within ImageMagick.
+Unfortunately it can also cause many problems.
+This page tries to cover these problems and present solutions to them.
 
 ------------------------------------------------------------------------
 
 ## Anti-Aliasing Introduction
 
-ImageMagick when it draws images, does so in a very particular way. It draws them with a operation call "anti-aliasing".
+ImageMagick when it draws images, does so in a very particular way.
+It draws them with a operation call "anti-aliasing".
 
 To demonstrate, I'll draw an image on a transparent background, then magnify a small part of the image so you can see what is happening.
-  
-       convert -size 80x80 xc:none \
-                -fill white  -draw "circle 40,40 15,20" \
-                -fill black  -draw "line 5,30 78,2"    drawn.png
-        convert drawn.png -crop 10x10+50+5 +repage -scale 80x80  drawn_mag.png
-     
 
-[![\[IM Output\]](drawn.png)](drawn.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](drawn_mag.png)](drawn_mag.png)
+~~~
+convert -size 80x80 xc:none \
+         -fill white  -draw "circle 40,40 15,20" \
+         -fill black  -draw "line 5,30 78,2"    drawn.png
+convert drawn.png -crop 10x10+50+5 +repage -scale 80x80  drawn_mag.png
+~~~
 
-Now you would think that the above image would have only three colors, 'white', 'black', and 'transparent', as that is all we asked for IM to use. But as you can see when the image is magnified it has a whole range of colors. By doing this ImageMagick makes the image look smoother and better looking, using a technique called 'anti-aliasing'. This is a fancy term that means it fills in edge pixels of the object with a mix of colors and even transparencies, to make the object look smoother.
+[![\[IM Output\]](drawn.png)](drawn.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](drawn_mag.png)](drawn_mag.png)
+
+Now you would think that the above image would have only three colors, 'white', 'black', and 'transparent', as that is all we asked for IM to use.
+But as you can see when the image is magnified it has a whole range of colors.
+By doing this ImageMagick makes the image look smoother and better looking, using a technique called 'anti-aliasing'.
+This is a fancy term that means it fills in edge pixels of the object with a mix of colors and even transparencies, to make the object look smoother.
 
 If no anti-aliasing was done, then the edges of all the draw objects would have a staircase like effect called 'aliasing' though more commonly referred to as the 'jaggies'.
 
 Here we draw the image again but this time we asked IM to turn off its automatic anti-aliasing operations, using "`+antialias`".
-  
-       convert -size 80x80 xc:none +antialias \
-                -fill white  -draw "circle 40,40 15,20" \
-                -fill black  -draw "line 5,30 78,2"    drawn_jaggies.png
-        convert drawn_jaggies.png -crop 10x10+50+5 +repage -scale 80x80 \
-                drawn_jaggies_mag.png
-     
 
-[![\[IM Output\]](drawn_jaggies.png)](drawn_jaggies.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](drawn_jaggies_mag.png)](drawn_jaggies_mag.png)
+~~~
+convert -size 80x80 xc:none +antialias \
+         -fill white  -draw "circle 40,40 15,20" \
+         -fill black  -draw "line 5,30 78,2"    drawn_jaggies.png
+convert drawn_jaggies.png -crop 10x10+50+5 +repage -scale 80x80 \
+        drawn_jaggies_mag.png
+~~~
 
-This time the image really does only have three colors. But the result is not very nice at all. On the latest IM a single line of pixels is drawn, in a staircase like manner. On older IM's the line would have also be quite thick in appearence, making it look even worse. Basically this is not something you would normally want to do.
+[![\[IM Output\]](drawn_jaggies.png)](drawn_jaggies.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](drawn_jaggies_mag.png)](drawn_jaggies_mag.png)
 
-The straircase of 'aliasing' effects, also commonly called the 'jaggies', is what IM was trying to avoid. But if you want specific colors, then you will need to accept this, or use other techniques (such as color quantization) to ensure you only use certain colors.
+This time the image really does only have three colors.
+But the result is not very nice at all.
+On the latest IM a single line of pixels is drawn, in a staircase like manner.
+On older IM's the line would have also be quite thick in appearence, making it look even worse.
+Basically this is not something you would normally want to do.
 
-Note that there are actually two forms of anti-aliasing happening. The first is a blending of the white and black colors in the image, producing various color shades, grey in this case.
+The straircase of 'aliasing' effects, also commonly called the 'jaggies', is what IM was trying to avoid.
+But if you want specific colors, then you will need to accept this, or use other techniques (such as color quantization) to ensure you only use certain colors.
 
-The other form is a blending of the color and transparency to generate semi-transparent pixels in the image. The later is something you will need to keep in mind, as many image formats, (such as GIF), can not handle semi-transparent pixels, and will either make such pixels fully-opaque or or fully-transparent. The examples on [GIF Boolean Transparency](../formats/#trans) demonstrate methods by which you can control the handling of semi-transparent pixels wehn saving to such formats.
+Note that there are actually two forms of anti-aliasing happening.
+The first is a blending of the white and black colors in the image, producing various color shades, grey in this case.
+
+The other form is a blending of the color and transparency to generate semi-transparent pixels in the image.
+The later is something you will need to keep in mind, as many image formats, (such as GIF), can not handle semi-transparent pixels, and will either make such pixels fully-opaque or or fully-transparent.
+The examples on [GIF Boolean Transparency](../formats/#trans) demonstrate methods by which you can control the handling of semi-transparent pixels wehn saving to such formats.
 
 ### Summary
 
-Anti-Aliasing is very important in any sort of image drawing, and something you should keep in mind. Without consideration of the mixed colors and semi-transparent pixels generated by IM anti-aliasing, your own image creations can come out looking very bad in some formats.
+Anti-Aliasing is very important in any sort of image drawing, and something you should keep in mind.
+Without consideration of the mixed colors and semi-transparent pixels generated by IM anti-aliasing, your own image creations can come out looking very bad in some formats.
 
-This becomes even more important when you are creating images in an image format which does not allow semi-transparent pixels, such as the wide spread "GIF" format. See [GIF Boolean Transparency](../formats/#trans) for ways to handle this problem.
+This becomes even more important when you are creating images in an image format which does not allow semi-transparent pixels, such as the wide spread "GIF" format.
+See [GIF Boolean Transparency](../formats/#trans) for ways to handle this problem.
 
-IM is very good at anti-aliasing colors and transparencies, but actually very poor at drawing just pure 'aliased' pixels (to match a specific color map for example). I have been told that this will be the focus of a later release of IM.
+IM is very good at anti-aliasing colors and transparencies, but actually very poor at drawing just pure 'aliased' pixels (to match a specific color map for example).
+I have been told that this will be the focus of a later release of IM.
 
 ------------------------------------------------------------------------
 
@@ -63,7 +86,8 @@ IM is very good at anti-aliasing colors and transparencies, but actually very po
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-Better ways of drawing without anti-aliasing, to generate images with exact colors. That is for 'Indexed Images'.
+Better ways of drawing without anti-aliasing, to generate images with exact colors.
+That is for 'Indexed Images'.
 
 Specifically, draw into a transparent canvas, threshold the alpha channel, then overlay, so only fully-opaque pixels are ever drawn.
 
@@ -71,65 +95,81 @@ Specifically, draw into a transparent canvas, threshold the alpha channel, then 
 
 ## Drawing Thin Bitmapped Circles
 
-Here we look at trying to draw bitmaped 'thin lined' circles using IM. Normally this is done using a bitmap circle drawing algrothm typically known as Bresenham's circle algorithm, but more correctly known as [Midpoint Circle Algorithm](http://en.wikipedia.org/wiki/Midpoint_circle_algorithm).
+Here we look at trying to draw bitmaped 'thin lined' circles using IM.
+Normally this is done using a bitmap circle drawing algrothm typically known as Bresenham's circle algorithm, but more correctly known as [Midpoint Circle Algorithm](http://en.wikipedia.org/wiki/Midpoint_circle_algorithm).
 
 Unfortunatally this is not available in ImageMagick, and may never be as it is not needed in a fully anti-aliased drawing environment.
 
 Another alternative to drawing circles, which well look at in a moment, is to use [Morphology](../morphology/#intro), to '[Dilate](../morphology/#dilate)' a single pixel, using the special [Ring Kernel](../morphology/#ring).
-  
- For example the normal IM way of drawing a circle produces a lot of grey anti-aliasing colors to give the circle a smooth appearance.
-  
-      convert -size 15x15 xc: -fill none -stroke black \
-              -draw 'translate 7,7 circle 0,0 5,0' \
-              -scale 500%  circle_antialiased.gif
+
+For example the normal IM way of drawing a circle produces a lot of grey anti-aliasing colors to give the circle a smooth appearance.
+
+~~~
+convert -size 15x15 xc: -fill none -stroke black \
+        -draw 'translate 7,7 circle 0,0 5,0' \
+        -scale 500%  circle_antialiased.gif
+~~~
 
 [![\[IM Output\]](circle_antialiased.gif)](circle_antialiased.gif)
 
 Simply turning of anti-aliasing however produces circles and lines that are not a nice thin 'bitmap' line.
-  
-      convert -size 15x15 xc: -fill none -stroke black +antialias \
-              -draw 'translate 7,7 circle 0,0 5,0' \
-              -scale 500%  circle_aliased.gif
+
+~~~
+convert -size 15x15 xc: -fill none -stroke black +antialias \
+        -draw 'translate 7,7 circle 0,0 5,0' \
+        -scale 500%  circle_aliased.gif
+~~~
 
 [![\[IM Output\]](circle_aliased.gif)](circle_aliased.gif)
 
 What you need to to is also adjust the "`-strokewidth`" , which defaults to 1 pixel wide, to something smaller, such as 0.5 pixels wide.
-  
-      convert -size 15x15 xc: -fill none -stroke black +antialias \
-              -strokewidth 0.5   -draw 'translate 7,7 circle 0,0 5,0' \
-              -scale 500%  circle_thin_stroke.gif
+
+~~~
+convert -size 15x15 xc: -fill none -stroke black +antialias \
+        -strokewidth 0.5   -draw 'translate 7,7 circle 0,0 5,0' \
+        -scale 500%  circle_thin_stroke.gif
+~~~
 
 [![\[IM Output\]](circle_thin_stroke.gif)](circle_thin_stroke.gif)
 Better not quite right.
 
 But you can also make the stroke width too small, especially with odd sized radii.
-  
-      convert -size 15x15 xc: -fill none -stroke black +antialias \
-              -strokewidth 0  -draw 'translate 7,7 circle 0,0 5,0' \
-              -scale 500%  circle_zero_stroke.gif
+
+~~~
+convert -size 15x15 xc: -fill none -stroke black +antialias \
+        -strokewidth 0  -draw 'translate 7,7 circle 0,0 5,0' \
+        -scale 500%  circle_zero_stroke.gif
+~~~
 
 [![\[IM Output\]](circle_zero_stroke.gif)](circle_zero_stroke.gif)
 
 And here is a good solution for a circle of 5 pixels centered on an integer actual pixel location.
-  
-      convert -size 15x15 xc: -fill none -stroke black +antialias \
-              -strokewidth 0.4  -draw 'translate 7,7 circle 0,0 5,0' \
-              -scale 500%  circle_perfect.gif
+
+~~~
+convert -size 15x15 xc: -fill none -stroke black +antialias \
+        -strokewidth 0.4  -draw 'translate 7,7 circle 0,0 5,0' \
+        -scale 500%  circle_perfect.gif
+~~~
 
 [![\[IM Output\]](circle_perfect.gif)](circle_perfect.gif)
 
-However After many experiments I could find no "`-strokewidth`" that works for all radii and centers. Especally a circle that is slightly off center.
+However After many experiments I could find no "`-strokewidth`" that works for all radii and centers.
+Especally a circle that is slightly off center.
 
 **There is no ideal solution for all situations**
 
-For example this circle which is not centered on a pixel, or a pixel boundary, not only has gaps at the top, but is also too thick at the bottom! Yuck!
-  
-      convert -size 15x15 xc: -fill none -stroke black +antialias \
-              -strokewidth 0.47  -draw 'translate 7,7.3 circle 0,0 5,0' \
-              -scale 500%  circle_bad_stroke.gif
+For example this circle which is not centered on a pixel, or a pixel boundary, not only has gaps at the top, but is also too thick at the bottom!
+Yuck!
+
+~~~
+convert -size 15x15 xc: -fill none -stroke black +antialias \
+        -strokewidth 0.47  -draw 'translate 7,7.3 circle 0,0 5,0' \
+        -scale 500%  circle_bad_stroke.gif
+~~~
 
 [![\[IM Output\]](circle_bad_stroke.gif)](circle_bad_stroke.gif)
-Here is a table of good "`-strokewidth`", to generate a thin single pixel wide circle of specific radius. Note that the best value to use varies depending on if the circle is centered either on an *actual* pixel (such as '` 5 , 5 `'), or on a *half* pixel boundry (such as '` 5.5 , 5.5 `')
+Here is a table of good "`-strokewidth`", to generate a thin single pixel wide circle of specific radius.
+Note that the best value to use varies depending on if the circle is centered either on an *actual* pixel (such as '` 5 , 5 `'), or on a *half* pixel boundry (such as '` 5.5 , 5.5 `')
 
 | Circle Radius | SW Actual | SW half |
 |---------------|-----------|---------|
@@ -161,85 +201,103 @@ ASIDE: To center a circle on an image, in drawing coordinates (pixel coordinates
 
 ## Anti-Aliasing and Flood Fill Problems
 
-Due to anti-aliasing features of IM, flood-filling ("`-draw color floodfill`") has problems when used on images with anti-aliasing effects. It also has similar problems with images read in from the "JPG" image format.
+Due to anti-aliasing features of IM, flood-filling ("`-draw color floodfill`") has problems when used on images with anti-aliasing effects.
+It also has similar problems with images read in from the "JPG" image format.
 
-Basically as most objects in IM are anti-aliased (or read from a "JPG" format image file), colors near the edges of drawn objects are rarely the specific color that you are using flood fill to replace. This means the flood fill will not fill the very edges of the areas you are trying to fill, unless you are avoiding anti-aliasing entirely.
+Basically as most objects in IM are anti-aliased (or read from a "JPG" format image file), colors near the edges of drawn objects are rarely the specific color that you are using flood fill to replace.
+This means the flood fill will not fill the very edges of the areas you are trying to fill, unless you are avoiding anti-aliasing entirely.
 
 Essentially flood fill, or even color replace, does not understand anti-aliasing, nor does it use anti-aliasing techniques itself.
 
 Consequently flood fill will generally miss the pixels at the very edge of the area you are filling.
 
-For example, Here we do a typical flood fill operation. Draw a circle, then try to fill it with a pattern...
-  
-        convert -size 60x60 xc:lightblue -strokewidth 2 \
-                -fill none -stroke red -draw "circle 30,30 5,30" \
-                -tile tile_weave.gif  -draw "color 30,30 floodfill" \
-                tile_fill_1.gif
-        convert tile_fill_1.gif -crop 10x10+35+4 +repage -scale 80x80 \
-                tile_fill_1_mag.gif
-     
+For example, Here we do a typical flood fill operation.
+Draw a circle, then try to fill it with a pattern...
 
-  
-[![\[IM Output\]](tile_fill_1.gif)](tile_fill_1.gif) [![\[IM Output\]](tile_fill_1_mag.gif)](tile_fill_1_mag.gif)
+~~~
+convert -size 60x60 xc:lightblue -strokewidth 2 \
+        -fill none -stroke red -draw "circle 30,30 5,30" \
+        -tile tile_weave.gif  -draw "color 30,30 floodfill" \
+        tile_fill_1.gif
+convert tile_fill_1.gif -crop 10x10+35+4 +repage -scale 80x80 \
+        tile_fill_1_mag.gif
+~~~
+
+
+[![\[IM Output\]](tile_fill_1.gif)](tile_fill_1.gif)
+[![\[IM Output\]](tile_fill_1_mag.gif)](tile_fill_1_mag.gif)
 
 As you can see in the magnified portion of the image, a line of 'off-color' pixels was completely missed by the flood fill operation, as the color of these pixels was not quite the same as the area you were filling.
 
-One way to improve this is to pre-fill the areas you intend to fill with a color that matches the pattern you are using. The pattern will still not fill the area fully, but at least it will not look quite so bad.
-  
-        convert -size 60x60 xc:lightblue -strokewidth 2 \
-                -fill black -stroke red  -draw "circle 30,30 5,30" \
-                -tile tile_weave.gif  -draw "color 30,30 floodfill" \
-                tile_fill_2.gif
-        convert tile_fill_2.gif -crop 10x10+35+4 +repage -scale 60x60 \
-                tile_fill_2_mag.gif
-     
+One way to improve this is to pre-fill the areas you intend to fill with a color that matches the pattern you are using.
+The pattern will still not fill the area fully, but at least it will not look quite so bad.
 
-  
-[![\[IM Output\]](tile_fill_2.gif)](tile_fill_2.gif) [![\[IM Output\]](tile_fill_2_mag.gif)](tile_fill_2_mag.gif)
+~~~
+convert -size 60x60 xc:lightblue -strokewidth 2 \
+        -fill black -stroke red  -draw "circle 30,30 5,30" \
+        -tile tile_weave.gif  -draw "color 30,30 floodfill" \
+        tile_fill_2.gif
+convert tile_fill_2.gif -crop 10x10+35+4 +repage -scale 60x60 \
+        tile_fill_2_mag.gif
+~~~
+
+
+[![\[IM Output\]](tile_fill_2.gif)](tile_fill_2.gif)
+[![\[IM Output\]](tile_fill_2_mag.gif)](tile_fill_2_mag.gif)
 
 Another way of doing this is to fill the area with your pattern, with a high [Fuzz Factor](../color_basics/#fuzz) , to force the pattern to fill the area completely, right to the very edge, without missing the edge pixels.
-  
-        convert -size 60x60 xc:lightblue -strokewidth 2 \
-                -fill none -stroke red  -draw "circle 30,30 5,30" \
-                -fuzz 35% -tile tile_weave.gif -draw "color 30,30 floodfill" \
-                tile_fill_3.gif
-        convert tile_fill_3.gif -crop 10x10+35+4 +repage -scale 60x60 \
-                tile_fill_3_mag.gif
-     
 
-  
-[![\[IM Output\]](tile_fill_3.gif)](tile_fill_3.gif) [![\[IM Output\]](tile_fill_3_mag.gif)](tile_fill_3_mag.gif)
-  
+~~~
+convert -size 60x60 xc:lightblue -strokewidth 2 \
+        -fill none -stroke red  -draw "circle 30,30 5,30" \
+        -fuzz 35% -tile tile_weave.gif -draw "color 30,30 floodfill" \
+        tile_fill_3.gif
+convert tile_fill_3.gif -crop 10x10+35+4 +repage -scale 60x60 \
+        tile_fill_3_mag.gif
+~~~
+
+
+[![\[IM Output\]](tile_fill_3.gif)](tile_fill_3.gif)
+[![\[IM Output\]](tile_fill_3_mag.gif)](tile_fill_3_mag.gif)
+
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> Note that a high '[fuzz factor](../color_basics/#fuzz)', like this, or the border that is too thin, can result in the fill pattern 'leaking' from the defined area. Some care is always needed when using a flood-fill operation. I don't actually recommend it as a general solution, because of this.
+> Note that a high '[fuzz factor](../color_basics/#fuzz)', like this, or the border that is too thin, can result in the fill pattern 'leaking' from the defined area.
+Some care is always needed when using a flood-fill operation.
+I don't actually recommend it as a general solution, because of this.
 
 The problem with this is that as flood fill, by its very nature, does NOT use anti-aliasing itself, the edges of filled area suffer from the 'jaggies' or alias effects.
 
-You can improve that situation by seperating the image drawing into separate steps. Create a colored circle, fill it, then draw the border.
-  
-        convert -size 60x60 xc:lightblue -fill black -draw "circle 30,30 5,30" \
-                -tile tile_weave.gif -draw "color 30,30 floodfill" +tile \
-                -fill none -stroke red  -strokewidth 2 -draw "circle 30,30 5,30" \
-                tile_fill_4.gif
-        convert tile_fill_4.gif -crop 10x10+35+4 +repage -scale 60x60 \
-                tile_fill_4_mag.gif
-     
+You can improve that situation by seperating the image drawing into separate steps.
+Create a colored circle, fill it, then draw the border.
 
-  
-[![\[IM Output\]](tile_fill_4.gif)](tile_fill_4.gif) [![\[IM Output\]](tile_fill_4_mag.gif)](tile_fill_4_mag.gif)
+~~~
+convert -size 60x60 xc:lightblue -fill black -draw "circle 30,30 5,30" \
+        -tile tile_weave.gif -draw "color 30,30 floodfill" +tile \
+        -fill none -stroke red  -strokewidth 2 -draw "circle 30,30 5,30" \
+        tile_fill_4.gif
+convert tile_fill_4.gif -crop 10x10+35+4 +repage -scale 60x60 \
+        tile_fill_4_mag.gif
+~~~
 
-This is one simple way to improve flood fill. Others is to use a shaped overlay, but that can be a tricky method to work out. Later I will look at similar modifications to existing images.
+
+[![\[IM Output\]](tile_fill_4.gif)](tile_fill_4.gif)
+[![\[IM Output\]](tile_fill_4_mag.gif)](tile_fill_4_mag.gif)
+
+This is one simple way to improve flood fill.
+Others is to use a shaped overlay, but that can be a tricky method to work out.
+Later I will look at similar modifications to existing images.
 Of course if you are drawing the area being flood filled yourself, and not using an existing image, the ideal solution would be to avoid flood fill by by specifying the fill pattern for the original draw operation.
-  
-        convert -size 60x60 xc:lightblue -strokewidth 2 \
-                -tile tile_weave.gif -stroke red -draw "circle 30,30 5,30" \
-                tile_fill_5.gif
-        convert tile_fill_5.gif -crop 10x10+35+4 +repage -scale 60x60 \
-                tile_fill_5_mag.gif
-     
 
-  
-[![\[IM Output\]](tile_fill_5.gif)](tile_fill_5.gif) [![\[IM Output\]](tile_fill_5_mag.gif)](tile_fill_5_mag.gif)
+~~~
+convert -size 60x60 xc:lightblue -strokewidth 2 \
+        -tile tile_weave.gif -stroke red -draw "circle 30,30 5,30" \
+        tile_fill_5.gif
+convert tile_fill_5.gif -crop 10x10+35+4 +repage -scale 60x60 \
+        tile_fill_5_mag.gif
+~~~
+
+[![\[IM Output\]](tile_fill_5.gif)](tile_fill_5.gif)
+[![\[IM Output\]](tile_fill_5_mag.gif)](tile_fill_5_mag.gif)
 
 ------------------------------------------------------------------------
 
