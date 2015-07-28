@@ -29,7 +29,7 @@ DONE|Mark|./advanced/index.md
 ?|?|./annotating/index.md
 ?|?|./antialiasing/index.md
 ?|?|./api/index.md
-?|?|./backgrounds/index.md
+Taken|Eric|./backgrounds/index.md
 DONE|Eric|./basics/index.md
 DONE|Eric|./blur/index.md
 DONE|Eric|./bugs/animation_bgnd/index.md
