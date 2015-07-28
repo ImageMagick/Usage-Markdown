@@ -28,8 +28,8 @@ DONE|Mark|./advanced/index.md
 ?|?|./anim_opt/index.md
 ?|?|./annotating/index.md
 ?|?|./antialiasing/index.md
-?|?|./api/index.md
-Taken|Eric|./backgrounds/index.md
+Taken|Eric|./api/index.md
+DONE|Eric|./backgrounds/index.md
 DONE|Eric|./basics/index.md
 DONE|Eric|./blur/index.md
 DONE|Eric|./bugs/animation_bgnd/index.md
