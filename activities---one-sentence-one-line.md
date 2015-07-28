@@ -30,7 +30,7 @@ DONE|Mark|./advanced/index.md
 ?|?|./antialiasing/index.md
 ?|?|./api/index.md
 ?|?|./backgrounds/index.md
-?|?|./basics/index.md
+DONE|Eric|./basics/index.md
 DONE|Eric|./blur/index.md
 DONE|Eric|./bugs/animation_bgnd/index.md
 DONE|Eric|./bugs/blur_trans/index.md

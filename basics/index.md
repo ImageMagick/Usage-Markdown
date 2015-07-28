@@ -7,8 +7,8 @@
      * [Why did Command Line Style Change!](#why)
      * [IMv6 command line Syntax](#syntax)
      * [Operators and Setting Options](#options)
-       * [Settings](#option_settings):  [operator](#option_ops),  [input](#option_in),  [output](#option_out),  [control](#option_ctrl)
-       * [Operators](#option_operators):  [create](#option_create),  [simple](#option_simple),  [list](#option_list),  [stack](#option_stack),  [misc](#option_misc)
+       * [Settings](#option_settings): [operator](#option_ops), [input](#option_in), [output](#option_out), [control](#option_ctrl)
+       * [Operators](#option_operators): [create](#option_create), [simple](#option_simple), [list](#option_list), [stack](#option_stack), [misc](#option_misc)
      * [A Working Example of an IM Command](#example) identify -format "%l" rose.png
      * [Legacy Command Line Style](#legacy)
      * [Command Line (CLI) vs API](#cmd_vs_api)
@@ -39,12 +39,12 @@
      * [Parenthesis -- processing images 'on-the-side'](#parenthesis)
      * [Parenthesis and Settings](#respect-parenthesis)
      * [Image List Operators](#list_ops)  
-       [-delete](#delete),  [-insert](#insert),  [-swap](#swap),  
-       [-reverse](#reverse),  [-clone](#clone),  [-duplicate](#duplicate)
+       [-delete](#delete), [-insert](#insert), [-swap](#swap),  
+       [-reverse](#reverse), [-clone](#clone), [-duplicate](#duplicate)
      * [Combining Image List Operations](#seq_combine)
 
    * [![](../img_www/granitesm_right.gif) Complex Image Processing and Debugging](#complex)
- 
+
    * [![](../img_www/granitesm_right.gif) Meta-data: Attributes, Properties and Artifacts](#settings)
      * [Setting/Changing Image Atrributes](#attributes)
      * [Page, Repage and Image Offset Control](#page)
@@ -74,7 +74,7 @@ With this background knowledge the rest of the examples provided pages becomes m
 
 ## ImageMagick Command Line Processing
 
-### Why did the command line style change!  or...  
+### Why did the command line style change! or...  
 
 The problem with previous versions of IM
 
@@ -82,27 +82,35 @@ In previous major version of ImageMagick (version 5.5.7 and earlier) the command
 
 The cause of the problem was that ImageMagick followed a fairly standard UNIX command line style...
 
-    command  [options]  input_image   output_image
+~~~
+command  [options]  input_image   output_image
+~~~
 
 As time went on this started to produce problems, as images are complex objects with an enormous number of operations that can be performed on them often involving other images.
 
 As a consequence of this the above slowly expanded to become..
 
-    command  [options] image1 [options] image2 [options]  output_image
+~~~
+command  [options] image1 [options] image2 [options]  output_image
+~~~
 
 This worked, and is the basic style that was used in version 5.5.7.
 The various image operations such as "`-negate`", "`-resize`", and "`-crop`", etc, could appear either before or after the image it was meant to apply to.
 
 For example under version 5.5.7 the following two commands were equally valid and did the same thing.
-  
-      convert  -negate  image.gif   output.gif
 
-      convert   image.gif  -negate  output.gif
+~~~
+convert  -negate  image.gif   output.gif
+
+convert   image.gif  -negate  output.gif
+~~~
 
 The problem was what if you were dealing with two image processing operations! For example...
-  
-      convert -size 40x20 xc:red  xc:blue \
-              -append   -rotate 90    append_rotate.gif
+
+~~~
+convert -size 40x20 xc:red  xc:blue \
+        -append   -rotate 90    append_rotate.gif
+~~~
 
 [![\[IM Output\]](append_rotate_bad.gif)](append_rotate_bad.gif)
 
@@ -116,9 +124,11 @@ That is the "`-rotate`" operator would be applied BEFORE the "`-append`" which i
 
 As such the previous example in IMv6 will result in: the two images being appended together *first*, then that result will be rotated; producing this...  
 If the user actually intended to do the rotations before the append, he can explicitly ask IM v6 to do it in that order.
-  
-      convert -size 40x20 xc:red  xc:blue \
-              -rotate 90  -append    append_rotate_bad.gif
+
+~~~
+convert -size 40x20 xc:red  xc:blue \
+        -rotate 90  -append    append_rotate_bad.gif
+~~~
 
 This sort of fine control was just beyond previous versions of IM, and would probably have required a pipeline, or intermediate save images to achieve it.
 
@@ -131,7 +141,9 @@ In essence command line usage in versions before version 6 was ill-defined and i
 Note that no 'operation' should be given, before at least one image is either read in or created. In fact you may like to consider a 'image read/create' also as an operation as well.
 This means the **IMv6 syntax** can now be simplified as being...
 
-    command { [-setting]... "image"|-operation }...  "output_image"
+~~~
+command { [-setting]... "image"|-operation }...  "output_image"
+~~~
 
 With the part in {...} being repeated with as many 'reads' or 'operations' you want or need, to process your images in the exact order required.
   
@@ -149,7 +161,9 @@ For example "`+gravity`" will return the gravity setting to the initial 'gravity
   
 **Operator Settings** which control how later operators function. They set the colors, and fonts that may be used by an operator, control placement of images and text, the lookup of color from source images, control the method of processing by some of the more complex operators, etc., etc., etc..
   
-> `     -dither  -gravity  -fill  -background      -bordercolor  -stroke  -font  -pointsize      -strokewidth  -box  -virtual-pixel  -interpolate      `
+~~~
+-dither -gravity -fill -background     -bordercolor -stroke -font -pointsize     -strokewidth -box -virtual-pixel -interpolate
+~~~
 
   
 Most setting options belong to this category.
@@ -158,7 +172,9 @@ Most setting options belong to this category.
   
 they are created or read in from an external file.
   
-> `     -label  -delay  -dispose  -page  -comment      -size      `
+~~~
+-label -delay -dispose -page -comment     -size
+~~~
 
   
 Remember, they are ONLY applied when an image is created or read in and are otherwise completely ignored.
@@ -169,7 +185,9 @@ The special operator, "`-set`" has been provided to change the meta-data of imag
   
 While they can be given anywhere on the command line, they are only applied when the image is written, either as the default last image filename argument operation, or via a "`-write`", or "`-identify`" operation.
   
-> `     -quality  -loop  -compression  -format      -path  -transparent-color      `
+~~~
+-quality -loop -compression -format     -path -transparent-color
+~~~
 
   
 If not set, or turned off (using their plus '`+`' form), an appropriate default will be used. Generally this default is a saved value from the last image read in.
@@ -178,14 +196,16 @@ A few 'operation settings' such as the current "`-background`" color, is also as
   
 **Control & Debugging Settings** which control how IM, in general, performs its tasks. These includes...
   
-> `     -verbose  -debug  -warnings  -quiet      -monitor  -regard-warnings     `
+~~~
+-verbose -debug -warnings -quiet     -monitor -regard-warnings
+~~~
 
   
 See [IM Operation Controls](#controls) below, for more information on these special settings.
   
   
   
- 
+
   
 **Image Operators**
   
@@ -195,7 +215,9 @@ These operators can be grouped into a few sub-categories...
   
 **Image Creation Operators** which will read images from a file or pipeline, or generate new images. These include...
   
-> `        image.png  xc:  canvas:  logo:  rose:         gradient:  radial-gradient:  plasma:         tile:  pattern:  label:  caption:  text:      `
+~~~
+image.png xc: canvas: logo: rose:        gradient: radial-gradient: plasma:        tile: pattern: label: caption: text:
+~~~
 
   
 As 'operators' they are also performed immediately when seen on the command line. They only add new images to those already in memory, but do not touch those previously read.
@@ -204,7 +226,9 @@ Of course being operators, any previously defined 'settings' will be applied to 
   
 **Simple Image Processing Operators** will modify all images that have already been read into memory. Each image is modified separately to every other image. They include operations such as...
   
-> `     -crop   -repage   -border  -frame      -trim  -chop  -draw   -annotate      -resize  -scale  -sample  -thumbnail      -magnify  -adaptive-resize   -liquid-resize      -distort  -morpohology  -sparse-color      -rotate  -swirl  -implode   -wave      -flip   -flop   -transpose   -transverse      -blur  -gaussian-blur  -convolve  -shadow      --radial-blur  -motion-blur  -sharpen  -unsharp      -adaptive-sharpen   -adaptive-blur      -noise   -despeckle  -median      -negate   -level   -level-color   -gamma      -auto-level  -auto-gamma  -sigmoidial-contrast      -normalize  -linear-stretch   -contrast-stretch      -colorize   -tint   -modulate   -contrast      -equalize   -sepia-tone    -solarize      -recolor  -opaque   -transparent      -colors   -map   -ordered-dither   -random-dither      -raise  -paint  -sketch  -charcoal  -edge      -vignette  -emboss  -shade  -poloroid      -encipher   -decipher   -stegano      -evaluate  -function      -alpha  -colorspace  -separate           And probably many other opertors I have forgotten! (or have been added)     `
+~~~
+-crop  -repage  -border -frame     -trim -chop -draw  -annotate     -resize -scale -sample -thumbnail     -magnify -adaptive-resize  -liquid-resize     -distort -morpohology -sparse-color     -rotate -swirl -implode  -wave     -flip  -flop  -transpose  -transverse     -blur -gaussian-blur -convolve -shadow     --radial-blur -motion-blur -sharpen -unsharp     -adaptive-sharpen  -adaptive-blur     -noise  -despeckle -median     -negate  -level  -level-color  -gamma     -auto-level -auto-gamma -sigmoidial-contrast     -normalize -linear-stretch  -contrast-stretch     -colorize  -tint  -modulate  -contrast     -equalize  -sepia-tone   -solarize     -recolor -opaque  -transparent     -colors  -map  -ordered-dither  -random-dither     -raise -paint -sketch -charcoal -edge     -vignette -emboss -shade -poloroid     -encipher  -decipher  -stegano     -evaluate -function     -alpha -colorspace -separate          And probably many other opertors I have forgotten! (or have been added)
+~~~
 
   
 Because all image operators are performed immediately when seen on the command line, they must be given *after* the images for which they are to operate, have been read into memory.
@@ -217,7 +241,9 @@ Note that many API's only apply the equivelent operation to just the first image
   
 **Multi-Image List Operators** are special in that they modify the whole current list of images as a single entity. They could replace the whole list with a single combined image, or modify each image depending on the other images found before or after it. They are used for alpha composition, animation handling, color channel handling, etc...
   
-> `     -append  -flatten   -mosaic  -layers      -composite   -combine   -fx   -coalesce      -clut   -average   -evaluate-sequence      `
+~~~
+-append -flatten  -mosaic -layers     -composite  -combine  -fx  -coalesce     -clut  -average  -evaluate-sequence
+~~~
 
   
 Remember the whole list is treated as a single entity, and some images may be removed, or replaced. Most of the above operators merges all the given multiple images into a final single image.
@@ -228,7 +254,9 @@ None of these operators can be used in a "`mogrify`" command, as that command pr
   
 **Image Stack Operators** affects the ordering of the list of images currently in memory. Specifically they provide special 'on the side' processing of images. They are in many way similar to the previous [Image List Operator](#option_list), but they don't actual modify the images themselves, only how they are arranged in memory.
   
-> `     (  )  -delete  -insert  -swap      -reverse  -duplicate  -clone      `
+~~~
+( ) -delete -insert -swap     -reverse -duplicate -clone
+~~~
 
   
 Note that parenthesis '`(`' and '`)`' may require backslashing or quoting, to prevent any special meaning given to it by the Command Line shell Interface (CLI).
@@ -237,7 +265,9 @@ None of these operators can be used in a "`mogrify`" command, as that command pr
   
 **Miscelanious Special Operators** are operators that do things in either an unusual or non-standard ways (compared to the above).
   
-> `        -geometry  -version  -list  -bench         -concurrent  -preview       `
+~~~
+-geometry -version -list -bench        -concurrent -preview
+~~~
 
   
 The "`-geometry`" operator is special as it is the only operator that only affects one image (the last) in the image list, rather than affecting all of the images in some way. It is only provided for backward compatibility and special alpha composition requirements. See [Geometry, resize just the last image](../resize/#geometry) for more details.
@@ -262,25 +292,26 @@ The [IM Examples Options Reference](../reference.html) can be used to identify w
 
   
 Let's take a look at an example, and how it will be processed by IM version 6.
-  
-      convert  eye.gif news.gif -append    storm.gif tree.gif \
-               -background skyblue +append    result.gif
 
-  
+~~~
+convert  eye.gif news.gif -append    storm.gif tree.gif \
+         -background skyblue +append    result.gif
+~~~
+
 [![\[IM Output\]](result.gif)](result.gif)
 
 Let's break this down and look at what IM v6 does...
   
 | Argument                  | Action Performed | Images |
 |:--------------------------|:-----------------|--------|
-| **`convert`**             | Initialize and Create an empty 'image list'        |empty seq |
+| **`convert`**             | Initialize and Create an empty 'image list'        |emptyseq |
 | **`eye.gif`**             | Read in image and add to end of current image list | 1 image |
 | **`news.gif`**            | Add a second image into list (now with two images) | 2 images |
-| **`-append`**             | Take all images in current list, and append vertically. All images are replaced by a single image. | 1 (merged) |
+| **`-append`**             | Take all images in current list, and append vertically. All images are replaced by a single image. | 1(merged) |
 | **`storm.gif`**           | Add another image to the image list                | 2 |
 | **`tree.gif`**            | And another                                        | 3 |
-| **`-background skyblue`** | Set a 'background color' to be used later. No changes are made to any images. | 3 |
-| **`+append`**             | Join all 3 images in the list horizontally. Current background color is used to fill the empty space | 1 (merged) |
+| **`-backgroundskyblue`** | Set a 'background color' to be used later. No changes are made to any images. | 3 |
+| **`+append`**             | Join all 3 images in the list horizontally. Current background color is used to fill the empty space | 1(merged) |
 | **`result.gif`**          | As this is last argument, an explicit **`-write`** operation is performed with this argument. The single image in the current image the list is written using the given filename and image file format. | written |
 
 As you can see the processing of the command line in ImageMagick version 6 is very straight forward, and logical, making the result predictable. And that is the point...
@@ -289,27 +320,33 @@ As you can see the processing of the command line in ImageMagick version 6 is ve
 
 Due to the fact that a lot of IM scripts out there use a command with a single image operator of the form...
 
-    command  -operator  input_image   output_image
+~~~
+command  -operator  input_image   output_image
+~~~
 
 That is you specified an image operator before you actually read the image to which the operator will be applied.
 
 To handle this legacy situation, IM will save up all the image operators it sees, and apply them to the first image when it is finally seen on the command line. 
 That is the above will work as if you wrote the wrote...
 
-    command  input_image   -operator  output_image
+~~~
+command  input_image   -operator  output_image
+~~~
 
 For example, this legacy command....
-  
-      convert  -flip  storm.gif   cmd_flip_legacy.gif
 
-  
+~~~
+convert  -flip  storm.gif   cmd_flip_legacy.gif
+~~~
+
 [![\[IM Output\]](cmd_flip_legacy.gif)](cmd_flip_legacy.gif)
 
 Will produce the same result as this IM version 6 command...
-  
-      convert  storm.gif -flip  cmd_flip_postfix.gif
 
-  
+~~~
+convert  storm.gif -flip  cmd_flip_postfix.gif
+~~~
+
 [![\[IM Output\]](cmd_flip_postfix.gif)](cmd_flip_postfix.gif)
 
 The legacy command line style works, but has the same problems as IM version 5. 
@@ -376,11 +413,11 @@ The "`conjure`" program (see below) was originally designed to allow better scri
 
 Beyond the filenames and options on the command line there are only a few basic styles of option arguments that are used.
 
--   Constant Names  (for specific settings and method types)
--   List of Contant Names  (for example two colors, or Channels)
--   Geometry Argument  (a special formated list of numbers with flags)
--   Floating Point Lists  (sometimes with [Percent Escapes](#arg_percent))
--   Free Form Text Strings  (with [Percent Escapes](#arg_percent))
+-   Constant Names (for specific settings and method types)
+-   List of Contant Names (for example two colors, or Channels)
+-   Geometry Argument (a special formated list of numbers with flags)
+-   Floating Point Lists (sometimes with [Percent Escapes](#arg_percent))
+-   Free Form Text Strings (with [Percent Escapes](#arg_percent))
 
 #### Constant Names
 
@@ -389,22 +426,25 @@ Constant Names are specific string constants that are used to look up a internal
 For example, the "`-gravity`" setting can take any of nine different settings. Once set that setting is then be used by all the image processing operators that follow the setting on the command line. For example: settings such as '`North`', '`East`', or '`NorthEast`'.
 
 You can get a list of all valid settings by using the [List Operational Option](#list) (see below). For example using the command...
-  
-      convert -list gravity
+
+~~~
+convert -list gravity
+~~~
 
 Only those specific settings are allowed and if you attempt to use some other setting you will get an error. For example...
 
-  
-      convert xc: -gravity Invalid   null:
 
-  
+~~~
+convert xc: -gravity Invalid   null:
+~~~
+
 [![\[IM Text\]](gravity_error.txt.gif)](gravity_error.txt)
 
 The setting can be specified in a number of different ways, all of which are perfectly valid. IM is very forgiving about this. For example a setting can be specified in uppercase, lowercase, or any combination of the two. The individual words (specified by uppercase letters in the "`-list`" output) can have extra spaces, hyphens, or underscores included, and which are then simply ignored (but only between words).
 
 Consequently all the follow arguments are valid to set "North East" "`-gravity`"...
 
-'`NorthEast`',  '`northeast`',  '`NORTHEAST`',  '`NorTheAst`',  '`north east`',  '`north-EAST`',  '`NORTH_EAST`',  '` North East `',  '`___North___East___`'.
+'`NorthEast`', '`northeast`', '`NORTHEAST`', '`NorTheAst`', '`north east`', '`north-EAST`', '`NORTH_EAST`', '`NorthEast`', '`___North___East___`'.
 
 But an argument of '`Nor The Ast`' is not valid, even though the letters are all correct, as it uses spaces within the declared words of the setting.
 
@@ -416,7 +456,9 @@ Some of the constant names are read from external configuration files. For examp
 
 This is a little used argument and is most commonly used in settings that need one or two colors, such as [Level Adjustment by Color](../color_mods/#level-colors). The "`-level-colors`" option can take any of the following argument styles.
 
-> `      color     color1,color2     color1-color2`
+~~~
+color   color1,color2   color1-color2
+~~~
 
 It is also used for Image Selection, for operations that make use of multiple image indexs, for example [Duplicate](#duplicate) and [Clone](#clone). The indexes start with zero for the first image, while negative indexs can be used to denote image indexs starting from the end of the image list. For example '`-2-1`' means take the second last image (index '`-2`'), to the second image (index '`1`'). And yes this actually means take the images in the reverse order specified!
 
@@ -432,7 +474,9 @@ This type of argument is so common that a special (and complex) parser has been 
 
 A geometry argument basically allows a user to specify a single string argument containing up to 5 floating point values (though most operators only use integers). All the following string forms are understood the geometry argument parser...
 
-> `   WxH+X+Y     WxH    +X+Y     A     A/B/C     A,B,C,D,E`
+~~~
+WxH+X+Y   WxH  +X+Y   A   A/B/C   A,B,C,D,E
+~~~
 
 Users could specify the small list of numbers in ANY of these forms, but typically which form is used depends on the operation the argument is being used for.
 
@@ -527,10 +571,11 @@ As a result of this, "`convert`", is no longer so much about 'converting' images
 
 The "identify" command is designed to return information about an images in a simple and useful way. By default it outputs a simple compact summery, detailing the images name, file format, image size, virtual canvas size and offset, color depth, internal format type, and if known the original size of the image on disk in human terms.
 For example...
-  
-      identify  tree.gif
 
-  
+~~~
+identify  tree.gif
+~~~
+
 [![\[IM Text\]](identify.txt.gif)](identify.txt)
 
 Not that the '`8c`' in the above result is not the number of colors within this image (which is actually 6), but the 'pseudo-color' palette size (see later example for actual number of colors). Also note that the image 'virtual canvas' is the same size as the actual image with a zero offset, meaning it is currently not being used.
@@ -540,10 +585,11 @@ Adding a [`-verbose`](#verbose), [Operational Control](#controls), will produce 
 Specific information can be obtained and output in specific ways by using the "`-format`" setting, and IM special percent ('`%`') escapes to output [Image Properties](http://www.imagemagick.org/script/escape.php). However typically you need to specify a EOL (newline under UNIX or MacOSX) as part of that argument (changed in IM v6.8.5-8).
 
 For example you can just extract a count of the number of colors within an image.
-  
-      identify -format '%k\n' tree.gif
 
-  
+~~~
+identify -format '%k\n' tree.gif
+~~~
+
 [![\[IM Text\]](identify_colors.txt.gif)](identify_colors.txt)
 
   
@@ -556,27 +602,30 @@ IM "`identify`" by default only reads minimal basic information about an image, 
 This is a big advantage of "`identify`" has over "`convert`".
 
 However, most image meta-data will not be available. For example, image labels from a PNG image file. For example, here I create a image with a 'label', and attempt to use a simple format setting to print out that label.
-  
-      convert rose: -set label "rose with a label" rose.png
-      identify -format '"%l"\n' rose.png
 
-  
+~~~
+convert rose: -set label "rose with a label" rose.png
+identify -format '"%l"\n' rose.png
+~~~
+
 [![\[IM Output\]](rose.png)](rose.png)
   
 [![\[IM Text\]](identify_ping.txt.gif)](identify_ping.txt)
 
 However this only happens for very specific cases. Any "`-format`" that has more complex escapes will automatically disable the use of a minimal 'ping' read.
-  
-      identify -format '"%[label]"\n' rose.png
 
-  
+~~~
+identify -format '"%[label]"\n' rose.png
+~~~
+
 [![\[IM Text\]](identify_no_ping.txt.gif)](identify_no_ping.txt)
 
 Or you can specifically disable this minimal 'ping' read, and force identify to read in the image 'in total' so it gets the desired information.
-  
-      identify +ping -format '"%l"\n' rose.png
 
-  
+~~~
+identify +ping -format '"%l"\n' rose.png
+~~~
+
 [![\[IM Text\]](identify_ping_off.txt.gif)](identify_ping_off.txt)
 
 Generally you do not need to worry about it too much. Unless you are dealing with very large images such as photos.
@@ -584,10 +633,11 @@ Generally you do not need to worry about it too much. Unless you are dealing wit
 #### Identify as a floating point Calculator
 
 You can do some floating point mathematics using [FX Escape Expressions](../transform/#fx_escapes)...
-  
-      identify -ping -format 'double_width=%[fx:w*2] PI=%[fx:atan(1)*4]\n' tree.gif
 
-  
+~~~
+identify -ping -format 'double_width=%[fx:w*2] PI=%[fx:atan(1)*4]\n' tree.gif
+~~~
+
 [![\[IM Text\]](identify_maths.txt.gif)](identify_maths.txt)
 
 Note that the math does not even need to be related to the image itself, allowing you to use IM as a simple floating point calculator for use within your scripts.
@@ -608,41 +658,46 @@ Note that if image has more that 1024 color no histogram or color tables will be
 
 **Exit Status**  
 The identify program returns a non-zero exit status if a corrupted image is encountered and you add a [Regard Warnings Control](#regard-warnings).
-  
-      error=`identify -regard-warnings image 2>&1 >/dev/null;`
-      if [ $? -eq 0 ]; then
-        echo "The image is good"
-      else
-        echo "The image is corrupt or known format"
-        echo "$error"
-      fi
+
+~~~
+error=`identify -regard-warnings image 2>&1 >/dev/null;`
+if [ $? -eq 0 ]; then
+  echo "The image is good"
+else
+  echo "The image is corrupt or known format"
+  echo "$error"
+fi
+~~~
 
 #### Identify Output Alternatives
 
 As of IM v6.2.4 you can also produce identify output from the "`convert`" command using the special "`info:`" output file format.
-  
-      convert ../images/k* \
-              -format 'image \"%f\" is of size %G\n'  info:
 
-  
+~~~
+convert ../images/k* \
+        -format 'image \"%f\" is of size %G\n'  info:
+~~~
+
 [![\[IM Text\]](output_info.txt.gif)](output_info.txt)
 
 You can use a [Write Operator](../file/#write) to write to "`info:`" in the middle of a sequence of operations, say as a debugging tool. You can also have it write that output to a specific file (or file stream).
 
 A simpler method would be to use an "`-identify`" option to write to the normal 'standard output'.
-  
-      convert ../images/k* \
-              -format 'Image #%p named \"%f\" is a %m\n' -identify \
-              null:
 
-  
+~~~
+convert ../images/k* \
+        -format 'Image #%p named \"%f\" is a %m\n' -identify \
+        null:
+~~~
+
 [![\[IM Text\]](output_identify.txt.gif)](output_identify.txt)
 
 This can be also combined with another option, "`-print`" to output other information.
-  
-      convert null: -print ' (50 + 25)/5  ==>  %[fx: (50+25)/5 ]\n' null:
 
-  
+~~~
+convert null: -print ' (50 + 25)/5  ==>  %[fx: (50+25)/5 ]\n' null:
+~~~
+
 [![\[IM Text\]](output_print.txt.gif)](output_print.txt)
 
 The main difference between "`-identify`" and "`-print`", is that first will be run once for every image in memory, while the later will only run once.
@@ -650,19 +705,20 @@ The main difference between "`-identify`" and "`-print`", is that first will be 
 That means we can generate just about any text file we want about the images in memory, completely from within a single ImageMagick command.
 
 For example, here I generate a HTML file of same set of images I have used in the previous example...
-  
-      convert ../images/k* \
-         -print "<HTML><BODY><CENTER>\n" \
-         -print "<H1>  Display of %n Thumbnails  </H1>\n" \
-         -print "\n" \
-         -format "<IMG SRC=\"%i\" ALT=\"%f\" WIDTH=%w HEIGHT=%h>\n" -identify \
-         -print "\n" \
-         -print "<BR>That's all folks\!\n" \
-         -print "\n" \
-         -print "</CENTER></BODY></HTML>\n" \
-         null:
 
-  
+~~~
+convert ../images/k* \
+   -print "<HTML><BODY><CENTER>\n" \
+   -print "<H1>  Display of %n Thumbnails  </H1>\n" \
+   -print "\n" \
+   -format "<IMG SRC=\"%i\" ALT=\"%f\" WIDTH=%w HEIGHT=%h>\n" -identify \
+   -print "\n" \
+   -print "<BR>That's all folks\!\n" \
+   -print "\n" \
+   -print "</CENTER></BODY></HTML>\n" \
+   null:
+~~~
+
 [![\[IM Text\]](output_html.txt.gif)](output_html.txt)
 
 You can see the result of the above output as a [HTML Web Page](output_html.html) showing the images.
@@ -684,8 +740,10 @@ Now while "`mogrify`" normally saves a modified image into the same filename, it
 The "`mogrify`" specific setting "`-format`", defines a different format and suffix to use when saving files.
 
 As such a command like...
-  
-      mogrify    -format jpg   *.png
+
+~~~
+mogrify    -format jpg   *.png
+~~~
 
 Will allow you to convert, or batch modify images, without destroying the original image. In this case converting all PNG files into JPEG files with that same filename but a different suffix. However be warned that if existing file with the same name will be *over-written*.
 
@@ -696,10 +754,11 @@ So let me re-iterate...
 or you may find you just overwrote something you wanted to keep. As of IM v6.2.0 you can also use a new "`-path`" option to specify a different directory in which to output the processed images. This make it safer, however it will still overwrite any images of the same name that may already be in that directory.
 
 As such you can have IM save the results (say image thumbnails) into a existing sub-directory, using something like this...
-  
-      mogrify   -path thumbnail-directory   -thumbnail 100x100  *
 
-  
+~~~
+mogrify   -path thumbnail-directory   -thumbnail 100x100  *
+~~~
+
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Before IM v6.3.4-3 the "`-format`" and "`-path`" settings were mutually exclusive. From that version you can change formats and output directory location.
 > 
@@ -711,12 +770,14 @@ As some setting options are needed to be set before the first image is read in (
 
 It is important to keep this in mind as if you change one of these settings later in the sequence you can make IM forget a previous setting.
 For example..
-  
-      mogrify -format gif  -size 200x200  -pointsize 18 \
-              -font Candice -gravity north  -annotate 0 "%f" \
-              -font Ravie   -gravity Center -annotate 0 "%f" \
-              -font Gecko   -gravity south  -annotate 0 "%f" \
-              -size 100x64   xc:gold  xc:orange   xc:tomato
+
+~~~
+mogrify -format gif  -size 200x200  -pointsize 18 \
+        -font Candice -gravity north  -annotate 0 "%f" \
+        -font Ravie   -gravity Center -annotate 0 "%f" \
+        -font Gecko   -gravity south  -annotate 0 "%f" \
+        -size 100x64   xc:gold  xc:orange   xc:tomato
+~~~
 
 [![\[IM Output\]](gold.gif)](gold.gif) [![\[IM Output\]](orange.gif)](orange.gif) [![\[IM Output\]](tomato.gif)](tomato.gif)
 
@@ -743,10 +804,12 @@ Because "`mogrify`" can not use [Multi-Image List Operators](#option_list) it ca
 There is one exception to this, using "`-draw`" to perform image alpha composition. This allows you to specify the second image, as part of the operators arguments, outside of the current image list.
 
 For example, here I first make a copy of the original images I want to process using a special "`cp_perl`" script. I then create temporary circle 'mask' image, which I then use to cut out a circle shape from all those images, using "`mogrify`" with a '`Dst_In`' alpha composition method.
-  
-      cp_perl  's/^/mogrify_/'  eye.gif news.gif storm.gif tree.gif
-      convert  -size 32x32 xc:none -draw 'circle 15.5,15.5 15.5,0'  circle.gif
-      mogrify  -alpha Set -draw 'image Dst_In 0,0 0,0 "circle.gif"'  mogrify_*.gif
+
+~~~
+cp_perl  's/^/mogrify_/'  eye.gif news.gif storm.gif tree.gif
+convert  -size 32x32 xc:none -draw 'circle 15.5,15.5 15.5,0'  circle.gif
+mogrify  -alpha Set -draw 'image Dst_In 0,0 0,0 "circle.gif"'  mogrify_*.gif
+~~~
 
 [![\[IM Output\]](eye.gif)](eye.gif) [![\[IM Output\]](news.gif)](news.gif) [![\[IM Output\]](storm.gif)](storm.gif) [![\[IM Output\]](tree.gif)](tree.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](circle.gif)](circle.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](mogrify_eye.gif)](mogrify_eye.gif) [![\[IM Output\]](mogrify_news.gif)](mogrify_news.gif) [![\[IM Output\]](mogrify_storm.gif)](mogrify_storm.gif) [![\[IM Output\]](mogrify_tree.gif)](mogrify_tree.gif)
 
@@ -761,9 +824,11 @@ Using a special technique to modify the output filename using [Percent Escapes](
 Not only that but it will provide you with a more control of the final destination name of the image. and let you better handle multi-image processing such as compositions and animations.
 
 For example here I create thumbnails of images in the current directory, inserting a "`_tn`" string into the input filename, to create the appropriate output image filename.
-  
-      convert *.jpg   -thumbnail 120x90 \
-              -set filename:fname '%t_tn' +adjoin '%[filename:fname].gif'
+
+~~~
+convert *.jpg   -thumbnail 120x90 \
+        -set filename:fname '%t_tn' +adjoin '%[filename:fname].gif'
+~~~
 
 Warning, do not include a different file suffix in the filename setting itself. IM will not see it when deciding on the image file format to use. Note that IM can't decide from the filename it will fall back to the original file format that was read in, so a clear suffix, or a coder prefix can be important, when using this technique.
 
@@ -778,27 +843,29 @@ Of course just as with "`mogrify`" this method of using "`convert`" can be dange
 #### Batch Processing Alternatives
 
 If batch processing images using "`mogrify`" is not practical, especially if you are copying the images rather than modifying them in place, then it may be better to use some other non-IM looping solutions. These include...
-  
-      # Use a simple shell loop, to process each of the images.
-      mkdir thumbnails
-      for f in *.jpg
-      do   convert $f -thumbnail 200x90 thumbnails/$f.gif
-      done
 
-      # Use find to substitute filenames into a 'convert' command.
-      # This also provides the ability to recurse though directories by removing
-      # the -prune option, as well as doing other file checks (like image type,
-      # or the disk space used by an image).
-      find * -prune -name '*.jpg' \
-             -exec  convert '{}' -thumbnail 200x90 thumbnails/'{}'.gif \;
+~~~
+# Use a simple shell loop, to process each of the images.
+mkdir thumbnails
+for f in *.jpg
+do   convert $f -thumbnail 200x90 thumbnails/$f.gif
+done
 
-      # Use xargs -- with a shell wrapper to put the argument into a variable
-      # This can be combined with either "find" or "ls" to list filenames.
-      ls *.jpg | xargs -n1 sh -c 'convert $0 -thumbnail 200x90 thumbnails/$0.gif'
+# Use find to substitute filenames into a 'convert' command.
+# This also provides the ability to recurse though directories by removing
+# the -prune option, as well as doing other file checks (like image type,
+# or the disk space used by an image).
+find * -prune -name '*.jpg' \
+       -exec  convert '{}' -thumbnail 200x90 thumbnails/'{}'.gif \;
 
-      # An alternative method on linux (rather than plain unix)
-      # This does not need a shell to handle the argument.
-      ls *.jpg | xargs -r -I FILE   convert FILE -thumbnail 200x90 FILE_thumb.gif
+# Use xargs -- with a shell wrapper to put the argument into a variable
+# This can be combined with either "find" or "ls" to list filenames.
+ls *.jpg | xargs -n1 sh -c 'convert $0 -thumbnail 200x90 thumbnails/$0.gif'
+
+# An alternative method on linux (rather than plain unix)
+# This does not need a shell to handle the argument.
+ls *.jpg | xargs -r -I FILE   convert FILE -thumbnail 200x90 FILE_thumb.gif
+~~~
 
 And so on.
 
@@ -865,20 +932,26 @@ Note that "`display`" will not handle any [GIF Animation Settings](../anim_basic
 Images containing a full alpha channel (EG PNG and MIFF formats) will be overlaid onto a 'checkerboard' background pattern, so as to let you see the effects of any semi-transparency, such as shadow effects.
 
 You can change that by selecting a different background with "`-texture`" such as...
-  
-      display -texture granite: test.png
 
-      display -texture xc:black test.png
+~~~
+display -texture granite: test.png
+
+display -texture xc:black test.png
+~~~
 
 Images with a palette (or boolean) transparency, such as GIF and PNG8 formats, is displayed with a the current 'transparent color' that was used to represent transparency in the color table. That is a generally random color may be used (typically black) rather than the default checkerboard pattern. This could be regarded as a bug, though technically it isn't.
 
 However if you like display to handle such images in the same way as other images containing transparency information, you can remove the palette meta-data before feeding the image to "`display`" using the following commands to change the internal style for the image output format.
-  
-      convert image.gif -type truecolormatte miff:- | display -
+
+~~~
+convert image.gif -type truecolormatte miff:- | display -
+~~~
 
 Alternatively, just about any operation that modifies the image being displayed will also remove the existing palette meta-data. As such some "`display`" options can be used to remove the palette. For example using "`-coalesce`".
-  
-      display -coalesce image.gif
+
+~~~
+display -coalesce image.gif
+~~~
 
 This has the added bonus of cleaning up GIF animation optimizations that may be present. Though for multiple, unrelated images it could have other undesirable side effects.
 
@@ -887,14 +960,18 @@ Yes these methods are clumsy, but they work.
 #### Display Using Convert
 
 An alternative display method (other than using "`animate`", see next) is to use the simpler "`x:`" output image format (See [display output format](../files/#show)).
-  
-      convert image.png x:
+
+~~~
+convert image.png x:
+~~~
 
 This method does not provide a backdrop window, menu options, or other controls. It just simply displays the images one image at a time.
 
 If you do want to just simple 'display' the resulting image the special '`show:`' or '`win:`' output [Spawning Delegate](../files/delegate_spawn) will do the same thing by running the "`display`" command on the output image, and exiting without waiting for that window to be closed.
-  
-      convert image.png show:
+
+~~~
+convert image.png show:
+~~~
 
 #### Display Output Size
 
@@ -905,12 +982,16 @@ Images which are larger that the screen, will also not be resized, but will over
 This can be painful when viewing a modern high resolution digital photo.
 
 To limit display to say a 800x600 pixel area (only resize smaller, never larger), use...
-  
-      display -resize 800x600\> photo.jpg
+
+~~~
+display -resize 800x600\> photo.jpg
+~~~
 
 For JPG images you can speed up the image read by using a special jpeg input size hint setting. See [Reading JPEG Control Options](../formats/#jpg_read).
-  
-      display -define jpeg:size=1600x1200 -thumbnail 800x600\> photo.jpg
+
+~~~
+display -define jpeg:size=1600x1200 -thumbnail 800x600\> photo.jpg
+~~~
 
 If the image is from a modern digital camera you can also use "`-auto-orient`" to correct the camera rotation of the displayed image, using the EXIF meta-data in the image file format.
 
@@ -919,38 +1000,48 @@ If you don't want menus, you can turn them off using the "`-immutable`" setting 
 #### Scripted use of Display
 
 With these options in mind, the following is my recommendation for using "`display`" to display results from a complex shell script...
-  
-      display -delay 0 -loop 1 -coalesce -resize 800x600\>   some_random_image
+
+~~~
+display -delay 0 -loop 1 -coalesce -resize 800x600\>   some_random_image
+~~~
 
 #### Display with X Windows
 
 The option "`-window root`" can be used to display a image on the X window background (root) window. In this case the "`display`" program automatically exits.
 
 By default a image is tiled across the background. For example try this..
-  
-      display -window root pattern:checkerboard
+
+~~~
+display -window root pattern:checkerboard
+~~~
 
 For many other examples of image tiles, and generating them see [Tiled Canvases](../canvas/#tile), and [Background Image Examples](../backgrounds/).
 
 If you want to use a single image for your X Windows background, you may need to know the size of your X window display. The "`xdpyinfo`" program while not part of 
 ImageMagick, can give you that information.
-  
-      xdpyinfo | grep dimensions:
+
+~~~
+xdpyinfo | grep dimensions:
+~~~
 
 And here we use the output of "`xdpyinfo`", to resize a image to fill the X window background completely.
-  
-      screen_size=`xdpyinfo | sed '/dimensions:/!d;s/^[^0-9]*//;s/ pixels.*//'`
-      display  -resize $screen_size! -window root photo.jpg
+
+~~~
+screen_size=`xdpyinfo | sed '/dimensions:/!d;s/^[^0-9]*//;s/ pixels.*//'`
+display  -resize $screen_size! -window root photo.jpg
+~~~
 
 #### Display Remote Control
 
 Display does provide a special "`-remote`" option. This will look for a already running "`display`" command and will then pass the given arguments to it.
 
 For example...
-  
-      display wizard: &
-      sleep 5
-      display -remote logo: &
+
+~~~
+display wizard: &
+sleep 5
+display -remote logo: &
+~~~
 
 Will display the built in "wizard" image in a backgrounded command. The script will then wait 5 seconds before replace it with the built-in "logo" image.
 
@@ -959,8 +1050,10 @@ Note that if no "`display`" command is running, the current command will open a 
 At this time you can not request a remote "`display`" to exit. As such the best way to close the remote display is to either kill the running process, or 'delete' the display window using some X window command.
 
 For example (using the non-IM command "`xdotool`")...
-  
-      xdotool search -class "display" windowkill
+
+~~~
+xdotool search -class "display" windowkill
+~~~
 
 ### animate -- Show an animation of images
 
@@ -974,9 +1067,11 @@ However because of this, the virtual canvas of the first image will control the 
 Of course as the images are animated, you do have a fine control of the image display timing, using options such as "`-delay`". The command also has an extra argument "`-pause`" to add an extra pause at the end of the animation loop, beyond whatever the final frames "`-delay`" setting specifies.
 
 For example you can use "`animate`" to generate a [Flicker Comparison](../compare/#flicker) of two very similar images, using something like..
-  
-      convert image1.png image2.png -scale 400% miff:- |\
-         animate -delay 50 -loop 0 -
+
+~~~
+convert image1.png image2.png -scale 400% miff:- |\
+   animate -delay 50 -loop 0 -
+~~~
 
 I have written a script to take advantage of this method called "`flicker_cmp`", and find it extremely useful to pickup very subtle changes in pixel intensity that I would otherwise miss.
   
@@ -993,11 +1088,12 @@ You can select a portion of the image with the "`-extract`" setting. And you can
 However "`stream`" will only output the raw color bytes of the image (RAW format) as defined by the image depth, as such you may need to pipe the output of the extracted segment into convert.
   
 For example...
-  
-      stream -map rgb -storage-type char -extract 100x100+200+100 logo: - |\
-        convert -depth 8 -size 100x100 rgb:-   stream_wand.gif
 
-  
+~~~
+stream -map rgb -storage-type char -extract 100x100+200+100 logo: - |\
+  convert -depth 8 -size 100x100 rgb:-   stream_wand.gif
+~~~
+
 [![\[IM Output\]](stream_wand.gif)](stream_wand.gif)
 
 For more information and examples see [Really Massive Image Handling](../files/#massive).
@@ -1005,8 +1101,10 @@ For more information and examples see [Really Massive Image Handling](../files/#
 ### import -- read images from the on screen display
 
 The "`import`" command is a special program that can be used to grab and extract images from an X windows display. For example lets get it to grab and print a window you select from your display...
-  
-      import -page A4 -gravity center ps:- | lpr
+
+~~~
+import -page A4 -gravity center ps:- | lpr
+~~~
 
 It is actually rarely used as the special file format "`X:`" also provides exactly the same functionality from within the convert command.
 The only difference between the two is that "`import`" has more X window specific settings than the "`X:`" format, such as specifying the display, screen, and/or window ID, the image is to be grabbed from.
@@ -1071,19 +1169,21 @@ In other words, using parenthesis means...
 It allows you to work on a sub-set of images, like a scratch pad, than add the result back into the main image list without affecting the images you have already previously read in or have been working on.
 
 Let's look at some simple examples...
-  
-      convert   eye.gif  storm.gif  -negate  +append  cmd_negate.gif
 
-  
+~~~
+convert   eye.gif  storm.gif  -negate  +append  cmd_negate.gif
+~~~
+
 [![\[IM Output\]](cmd_negate.gif)](cmd_negate.gif)
 
 As you can see the "`-negate`" operator, color negated both images, as both were in the current image list in memory at that time.
 
 But by adding parenthesis we can limit the negation to just the second image...
-  
-      convert   eye.gif \(  storm.gif  -negate \) +append  cmd_bracket.gif
 
-  
+~~~
+convert   eye.gif \(  storm.gif  -negate \) +append  cmd_bracket.gif
+~~~
+
 [![\[IM Output\]](cmd_bracket.gif)](cmd_bracket.gif)
 
 Because the "`storm.gif`" image is read into a separate image list to that of the first image (generated by the "`(`" image list operator), it can be negated without affecting the first image. Then we can add the result to the main image list (that is the "`)`" operator), before appending the two images together as before.
@@ -1097,22 +1197,24 @@ Also in the last example I needed to put a backslash '`\`' before the parenthesi
 Windows DOS scripts do not require parenthesis to be escaped with backslash. See [Windows DOS Scripts](../windows/) for this and other differences to linux scripting.
 
 Parenthesis also make it possible to do something not previously possible to do in a single "`convert`" command. Generating arrays of images!
-  
-      convert  eye.gif news.gif  +append \
-             \( storm.gif tree.gif +append \)   -append  cmd_array.gif
 
-  
+~~~
+convert  eye.gif news.gif  +append \
+       \( storm.gif tree.gif +append \)   -append  cmd_array.gif
+~~~
+
 [![\[IM Output\]](cmd_array.gif)](cmd_array.gif)
 
 Arrays like this were of course possible using "`montage`" (see [Montage Concatenation Mode](../montage/#concatenate)), But using a separate command makes image processing scripts more complex.
 
 Of course if you like to make the command look more array like itself, you are free to add some extra parenthesis.
-  
-      convert \( eye.gif    news.gif  +append \) \
-              \( storm.gif  tree.gif  +append \) \
-              -append  cmd_array2.gif
 
-  
+~~~
+convert \( eye.gif    news.gif  +append \) \
+        \( storm.gif  tree.gif  +append \) \
+        -append  cmd_array2.gif
+~~~
+
 [![\[IM Output\]](cmd_array2.gif)](cmd_array2.gif)
 The first set of parenthesis aren't strictly needed, and do add a tiny amount of extra work to IM's internal processing, but it does make it clear what the command is doing by separating the processing steps.
 It may also be easier for image processing scripts to perform each processing step as a separate parenthesis, as a means of separating the processing steps, it is applying.
@@ -1121,14 +1223,15 @@ It may also be easier for image processing scripts to perform each processing st
 Option 'settings' are not affected by parenthesis, and will continue across the parenthesis image operators, until the setting is changed or turned off.
   
 For example...
-  
-      convert -pointsize 24 \
-              -font Candice label:Outside \
-              \(              label:Inside \
-                 -font Gecko  label:Inside \) \
-              label:Outside       -append   cmd_settings.gif
 
-  
+~~~
+convert -pointsize 24 \
+        -font Candice label:Outside \
+        \(              label:Inside \
+           -font Gecko  label:Inside \) \
+        label:Outside       -append   cmd_settings.gif
+~~~
+
 [![\[IM Output\]](cmd_settings.gif)](cmd_settings.gif)
 
 Note how the first "`-font Candice`" setting is NOT reset back to its default setting when the parenthesis is entered, while the second "`-font Gecko`" is not replaced by the original font setting when you leave parenthesis.
@@ -1143,26 +1246,29 @@ As of IM v6.4.1-4 the new operational control option "`-respect-parenthesis`" ca
 When given at the start of a IM command, it will cause parenthesis to also save and retrieve the previous settings that have been given. That means any settings given within parenthesis, will only remain set, until the end of the parenthesis.
   
 For example...
-  
-      convert -respect-parenthesis   -pointsize 24 \
-              -font Candice label:Outside \
-              \(              label:Inside \
-                 -font Gecko  label:Inside \) \
-              label:Outside       -append   cmd_settings2.gif
 
-  
+~~~
+convert -respect-parenthesis   -pointsize 24 \
+        -font Candice label:Outside \
+        \(              label:Inside \
+           -font Gecko  label:Inside \) \
+        label:Outside       -append   cmd_settings2.gif
+~~~
+
 [![\[IM Output\]](cmd_settings2.gif)](cmd_settings2.gif)
 
 As you can see, when the parenthesis ended, the font setting was restored to the previous 'Candice' font, instead of the 'Gecko' font that was set within the parenthesis.
 
 This can be most useful when you have to change a lot of setting, for just a short time...
-  
-      convert -respect-parenthesis \
-              -font Arial   label:"This is a line of plain text." \
-              \( -font Candice -pointsize 16 -fill red -undercolor lightblue \
-                  label:"A line using a lot of different settings." \) \
-              label:"Text is back to normal -- like Magick\!" \
-              -append  cmd_settings_lots.gif
+
+~~~
+convert -respect-parenthesis \
+        -font Arial   label:"This is a line of plain text." \
+        \( -font Candice -pointsize 16 -fill red -undercolor lightblue \
+            label:"A line using a lot of different settings." \) \
+        label:"Text is back to normal -- like Magick\!" \
+        -append  cmd_settings_lots.gif
+~~~
 
 [![\[IM Output\]](cmd_settings_lots.gif)](cmd_settings_lots.gif)
 
@@ -1177,26 +1283,29 @@ However if you give a negative index, the images are referenced from the end (la
 #### `-delete {index_range_list}`
 
 The "`-delete`" list operator is the simplest of the image list operators, it just deletes images from the current image list.
-  
-      convert font_[0-3].gif -delete 1 +append  seq_delete.gif
 
-  
+~~~
+convert font_[0-3].gif -delete 1 +append  seq_delete.gif
+~~~
+
 [![\[IM Output\]](seq_delete.gif)](seq_delete.gif)
 
 The 'plus' form of the operator, "`+delete`" does not take an argument, and just deletes the last image in the current image list.
 
 The "`-delete`" operator will also accept a comma separated list of numbers, or a number range to be deleted.
-  
-      convert font_[0-7].gif -delete 1-4,6 +append  seq_delete2.gif
 
-  
+~~~
+convert font_[0-7].gif -delete 1-4,6 +append  seq_delete2.gif
+~~~
+
 [![\[IM Output\]](seq_delete2.gif)](seq_delete2.gif)
 
 Or delete everything (and add a new image)...
-  
-      convert font_[0-7].gif -delete 0--1  tree.gif seq_delete3.gif
 
-  
+~~~
+convert font_[0-7].gif -delete 0--1  tree.gif seq_delete3.gif
+~~~
+
 [![\[IM Output\]](seq_delete3.gif)](seq_delete3.gif)
 
 The '`0--1`' argument means delete images from first image (index 0) to the last image (index -1). In other words ALL images in the current image list. The tree image was then added to give IM a actual result, so as to avoid a 'no image' type error. A "`NULL:`" output image could also have been used, to produce no output.
@@ -1204,25 +1313,30 @@ The '`0--1`' argument means delete images from first image (index 0) to the last
 If a image index does not exist, or a number range is reversed, "`-delete`" will silently ignore that specific image deletion.
 
 For example, the argument '`-25`' will attempt to delete the last 25th image in the image list, but will silently do nothing if less than 25 images are present. As such you can generate a rolling animation of 24 images using a sequence like...
-  
-      convert animation.gif  new_frame.gif  -delete -25  animation_new.gif
+
+~~~
+convert animation.gif  new_frame.gif  -delete -25  animation_new.gif
+~~~
 
 However no image will be deleted if the number of images was 24 or less. As a result the animation will grow by one frame, every time the command is run, until a maximim of 24 frames is reached. After that the oldest (first) frame will be delete while a new frame is added.
 
 As of IM v6.3.4 "`-delete`" will not delete images that result in the numbered range being reversed.
 That means that last example could be re-written like this...
-  
-      convert long_animation.gif  new_frame.gif  -delete 0--25  animation_new.gif
+
+~~~
+convert long_animation.gif  new_frame.gif  -delete 0--25  animation_new.gif
+~~~
 
 This time the "`-delete`" will delete all images between the first, to the last 25th image, leaving at most 24 images in the list. If only 24 or less images are present, the given range of images to be deleted will be effectively reversed, and the "`-delete`" operator will not delete anything.
 
 #### `-insert {index}`
 
 The "`-insert`" operation is sort of the opposite of "`-delete`". It will take the last image in the current image list and insert so that it is positioned at the given index.
-  
-      convert font_[0-3].gif tree.gif -insert 1 +append seq_insert.gif
 
-  
+~~~
+convert font_[0-3].gif tree.gif -insert 1 +append seq_insert.gif
+~~~
+
 [![\[IM Output\]](seq_insert.gif)](seq_insert.gif)
 
 You can think if the insert index as the number of images that should appear before the point where the image was inserted.
@@ -1230,17 +1344,19 @@ You can think if the insert index as the number of images that should appear bef
 Of course the image that was at that index (and all the images after it), will be bumped up into the next index position to make room for the new image.
 
 If a negative index position is used, the insert position is calculated after the image being inserted is removed from the end of the list. That is it will act as if the image being inserted was not part of the original image list. As such "`-insert -2`" will 'roll' the last three images, placing two images between the newly inserted image and the end of the image list.
-  
-      convert font_[0-3].gif tree.gif -insert -2 +append seq_insert2.gif
 
-  
+~~~
+convert font_[0-3].gif tree.gif -insert -2 +append seq_insert2.gif
+~~~
+
 [![\[IM Output\]](seq_insert2.gif)](seq_insert2.gif)
 
 The plus form "`+insert`" will move the last image to the front of the image list (index `0`), effectively rolling the whole image list by one frame.
-  
-      convert font_[0-3].gif tree.gif +insert +append seq_insert3.gif
 
-  
+~~~
+convert font_[0-3].gif tree.gif +insert +append seq_insert3.gif
+~~~
+
 [![\[IM Output\]](seq_insert3.gif)](seq_insert3.gif)
 
 To do the inverse of the above (move an image to the end of the image list), can be done by first using "`-duplicate 1,0`" to copy the first image, then use "`-delete 0`" to delete the first image.
@@ -1248,41 +1364,46 @@ To do the inverse of the above (move an image to the end of the image list), can
 #### `-swap {index}[,{index}]`
 
 Simply put "`-swap`", will swap the positions of two images in the current image list. For example "`-swap 0,2`" will swap the first and the third images in the current image list.
-  
-      convert font_[0-3].gif  -swap 0,2  +append  seq_swap.gif
 
-  
+~~~
+convert font_[0-3].gif  -swap 0,2  +append  seq_swap.gif
+~~~
+
 [![\[IM Output\]](seq_swap.gif)](seq_swap.gif)
 
 The plus form of this option "`+swap`" will swap the last two images in the current image list. In other words, it is equivalent to "`-swap -2,-1`".
-  
-      convert font_[0-3].gif  +swap  +append  seq_swap2.gif
 
-  
+~~~
+convert font_[0-3].gif  +swap  +append  seq_swap2.gif
+~~~
+
 [![\[IM Output\]](seq_swap2.gif)](seq_swap2.gif)
 
 Probably the most common use of this operator is to swap two images before being used by a image layering operator such as "`-composite`", "`-flatten`", "`-append`", or "`-fx`".
-  
-      convert tree.gif  frame.gif   +swap \
-              -gravity center  -composite   framed_tree.gif
 
-  
+~~~
+convert tree.gif  frame.gif   +swap \
+        -gravity center  -composite   framed_tree.gif
+~~~
+
 [![\[IM Output\]](framed_tree.gif)](framed_tree.gif)
 
 As of IM v6.4 a "`-swap`" with a single number will swap the last image with the number given. That is "`-swap 1`" is equivalent to a "`-swap 1,-1`".
-  
-      convert font_[0-3].gif  -swap 1  +append  seq_swap3.gif
 
-  
+~~~
+convert font_[0-3].gif  -swap 1  +append  seq_swap3.gif
+~~~
+
 [![\[IM Output\]](seq_swap3.gif)](seq_swap3.gif)
   
 #### `-reverse`
 
 The "`-reverse`" operator (added to IM v6.3.4) will quite simply reverse the order of the whole image list.
-  
-      convert font_[0-3].gif -reverse  +append seq_reverse.gif
 
-  
+~~~
+convert font_[0-3].gif -reverse  +append seq_reverse.gif
+~~~
+
 [![\[IM Output\]](seq_reverse.gif)](seq_reverse.gif)
 
 It is basically an ultimate [Swap Operator](#swap).
@@ -1294,48 +1415,54 @@ This image list operator is a little different. Given an image list number "`-cl
 **Clone should only be used within parenthesis**
 
 The reason for this is that it allows you to extract a copy of an image from the last saved (pushed) image list, so you can process it further. For example.
-  
-      convert font_[0-2].gif \( -clone 1 -rotate 90 \) +append  seq_clone.gif
 
-  
+~~~
+convert font_[0-2].gif \( -clone 1 -rotate 90 \) +append  seq_clone.gif
+~~~
+
 [![\[IM Output\]](seq_clone.gif)](seq_clone.gif)
 
 The 'plus' argument-less form "`+clone`" will just make a copy of the last image of the saved (pushed) image list so that you can process it further
-  
-      convert font_[0-2].gif \( +clone -flip \) +append  seq_clone2.gif
 
-  
+~~~
+convert font_[0-2].gif \( +clone -flip \) +append  seq_clone2.gif
+~~~
+
 [![\[IM Output\]](seq_clone2.gif)](seq_clone2.gif)
 
 As of the release of version 6.2.2 "`-clone`" operator will take a comma separated list of images, or a range of indexes of the form '`{index}-{index}`'.
-  
-      convert font_[0-2].gif \( -clone 1-2 \) +append  seq_clone_range.gif
 
-  
+~~~
+convert font_[0-2].gif \( -clone 1-2 \) +append  seq_clone_range.gif
+~~~
+
 [![\[IM Output\]](seq_clone_range.gif)](seq_clone_range.gif)
 
 Of course negative indexes still behave just as you would expect. For example to duplicate the whole image list you can specify it using numbers '`0`' (first image) and '`-1`' (last image), that is by using the range '`0--1`'. It may look strange but it makes sense and works fine.
-  
-      convert font_[0-2].gif \( -clone 0--1 \) +append  seq_clone_all.gif
 
-  
+~~~
+convert font_[0-2].gif \( -clone 0--1 \) +append  seq_clone_all.gif
+~~~
+
 [![\[IM Output\]](seq_clone_all.gif)](seq_clone_all.gif)
 
 When you use a comma separated list of indexes, the images are extracted in that order you specify.
-  
-      convert font_[0-2].gif \( -clone 2,0,1 \) +append  seq_clone_list.gif
 
-  
+~~~
+convert font_[0-2].gif \( -clone 2,0,1 \) +append  seq_clone_list.gif
+~~~
+
 [![\[IM Output\]](seq_clone_list.gif)](seq_clone_list.gif)
 
 If the images in a range are reversed (after negative indexes are converted to a actual image index), the extracted images is also reversed, as part of the process.
-  
-      convert font_[0-2].gif \( -clone 2-0 \) +append  seq_clone_reversed.gif
 
-  
+~~~
+convert font_[0-2].gif \( -clone 2-0 \) +append  seq_clone_reversed.gif
+~~~
+
 [![\[IM Output\]](seq_clone_reversed.gif)](seq_clone_reversed.gif)
-  
- The [Clone Image Operator](#clone) can be used without parenthesis, and will just copy images from the current image list and directly append them. However this is not its intended use and is to be discouraged as it will produce a different result if you later surround that set of operations by parenthesis.
+
+The [Clone Image Operator](#clone) can be used without parenthesis, and will just copy images from the current image list and directly append them. However this is not its intended use and is to be discouraged as it will produce a different result if you later surround that set of operations by parenthesis.
 
 Also in the examples above I am generating clones and appending them to the current image list, to demonstrate the operator. In reality I should be using the [Duplicate Image Operator](#duplicate) to duplicate images in the current image list. So should you, as it will make it clearer what you are trying to do.
 
@@ -1346,47 +1473,54 @@ The [MPR:](../files/#mpr) Image Memory Register, can also be used to clone image
 You can use "`-duplicate`" to generate a extra copies (clones) of an image, from the current image list (added IM v6.6.8-7). The new images are added to the end of the list.
 Unlike the previous (and older) [Clone Operator](#clone) it does not require the use of parenthesis.
 For example to make N extra copies an image (to a total on N+1) you can do this...
-  
-      convert font_5.gif   -duplicate 4   +append seq_duplicate.gif
 
-  
+~~~
+convert font_5.gif   -duplicate 4   +append seq_duplicate.gif
+~~~
+
 [![\[IM Output\]](seq_duplicate.gif)](seq_duplicate.gif)
 
 If more than one image is present, the last image is duplicated N times...
-  
-      convert font_[0-1].gif   -duplicate 3   +append seq_dup_n.gif
 
-  
+~~~
+convert font_[0-1].gif   -duplicate 3   +append seq_dup_n.gif
+~~~
+
 [![\[IM Output\]](seq_dup_n.gif)](seq_dupl_n.gif)
 
 If you just want to duplicate the last image once, you can use the 'plus' form of the argument.
-  
-      convert font_[0-3].gif  +duplicate   +append seq_dup_last.gif
 
-  
+~~~
+convert font_[0-3].gif  +duplicate   +append seq_dup_last.gif
+~~~
+
 [![\[IM Output\]](seq_dup_last.gif)](seq_dup_last.gif)
 
 If you want to select a particular image multiple times duplication you can specify image index as a second argument.
-  
-      convert font_[0-2].gif  -duplicate 2,0  +append seq_dup_index.gif
 
-  
+~~~
+convert font_[0-2].gif  -duplicate 2,0  +append seq_dup_index.gif
+~~~
+
 [![\[IM Output\]](seq_dup_index.gif)](seq_dup_index.gif)
 
 Note that this operator can generate hundreds of images very quickly, however until the images are processed, the images are simply 'clones' of each other, sharing the actual image data between them. As such duplicated images are very memory efficent.
 
 The index part of the argument can contain a list or range of image indexes to be duplicated N times. For example duplicate the whole list twice to create three times the original number of images...
-  
-      convert font_[0-4].gif  -duplicate 2,0--1  +append seq_dup_list.gif
+
+~~~
+convert font_[0-4].gif  -duplicate 2,0--1  +append seq_dup_list.gif
+~~~
 
 [![\[IM Output\]](seq_dup_list.gif)](seq_dup_list.gif)
 
 A [Patrol Cycle](../anim_mods/#patrol) type of animation list is also easy to create by using a image list that is reversed.
-  
-      convert font_[0-9].gif -duplicate 1,-2-1 \
-              -set delay 50 -set dispose previous -loop 0  seq_reverse_anim.gif
 
-  
+~~~
+convert font_[0-9].gif -duplicate 1,-2-1 \
+        -set delay 50 -set dispose previous -loop 0  seq_reverse_anim.gif
+~~~
+
 [![\[IM Output\]](seq_reverse_anim.gif)](seq_reverse_anim.gif)
 
 Note that I did not copy the whole image list, but skipped copying the very first (`0`) and last (`-1`) image, making the image indexes `-2` to `1`.
@@ -1394,10 +1528,11 @@ Note that I did not copy the whole image list, but skipped copying the very firs
 If your version of IM is older than v6.6.8-7, you can still generate duplicate images, [Clone Image Operator](#clone), but only one set of images at a time.
 
 Or by using a technique that basically mis-uses the [Color Morph Operator](../anim_mods/#morph), generate multiple duplicate images. The trick is to first make one clone to generate two identical images, then use "`-morph`" to generate in the last N-2 images between them.
-  
-      convert font_7.gif \( +clone \) -morph 3  +append seq_dup_morph.gif
 
-  
+~~~
+convert font_7.gif \( +clone \) -morph 3  +append seq_dup_morph.gif
+~~~
+
 [![\[IM Output\]](seq_dup_morph.gif)](seq_dup_morph.gif)
 
 Note however that by mis-using the [Color Morph Operator](../anim_mods/#morph) the images are actually being processed, as such it takes time for morph to actually process the images (producing no change). Also the images created will contain actual copies of the original data, and are not simple, memory saving clones.
@@ -1406,19 +1541,21 @@ Note however that by mis-using the [Color Morph Operator](../anim_mods/#morph) t
 
 Using these operators, you can extract a copy of a specific image, modify it, and return that image back where you got it from.
 For example, here I make a "`-clone`" of the 2rd image (image index '1'), rotate the images colors from blue to red, then replace the original image with the modified one by first "`-delete`" it and "`-insert`" the new one.
-  
-      convert font_[0-3].gif  \( -clone 1  -modulate 100,100,166 \) \
-              -delete 1  -insert 1    +append seq_update_1.gif
 
-  
+~~~
+convert font_[0-3].gif  \( -clone 1  -modulate 100,100,166 \) \
+        -delete 1  -insert 1    +append seq_update_1.gif
+~~~
+
 [![\[IM Output\]](seq_update_1.gif)](seq_update_1.gif)
 
 Another way that seems to have become more common is use "`-swap`" to replace the original image, then "`+delete`" the old image that is now on the end. This only requires you to give the image position twice, instead of three times. Once to clone, and once to replace the modified image.
-  
-      convert font_[0-3].gif  \( -clone 2  -modulate 100,100,166 \) \
-              -swap 2  +delete     +append seq_update_2.gif
 
-  
+~~~
+convert font_[0-3].gif  \( -clone 2  -modulate 100,100,166 \) \
+        -swap 2  +delete     +append seq_update_2.gif
+~~~
+
 [![\[IM Output\]](seq_update_2.gif)](seq_update_2.gif)
 
 These techniques are continued below in the next section on [Complex Image Processing and Debugging](#complex).
@@ -1433,16 +1570,17 @@ Thanks to the addition of [Image Sequence Operators](#image_seq) (see above), yo
 This type of image processing commands can become very long and complex. As such it is better to write the command in scripts, and try to place each major operation on a line by itself for easier programming and editing. See [Hints for Better ImageMagick Shell/PHP Scripts](../api/#scripts).
   
 For example, here I go though a whole complex processing sequence to generate a red button on a black background.
-  
-      convert -size 30x30 xc:black -fill white  -draw 'circle 15,15 5,15' \
-              \( +clone -shade 110x90 -normalize -negate -alpha Off \) \
-              \( +clone -clone -2 -compose Plus -composite \) \
-              \( -clone 0 -shade 110x50 -normalize -alpha Off \) \
-              \( +clone -gamma 1,0,0 \) \
-              \( -clone 2,-1  -compose Multiply -composite \) \
-              -append  seq_process_fx.gif
 
-  
+~~~
+convert -size 30x30 xc:black -fill white  -draw 'circle 15,15 5,15' \
+        \( +clone -shade 110x90 -normalize -negate -alpha Off \) \
+        \( +clone -clone -2 -compose Plus -composite \) \
+        \( -clone 0 -shade 110x50 -normalize -alpha Off \) \
+        \( +clone -gamma 1,0,0 \) \
+        \( -clone 2,-1  -compose Multiply -composite \) \
+        -append  seq_process_fx.gif
+~~~
+
 [![\[IM Output\]](seq_process_fx.gif)](seq_process_fx.gif)
 
 Each line of the convert command generates a new image, except the last line where I just [Appended](../layers/#append) all the working images together to output the results of all the processing steps, rather than just the final image.
@@ -1452,45 +1590,58 @@ This technique lets you follow what each step (wrapped in parenthesis) of the ve
 Note how it only uses the initial image's size and shape to generate the initial shape of the button, so you are free to use any shape or image you like! The rest of the command will process it just like before.
 
 Of course you would normally [Delete](#delete) all the temporary working images. That is I would replace the last line in the above with something like this...
-  
-              -delete 0--2  seq_process_result.gif
+
+~~~
+-delete 0--2  seq_process_result.gif
+~~~
 
 Other ways of checking the results is to pipe the result into the display command, so as to view the results on screen, instead of save it to a image file. that is use something like this for the last line...
-  
-              +append  miff:- | display -
+
+~~~
++append  miff:- | display -
+~~~
 
 Alternatively instead of "`display`" you can use '`show:`' which will display the resulting image on screen, and then allow the original command to continue or exit. See [Show, Display Image Output](../files/#show) for more information.
-  
-              +append  show:
+
+~~~
++append  show:
+~~~
 
 You actually don't even need the "`+append`", in which case IM will show each image in sequence, by pressing 'spacebar'.
 You can even get fancier by using "`montage`" command to view the results in a nicer way...
-  
-              miff:- | montage - -bordercolor blue -border 1 -geometry +2+2 show:
+
+~~~
+miff:- | montage - -bordercolor blue -border 1 -geometry +2+2 show:
+~~~
 
 This type of image processing also allows for easy viewing of intermedaite images, immedatally the image has been created. Basically you can insert lines this in between "`\( ...  \)`" statements.
-  
-              \( +clone -write show: +delete \)\
+
+~~~
+\( +clone -write show: +delete \)\
+~~~
 
 IM will automatically continue processing once that intermediate image has been output for display purposes. See [Show, Display Image Output](../files/#show).
 Alternatively, by inserting this line instead, you can display all the current images generated so far at that point in the processing...
-  
-              \( -clone 0--1 -append -write show: +delete \)\
+
+~~~
+\( -clone 0--1 -append -write show: +delete \)\
+~~~
 
 After you have the image processing steps debugged and settled then you can optimize the code, so that you don't use as many parenthesis steps, as well as fewer [Cloned Images](#clone), and resulting in less intermediate images to [Delete](#delete) at the end.
 
 Remember also that "[Image Composition](../compose/#compose)", and or "[Layer Flattening](../layers/#flatten)" merges multiple images together, to leave just the one resulting image, which can reduce the overall number of intermediate images in memory.
-  
-      convert -font Ravie -pointsize 48 -background black -fill white \
-              label:'IM' -bordercolor black -border 5  seq_label.gif
 
-      convert seq_label.gif -alpha Off \
-              \( +clone  -shade 110x90 -normalize -negate \
-                 +clone  -compose Plus -composite \) \
-              \( -clone 0 -shade 110x50 -normalize -gamma 1,0,0 -alpha Set \) \
-              -delete 0 +swap  -compose Multiply -composite  seq_button.gif
+~~~
+convert -font Ravie -pointsize 48 -background black -fill white \
+        label:'IM' -bordercolor black -border 5  seq_label.gif
 
-  
+convert seq_label.gif -alpha Off \
+        \( +clone  -shade 110x90 -normalize -negate \
+           +clone  -compose Plus -composite \) \
+        \( -clone 0 -shade 110x50 -normalize -gamma 1,0,0 -alpha Set \) \
+        -delete 0 +swap  -compose Multiply -composite  seq_button.gif
+~~~
+
 [![\[IM Output\]](seq_label.gif)](seq_label.gif) [![\[IM Output\]](seq_button.gif)](seq_button.gif)
 
 The ability of ImageMagick, to process any image, in a standard, programmed, and automated way, using multiple steps all in the one command is what makes IM such a powerful tool. You can script up a very complex operation, then apply it to many images. Image list operators, and parenthesis just made IM an order of magnitude more powerful, allowing you to write more complex image manipulation programs, with fewer commands.
@@ -1552,14 +1703,18 @@ For example, "`-label 'string'`" will set the comment in every image that is rea
 
 The reason for the two methods is due to historical backward compatibility and convenience. Basically "`-label`" has traditionally been set BEFORE the image it is applied to has been read in. Also it only affects images that are read in while it is set.
 For example....
-  
-      convert -label one  image_one.png \
-              -label two  image_two.png     output_image_list
+
+~~~
+convert -label one  image_one.png \
+        -label two  image_two.png     output_image_list
+~~~
 
 The "`-set`" operator changes ALL the images that are in the current image list, including ones previously read in. Thus you must generally use parenthesis to limit what image you are applying the option to.
-  
-      convert \( image_one.png -set label one \) \
-              \( image_two.png -set label two \)  output_image_list
+
+~~~
+convert \( image_one.png -set label one \) \
+        \( image_two.png -set label two \)  output_image_list
+~~~
 
 You can un-define the setting using "`+label`", in which case the label meta-data will be left alone as the image is read in or created. If the image read in also doesn't have a label, IM will fall back to some logical default. For label that is just the empty string.
 
@@ -1568,53 +1723,57 @@ You can see more detailed and specific examples of both methods [Montage Labelin
 This same idea also goes for all the other options that set image meta-data on input. This includes... "`-comment`", "`-caption`", "`-page`", "`-dispose`", "`-delay`".
 
 The virtual canvas size and image offset setting (page) however also has a special operator "`-repage`" (see [Page and Repage](#repage) below.
-  
- For example here I use all the setting methods available to set the 'virtual canvas offset' or 'page' of the individual images, as I create a [Animation](../anim_basics) from them...
-  
-      convert -delay 100 -dispose Background \
-                -page 100x100+5+10  eye.gif  \
-                -page +35+30        news.gif  \
-                \( storm.gif  -set page +62+50 \) \
-                \( tree.gif   -repage   +10+55 \) \
-              -loop 0  animation_page.gif
 
-  
+For example here I use all the setting methods available to set the 'virtual canvas offset' or 'page' of the individual images, as I create a [Animation](../anim_basics) from them...
+
+~~~
+convert -delay 100 -dispose Background \
+          -page 100x100+5+10  eye.gif  \
+          -page +35+30        news.gif  \
+          \( storm.gif  -set page +62+50 \) \
+          \( tree.gif   -repage   +10+55 \) \
+        -loop 0  animation_page.gif
+~~~
+
 [![\[IM Output\]](animation_page.gif)](animation_page.gif)
 
 As you can see the traditional (non-set) method is simpler when creating multi-image list from separate image files. But "`-set`" or more specialized "`-repage`" operators are better when you need to change a image that has already been read into memory, or was created from image processing.
 
 For example to change the image offset of the third image (image index '`2`') in the last example...
-  
-      convert animation_page.gif \
-              \( -clone 2 -set page +55+10 \) -swap 2  +delete \
-              animation_mod.gif
 
-  
+~~~
+convert animation_page.gif \
+        \( -clone 2 -set page +55+10 \) -swap 2  +delete \
+        animation_mod.gif
+~~~
+
 [![\[IM Output\]](animation_mod.gif)](animation_mod.gif)
 
 For a more extreme example of extracting and modifying individual images in a image list see [Frame by Frame Modification of an Animation](../anim_mods/#frame_mod).
 
 Here is another example using "`-set`" to specify a comment on all the images, and then modify one specific image.
-  
-      convert xc: -duplicate 9 \
-                  -set comment 'T minus %[fx:n-t]' \
-                  \( -clone 7 -set comment 'We have ignition!' \) -swap 7 +delete \
-                  -format "image #%p : %c" info:
 
-  
+~~~
+convert xc: -duplicate 9 \
+            -set comment 'T minus %[fx:n-t]' \
+            \( -clone 7 -set comment 'We have ignition!' \) -swap 7 +delete \
+            -format "image #%p : %c" info:
+~~~
+
 [![\[IM Text\]](comments.txt.gif)](comments.txt)
 
-  
- You can use "`mpr:`", as an alternative way of setting attributes to in memory images. For example here we take an image with a 'Bad' comment, that is in memory, and replace the comment with a 'Good' one...
-  
-      convert -comment 'Bad Comment' rose: \
-              \
-              -write mpr:register +delete \
-              -comment Good   mpr:register  rose.jpg
 
-      identify -format "image comment = %c" rose.jpg
+You can use "`mpr:`", as an alternative way of setting attributes to in memory images. For example here we take an image with a 'Bad' comment, that is in memory, and replace the comment with a 'Good' one...
 
-  
+~~~
+convert -comment 'Bad Comment' rose: \
+        \
+        -write mpr:register +delete \
+        -comment Good   mpr:register  rose.jpg
+
+identify -format "image comment = %c" rose.jpg
+~~~
+
 [![\[IM Text\]](comment_change.txt.gif)](comment_change.txt)
 
 This works, but is extremely awkward and painful to use, especially when dealing with multiple images such as an animation. In fact this is the only way to change meta-data in images in IM version 5. (Yuck!)
@@ -1681,35 +1840,35 @@ These two aspects, size and offset' are closely related, but usually you want to
 
 Specifically...
 
-**+repage**  
+#### +repage
 Without and arguments, will reset the image virtual canvas to the actual image itself. That is just clear any virtual canvas information that the image may have.
 This often important after applying the image sub-diving operators such as [Cropping](../crop/#crop), and [Trimming](../crop/#trim).
 
 It is especially important in removing virtual canvas size and offsets before saving to the GIF or PNG image file formats, as many browsers use the canvas/offset information as part of the image display.
 
-**-repage WxH**  
+#### -repage WxH
 Change the existing images virtual canvas size, but do not reset the image position on that canvas.
 
 Note supplying this argument to either "`-page`" or "`-set page`" will reset the images location to '`+0+0`' which is probably not wanted..
 
-**-repage +X+Y**  
+#### -repage +X+Y 
 Just move the image on the virtual canvas to this absolute location without changing the images canvas size.
 
-**-repage +X+Y\\!**  
+#### -repage +X+Y\\!
 Do a relative move of the image on the virtual canvas by adding the given numbers (positive or negative) to the images existing offset position.
 
-**-repage 0x0**  
+#### -repage 0x0
 Attempt to find the best virtual canvas size that contains the whole image.
 
 This however will fail for images with a negative offset as there is no way to specify a virtual canvas with negative components. To avoid problems it will use the size of the actual image as the smallest canvas size possible. That is it will never assign a virtual canvas with a zero dimensions.
 
-**-repage 0x0+X+Y**  
+#### -repage 0x0+X+Y
 Move the images offset, then resize the virtual canvas to best fit the images new location.
 
-**-repage 0x0+0+0**  
-Equivalent to a "`+repage`" or "`+set     page`" or a "`-set page     0x0`". All virtual canvas and offset information is removed.
+#### -repage 0x0+0+0
+Equivalent to a "`+repage`" or "`+set page`" or a "`-set page 0x0`". All virtual canvas and offset information is removed.
 
-**-repage WxH+X+Y**  
+#### -repage WxH+X+Y
 Equivalent to a "`-set page     WxH+X+Y`". That is just assign the given values directly.
 
 Note the use of a '`!`' flag will make the given offset a relative displacement to the images current offset. That is a '`-repage +5+0\!`" will move the images offset 5 pixels to the right, without modifying the virtual canvas size.
@@ -1720,18 +1879,18 @@ Caution is required in giving an image a final negative offset position as the G
 
 What virtual canvas information is saved with an image is format dependent.
   
-**JPEG**  
-  
+#### JPEG
+
 Like many image file formats, JPEG images do not save virtual canvas information at all. The information is just ignored and lost.
-  
-**GIF**
-  
+
+####GIF
+
 The size of the virtual canvas and offsets will be saved as part of its GIF animation handling. However it will not handle negative offsets. Any negative offset will be reset to zero on save.
-  
-**PNG**
-  
+
+####PNG
+
 Offsets and even negative offsets is saved, but the PNG file format does not normally save the virtual canvas information. However PNG images saved by IM will include the virtual canvas size information, but is only used by other IM commands.
-  
+
 If IM does read a PNG image without this IM specific attribute, it will set the image virtual canvas to an appropriate size to ensure the image is visible on the virtual canvas (as per a "`-repage 0x0`"). For images without an offset that means the virtual canvas is the same size as the actual image.
 Some formats like GIF and PNG save virtual canvas information, others like JPEG do not. All of the above formats have there own limitations for virtual canvas information. 
 Only the internal MIFF file format does not have any such limitations.
@@ -1746,19 +1905,21 @@ Because of this the "`-set`" option can actually define ANY setting with ANY val
 
 If the value is not specifically known to ImageMagick, it is saved into the image as a '**Property**', and will be listed near the bottom of a verbose "`identify`" output, or retrieved and expanded using [Percent Escapes](http://imagemagick.org/script/escape.php).
 The built in rose image for example automatically generates three 'properties': two date strings, and a 'signature hash'. To this I have also added my own user defined 'property' setting.
-  
-      convert rose:   -set my_property my_value   -verbose info: |\
-        sed -n '/Artifacts/q; /Properties/,$ p'
 
-  
+~~~
+convert rose:   -set my_property my_value   -verbose info: |\
+  sed -n '/Artifacts/q; /Properties/,$ p'
+~~~
+
 [![\[IM Text\]](properties.txt.gif)](properties.txt)
 
 Some image processing operators even return values of special interest as image 'properties'. For example the final pointsize selected by a [Best Fit Label](../text/#label_bestfit), will be saved as a special image property.
-  
-      convert -size 100x label:Anthony  -verbose -identify  property_label.gif |\
-        sed -n '/Artifacts/q; /Properties/,$ p'
 
-  
+~~~
+convert -size 100x label:Anthony  -verbose -identify  property_label.gif |\
+  sed -n '/Artifacts/q; /Properties/,$ p'
+~~~
+
 [![\[IM Output\]](property_label.gif)](property_label.gif)
   
 [![\[IM Text\]](property_label.txt.gif)](property_label.txt)
@@ -1772,18 +1933,21 @@ Some image processing operators even return values of special interest as image 
 > Because of this, not all 'attributes' are saved as 'properties', as many attributes need to be saved and used directly as numerical data by image processing operators. An example of this is the virtual canvas 'page' attribute.
 
 Here I use a identify "`-format`" setting to get IM to output the pointsize of the label it created (and discarded) internally.
-  
-      convert -size 100x label:Anthony \
-              -format 'pointsize = %[label:pointsize]pts' info:
 
-  
+~~~
+convert -size 100x label:Anthony \
+        -format 'pointsize = %[label:pointsize]pts' info:
+~~~
+
 [![\[IM Output\]](property_pointsize.txt.gif)](property_pointsize.txt)
 
 Using this information to generate a new label image is trick and will be looked at below.
 
 One of the most useful user defined settings you can use is the "`filename:`" setting. For example...
-  
-      convert rose: -set filename:my_area '%wx%h' 'rose-%[filename:my_area].png'
+
+~~~
+convert rose: -set filename:my_area '%wx%h' 'rose-%[filename:my_area].png'
+~~~
 
 The above will generate a image named "`rose-70x46.png`".
 
@@ -1801,28 +1965,35 @@ Also being globally set, they are not attached to specific images, but to all im
 > Note that API's can have multiple image list, with different sets of 'artifacts' attached, but the command line interface (CLI), only has one active image list, as such 'artifacts' really are global.
 
 In other words 'defined artifacts' provide a way for expert users to modify the normal or standard operation of specific operators, beyond normal argument usage. For example, [JPEG Coder Settings](../formats/#jpg_read), for both Reading and Writing such images...
-  
-      -define jpeg:size=300x200
-      -define jpeg:preserve-settings=1
-      -define jpeg:optimize-coding=true
+
+~~~
+-define jpeg:size=300x200
+-define jpeg:preserve-settings=1
+-define jpeg:optimize-coding=true
+~~~
 
 [Image Distortion Options](../distorts/#distort_options), such as...
-  
-      -define distort:scale=2
-      -define distort:viewport=44x44+15+0
+
+~~~
+-define distort:scale=2
+-define distort:viewport=44x44+15+0
+~~~
 
 [Resize Filter Controls](../filter/#options), such as
-  
-      -define filter:blur=0.75
-      -define filter:support=1.25
+
+~~~
+-define filter:blur=0.75
+-define filter:support=1.25
+~~~
 
 Some artifact defines have shortcuts because they are used very regularly by users.
 For example the "`-verbose`" operational control (see below), is really equivalent to using "`-define verbose`", and thus creating a '`verbose`' artifact. For example...
-  
-      convert xc: -verbose info: |\
-        sed -n '/Tainted:/q; /Artifacts:/,$ p'
 
-  
+~~~
+convert xc: -verbose info: |\
+  sed -n '/Tainted:/q; /Artifacts:/,$ p'
+~~~
+
 [![\[IM Text\]](artifact_verbose.txt.gif)](artifact_verbose.txt)
 
 It follows then the plus form "`+verbose`" just removes the '`verbose`' artifact, and is thus equivalent to "`+define verbose`".
@@ -1834,11 +2005,12 @@ Artifacts are also often used to hold special attributes that should be assigned
 The "`-label`" setting also just sets a artifact with the argument provided by the user. This artifact is then converted into a '`label`' [Setting or Propriety](#set) after a new image has been read in or created.
 
 For example creating a "`rose:`" image with a label set
-  
-      convert -label "%wx%h"  rose:  -verbose info:  |\
-          sed -n '/Tainted:/q; /Properties:/,$ p'
 
-  
+~~~
+convert -label "%wx%h"  rose:  -verbose info:  |\
+    sed -n '/Tainted:/q; /Properties:/,$ p'
+~~~
+
 [![\[IM Text\]](rose_properties.txt.gif)](rose_properties.txt)
 
 That is "`-label`" first defined the '`label`' artifact shown. Later when the rose image was created (and its size attributes was known), IM converted that global artifact into a image specific 'property' and only then expanding any [Percent Escapes](http://imagemagick.org/script/escape.php) at that time. This is known as a [Delayed Percent Escapes](arg_delayed).
@@ -1850,51 +2022,56 @@ It is because of [Delayed Percent Escapeis](arg_delayed) that "`-define`" will o
 #### Using Set "option:" to Define an Artifact
 
 We showed above how you can "`-set`" special purpose personal [Proprieties](#properties), on a per-image bases. For example...
-  
-      convert -size 80x40 xc:  -set myinfo 'I love IM!' \
-              -gravity center -annotate 0x0 '%[myinfo]' \
-              property_annotate.gif
 
-  
+~~~
+convert -size 80x40 xc:  -set myinfo 'I love IM!' \
+        -gravity center -annotate 0x0 '%[myinfo]' \
+        property_annotate.gif
+~~~
+
 [![\[IM Output\]](property_annotate.gif)](property_annotate.gif)
 
 But as [Proprieties](#properties) are attached to specific images, you can't use them in the creation of new images. For example this will fail...
-  
-      convert rose:  -set myinfo 'I love IM!'  label:'== %[myinfo] ==' \
-              -gravity center  -append   properity_append_fail.gif
 
-  
+~~~
+convert rose:  -set myinfo 'I love IM!'  label:'== %[myinfo] ==' \
+        -gravity center  -append   properity_append_fail.gif
+~~~
+
 [![\[IM Output\]](properity_append_fail.gif)](properity_append_fail.gif)
 
 As you can see the '`myinfo`' properity was for found or included in the appended label.
 
 On the other hand globally defined [Artifacts](#artifacts) are available to the image generators. They have to be so that the image generators or image file coders can read them for various control settings. As such as using a "`-define`" will work as expected.
-  
-      convert rose:  -define myinfo='I love IM!'  label:'== %[myinfo] ==' \
-              -gravity center  -append   artifact_append.gif
 
-  
+~~~
+convert rose:  -define myinfo='I love IM!'  label:'== %[myinfo] ==' \
+        -gravity center  -append   artifact_append.gif
+~~~
+
 [![\[IM Output\]](artifact_append.gif)](artifact_append.gif)
 
 So how can use you create a label using a image property or attribute? The "`-define`" option does not currently allow the use of image properties!
 The trick is to use a special prefix "`option:`" when using the "`-set`" option. This addition causes "`-set`" to define a 'artifact' with the name that follows the prefix. For example, this is equivalent to the last example.
-  
-      convert rose:  -set option:myinfo 'I love IM!'  label:'== %[myinfo] ==' \
-              -gravity center  -append   properity_option_append.gif
 
-  
+~~~
+convert rose:  -set option:myinfo 'I love IM!'  label:'== %[myinfo] ==' \
+        -gravity center  -append   properity_option_append.gif
+~~~
+
 [![\[IM Output\]](properity_option_append.gif)](properity_option_append.gif)
 
 More importantly the "`-set`" option will expand [Percent Escapes](http://imagemagick.org/script/escape.php). Which means if we have some per-image [Propriety](#properties), we can convert it to a global [Artifact](#artifacts). For example, here I create a label, then convert the '`label:pointsize`' property the "`label:`" image generator created, into a global artifact '`my_pointsize`'. As an artifact, this information is available when I create a second label image. I then append the two labels together (with a separating '`gray`' line). *A very tricky example*.
-  
-      convert -size 100x -gravity center label:Anthony \
-              -set option:my_pointsize '%[label:pointsize]' \
-              -set option:my_height '%h' \
-              -size 100x1 xc:gray \
-              -size 100x label:'at %[my_pointsize]pt and %[my_height]px high' \
-              -append  property_append.gif
 
-  
+~~~
+convert -size 100x -gravity center label:Anthony \
+        -set option:my_pointsize '%[label:pointsize]' \
+        -set option:my_height '%h' \
+        -size 100x1 xc:gray \
+        -size 100x label:'at %[my_pointsize]pt and %[my_height]px high' \
+        -append  property_append.gif
+~~~
+
 [![\[IM Output\]](property_append.gif)](property_append.gif)
 
 Note the placement of the "`-set option:...`" in the above. If you were to place it AFTER the creation of the "`xc:gray`" it would be that image that would be used to set the global artifact. That is because only the properties of the last image define the value stored in the global artifact.
@@ -1952,9 +2129,9 @@ Transparency in such images are usually handled either by specifying a specific 
 
 In general...
 
-24 bit images are : 3 x 8 bit values - 3 color channels only
-32 bit images are : 4 x 8 bit values - 3 colors + Alpha channel
-8 bit images are : 8 bit color indexed image, with a 256 color limit
+    24 bit images are : 3 x 8 bit values - 3 color channels only
+    32 bit images are : 4 x 8 bit values - 3 colors + Alpha channel
+     8 bit images are : 8 bit color indexed image, with a 256 color limit
 
 Because most image formats only save color values at an 8 bit/value depth, a lot of people install IM using a 'Q' or Quality level of depth 8, which requires far less memory and processes images faster than a more normal Q16 version of IM. Often 3 or more times faster. These Q8 versions work well for general image processing and converting, and can be used for generating simple images, annotating, or overlaying images.
 
@@ -2003,13 +2180,14 @@ One important operator that should be kept in mind when using HDRI is "`-clamp`"
 
 **Quantum Rounding...**  
 For example here I use the [Level](../color_mods/#level) and the [Reverse Level](../color_mods/level_plus) operators to compress the color range of a gradient image down so they only use the values from 0 to 15, then un-compress it again. The resulting gradient is also displayed as an image profile (using the script "`im_profile`") to make it easier to follow.
-  
-      # Using a normal non-HDRI version of IM...
-      convert -size 20x600 gradient:  -rotate 90 \
-              +level 0,15  -level 0,15  level_rounding.png
-      im_profile -s level_rounding.png  level_rounding_pf.gif
 
-  
+~~~
+# Using a normal non-HDRI version of IM...
+convert -size 20x600 gradient:  -rotate 90 \
+        +level 0,15  -level 0,15  level_rounding.png
+im_profile -s level_rounding.png  level_rounding_pf.gif
+~~~
+
 [![\[IM Output\]](level_rounding_pf.gif)](level_rounding_pf.gif)
 [![\[IM Output\]](level_rounding.png)](level_rounding.png)
 
@@ -2021,13 +2199,14 @@ Quantum Rounding only becomes a problem for IM Q16 when you use really heavy ima
 
 **Burning and Clipping...**  
 And here I 'stretch' the gradient so that the original black and white color values go well beyond the "Quantum Range", before being restored again.
-  
-      # Using a normal non-HDRI version of IM...
-      convert -size 20x600 gradient:  -rotate 90 \
-              -level 20%  +level 20%    level_clipping.png
-      im_profile -s level_clipping.png  level_clipping_pf.gif
 
-  
+~~~
+# Using a normal non-HDRI version of IM...
+convert -size 20x600 gradient:  -rotate 90 \
+        -level 20%  +level 20%    level_clipping.png
+im_profile -s level_clipping.png  level_clipping_pf.gif
+~~~
+
 [![\[IM Output\]](level_clipping_pf.gif)](level_clipping_pf.gif)
 [![\[IM Output\]](level_clipping.png)](level_clipping.png)
 
@@ -2038,14 +2217,16 @@ You can see that a normal IM looses the information at both ends. The lower end 
 Repeating these two operations using a HDRI version of ImageMagick will not produce any of the above rounding, burning, or clipping of the results, but will have a extra cost in terms of memory (doubles need more space than integers).
 
 Speed wise, it does not cost much, and may actually even be faster, on much of today's modern computer hardware, due to floating point accelerators.
-  
-      # Using HDRI version of IM...
-      convert -size 20x600 gradient:  -rotate 90 \
-              +level 0,15  -level 0,15  level_rounding_hdri.png
-      convert -size 20x600 gradient:  -rotate 90 \
-              -level 20%  +level 20%    level_clipping_hdri.png
-      im_profile -s level_rounding_hdri.png  level_rounding_hdri_pf.gif
-      im_profile -s level_clipping_hdri.png  level_clipping_hdri_pf.gif
+
+~~~
+# Using HDRI version of IM...
+convert -size 20x600 gradient:  -rotate 90 \
+        +level 0,15  -level 0,15  level_rounding_hdri.png
+convert -size 20x600 gradient:  -rotate 90 \
+        -level 20%  +level 20%    level_clipping_hdri.png
+im_profile -s level_rounding_hdri.png  level_rounding_hdri_pf.gif
+im_profile -s level_clipping_hdri.png  level_clipping_hdri_pf.gif
+~~~
 
 [![\[IM Output\]](level_rounding_hdri_pf.gif)](level_rounding_hdri_pf.gif) [![\[IM Output\]](level_clipping_hdri_pf.gif)](level_clipping_hdri_pf.gif)
 
@@ -2054,13 +2235,14 @@ As you can see the gradient remains perfectly intact, even after heavy compressi
 #### Clamp to Enforcing image bounds in HDRI
 
 You can force HDRI image to be 'clipped' by the normal image value range by using "`-clamp`" between the two level options. For example...
-  
-      # Using a HDRI version of IM...
-      convert -size 20x600 gradient:  -rotate 90 \
-              -level 20%    -clamp   +level 20%   level_hdri_clamp.png
-      im_profile -s level_hdri_clamp.png  level_hdri_clamp_pf.gif
 
-  
+~~~
+# Using a HDRI version of IM...
+convert -size 20x600 gradient:  -rotate 90 \
+        -level 20%    -clamp   +level 20%   level_hdri_clamp.png
+im_profile -s level_hdri_clamp.png  level_hdri_clamp_pf.gif
+~~~
+
 [![\[IM Output\]](level_hdri_clamp_pf.gif)](level_hdri_clamp_pf.gif)
 
 The use of "`-clamp`" in the above basically generated the same image as what I would have got with a normal non-HDRI version of ImageMagick.
@@ -2128,8 +2310,9 @@ From a [IM Forum Discussion](../forum_link.cgi?f=1&t=14257&p=49222), Jesper Nils
 
 For example
 
-  
-      exiftool -g -Photoshop:XResolution=300 -Photoshop:YResolution=300 file.tif
+~~~
+exiftool -g -Photoshop:XResolution=300 -Photoshop:YResolution=300 file.tif
+~~~
 
 #### Speed Tests based on Quality
 
@@ -2157,74 +2340,43 @@ Rough results from the above artical
 IM also has a few special options that it uses to control its operational working, information reporting, and for debugging purposes.
 
   
-**-version**
+### -version
   
 Output what version of IM, the image quality it is using, and when was it built.
   
 IM will implicitly exit after outputting this information.
   
- 
+
   
-**-list**
+### -list
   
 This is an informational option only and will list the requested items, then exit. That is you can not use this with any other option, or image processing. It is purely provides for informational purposes, especially in scripts to check input options and if IM has certain options implemented.
   
 The given argument defines what information you are wanting to list. For example a list of '`color`' names that you can use, (such as using by ("`-fill`", "`-background`", "`-mattecolor`", "`-bordercolor`"). While '`font`' lists the fonts that are specifically known to IM.
   
 Here are just some of the more interesting lists...
-  
-**font**
-  
-Known fonts (IM also knows about X and PS fonts)
-  
-**type**
-  
-file image types ("`-type`" )(after IM v6.3.5-7)  
-or the font list (before that IM version)
-  
-**color**
-  
-known color names for various color options.
-  
-**dispose**
-  
-all the GIF disposal settings ("`-dispose`")
-  
-**compose**
-  
-alpha compositions are available (includes internal methods)
-  
-**layers**
-  
-what multi-image "`-layers`" methods has been implemented
-  
-**distort**
-  
-The image distortion methods available.
-  
-**morphology**
-  
-The image morphological methods available.
-  
-**command**
-  
-what command line options (both settings and operators) are available
-  
-**list**
-  
-what lists can "`-list`" list!
-  
-**configure**
-  
-what were the configuration parameters used to build ImageMagick
-  
+
+-------------- ------------------------------------------------
+**font**       Known fonts (IM also knows about X and PS fonts)
+**type**       File image types ("`-type`" )(after IM v6.3.5-7) or the font list (before that IM version)
+**color**      Known color names for various color options.
+**dispose**    All the GIF disposal settings ("`-dispose`")
+**compose**    Alpha compositions are available (includes internal methods)
+**layers**     What multi-image "`-layers`" methods has been implemented
+**distort**    The image distortion methods available.
+**morphology** The image morphological methods available.
+**command**    What command line options (both settings and operators) are available
+**list**       What lists can "`-list`" list!
+**configure**  What were the configuration parameters used to build ImageMagick
+-------------- ------------------------------------------------
+
 That last 'list' setting '`Configure`' is very important, as it will tell you what libraries, and delegates were available when IM was built. It also includes the 'point' release number, which was missing from the normal "`-version`" output of older versions. (See [Script Version Handling](../api/#version) for one example of using this information.
   
 IM will implicitly exit after outputting this information.
   
- 
+
   
-**-verbose**
+### -verbose
   
 Report extra info on some of the more complex operations.  
 For example "`-segment`", which outputs a lot of color quantization details.  
@@ -2234,18 +2386,17 @@ This is especially useful for generating for more detailed image information fro
   
 You can trun off the setting using the 'plus' form of the option, "`+verbose`".
   
- 
+
   
-**-regard  
-  -warnings**   
+### -regard-warnings
   
 The '`-regard-warnings`', will make some informative warnings about some image file formats fatal. It also causes IM to return a proper exit status according to such error conditions.
   
 It can be used in scripts to 'sanitize' image file being provided from uncontrolled sources. That is this option will make IM fail and exit, if when the JPEG or TIFF image was not correct, complete or contained 'unknown' profiles.
   
- 
+
   
-**-precision** *{number}*
+### -precision *{number}*
   
 Control the number of significant digits.  
 When IM outputs floating point values in response to various debugging, verbose, or formatting requests, this setting sets how precise you want that output.
@@ -2259,9 +2410,9 @@ It affects output from...
 -   The floating point values of a "`-morphology`" kernel when "`-set option:showkernel 1`" has been enabled. See [Displaying the Kernel](../morphology/#showkernel).
 
   
- 
+
   
-**-quiet**
+### -quiet
   
 Don't report informational warning messages. Only proper errors such as I/O errors, or bad options, etc.
   
@@ -2269,72 +2420,54 @@ This is especially useful for "`-crop`" or "`-trim`" and "`-layers optimize`" wh
   
 This will also quieten the coders of some complex image file formats that can contain 'unknown chunks' which IM would normally ignore. For example when IM is reading TIFF images, or strange MPEG (AVI) video formats.
   
- 
+
   
-**-respect  
-  -parenthesis**   
+### -respect-parenthesis
   
 Causes [parenthesis](#parenthesis) to not only to save and restore the current image list but also all the current [operational settings](#options) are saved and restored. Than means that when given, any settings set within parenthesis, will be reset when the parenthesis ends. See the examples in [Parenthesis and Settings](#respect-parenthesis) above.
   
- 
+
   
-**-ping**
+### -ping
   
 For the "[identify](#identify)" command. IM will try to avoid completely reading and decoding the full image file format for basic information such as the images size.
   
- 
+
   
-**-monitor**
+### -monitor
   
 Report a percentage of processing during each stage of image processing, especially for very large or long image processing tasks.
   
 In a lower level API, you would use SetImageInfoProgressMonitor() or SetImageProgressMonitor()
   
- 
+
   
-**-debug**
+### -debug
   
 Report verbosely exactly what IM is doing, in various areas.
   
 The argument is a comma separated list of options, such as...
-  
-**exception**
-  
-What is IM not understanding about the command
-  
-**cache**
-  
-See how much disk space IM is caching
-  
-**configure**
-  
-Show IM search attempts to find its configuration files.
-  
-**trace**
-  
-Report the trace points at the start of each library function
-  
-**all**
-  
-Show every trace point during processing  
-This is very very VERY verbose and not recommended
-  
-**annotate**
-  
-Report on font metrics when a font is used with "`-annotate`".
-  
+
+-------------- ----------------------------------------------
+**exception**  What is IM not understanding about the command
+**cache**      See how much disk space IM is caching
+**configure**  Show IM search attempts to find its configuration files.
+**trace**      Report the trace points at the start of each library function
+**all**        Show every trace point during processing. This is very very VERY verbose and not recommended
+**annotate**   Report on font metrics when a font is used with "`-annotate`".
+-------------- ----------------------------------------------
+
 if "`-debug`" is used the location of the logging output is controlled by the "`log.xml`" file. This is by default set to "`console`". to have it save to a file change `<log     output="console"/>` to `<log output="file"/>`
   
 For command line and API usage you can also define an environment variable to set the debug level using actions by IM.
-  
-  
-      export MAGICK_DEBUG=all
 
-    Limiting image size (quick note)
+~~~
+export MAGICK_DEBUG=all
+~~~
 
-    To prevent excess memory usage, set your memory limit to say 16GB. Now set
-    the disk limit to 4GB. ImageMagick will exit if the disk limit is exceeded,
-    with a "cache resource exhausted" exception.
+Limiting image size (quick note)
+
+To prevent excess memory usage, set your memory limit to say 16GB. Now set the disk limit to 4GB. ImageMagick will exit if the disk limit is exceeded, with a "cache resource exhausted" exception.
 
 ------------------------------------------------------------------------
 
