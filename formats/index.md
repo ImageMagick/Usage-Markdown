@@ -702,6 +702,16 @@ So as a quick word of warning...
 **IM is a general raster image processor, for modifying images.**
 **It will not do lossless JPEG modifications.**
 
+Additional details on how JPEG Compression works:
+
+ - [The Problem with JPEG](https://www.youtube.com/watch?v=yBX8GFqt6GA)
+
+ - [Colourspaces (JPEG Pt0)](https://www.youtube.com/watch?v=LFXN9PiOGtY)
+
+ - [JPEG 'files' & Color (JPEG Pt1)](https://www.youtube.com/watch?v=n_uNPbdenRs)
+
+ - [JPEG DCT, Discrete Cosine Transform (JPEG Pt2)](https://www.youtube.com/watch?v=Q2aEzeMDHMA)
+
 If you are interesting in lossless handling, see [Non-IM JPEG Handling](#jpg_non-im).
   
 This lossy behaviour becomes even more noticeable if a JPEG image is changed so that the amount of change to the top or left boundary is not a multiple of 8.
