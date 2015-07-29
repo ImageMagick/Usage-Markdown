@@ -75,14 +75,15 @@ I repeat...
 As of IM version 6.2.6, you can "`-annotate`" an animation, in similar way to that detailed in [Annotating on top of Images](../annotating/#anno_on), simply by doing so.
 
 For example here we annotate the [previous dispose animation](../anim_basics/#previous) created in [Animation Basics](../anim_basics/).
-  
-      convert canvas_prev.gif -gravity center \
-              -fill black     -annotate +1+1 "Copyright" \
-              -fill white     -annotate +0+0 "Copyright" \
-              annotate.gif
-      gif_anim_montage annotate.gif annotate_frames.gif
 
-  
+~~~
+convert canvas_prev.gif -gravity center \
+        -fill black     -annotate +1+1 "Copyright" \
+        -fill white     -annotate +0+0 "Copyright" \
+        annotate.gif
+gif_anim_montage annotate.gif annotate_frames.gif
+~~~
+
 [![\[IM Output\]](annotate.gif)](annotate.gif)
 [![\[IM Output\]](annotate_frames.gif)](annotate_frames.gif)
 
@@ -100,12 +101,13 @@ Now while "`-annotate`" places text relative to the virtual canvas of each frame
 This includes all "`-draw`" operations, which only draw things relative to the actual image, and completely ignore any offset it may have on a larger canvas.
 
 For example, here we draw a fancy green circle near the top left corner of the [previous dispose animation](../anim_basics/#previous).
-  
-      convert canvas_prev.gif -fill LimeGreen -stroke SeaGreen \
-              -draw 'circle 35,35 20,30'  draw_circle_fail.gif
-      gif_anim_montage draw_circle_fail.gif draw_circle_fail_frames.gif
 
-  
+~~~
+convert canvas_prev.gif -fill LimeGreen -stroke SeaGreen \
+        -draw 'circle 35,35 20,30'  draw_circle_fail.gif
+gif_anim_montage draw_circle_fail.gif draw_circle_fail_frames.gif
+~~~
+
 [![\[IM Output\]](draw_circle_fail.gif)](draw_circle_fail.gif)
 [![\[IM Output\]](draw_circle_fail_frames.gif)](draw_circle_fail_frames.gif)
 
@@ -114,13 +116,14 @@ The result is, as is typical in this sort of situation... a mess.
 
 The simple solution to this is to first [Coalesce](../anim_basics/#coalesce) the animation, before drawing, then re-optimise the GIF animation afterwards.
 See [Optimizing Animations](../anim_opt/) for details.
-  
-      convert canvas_prev.gif -coalesce \
-              -fill LimeGreen -stroke SeaGreen -draw 'circle 35,35 20,30' \
-              -layers Optimize  draw_circle.gif
-      gif_anim_montage draw_circle.gif draw_circle_frames.gif
 
-  
+~~~
+convert canvas_prev.gif -coalesce \
+        -fill LimeGreen -stroke SeaGreen -draw 'circle 35,35 20,30' \
+        -layers Optimize  draw_circle.gif
+gif_anim_montage draw_circle.gif draw_circle_frames.gif
+~~~
+
 [![\[IM Output\]](draw_circle.gif)](draw_circle.gif)
 [![\[IM Output\]](draw_circle_frames.gif)](draw_circle_frames.gif)
 
@@ -145,18 +148,19 @@ The trick is to extract each frame in parenthesis, modify it, then replace the o
 
 For example here we add text as a copyright watermark into the animation, as an animation itself, making it even harder to remove.
 So as not to completely destroy the animation, I also used semi-transparent colors.
-  
-      convert canvas_prev.gif -coalesce -gravity center \
-              -font Ravie -pointsize 24 -fill '#FFF8' -stroke '#0008' \
-              \( -clone 0 -annotate 0 'This'        \) -swap 0 +delete \
-              \( -clone 1 -annotate 0 'This'        \) -swap 1 +delete \
-              \( -clone 2 -annotate 0 'image'       \) -swap 2 +delete \
-              \( -clone 3 -annotate 0 'is'          \) -swap 3 +delete \
-              \( -clone 4 -annotate 0 'Copy\nright' \) -swap 4 +delete \
-              -layers OptimizeFrame   frame_mod.gif
-      gif_anim_montage frame_mod.gif frame_mod_frames.gif
 
-  
+~~~
+convert canvas_prev.gif -coalesce -gravity center \
+        -font Ravie -pointsize 24 -fill '#FFF8' -stroke '#0008' \
+        \( -clone 0 -annotate 0 'This'        \) -swap 0 +delete \
+        \( -clone 1 -annotate 0 'This'        \) -swap 1 +delete \
+        \( -clone 2 -annotate 0 'image'       \) -swap 2 +delete \
+        \( -clone 3 -annotate 0 'is'          \) -swap 3 +delete \
+        \( -clone 4 -annotate 0 'Copy\nright' \) -swap 4 +delete \
+        -layers OptimizeFrame   frame_mod.gif
+gif_anim_montage frame_mod.gif frame_mod_frames.gif
+~~~
+
 [![\[IM Output\]](frame_mod.gif)](frame_mod.gif)
 [![\[IM Output\]](frame_mod_frames.gif)](frame_mod_frames.gif)
 
@@ -190,9 +194,11 @@ IM has endeavored to make the "`-crop`" image operation work correctly relative 
 This in turn allows you to do things previously not directly possible.
 
 For example crop the images of a GIF animation and still have it work as expected for all animations.
-  
-      convert  canvas_prev.gif -crop 50x50+3+30  cropped.gif
-      gif_anim_montage cropped.gif cropped_frames.gif
+
+~~~
+convert  canvas_prev.gif -crop 50x50+3+30  cropped.gif
+gif_anim_montage cropped.gif cropped_frames.gif
+~~~
 
 [![\[IM Output\]](cropped.gif)](cropped.gif)  
 [![\[IM Output\]](cropped_frames.gif)](cropped_frames.gif)
@@ -236,9 +242,11 @@ Not only is the size of the virtual canvas set to the size of the crop area, but
 (See [Viewport Crop with Canvas/Page Adjustments](../crop/#crop_viewport)).
 
 For example lets repeat the previous crop, but also crop the canvas information using the '`!`' flag...
-  
-      convert  canvas_prev.gif -quiet -crop 50x50+3+30\!  crop_viewport.gif
-      gif_anim_montage crop_viewport.gif crop_viewport_frames.gif
+
+~~~
+convert  canvas_prev.gif -quiet -crop 50x50+3+30\!  crop_viewport.gif
+gif_anim_montage crop_viewport.gif crop_viewport_frames.gif
+~~~
 
 [![\[IM Output\]](crop_viewport.gif)](crop_viewport.gif)
 
@@ -266,22 +274,27 @@ As with the previous operations trimming an animation can be tricky.
 If the animation consists of a simple [Cleared Frame Animation](../anim_basics/#cleared), then you can trim an animation simply by working out the maximum bounds of all the individual frames within the animation.
 
 As of IM v6.3.4-8 you can do this very easily using a '`TrimBounds`' layer method.
-  
-      convert  anim_bgnd.gif -layers TrimBounds anim_trim_bounds.gif
+
+~~~
+convert  anim_bgnd.gif -layers TrimBounds anim_trim_bounds.gif
+~~~
 
 [![\[IM Output\]](anim_bgnd.gif)](anim_bgnd.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](anim_trim_bounds.gif)](anim_trim_bounds.gif)
 
 For users before this version of IM you can still do the same thing, but only in a two step process (which also performs other unwanted processing).
 To do this you would use a [Layers Merge](../layers/#merge) to merge all the frames of an animation down to a single layer, and then have IM report the size and offset of that layer...
-  
-      convert  anim_bgnd.gif -layers merge -format '%wx%h%X%Y' info:
 
-  
+~~~
+convert  anim_bgnd.gif -layers merge -format '%wx%h%X%Y' info:
+~~~
+
 [![\[IM Text\]](anim_trim_bounds.txt.gif)](anim_trim_bounds.txt)
 
 Now that you know the bounds of all the frames, you can just [Viewport Crop](#crop_viewport) the whole animation to this size.
-  
-      convert  anim_bgnd.gif -crop 89x77+5+10! anim_trim_crop.gif
+
+~~~
+convert  anim_bgnd.gif -crop 89x77+5+10! anim_trim_crop.gif
+~~~
 
 [![\[IM Output\]](anim_bgnd.gif)](anim_bgnd.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](anim_trim_crop.gif)](anim_trim_crop.gif)
 
@@ -295,12 +308,14 @@ This will add the given offset to all the individual sub-frame layers of the ani
 To make a "`-repage`" operation relative, you also add a '`!`' flag to its argument.
 
 For example here we displace the second an later frames of an animation 30 pixels down and right, returning the first 'background' frame in its normal '`+0+0` position.
-  
-      convert  canvas_prev.gif -repage 0x0+30+30\! \
-               \( -clone 0 -repage +0+0 \) -swap 0,-1 +delete \
-               repage_offset.gif
 
-      identify repage_offset.gif
+~~~
+convert  canvas_prev.gif -repage 0x0+30+30\! \
+         \( -clone 0 -repage +0+0 \) -swap 0,-1 +delete \
+         repage_offset.gif
+
+identify repage_offset.gif
+~~~
 
 [![\[IM Output\]](repage_offset.gif)](repage_offset.gif)
   
@@ -314,17 +329,19 @@ Notice that none of the images have been 'cropped' or cut down.
 Only their positions have been changed, relative to the original background image, even if the image was moved 'off canvas'.
   
 If you like, you may also like to expand the canvas to match these new bounds, either by adjusting the canvas size directly...
-  
-      convert  repage_offset.gif -repage 130x130  repage_canvas.gif
 
-  
+~~~
+convert  repage_offset.gif -repage 130x130  repage_canvas.gif
+~~~
+
 [![\[IM Output\]](repage_canvas.gif)](repage_canvas.gif)
   
 By using the [Bounds Trim Layers Method](#trim) you can automatically expand the animations bounds just enough to include the images which were now being placed 'out-of-bounds'...
-  
-      convert  repage_offset.gif -layers TrimBounds repage_bounds.gif
 
-  
+~~~
+convert  repage_offset.gif -layers TrimBounds repage_bounds.gif
+~~~
+
 [![\[IM Output\]](repage_bounds.gif)](repage_bounds.gif)
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -343,11 +360,12 @@ By using the [Bounds Trim Layers Method](#trim) you can automatically expand the
 As of IM v6.3.3, the "`-reverse`" image sequence operator was added (see [Reverse Operator](../basics/#reverse) for more details).
 This allows you very simply reverse the order of a coalesced animation sequence.
 For example here I make a 'hand draw k' animation become undrawn!
-  
-      convert script_k.gif -coalesce -reverse \
-              -quiet -layers OptimizePlus  -loop 0 reversed.gif
 
-  
+~~~
+convert script_k.gif -coalesce -reverse \
+        -quiet -layers OptimizePlus  -loop 0 reversed.gif
+~~~
+
 [![\[IM Output\]](reversed.gif)](reversed.gif)
 
 I had to re-add the "`-loop`" option to the above as this needs to be attached to the first image, which is now the last image!
@@ -362,11 +380,12 @@ A similar technique is to add a reversed order of frames to the end of the anima
 It's a bit like a guard walking a patrol between two points, and is called a 'Patrol Cycle'.
 
 Here I use the image [Duplicate Operator](../basics/#duplicate) (added to IM v6.6.8-7) to generate the extra frames (reversed).
-  
-      convert script_k.gif -coalesce   -duplicate 1,-2-1 \
-              -quiet -layers OptimizePlus  -loop 0 patrol_cycle.gif
 
-  
+~~~
+convert script_k.gif -coalesce   -duplicate 1,-2-1 \
+        -quiet -layers OptimizePlus  -loop 0 patrol_cycle.gif
+~~~
+
 [![\[IM Output\]](patrol_cycle.gif)](patrol_cycle.gif)
 
 Notice that I didn't just copy all the images of the animation, but skipped copying the very first and last image of the original sequence.
@@ -380,11 +399,12 @@ These extra frames were probably not provided in the original animation optimiza
 See [Splitting Frame Updates](../anim_opt/#splitting) for more details of how these extra frames help optimize and improve the animation.
 
 Here is an older method using the [Clone Operator](../basics/#clone) to generate duplicate frames.
-  
-      convert script_k.gif -coalesce \( -clone -2-1 \) \
-              -quiet -layers OptimizePlus  -loop 0 patrol_cycle_2.gif
 
-  
+~~~
+convert script_k.gif -coalesce \( -clone -2-1 \) \
+        -quiet -layers OptimizePlus  -loop 0 patrol_cycle_2.gif
+~~~
+
 [![\[IM Output\]](patrol_cycle_2.gif)](patrol_cycle_2.gif)
 
 ### Color Morphing - animated change between two images
@@ -396,11 +416,12 @@ This operator is not however a true 'morph' as it only modifies the pixels color
 A true movie like 'morph' also involves image [Distortion](../distorts) to transform the outline of the object in the image to the objects in the other image.
 
 For example here I create a [Patrol Cycle](#patrol) using a color morph to generate the extra frames between the rose image and its flipped form.
-  
-      convert -delay 20 rose: \( +clone -flip \)  -morph 5 \
-              -duplicate 1,-2-1  rose_flip.gif
 
-  
+~~~
+convert -delay 20 rose: \( +clone -flip \)  -morph 5 \
+        -duplicate 1,-2-1  rose_flip.gif
+~~~
+
 [![\[IM Output\]](rose_flip.gif)](rose_flip.gif)
 
 This is not particularly good as all the images have the same delay.
@@ -408,25 +429,27 @@ The result is that the animation never seems to 'rest' or pause between the two 
 
 A better solution would be to have a pause on the original and its 'flipped' form.
 That however requires you adjust the delays of the original images to be different to the morphing images.
-  
-      convert rose: \( +clone -flip \)  -morph 5 -set delay 10 \
-              \( -clone 0 -set delay 240 \) -swap 0 +delete \
-              \( +clone   -set delay 240 \) +swap   +delete \
-              -duplicate 1,-2-1 rose_flip_pause.gif
 
-  
+~~~
+convert rose: \( +clone -flip \)  -morph 5 -set delay 10 \
+        \( -clone 0 -set delay 240 \) -swap 0 +delete \
+        \( +clone   -set delay 240 \) +swap   +delete \
+        -duplicate 1,-2-1 rose_flip_pause.gif
+~~~
+
 [![\[IM Output\]](rose_flip_pause.gif)](rose_flip_pause.gif)
 
 As you can see the timing delays can become very important for generating a good animations, allowing the animation to 'rest' at just the right points.
 
 As of IM v6.6.9 you can set the delay using a [FX Percent Escapes](../transform/#fx_escapes) calculating based on the index of the image.
 Here the FX expression says use a delay of 10 if the image index is not the first (t=0) or the last (t=n-1), otherwise use larger value.
-  
-      convert rose: \( +clone -flip \)  -morph 5 \
-              -set delay '%[fx:(t>0&&t<n-1)?10:240]' \
-              -duplicate 1,-2-1    rose_flip_anim.gif
 
-  
+~~~
+convert rose: \( +clone -flip \)  -morph 5 \
+        -set delay '%[fx:(t>0&&t<n-1)?10:240]' \
+        -duplicate 1,-2-1    rose_flip_anim.gif
+~~~
+
 [![\[IM Output\]](rose_flip_anim.gif)](rose_flip_anim.gif)
 
 For a whole range of different methods of 'morphing' or doing a 'transition' from one image to another see Fred Weinhaus's "`transitions`" and "`fxtransitions`" ImageMagick shell scripts.
@@ -436,14 +459,15 @@ The Example page includes the basic algorithm that the script uses to generate t
 
 The [Color Morph Operator](#morph) actually will not only do color blending between two images, but also does image resizing at the same time.
 For example here I use "`-morph`" on two images that are different sizes, and even different aspect ratios.
-  
-      convert rose: medical.gif -morph 10 \
-              -layers TrimBounds -set dispose previous -coalesce \
-              -background black -alpha remove \
-              -set delay '%[fx:(t>0&&t<n-1)?10:60]' \
-              -duplicate 1,-2-1  -loop 0  morph_resize.gif
 
-  
+~~~
+convert rose: medical.gif -morph 10 \
+        -layers TrimBounds -set dispose previous -coalesce \
+        -background black -alpha remove \
+        -set delay '%[fx:(t>0&&t<n-1)?10:60]' \
+        -duplicate 1,-2-1  -loop 0  morph_resize.gif
+~~~
+
 [![\[IM Output\]](morph_resize.gif)](morph_resize.gif)
 
 Only the first line does the resize morph.
@@ -457,14 +481,15 @@ At the time of writing the [Color Morph Operator](#morph) does not understand la
 As such if you want the resize to be centered, you may need to use much more complex techniques shown in later sections.
 
 Here is a similar example, this time resizing the image with a smaller version of the same image (aspect ratio preserved)...
-  
-      convert rose: \( +clone -resize 10 \) -morph 10 \
-              -layers TrimBounds -set dispose previous -coalesce \
-              -background black -alpha remove \
-              -set delay '%[fx:(t>0&&t<n-1)?10:60]' \
-              -duplicate 1,-2-1  -loop 0  morph_resize_self.gif
 
-  
+~~~
+convert rose: \( +clone -resize 10 \) -morph 10 \
+        -layers TrimBounds -set dispose previous -coalesce \
+        -background black -alpha remove \
+        -set delay '%[fx:(t>0&&t<n-1)?10:60]' \
+        -duplicate 1,-2-1  -loop 0  morph_resize_self.gif
+~~~
+
 [![\[IM Output\]](morph_resize_self.gif)](morph_resize_self.gif)
 
 Note that the 'between' images are more blurry than they probably should be.
@@ -479,21 +504,23 @@ The method involves first [Duplicating Images](../basics/#duplicate) to create 3
 You then modify each image differently using [FX Percent Escapes](../transfom/#fx_escapes) to calculate distortion values, based of the images index '`%[fx:t]`' and the number of images in the list '`%[fx:n]`'.
 
 For example here I translate the image by a calculated amount.
-  
-      convert rose:  -duplicate 29  -virtual-pixel tile \
-              -distort SRT '0,0 1, 0, %[fx:w*t/n],%[fx:h*t/n]' \
-              -set delay 10 -loop 0     rose_diagonal_roll.gif
 
-  
+~~~
+convert rose:  -duplicate 29  -virtual-pixel tile \
+        -distort SRT '0,0 1, 0, %[fx:w*t/n],%[fx:h*t/n]' \
+        -set delay 10 -loop 0     rose_diagonal_roll.gif
+~~~
+
 [![\[IM Output\]](rose_diagonal_roll.gif)](rose_diagonal_roll.gif)
 
 And here I rotate the image, depending on the index, but generate a longer pause if the image index is 0 (the first image).
-  
-      convert rose:  -duplicate 29  -virtual-pixel Gray \
-              -distort SRT '%[fx:360*t/n]' \
-              -set delay '%[fx:t==0?240:10]' -loop 0     rose_rotate.gif
 
-  
+~~~
+convert rose:  -duplicate 29  -virtual-pixel Gray \
+        -distort SRT '%[fx:360*t/n]' \
+        -set delay '%[fx:t==0?240:10]' -loop 0     rose_rotate.gif
+~~~
+
 [![\[IM Output\]](rose_rotate.gif)](rose_rotate.gif)
 
 Note that the image index ('`t`') has a value from '`0`' to '`n-1`', as such the formula '`%[fx:t/n]`' will have a value from '`0.0`' to a value just short of '`1.0`'.
@@ -519,26 +546,28 @@ For example, for animations that has a initial background canvas, or one that on
 The other frames will not remove it.
   
 Here we just add some extra space with "`-splice`", and "`-annotate`" some text in it.
-  
-      convert canvas_prev.gif \
-              \( -clone 0 -coalesce -gravity South -background white \
-                 -splice 0x18 -annotate 0 'Label First' \) \
-              -swap -1,0 +delete   label_first.gif
 
-  
+~~~
+convert canvas_prev.gif \
+        \( -clone 0 -coalesce -gravity South -background white \
+           -splice 0x18 -annotate 0 'Label First' \) \
+        -swap -1,0 +delete   label_first.gif
+~~~
+
 [![\[IM Output\]](label_first.gif)](label_first.gif)
 
 However this only works for some animations, It would not work for a common [Cleared Frame Animation](../anim_basics/#cleared) which clears or replaces all the pixels after each frame has been displayed.
 
 For a more general method that works for all animations, we need to first "`-coalesce`" the animation to the un-optimized [Coalesced Animation](#coalesced).
 Then we can add the label to each and every coalesced frame of the animation, before re-optimizing it.
-  
-      convert canvas_prev.gif -coalesce \
-              -gravity South -background white -splice 0x18 \
-              -annotate 0 'A Better Label' \
-              -layers Optimize labeled_anim.gif
 
-  
+~~~
+convert canvas_prev.gif -coalesce \
+        -gravity South -background white -splice 0x18 \
+        -annotate 0 'A Better Label' \
+        -layers Optimize labeled_anim.gif
+~~~
+
 [![\[IM Output\]](labeled_anim.gif)](labeled_anim.gif)
 
 Rather than using "`-annotate`" to draw text into the added extra space, you can use a composition method (see next sections) to compose an image into the added space.
@@ -568,11 +597,12 @@ All the other frames contain a transparent color for the background, so will not
 
 Here we use the [Flatten Operator](../layers/#flatten) to overlay the first frame of the animation onto a '`LimeGreen`' background color.
 We can use "`-flatten`" for this as we are only applying it to a single image, and NOT the whole animation.
-  
-      convert script_k.gif \( -clone 0 -background LimeGreen -flatten \) \
-              -swap 0,-1 +delete      script_k_flatten_0.gif
 
-  
+~~~
+convert script_k.gif \( -clone 0 -background LimeGreen -flatten \) \
+        -swap 0,-1 +delete      script_k_flatten_0.gif
+~~~
+
 [![\[IM Output\]](script_k_flatten_0.gif)](script_k_flatten_0.gif)
 
 It is also important to not that the original first frame was only a single pixel in size.
@@ -587,11 +617,12 @@ It only works for simple [Overlay Animations](../anim_basics/#overlay).
 
 For a general method of removing the transparency from an animation, you need to first "`-coalesce`" the animation, and then actually [Remove Transparency](../masking/#remove) from all the frames, using the [Alpha Remove Operator](../masking/#alpha_remove).
 This time lets do this using a '`Tomato`' background color.
-  
-      convert script_k.gif -coalesce   -background Tomato -alpha remove \
-              -layers Optimize   script_k_alpha_rm.gif
 
-  
+~~~
+convert script_k.gif -coalesce   -background Tomato -alpha remove \
+        -layers Optimize   script_k_alpha_rm.gif
+~~~
+
 [![\[IM Output\]](script_k_alpha_rm.gif)](script_k_alpha_rm.gif)
 
 Of course the resulting optimization may not be the as optimal as the original, but the animation no longer has any transparency in it.
@@ -628,12 +659,13 @@ That is within the quoted [Magick Vector Graphic](../draw/#mvg) language of "`-d
 Because of its historical importance, I will show its use in detail, especially for users which still have older versions of IM.
   
 For example here I overlay rose image over the whole animation.
-  
-      convert canvas_prev.gif -coalesce \
-              -gravity NorthEast  -draw 'image over 5,5 0,0 "rose:"' \
-              -layers Optimize   draw_over.gif
 
-  
+~~~
+convert canvas_prev.gif -coalesce \
+        -gravity NorthEast  -draw 'image over 5,5 0,0 "rose:"' \
+        -layers Optimize   draw_over.gif
+~~~
+
 [![\[IM Output\]](draw_over.gif)](draw_over.gif)
 
 This allows you to [Compose](../compose/#compose) an external *source* image over every image in the current image sequence.
@@ -642,36 +674,39 @@ This is good enough for most purposes.
 For example by using the '`Dst_Over`' composition method you could also place an image 'under' the animation as a static background.
 
 For example here we 'underlay' a "`netscape:`" built-in image, though it could have been any external image file...
-  
-      convert script_k.gif -coalesce \
-                  -draw 'image DstOver 0,0 0,0 "netscape:"' \
-              -layers Optimize   script_k_netscape.gif
 
-  
+~~~
+convert script_k.gif -coalesce \
+            -draw 'image DstOver 0,0 0,0 "netscape:"' \
+        -layers Optimize   script_k_netscape.gif
+~~~
+
 [![\[IM Output\]](script_k_netscape.gif)](script_k_netscape.gif)
 
 Note that the size of the animation has not changed, as it is the *destination* images define the final size of the alpha composition.
 
 If you did want to create a larger canvas, you had to adjust the size and offsets of the animation appropriately to accommodate the background.
 For example using a [Relative Repage](#repage_relative) of the animation before coalescing.
-  
-      convert script_k.gif  -repage 100x100+20+20\!   -coalesce \
-                  -draw 'image DstOver 0,0 0,0 "granite:"' \
-              -layers Optimize   script_k_granite.gif
 
-  
+~~~
+convert script_k.gif  -repage 100x100+20+20\!   -coalesce \
+            -draw 'image DstOver 0,0 0,0 "granite:"' \
+        -layers Optimize   script_k_granite.gif
+~~~
+
 [![\[IM Output\]](script_k_granite.gif)](script_k_granite.gif)
 
 Also if you wanted to use an image that had already been read-in, created, or modified, then you need to use a "[MPR: Memory Program Register](../files/#mpr) to provide you with a 'read source' for that image.
-  
-      convert -size 53x54 xc:SkyBlue -fill DodgerBlue \
-              -draw 'circle 26,27 24,8' -write mpr:bgnd +delete \
-              \
-              script_k.gif -coalesce \
-              -draw 'image DstOver 0,0 0,0 "mpr:bgnd"' \
-              -layers Optimize   script_k_mpr_bg.gif
 
-  
+~~~
+convert -size 53x54 xc:SkyBlue -fill DodgerBlue \
+        -draw 'circle 26,27 24,8' -write mpr:bgnd +delete \
+        \
+        script_k.gif -coalesce \
+        -draw 'image DstOver 0,0 0,0 "mpr:bgnd"' \
+        -layers Optimize   script_k_mpr_bg.gif
+~~~
+
 [![\[IM Output\]](script_k_mpr_bg.gif)](script_k_mpr_bg.gif)
 
 That is about the limit of Draw Alpha Composition methods.
@@ -687,18 +722,19 @@ To do this on the command line, a special '`null:`' marker image is needed to de
 But that is the only real complication of this method.
 
 So lets try it out by creating a set of shadows from set of images, then overlaying the original image over those shadow images...
-  
-      convert script_k.gif -coalesce  coalesced_k.gif
 
-      convert coalesced_k.gif  -background black -shadow 100x3+2+5 \
-              -background SkyBlue -alpha remove    shadows_k.gif
+~~~
+convert script_k.gif -coalesce  coalesced_k.gif
 
-      convert shadows_k.gif  null:  coalesced_k.gif \
-              -layers Composite          compose_shadow.gif
+convert coalesced_k.gif  -background black -shadow 100x3+2+5 \
+        -background SkyBlue -alpha remove    shadows_k.gif
 
-      gif_anim_montage compose_shadow.gif compose_shadow_frames.gif
+convert shadows_k.gif  null:  coalesced_k.gif \
+        -layers Composite          compose_shadow.gif
 
-  
+gif_anim_montage compose_shadow.gif compose_shadow_frames.gif
+~~~
+
 [![\[IM Output\]](coalesced_k.gif)](coalesced_k.gif)  
  [![\[IM Output\]](shadows_k.gif)](shadows_k.gif)  
  [![\[IM Output\]](compose_shadow.gif)](compose_shadow.gif)
@@ -726,14 +762,15 @@ Instead you can use a "[MPR: Memory Program Register](../files/#mpr) to save a w
 It's sort of like taking a snapshot of the whole image sequence currently in memory, and then reading it in again later.
  
 The result is a command like this, though I used a different colored background.
-  
-      convert script_k.gif -coalesce -write mpr:images \
-              -background black  -shadow 100x3+2+5 \
-              -bordercolor Wheat -border 0 \
-              null:    mpr:images    -layers Composite \
-              composite_shadow.gif
 
-  
+~~~
+convert script_k.gif -coalesce -write mpr:images \
+        -background black  -shadow 100x3+2+5 \
+        -bordercolor Wheat -border 0 \
+        null:    mpr:images    -layers Composite \
+        composite_shadow.gif
+~~~
+
 [![\[IM Output\]](composite_shadow.gif)](composite_shadow.gif)
 
 This version actually works better as we did not loose the offset information that the [Shadow Operator](../blur/#shadow) generates (GIF's cannot save a negative offset, so resets it to zero).
@@ -746,12 +783,13 @@ It even understands the effects of "`-gravity`" on that global offset.
 
 For example..
 let's overlay our original 'K' animation 'South' of the generated shadow animation...
-  
-      convert shadows_k.gif  null:  coalesced_k.gif  \
-              -geometry +0-10 -gravity South  -layers Composite \
-              composite_south.gif
 
-  
+~~~
+convert shadows_k.gif  null:  coalesced_k.gif  \
+        -geometry +0-10 -gravity South  -layers Composite \
+        composite_south.gif
+~~~
+
 [![\[IM Output\]](composite_south.gif)](composite_south.gif)
 
 The above also shows that just like normal two image [Alpha Composition](../compose/#compose), it is the destination image sequence that controls the final output image size, and any composition overlay will be clipped to the destination canvas image.
@@ -820,12 +858,13 @@ This 'compose against a single image' is a special case for [Layers Composition]
 ### Static Background - compose over a larger background
 
 For example using this special [Single Image Layer Composition](#composite_single) method we can compose an animation over a a static background...
-  
-      convert -size 100x100 plasma:fractal null: \( script_k.gif -coalesce \) \
-                  -gravity Center   -layers Composite \
-              -layers Optimize   composite_background.gif
 
-  
+~~~
+convert -size 100x100 plasma:fractal null: \( script_k.gif -coalesce \) \
+            -gravity Center   -layers Composite \
+        -layers Optimize   composite_background.gif
+~~~
+
 [![\[IM Output\]](composite_background.gif)](composite_background.gif)
 
 As the background image is the *destination*, it defines the final size of the animation, but all the meta-data (delays, labels, comments, etc) will come from the source image list.
@@ -859,33 +898,36 @@ Here I will generate a three image glitter animation from some [Random Specks Im
 First this is a raw black and white glitter on pure transparency, generating 3 frames of glitter by separating the three color channels into black and white [Channel Images](../color_basics/#channels).
 It is basically a raw starting point for generating any other type of glitter.
 The '`30%`' threshold controls how many 'dots' there are per frame.
-  
-      convert -size 100x100 xc: +noise Random -separate \
-              null: \( xc: +noise Random -separate -threshold 30% -negate \) \
-                  -compose CopyOpacity -layers composite \
-              -set dispose background -set delay 20 -loop 0   glitter_overlay.gif
 
-  
+~~~
+convert -size 100x100 xc: +noise Random -separate \
+        null: \( xc: +noise Random -separate -threshold 30% -negate \) \
+            -compose CopyOpacity -layers composite \
+        -set dispose background -set delay 20 -loop 0   glitter_overlay.gif
+~~~
+
 [![\[IM Output\]](glitter_overlay.gif)](glitter_overlay.gif)
 
 From this 'raw' glitter you can overlay it using a '`Screen`' alpha composition to only brighten some color, to generate a glitter of a specific color.
 I use the [Border Flatten Method](#flatten) (above).
 Just a plain color...
-  
-      convert glitter_overlay.gif \
-              -compose Screen -bordercolor GoldenRod -border 0x0  glitter_gold.gif
 
-  
+~~~
+convert glitter_overlay.gif \
+        -compose Screen -bordercolor GoldenRod -border 0x0  glitter_gold.gif
+~~~
+
 [![\[IM Output\]](glitter_gold.gif)](glitter_gold.gif)
 
 Using the [Layer Composition](#composite), you can also use a single image, or even multiple images to provide a variable colored background.
 For example here I generate three [Fractal Plasma](../canvas/#plasma_fractal) images, to provide a slightly randomized coloring to the glitter pattern.
-  
-      convert glitter_overlay.gif null: -size 100x100 \
-              plasma:red-firebrick plasma:red-firebrick  plasma:red-firebrick \
-              -compose Screen -layers composite    glitter_plasma.gif
 
-  
+~~~
+convert glitter_overlay.gif null: -size 100x100 \
+        plasma:red-firebrick plasma:red-firebrick  plasma:red-firebrick \
+        -compose Screen -layers composite    glitter_plasma.gif
+~~~
+
 [![\[IM Output\]](glitter_plasma.gif)](glitter_plasma.gif)
 
 Of course there are lots of other glitter styles and movement patterns.
@@ -893,35 +935,41 @@ You can find and download many such glitter tiles from the WWW.
 To apply a glitter like this to an image, there are a number of different methods.
 Typically you mask the glitter to a specific shape and or background.
 For this can either use a transparent shape (composited using [DstIn](../compose/#dstin))
-  
-      convert -size 100x100 -fill white -background none -font Candice \
-              -gravity center -pointsize 90 label:A   glitter_mask_trans.gif
-      convert glitter_plasma.gif null: glitter_mask_trans.gif -matte \
-              -compose DstIn -layers composite        glitter_masked_trans.gif
+
+~~~
+convert -size 100x100 -fill white -background none -font Candice \
+        -gravity center -pointsize 90 label:A   glitter_mask_trans.gif
+convert glitter_plasma.gif null: glitter_mask_trans.gif -matte \
+        -compose DstIn -layers composite        glitter_masked_trans.gif
+~~~
 
 [![\[IM Output\]](glitter_mask_trans.gif)](glitter_mask_trans.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](glitter_masked_trans.gif)](glitter_masked_trans.gif)
 
 Or a black and white mask image (composited using [CopyOpacity](../compose/#copyopacity))
-  
-      convert -size 100x100 -fill white -background black -font Candice \
-              -gravity center -pointsize 90 label:A    glitter_mask.gif
-      convert glitter_plasma.gif null: glitter_mask.gif +matte \
-              -compose CopyOpacity -layers composite   glitter_masked.gif
+
+~~~
+convert -size 100x100 -fill white -background black -font Candice \
+        -gravity center -pointsize 90 label:A    glitter_mask.gif
+convert glitter_plasma.gif null: glitter_mask.gif +matte \
+        -compose CopyOpacity -layers composite   glitter_masked.gif
+~~~
 
 [![\[IM Output\]](glitter_mask.gif)](glitter_mask.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](glitter_masked.gif)](glitter_masked.gif)
 
 Ok we have a area that has been masked, you can complete the image, generally by overlaying the masked glitter on the original image.
 
 However in our case I'll underlay a background, and overlay an border.
-  
-      convert glitter_masked.gif -size 100x100 \
-              null: gradient:gold1-gold4 -compose DstOver -layers composite \
-              null: \( -fill none -background none -stroke white -strokewidth 2 \
-                       -font Candice -gravity center -pointsize 90 label:A \) \
-                  -compose over -layers composite      glittered_letter.gif
 
-  
+~~~
+convert glitter_masked.gif -size 100x100 \
+        null: gradient:gold1-gold4 -compose DstOver -layers composite \
+        null: \( -fill none -background none -stroke white -strokewidth 2 \
+                 -font Candice -gravity center -pointsize 90 label:A \) \
+            -compose over -layers composite      glittered_letter.gif
+~~~
+
 [![\[IM Output\]](glittered_letter.gif)](glittered_letter.gif)
+
 This last example also cleaned up any GIF transparency problems by the removal of all transparency from the final image and the overlay of a smooth border around the glittered region.
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -943,8 +991,10 @@ Alternatively, you could remove the transparency from an image, and when finishe
 
 So lets take the IM Examples logo, and use [Color Replacement](../color_basics/#replace) to cut out all the blue parts of the image.
 Sort of giving our wizard a cloak of invisibility ;-)
-  
-      convert logo.gif -matte -fuzz 33% -transparent blue logo_holed.gif
+
+~~~
+convert logo.gif -matte -fuzz 33% -transparent blue logo_holed.gif
+~~~
 
 [![\[IM Output\]](logo.gif)](logo.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](logo_holed.gif)](logo_holed.gif)
 
@@ -958,35 +1008,39 @@ The problem is the above tile is too small, it will not cover the whole image!
   
 The following uses a tricky technique to tile the multi-image glitter tile.
 However you still need to give a size that is larger than the original image to ensure that you can cover it completely.
-  
-      convert glitter_blue.gif -virtual-pixel tile \
-              -set option:distort:viewport 180x180 -distort SRT 0 \
-              glitter_blue_tiled.gif
 
-  
+~~~
+convert glitter_blue.gif -virtual-pixel tile \
+        -set option:distort:viewport 180x180 -distort SRT 0 \
+        glitter_blue_tiled.gif
+~~~
+
 [![\[IM Output\]](glitter_blue_tiled.gif)](glitter_blue_tiled.gif)
   
 Now lets dress our wizard in his new cloths, by placing the above tiled glitter under the 'holey' image.
-  
-      convert logo_holed.gif null: glitter_blue_tiled.gif \
-              -compose DstOver -layers composite \
-              -loop 0 -layers Optimize logo_glittered.gif
 
-  
+~~~
+convert logo_holed.gif null: glitter_blue_tiled.gif \
+        -compose DstOver -layers composite \
+        -loop 0 -layers Optimize logo_glittered.gif
+~~~
+
 [![\[IM Output\]](logo_glittered.gif)](logo_glittered.gif)
   
 You can of course do all these steps all in the one command.
 Here I limit the hole generation to just the wizards cloak, which has two separate specific parts.
-  
-      convert logo.gif -matte -fuzz 10% -fill none \
-              -draw 'matte 120,150 floodfill  matte 150,120 floodfill' \
-              null: \( glitter_blue.gif -virtual-pixel tile \
-                -set option:distort:viewport 300x300 -distort SRT 0 \) \
-              -compose DstOver -layers composite \
-              -loop 0 -layers Optimize logo_glitter_cloak.gif
 
-  
+~~~
+convert logo.gif -matte -fuzz 10% -fill none \
+        -draw 'matte 120,150 floodfill  matte 150,120 floodfill' \
+        null: \( glitter_blue.gif -virtual-pixel tile \
+          -set option:distort:viewport 300x300 -distort SRT 0 \) \
+        -compose DstOver -layers composite \
+        -loop 0 -layers Optimize logo_glitter_cloak.gif
+~~~
+
 [![\[IM Output\]](logo_glitter_cloak.gif)](logo_glitter_cloak.gif)
+
 The holes in the above were created using [Matte Fill Draw primitives](../draw/#matte) to select an actual point and color from the image for the color replacement.
 This means I don't need to use such a high [Fuzz Factor](../color_basics/#fuzz) as I did originally, as my comparison color came from the specific areas selected.
 
@@ -1095,10 +1149,11 @@ Neither technique is typically the best option, but if you can, consider it, as 
 
 As mentioned about directly using "`-resize`" will have problems, either with number of colors for each frame, or with semi-transparent colors.
 For example this goes really bad...
-  
-      convert script_k.gif -resize 20x20 script_k_direct.gif
 
-  
+~~~
+convert script_k.gif -resize 20x20 script_k_direct.gif
+~~~
+
 [![\[IM Output\]](script_k.gif)](script_k.gif) 
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](script_k_direct.gif)](script_k_direct.gif)
 
@@ -1112,10 +1167,11 @@ That brings us to the first point about resizing animations.
 First ensure that all the frames are fully defined, and ALL optimization has been removed.
 In other words [Coalesce](../anim_basics/#coalesce) the animation before attempting to resize it.
 For example...
-  
-      convert script_k.gif -coalesce  -resize 20x20  script_k_direct2.gif
 
-  
+~~~
+convert script_k.gif -coalesce  -resize 20x20  script_k_direct2.gif
+~~~
+
 [![\[IM Output\]](script_k.gif)](script_k.gif) 
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](script_k_direct2.gif)](script_k_direct2.gif)
 
@@ -1133,12 +1189,13 @@ In fact I have found most good GIF animation websites do exactly that when gener
 Of course the thumbnail will then be limited to use on a specific colored background, usually 'white', but sometimes 'black', or 'silver' (web page grey) though that last is less common these days.
 
 For example, here I create a smaller thumbnail on a background color appropriate for this web page.
-  
-      convert script_k.gif -coalesce \
-              -bordercolor LightSteelBlue -border 0 \
-              -resize 20x20  -layers Optimize   script_k_thumbnail.gif
 
-  
+~~~
+convert script_k.gif -coalesce \
+        -bordercolor LightSteelBlue -border 0 \
+        -resize 20x20  -layers Optimize   script_k_thumbnail.gif
+~~~
+
 [![\[IM Output\]](script_k.gif)](script_k.gif) 
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](script_k_thumbnail.gif)](script_k_thumbnail.gif)
 
@@ -1160,10 +1217,11 @@ That is instead of having a simple area of pure white, you may now have an off w
 
 To avoid generating extra colors when resizing the simplest way is to "`-sample`", the animation, rather than resizing it.
 This will preserve the current colors in the animation and allow you to easily re-optimize the animation at the new size.
-  
-      convert script_k.gif -coalesce  -sample 20x20  script_k_sample.gif
 
-  
+~~~
+convert script_k.gif -coalesce  -sample 20x20  script_k_sample.gif
+~~~
+
 [![\[IM Output\]](script_k.gif)](script_k.gif) 
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](script_k_sample.gif)](script_k_sample.gif)
 
@@ -1249,12 +1307,13 @@ For example, after some searching of the web, I found (well stole and heavily mo
 Now I'd like to join these images so when one animation completes the next one starts, as if someone is writing the word '`OK`'.
 
 Here are the letters, the 'animation sequence' and the details of the internals of these two animations.
-  
-      gif2anim -n script_o.gif
-      gif2anim -n script_k.gif
 
- 
-  
+~~~
+gif2anim -n script_o.gif
+gif2anim -n script_k.gif
+~~~
+
+
 [![\[IM Text\]](script_o.anim.gif)](script_o.anim)
   
 [![\[IM Text\]](script_k.anim.gif)](script_k.anim)
@@ -1283,10 +1342,11 @@ Now that we have examined the two animations, lets try to join them together so 
 
 Time appending animations is actually a very simple operation, just append the two animated images on the command line.
 So lets just try that...
-  
-        convert script_o.gif script_k.gif   script_ok_try1.gif
 
-  
+~~~
+convert script_o.gif script_k.gif   script_ok_try1.gif
+~~~
+
 [![\[IM Output\]](script_ok_try1.gif)](script_ok_try1.gif)
 
 Well the result was far from perfect.
@@ -1300,11 +1360,12 @@ In this case almost all the frames have and existing offset, as this is a highly
 
 To accommodate this shifted position and avoid 'clipping' the second animation we also need to enlarge the canvas size for the whole animation.
 Changing the the canvas size before reading the first animation or frame will enlarge the canvas area in which the animation runs, and prevent the 'K' from being clipped.
-  
-        convert -page 90x54 script_o.gif \
-                \( script_k.gif -repage +37+0\! \)   script_ok_try2.gif
 
-  
+~~~
+convert -page 90x54 script_o.gif \
+        \( script_k.gif -repage +37+0\! \)   script_ok_try2.gif
+~~~
+
 [![\[IM Output\]](script_ok_try2.gif)](script_ok_try2.gif)
 
 The result is a vast improvement.
@@ -1318,11 +1379,12 @@ We then re-add that frame back into the image sequence by deleting the original 
 
 Also as we have now set a good delay between the drawing of the letters, the initial blank canvas (just representing a initial start delay) in the second animation is now redundant, so we can just delete that frame, without problems.
 If this frame actually contained part of the image, then we may need to adjust its delay, instead of removing.
-  
-        convert -page 90x54 script_o.gif \( +clone -set delay 20 \) -delete -2 \
-                \( script_k.gif -delete 0 -repage +37+0\! \)     script_ok.gif
 
-  
+~~~
+convert -page 90x54 script_o.gif \( +clone -set delay 20 \) -delete -2 \
+        \( script_k.gif -delete 0 -repage +37+0\! \)     script_ok.gif
+~~~
+
 [![\[IM Output\]](script_ok.gif)](script_ok.gif)
 
 And our serial or time-wise appending of two animations is complete and all the little problems associated with these two particular animations are fixed.
@@ -1341,14 +1403,13 @@ It does not have the luxury of an API where you can keep two separate image sequ
 I can think of three basic techniques in which to do this appending.
 Before be start however you should first study the two animations, to check on the time sequences, and other details of the animation.
 The "`gif2anim`" script is good for this, and the generated "`.anim`' file can be useful later.
-  
-      gif2anim -n bag_left.gif
-      gif2anim -n bag_right.gif
 
- 
-  
+~~~
+gif2anim -n bag_left.gif
+gif2anim -n bag_right.gif
+~~~
+
 [![\[IM Text\]](bag_left_orig.anim.gif)](bag_left_orig.anim)
- 
   
 [![\[IM Text\]](bag_right_orig.anim.gif)](bag_right_orig.anim)
 [![\[left\]](bag_left.gif)](bag_left.gif)
@@ -1377,25 +1438,27 @@ The separate images can then be append together (or otherwise modify the frames)
 When done the new frames can then be used to re-build the animation.
 
 This however requires you to save a lot of extra information about the animation that could very easily be lost during this processing.
-  
-      # Separate animations into coalesced frames (plus a ".anim" file)
-      gif2anim -c bag_left.gif
-      gif2anim -c bag_right.gif
 
-      # Append the separated frames them together
-      for i in `seq -f '%03g' 1 11`; do \
-        convert bag_left_$i.gif bag_right_$i.gif +append bag_append_$i.gif; \
-      done
+~~~
+# Separate animations into coalesced frames (plus a ".anim" file)
+gif2anim -c bag_left.gif
+gif2anim -c bag_right.gif
 
-      # Rebuild the animation (using one of the ".anim" files)
-      anim2gif -c -b bag_append  bag_left.anim
+# Append the separated frames them together
+for i in `seq -f '%03g' 1 11`; do \
+  convert bag_left_$i.gif bag_right_$i.gif +append bag_append_$i.gif; \
+done
 
-      # Cleanup
-      rm -f bag_left.anim bag_right.anim
-      rm -f bag_{left,right,append}_???.gif
+# Rebuild the animation (using one of the ".anim" files)
+anim2gif -c -b bag_append  bag_left.anim
 
-  
+# Cleanup
+rm -f bag_left.anim bag_right.anim
+rm -f bag_{left,right,append}_???.gif
+~~~
+
 [![\[IM Output\]](bag_append_anim.gif)](bag_append_anim.gif)
+
 As you can see this is quite an involved process, generating many individual temporary images, and thus requiring quite a bit of clean up when finished.
 Of course if you are debugging the above, the individual temporary files make it easier to figure out what is going wrong with your processing.
 
@@ -1412,12 +1475,13 @@ In fact this is what the normal "`-append`" operator does internally, so it isn'
 
 Here I just tell IM how big to make the canvas, and the fill it out using "`-coalesce`".
 I then overlay other coalesced animation with an appropriate offset.
-  
-      convert bag_left.gif -repage 97x92 -coalesce \
-              null: \( bag_right.gif -coalesce \) \
-              -geometry +50+0 -layers Composite    bag_append.gif
 
-  
+~~~
+convert bag_left.gif -repage 97x92 -coalesce \
+        null: \( bag_right.gif -coalesce \) \
+        -geometry +50+0 -layers Composite    bag_append.gif
+~~~
+
 [![\[IM Output\]](bag_append.gif)](bag_append.gif)
 
 Of course the above technique means I needed to know just how big the final animation will be, as well as the offset needed for the overlaid animation.
@@ -1428,14 +1492,15 @@ To do this without pre-reading the animation, requires some jumping though some 
 
 First we need to append the first coalesced frame of each animation to create a canvas that is the right size and this is then cleared.
 The first animation is coalesced and overlaid into left half of this canvas, then the second animation is then coalesced and overlaid with a "`-gravity East`" to place it in the right-most half of the pre-prepared canvas, to avoid the need for an offset.
-  
-      convert bag_left.gif'[0]' -coalesce \( bag_right.gif'[0]' -coalesce \) \
-              +append -channel A -evaluate set 0 +channel \
-              bag_left.gif -coalesce -delete 0 \
-              null: \( bag_right.gif -coalesce \) \
-              -gravity East  -layers Composite    bag.gif
 
-  
+~~~
+convert bag_left.gif'[0]' -coalesce \( bag_right.gif'[0]' -coalesce \) \
+        +append -channel A -evaluate set 0 +channel \
+        bag_left.gif -coalesce -delete 0 \
+        null: \( bag_right.gif -coalesce \) \
+        -gravity East  -layers Composite    bag.gif
+~~~
+
 [![\[IM Output\]](bag.gif)](bag.gif)
 
 And there you have a general technique to append two time synchronized animations together.
@@ -1448,13 +1513,14 @@ Often (but not always) those timings is not a big loss.
 
 Basically we append all the frames of each animation together vertically into a single image, and then append or overlay the whole animation as two simple images.
 This is sort of like taping the two film strips together side-by-side to produce a wider film strip.
-  
-      convert \( bag_left.gif  -coalesce -append \) \
-              \( bag_right.gif -coalesce -append \) \
-              +append  -crop x92 +repage \
-              -set delay 30     bag_dbl_append.gif
 
-  
+~~~
+convert \( bag_left.gif  -coalesce -append \) \
+        \( bag_right.gif -coalesce -append \) \
+        +append  -crop x92 +repage \
+        -set delay 30     bag_dbl_append.gif
+~~~
+
 [![\[IM Output\]](bag_dbl_append.gif)](bag_dbl_append.gif)
 
 This did not require any temporary files, but as I mentioned at the start, all the original time delays have been lost.
@@ -1469,27 +1535,31 @@ For example you can use it with animated fonts that all use the same timings.
 Though I have found that while a lot of animated fonts have the same number of frames, they usually have slightly different timings for each letter so as to de-synchronize the animated letters (see [Splitting up an Animation](#split) for reasons why that is desirable).
 
 A neon sign on the other hand should have synchronized animation timings, so I'll use it as an example...
-  
-      convert \( neon_h.gif -coalesce -append \) \
-              \( neon_e.gif -coalesce -append \) \
-              \( neon_l.gif -coalesce -append \) \
-              \( neon_l.gif -coalesce -append \) \
-              \( neon_o.gif -coalesce -append \) \
-              +append  -crop x60 +repage  -set delay 100  neon_hello.gif
+
+~~~
+convert \( neon_h.gif -coalesce -append \) \
+        \( neon_e.gif -coalesce -append \) \
+        \( neon_l.gif -coalesce -append \) \
+        \( neon_l.gif -coalesce -append \) \
+        \( neon_o.gif -coalesce -append \) \
+        +append  -crop x60 +repage  -set delay 100  neon_hello.gif
+~~~
 
 [![\[IM Output\]](neon_h.gif)](neon_h.gif) [![\[IM Output\]](neon_e.gif)](neon_e.gif) [![\[IM Output\]](neon_l.gif)](neon_l.gif) [![\[IM Output\]](neon_l.gif)](neon_l.gif) [![\[IM Output\]](neon_o.gif)](neon_o.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](neon_hello.gif)](neon_hello.gif)
 
 You could also do something a little fancier, by adjusting timings and the number of loops in the resulting animation.
-  
-      convert neon_h.gif'[0]' neon_e.gif'[0]' neon_l.gif'[0]' neon_l.gif'[0]' \
-              +append \( +clone \) -append \
-              \( neon_o.gif -coalesce -append \)    +append \
-              \( +clone \) -append \( +clone \) -append \( +clone \) -append \
-              -crop x60 +repage   -set delay 3 \
-              \( -clone 0  -set delay 300 \) -swap 0,-1 +delete \
-              \( -clone 1  -set delay  10 \) -swap 1,-1 +delete \
-              \( +clone    -set delay 200 \) +swap      +delete \
-              -quiet -layers Optimize   neon_hello_broken.gif
+
+~~~
+convert neon_h.gif'[0]' neon_e.gif'[0]' neon_l.gif'[0]' neon_l.gif'[0]' \
+        +append \( +clone \) -append \
+        \( neon_o.gif -coalesce -append \)    +append \
+        \( +clone \) -append \( +clone \) -append \( +clone \) -append \
+        -crop x60 +repage   -set delay 3 \
+        \( -clone 0  -set delay 300 \) -swap 0,-1 +delete \
+        \( -clone 1  -set delay  10 \) -swap 1,-1 +delete \
+        \( +clone    -set delay 200 \) +swap      +delete \
+        -quiet -layers Optimize   neon_hello_broken.gif
+~~~
 
 [![\[IM Output\]](neon_hello_broken.gif)](neon_hello_broken.gif)
 
@@ -1520,12 +1590,14 @@ These greyscale difference images, are added together, then the channels are sep
 A final threshold then makes any non-zero change between any frame of the animation, pure white.
 
 The result is a black image with white anywhere the image changed, highlighting the areas of change.
-  
-      convert    bag.gif   -coalesce  -set delay 0 \
-              -bordercolor red -border 0 +matte    null: \
-              -duplicate 1,1--2 -compose difference -layers composite \
-              +delete -compose plus -background black -flatten \
-              -separate -flatten -threshold 0 bag_areas.gif
+
+~~~
+convert    bag.gif   -coalesce  -set delay 0 \
+        -bordercolor red -border 0 +matte    null: \
+        -duplicate 1,1--2 -compose difference -layers composite \
+        +delete -compose plus -background black -flatten \
+        -separate -flatten -threshold 0 bag_areas.gif
+~~~
 
 [![\[IM Output\]](bag.gif)](bag.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](bag_areas.gif)](bag_areas.gif)
 
@@ -1533,12 +1605,13 @@ Now we can see that this animation could be divided into at least three areas: a
 All with simple orthogonal (vertical or horizontal) cuts.
   
 So lets just do this, with some simple [Viewport Crops of the Animation](#crop_viewport).
-  
-      convert bag.gif -coalesce  -crop 97x39+0+0\!   bag_cat.gif
-      convert bag.gif -coalesce  -crop 50x54+0+39\!  bag_bear.gif
-      convert bag.gif -coalesce  -crop 47x54+50+39\! bag_wing.gif
 
-  
+~~~
+convert bag.gif -coalesce  -crop 97x39+0+0\!   bag_cat.gif
+convert bag.gif -coalesce  -crop 50x54+0+39\!  bag_bear.gif
+convert bag.gif -coalesce  -crop 47x54+50+39\! bag_wing.gif
+~~~
+
 [![\[IM Output\]](bag_cat.gif)](bag_cat.gif)
   
 [![\[IM Output\]](bag_bear.gif)](bag_bear.gif)
@@ -1564,17 +1637,18 @@ To correctly remove these duplicate frames, you need to use the "`-layer`" metho
 
 And here are the final optimizations, of all three separated animations with the timing changes to improve the overall de-synchronization of the sub-animations.
 I have also displayed all three animations side-by-side on the page, just as they should be displayed.
-  
-      convert bag_cat.gif -layers RemoveDups \
-                               -quiet  -layers Optimize  bag_cat_opt.gif
-      convert bag_bear.gif -delete 2--1 -set delay 47 \
-                                       -layers Optimize  bag_bear_opt.gif
-      convert bag_wing.gif -delete 2--1 -set delay 33 \
-                                       -layers Optimize  bag_wing_opt.gif
 
-  
- 
-  
+~~~
+convert bag_cat.gif -layers RemoveDups \
+                         -quiet  -layers Optimize  bag_cat_opt.gif
+convert bag_bear.gif -delete 2--1 -set delay 47 \
+                                 -layers Optimize  bag_bear_opt.gif
+convert bag_wing.gif -delete 2--1 -set delay 33 \
+                                 -layers Optimize  bag_wing_opt.gif
+~~~
+
+
+
 [![\[IM Output\]](bag_cat_opt.gif)](bag_cat_opt.gif)
   
 [![\[IM Output\]](bag_bear_opt.gif)](bag_bear_opt.gif)
