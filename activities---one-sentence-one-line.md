@@ -64,8 +64,8 @@ DONE|Eric|./formats/index.md
 DONE|Eric|./fourier/fft_math/index.md
 DONE|Eric|./fourier/index.md
 DONE|Eric|./index.md
-?|?|./layers/index.md
-?|?|./lens/index.md
+DONE|Eric|./layers/index.md
+Taken|Eric|./lens/index.md
 DONE|Mark|./mapping/index.md
 DONE|Mark|./masking/index.md
 DONE|Mark|./misc/index.md
