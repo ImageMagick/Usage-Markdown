@@ -39,7 +39,7 @@ This is detailed on the page for [Composite Mask Bug](../composite_mask/).
 What is going on is that internally the Y displacement map (mask image) is merged with the X displacement map (overlay image) to replace that images matte (or alpha) channel.
 
 However in the above the Y displacement map has a fully-opaque, transparency channel already, as such the color components of the image was ignored and the images existing matte channel was used instead.
-The result is thus equivelent to...
+The result is thus equivalent to...
 
 ~~~
 composite dismap.png dismap.png xc:white'[100x100]' \

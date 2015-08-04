@@ -566,7 +566,7 @@ convert face.png   -morphology Convolve Gaussian:0x2  face_gaussian.png
 
 [![\[IM Output\]](face.png)](face.png) ![](../img_www/mph_convolve.gif) [![\[IM Output\]](kernel_gaussian.gif)](kernel_gaussian.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](face_gaussian.png)](face_gaussian.png)
 
-The kernels syntax is straight forward...
+The kernels syntax is straightforward...
 
 ~~~
 Gaussian:[{radius}]x{sigma}
@@ -627,7 +627,7 @@ The kernel's syntax is exactly like that of '`Gaussian`' but with a extra option
 Blur:[{radius}]x{sigma}[,{angle}]
 ~~~
 
-As before the second value '*sigma*' is required, and if set to zero you will get the linear equivelent of a '`Unity`' kernel.
+As before the second value '*sigma*' is required, and if set to zero you will get the linear equivalent of a '`Unity`' kernel.
   
 The '*angle*' allows you rotate the kernel by 90 degrees allowing you to blur an image vertically.
 

@@ -196,7 +196,7 @@ The image meta-data attribute "`-caption`" was used due to the internal use of "
   
 On the other hand the IM command "`montage`" uses "`-label`" as it uses the non-word wrapping "`label:`" text to image generator.
 
-The transforms use of [Rotate](../warping/#rotate) and [Wave](../warping/#wave) shearing distortions to add a little 'curl' to the photo image has a tendency to produce horizontal lines of fuzziness in text of the image generated. This is a well known [Image Distortion](../distorts/summery) problem (see [Rotating a Thin Line](../warping/#rotate_line)), and one that can be solved by using a [super sampling](../distorts/#super_sampling) technique.
+The transforms use of [Rotate](../warping/#rotate) and [Wave](../warping/#wave) shearing distortions to add a little 'curl' to the photo image has a tendency to produce horizontal lines of fuzziness in text of the image generated. This is a well known [Image Distortion](../distorts/summary) problem (see [Rotating a Thin Line](../warping/#rotate_line)), and one that can be solved by using a [super sampling](../distorts/#super_sampling) technique.
 
 Basically we generate the polaroid twice as large as what we really want, then we just resize the image to its final normal size. The reduction in the image size effectively sharpens the resulting image, and more importantly the caption text.
 
@@ -1160,7 +1160,7 @@ The output from the "`-shade`" operator is very nice, but it is rare that you ac
 
 This however is not so easy as the two major ways of adding color, [Color Tinting Mid-Tones](../color_mods/#tint) to just recolor a grey-scale, or '[Overlay](../compose/#overlay)' alpha composition, to replace the grey areas with a image, both rely on a special form of grey-scale image. That is a perfect mid-tone grey ('`grey50`') is replaced by the color or image, while whiter or darker greys, whiten and darken the color or image as appropriate.
 
-These special grey-scale 'overlay highlight' images with perfect mid-tone greys for un-modified areas is not so straight forward to create using "`-shade`". However the following are some of the more simpler ways I have discovered.
+These special grey-scale 'overlay highlight' images with perfect mid-tone greys for un-modified areas is not so straightforward to create using "`-shade`". However the following are some of the more simpler ways I have discovered.
 
 Using a 30 degree elevation lighting angle with "`-shade`", is one way of producing a perfect mid-tone grey for flat areas of the shape being shaded.
 
@@ -1198,7 +1198,7 @@ After some further experimentation however I found that using a 21.78 degree sha
 
 As the shade image is now run though the "`-normalize`" operator, the "`-blur`" value used for 'rounding edges' will no longer effect final intensity of the result. A much better method.
 
-In summery, [normalizing](../option_link.cgi?normalize) a shade image will shift the mid-tones away from a perfect-grey color.
+In summary, [normalizing](../option_link.cgi?normalize) a shade image will shift the mid-tones away from a perfect-grey color.
 
 Now we can adjust the output intensity of the highlights produces output completely independent to the other adjustments. Typically as the normalized result is extreme, we will need a controlled de-normalization, or anti-contrast control, to reduce the highlight to the desired level.
 
@@ -1419,7 +1419,7 @@ For example here we resize rose image (using [Interpolated Scaling or Resize](..
 
 Note how the pixel lookup is performed, it may seem complex but it is the proper way to scale (distort) an image. Basically all the extra '`0.5`' values added to the expression is needed to correctly convert between [Pixel Coodinates](../distorts/#control_coordinates) used for input coordinates '`i,j`' and location lookup '`v.p{...}`, while the more mathematically correct [Image Coordinates](../distorts/#control_coordinates) is needed for the actual mathematical calculations (scaling).
 
-The above is actually the exact methodology used by any form of [Image Distortion](../distorts/#distort). You can see this FX equivelent for most distortions by turning on the [Verbose Distortion Summery](../distorts/#distort_verbose).
+The above is actually the exact methodology used by any form of [Image Distortion](../distorts/#distort). You can see this FX equivalent for most distortions by turning on the [Verbose Distortion Summary](../distorts/#distort_verbose).
 
 The use of the [FX DIY Operator](#fx) to do image distortions, shows just how powerful (though slow) this operator really is. If it wasn't for this operator I doubt may of the new operations, such as distortions, sparse-color, or ordered dithers would have been added to the ImageMagick Core Library.
 
@@ -1669,7 +1669,7 @@ The way to fix this is to extract the wanted information and save it into the gl
 
 This is not intuitive but we now get the correct result.
 
-The special '`option:`' tag, tells the "`-set`" option that you want the given setting saved as a global [Artifact](../basics/#define), rather than as a image 'Attribute' or 'Properties' string, just as "`-define`" can. However the "`-set`" form allows you to expand [Percent Escapes](../basics/#arg_percent) in setting the [Artifact](../basics/#define), where as "`-define`" does not.
+The special '`option:`' tag, tells the "`-set`" option that you want the given setting saved as a global [Artifact](../basics/#define), rather than as a image 'Attribute' or 'Properties' string, just as "`-define`" can. However the "`-set`" form allows you to expand [Percent Escapes](../basics/#arg_percent) in setting the [Artifact](../basics/#define), whereas "`-define`" does not.
 
 When the "`label:`" operator expands its percent escapes, the given 'key' is looked for first as a per image 'attribute' or 'proprieties', but if it fails to find anything, it will then look for the 'key' in the global [Artifact](../basics/#define) settings. As such the global 'artifact' we created from the previous image is used, even though that image is no longer present at the time the [Artifact](../basics/#define) was created.
 
@@ -1798,7 +1798,7 @@ As such to create a 'parabolic' gradient you can use an argument of '`2`'. Or us
   
 *The three lower images show the profile of the gradient produced both a graph and the original image itself. This makes it easier to see how one gradient image was modified to become another. It was generated using the [Gnuplot](http://www.gnuplot.info/) graph ploting program, via the script "`im_profile`" in the IM Examples, [Scripts](../scripts/) directory.*
 
-This is actually equivalent to the [Gamma Adjustment](../color_mods/#gamma) operator but with the argument inverted. For example a "`-gamma 2`" operation would be equivalent to an "`-evaluate pow 0.5`" or a 'square root' operation function. Similarly "`-gamma 0.5`" is equivelent to squaring using "`-evaluate pow 2`"
+This is actually equivalent to the [Gamma Adjustment](../color_mods/#gamma) operator but with the argument inverted. For example a "`-gamma 2`" operation would be equivalent to an "`-evaluate pow 0.5`" or a 'square root' operation function. Similarly "`-gamma 0.5`" is equivalent to squaring using "`-evaluate pow 2`"
 
 By doing some special gradient manipulations, you can use this method to convert a linear gradient into a complex circular arc.
   
@@ -1811,7 +1811,7 @@ By doing some special gradient manipulations, you can use this method to convert
   
 [![\[IM Output\]](eval_circle_arc_pf.gif)](eval_circle_arc_pf.gif)
 
-For those wanting to figure this out, the second line in the above is equivelent to the [FX expression](#fx) '`sqrt(1-u^2)`'. This generates a single quarter circle arc, which is then [Flopped](../warping/#flop), and [Appended](../layers/#append) together, to produce a half circular arc.
+For those wanting to figure this out, the second line in the above is equivalent to the [FX expression](#fx) '`sqrt(1-u^2)`'. This generates a single quarter circle arc, which is then [Flopped](../warping/#flop), and [Appended](../layers/#append) together, to produce a half circular arc.
 
 It is also a lot faster than using an [FX expression](#fx), even though it requires many more individual (smaller) steps.
 
@@ -1832,7 +1832,7 @@ For example...
   
 [![\[IM Output\]](eval_log_pf.gif)](eval_log_pf.gif)
 
-This may seem very simular to the previous [Pow Evaluate Method](#evaluate_pow), but it isn't quite the same. '`Log`' will produce a appreciable slope as it approaches '`0`', where '`Pow`' will produce a vertial slope. The value controls the slope.
+This may seem very similar to the previous [Pow Evaluate Method](#evaluate_pow), but it isn't quite the same. '`Log`' will produce a appreciable slope as it approaches '`0`', where '`Pow`' will produce a vertial slope. The value controls the slope.
 
 A logrithmic function is also closely related to a exponential function, which is currently only implemented as [Sigmoidal Contrast Adjustment](../color_mods/#sigmoidal-contrast) operator. This contains the same slope features you can see in the above logrithmic curves. This explains why "`-sigmoidal-contrast`" is a better technique for enhancing images involving low light conditions, than a [Gamma Adjustment](../color_mods/#gamma) or 'power of' curve.
 
@@ -2312,7 +2312,7 @@ For example....
 [![\[IM Output\]](math_cos_var.png)](math_cos_var.png)
   
 [![\[IM Output\]](math_cos_var_pf.gif)](math_cos_var_pf.gif)
-This generates a very complex function that is essentually equivelent to
+This generates a very complex function that is essentially equivalent to
 
      cos( 8 * sin( {value}/2 ) )
 

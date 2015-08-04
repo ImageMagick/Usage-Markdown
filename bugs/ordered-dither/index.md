@@ -147,11 +147,11 @@ Internally the code was designed to allow simple addition of more such maps in t
 Note the "`checks`" used to be called "`2x1`", as a halftone 2x2 pattern, however it is more than that.
 It represents the most minimal dither pattern posible, for all ordered dither patterns, one that only adds a single dither pattern between any two colors.
 
-The "`threshold`" pattern is supplied as an equivelent to using a undithered "`-posterize`" operator, as well as a test map on the posterization aspects of the new "`-ordered-dither`" function.
+The "`threshold`" pattern is supplied as an equivalent to using a undithered "`-posterize`" operator, as well as a test map on the posterization aspects of the new "`-ordered-dither`" function.
 (See next section)
 
 As part of backward compatibility, all the old '`{number}x{number}`' arguments have been made aliases to the appropriate 'named' threshold map above.
-They are now depreciated, but will always remain.
+They are now deprecated, but will always remain.
 
 ------------------------------------------------------------------------
 

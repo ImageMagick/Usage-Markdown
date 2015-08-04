@@ -319,7 +319,7 @@ Another image comparison technique useful for animations is used to locate all t
        usable the "compare" function.
 
 
-       NOTE for opaque colors AE -fuzz  and RMSE distances are equivelent.
+       NOTE for opaque colors AE -fuzz  and RMSE distances are equivalent.
        HOWEVER,  when transparent colors are involved AE fuzz factor testing
        will treat two different fully-transparent colors as being the same
        while RMSE will treate them as being different!
@@ -474,7 +474,7 @@ For more info, see my very old raw text notes... [Image Comparing, Tower of Comp
 
     HitAndMiss Morphology
 
-      This is essentually a binary match, where you define what pixels much be
+      This is essentially a binary match, where you define what pixels much be
       'background' and what must be forground.  However it also allows you to
       define areas where you don't care if the result is a foregorund or
       background.
@@ -826,7 +826,7 @@ Basically if you do a comparison difference of the image, against a gray-scaled 
       PROBLEM:  The above does not find images that are linear in color.
       That is images which only contain colors that form a linear
       color gradient, such as a yellowed (sepiatone) photos, or blue prints.
-      These are essentually colorful greyscale images.  See next.
+      These are essentially colorful greyscale images.  See next.
 
 ### Is Image Linear Color
 

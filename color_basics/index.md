@@ -372,7 +372,7 @@ As you can see Gamma and sRGB corrected images are nearly identical, and the dif
 As such while using [sRGB](#sRGB) is the more correct method, using [Gamma Correction](#gamma) is probably easier to apply.
 
 The biggest differences between sRGB and Gamma image are in extreme dark pictures.
-For a 8-bit Gray value of 1, sRGB is 60 times brighter than the equivelent Gamma.
+For a 8-bit Gray value of 1, sRGB is 60 times brighter than the equivalent Gamma.
 A value of 8 is 5 times brighter.
 This will not make any noticeable difference in most cases but it can, when a very dark picture is handled.
   
@@ -513,7 +513,7 @@ The most notable conflicts are in four specific colors.
 Here is a table of the known color name conflicts.
 Remember the SVG color is what IM will use bu default.
 
-| Conflict Color Name | SVG Result (IM default) | X11 Result for Name | X11 Equivelent Name | Alternative Color Name |
+| Conflict Color Name | SVG Result (IM default) | X11 Result for Name | X11 Equivalent Name | Alternative Color Name |
 |:--------------------|:------------------------|:--------------------|:--------------------|:-----------------------|
 | Green               | \#008000                | \#00FF00            |                     | Lime                   |
 | Maroon              | \#800000                | \#B03060            | FireBrick           |                        |
@@ -1197,7 +1197,7 @@ The '`HCL`' colorspace is based on the '`LCHuv`' colorspace, which is a cylindri
 
 For completeneed here are the cylindrical representations of the '`Lab`' and '`Luv`' colorspaces, which are known as '`LCHab`' and '`LCHuv`' respectively.
 
-However note that the order of the channels is the reverse of the equivelent '`HCL`' colorspace shown above.
+However note that the order of the channels is the reverse of the equivalent '`HCL`' colorspace shown above.
 
 ~~~
 convert radial.png solid.png angular.png \
@@ -1586,7 +1586,7 @@ convert colorwheel.png \
 [![\[IM Output\]](opaque_multi_inv.png)](opaque_multi_inv.png)
 
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
-> As a matter of interest, in a IM with a Q8 compilation setting, a "`-fuzz`" factor of 256 (2<sup>8</sup>) will make the colors '`black`' and '`blue`' equivelent.
+> As a matter of interest, in a IM with a Q8 compilation setting, a "`-fuzz`" factor of 256 (2<sup>8</sup>) will make the colors '`black`' and '`blue`' equivalent.
 > For a IM with a Q16 setting this number is 65536 (2<sup>16</sup>).
 >
 > To make '`blue`' and '`red`' colors match this number must be multiplied by the square root of 2, or 362 for IM Q8, and with 92682 for IM Q16.

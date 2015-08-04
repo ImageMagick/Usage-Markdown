@@ -875,7 +875,7 @@ But these methods usually need at least some idea of how big the image you are w
 
 One of the simplest form of image space additions is "`-border`" operation.
 The color of the space added is "`-bordercolor`" setting.
-Here is some straight forward examples..
+Here are some straightforward examples..
 
 ~~~
 convert rose:  -bordercolor SkyBlue    -border 10x10 border.gif
@@ -1212,7 +1212,7 @@ convert rose:  -gravity center -extent  40x80  extent_center2.gif
 
 The last example in the above show that extent can also do centered crops, but without the need for a "`-repage`", though it does 'flatten' the image with the current "`-background`" color.
 
-In many ways the [Extent Operator](#extent) is simply a straight forward [Crop](#crop) with background fill, to pad out the crop area.
+In many ways the [Extent Operator](#extent) is simply a straightforward [Crop](#crop) with background fill, to pad out the crop area.
 But it does **not** do crop tiling, or crop relative to the virtual canvas (and its offset).
 
 This ability to both crop and extend an image according to gravity makes the operator perfect for padding or cropping an image so that it fits into to a specific sized area, for example see [Pad/Fill a Thumbnail to Fit](../thumbnails/#pad).

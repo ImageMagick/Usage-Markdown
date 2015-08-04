@@ -329,7 +329,7 @@ convert beijing_tn.png -distort SRT \
 
 And the image is clean looking with a perfectly level wall.
 
-The angle calculation is reasonably straight forward trigonometry, using the pixel locations at the ends of a long straight line in the image.
+The angle calculation is reasonably straightforward trigonometry, using the pixel locations at the ends of a long straight line in the image.
 However I found that simply rotating the image at various small angles by trial and error will find a good rotation angle relatively quickly.
 
 When looking how good a particular angle is, take a very close zoomed in look at the pixels along the line or edge you using.
@@ -424,7 +424,7 @@ Sine curve gradients may also be useful.
 
 ##### Speed Optimization
 
-The [Variable Blur Mapping](../mapping/#blur) operation is essentually using a single pass 2-dimentional blurring method (equivelent to a uniform Gaussaian Blur).
+The [Variable Blur Mapping](../mapping/#blur) operation is essentially using a single pass 2-dimensional blurring method (equivalent to a uniform Gaussaian Blur).
 However you can get a general speed boost by doing the bluring operation in two 1-dimensional variable blur operations.
 
 For example here I first blur horizontaly, the vertially...

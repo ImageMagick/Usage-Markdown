@@ -1514,7 +1514,7 @@ The '`S`' function internally generates the mirror control point/line for the ne
 
 For more examples of this path function see, [SVG: Cubic Bezier Curve Commands](http://www.w3.org/TR/SVG/paths.html#PathDataCubicBezierCommands).
 
-**Manually Generating a Bezier Curve** is relatively straight forward without needing any fancy GUI tools.
+**Manually Generating a Bezier Curve** is relatively straightforward without needing any fancy GUI tools.
 
 -   First define all the coordinate points you want you curve to go though, repeat the starting coordinate at the end of the list.
 -   Now expand this list by doubling all the x,y coordinate points into pairs and add a '`S`' (Smooth Cubic) function before every pair.

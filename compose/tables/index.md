@@ -20,7 +20,7 @@ convert {Dst} {Src} \
 
 A shell script "`compose_table`" also generates and displays various tables (with various options) of compose methods, and was developed later.
 
-For these first set of tables with I am using two images which are simular to the test images used in the documentation for [SVG Alpha Compositing](http://www.w3.org/TR/SVG12/rendering.html).
+For these first set of tables with I am using two images which are similar to the test images used in the documentation for [SVG Alpha Compositing](http://www.w3.org/TR/SVG12/rendering.html).
 They are perfect for demonstrating the 12 'Duff-Porter' compose operators.
 They are triangular images containing no semi-transparent pixels (only transparent and opaque colors.
 

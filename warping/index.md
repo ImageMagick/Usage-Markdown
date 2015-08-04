@@ -357,7 +357,7 @@ The following is an example of using "[`-shear`](../option_link.cgi?shear)" to c
   
 [![\[IM Output\]](isometric_shears.png)](isometric_shears.png)
 
-The above was developed from a simular [Windows Batch Example](../windows/#cube) by Wolfgang Hugemann &lt;ImageMagick@Hugemann.de&gt; in his [Using IM under Windows](../windows/) contribution to IM Examples.
+The above was developed from a similar [Windows Batch Example](../windows/#cube) by Wolfgang Hugemann &lt;ImageMagick@Hugemann.de&gt; in his [Using IM under Windows](../windows/) contribution to IM Examples.
 
 Note that the above images are NOT correctly joined together.
 They should use [Plus Alpha Composition](../compose/#plus), but are using over instead.
@@ -368,7 +368,7 @@ As the positioning is restricted to integer positioning this problem can be espe
 Using a much larger size with easier to manage coordinates, and a little fudging of the maths, can help in this case.
 After the images have been merged together, resizing the result down to its final size will sharpen and clean up any slight mis-alignments along the joins.
 
-Another simular example but using [Affine Distorts](../distorts/#affine), and using correct alpha composition, is [3d Cubes, using Affine Layering](../distorts/#cube3d).
+Another similar example but using [Affine Distorts](../distorts/#affine), and using correct alpha composition, is [3d Cubes, using Affine Layering](../distorts/#cube3d).
 A method that greatly simplifies the image processing needed to generate cubes like the above.
 
 ### Waving Images - Sine Wave Displacement

@@ -272,7 +272,7 @@ Because some very old web browsers and graphic programs do not understand GIF tr
 So this option lets you set what color the transparent areas should be in that situation.
 
 Typical choices for the transparent color are '`white`' for modern browsers, OR more typically '`grey75`' ('`#BFBFBF`'), which was the original "`mosaic`" web browser page color.
-Other popular transparent color choices are '`grey`' ('`#BEBEBE`'), and '`silver`' ('`#C0C0C0`') whcih is what the 'hand' image above used.
+Other popular transparent color choices are '`grey`' ('`#BEBEBE`'), and '`silver`' ('`#C0C0C0`') which is what the 'hand' image above used.
 This shows just how popular that specific area of the gray-scale color range is for the transparent color.
 
     *FUTURE: add link to color selection.*
@@ -1070,7 +1070,7 @@ It is extremely slow, but faster than a similar DIY solution.
 
 Doing this is not recommended, and not just because it is slow.
 
-By your fixed file size method, a simple image might come out at quality 90%, but contain 50k of unnecessary data, where as a complicated image would have to drop to quality 30% and be exhibiting JPEG artifacts (or to put it less technically, it would look rubbish) due to a shortage of data for the detail present.
+By your fixed file size method, a simple image might come out at quality 90%, but contain 50k of unnecessary data, whereas a complicated image would have to drop to quality 30% and be exhibiting JPEG artifacts (or to put it less technically, it would look rubbish) due to a shortage of data for the detail present.
 
 The better idea is to find a single quality setting that produces an average file size of 100KB for a reasonable selection of your images.
 Even then images with not much detail in may come out at only 50k.
@@ -2346,7 +2346,7 @@ The two packages work together well, and recommend both be installed and used fo
         convert image.jpg image.tif
 
       This will either save the image inside the TIFF file using JPEG compression
-      (whcih was inherited from the JPEG input.  Or it will error such as...
+      (which was inherited from the JPEG input.  Or it will error such as...
 
           Error: "JPEG compression support not configured"
 

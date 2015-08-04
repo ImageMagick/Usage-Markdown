@@ -393,7 +393,7 @@ The "`-interpolative-resize`" operator is practically identical to the previous 
   
 *This was only backported from IMv7 to IMv6 in version 6.7.7-6.  
  The option name is likely to be different in IMv7 when it is finally released.*
-If a "`-interpolate`" setting of '`Nearest`, you will essentually get the equivelent of a [Sample Operator](#sample). Similarly many of the other [Simple Interpolation Methods](../misc/#interpolate_simple), will equate to using the equivelent [Interpolated Resize Filters](../filter/#interpolated). But there are a number of Interpolation methods such as [Mesh](../misc/#mesh) that have no equivelence as a resize filter.
+If a "`-interpolate`" setting of '`Nearest`, you will essentially get the equivalent of a [Sample Operator](#sample). Similarly many of the other [Simple Interpolation Methods](../misc/#interpolate_simple), will equate to using the equivalent [Interpolated Resize Filters](../filter/#interpolated). But there are a number of Interpolation methods such as [Mesh](../misc/#mesh) that have no equivalence as a resize filter.
 This is also a unscaled resize, which means it works great for enlargements, and small scale shrinking, but when shrinking by more that 50% sever [Aliasing Effects](../filter/#aliasing) can appear, as shown in the other 'sampling resize operators' above.
 ### Liquid Rescale - Seam Carving
 
@@ -558,7 +558,7 @@ Because of this older versions of ImageMagick would need to do the above colorsp
       convert earth_lights_4800.tif -colorspace sRGB \
               -resize 500  -colorspace RGB  earth_lights_colorspace.png
 
-**\*\*\* This example is depreciated \*\*\***
+**\*\*\* This example is deprecated \*\*\***
 
 Note that the "`-colorspace RGB`" operation was not actually needed, as it was automatically performed when saving to PNG image file format.
 The above was developed from a IM Forum Discussion [Correct Resize](../forum_link.cgi?f=1&t=17926).
@@ -672,13 +672,13 @@ Distort (cylindrical)
 Sigmoidal Variation
 
 Essentially what the final example in the above does is to decrease the contrast of the image, compressing mid-tone greys into a tighter linear range, while bringing the extreme values further from the clipping edges, before resizing. It then removes that modification afterward. This in turn de-emphases the extreme effects of color values, while still allowing the filter to process the mid-tones, in a linear fashion, so as to reduce color distortions.
-In many ways this is similar to resizing images in the default non-linear sRGB colorspace (which is a far too common practice), but works equally well for both bright and dark ringing artefacts. That is it is symmetrical over the whole range of color values, where as resizing in sRGB colorspace works only from the lower dark end of the color range (blue and green values in the above). That is it is a much more controlled technique.
+In many ways this is similar to resizing images in the default non-linear sRGB colorspace (which is a far too common practice), but works equally well for both bright and dark ringing artefacts. That is it is symmetrical over the whole range of color values, whereas resizing in sRGB colorspace works only from the lower dark end of the color range (blue and green values in the above). That is it is a much more controlled technique.
 It has also been commented that that this sigmoidal variation may only work well for enlargements. Also try different values for the sigmoidal contrast intensity (6.5 in the above) for different images.
 Remember, just as with every resize technqiue, the results are highly subjective, and may not be good for all image types.
   
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
-Sigmoidal transform essentually generates a special DIY non-linear colorspace, that builds on the previous results that was obtained when using a non-linear perceptual colorspace (sRGB).
+Sigmoidal transform essentially generates a special DIY non-linear colorspace, that builds on the previous results that was obtained when using a non-linear perceptual colorspace (sRGB).
   
 Note that resizing (distorting) an image with non-linear color channels in RGB colorspace, can lead to slightly different results in each color channel. This results in a slight color shift (as opposed to a color being clipped as we saw earilier).
   

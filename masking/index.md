@@ -746,7 +746,7 @@ In other words, the first two images need to be swapped for that command.
 
     The latter is easy to handle and is the normal effect you get when you overlay
     some colored shape over a fully-opaque image.
-    Essentually you would use 'over' composition to compose the shape.
+    Essentially you would use 'over' composition to compose the shape.
 
     The former 'jigsaw' masks however is harder.
     Such masks are not meant to

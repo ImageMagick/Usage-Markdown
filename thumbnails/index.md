@@ -11,7 +11,7 @@
 -   [Pad Out Thumbnail](#pad)
 -   [Cut the Thumbnail to Fit](#cut)
 -   [Area Fit Thumbnail Size](#areafit)
--   [**Fit to a Given Space Summary**](#fit_summery)
+-   [**Fit to a Given Space Summary**](#fit_summary)
 -   [Square Padding or Cropping](#square)
 -   [Manual Cropping](#manual)
 -   [HTML thumbnail pages](#html)
@@ -311,7 +311,7 @@ Internal Squaring on the other hand is a little harder and requires more work to
 
   
 [![\[IM Output\]](square_cropped.gif)](square_cropped.gif)
-An alturnative way is to use a no-op distort using a distort viewport crop/pad the image. Essentually it uses a 'percent escapes' to do the calculations needed for an [Extent](../crop/#extent) type of operation.
+An alternative way is to use a no-op distort using a distort viewport crop/pad the image. Essentially it uses a 'percent escapes' to do the calculations needed for an [Extent](../crop/#extent) type of operation.
 External (padding) square...
   
       convert thumbnail.gif  -virtual-pixel white -set option:distort:viewport \
@@ -750,7 +750,7 @@ And here we go... By making multiple copies of the photograph, (or using other i
   
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
-*The " `` `convert ...` `` " embedded command in the above example generates a random floating point number from -15 to +15. For more infomation on using IM as a mathematical calculator see [FX Expressions](../transform/#fx_escapes). An alturnative is to assign random numbers to shell variables and substitute them into the above command instead.*
+*The " `` `convert ...` `` " embedded command in the above example generates a random floating point number from -15 to +15. For more infomation on using IM as a mathematical calculator see [FX Expressions](../transform/#fx_escapes). An alternative is to assign random numbers to shell variables and substitute them into the above command instead.*
 Of course you could substitute a set of different images rather than repeating the same image when creating the stack. Or select a set of rotates angles so they are all reasonably different, or are more pleasing to look at. If you are really good you can even offset the rotated images (jitter their position a little) so they are not all stacked up perfectly centered. But you get the basic idea.
 If you really want to avoid the use of the PNG format, due to its current problems with *some* browsers, you can use the GIF image format. To do this you must be willing to accept some color limitations, and know the exact background color on which the image will be displayed. The '`LightSteelBlue`' color in the case of these pages.
   
@@ -810,7 +810,7 @@ For example, if we enlarge the image and dim it, before overlaying the original 
   
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
-*Instead of using [Level Adjustments](../color_mods/#level_plus) to brighten (or darken) the framing image, an alturnative way of making the border a lighter or darker color is to [Color Tint](../color_mods/#colorize) the frame using something like...  
+*Instead of using [Level Adjustments](../color_mods/#level_plus) to brighten (or darken) the framing image, an alternative way of making the border a lighter or darker color is to [Color Tint](../color_mods/#colorize) the frame using something like...  
  "`-fill white -colorize 30%`"*
 Another way of color tinting the image to generate the frame, you can simply get IM to overlay a semi-transparent [Frame](../crop/#frame) on top of the enlarged image. However this requires you to know the size of the thumbnail so as to exactly resize it exactly the right amount to accommodate the generated frame.
   
@@ -1298,7 +1298,7 @@ Just remember that with this particular technique, the semi-transparent shadow m
 The answer is that the masking image is limited only to only adding either pure black or white shades of color. By doing this the shading (lighting) effect, and its mask, is essentially merged into the color component of the "*Lighting Effect Mask*".
 As a result of this the alpha channel becomes free to hold the previously separate transparency mask for the final image.
 The limitation of this however is that you can only add white and black shades to the image. You can not add for example a gray color to the image being masked. Note however that it is posible to add some tints of primary and secondary colors of some color space, but only in a limited way, and I have never seen it used.
-In summery you can not add specific colors or fancy borders to the image, only shades and shadows, highlights and flares, or simple black or white text. However you should not attempt to mix or overlap added white and black effects, as the resulting gray anti-aliasing pixels between the two produces a shaded color from the underlying image, and not the expected gray color. That is the drawback with this technique!
+In summary you can not add specific colors or fancy borders to the image, only shades and shadows, highlights and flares, or simple black or white text. However you should not attempt to mix or overlap added white and black effects, as the resulting gray anti-aliasing pixels between the two produces a shaded color from the underlying image, and not the expected gray color. That is the drawback with this technique!
 ### Masking images with distortions...
 
 What is more incredible is that as as the shading colors is just a gray-scale image, you can compress the lighting effects to just one color channel and the alpha channel mask.

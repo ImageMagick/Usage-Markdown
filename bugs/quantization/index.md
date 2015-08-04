@@ -15,7 +15,7 @@ The problem with debugging the color quantization process is separating color se
 At this time there is no perfect method of extracting the exact color table that quantization selected.
 Viewing those colors to see how they are arranged in 3D Color Space is another problem.
 
-Even if dithering is turned off you still need to replace colors, which requires a fast way of determining exactly what color should be used, and currently in Imagemagick this is NOT a straight forward.
+Even if dithering is turned off you still need to replace colors, which requires a fast way of determining exactly what color should be used, and currently in Imagemagick this is NOT a straightforward.
 
 ------------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ convert gradient_color.png  +dither  -colors 9   color_9.png
 
 This is a continuation of the previous bug report on [Fuzz Color Distance Bug](../fuzz_distance/) now (IM 6.6.8) fixed, but this time looking at quantization issues with transparency.
 
-In summery all fully-transparent colors should be classed as being equal, but also equi-distant from all fully-opaque colors.
+In summary all fully-transparent colors should be classed as being equal, but also equi-distant from all fully-opaque colors.
 
 As a result color quantizatation should concern itself more with opaque colors it should still generate equal amounts of semi-transparent colors accross a range.
 

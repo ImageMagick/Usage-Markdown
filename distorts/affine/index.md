@@ -123,7 +123,7 @@ convert koala.gif -matte -virtual-pixel Transparent \
 
 [![\[IM Output\]](affine_expand.png)](affine_expand.png) [![\[IM Output\]](affine_shrink.png)](affine_shrink.png)
 
-Note that the image are scaled to produce a simular result as "`-resize`", but are not limited to whole pixel boundaries.
+Note that the image are scaled to produce a similar result as "`-resize`", but are not limited to whole pixel boundaries.
 That is you can have semi-transparent (fuzzy) partial pixels along the edges of the image.
 See [Resize Distort/Affine](../../resize/#distort) for more details.
 
@@ -557,7 +557,7 @@ $$
 $$
 
 That is given a point, `x,y` on the starting image, that point is remapped to the position `i,j` on the destination image.
-Quite straight forward really.
+Quite straightforward really.
 
 For example suppose we have this simple image of a stylized spaceship, drawn using various lines form one point to the next.
 
@@ -659,7 +659,7 @@ Note that the size of the resulting virtual canvas is irrelevant, and can be lef
 In summary, our `80x80` image with a `+0+0` offset will map completely into a `160x160` image with a `+15-25` offset.
 
 So we now know where the image will be after the transform we need to map the pixels from the source to the destination image.
-This however is not straight forward, as it is explained in [Distortion Summary](../#summary).
+This however is not straightforward, as it is explained in [Distortion Summary](../#summary).
 
 That is rather than mapping each individual source pixel to the destination, we lookup the color of each destination pixel in the source.
 However to do that we need to invert the affine transformation to map the destination to the source image.

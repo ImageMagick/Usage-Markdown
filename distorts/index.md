@@ -710,7 +710,7 @@ But it does work extremely well for images containing minimal distortions such a
 A [Super Sampling](#super_sample) technique can be combined with interpolation, to improve the results in areas of strong compression, minification or down-sampling.
 See [Depolar-Polar Cycle Problems](#polar_problems) (a distort that can not use EWA resampling) for an example of using super-sampling to resolve interpolated aliasing.
 
-### Verbose Distortion Summery
+### Verbose Distortion Summary
 
 By setting "`-verbose`" before running "`-distort`" (use "`+verbose`" to turn off again), distort will output to the standard error channel, information on the algorithm and internal coefficients it calculates, and uses when distorting the given image, in the way specified.
 
@@ -944,7 +944,7 @@ Also as '[Area Re-Sampling](#area_resample)' is not needed when using '[Super Sa
 One of the simplest distortion, but probably one of the most versatile, is the '`SRT` or '`Scale-Rotate-Translate`' distortion.
 (SRT is just a quick short-hand)
 
-You have already seen the 'no-op' example of this distortion in the above examples, where the image is processed without any actual distortion being applied to the image, though it will still be filtered whcih can induce some very minor blurring.
+You have already seen the 'no-op' example of this distortion in the above examples, where the image is processed without any actual distortion being applied to the image, though it will still be filtered which can induce some very minor blurring.
 
 Here is a repeat the results of the above 'no-op' distort...
 
@@ -1196,7 +1196,7 @@ Which form you should use is up to you, depending on what you are trying to achi
 
 ### Image Coordinates vs Pixel Coordinates
 
-The use of control points in the general case is straight forward, but becomes more difficult when you need to align a distorted image, with another image or drawn constructions.
+The use of control points in the general case is straightforward, but becomes more difficult when you need to align a distorted image, with another image or drawn constructions.
 
 The reason is that while most operators in IM handle coordinates in terms of a '*Pixel Positions*' (for example when [Cropping](../crop/#crop), [Drawing](../draw/#draw), etc) distortions deal with coordinates in mathematical '*Image Coordinates*'.
 
@@ -1941,7 +1941,7 @@ If you like to see what those values are use the [Verbose Distortion Option](#di
 
 ### Perspective Internals
 
-If you add "[`-verbose`](../option_link.cgi?verbose)" (see [Verbose Distortion Summery](#distort_verbose) above) just before the Perspective distortion IM will output two operators that should be near equivalent replacements to the "[`-distort`](../option_link.cgi?distort)" operator.
+If you add "[`-verbose`](../option_link.cgi?verbose)" (see [Verbose Distortion Summary](#distort_verbose) above) just before the Perspective distortion IM will output two operators that should be near equivalent replacements to the "[`-distort`](../option_link.cgi?distort)" operator.
 One is a VERY SLOW "[`-fx`](../option_link.cgi?fx)" version (See [FX DIY operator](../transform/#fx).
 The other will be the Forward mapping Perspective\_Projection matrix.
 
@@ -2013,7 +2013,7 @@ As you can see the same point in the perspective distorted image has been correc
 ### Bilinear Distortions
 
 The '`Bilinear`' distortion methods implements another, type of 4 point distortion.
-However this are not nearly as straight forward as a '`Perspective`' distortion we looked at above.
+However this are not nearly as straightforward as a '`Perspective`' distortion we looked at above.
 But as you will see it is a very useful alternative distortion.
 
 #### Forward Bilinear Distortion
@@ -2120,7 +2120,7 @@ convert mandrill_blin.jpg -matte -virtual-pixel black \
 
 Note that the actual coordinates specified did actually position themselves correctly, but the image distortion has not been reversed.
 
-In summery a '`BilinearForward`' distortion is NOT its own reverse.
+In summary a '`BilinearForward`' distortion is NOT its own reverse.
 
 To restore the image you need to use a slightly different but closely related distortion.
 The mathematical reverse of the 'geometric transformation' has been implemented as a '`BilinearReverse`' distortion.
@@ -2325,7 +2325,7 @@ That is as each equation now has 6 terms with 6 constants you now need at least 
 Each successive order polynomial after this adds another `'order'+1` terms to each of the pair of equations.
 As such an order '`3`' cubic-fit polynomial requires a minimum of 10 coordinate pairs to fully define, and an order '`4`' quintic-fit polynomial needs 15 coordinate pairs.
 
-You can use a [Verbose Distortion Summery](#distort_verbose) to see the resulting equation that the polynomial distortion fitted to the coordinates specified.
+You can use a [Verbose Distortion Summary](#distort_verbose) to see the resulting equation that the polynomial distortion fitted to the coordinates specified.
 
 As an larger example I have an image of a grid.
 I also have a large set of coordinates (stored in the file "`grid16_control_points.txt`") on how I what to warp that grid.

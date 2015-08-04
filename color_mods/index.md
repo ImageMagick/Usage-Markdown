@@ -2214,7 +2214,7 @@ see [Wikipedia, Cylindrical LUV, or LCHuv colorspace](http://en.wikipedia.org/wi
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > The equivalent channels of '**`LCHuv`**' and '**`LCHab`**' colorspaces are reverse to those of the '**`HCL`**' and '**`HCB`**' colorspaces.
-> That is the 'grayscale' intensity equivelent is in the first ('red') channel and Hue is in the third ('Blue') channel of the image.
+> That is the 'grayscale' intensity equivalent is in the first ('red') channel and Hue is in the third ('Blue') channel of the image.
 
 For example we do some hue rotations for the red rose using '**`LCHuv`**' colorspace.
 Compare these with the previous set for the '**`HSL`**' colorspace above.
@@ -2653,7 +2653,7 @@ See [Dithering with Patterns](../quantize/#diy_symbols).
 
 These pre-prepared "Lookup Table Images" (or LUTs) can also be used to greatly increase the speed of very complex and thus slow "`-fx`" operations, so instead of IM interpreting the functional string 3 or 4 times per pixel, it can do a much faster lookup of the replacement color.
 
-The procedure for doing this is quite straight forward, either apply the function to a unmodified linear gradient, or replace the '`u`' in the function with the value '`(i/w)`' or '`(j/h)`' to calculate the replace value based on its position.
+The procedure for doing this is quite straightforward, either apply the function to a unmodified linear gradient, or replace the '`u`' in the function with the value '`(i/w)`' or '`(j/h)`' to calculate the replace value based on its position.
 
 For example, in the advanced ['Aqua' Effects](../advanced/#aqua_effects) example, I used a complex "`-fx`" function to adjust the gray-scale output of the [Shade operator](../transform/#shade)".
 Also as this gray-scale adjustment is also overlaid onto a 'DodgerBlue' shape, there is no reason why the results of both of these operators could not be combined into a single gradient lookup table.

@@ -25,7 +25,7 @@
     [`Plus`](#plus),  [`Minus`](#minus),  [`ModulusAdd`](#modulus_add),  [`ModulusSubtract`](#modulus_subtract),   
     [`Difference`](#difference),  [`Exclusion`](#exclusion),  [`Lighten`](#lighten),  [`Darken`](#darken),   
     [`LightenIntensity`](#lighten_intensity),  [`DarkenIntensity`](#darken_intensity), 
--   [Set Theory Equivelent Operations](#set_theory)
+-   [Set Theory Equivalent Operations](#set_theory)
 -   [Mathematical Composition and Alpha Blending](#math_blending)
 -   [Image Channel Mathematics using Image Composition](#image_math)
 
@@ -1181,7 +1181,7 @@ This means that you can create more easily create a 'shape mask' of the selectio
 You compare the images based on color intensity, but only care about the alpha channel value in the result.
 
 To make a 'mask' you would make one image fully-transparent (but still having color), using [Alpha Transparent](../masking/#alpha_transparent), and the other image full-opaque (the default).
-At the end you can use [Alpha Extract](../masking/#alpha_extract) to get the mask of whcih image had the lighter color for that pixel position.
+At the end you can use [Alpha Extract](../masking/#alpha_extract) to get the mask of which image had the lighter color for that pixel position.
 
 ~~~
 convert red_gradient.png -alpha transparent    blue_gradient.png \
@@ -1743,7 +1743,7 @@ convert  A  B   -compose LinearDodge -composite   R
 The method is equivalent to the Photoshop composition mode of the same name.
 
 However the two methods differ in how they handle images containing semi-transparent colors.
-Essentially [Linear\_Dodge Composition](#lineardodge) composition uses 'Over' alpha-blending, where as [Plus Composition](#plus) uses 'Plus" alpha-blending.
+Essentially [Linear\_Dodge Composition](#lineardodge) composition uses 'Over' alpha-blending, whereas [Plus Composition](#plus) uses 'Plus" alpha-blending.
 For details see [Plus Blending](#plus_blend).
 
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
@@ -1793,7 +1793,7 @@ convert circle_left.gif \( circle_right.gif -negate \) \
 
 This composition method also makes it useful as an alternative to the [Subtract Evaluate Sequence Method](../layers/#eval-seq_subtract) to subtract multiple images from a single starting image.
 
-Note however '`Linear Burn`' can not be applied directly to the alpha channel of images, where as the more [Mathematical Compose Method](#image_maths) [Minus](#minus) can.
+Note however '`Linear Burn`' can not be applied directly to the alpha channel of images, whereas the more [Mathematical Compose Method](#image_maths) [Minus](#minus) can.
 
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > The '`Linear_Burn`' compose method was added to IM version 6.5.4-3.
@@ -2053,7 +2053,7 @@ The "`-dissolve`" compositing method is commonly used as an alternative way of [
 
 The "`-blend`" compositing method provides what the "`-dissolve`" compositing method was originally intended to provide, before it was hijacked for other more basic operations.
 
-Where as the "`-dissolve`" method overlays images on top of each other, "`-blend`" merges images together such that both images are treated equally (being just added together), according to the percentage arguments given.
+Whereas the "`-dissolve`" method overlays images on top of each other, "`-blend`" merges images together such that both images are treated equally (being just added together), according to the percentage arguments given.
 As such you can achieve the same result (except in final image size) by swapping the percentages and the image arguments.
 This is not the case with "`-dissolve`" method.
 
@@ -2162,7 +2162,7 @@ Blend
 
 If you were to compare these two images, you will find they are exactly the same.
 
-In summery, a [Dissolve](#dissolve) (over with just overlay image given a percentage of transparency) is the same as a [Blend](#blend) (weighted addition of both images each with appropriate percentages) produces the same result for any fully-opaque image.
+In summary, a [Dissolve](#dissolve) (over with just overlay image given a percentage of transparency) is the same as a [Blend](#blend) (weighted addition of both images each with appropriate percentages) produces the same result for any fully-opaque image.
 It is only when one or both images contain transparency that the two methods differ.
 
 ### Using Blend to Modify a Single Image

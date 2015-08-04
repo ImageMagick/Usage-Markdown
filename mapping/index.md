@@ -1484,7 +1484,7 @@ I will annotate...
                 compress gradient into 50% width
                  that will be produced by the arcsin
            -function polynomial -4,4,0  -gamma 2
-                 the gamma 2 is equivelent to sqrt
+                 the gamma 2 is equivalent to sqrt
                  making the above   sqrt( -4u^2 + 4u )
            +level 50%,0
                  set the displacement gradient so edges are not

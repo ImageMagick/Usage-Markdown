@@ -968,7 +968,7 @@ convert \
 
 [![\[IM Output\]](layers_of_shadows.png)](layers_of_shadows.png)
 
-The above program seems complex, but is actually quite straight forward.
+The above program seems complex, but is actually quite straightforward.
 
 The first image is used to start a accumulating stack of images (image index \#0).
 
@@ -1058,7 +1058,7 @@ But after adding new images (\#2) shadow directly to the accumulated shadow (\#1
 In other words, the accumulated shadow image becomes more and more blurry and offset as the stack gets thicker and thicker.
 Only the shadow of deeper images has not accumulated the effect as much.
 
-This program essentually separates the application of the shadow, from the incremental shadow accumulator.
+This program essentially separates the application of the shadow, from the incremental shadow accumulator.
 This allows you control things like...
 
 -   Realistic Shadow (as above): 70x0+0+0 and 100x2+4+7
@@ -1392,7 +1392,7 @@ Another alternative to using '`mean`' is to use the newer [Poly Operator](#poly)
 The '**`Max`**' and '**`Min`**' methods will get the maximum (lighter) values and minimum (darker) values from a sequence of images.
 
 Again they are basically equivalent to using a [Lighten and Darken Composition Methods](../compose/#lighten), but with multiple images.
-With the right selection of background canvas color, you could use [Flatten Operator](#flatten) with the equivelent compose method.
+With the right selection of background canvas color, you could use [Flatten Operator](#flatten) with the equivalent compose method.
 
 WARNING: This is not a selection of pixels (by intensity), but a selection of values.
 That means the output image could result in the individule red, green and blue values from different images, resulting in a new color not found in any of the input images.
@@ -1435,7 +1435,7 @@ convert ... -background black -compose plus -layers flatten ...
 
 Be warned that adding images in this way can very easilly overflow the Quantum Range of the image, and as such it may get 'clipped', unless you use a [HDRI version of IM](../basics/#hdri).
 This is why an [Average, or Mean](#eval-seq_mean) is generally used instead, as this will divide all images equally to ensure the resulting image is not clipped.
-Another alturnative is to use the newer [Poly Operator](#poly), which can individually weight each image.
+Another alternative is to use the newer [Poly Operator](#poly), which can individually weight each image.
 
 ### Subtract Multiple Images
 
@@ -1461,7 +1461,7 @@ As a result the scale of the multiply and divide is too large.
 
 This could be classed as a bug.
 
-In the meantime, you are better using the equivelent 'flatten' method for Multiply, which does work as expected.
+In the meantime, you are better using the equivalent 'flatten' method for Multiply, which does work as expected.
 
 ~~~
 convert ... -background white -compose multiply -layers flatten ...

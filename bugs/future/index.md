@@ -192,7 +192,7 @@ This provides a more controled normalize.
 
 ### Divide an image into horizontal rows (or columns) of pixels
 
-Given an image, divide the image into rows (or columns) basied on rows of pixels which are simular to each other (according to the fuzz factor).
+Given an image, divide the image into rows (or columns) basied on rows of pixels which are similar to each other (according to the fuzz factor).
 
 One implementation would be to divide image into blank,non-blank...
 alturnating rows extracted from the image.
@@ -207,7 +207,7 @@ Two operators may be needed, -divide-vert and -divide-horiz.
 
 Complementary operators such as -layers 'remove-blank' and -layers 'remove-null' may be needed to allow user to also delete 'blank' images if these are unwanted.
 
-**ADDUMDUM** I wrote a script [divide-vert](../../scripts/divide_vert) whcih does basically what I am suggesting gets built into IM.
+**ADDUMDUM** I wrote a script [divide-vert](../../scripts/divide_vert) which does basically what I am suggesting gets built into IM.
 
 Another similar script is [de-pixelate](../../scripts/de-pixelate) which removes 'doubled' rows and columns of pixels from an image.
 
@@ -301,7 +301,7 @@ Implementation can ignore any existing 'virtual canvas' setting, though could us
 
 Another posible layout method is 'lines', which appends images horizontally (with given spacings), with the appropriate vertical "`-gravity`" alignment, until "`-size`" width, is reached.
 The line is then horizontally -gravity justified, and padded to the "`-size`" width.
-When the height of all the lines exceeds a optionally given "`-size`" height, a new 'page' image is started, but pages are not padded, whcih will allow vertical justification using "`-extent`" using a different gravity setting.
+When the height of all the lines exceeds a optionally given "`-size`" height, a new 'page' image is started, but pages are not padded, which will allow vertical justification using "`-extent`" using a different gravity setting.
 
 Similarly for a 'columns' layout method but vertically, down the 'page' images, being generated.
 
@@ -376,11 +376,11 @@ Some extra spacing may have to be added to the edges to handle any remaining spa
 
 ### Shadow controls in Montage (interface change - require major release)
 
-Add some control to shadows within "`montage`" to allow user defined hard or soft shadows in a simular way that the new "`convert`", "`-shadow`" operator does.
+Add some control to shadows within "`montage`" to allow user defined hard or soft shadows in a similar way that the new "`convert`", "`-shadow`" operator does.
 
 No suggestions as to implimentation, as "`montage`" "`-shadow`" setting should probably remain a boolean on/off operator, unless it is added as part of a major version number release.
 
-Simularly add some extra framing controls, would be nice if more that a single number is given.
+Similarly add some extra framing controls, would be nice if more that a single number is given.
 
 ------------------------------------------------------------------------
 
@@ -426,7 +426,7 @@ But if specifically given for an images it should probably be equal to either 'B
     That last is actually text to image creation
     The first we have already (but doing 'placement' as well)
 
-    All but justification are essentually SRT distort (no gravity).
+    All but justification are essentially SRT distort (no gravity).
     But gravity can be calculated (relative to destination image)
 
 ------------------------------------------------------------------------

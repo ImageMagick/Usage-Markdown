@@ -90,7 +90,7 @@ These pixels represent the 'black halo' around the resized image.
 
 The problem in the above is caused by the [resize filters](../../resize/#filters) not understanding that full-transparent colors should not be used in the final color of a pixel, only the transparency.
 
-This problem is the same problem involving blurs with transparency, and discussed in [Blur Transparency Bug](../blur_trans/), and simular solutions to this problem also works here.
+This problem is the same problem involving blurs with transparency, and discussed in [Blur Transparency Bug](../blur_trans/), and similar solutions to this problem also works here.
 
 One workaround that works on both problems, is to set the color of the transparency to the same as the edge color of the image being resized.
 That is use a fully-transparent white (EG: '`#FFFF`' as the background instead of fully transparent black (EG: '`none`').

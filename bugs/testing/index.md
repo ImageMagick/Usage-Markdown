@@ -13,7 +13,7 @@ As such whenever a new release of IM is downloaded, this page is automatically r
 
 [Bug in Show delegate](../../forum_link.cgi/?p=74367)
 
-Essentually spawn=True does not wait for the input file to vanish, before continuing.
+Essentially spawn=True does not wait for the input file to vanish, before continuing.
 This produces a race condition when show: is used as the final save, between "display" reading the %i image, and IM cleaning up its temporary files!
 
 ------------------------------------------------------------------------

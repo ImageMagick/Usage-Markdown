@@ -874,7 +874,7 @@ This is only time the source image provides the meta-data information during a i
 Also note that as [Layers Composition](#composite) understands "`-gravity`", the image is properly centered, without you needing to do the calculations yourself.
 However if the source frames contained offsets, these will also be added to the gravity defined position, so that the relative position of all the sub-frames remains correct.
 
-Note that as the animation "`script_k.gif`" is actually a type of [Overlay Animation](../anim_basics/#overlay) their are alturnative methods of adding a static background to the animation.
+Note that as the animation "`script_k.gif`" is actually a type of [Overlay Animation](../anim_basics/#overlay) their are alternative methods of adding a static background to the animation.
 See the section above on [Remove Transparency](../anim_basics/#remove_transparency) for an example (onto a solid color, but can be any image).
 
 The same is true for the even simpler [Cleared Frame Animation](../anim_basics/#cleared).

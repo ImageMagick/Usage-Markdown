@@ -257,7 +257,7 @@ It will also do any "2&gt;&1" type file descriptor redirections if present.
 **ImageMagick** gets a argument array, but will also do its own filename meta-character handling specifically for DOS (the dos environment doesn't handle meta-chars) and for arguments such as coder:\*.gif\[50x50\] which the shell fails to expand due to coder: prefix or the \[...\] read modifier.
 
 That is a LOT of argument parsing!
-Whcih can mean a lot of quoting and backslashing handling.
+Which can mean a lot of quoting and backslashing handling.
 *Caution and fore-thought is required*.
 
 I recommend you at least read the PHP manuals on [Program Execution Functions](http://php.net/manual/en/ref.exec.php), which includes: [PHP exec()](http://php.net/function.system), [system()](http://php.net/function.exec), and [passthru()](http://php.net/function.passthru).

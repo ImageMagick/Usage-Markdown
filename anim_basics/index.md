@@ -501,7 +501,7 @@ gif_anim_montage  -u  script_k.gif  script_k_frames.png
 
 [![\[IM Output\]](script_k_frames.png)](script_k_frames.png)
 
-Of course this has semi-transparent pixels so a 'PNG' image format was needed, OR you could use one of the many 'background' options that script also provides, allowing you to use GIF or even JPEG formats for the resulting summery image of the animation.
+Of course this has semi-transparent pixels so a 'PNG' image format was needed, OR you could use one of the many 'background' options that script also provides, allowing you to use GIF or even JPEG formats for the resulting summary image of the animation.
 
 Other options, lets you define the number of rows or columns to use, as well as set various non-transparent backgrounds, or use a red box rather than the default black.
 
@@ -902,7 +902,7 @@ convert bunny_grass.gif \( bunny_anim.gif -repage 0x0+5+15\! \) \
 As such a [Cleared Frame Animation](#cleared) typically consists of a small, constantly changing or moving object on a transparent background.
 These are directly usable on web pages, or as animated symbols, or can be merged with other animations to produce much more complex animations.
 
-In summery this type of animation is a good style to use in a library of animated parts, for use in creating larger more complex animations.
+In summary, this type of animation is a good style to use in a library of animated parts, for use in creating larger more complex animations.
   
  There is however a problem with adding background like this for GIF animations.
 If you look at the previous examples, you would probably have notice a significant and disturbing pause in the fast moving animation.
@@ -932,7 +932,7 @@ The animation however is now an [Overlay Animation](#overlay) with background be
 See [Transparency Optimization](../anim_opt/#opt_trans) for a continuation of the optimization of the above result.
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> The IM forum member [el\_supremo](../forum_link.cgi?u=3499), Pete, has contributed a MagickWand equivelent script, [Cleared Frame onto Background example](http://members.shaw.ca/el.supremo/MagickWand/bunny.htm).
+> The IM forum member [el\_supremo](../forum_link.cgi?u=3499), Pete, has contributed a MagickWand equivalent script, [Cleared Frame onto Background example](http://members.shaw.ca/el.supremo/MagickWand/bunny.htm).
 >
 > This example is also discussed in detail in the IM Forum [Creating a Cleared Frame GIF Animation in the MagickWand](../forum_link.cgi?f=6&t=20472).
 

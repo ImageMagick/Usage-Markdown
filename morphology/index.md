@@ -24,7 +24,7 @@
 -   [Flat Grey-scale Morphology](#greyscale_flat)
 -   [True Grey-scale or 3-dimensional Morphology](#greyscale)
 -   [Intensity Variant of Basic Methods](#intensity)
--   [Alternative Basic Morphology Techniques](#alturnative)
+-   [Alternative Basic Morphology Techniques](#alternative)
 
 [![](../img_www/granitesm_right.gif) Difference Morphology Methods](#difference)
 -   [`EdgeIn`](#edgein),  [`EdgeOut`](#edgeout),  [`Edge`](#edge),  [`Top-Hat`](#top-hat),  [`Bottom-Hat`](#bottom-hat)
@@ -75,7 +75,7 @@ This in turn can provide a huge range of effects, Shape expansion and contractio
 
 Even the more anchiet method of 'convolution' techniques that provide blurring and sharpening techniques (next section), is in a way a type of morphology method.
 
-Essentually morphology is for the modification, determination, and discovery of the shapes of objects found within an image.
+Essentially morphology is for the modification, determination, and discovery of the shapes of objects found within an image.
 
 ----
 
@@ -163,7 +163,7 @@ We will go though the various methods, and the kernels that those methods may us
 > December 2009 to January 2010.
 > 
 > However it is posible to perform simplified 'square' kernel morphology using the older and closely related "`-convolve`" method.
-> See [Alternative Basic Morphology Techniques](#alturnative) below.
+> See [Alternative Basic Morphology Techniques](#alternative) below.
 
 ### Basic Built-In Shape Kernels
 
@@ -1025,9 +1025,9 @@ Both of which clearly shows what ImageMagick is doing to generate the final imag
 The number after the decimal point represents the kernel number that is being applied, at each step.
 Followed at the end by how it composes the images together according to the '`morphology:compose`' setting.
 
-Many of the [Mathematical Composition Methods](../compose/#math) and their equivelent [Set Theory](../compose/#set_theory) type operations, can also be used to merge the results of applying each kernel to the original image.
+Many of the [Mathematical Composition Methods](../compose/#math) and their equivalent [Set Theory](../compose/#set_theory) type operations, can also be used to merge the results of applying each kernel to the original image.
 
-In summery this setting defines how the individual kernels of a multi-kernel list will be applied to the given image.
+In summary this setting defines how the individual kernels of a multi-kernel list will be applied to the given image.
 The default is the compose value of '`None`' meaning to simply 're-iterate' results, otherwise it will merge all the results based on the compose method given.
 
 ----
@@ -1244,7 +1244,7 @@ While essentially all four of the Basic Morphological Methods, and later ones wh
 However the kernel itself will always be regarded as a simple 'on' or 'off' neighbourhood.
 Any kernel value that is either a 'nan' or less than '`0.5`' will be regards as outside the 'neighbourhood' that it defines.
 
-In summery, the above operators apply a 'flat' kernel without any 'height' or '3-dimensional' features, but can still be applied to gray-scale images.
+In summary, the above operators apply a 'flat' kernel without any 'height' or '3-dimensional' features, but can still be applied to gray-scale images.
 
 ### True Gray-scale or 3-dimensional Morphology
 
@@ -1534,7 +1534,7 @@ Also [Outline or Halo Transparency](../masking/#outline) using '`EdgeOut`' to ex
 
 ### Granularity of a collection of Shapes
 
-By using a series of '`Open`' operations in an image of slowly increasing size structuring elements, and measuring the resulting area, you can quickly get a summery of number of such shapes that can be found in the image.
+By using a series of '`Open`' operations in an image of slowly increasing size structuring elements, and measuring the resulting area, you can quickly get a summary of number of such shapes that can be found in the image.
 
 By taking the derivative (slope) of that result you get a 'spectrum' of the number and size those shapes that form the image.
 This graph is the '**granularity**' of the image for some particular shape.
@@ -2243,7 +2243,7 @@ However you can modify how '`Thinning`' works, so that it removes only the set o
 In other words apply all the kernels to the same image at the start of the interation, merge them, then remove just those pixels, once only for all kernels.
 That is remove all the HMT selected pixels *simultaniously*.
 
-Basically you set the [Multi-Kernel Composition Setting](#kernel_compose) to use a '`Darken`' compose method, whcih will do exactly that.
+Basically you set the [Multi-Kernel Composition Setting](#kernel_compose) to use a '`Darken`' compose method, which will do exactly that.
 Specifically merging all the selected pixels for a single removal of selected pixels.
 For example...
 
@@ -2696,7 +2696,7 @@ If you look carefully, you will probably note that each of the 4-connected kerne
 For example '`ThinSE:41`' and '`ThinSE:84`' are negated rotations of each other.
 
 The reason is that 4 and 8 connectivity is closely related to each other via the duality of thinning and thicken morphological methods (using negated images).
-Essentually, a 4-connection preserving 'thinning kernel', which is then used to thicken an image, will result in a 8-connected background skeleton (unpruned SKIZ) around the shape, and visa-versa.
+Essentially, a 4-connection preserving 'thinning kernel', which is then used to thicken an image, will result in a 8-connected background skeleton (unpruned SKIZ) around the shape, and visa-versa.
 So by using the negated forms (so thicken and thin methods are swapped) you can generate the other form of connected-ness for the same operation.
 
 ----
@@ -3213,7 +3213,7 @@ As you can see pixels of the same value are generally separated in a 'knight's m
 The octogon is however rotated 45 degrees from the [Octagonal Distance Kernel](octagonal)
 
 It is also this shape difference that causes the final maximum distance to be larger.
-Essentually a larger octagon rotated in this way fits into the shape better, thus the larger maximal distance result.
+Essentially a larger octagon rotated in this way fits into the shape better, thus the larger maximal distance result.
 
 Another fractional distance 'interger' kernel that can be used is this one, though the distance is in terms of 3 units instead of 2.
 That is the results need to be divided by 3 to get the distance in terms of pixel size, which is not really a great divisor to use.
@@ -3660,7 +3660,7 @@ This generally requires a 'mask' image of some kind, and is typically done using
 ### Conditional Dilation
 
 The [Dilate Morphology Method](#dilate) as you know will expand a specific shape according to a given kernel neighbourhood.
-'**Conditional Dilation**' is essentually the same thing, but sets a limit as to how far the dilation can spread when repeatedly applied to an image.
+'**Conditional Dilation**' is essentially the same thing, but sets a limit as to how far the dilation can spread when repeatedly applied to an image.
 
 A [Draw Flood-Fill](../color_basics/#floodfill_draw) is in one sense the ultimate 'Conditional Dilation'.
 It will simply fill any orthogonal ([Diamond Kernel](#diamond) neighbourhood) that happens to the same color as the starting point.
@@ -3768,7 +3768,7 @@ Without this step, objects that is also close to the line, that is within the ke
 Of course if you are wanting to include 'near objects' then by all means dilate the line (making it wider) with a disk kernel of the appropriate radius, before doing the initial masking step.
 that will give you more 'near' control than relying on the square kernel radius.
 
-In summery a [Conditional Dialation](#dilate_conditional) could be regarded as a multi-point [Draw Flood-Fill](../color_basics/#floodfill_draw), that while slower, can be more versitle in selecting exactly what should be filled, or 'discovered'.
+In summary a [Conditional Dialation](#dilate_conditional) could be regarded as a multi-point [Draw Flood-Fill](../color_basics/#floodfill_draw), that while slower, can be more versitle in selecting exactly what should be filled, or 'discovered'.
 
 ### Constrained Distance
 

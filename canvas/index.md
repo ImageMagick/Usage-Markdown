@@ -36,7 +36,7 @@
      * [**Shepards** - Spotlights of Color](#shepards)
      * [**Inverse** - Sharp Points of Color](#inverse)
      * [Shepards Power Factor](#shepards_power)
-     * [Summery of Sparse Color Methods](#sparse_summery)
+     * [Summary of Sparse Color Methods](#sparse_summary)
      * [Channel Setting and Sparse Color](#sparse_channel)
      * [Sparse Color as a Fill Operator](#sparse_fill)
      * [Sparse Color Shepards, a Blur Alternative](#sparse_blur)
@@ -163,7 +163,7 @@ convert test.png -alpha off -fill Chocolate -colorize 100%  color_colorize.gif
 [![\[IM Output\]](color_colorize.gif)](color_colorize.gif)
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> Note that "`-alpha Off`" (or the older equivelent "`+matte`") only disables the alpha channel.
+> Note that "`-alpha Off`" (or the older equivalent "`+matte`") only disables the alpha channel.
 > If you turn it [On](../masking/#alpha_on) again afterwards, the original alpha channel (which was preserved) will be restored.
 > If was automatically done before IM v6.7.9
 >  
@@ -572,7 +572,7 @@ As such '`blue`' produces a '`blue-white`' gradient, while '`yellow`' generated 
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > "`gradient:`" currently does not understand non-RGB [Color Space](../color_basics/#colorspace) representations.
 > As such you can not use it to generate multi-color 'rainbow' gradients (using HSV space).
-> However you can 'fudge' such gradients relativally simply.
+> However you can 'fudge' such gradients relatively simply.
 > See [Gradients in other Colorspaces](#gradient_colorspace) below.
   
 Some particularly nice gradients include...
@@ -1029,7 +1029,7 @@ convert -size 600x30 xc:   \( +size xc:gold xc:firebrick +append \)  \
 Here the lookup X position '`i/(w-1)`' goes from '`0.0`' to '`1.0`' over the second two-pixel image.
 The floating point number produces a perfect linear gradient, much like "`gradient:`" does.
 
-The above is actually almost equivelent (see [Perfect Gradients](#perfect_gradients) for difference) to using a [Clut Recolored Images](../color_mods/#clut)" to recolor a gradient image, using interpolated lookup of the two color image.
+The above is actually almost equivalent (see [Perfect Gradients](#perfect_gradients) for difference) to using a [Clut Recolored Images](../color_mods/#clut)" to recolor a gradient image, using interpolated lookup of the two color image.
 
 ~~~
 convert -size 30x600 gradient: -rotate 90 \
@@ -1082,7 +1082,7 @@ convert \( xc:red xc:blue +append \) \
 The key point to understanding the above is that we are enlarging the small image based on the the centers of its pixels.
 See [Image Coordinates vs Pixel Coordinates](../distorts/#control_coordinates) for details.
 
-Note that most interpolation methods have equivelent [Interpolated Resize Filters](../filter/#interpolate).
+Note that most interpolation methods have equivalent [Interpolated Resize Filters](../filter/#interpolate).
 But the use of the viewport and pixel coordinates removes the edge effects that is shown in the previous [Resize Gradients](#gradient_resize) caused by extreme upscaling of the very small image.
 
 The [Mesh Interpolation](../misc/#mesh) setting however is not available as a [Resize Filter](../filter/#filter).
@@ -1575,7 +1575,7 @@ The pixel is the color of the gradent at the pixels center, and that center is n
 Because this gradient is mathematically correct, this gradient will 'tile' correctly when used in special 'tiling' or 'cyclic' situations.
 
 The previous gradient image will not 'tile' correctly.
-You get a pure-white pixel, next to, the pure-black pixel, so as to generate a one pixel gap or 'disjunction' in the mathematical cycle, where pure white and pure black are typically regarded as equivelent values.
+You get a pure-white pixel, next to, the pure-black pixel, so as to generate a one pixel gap or 'disjunction' in the mathematical cycle, where pure white and pure black are typically regarded as equivalent values.
 
 A simpler way of generating a mathematical gradient (though shifted by 1/2 a pixel), is to simply make the first pixel pure white and extend the gradient by the exact size of the image.
 
@@ -1597,7 +1597,7 @@ convert -size 1x6 gradient: -chop 0x1 -scale 2000%  gradient_chopped.png
 
 [![\[IM Output\]](gradient_chopped.png)](gradient_chopped.png)
 
-**In Summery...** A little thought about exactly what you want from your gradient can make a big difference in the accuracy of your final results.
+**In summary...** A little thought about exactly what you want from your gradient can make a big difference in the accuracy of your final results.
 
 But if it does not matter, than don't worry about it, use whatever is simplest for the task at hand.
 
@@ -1860,7 +1860,7 @@ At very high power levels it will eventually reproduce the same pattern as a [Vo
 This define not only effects [Shepards Sparse Color](#shepards), but also will have similar effects on [Shepards Distortion Method](../distorts/#shepards) which is based on displacement maps generated by the sparse color method.
 However it does not effect the [Inverse](#inverse) sparse color method, which always uses a power-level of 1.0.
 
-### Summery of Sparse Color Methods
+### Summary of Sparse Color Methods
 
 Here is a repeat of the various, 4 point "`-sparse-color`" images, for comparison.
   
@@ -1878,7 +1878,7 @@ Inverse
   
 [![\[IM Output\]](sparse_bilinear.png)](sparse_bilinear.png)  
 Bilinear
-And here is a summery of the various, 3 point methods.
+And here is a summary of the various, 3 point methods.
   
 [![\[IM Output\]](sparse_voronoi_3.gif)](sparse_voronoi_3.gif)  
 Voronoi
@@ -2062,12 +2062,12 @@ convert sparse_source.gif \
 
 This will work very fast with very large images without needing large '*sigma*' values (and thus very slow) for each of the blurring steps.
 
-Essentually it is using a faster image resizing technique to generate the blurred layers of the previous example.
+Essentially it is using a faster image resizing technique to generate the blurred layers of the previous example.
 It is not as exact, but will generate a good approximation of the correct result.
 However it works best for images which are a square, and a power of two in size, or it will be less accurite.
 
 The special operator "`-layers RemoveDups`" in the above will remove any extra 'single average pixel' images that was generated, by the multiple 'clone-resize' operations.
-The images are then resize back to the original size using a [Gaussian Resize Filter](../filter/#gaussian) (the equivelent to a blur).
+The images are then resize back to the original size using a [Gaussian Resize Filter](../filter/#gaussian) (the equivalent to a blur).
 The image order is then reversed so as to place the original on top, and the more blurry layers underneath, before flattening together as before.
 
 It has the advantage of only needing to read the image once, doing all the work in a single command.
@@ -3066,7 +3066,7 @@ In any case it is probably best to define the tile offset and tile image just be
 
 ### Tiling with an Image already In Memory
 
-Tiling an image you have in memory (created or modified) is not straight forward, and only a few indirect methods are available.
+Tiling an image you have in memory (created or modified) is not straightforward, and only a few indirect methods are available.
 
 #### Clone and Append the Tile Image
 

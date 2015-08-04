@@ -46,7 +46,7 @@
 -   [Cylindrical Filters Summary](#cyl_summary)
 
 [Expert Filter Controls](#options)
-[Summary of Resize filters](#summery)
+[Summary of Resize filters](#summary)
 -   [Filter Comparison](#compare)
 -   [Best Filter](#best_filter)?
 -   [IM's Default Filter](#default_filter)
@@ -232,7 +232,7 @@ No guarantees can be given.
 
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Before IM v6.3.6-3 the [Filter Blur](../filter/#filter_blur) setting was called "`-support`", which was very misleading in exactly what it did.
-> This option has been depreciated and is no longer available.*
+> This option has been deprecated and is no longer available.*
 
 The better method of fixing bluring effects cause by resize is to re-filter the image using a sharpening operator.
 See [Sharpen Resized Images](../resize/#resize_unsharp) above for more details.
@@ -581,7 +581,7 @@ This filter produces a reasonably sharp edge, but without a the pronounced gradi
 
 It is basically equivalent to a built-in 'unsharp resize' (see [Sharpened Resized Images](../resize/#resize_unsharp)), though some consider it far too sharp, and does not provide any control of the sharpening.
 
-What does make a '`Catrom`' filter more interesting is that it is almost an identical cubic equivelent of a 2-lobe '`Lanczos`' filter, which is probably the most commonly used [Windowed-Sinc Filter](#windowed) (see below).
+What does make a '`Catrom`' filter more interesting is that it is almost an identical cubic equivalent of a 2-lobe '`Lanczos`' filter, which is probably the most commonly used [Windowed-Sinc Filter](#windowed) (see below).
 
 We will also look at this filter more closely later in [Cubic Filters](#cubics).
 
@@ -806,7 +806,7 @@ The [Lagrange Filters](#lagrange) uses [Support Expert Filter Setting](#blur) to
 >
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Before IM v6.3.6-3 the '`filter:blur`' define was mistakenly set by the option "`-support`", which was very misleading in exactly what it did.
-> This option has been depreciated, and no longer available.
+> This option has been deprecated, and no longer available.
 
 ### Gaussian Interpolator Filter Variant
 
@@ -964,7 +964,7 @@ As you can see the final weighting curves are all very similar, and as expected 
 
 You can look at more detailed definitions and graphs of most of these various windowing functions, and their results in the Fourier Frequency Spectrum on [Wikipedia, Window function](http://en.wikipedia.org/wiki/Window_function).
 
-**In summery:** I have not found a great deal of difference in results between these various windowing functions.
+**In summary:** I have not found a great deal of difference in results between these various windowing functions.
 Also my reading of research papers of results all seemed to be more of a qualitative opinion of their suitability, rather than anything concrete.
 
 My feeling is that just about any windowing function can be used, but if I was to pick one you are better sticking to the most popular '`Lanczos`' windowing filter.
@@ -1120,7 +1120,7 @@ The problem is that the results of filters are often very subjective, dependent 
 Just what made a good filter really depended on who you asked, whether you were enlarging or shrinking, and what image you were processing.
 
 In some ways it still is, confusing.
-It took me over two years of muddling around, reading, and playing with the various filters to come up with the start of this summery, and even now it is still evolving.
+It took me over two years of muddling around, reading, and playing with the various filters to come up with the start of this summary, and even now it is still evolving.
 Image resizing is a very subjective area, difficult (actually its proven to be imposible) to quantify in any real way.
 There is no such thing as a 'perfect' resize.
 
@@ -1770,7 +1770,7 @@ convert rings_crop.png -filter {filter_type} -resize 100x {result}
 
 [![\[IM Output\]](montage_shrink.png)](montage_shrink.png)
 
-As you can see [Interpolated Filters](#interpolated) filters are very heavily aliased moiré effect, whcih is caused as a side-effect of the blocking artefacts these produce.
+As you can see [Interpolated Filters](#interpolated) filters are very heavily aliased moiré effect, which is caused as a side-effect of the blocking artefacts these produce.
 
 On the other hand the blurring artefacts of the [Gaussian Blurring Filters](#gaussian) removed all that blocking Moiré effects from the resulting image, though with a general blurring (indistinct lines) in the resulting image.
 The '`Gaussian`' Filter itself does show a barely noticeable aliasing effect caused by its infinite (IIR) filter being clipped by the [Filter Support Setting](#support), but that is very minor.

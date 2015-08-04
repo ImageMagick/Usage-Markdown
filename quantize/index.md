@@ -105,7 +105,7 @@ Using "`-posterize`" can also mathematically divide up each color channel into a
 
 And finally can "`-threshold`" all or specific color channels of the image, essentially making each color channel purely Boolean or on/off. That is each color channel can be given a value of zero or MaxRGB (IM 'Q' level dependant). This however only produces a minimal set of about about 8 colors. A very limited color set.
 
-Thresholding is also equivelent to a "`-posterize`" level '1' which picks 2 colors.
+Thresholding is also equivalent to a "`-posterize`" level '1' which picks 2 colors.
 
 #### Applying a Color Set
 
@@ -324,7 +324,7 @@ The 'normalized' value shows that the actual distance is 28.7%.
 
 Using [Fuzz Factor](../color_basics/#fuzz), is different to calculating the RMSE when transparency is involved. That is because the fuzz factor is designed so that any two fully-transparent colors are treated as being equal.
 
-As such 'fully-transparent black' and 'fully-transparent white' are exactly equivelent (producing a value of 0 or no error pixels)...
+As such 'fully-transparent black' and 'fully-transparent white' are exactly equivalent (producing a value of 0 or no error pixels)...
   
       compare -metric FUZZ xc:'#0000' xc:'#FFF0' null:
 
@@ -340,7 +340,7 @@ For example...
   
 [![\[IM Text\]](fuzz_navy.txt.gif)](fuzz_navy.txt)
 
-As '`Navy`' did not change to '`Blue`' it is more than 20% different to '`Blue`'. Where as
+As '`Navy`' did not change to '`Blue`' it is more than 20% different to '`Blue`'. Whereas
   
       convert xc:Navy  -fuzz 30% -fill Blue -opaque Blue txt:
 
@@ -478,11 +478,11 @@ The CMY color space is exactly the same as sRGB color space as the color channel
   
 The CMYK colorspace (not shown) also produces the same but for different reasons. Because internal the 'K' channel and a images 'colormap' use the same data pointer (See [Palette Channel](../basics/#palette)), IM converts it back to CMY before quantization.
 
-The sRGB colorspace as expected produces a simular result as RGB, but is warped to remove the number of near-black colors in the colorspace. As such there is less colors for the center of the colorwheel to select from, producing a larger 'not quite so black' spot. It does however work a lot better for most photos which is why JPEG images often use a sRGB colorspace.
+The sRGB colorspace as expected produces a similar result as RGB, but is warped to remove the number of near-black colors in the colorspace. As such there is less colors for the center of the colorwheel to select from, producing a larger 'not quite so black' spot. It does however work a lot better for most photos which is why JPEG images often use a sRGB colorspace.
 
 The XYZ colorspace is also very very similar to linear RGB colorspace. The big difference here is that the color axis has shifted so as to better contain ALL the posible colors we can (and even can not) see, as such the color data in the colorwheel are compressed a bit more, and as a result the quantizations seems to become spread out more.
 
-The LAB and LUV color spaces are based on a different but simular color axis which includes negative values. That results a different arrangement of color quantizations.
+The LAB and LUV color spaces are based on a different but similar color axis which includes negative values. That results a different arrangement of color quantizations.
 
 The special color spaces involving a 'Hue' channel, such as HSL (Hue Saturation, Lightness), HSL (Hue, Saturation, Brightness), and HWB (Hue, White, Black), all have a cyclic color wheel representation of color as part of its color space. Actually it was using a HSL color space what was used to generate this color wheel. See [Generating a Colorwheel](../color_basics/#colorwheel).
   
@@ -526,7 +526,7 @@ So let me be clear...
 
 As of IM version 6.3 the Color Quantization function was modified to try to include colors that are very common in the original image. As such if an image contains a area of a single color (such as '`white`' in the above), that color will generally be included in the final color map.
 
-This improves the situation somewhat, especially for 'cartoon' like images or images on a solid color background. The 'solid' color will generally be picked so as to help avoid [Dither Speckling](#dither_speckle) whcih we will look at below.
+This improves the situation somewhat, especially for 'cartoon' like images or images on a solid color background. The 'solid' color will generally be picked so as to help avoid [Dither Speckling](#dither_speckle) which we will look at below.
 
 **Specific Color in Colormap Solutions**
 
@@ -758,7 +758,7 @@ comparison of changes
 
 As you can see it has exactly the same problem. A single pixel change causing an almost complete change in the dither pattern for the areas of the image processed after that pixel. That is from that row downward.
 
-For a single image the resulting pattern of the dithered colors is unimportant. The average color of the pattern should give the image the appropriate color for that area of the image. But when you have an animation in which one image is followed by other very simular images, with large areas of constant color, the changing dither pattern becomes highly noticeable and irritating as a low level background 'noise'.
+For a single image the resulting pattern of the dithered colors is unimportant. The average color of the pattern should give the image the appropriate color for that area of the image. But when you have an animation in which one image is followed by other very similar images, with large areas of constant color, the changing dither pattern becomes highly noticeable and irritating as a low level background 'noise'.
 
 For example, here I generate a 3 image animation of the same dithered color but with a single pixel change in each frame. I also magnify a central region so you can see this changing pattern more clearly.
   
@@ -775,7 +775,7 @@ As you can see you get a sort of churning background to the image, caused by the
 
 See [Video Color Optimization](../video/#gif) for a more practical example of an animation showing this 'dither noise'.
 
-The change in pattern also cause problems in optimizing animations. That is a different pattern means that simple [frame optimization](../anim_opt/#frame_opt) fails to reduce the size of frame overlays. For one solution see [fuzzy color optimization](../anim_opt/#color_fuzz), though that only works when the churn is using very simular colors.
+The change in pattern also cause problems in optimizing animations. That is a different pattern means that simple [frame optimization](../anim_opt/#frame_opt) fails to reduce the size of frame overlays. For one solution see [fuzzy color optimization](../anim_opt/#color_fuzz), though that only works when the churn is using very similar colors.
   
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
@@ -986,10 +986,10 @@ This demonstrates that colors on the outside of the quantization color space doe
 By setting the "`-colorspace`" to gray-scale before quantization, you will reproduce the internal operation of the "`-monochrome`" operator.
   
       convert  logo.png -colorspace gray   -colors 2  -normalize \
-                                                     monochrome_equivelent.gif
+                                                     monochrome_equivalent.gif
 
   
-[![\[IM Output\]](monochrome_equivelent.gif)](monochrome_equivelent.gif)
+[![\[IM Output\]](monochrome_equivalent.gif)](monochrome_equivalent.gif)
   
 And finally, by turning off the dithering, you can produce a more automatic separation of the colors in the image than produced by using a fixed "`-threshold`" setting.
   

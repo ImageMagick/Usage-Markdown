@@ -237,7 +237,7 @@ If more than one image is present, *all* images are operated on, one at a time i
   
 Note that it is posible that some of these operators can generate multiple images. For example "`-crop`" could generate multiple image 'tiles', or "`-separate`" which splits images into separate channel images. As such you may end up with more images in memory. But all of them only take one image at a time as input.
   
-Note that many API's only apply the equivelent operation to just the first image in the image list given. That is they may not loop over each image. The "`convert`" and other CLI (command line interface) commands, however apply the operator to each image in the current image list in turn.
+Note that many API's only apply the equivalent operation to just the first image in the image list given. That is they may not loop over each image. The "`convert`" and other CLI (command line interface) commands, however apply the operator to each image in the current image list in turn.
   
 **Multi-Image List Operators** are special in that they modify the whole current list of images as a single entity. They could replace the whole list with a single combined image, or modify each image depending on the other images found before or after it. They are used for alpha composition, animation handling, color channel handling, etc...
   
@@ -314,7 +314,7 @@ Let's break this down and look at what IM v6 does...
 | **`+append`**             | Join all 3 images in the list horizontally. Current background color is used to fill the empty space | 1(merged) |
 | **`result.gif`**          | As this is last argument, an explicit **`-write`** operation is performed with this argument. The single image in the current image the list is written using the given filename and image file format. | written |
 
-As you can see the processing of the command line in ImageMagick version 6 is very straight forward, and logical, making the result predictable. And that is the point...
+As you can see the processing of the command line in ImageMagick version 6 is very straightforward, and logical, making the result predictable. And that is the point...
 
 ### Legacy Command Line Style
 
@@ -354,7 +354,7 @@ All settings are applied before the first read, and all the operators are just s
 
 Also as operators are being save up until the first image is actually read, you may find repeating a command multiple times before reading the image may result in some of the earlier commands 'disappearing'. This is not a bug, but a miss-use of the legacy abilities of IM.
 
-This style of command line is for legacy support only, and as such is depreciated, so should be avoided if at all possible. Any scripts containing this old style, should also be updated to do image reads before the operators you want to apply to them.
+This style of command line is for legacy support only, and as such is deprecated, so should be avoided if at all possible. Any scripts containing this old style, should also be updated to do image reads before the operators you want to apply to them.
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Do not expect that this legacy support will continue into IM version 7. Plans for IM v7 include single-pass processing of command lines, which in turn will allow for the use of reading image processing options from files and even pipelines. However a single-pass processing technique will not allow for the saving of operators BEFORE reading an image to apply them to. As such they will probably produce 'no image' type errors.
@@ -569,7 +569,7 @@ As a result of this, "`convert`", is no longer so much about 'converting' images
   
 ### identify -- Print the details of images, that IM sees
 
-The "identify" command is designed to return information about an images in a simple and useful way. By default it outputs a simple compact summery, detailing the images name, file format, image size, virtual canvas size and offset, color depth, internal format type, and if known the original size of the image on disk in human terms.
+The "identify" command is designed to return information about an images in a simple and useful way. By default it outputs a simple compact summary, detailing the images name, file format, image size, virtual canvas size and offset, color depth, internal format type, and if known the original size of the image on disk in human terms.
 For example...
 
 ~~~
@@ -2274,7 +2274,7 @@ The image file formats that can use with this special flag to save floating poin
 
 ### What Q-level should I use
 
-In summery what type of ImageMagick should I use? Q8, Q16, HDRI?
+In summary, what type of ImageMagick should I use? Q8, Q16, HDRI?
 
 **Q8** has a smaller memory foot print, as image values are saved in memory as 8 bit values, just like most image file formats. For basic composition, image format conversion, simple 'once off resize', or drawing on images, then Q8 is 'good enough'.
 
@@ -2380,7 +2380,7 @@ IM will implicitly exit after outputting this information.
   
 Report extra info on some of the more complex operations.  
 For example "`-segment`", which outputs a lot of color quantization details.  
-And "`-distort`", outputing extra information and 'FX' equivelents to the requested image distortion. Also monitoring the number of changes when iterating a "`-morphology`" operation.
+And "`-distort`", outputing extra information and 'FX' equivalents to the requested image distortion. Also monitoring the number of changes when iterating a "`-morphology`" operation.
   
 This is especially useful for generating for more detailed image information from the "`info:`" and "`-identify`" outputs.
   
