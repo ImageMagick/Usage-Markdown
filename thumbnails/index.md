@@ -628,7 +628,20 @@ Unfortunately this method can not be used to simply 'erase' the image corners to
 ![](../img_www/warning.gif)![](../img_www/space.gif)
   
 *The last example will fail for versions of IM before v6.6.6-5 due to both the "`-flip`" and the "`-flop`" operators not handling the virtual canvas offset correctly.*
-You can take this style of image processing further but not only cutting out corners, but also overlaying appropriate framing images. For an example of this see [Border with Rounded Corners](#rounded_border) below.
+
+Using a [Polar Cycle Trick](../distorts/#polar_tricks) we can generate a perfect anti-aliased circle mask for any thumbnail.
+Of course we will only use the distorted image as a mask for the original image, so as to get the result.
+
+~~~
+convert thumbnail.gif -alpha set \
+  \( +clone -distort DePolar 0 \
+     -virtual-pixel HorizontalTile -background None -distort Polar 0 \) \
+  -compose Dst_In -composite -trim +repage circle_masked.png
+~~~
+
+We will take this style of image processing further in [Border with Rounded Corners](../thumbnails/#rounded_border) below.
+There we not only cutting out corners, but also overlay appropriate framing images.
+
 ### Torn Paper Edge
 
 Leif Åstrand &lt;leif@sitelogic.fi&gt;, contributed the following IM code to generate a edge that looks like it was torn from a fibrous paper (like newspaper)...
