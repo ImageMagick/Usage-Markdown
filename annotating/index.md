@@ -1,26 +1,5 @@
 # Annotating Images
 
-**Index**
-
-* [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-  * [![](../img_www/granitesm_right.gif) Labeling Images](#annotating) ![](../img_www/space.gif) (techniques for labeling images)
-    * [Labeling below (or above) an Image](#anno_below)
-    * [Labeling on top of the Image Itself](#anno_on)
-
-  * [![](../img_www/granitesm_right.gif) Overlaying Images](#overlay) ![](../img_www/space.gif) (overlaying and merging images on top of each other)
-  * [![](../img_www/granitesm_right.gif) Watermarking](#watermarking) ![](../img_www/space.gif) (annotating for copy protection)
-    * [Watermarking with Symbols](#wmark_symbol)
-    * [Watermarking with Text](#wmark_text)
-    * [Watermarking with Images](#wmark_image)
-
-  * [![](../img_www/granitesm_right.gif) Text and Image Positioning Methods](#text_position)
-    * [The 'Gravity' of the Situation](#gravity)
-    * [Image Positioning using Gravity](#gravity_image)
-    * [Text Positioning using Gravity](#gravity_text)
-    * [Text on Left Edge using Gravity](#gravity_left)
-    * [Text Positioning using Draw](#draw)
-    * [Text Positioning using Distort](#distort)
-
 This document presents various ways of annotating a large image with either text or some other image.
 The annotation may be bold and highly visible, or subtle and hidden.
 Reasons for annotating images are varied, but are usually either to
@@ -37,7 +16,7 @@ If you are interested in annotating or watermarking a GIF animation, I suggest y
 
 ------------------------------------------------------------------------
 
-## Annotating Images
+## Annotating Images {#annotating}
 
 The basic problem with labeling an image is doing so the text is readable no matter what the image.
 The following show many methods, show of which can be expanded to do more complex tasks.
@@ -45,7 +24,7 @@ The following show many methods, show of which can be expanded to do more comple
 In these examples, I am limiting myself to the default font of ImageMagick.
 You are encouraged to use different fonts and point sizes appropriate to what you want to achieve.
 
-### Labeling Below (or Above) an Image
+### Labeling Below (or Above) an Image {#anno_below}
 
   
 **Append a Label** with centering is now possible, from IM v6.4.7-1, as [Image Appending](../layers/#append) now follows the gravity setting, for alignment purposes.
@@ -127,7 +106,7 @@ It also contains complex shadow and transparency effects, so a PNG format image 
 You can reduce the 'fuzziness' in the resulting image caused by the rotation by using a 'Super Sampling' technique.
 See [Polaroid Image Transformation](../transform/#polaroid) for an example of this.
 
-### Labeling on top of the Image itself...
+### Labeling on top of the Image itself... {#anno_on}
 
 The problem with writing text directly on a picture is that you can't be sure the text will be readable in the color you have chosen.
 The image being drawn onto could be black, white or a rainbow of colors.
@@ -260,7 +239,7 @@ And more importantly tell the IM community about it.
 
 ------------------------------------------------------------------------
 
-## Overlaying Images
+## Overlaying Images {#overlay}
 
 The "`composite`" command and the "`-composite`" image operator in ImageMagick provides the primary means to place image on top of other images in various ways.
 The details of these methods are given in [Alpha Compositing](../compose/) Examples Page.
@@ -376,7 +355,7 @@ In other words, this technique is perfect for overlaying line drawings, diagrams
 
 ------------------------------------------------------------------------
 
-## Water Marking
+## Water Marking {#watermarking}
 
 Watermarking is an important job, as it provides a way of marking an image as belonging to some company or web site.
 Unfortunately this involves trashing the image in some way, to the detriment of the image itself.
@@ -389,7 +368,7 @@ The basic goals of watermarking is
 
 All these factors are in conflict, and this is one reason why watermarking is so difficult to do well.
 
-### Watermarking with Symbols
+### Watermarking with Symbols {#wmark_symbol}
 
 One of the simplest, and most annoying forms of watermarking is to just to place a very small but specific image somewhere on the image being watermarked.
 Here we generated a image (using "`logo:`") that we want to watermark, using a small 'eyes' symbol.
@@ -416,7 +395,7 @@ I have seen it used to good effect in many places on the web.
 One web site used a small dagger-like symbol.
 Images stolen from that website became very obvious when I spotted that same dagger symbol on images I found on other web sites.
 
-### Watermarking with Text
+### Watermarking with Text {#wmark_text}
 
 Just drawing text on an image is also a simple way of watermarking, and any of the [label on image](#anno_on) examples above can be used as a type of wartermark.
 
@@ -486,7 +465,7 @@ You may also like to keep this tiling technique in mind with the following prope
   
 [![\[IM Output\]](wmark_text_tiled.jpg)](wmark_text_tiled.jpg)
 
-### Watermarking with Images
+### Watermarking with Images {#wmark_image}
 
   
 ImageMagick also provides a number of options that are specifically useful for more subtle watermarking, over a larger area.
@@ -581,9 +560,9 @@ See [Modifying Animations, Annotating](../anim_mods/#annotating) for examples of
 
 ------------------------------------------------------------------------
 
-## Positioning Images and Text with Gravity
+## Positioning Images and Text with Gravity {#text_position}
 
-### The 'Gravity' of the Situation
+### The 'Gravity' of the Situation {#gravity}
 
 As you can see above, being able to position images and text in a larger image can be just as important as anything else.
 
@@ -625,7 +604,7 @@ There is a push to separate the two aspects such if a "`justification`" setting 
 If you find you need this, request it from Cristy (via the mail list).
 If enough users ask for it I am sure it will eventually be implemented.
 
-### Image Positioning using Gravity
+### Image Positioning using Gravity {#gravity_image}
 
 Here is an example of using gravity to position images on a background.
 
@@ -693,7 +672,7 @@ convert rings.jpg \
 For more detail of about the "`-compose`" settings used above see [Alpha Composition](../compose/).
 For other methods of overlaying combining and overlaying multiple images into one single image, see The IM Examples section [Layers of Multiple Images](../layers/).
 
-### Text Positioning with Gravity
+### Text Positioning with Gravity {#gravity_text}
 
 That is all well and good for images but what about drawing text directly on images.
 Well the same basic effects as for images apply.
@@ -760,7 +739,7 @@ The best idea is not to mix the two modes in your own image processing.
 Either use gravity, or don't.
 The choice is yours.
 
-#### Text on Left Edge using Gravity
+#### Text on Left Edge using Gravity {#gravity_left}
 
 As a final example here is the way to actually annotate centered along the left edge of an image.
 The problem here is that when you rotate text, it rotates around the text 'handle'.
@@ -797,7 +776,7 @@ convert rings.jpg -rotate -90 \
 
 An alternative method is shown below in [Text Positioning using Distort](#distort).
 
-### Text Positioning using Draw
+### Text Positioning using Draw {#draw}
 
 While in the above I used a 'text offset' to position the text relative to the "`-gravity`" point, it is not the only way to do so.
 The other method is to use a "-draw translate" option to position the text.
@@ -836,7 +815,7 @@ But as the "`-draw text`" requires you to give an offset that was part of its ar
 However while both of these methods produce the same result, they will produce completely different results when text rotation is also applied.
 Basically due to the order in which the actions are being applied.
 
-#### Draw Rotated Text
+#### Draw Rotated Text {#draw_text_rotation}
 
 There are two separate ways of positioning drawn text: use a 'text offset', or 'translate' the text to the final position.
 The effects of these two positioning methods produce very different results when rotation is also applied.
@@ -904,7 +883,7 @@ The problem with the above examples is that the IMv6 "`-gravity`" setting not on
 
 IMv7 will be adding 'Text Justification', which refers to the overlay position, as a separate (but related) setting to gravity (background position).
 
-#### Text Positioning using Distort
+#### Text Positioning using Distort {#distort}
 
 Using [SRT Distortion](../distort/#srt) with [Layering Images](../layers/#flatten), is particularly good method for placing images (or text in images).
 
@@ -989,10 +968,10 @@ The only problem is you can not do math on your '`my:`' settings, after they hav
 So any mathematics must be done before hand.
 This is something that will be looked at for IMv7, so that FX expresions use % escape variables.
 
-------------------------------------------------------------------------
-
-Created: 16 December 2003  
- Updated: 22 April 2012  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/annotating/`
+---
+created: 16 December 2003  
+updated: 22 April 2012  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.8-5
+url: http://www.imagemagick.org/Usage/annotating/
+---
