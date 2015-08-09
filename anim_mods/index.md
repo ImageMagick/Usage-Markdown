@@ -1,56 +1,11 @@
 # Animation Modifications
 
-**Index**
-
-* [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-  * [![](../img_www/granitesm_right.gif) Simple Modifications of Animations](#mods)
-    * [Annotating](#annotating) - add a copyright notice over ALL frames
-    * [Drawing](#draw) - modify a coalesced animation
-    * [Frame By Frame](#frame_mod) - modify animations one frame at a time
-    * [Cropping\_Smaller](#crop) - limit the area of the animation
-    * [Crop the Canvas Too](#crop_viewport) - viewport cropping an animation
-    * [Bounds Trimming](#trim) - automatic canvas size reduction
-    * [Repositioning Frames](#repage_relative) - moving sub-frames around
-    * [Reversing Animations](#reverse) - making animations run backward
-    * [Patrol Cycles](#patrol) - cycle back and forth between two ends
-    * [Color Morphing](#morph) - animated change between two images
-    * [Resize Morphing](#morph_resize) - animated change in size
-    * [Animated Distorts](#distort) - animated distortion of images
-    * [Append a Label](#label) - add a label to an animation
-    * [Remove Transparency (Flatten)](#remove_trans) - add colored background
-
-  * [![](../img_www/granitesm_right.gif) Animation Alpha Composition](#compose)
-    * [Draw Images](#compose_draw) - overlay an image onto animation
-    * [Layer Composition](#composite) - alpha composition for image lists
-    * [Single Image Composition](#composite_single) - compose layer with single image
-    * [Static Background](#background) - compose over a larger background
-
-  * [![](../img_www/granitesm_right.gif) All that Glitters...](#glitter)
-    * [Glitter Animations](#glitter) - Animate a masked area of an animation
-    * [Glitter Tiles](#glitter_tiles) - 'hole in the image' underlaying
-    * [Sparkles](#sparkle) - overlaying transparent glitter
-    * [Flares and Stars](#flares) - Seeding Flares and Stars onto images
-
-  * [![](../img_www/granitesm_right.gif) Resizing Animations](#resize)
-    * [Problems Resizing Animations](#resize_problems) *(under construction)*
-    * [Resizing Animation Techniques](#resize_methods) *(under construction)*
-    * [Resize With Flatten](#resize_flatten) - A general solution
-    * [Color Table Blowout](#resize_colors)
-    * [Animation as Padded Thumbnails](#resize_thumbnail)
-
-  * [![](../img_www/granitesm_right.gif)Merging Multiple Animations](#merging)
-    * [Serial or Time-wise Append](#serial)
-    * [Side by Side Appending (time synced)](#append)
-    * [Appending Animated Fonts](#append_fonts)
-    * [Splitting up an Animation](#split)
-    * [Merging Time Disjoint Animations](#merge) *(under construction)*
-
 This page contains practical examples of working with GIF animations.
 It is highly recommended that you read and understand the [Basics of Animations](../anim_basics/) and at least the overall handling of [Optimizing GIF Animations](../anim_opt/), before trying to understand these examples.
 
 ------------------------------------------------------------------------
 
-## Simple Modifications of Animations
+## Simple Modifications of Animations {#mods}
 
 ### First an Important point
 
@@ -70,7 +25,7 @@ I repeat...
 **Do not use GIF as a intermediate file format, use MIFF, or PNG images.**
 
   
-### Annotating - add a copyright notice over ALL frames
+### Annotating - add a copyright notice over ALL frames {#annotating}
 
 As of IM version 6.2.6, you can "`-annotate`" an animation, in similar way to that detailed in [Annotating on top of Images](../annotating/#anno_on), simply by doing so.
 
@@ -95,7 +50,7 @@ Before version 6.2.6 however "`-annotate`", like many other image operators, pos
 One word of warning, drawing on an animation like this, without first [Coalescing](../anim_basics/#coalesce) the animation, can cause some unusual effects, due to an animations existing optimization scheme (see next set of examples).
 As such (and as you will see) removing any existing frame and transparency optimizations by [Coalescing](../anim_basics/#coalesce) it first is recommended.
 
-### Drawing - modify a coalesced animation
+### Drawing - modify a coalesced animation {#draw}
 
 Now while "`-annotate`" places text relative to the virtual canvas of each frame, many other images operations do not.
 This includes all "`-draw`" operations, which only draw things relative to the actual image, and completely ignore any offset it may have on a larger canvas.
@@ -141,7 +96,7 @@ If you get really good you can even do so far as doing [Animation Merging](#merg
 For example just about any "`-resize`" operation is likely to produce a animation that will optimize very badly afterward due major color changes.
 See [Resizing Animations](#resize) below for solutions to this.
 
-### Frame by Frame - modifying one frame at a time
+### Frame by Frame - modifying one frame at a time {#frame_mod}
 
 By using the IM [Image List or Sequence Operators](../basics/#image_seq) you can modify each frame of the animation separately.
 The trick is to extract each frame in parenthesis, modify it, then replace the original image with the modified version.
@@ -188,7 +143,7 @@ This brings us to an important point about GIF animations.
 **Study an animation before attempting to modifying it.\
  It can make a BIG difference to the final result.**
 
-### Cropping - limit the area of animation
+### Cropping - limit the area of animation {#crop}
 
 IM has endeavored to make the "`-crop`" image operation work correctly relative to an images virtual canvas rather than to the actual image (IM version 6.1.1 onward).
 This in turn allows you to do things previously not directly possible.
@@ -228,7 +183,7 @@ However if multiple consecutive missed images are generated, you can probably me
 Caution and study of the animation is however still recommended.
 (See [Splitting up an Animation](#split) below, for a more detailed example of this.
 
-### Crop the Canvas Too - viewport crop of the animation
+### Crop the Canvas Too - viewport crop of the animation {#crop_viewport}
 
 Just as a normal crop, preserved the virtual canvas of the original images, so did a crop of an animation.
 This is probably not the intent in this case.
@@ -268,7 +223,7 @@ Just one final word of warning.
 When using a 'viewport crop' the frame images are moved in the negative direction to the offset given for the 'viewport'.
 This can appear illogical, unless you remember that the offset in the crop operator is the position of the viewport, and not a direct re-position of the images themselves.
 
-### Bounds Trimming - automatic canvas size correction
+### Bounds Trimming - automatic canvas size correction {#trim}
 
 As with the previous operations trimming an animation can be tricky.
 If the animation consists of a simple [Cleared Frame Animation](../anim_basics/#cleared), then you can trim an animation simply by working out the maximum bounds of all the individual frames within the animation.
@@ -301,7 +256,7 @@ convert  anim_bgnd.gif -crop 89x77+5+10! anim_trim_crop.gif
 If you also want to trim a static background from an animation then your best bet is to delete the first frame from a [Frame Optimized](../anim_opt/#frame_opt) animation, before using the [Layers Merge](../layers/#merge) step.
 You can then use the returned bounds for the [Viewport Crop](#crop_viewport) on the original animation.
 
-### Repositioning Frames
+### Repositioning Frames {#repage_relative}
 
 A similar and related operation is the 'relative repage' operator.
 This will add the given offset to all the individual sub-frame layers of the animation, allowing you to adjust their positions relative to the whole canvas.
@@ -355,7 +310,7 @@ convert  repage_offset.gif -layers TrimBounds repage_bounds.gif
 > One version of the "`Firefox`" web browser for example produces extremely large images, when attempting to display a PNG with a negative offset.
 
 
-### Reversing Animations - making animations run backward, or cycle
+### Reversing Animations - making animations run backward, or cycle {#reverse}
 
 As of IM v6.3.3, the "`-reverse`" image sequence operator was added (see [Reverse Operator](../basics/#reverse) for more details).
 This allows you very simply reverse the order of a coalesced animation sequence.
@@ -374,7 +329,7 @@ The result could also use some timing adjustments, but as you can see it now 'un
 Be sure to "`-coalesce`" the image sequence before reversing it, as any [Frame Optimizations](../anim_opt/#frame_opt) present are dependent on the image order.
 Better to remove those optimizations first.
 
-### Patrol Cycles - cycle back and forth between two ends
+### Patrol Cycles - cycle back and forth between two ends {#patrol}
 
 A similar technique is to add a reversed order of frames to the end of the animation, so the resulting animation cycles between the first and last frames of the original animation.
 It's a bit like a guard walking a patrol between two points, and is called a 'Patrol Cycle'.
@@ -407,7 +362,7 @@ convert script_k.gif -coalesce \( -clone -2-1 \) \
 
 [![\[IM Output\]](patrol_cycle_2.gif)](patrol_cycle_2.gif)
 
-### Color Morphing - animated change between two images
+### Color Morphing - animated change between two images {#morph}
 
 The "`-morph`" operator is an especially interesting operator.
 It will take a list of images, and insert extra frames between them, so as to do a soft color change from one image to the next.
@@ -455,7 +410,7 @@ convert rose: \( +clone -flip \)  -morph 5 \
 For a whole range of different methods of 'morphing' or doing a 'transition' from one image to another see Fred Weinhaus's "`transitions`" and "`fxtransitions`" ImageMagick shell scripts.
 The Example page includes the basic algorithm that the script uses to generate the animation.
 
-### Resize Morphing - animated change in size
+### Resize Morphing - animated change in size {#morph_resize}
 
 The [Color Morph Operator](#morph) actually will not only do color blending between two images, but also does image resizing at the same time.
 For example here I use "`-morph`" on two images that are different sizes, and even different aspect ratios.
@@ -495,7 +450,7 @@ convert rose: \( +clone -resize 10 \) -morph 10 \
 Note that the 'between' images are more blurry than they probably should be.
 This is because the larger image is not only being resized smaller, but it is also being color blended with the smaller image which was resized larger.
 
-### Animated Distorts - distorting multiple image based on image index
+### Animated Distorts - distorting multiple image based on image index {#distort}
 
 Many operators can use [Percent Escapes](../basics/#arg_percent) in their arguments.
 This means you can actually modify the operator so that it performs slightly differently for each image that is being processed.
@@ -538,7 +493,7 @@ Examples of such looped shell scripts are given in [Simple Warped Image Animatio
 > Before IM v6.6.9-0 [Percent Escapes](../basics/#arg_percent) and [FX Percent Escapes](../transform/#fx_escapes) involving image indexes, such as '`%p`', '`%n`', '`%[fx:t]`' and '`%[fx:n]`' were broken.
 > Typically they would only return unhelpful values of either '`0`' or '`1`', and not the actual index and number of images in the current image sequence.
 
-### Append a Label - add a label to whole animation
+### Append a Label - add a label to whole animation {#label}
 
 As always there are a number of ways to actually append a label to an image.
 
@@ -580,7 +535,7 @@ This could overflow the GIF color limits, as such you may have to be prepared to
 A very difficult task that is best to avoid if possible (see [Color Optimization](../anim_opt/#color_opt)).
 This can be a problem for any general modification to any animation.
 
-### Remove Transparency - add a solid color background
+### Remove Transparency - add a solid color background {#remove_trans}
 
 A large number of animations you find on the web have a transparent background.
 These are very useful as you can place them on web pages without needing to worry about any background pattern that may be present.
@@ -638,7 +593,7 @@ This is what we will look at next.
 
 ------------------------------------------------------------------------
 
-## Multi-Image Alpha Composition
+## Multi-Image Alpha Composition {#compose}
 
 The next level of animation handling requires you to be able to compose single static images either over, or under an existing animation.
 That is general [Alpha Composition](../compose/#compose).
@@ -648,7 +603,7 @@ Before IM v6.3.3-7 multi-list composition was only possible using specially desi
 Neither was very nice techniques, but that was all that was possible.
 That is now changed.
 
-### Draw Images - draw an image onto a list of images
+### Draw Images - draw an image onto a list of images {#compose_draw}
 
 The "`-draw`" operator has the ability to compose a *source* image on top of a list of images.
 It is also the only multi-image alpha composition method that you could use in the "`mogrify`" command, or against multiple images, before IM v6.3.3-7.
@@ -714,7 +669,7 @@ No overlaying the animation images 'over' a *destination* image of unknown size,
 
 That was until...
 
-### Layers Composition - alpha composition for image lists
+### Layers Composition - alpha composition for image lists {#composite}
 
 With IM v6.3.3-7 the "`-layers`" method, '`Composite`' was added allowing you compose two completely separate sets of images together.
 (For a short summary see [Layering Images, Layer Composite](../layers/#layer_composite))
@@ -837,7 +792,7 @@ Just remember that [Layers Composition](#composite) does not understand any exis
 
 The one exception to this is given in a special case below.
 
-### Single Image Composition - compose images with a single image
+### Single Image Composition - compose images with a single image {#composite_single}
 
 Normally two lists of images of equal length are composed together, one image pair at a time until either of the image lists runs out.
 Neither list of images will be repeated.
@@ -855,7 +810,7 @@ The method will do the composition against the other image list, and preserve th
 
 This 'compose against a single image' is a special case for [Layers Composition](#composite), and is very useful for adding a background to a animation (see next), or inserting a static object into an animation.
 
-### Static Background - compose over a larger background
+### Static Background - compose over a larger background {#background}
 
 For example using this special [Single Image Layer Composition](#composite_single) method we can compose an animation over a a static background...
 
@@ -886,9 +841,9 @@ As such it is probably better to to use the above method, just to be sure all GI
 
 ------------------------------------------------------------------------
 
-## All that Glitters...
+## All that Glitters... {#glitter}
 
-### Glitter Animations
+### Glitter Animations {#glitter_animations}
 
 The above [Layers Composition](#composite) methods makes it a lot easier to generate simple animations, such as glitter.
 
@@ -976,7 +931,7 @@ This last example also cleaned up any GIF transparency problems by the removal o
 > While I may have used GIF format images in the above to allow me to display individual steps of the process, in practice you would either combine all the steps into a single command, or use a better intermediate image file format such as MIFF.
 > That is done to avoid the inherent problems of the GIF format, until we have finished.
 
-### Glitter Tiles - 'hole in the image' underlays
+### Glitter Tiles - 'hole in the image' underlays #{glitter_tiles}
 
 As mentioned there are a lot of pre-prepared animated glitter tile images available on the WWW (do a search for "glitter tiles").
 One source is a [IM Studio](http://www.imagemagick.org/MagickStudio/scripts/MagickStudio.cgi) user, *[scri8e](forum_link.cgi?u=143)* and his web site [Moons Stars](http://www.scri8e.com/stars).
@@ -1053,7 +1008,7 @@ Also I used a larger tiling 'viewport' so as to ensure I completely cover the im
 >
 > For some example see [Affine Tiling](../distorts/#affine_tile).
 
-### Sparkles - overlay mostly transparent glitter
+### Sparkles - overlay mostly transparent glitter {#sparkle}
 
 The major problem with the two previous glitter animation techniques is that it is an all or nothing type of replacement.
 You cannot use the original shading or background of the image.
@@ -1088,7 +1043,8 @@ For example...
 One of the best things about sparkles is you can generate a sequence of frames where sparkles slowly appear and then disappear.
 This can get quite complex, but is no very hard to do.
 *Example Here*
-### Adding Flares and Stars Animations
+
+### Adding Flares and Stars Animations {#flares}
 
 Where glitter consists of single points of brightness, and sparkles can overlay some areas of an image, flares are usually added individually.
 
@@ -1107,9 +1063,9 @@ The more difficult aspects of flares is locating good 'seed' points and timing o
 
 ------------------------------------------------------------------------
 
-## Resizing Animations
+## Resizing Animations {#resize}
 
-### Problems with Resizing Animations
+### Problems with Resizing Animations {#resize_problems}
 
 The biggest problem with resizing GIF animations is that the "`-resize`" operator is designed specifically to make the resulting images as close to ideal (after the resize) as possible.
 It does this by merging and generating lots of additional colors in the image to make it look better.
@@ -1130,7 +1086,7 @@ So you will need to live with it.
 
 Even if you avoid using "`-resize`", by using "`-sample`", you will still have major problems unless you "`-coalesce`" the animation first.
 
-### Resizing Animation Techniques
+### Resizing Animation Techniques {#resize_methods}
 
 As shown above, there are are serious problems in resizing GIF animations, none of which are easily resolved.
 The solution also generally depends on just what type of image was resized in the first place, be it cartoon like, or a real-world video image.
@@ -1179,7 +1135,8 @@ The next problem is one of transparency colors.
 If you look at the result above you will see that the edges of the smaller animation are horribly aliased ('staircased').
 That is because GIF cannot save the semi-transparent colors the "`-resize`" operator generated.
 The colors within the animated object will also have had the colors merged together to produce new colors, but that is usually not nearly so bad as the edge aliases.
-### Resize with Flatten, A General Solution.
+
+### Resize with Flatten, A General Solution.  {#resize_flatten}
 
 The best idea when generating a GIF thumbnail is to avoid the problems of transparency entirely.
 That is [Flatten the Animation](#flatten), either before or after resizing the animation.
@@ -1202,7 +1159,7 @@ convert script_k.gif -coalesce \
 This is the recommended solution for general GIF thumbnail handling.
 Any other method requires either human control, or a very sophisticated GIF thumbnail handling logic.
 
-### Color Table Blowout
+### Color Table Blowout {#resize_colors}
 
 The biggest problem (as I mentioned at the start of this section) is that huge number extra colors are generated in the image, especially near lines, and the edges of adjoining color areas.
 You also get resize-halo of semi-transparent colors around the edges of images.
@@ -1281,7 +1238,7 @@ See [Resizing Line Drawings](../resize/#thin_lines) for any known solutions for 
 
 ------------------------------------------------------------------------
 
-## Merging Multiple Animations
+## Merging Multiple Animations {#merging}
 
 I said it before, but it becomes especially important when merging animations...
 
@@ -1297,7 +1254,7 @@ Even so, such programs are often very complex and can produce unexpected results
 
 Because of this you should still follow these examples, as they will give you a major insight into how animations should be handled and merged.
 
-### Serial or Time-wise Append
+### Serial or Time-wise Append {#serial}
 
 Appending two GIF animations together so that one sequence follows another time-wise is simple with IM.
 You basically just list them on the command line and they will follow each other.
@@ -1393,7 +1350,7 @@ Notice that at no time did I try to globally change ALL of the individual frames
 That is I preserved as much of the original animations as I could while achieving my goal.
 This is important as not all animations use a constant timing delay between frames and changing this can make an animation look very bad.
 
-### Side by Side Appending (time synced)
+### Side by Side Appending (time synced) {#append}
 
 Suppose you want both animations to be appended side-by-side, but have both parts of the animation animating at the same time.
 This is not so easy, as you need to append (or composite together) each pair frames in the the two animations together, so the animation also works together..
@@ -1505,7 +1462,7 @@ convert bag_left.gif'[0]' -coalesce \( bag_right.gif'[0]' -coalesce \) \
 
 And there you have a general technique to append two time synchronized animations together.
 
-### Double Append, Appending - or Appending Animated Fonts
+### Double Append, Appending - or Appending Animated Fonts {#append_fonts}
 
 Before finishing with appending animations, there is one other technique I would like to show you.
 This technique can append multiple animations at the same time, but at the cost of loosing all the timing information that was present.
@@ -1574,7 +1531,7 @@ Check it out yourself.
 
 *Can you improve the neon animation? Make it more realistic? It is a shame GIF animations don't have sound.*
 
-### Splitting up an Animation
+### Splitting up an Animation {#split}
 
 Now that we have the animation rejoined together, lets attempt to split it up correctly for use on a web servers, so that the individual parts can animate separately, without interfering with each other.
 
@@ -1669,7 +1626,7 @@ Example of splitting up frame updates of 'two changing objects that are far apar
 Then repeat with a transparency background, (needing 'OptimizePlus' to generate the 'cleared' pixels.
 See [Splitting Frame Actions](../anim_opt/#splitting) for the general example.
 
-### Merging Time Disjoint Animations
+### Merging Time Disjoint Animations {#merge}
 
 Before any two animations can be merged together to run synchronously, you need to make all animations use the same number of frames, and use the same set of time delays.
 
@@ -1791,10 +1748,10 @@ The '\*' parts could be turned into a single new "`-layer`" method to time synch
       * Overlay a simple animated figure, on an animated background.
         (full animation merge)
 
-------------------------------------------------------------------------
-
-Created: 24 July 2004 (sub-division of "animation")  
- Updated: 3 April 2012  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/anim_mods/`
+---
+created: 24 July 2004 (sub-division of "animation")  
+updated: 3 April 2012  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9
+url: http://www.imagemagick.org/Usage/anim_mods/
+---
