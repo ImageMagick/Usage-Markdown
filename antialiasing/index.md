@@ -1,20 +1,12 @@
 # Anti-Aliasing
 
-**Index**
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-   * [![](../img_www/granitesm_right.gif) Anti-Aliasing Introduction](#intro)
-   * [![](../img_www/granitesm_right.gif) Drawing with only Specific Colors](#aliasing)
-   * [![](../img_www/granitesm_right.gif) Drawing Thin Bitmapped Circles](#thin_circles)
-   * [![](../img_www/granitesm_right.gif) Anti-Aliasing and Flood Fill Problems](#floodfill)
-
 Anti-aliasing is a major part of all drawing operations within ImageMagick.
 Unfortunately it can also cause many problems.
 This page tries to cover these problems and present solutions to them.
 
 ------------------------------------------------------------------------
 
-## Anti-Aliasing Introduction
+## Anti-Aliasing Introduction {#intro}
 
 ImageMagick when it draws images, does so in a very particular way.
 It draws them with a operation call "anti-aliasing".
@@ -82,7 +74,7 @@ I have been told that this will be the focus of a later release of IM.
 
 ------------------------------------------------------------------------
 
-## Drawing Using Only Specific Colors
+## Drawing Using Only Specific Colors {#aliasing}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -93,7 +85,7 @@ Specifically, draw into a transparent canvas, threshold the alpha channel, then 
 
 ------------------------------------------------------------------------
 
-## Drawing Thin Bitmapped Circles
+## Drawing Thin Bitmapped Circles {#thin_circles}
 
 Here we look at trying to draw bitmaped 'thin lined' circles using IM.
 Normally this is done using a bitmap circle drawing algrothm typically known as Bresenham's circle algorithm, but more correctly known as [Midpoint Circle Algorithm](http://en.wikipedia.org/wiki/Midpoint_circle_algorithm).
@@ -168,6 +160,7 @@ convert -size 15x15 xc: -fill none -stroke black +antialias \
 ~~~
 
 [![\[IM Output\]](circle_bad_stroke.gif)](circle_bad_stroke.gif)
+
 Here is a table of good "`-strokewidth`", to generate a thin single pixel wide circle of specific radius.
 Note that the best value to use varies depending on if the circle is centered either on an *actual* pixel (such as '` 5 , 5 `'), or on a *half* pixel boundry (such as '` 5.5 , 5.5 `')
 
@@ -189,17 +182,18 @@ Note that the best value to use varies depending on if the circle is centered ei
 | 7.5           | 0.5 §     | 0.5 §   |
 | 8             | 0.4       | 0.5     |
 
-| key                      |
-|--------------------------|
-| ¤ Very good small circle |
-| § no ideal width found   |
-| ¶ circle is very bad     |
+
+-------------------------
+¤ Very good small circle 
+§ no ideal width found   
+¶ circle is very bad     
+-------------------------
 
 ASIDE: To center a circle on an image, in drawing coordinates (pixel coordinates), is (size-1)/2
 
 ------------------------------------------------------------------------
 
-## Anti-Aliasing and Flood Fill Problems
+## Anti-Aliasing and Flood Fill Problems {#floodfill}
 
 Due to anti-aliasing features of IM, flood-filling ("`-draw color floodfill`") has problems when used on images with anti-aliasing effects.
 It also has similar problems with images read in from the "JPG" image format.
@@ -325,10 +319,10 @@ convert tile_fill_5.gif -crop 10x10+35+4 +repage -scale 60x60 \
 
     EG:   convert image.xbm  -blur 0x.3  smoothed_image.png
 
-------------------------------------------------------------------------
-
-Created: 9 December 2003  
- Updated: 27 February 2006  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/antialiasing/`
+---
+created: 9 December 2003  
+updated: 27 February 2006  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-6
+url: http://www.imagemagick.org/Usage/antialiasing/
+---
