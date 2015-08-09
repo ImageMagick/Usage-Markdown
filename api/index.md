@@ -1,30 +1,5 @@
 # API & Scripting
 
-**Index**
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-   * [![](../img_www/granitesm_right.gif) API and other IM usage methods](#api-convert)
-     * [Windows and DOS](../windows)
-     * [PHP](#php)
-     * [PHP using Shell Commands](#php_shell)
-       * [PHP Shell Example](#php_example)
-       * [Watch the extra quotes](#php_quotes)
-       * [PHP Security](#php_security)
-     * [PHP Imagick](#php_imagick) (The PHP ImageMagick API)
-     * [PerlMagick](#perlmagick) (Perl Magick scripts)
-
-   * [![](../img_www/granitesm_right.gif) Security Issues](#security)
-     * [Filename Meta-Characters](#globbing)
-   * [![](../img_www/granitesm_right.gif) Hints for Better ImageMagick Shell/PHP Scripts](#scripts)
-   * [![](../img_www/granitesm_right.gif) Why do you use multiple "convert" commands](#multi-convert)
-   * [![](../img_www/granitesm_right.gif) Making IM faster (in general)](#speed)
-   * [![](../img_www/granitesm_right.gif) Compiling ImageMagick form Sources](#building)
-     * [Creating linux RPMs from SRPMs](#rpms)
-     * [ImageMagick from Source on Ubuntu](#ubuntu)
-     * [ImageMagick On MacOSX](#ubuntu)
-     * [Compiling HDRI versions of IM](#hdri)
-     * [Creating a Personal ImageMagick Installtion](#personal)
-
 The Command Line Interface (CLI) of ImageMgaick which this examples deals with is only one method by which you can use, modify and control images with the core library of ImageMagick functions (MagickCore).
 It is basically the 'shell' API interface.
 There are lots of other Application Programming Interfaces (API's) which you can use more directly from many programming languages, see [ImageMagick APIs](http://www.imagemagick.org/script/api.php).
@@ -33,7 +8,7 @@ Here I look at ways of improving your IM scripting and programming, differences 
 
 ------------------------------------------------------------------------
 
-## APIs and other IM usage methods
+## APIs and other IM usage methods {#api-convert}
 
 API's (Application Programming Interface) for actual image processing are in fact no faster than using the CLI commands (such as "`convert`" (which is itself represents a type of shell-API).
 The same 'core' library is used for all image processing in IM.
@@ -79,13 +54,14 @@ Of course in an API you also have different and faster techniques could also hav
 And as we find and get time we often program such techniques into the core library.
 Image distortions and various FX expressions is one example of this.
 
-### Windows, and DOS
+### Windows, and DOS {#windows}
 
 The examples on using Windows and DOS scripting using the CLI API, has been moved to [Usage under Windows](../windows/).
 
-### PHP (IM commands from "`system()`" functions)
+### PHP {#php}
 
 PHP users have three ways of using ImageMagick,
+
 -   The "`imagick` PECL interface
 -   The "`MagicWand`" interface
 -   Using "system()" and "exec()" functions to run the CLI "`convert`" command.
@@ -94,7 +70,7 @@ Because of the existence of [IM Examples](../) this later method (and the first 
 
 Of course for some things it may not be the best method (see above), in which case the API interfaces is available, though may require a system administrator to make them available to your PHP environment.
 
-#### PHP using Shell Commands
+#### PHP using Shell Commands {#php_shell}
 
 The best source of specific information on using this technique is the IM forum user *[Bonzo](../forum_link.cgi?u=6256)* and his web site [RubbleWebs](http://www.rubblewebs.co.uk/imagemagick/).
 
@@ -195,7 +171,7 @@ For example on a Solaris Server I had available at this time, I noticed that the
       passthru("convert -pointsize 72 -font Utopia-Italic label:'Font Test' gif:-");
     ?>
 
-#### Example Shell to PHP conversion
+#### Example Shell to PHP conversion {#php_example}
 
 Here we have a fairly typical ImageMagick command...
   
@@ -244,7 +220,7 @@ Just watch the quotes.
 
 For various examples of calling ImageMagick commands from PHP see [Rubble Web, Writing IM code in PHP](http://www.rubblewebs.co.uk/imagemagick/basics/explain.php) which describes about four different techniques.
 
-#### Watch the extra quotes
+#### Watch the extra quotes {#php_quotes}
 
 Note that typically the IM commands in PHP are wrapped by an extra set of quotes (usually double quotes), as such care must be taken to allow for the use of these extra level of quoting.
 Remember when PHP executes a string....
@@ -264,7 +240,7 @@ I recommend you at least read the PHP manuals on [Program Execution Functions](h
 also look at the [Backtick Operator](http://au2.php.net/manual/en/language.operators.execution.php).
 Of particular importance, understand what exactly is returned (generally the last line only) and passed on to the calling client (everything else).
 
-#### PHP Security
+#### PHP Security {#php_quotes}
 
 Remember...
 
@@ -392,7 +368,7 @@ Perl on the other hand provides a number of method of securly calling sub-comman
 
 *Anyone with PHP security knowledge care to enlighten or provide pointers to more information?*
 
-#### PHP 'IMagick' API
+### PHP 'IMagick' API {#php_imagick}
 
 To test if the [**PHP PECL Imagick**](http://pecl.php.net/package/imagick) module is actually working upload a simple test "`image.jpg`" image and this PHP script to the same web assessable directory.
 
@@ -420,7 +396,7 @@ Be sure you are using v3.x of IMagick and a current version of IM.
 
 It does work and for most things it works well, but if you need to do the other things, then other PHP methods may be a better option.
 
-#### PHP 'MagickWand'
+### PHP 'MagickWand' {#php_magickwand}
 
 You can check if the [**PHP MagickWand**](http://www.magickwand.org/) module is part of the PHP installation using...
 
@@ -453,7 +429,7 @@ But to check that it is actually working properly, upload some test "`image.png`
 No guarantees with the above, though more feedback welcome.
 I do not generally program in PHP, but used the above for testing a SunONE-PHP5 test installation (with all three methods: command-line, magick, MagickWand).
 
-#### Complex PHP scripts...
+### Complex PHP scripts... {#php_complex}
 
 If you need to generate and output both HTML and IMAGES, consider designing your PHP script so that separate HTML requests or input options, generate the various parts you need on your web document, from either the same, or different PHP scripts.
 
@@ -469,7 +445,7 @@ This technique looked at in both the [ImageMagick Books](http://www.imagemagick.
 
 ------------------------------------------------------------------------
 
-### Perl Magick Scripts
+### Perl Magick Scripts {#perlmagick}
 
 The [PerlMagick](http://www.imagemagick.org/script/perl-magick.php) API is a good way of conveting "`convert`" commands into a script that can also handle databases, large numbers of images, or more complex image processing, that is otherwise posible.
 
@@ -505,19 +481,19 @@ In this case...
 
 ------------------------------------------------------------------------
 
-## Security Warnings
+## Security Warnings {#security}
 
 When writing a script for public use, especially a web-based PHP script where ANYONE in the world could be running it, it is vitally important to check everything that could posibly have come from a unknown (or even a known) user.
 And I mean **EVERYTHING**, from arguments, filenames, URLs, and images too.
 
 Until you verify some input argument, that argument it could contains letters, numbers, spaces, punctuation, or even 'null' and control characters.
-Untill you have throughly checked it, it should be treated as suspect and should not be used.
+Until you have throughly checked it, it should be treated as suspect and should not be used.
 
 It does not matter that you are using some web controlled input form.
 A slightly knowledgeable person can easily call your PHP with his own arguments without using that input form at all.
 An don't believe they won't do it, robots are out there, reading input forms and creating there own 'hacked' arguments to try an break into random scripts.
 
-### Meta-characters in file names
+### Meta-characters in file names {#globbing}
 
 As a security issue, you should especially watch out for, are filenames that contain spaces, quotes, punctuation, control-characters, or other meta-characters as both IM and Shells may try to expand them.
 
@@ -533,7 +509,7 @@ It is better to be a LOT more restrictive and prevent things, than be permissive
 
 ------------------------------------------------------------------------
 
-## Hints for Better ImageMagick Shell/PHP Scripts
+## Hints for Better ImageMagick Shell/PHP Scripts {#scripts}
 
 These were some basic script programming points I made about a contributed shell script that was sent to the IM mail list for others to use.
 I originally sent these to the author privately (and who will remain anonymous), for which he was grateful.
@@ -754,7 +730,7 @@ I should know what I am talking about with regard to the above.
 
 ------------------------------------------------------------------------
 
-## Why do you use multiple "convert" commands
+## Why do you use multiple "convert" commands {#multi-convert}
 
 **Willem** on Wed, 25 Oct 2006 wrote...
 
@@ -811,7 +787,7 @@ If the use of multiple commands is becoming a problem, perhaps it is time to go 
 
 ------------------------------------------------------------------------
 
-## Making IM Faster (in general)
+## Making IM Faster (in general) {#speed}
 
 There are many ways of making IM work faster.
 Here are the most important aspects to keep in mind.
@@ -917,9 +893,9 @@ As you go down the list the speed up becomes smaller, or requires more complex c
 
 ------------------------------------------------------------------------
 
-## Compiling ImageMagick form Sources
+## Compiling ImageMagick form Sources {#building}
 
-### Building ImageMagick RPMs for linux from SRPMs
+### Building ImageMagick RPMs for linux from SRPMs {#rpms}
 
 You do NOT need root to actually build the RPM's though you do need root to install RPMs.
 I use this for generating and installing IM under *Fedora Linux Systems*, but it has also been [reported](../forum_link.cgi?t=12854) to work for *CentOS 5.4 (Enterprise Redhat) Linux Systems* (See more specific [IM on CentOS Notes](http://en.citizendium.org/wiki/User:Dan_Nessett/Technical/Upgrade_to_1.16#ImageMagick_6.6.2-10)).
@@ -1047,7 +1023,7 @@ This generally involves using a 'GUI Software Update" package or the command "`y
 
 Enjoy.
 
-### ImageMagick from Source on Ubuntu
+### ImageMagick from Source on Ubuntu {#ubuntu}
 
 To get all the development libraries for building ImageMagick use the following
 
@@ -1063,7 +1039,7 @@ It does not generate a installation 'DEB' package, which is not an ideal solutio
 If anyone know how to create a 'DEB' package for Ubuntu, please let me know.
 Perhaps using [Intro into Debian Packaging](http://wiki.debian.org/IntroDebianPackaging)
 
-### Compiling on MacOSX
+### Compiling on MacOSX {#mac_osx}
 
 The easiest way to install ImageMagick on MacOSX is to use MacPorts.
 
@@ -1073,11 +1049,11 @@ But see [Install ImageMagick without Fink or MacPorts](http://hints.macworld.com
 
 The above was paraphrased from a [Discsuion on IM User Forum](../forum_link.cgi?f=1&t=19253).
 
-### Compiling HDRI versions of IM
+### Compiling HDRI versions of IM {#hdri}
 
 For information of compiling a HDRI version of IM see [Enabling HDRI in ImageMagick](http://magick.imagemagick.org/script/high-dynamic-range.php) on the main IM website, also for Windows and Ubuntu Linux specific information see [Fourier Transforms Announcement Discussion](../forum_link.cgi?f=4&t=14251) on the user forums.
 
-### Creating a Personal ImageMagick
+### Creating a Personal ImageMagick {#personal}
 
 You do not always have the luxury of having superuser access to the machine on which you are doing image work on, and often those that do have that access do not want to update their ImageMagick installation.
 Perhaps for package management issues, or compatibility problems.
@@ -1195,10 +1171,10 @@ That is the script is flexiable enough that you don't actually need to run "`con
 hdri  some_im_script   image.png   image_result_hdri.png
 ~~~
 
-------------------------------------------------------------------------
-
-Created: 26 October 2006  
- Updated: 15 March 2011  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen\_AT\_griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/api/`
+---
+created: 26 October 2006  
+updated: 15 March 2011  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen\_AT\_griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-6
+url: http://www.imagemagick.org/Usage/api/
+---
