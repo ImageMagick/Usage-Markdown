@@ -1,34 +1,5 @@
 # Animation Basics
 
-**Index**
-
-* [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-   * [![](../img_www/granitesm_right.gif) GIF Animations and Animation Meta-data](#gif_anim)
-   * [![](../img_www/granitesm_right.gif) Frame Disposal Methods](#dispose)
-     * [Dispose None](#none) - overlay each frame in sequence
-     * [Dispose Previous](#previous) - preserve background canvas
-     * [Dispose Background](#background) - clear to background
-
-   * [![](../img_www/granitesm_right.gif) Studying Animations](#study)
-     * [Identify](#identify) - information about an animation
-     * [Adjoin](#adjoin) - splitting into individual frame images
-     * [Coalesce](#coalesce) - fill out frames completely
-     * [Frame Montage](#montage) - the "gif\_anim\_montage" script
-     * [List Information](#list_info) - rebuild an existing animation
-     * [Disposal Images](#dispose_images) - the GIF dispose form of the frames
-     * [Deconstruct](#deconstruct) - report areas of frame differences
-     * [Frame Comparisons](#compare) - more detailed frame differences
-        * [Compare\_Any](#compareany),  [Compare\_Clear](#compareclear),  [Compare\_Overlay](#compareoverlay)
-
-   * [![](../img_www/granitesm_right.gif) Types of Animations](#types)
-     * [Coalesced Animations](#coalesced)
-     * [Overlay Animations](#overlay)
-     * [Cleared Frame Animations](#cleared)
-     * [Mixed Disposal Animations](#mixed)
-
-   * [![](../img_www/granitesm_right.gif) The End of the Loop](#loop) - when an animation stops running
-   * [![](../img_www/granitesm_right.gif) Zero Delay Intermediate Frames](#zero)
-
 These examples continue the previous example page on [Layers of Multiple Images](../layers/) but instead of layering multiple images on top of each other to produce a single image, here we display each image for a short period of time so as to produce an animation of images.
 
 The following section provides a basic understanding of the complexities of animations and specifically GIF animations.
@@ -38,7 +9,7 @@ This is recommended reading before going further in any of the later animation s
 
 ------------------------------------------------------------------------
 
-## GIF Animations and Animation Meta-data
+## GIF Animations and Animation Meta-data {#gif_anim}
 
 The default way ImageMagick handles the output of a image list is to generate a multi-page image.
 For the GIF image format, however, this takes the special form of a 'GIF animation'.
@@ -157,7 +128,7 @@ Solving this is a complex, multi-level problem, which is looked at in the next s
 
 ------------------------------------------------------------------------
 
-## Frame Disposal Methods
+## Frame Disposal Methods {#dispose}
 
 The first thing people creating GIF animation have trouble with is the "`-dispose`" setting.
 This is not surprising as it is a complex setting.
@@ -175,7 +146,8 @@ The 'plus' forms of these options, like most other settings in IM stops the sett
 That means if you don't specify a setting, the frame image will continue to use the setting that was read in with the image (if any).
 This can be important later when you want to read in a GIF animation for further processing.
 Or when merging one GIF animation into another (the most difficult animation technique).
-### Dispose None - each frame overlaid in sequence
+
+### Dispose None - each frame overlaid in sequence {#none}
 
 The default "`-dispose`" setting for GIF animations is '`Undefined`' which most animation programs treats the same as a '`None`' disposal setting.
 Basically this tells the computer to just leave whatever is overlaid by this specific frame.
@@ -215,7 +187,7 @@ It can never actually make any part of an animation transparent again.
 
 To also handle transparency need to use one of the other sorts of disposal methods.
 
-### Dispose Previous - preserve background canvas
+### Dispose Previous - preserve background canvas {#previous}
 
 The '`Previous`' disposal method is relatively simple.
 When the current image is finished, return the canvas to what it looked like before the image was overlaid.
@@ -256,7 +228,7 @@ The problem is just what frame should the computer pick to become the background
 Simple for us humans to figure out the best image to use, but difficult for a computer decide.
 The best background image to use in an animation may not even be meant to be displayed, such as in the current example, and as such may not exist in a un-optimized version of that animation.
 
-### Dispose Background - clear to background
+### Dispose Background - clear to background {#background}
 
 While the first two "`-dispose`" methods are relatively simple, the '`Background`' is probably the hardest to understand.
 
@@ -316,10 +288,11 @@ This has now been fixed for "`-coalesce`" and the "`-layers OptimizeFrame`' met
 
 ------------------------------------------------------------------------
 
-## Studying Animations
+## Studying Animations {#study}
 
 Before we can continue with the basics of GIF animation, their types, optimizations, and handling techniques, we need some techniques for studying existing animations.
-### Identify - information about and animation
+
+### Identify - information about and animation {#identify}
 
 Now an animation consists of a lot of information packed into each individual frame.
 You can see some of this information using the default IM "`identify`" command.
@@ -349,7 +322,7 @@ identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" \
 Which clearly shows not only the canvas size, image size and offset, but also the disposal and time delays used for each individual frame.
 Note how the first frame has the different disposal and time delay that was needed for proper use of the later '[Previous](#previous)' disposal method.
 
-### Adjoin - splitting an animation into frames
+### Adjoin - splitting an animation into frames {#adjoin}
 
 Now as you saw above, ImageMagick will by default try to save multiple images into one file if that file format allows it.
 However as discussed in [Writing a Multi-Image List](../files/#write_list) IM will let you use the "`+adjoin`" setting to tell it to save each image to disk as a separate individual image.
@@ -406,7 +379,7 @@ convert canvas_prev.gif  +repage  -set delay 0   -set dispose None \
 Of course if you junk that meta-data, you need some way of recording and editing that data.
 See [Animation List Information](#list_info) (below) for a script that extracts both the sub-images and saves the animation meta-data, in a form that can be used to re-build the animation.
 
-### Coalesce - fill out frames completely
+### Coalesce - fill out frames completely {#coalesce}
 
 Viewing an animation in the form of the sub-frames, however is usually not very useful, in a typical animation.
 
@@ -460,7 +433,7 @@ However for users piece of mind the "`-coalesce`" operator will set the "`-dispo
 Their are also some non-animation uses of the "`-coalesce`" operator.
 See [Coalesce, and Progressive Flattening](../layers/#coalesce) examples of these uses.
   
-### Animation Frame Montage - the "gif\_anim\_montage" script
+### Animation Frame Montage - the "gif\_anim\_montage" script {#montage}
 
 While "`+adjoin`" operator will let you extract the actual images from an animation and "`-coalesce`" will let you see the resulting frames of the animation, both methods leave out a lot of information about the animation.
 
@@ -508,7 +481,7 @@ Other options, lets you define the number of rows or columns to use, as well as 
 This script will be used a lot during the next few pages of IM Examples.
 Suggestions and comments are welcome.
   
-### Animation List Information - options used to build an animation
+### Animation List Information - options used to build an animation {#list_info}
 
 As I noted, using "`+adjoin`" and "`-coalesce`", as well as "`+repage`", are all useful methods of extracting and looking at GIF animations.
 However they all destroy information about the original animation in the process.
@@ -576,7 +549,7 @@ This was after all why I originally wrote the scripts, long before I got involve
 
 For now the "`gif2anim`" will be most useful for examining an animation sequence to see just what is happening, and the timings that is being applied between frames.
 
-### Dispose Images - the GIF dispose form of the frames
+### Dispose Images - the GIF dispose form of the frames {#dispose_images}
 
 This special "`-layers`" method, '`Dispose`' shows what the frame should look like *after* the time delay is finished, and the GIF dispose method has been applied, but *before* the next frames image is overlaid.
 
@@ -627,7 +600,7 @@ It is the effect of the dispose method in the later frames that is imporant.
 > In other words the appearance of the last frame (after disposal) as shown above, or even the actual dispose setting of the last frame, does have any effect on a GIF animation.
 > IM generally sets this to same as the previous frame when it trys to work out an appropriate disposal method, during a [Frame Optimize](../anim_opt/#optframe) an animation.
 
-### Deconstruct - report areas of frame differences
+### Deconstruct - report areas of frame differences {#deconstruct}
 
 The traditional way in ImageMagick to optimize an animation, making the result smaller and faster to download and animate, is to "`-deconstruct`" its "`-coalesce`" form.
 *This is no longer recommended*.
@@ -640,6 +613,7 @@ Any pixel change, will count, regardless of if it is a color change (overlay) or
 This is quite simple, and for a typical [Overlay Animations](#overlay) will generate an optimal [Frame Optimization](../anim_opt/#frame_opt) for that animation.
 An [Overlay Animations](#overlay) animation however only use a '`None`' dispose method only.
 For example lets take the [coalesce previous animation](#coalesce) we generated above, which happens to form a [Overlay Animation](#overlay), and run it though the "`-deconstruct`" operator.
+
 
 ~~~
 convert  canvas_prev.gif   -coalesce     coalesce.gif
@@ -678,11 +652,12 @@ As you can see "`-deconstruct`", slowly destroys the animation.
 Basically "`-deconstruct`" is designed to simply find the differences between image layers.
 It was never designed to correctly optimize animations, and will fail for animations that need to use various disposal techniques to clear (erase or make transparent) previously overlaid pixels.
 
-### Frame Comparisons - more detailed comparing of frames
+### Frame Comparisons - more detailed comparing of frames {#compare}
 
 With IM v6.2.6-2, a number of extra GIF frame comparison methods were added.
 These were needed internally for proper optimization of animations, but was deems useful enough to make them available to the command line and other API interfaces.
-#### Compare\_Any
+
+#### Compare\_Any {#compareany}
 
 The "`-layers`" method '`CompareAny`' is actually exactly the same as "`-deconstruct`".
 In fact the "`-deconstruct`" operator is only a functional alias for the '`CompareAny`' method.
@@ -705,7 +680,7 @@ gif_anim_montage compare_any.gif compare_any_frames.gif
 
 As you can see the second and later images, is the minimal rectangular area that contains all the pixels that have changed, whether it is a overlay of a new pixel color, or a clearing of an old pixel to transparency.
 
-#### Compare\_Clear
+#### Compare\_Clear {#compareclear}
 
 The "`-layers`" method '`CompareClear`' will show the smallest rectangular area that contains all the pixels that needed to be cleared from one frame to the next.
 
@@ -720,7 +695,7 @@ Notice that as no pixels were cleared between the first and second frame, a spec
 The "`-quiet`" setting was used to tell IM not to give any warning about this image.
 
 If all the later frames all become 'missed' images, then the GIF animation never clears pixels, and the animation can be classed as a [Overlay Animation](#overlay).
-#### Compare\_Overlay
+#### Compare\_Overlay {#compareoverlay}
 
 The last "`-layers`" comparison method, '`CompareOverlay`', returns the area of pixels that were overlaid (added or changed in color, but not cleared) since the previous frame.
 
@@ -750,12 +725,12 @@ See also [Transparency Optimization](../anim_opt/#opt_trans).
 
 ------------------------------------------------------------------------
 
-## Types of Animations
+## Types of Animations {#types}
 
 Most GIF animations you find fall into some basic types of animation.
 Knowing about these types allows you understand how that animation is being displayed from one frame to another, and can allow you to take shortcuts in how you handle and modify the animation.
 
-### Coalesced Animations
+### Coalesced Animations {#coalesced}
 
 A '**Coalesced Animation**' is basically a image sequence that shows what an animation should look like when displayed to a user after each 'dispose/overlay' cycle.
 The images are basically as you would see them if you were looking at an actual 'film strip' of the animation.
@@ -778,7 +753,7 @@ Here is an example of an animation that is also by its nature a Coalesced Animat
 
 Most animations that do not contain, or use, transparency, and which animate the entire canvas, are usually saved and distributed as Coalesced Animations.
 
-### Overlay Animations
+### Overlay Animations {#overlay}
 
 An '**Overlay Animation**' is one in which each frame of an animation only overlays new pixels to the animation currently displayed.
 In other words at no point in the animation does it need to clear a pixel to transparency.
@@ -831,7 +806,7 @@ It is much simpler.
 To handle as only overlay is performed without need to handle transparency, or save the previous frame to handle GIF disposal methods.
 Such software is rare but does exist.
 
-### Cleared Frame Animations
+### Cleared Frame Animations {#cleared}
 
 When an animation only uses just '[Previous](#previous)' or '[Background](#background)' GIF disposal, you get a very special type of animation.
 
@@ -936,7 +911,7 @@ See [Transparency Optimization](../anim_opt/#opt_trans) for a continuation of th
 >
 > This example is also discussed in detail in the IM Forum [Creating a Cleared Frame GIF Animation in the MagickWand](../forum_link.cgi?f=6&t=20472).
 
-### Mixed Disposal Animations - multi-background animations
+### Mixed Disposal Animations - multi-background animations {#mixed}
 
 There is nothing preventing you from mixing the various disposal methods in a single GIF animation.
 If fact adding a background to a [Cleared Frame Animation](#cleared), does exactly that.
@@ -971,7 +946,7 @@ Similarly animations involving two very small moving objects on a larger transpa
 
 ------------------------------------------------------------------------
 
-## The End of the Loop - when an animation stops
+## The End of the Loop - when an animation stops {#loop}
 
 It is often regarded as a good idea not to make animations loop forever, as client machines have to continually work while the animation is still animating.
 As such it is a good idea to think about how many times your animation actually loops.
@@ -1011,7 +986,7 @@ So just to summarize...
 
 ------------------------------------------------------------------------
 
-## Zero Delay Intermediate Frames
+## Zero Delay Intermediate Frames {#zero}
 
 We have already seen use of a frame that has a 'zero delay', with regard to a [Cleared Frame Animations](#cleared).
 I also used them to explain [Previous and Background Disposals](#previous).
@@ -1072,10 +1047,11 @@ Also complain to application developers, so that they handle Zero delay frames c
 Even if it means not displaying that frame at all, just using them as preparation for the next frame to display.
 They are after all on screen for *ZERO* time!
 
-------------------------------------------------------------------------
-
-Created: 24 July 2004 (sub-division of "animation")  
- Updated: 27 February 2013  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/anim_basics/`
+---
+title: Animation Basics
+created: 24 July 2004 (sub-division of "animation") 
+updated: 27 February 2013
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html) &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 7.0.0
+url: http://www.imagemagick.org/Usage/anim_basics/
+---

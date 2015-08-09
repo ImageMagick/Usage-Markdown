@@ -1,29 +1,5 @@
 # Advanced Techniques
 
-**Index**  
-
-* [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-  
-  * [![](../img_www/granitesm_right.gif) 3D Bullets from Shapes](#3d-bullets)
-    * Using a script to generate huge numbers of images  
-    * Color tinting and shaping a 3-D gray-scale shade image
-  * [![](../img_www/granitesm_right.gif) Making Logos 3D](#3d-logos)
-    * Using transparent overlays to tint the basic shaped image
-  * [![](../img_www/granitesm_right.gif) Reflections](#reflections)
-    * Adding Surface Reflections of many types.
-  * [![](../img_www/granitesm_right.gif) Jigsaw Pieces](#jigsaw)
-    * Cutting out and enhancing a odd shaped piece from a photo
-  * [![](../img_www/granitesm_right.gif) "Gel" Effects](#gel_effects)
-    * Adjusting the size, brightness, and sharpness of the highlight  
-    * Lighting and Darkening using 'Screen' and 'Multiply' compose
-  * [![](../img_www/granitesm_right.gif) "Aqua" Effects](#aqua_effects)
-    * Using 'curves' to adjust the highlights.
-  * [![](../img_www/granitesm_right.gif) Tilable Stars and Comets](#stars)
-    * Randomized Points.
-    * "My God! It's full of stars! -- 2001, A Space Odyssey"
-  * [![](../img_www/granitesm_right.gif) Radial Flares](#radial_flares)
-    Generating random rays and rings around a central point.
-
 This page provides very large examples where we use multiple techniques to produce some compound image manipulation effects, beyond the basic image operations of IM.
 The major techniques are summarized in the index above.
 
@@ -31,7 +7,9 @@ While many techniques are provided on other pages, such as creating font templat
 
 ------------------------------------------------------------------------
 
-## 3-D Bullets from Shapes -- A Scripted Approach
+<a name="3d-bullets"></a>
+
+## 3-D Bullets from Shapes -- A Scripted Approach {#bullets-3d}
 
 There are a lot of 'bullet' images available on the web for your web listings.
 But you can generate your own 3d objects, and allowing you to make your whole web site conform to a particular style that ties it all together.
@@ -155,7 +133,9 @@ Of course if you make some improvements or have other ideas, please let me know,
 
 ------------------------------------------------------------------------
 
-## Making Logos 3-D
+<a name="3d-logos"></a>
+
+## Making Logos 3-D  {#making-logos-in-3d}
 
 In this example we have a flat colored logo, with a difficult shape, which we what to image process to give it a distinct 3-D look.
 To do this we use the logo to generate highlights and shadows, and convert them into transparencies to overlay on the original image.
@@ -234,7 +214,7 @@ convert logo_3D_shadowed.png \
 
 ------------------------------------------------------------------------
 
-## Reflections
+## Reflections {#reflections}
 
 Reflections are relatively easy to do, but often it does not seem like it.
 You have to deal with aspects such as surface color and texture, and also with how any such effect increases with the distance between the surface reflection and the object that is being reflected by that surface.
@@ -254,7 +234,7 @@ convert pokemon.gif \( +clone -flip \) -append \
 
 [![\[IM Output\]](reflect_perfect.png)](reflect_perfect.png)
 
-#### Surface Color - General Attenuation
+### Surface Color - General Attenuation {#surface-color-attenuation}
 
 The thing to note in the above is that the reflection being perfect, does not really look like a reflection in a black surface.
 It's more like a 'mirror tile' of the original image, which is also true.
@@ -320,7 +300,7 @@ convert pokemon.gif -alpha on \
 
 Without the reflected object the wooden surface looks rather dull and lifeless, but with some object reflected in it, the floor suddenly has a very highly polished look to it!
 
-#### Distorted Source
+### Distorted Source {#distorted-source}
 
 Okay.
 Let's try something a little more fancy, and give the image a bit of some 3D [Perspective](../distorts/#perspective) depth to it.
@@ -413,7 +393,7 @@ Shadows will generally obey the same rules as reflections, except for the last t
 They may not fall directly downward, but point away from the light source (parallel for distant light sources).
 Also they will not be a same distance from the 'surface contact point', but they will have the same ratio of distances, just not 1:1 ratio as you get for reflections.
 
-#### Gradient Attenuation
+### Gradient Attenuation {#gradient-attenuation}
 
 So far we have dealt with a perfectly smooth reflective surface, but most surfaces are not polished to a mirror shine.
 A seemingly smooth surface is actually not smooth at smaller scales and this in turn effects the light that is reflected off such a surface.
@@ -443,7 +423,7 @@ This works reasonably well, and is so easy to generate that it is a rather commo
 The technique works as a good percentage of the light being reflected is not a perfect reflection, but more of the global environment.
 The more distant you are from the original image, less of the original image is reflected.
 
-#### Blurred Attenuation
+### Blurred Attenuation {#blurred-attenuation}
 
 The component that makes up the real reflection of the source object, does not simply get weaker with distance.
 In reality reflections get more blurry, fuzzy and distorted with distance, as the reflecting surface is generally not very smooth.
@@ -501,7 +481,7 @@ You would be hard pressed to get a better reflection image for flat surfaces tha
 
 ------------------------------------------------------------------------
 
-## Jigsaw Pieces
+## Jigsaw Pieces {#jigsaw}
 
 One of the most interesting things I have been asked to help with was to cut out and enhance a odd shaped 'jigsaw' piece from a larger picture.
 Actually Theo van Hoesel, also known as "[Mr Jigsaw](http://virtual-jigsaw-puzzle.blogspot.com/)", wanted to generate a lot of separate pieces, at lots of different rotations.
@@ -700,7 +680,7 @@ Of course for a proper jigsaw all the masks should [Align](../masking/#aligning)
 
 ------------------------------------------------------------------------
 
-## "Gel" Effects
+## "Gel" Effects {#gel_effect}
 
 The 3-D shadings used above is only the start of what you can do with highlight and shaded effects.
 By doing various histogram adjustments to the output of "[-shade](../option_link.cgi?shade)" an enormous range of possibilities is available.
@@ -770,7 +750,7 @@ convert gel_border.png \
 
 ------------------------------------------------------------------------
 
-## "Aqua" or "Bubble" Effects
+## "Aqua" or "Bubble" Effects {#aqua_effects}
 
 You can also adjust a full 3-D "[-shade](../option_link.cgi?shade)" (with a 30 degree lighting) tint to produce a "Aqua" water effect.
 For this however we need to do a histogram adjustment in a way that is similar to what you do with GUI graphical programs like "`Gimp`" and "`Photoshop`".
@@ -876,7 +856,7 @@ If you study the above you will see that all the steps previously outlined is ap
 
 ------------------------------------------------------------------------
 
-## Tilable Stars and Comets
+## Tilable Stars and Comets {#stars}
 
 I wanted to make a tile of random star fields (with the stars of variable intensities) for various purposes.
 This was the result of my slowly improving attempts at this.
@@ -1039,7 +1019,7 @@ If you manage any of the above challenge or use the star generator for some othe
 
 ------------------------------------------------------------------------
 
-## Radial Flares
+## Radial Flares {#radial_flares}
 
 Experiments in generating radial flares.
 Note that the width of the initial image before polar distorting, basically sets the number of rays that will be produced.
@@ -1065,12 +1045,12 @@ Note the technique used to generating intermediate debugging and example images 
 convert -size 100x1 xc: +noise Random -channel G -separate +channel \
       -size 100x99 xc:black -append -motion-blur 0x35-90 \
       \( -size 100x50 gradient:'gray(0)' \
-	 -evaluate cos .5 -sigmoidal-contrast 3,100% \
-	 -size 100x50 xc:'gray(0)' -append \) \
+         -evaluate cos .5 -sigmoidal-contrast 3,100% \
+         -size 100x50 xc:'gray(0)' -append \) \
       \( -size 1x50 xc:'gray(0)' \
-	 -size 1x1 xc:'gray(50%)' \
-	 -size 1x49 xc:'gray(0)' \
-	 -append -blur 0x2 -scale 100x100\! \) \
+         -size 1x1 xc:'gray(50%)' \
+         -size 1x49 xc:'gray(0)' \
+         -append -blur 0x2 -scale 100x100\! \) \
       \
       -scene 10 +write flare_2%x.png \
       \
@@ -1099,10 +1079,11 @@ The percentage used for the "`-tint`" operation can also be used to adjust the i
 
 These examples were taken further in the Im Forum discussion [Using Radial Flare for a Mask](../forum_link.cgi?t=16004).
 
-------------------------------------------------------------------------
-
-Created: 9 February 2004  
-Updated: 16 February 2010  
-Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
-Examples Generated with: ![\[version image\]](version.gif)  
-URL: `www.imagemagick.org/Usage/advanced/`
+---
+title: Advanced Techniques
+created: 9 February 2004  
+updated: 16 February 2010  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9
+url: www.imagemagick.org/Usage/advanced/
+---
