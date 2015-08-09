@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html$if(lang)$ lang="$lang$"$endif$>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+$for(author-meta)$
+  <meta name="author" content="$author-meta$">
+$endfor$
+$if(date-meta)$
+  <meta name="dcterms.date" content="$date-meta$">
+$endif$
+  <title>$if(title-prefix)$$title-prefix$ - $endif$$pagetitle$</title>
+$if(canonical_url)$
+<link rel="canonical" href="$canonical_url$" />
+$else$
+$if(url)$
+<link rel="canonical" href="$url$" />
+$endif$
+$endif$
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+$if(quotes)$
+  <style type="text/css">q { quotes: "“" "”" "‘" "’"; }</style>
+$endif$
+$if(highlighting-css)$
+  <style type="text/css">
+$highlighting-css$
+  </style>
+$endif$
+$for(css)$
+  <link rel="stylesheet" href="$css$">
+$endfor$
+  <style type="text/css">
+      #TOC ul {padding-left: 1em;}
+      blockquote { font-size: 100%; font-style: italic;}
+      footer { padding: 20px 0; margin: 20px 0 0 0; border-width: 1px 0 0 0; border-color: #eee; border-style: solid;}
+      footer address, footer p { margin: 0; }
+      
+  </style>
+$if(math)$
+  $math$
+$endif$
+$for(header-includes)$
+  $header-includes$
+$endfor$
+</head>
+<body>
+<div class="container">
+    $for(include-before)$
+        $include-before$
+    $endfor$
+
+    $if(title)$
+        <header>
+            <h1 class="title">ImageMagick Examples -- $title$</h1>
+            $if(subtitle)$
+                <h2 class="subtitle">$subtitle$</h2>
+            $endif$
+        </header>
+    $endif$
+
+    <div class="row">
+        <aside class="col-xs-12 col-md-3 pull-right">
+            $if(toc)$
+            <nav id="$idprefix$TOC">
+                <strong>Index</strong>
+                $toc$
+            </nav>
+            $endif$
+        </aside>
+        <article class="col-xs-12 col-md-9">
+$body$
+        </article>
+    </div>
+
+    <footer>
+        $if(created)$<p>Created: <time>$created$</time></p>$endif$
+        $if(updated)$<p>Updated: <time>$updated$</time></p>$endif$
+        $if(author)$
+        <address>
+            Author: $for(author)$ $author$, $endfor$
+        </address>
+        $endif$
+        $if(version)$<p>Examples Generated with: <img src="version.gif" alt="$version$" /></p>$endif$
+        $if(url)$<p>URL: <a href="$url$">$url$</a></p>$endif$
+    </footer>
+    $for(include-after)$
+    $include-after$
+    $endfor$
+</div>
+</body>
+</html>
