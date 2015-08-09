@@ -1,40 +1,11 @@
 # Animation Optimization
 
-**Index**
-
-* [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-  * [![](../img_www/granitesm_right.gif) Introduction to Optimization](#intro)
-  * [![](../img_www/granitesm_right.gif)General Purpose GIF Optimizer of ImageMagick](#optimize)
-  * [![](../img_www/granitesm_right.gif) Frame Optimization](#frame_opt)
-    * [Basic Frame Optimization](#optframe)
-    * [Moving Hole Animation](#hole) - a difficult to frame optimize animation
-    * [Frame Doubling](#doubling)
-    * [Layer Optimize Plus](#optimizeplus)
-    * [Remove Duplicate Frames](#removedups)
-    * [Splitting Frame Updates](#splitting)
-    * [Remove Zero Delay Frames](#removezero)
-    * [Frame Optimization Results and Summary](#frame_results)
-
-  * [![](../img_www/granitesm_right.gif) Semi-Transparency Handling](#semitrans_opt)
-  * [![](../img_www/granitesm_right.gif) Color Optimization](#color_opt)
-    * [GIF Color Problem](#color_problem)
-    * [Speed Animation](#speed) - an animation with too many colors
-    * [Frame Opt Before Color Opt?](#color_frame_first)
-    * [Fuzzy Color Optimization](#color_fuzz)
-    * [Single Global Color Table](#colortables)
-    * [Dithering Colors](#dithering)
-  * [![](../img_www/granitesm_right.gif) Compression Optimization](#compress_opt)
-    * [Transparency Optimization](#opt_trans)
-    * [LZW Optimization](#opt_lzw)
-  * [![](../img_www/granitesm_right.gif) Minor Optimizations](#minor_opt)
-  * [![](../img_www/granitesm_right.gif)Other Sources of Information on GIF Optimization](#gif_links)
-
 These examples start to make use of the [Basic Animation Handling](../anim_basics/), to try to optimize the final display and file size of a animation.
 This is especially important for complex GIF animations where smaller sub-frame overlays can be used, as well as three types of disposal methods controlling how an animation is handled.
 
 ------------------------------------------------------------------------
 
-## Introduction to Animation Optimization
+## Introduction to Animation Optimization {#intro}
 
 Optimizing an animation is not easy, especially a GIF animation that has color restrictions, as well as a choice of different frame disposal techniques, and the ability to use smaller 'sub-frame' overlays from one frame to the next.
 
@@ -56,7 +27,7 @@ One aspect of this [Single Global Color Table](#colortables) has to be done as a
 
 ------------------------------------------------------------------------
 
-## General Purpose GIF Optimizer of ImageMagick
+## General Purpose GIF Optimizer of ImageMagick {#optimize}
 
 The "`-layers`" method '`Optimize`' will use a number of the techniques, that we will discuss in detail below, to attempt to optimize a GIF animation in a single reasonable step.
 
@@ -93,7 +64,7 @@ This is the plan, and the goal that this IM Examples section, was looking toward
 
 ------------------------------------------------------------------------
 
-## Frame Optimizations
+## Frame Optimizations {#frame_opt}
 
 Frame optimization is based on overlaying a smaller sub-image rather than a complete overlay of the whole image.
 This obviously produces a smaller number of pixels and thus a smaller file on disk, to being sent across the network.
@@ -107,7 +78,7 @@ See [Coalesce Examples](../anim_basics/#coalesce).
 
 Naturally that means any hand optimizations that may have existed are also removed, so some caution is advised.
 
-### Basic Frame Optimization
+### Basic Frame Optimization {#optframe}
 
 The "`-deconstruct`" method will produce a basic frame optimization for a GIF animation.
 However as was shown in the [Deconstruct Examples](../anim_basics/#deconstruct) of the previous section, this operator does not with all GIF animations when transparent pixels are involved.
@@ -192,7 +163,7 @@ If you find an example of an animation which IM fails to produce a good optimiza
 This is how new techniques and possible automatic solutions can be developed.
 I will naturally publish your name as a contributor.
 
-### Moving Hole Animation - difficult to frame optimize
+### Moving Hole Animation - difficult to frame optimize {#hole}
 
 Here is one extreme case of GIF animation that does not frame optimize very well by any normal optimization method.
 
@@ -248,7 +219,7 @@ This horrible catch-22 situation continues all the way across the rest of the an
 
 I did say this animation would be difficult to frame optimize.
 
-### Frame Doubling - a method to frame optimize 'holes'
+### Frame Doubling - a method to frame optimize 'holes' {#doubling}
 
 All is not lost however.
 By adding some extra frames to the animation, you can give the '`OptimizeFrame`' method some room in which to make better use of the GIF disposal methods available.
@@ -298,7 +269,7 @@ In the above animation that means the pixels that was needed to shape the new ho
 The result is smaller but not nearly as much, as adding extra frames does have its own cost.
 At least each of the added frames also does not have its own color table, or this animation would have in fact become larger, due to the size of the extra color tables!
 
-### Layer Optimize Plus - Automatic frame doubling Optimization
+### Layer Optimize Plus - Automatic frame doubling Optimization {#optimizeplus}
 
 I am please to say that as of version 6.2.7, IM can now do frame doubling optimization automatically, as part of its normal frame optimization handling.
 However as adding frames to make an animation smaller is so radical a move, it was given its own separate "`-layers`" method '`OptimizePlus`'.
@@ -321,7 +292,7 @@ As "`-layers`" method '`OptimizePlus`' adds extra frames as it creates an frame 
 That is it will also do an automatic '`RemoveDups`' (see next).
 The '`OptimizeFrame`' method will not do this.
 
-### Remove Duplicate Frames - merging consecutive duplicate images
+### Remove Duplicate Frames - merging consecutive duplicate images {#removedups}
 
 Unfortunately if you [coalesce](../anim_basics/#coalesce)" this animation, you will also get all the extra frames that the above added.
 
@@ -350,7 +321,7 @@ And we now have our original coalesced form of the animation.
 
 For another method of removing the extra frames see the '`RemoveZero`' method below.
 
-### Splitting Frame Updates - separately updating two distant changes
+### Splitting Frame Updates - separately updating two distant changes {#splitting}
 
 As you have seen with frame doubling, by splitting the 'clearing of pixels' from the overlaying of new pixels, we can reduce the overall size of a single frame overlay.
 
@@ -440,7 +411,7 @@ This means a simple HTML 'table' cannot rejoin the sub-animations into a complet
 *FUTURE: reference to a better example of animating 'two distant objects'.
 in 'Animation Handling', say involving two separately moving objects.*
 
-### Remove Zero Delay Frames - removing intermediate updates
+### Remove Zero Delay Frames - removing intermediate updates {#removezero}
 
 Of course sometimes you are not interested or want to remove these added intermediate frames from an animation, leaving just the frames that will actually be shown to a user for some period of time.
 
@@ -465,7 +436,7 @@ Of course after removing [Zero Delay Intermediate Frames](../anim_basics/#zero),
 Consequentially the animation may not frame optimize very well afterward.
 Optimization is one of the main purposes of such frames after all.
 
-### Frame Optimization Results and Summary
+### Frame Optimization Results and Summary {#frame_results}
 
 Lets summarize our optimizations of the moving hole animation...
   
@@ -502,7 +473,7 @@ It just needs a little care and fore-thought, which humans are good at, and comp
 
 ------------------------------------------------------------------------
 
-## Semi-Transparency Handling
+## Semi-Transparency Handling {#semitrans_opt}
 
 The GIF file format does not allow the use of semi-transparent pixels (See [GIF Boolean Transparency](../formats/#boolean_trans)).
 This is a fact, and before you can properly optimize an animation, or even save it to GIF format, you need to handle any semi-transparent pixels that may be present, in a way that is suitable for the animation.
@@ -631,7 +602,7 @@ So as you can see there are quite a number of possibilities to handling the semi
 
 ------------------------------------------------------------------------
 
-## Color Optimization
+## Color Optimization {#color_opt}
 
 Handling semi-transparent pixels is only the first limitation of the GIF file format.
 The next one is a 256 color limit for each color table in the animation.
@@ -641,7 +612,7 @@ However, even that may not always be a good idea.
 
 If you just like a quick summary of the color optimization options available, I suggest you jump to the examples on [Video to GIF](../video/#gif) conversion where the color problems of a animation is at its worst.
 
-### GIF Color Problem
+### GIF Color Problem {#color_problem}
 
 GIF animations in particular have problems in handling colors, as you it first does not allow semi-transparent colors, then has a 256 color limit per frame, or a 256 global color limit.
 
@@ -661,7 +632,7 @@ However if you have a animation with to many colors, the first thing you need to
 
 As soon as you save to GIF, you have lost control of your GIF color optimization efforts, and you probably have a very bad looking GIF animation that will not optimize very well using various [Frame Optimization](#frame_opt) techniques.
 
-### Speed Animation - an Animation with too many colors
+### Speed Animation - an Animation with too many colors {#speed}
 
 First we need to generate a GIF animation with a vast number of colors, so that we can really test out the problems involved in color optimization.
 
@@ -747,7 +718,7 @@ Normally this default operation of IM [Color Quantization and Dithering](../quan
 In fact the individual frames of an animation will generally look great.
 All the problems are when we try to later string those individually color reduced frames into an single animation sequence.
 
-### Frame Opt before Color Opt?
+### Frame Opt before Color Opt? {#color_frame_first}
 
 As you saw above saving an animation directly to a GIF format, works, but you will get quite a lot of color differences from one frame to the next, which s bad for later [Frame Optimization](#optframe) (as you will see later).
 
@@ -755,7 +726,7 @@ To prevent color differences causing such problems you can do the [Frame Optimiz
 However be warned that doing frame optimization before color reducing however change the dynamics of the color reduction.
 Often less of the static unmoving areas will appear in the optimized sub-frame, which means that the color quantization for that frame can give those colors less importance, and therefor less colors.
 
-### Fuzzy Color Optimization
+### Fuzzy Color Optimization {#color_fuzz}
 
 However sometimes you don't have access to the original animation before it was saved to GIF format.
 This is especially true if you downloaded the original animation from the WWW.
@@ -826,7 +797,7 @@ gif_anim_montage speed_opt4.gif speed_opt4_frames.gif
 
 [![\[IM Output\]](speed_opt4_frames.gif)](speed_opt4_frames.gif)
 
-### Generating a Single Global Color Table
+### Generating a Single Global Color Table {#colortables}
 
 Now as each and every frame has a different set of colors, IM was forced to save the image, with a separate color table for every frame: one global one for the first frame, and 3 local color tables for the later frames.
 
@@ -930,13 +901,13 @@ For now refer to the more practical and less detailed [Video to GIF, Optimizatio
 
 ------------------------------------------------------------------------
 
-## Compression Optimization
+## Compression Optimization {#compress_opt}
 
 Once you have your animation saved into a GIF format, by handling semi-transparent pixels and using color and frame optimizations, you are also able to get some smaller file size reductions by catering to the GIF compression algorithm.
 
 The LZW compression or Run-length Compression that the GIF file format can use will compress better if it finds larger areas of constant color, or pixel sequences that repeat over and over.
 
-### Transparency Optimization
+### Transparency Optimization {#opt_trans}
 
 As you saw in [Frame Optimization](#frame_opt) an overlaid image will often be just repeating what is already being displayed.
 That is it is overlaying the same colored pixels that is already present after the GIF disposal methods have been applied.
@@ -982,7 +953,7 @@ That lets you handle animations that were badly color dithered, though if you ha
 The free animated GIF tool "`InterGIF`" also provides this same type of transparency compression optimization shown above, but without the ability to also support a 'fuzz factor' to also make 'close' color changes transparent.
 I do not recommend it, except as an alternative when IM is not available.
 
-### LZW Optimization - (non-IM)
+### LZW Optimization - (non-IM) {#opt_lzw}
 
 Some applications can further optimise the compression ratio of the images in an animation to make it them even smaller.
 However to do this requires a specialized knowledge of the LZW compression that the GIF image file format typically uses.
@@ -1016,7 +987,7 @@ One program may produce a better compression ratio for one image, and another ma
 
 *Do you know of other free GIF optimization programs available for Linux? -- Mail me, so I can also try them out, and let me show the results of different LZW optimizations.*
 
-### Lossy LZW Optimization - (non-IM)
+### Lossy LZW Optimization - (non-IM) {#opt_lzw_lossy}
 
 Another compression improvement method involved the slight modification of the pixel colors themselves to 'close color matches' so as to increase the repetition of the color references in the image.
 A repeated pattern naturally compresses better, and as such can produce a higher compression ratios.
@@ -1034,7 +1005,7 @@ Ideally this compression should be merged with the color reduction and dithering
 But that is only a factor when creating the initial GIF animation from other sources, so I am not surprised that I have not seen a program to do this.
 (see next)
 
-### Ordered Dithered LZW Optimization
+### Ordered Dithered LZW Optimization {#opt_lzw_dithered}
 
 As the dithering process is usually a more lossy process than LZW optimizations, a better solution may be to try to introduce the repeatable patterns as part of the dithering process.
 That can be achieved by using [Ordered Dithering](../quantize/#ordered-dither) to produce such patterns, and thus much stronger LZW compression savings than all the previous LZW Optimization method.
@@ -1050,7 +1021,7 @@ IM has yet to have a 'best color' or 'user supplied' palette implementation of o
 
 For a practical example of using ordered dither for improved LZW compression optimization, see [Ordered Dithered Video](../video/#gif_ordered_dither).
 
-### Other LZW Optimization
+### Other LZW Optimization {#opt_lzw_other}
 
 Other improvements in LZW optimization can also be achieved by other re-arrangements of the 'dither pattern' in the image.
 And some GIF tools can do exactly that.
@@ -1098,7 +1069,7 @@ Note that the site is mis-named as it is about compression optimization.
 
 ------------------------------------------------------------------------
 
-## Minor Optimizations
+## Minor Optimizations {#minor_opt}
 
 There are a few other optimization techniques that you can use with GIF animations that are often so obvious that they are overlooked.
 
@@ -1143,7 +1114,7 @@ If you have any other optimization ideas, please let me know.
 
 ------------------------------------------------------------------------
 
-## Other Sources of Information on GIF Optimization
+## Other Sources of Information on GIF Optimization {#gif_links}
 
 The above completes the various basic methods and techniques for handling animations.
 However to form a complete picture.
@@ -1160,10 +1131,10 @@ Other useful sources for GIF Animation Optimization techniques that I have found
 Mail me if you think you have a page I should list here.
 I will only add pages of useful content, so no guarantees about adding your link.
 
-------------------------------------------------------------------------
-
-Created: 22 March 2007 ((sub-division of "animation")  
- Updated: 23 April 2007  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/anim_opt/`
+---
+created: 22 March 2007 ((sub-division of "animation")  
+updated: 23 April 2007  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.5.1-9
+url: http://www.imagemagick.org/Usage/anim_opt/
+---
