@@ -1,11 +1,5 @@
 # Blur Transparency Bug -- FIXED
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-[![](../../img_www/granitesm_right.gif) Blur with Transparency](#trans_color) OR Transparency has a Color!
-[![](../../img_www/granitesm_right.gif) Blurs with a Non-Black Color](#color_blur)
-
 This is a demostration the blur with transparency bug.
 This was extracted from the main examples page, when it was realised that this was really a bug, and not just a quirk with the blur function.
 As such these pages are written as if the problem being discussed was not a bug.
@@ -27,7 +21,7 @@ Use "`-channel`" to add the alpha channel if needed.**
 
 As such in these examples pay particular attension to the "`-channel`" setting of the IM commands.
 
-## Transparency has a Color
+## Transparency has a Color {#trans_color}
 
 As "`-blur`" and "`-gaussian`" are greyscale operators, they really have no idea what color or transparency actually means.
 All they do is take the image they are working with and treat each channel of the image as a separate grey scale image.
@@ -122,7 +116,7 @@ As such...
 
 **Either blur colors, or blur transparency, do not blur both.**
 
-## Blurs with Non-Black Colors
+## Blurs with Non-Black Colors {#color_blur}
 
 So how can we generate a blurred yellow circle (or any other shape), without all those extra colors?
 
@@ -219,10 +213,10 @@ As long as you ensure the colors that will become semi-transparent are also set 
 
 Basically, be cautious, and think before you blur.
 
-------------------------------------------------------------------------
-
-Created: 19 April 2004  
- Updated: 6 May 2005  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/blur_trans/`
+---
+created: 19 April 2004  
+updated: 6 May 2005  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.2.2
+url: http://www.imagemagick.org/Usage/bugs/blur_trans/
+---

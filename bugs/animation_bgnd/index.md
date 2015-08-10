@@ -1,9 +1,5 @@
 # Animation Bugs involving Coalesce and Deconstruct -- FIXED
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-
 The GIF animation operators of IM has been problem area for users for a very long time.
 I know I have been wrestling with them since version 4.
 The following details the long time problems that existed at the time I myself fixed the bugs, and expanded the GIF animation operators, available.
@@ -110,10 +106,10 @@ However as you can see from the animation of 'Deconstructed' images that were ge
 
 This problem was fixed in IM v6.2.6-3, by providing a new "`-layers OptimizeFrame`" method, that not only deconstructs the image but trys to find the best "`-dispose`" method to frame optimize the animation correctly.
 
-------------------------------------------------------------------------
-
-Created: 24 January 2006  
- Updated: 10 March 2006  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/animation_bgnd/`
+---
+created: 24 January 2006  
+updated: 10 March 2006  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.2.6
+url: http://www.imagemagick.org/Usage/bugs/animation_bgnd/
+---

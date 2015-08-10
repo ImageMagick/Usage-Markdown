@@ -1,33 +1,10 @@
 # Blurring and Sharpening Images
 
-**Index**
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-   * [![](../img_www/granitesm_right.gif) Blurring Images](#blur)
-     * [Blur/Gaussian Arguments](#blur_args)
-     * [Blur uses the Channel Setting](#blur_channel)
-     * [Blur Internals](#blur_internals)
-     * [Blur vs Gaussian Blur Operators](#blur_gaussian)
-     * [Large Blurs using resize](#blur_resize)
-   * [![](../img_www/granitesm_right.gif) Sharpening Images](#sharpen) (Under Construction)
-   * [![](../img_www/granitesm_right.gif) Generating Shadows](#shadow)
-     * [Shaped Shadows](#shadow_shape)
-     * [Shadow Offset Problem](#shadow_offset)
-     * [Shadow and Composite](#shadow_composite)
-     * [Shadow Outlines](#shadow_outline)
-     * [Shadow in the Montage Command](#shadow_montage)
-     * [Shadow Internals](#shadow_internals)
-   * [![](../img_www/granitesm_right.gif) Specialised Blurs](#special_blurs)
-     * [Radial Blur](#radial-blur)
-     * [Motion Blur](#motion-blur)
-   * [![](../img_www/granitesm_right.gif) Feathering Shapes using Blur](#feathering) (under construction)
-   * [![](../img_www/granitesm_right.gif) Related Operators](#related) (under construction)
-
 Blurring, and its opposite, sharpening of images is a very important aspect of image processing. In this section we will look at both.
 
 ------------------------------------------------------------------------
 
-## Blurring Images
+## Blurring Images {#blur}
 
 Blurring images so they become fuzzy may not seem like a useful operation, but actually is very useful for generating background effects and shadows. It is also very useful for smoothing the effects of the 'jaggies' to [anti-alias](../antialiasing/) the edges of images, and to round out features to produce highlighting effects.
 
@@ -35,7 +12,7 @@ Blurring is so important it is an integral part of [Image Resizing](../resize/),
 
 Their are two general image blurring operators in ImageMagick. The "`-gaussian-blur`" spread and "`-blur`". The results of the two as very close, but as "`-blur`" is a faster algorithm, it is generally preferred to the former even though the former is more mathematically correct. (See [Blur vs the Gaussian Blur Operator](#blur_gaussian).)
 
-### Blur/Gaussian Arguments
+### Blur/Gaussian Arguments {#blur_args}
 
 The arguments for "`-blur`" and "`-gaussian-blur`" are the same, but to someone new to image processing, the argument values can be confusing.
          -blur  {radius}x{sigma} 
@@ -74,7 +51,7 @@ Large values however are useful for producing fuzzy images, for backgrounds or s
 
 Due to the way IM handles '`x`' style of arguments, the *sigma* in the above is optional. However it is the more important value, so it should be *radius* that is optional, as *radius* can be automatically determined. As such the a single value argument to these type of convolution operators is useless. This is unlikely to change as it has been this way for a very long time, and would break too many things.
 
-### Blur uses the Channel Setting
+### Blur uses the Channel Setting {#blur_channel}
 
 To demonstrate blur, lets start simply by generating a fuzzy black circle on a light blue background...
   
@@ -150,7 +127,7 @@ Of course we can fix this by setting the "`-channel`" setting correctly for a tr
   
 [![\[IM Output\]](yellow_blurred_RGBA.png)](yellow_blurred_RGBA.png)
 
-### Blur Internals
+### Blur Internals {#blur_internals}
 
 Lets take this step further with a more complicated example, which will let use explore exactly what "`-blur`" is doing internally.
 
@@ -211,7 +188,7 @@ This was classed as a major long term bug within the IM distribution, and one th
 
     FUTURE: Blur and Trimming Images. 
 
-### Blur vs Gaussian Blur Operators
+### Blur vs Gaussian Blur Operators {#blur_gaussian}
 
 There has been some confusion as to which operator, "`-blur`" or the "`-gaussian-blur`" is better for blurring images. First of all "`-blur`" is faster, but it does this using two stage technique. First in one axis, then in the other. The "`-gaussian-blur`" operator on the other hand is more mathematically correct as it blurs in all directions simultaneously. The speed cost between the two can be enormous, by a factor of 10 or more, depending on the amount of bluring involved.
 In a more technical context, "`-blur`" is a 2 pass, 1 dimensional orthogonal convolution filter, while "`-gaussian-blur`" is a 2 dimensional cylindrical convolution filter. See [Convolution](../morphology/#convolve) for more details. 
@@ -221,7 +198,7 @@ Cristy also bears this out when he reported... You should always use "`-blur`" i
 
 In summary, the two operators are slightly different, but only minimally. As "`-blur`" is much faster, use it. I do in just about all the examples involving blurring.
 
-### Large Blur using Resize
+### Large Blur using Resize {#blur_resize}
 
 Using large sigma values for image blurring is very slow. But one technique can be used to speed up this process. This however is only a rough method and could use some mathematically rigor to improve results.
 
@@ -246,7 +223,7 @@ This technique is also used to generate multi-level blur of a single image in a 
 
 ------------------------------------------------------------------------
 
-## Sharpening Images
+## Sharpening Images {#sharpen}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -294,7 +271,7 @@ Even repeating the operation or increasing the size of the area of the sharpen w
 
 It is sharpening algorithms which can recover of finer detail in a blurred, or heavily zoomed image, that makes big money in software packages used by police forces, astronomers, and government spy agencies.
 
-### Unsharp Images
+### Unsharp Images {#unsharp}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -379,7 +356,7 @@ For the internal details of how both "`-sharpen`", and "`-unsharp`" actually wor
 
 ------------------------------------------------------------------------
 
-## Generating Shadows
+## Generating Shadows {#shadow}
 
 The "`-shadow`" operator is a advanced operator that was developed with the IM example pages. Basically it represents a very complex blur and re-coloring of transparency shape of the given image. This is an operation that IM users performed all the time, but required a good deal of knowledge to figure how to achieve correctly.
 
@@ -415,7 +392,7 @@ While it is easiest to just use a [Layers Merge](../layers/#merge), it will tend
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > The [Layers Merge](../layers/#merge) method was added to IM v6.3.6-2. Before this you would need to use the similar layer flattening operator "`-mosaic`" instead. However this operator has problems (see next).
 
-### Shaped Shadows
+### Shaped Shadows {#shadow_shape}
 
 Now "`-shadow`" was designed with shaped images in mind, (and this is the reason for its complexity). For example here is a typical shadowed font.
   
@@ -439,7 +416,7 @@ If there is enough space for the shadow to be included without clipping, in the 
 
 You can probably see a small amount of clipping in this as the original image did not have quite enough extra space for the requested shadow.
 
-### Shadows and the Offset Problem
+### Shadows and the Offset Problem {#shadow_offset}
 
 The problem with shadow is that a blurry shadow extends in all directions. To compensate the "`-shadow`" operator enlarges the actual original image by adding a border 2 times the size of the blur '*sigma*' value given. That is if you blur a shadow using '`x3`', it will enlarge the image by 12 pixels (2 times 3 pixels on every side).
 
@@ -490,7 +467,7 @@ Padding can be asymmetrical to reduce space, but typically a symmetrical padding
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Note that while the "`-compose Over`" setting is not actually needed in the above, it is recommended. Otherwise later operations (even in other "`convert`" commands) could be effected, with unexpected results. That is a non-standard compose setting can effect other operations, including: image layering, adding borders, or frames, or simply other compositions.
 
-### Shadows and Composite
+### Shadows and Composite {#shadow_composite}
 
 Many people on the forums generate a shadow image and then try to use the lower-level "`-composite`" to merge the images. For example directly overlay the original image onto a generated (larger) shadow image.
   
@@ -517,7 +494,7 @@ Of course you can calculate and set the appropriate [Composite Geometry/Gravity]
 
 Note that the centered geometry offset is negative as the image order was swapped.
 
-### Shadow Outlines
+### Shadow Outlines {#shadow_outline}
 
 You can also use "`-shadow`" to generate a fuzzy outlines of shapes, such as text. By using [Layers Merge](../layers/#merge) IM will automatically add the extra space needed for the semi-transparent blur.
   
@@ -564,7 +541,7 @@ With a soft fuzzy shadow however that is rarely a problem.
 
 For some practical examples of shadowing see [Thumbnail shadowing](../thumbnails/#shadow) and [Better 3-D Logo Generation](../advanced/#3d-logos-2).
 
-### Shadow in the Montage Command
+### Shadow in the Montage Command {#shadow_montage}
 
 As of IM v6.3.1 the "`montage`" "`-shadow`" setting, started to make use of the soft 'shaped' shadows this operator provides.
   
@@ -576,7 +553,7 @@ As of IM v6.3.1 the "`montage`" "`-shadow`" setting, started to make use of the 
 
 However no controls for setting the color, fuzziness and offset of that shadow is provided, as "`montage`" never did provide such controls, beyond a simple on/off option.
 
-### Shadow Internals
+### Shadow Internals {#shadow_internals}
 
 Internally "`-shadow`" is extremely complex. Basically not only does it need to enlarge an image to accommodate a 'soft blurry shadow', but it also needs to blur the existing shape of the image, set its color appropriately, and finally adjust virtual page/canvas offsets; all to the users specifications.
 For example given the following "`-shadow`" command...
@@ -626,14 +603,14 @@ The actual "`-shadow`" operator, does not change any of the global settings, suc
 
 ------------------------------------------------------------------------
 
-## Specialized Blurs
+## Specialized Blurs {#special_blurs}
 
 There are a few other sorts of blurs that have been added to IM version 6, which have very special uses. These operate in specific ways, and not in all directions as most other 'convolve'-style operations do.
 They also may not work as well as other methods of generating specialized blurs, such as distorting images before and after an more normal blur. For example see [Polar Cycle Tricks](../distorts/#polar_tricks), and [Elliptical (mapped) Blurring](../compose/#blur_ellipse).
 
 **WARNING: All these blurs are experimental, and syntax may change!**
 
-### Radial Blur
+### Radial Blur {#radial-blur}
 
 You can blur the image around in a circle using a "`-radial-blur`", as if it was spinning around and around. Though technically this is a rotational or angular blur, rather than a radial blur.
 
@@ -697,7 +674,7 @@ However formulating the correct shape to generate the correct gradient can be ex
   
 [![\[IM Output\]](radial_gradient_pre.gif)](radial_gradient_pre.gif) [![\[IM Output\]](radial_gradient.gif)](radial_gradient.gif)
 
-### Motion Blur
+### Motion Blur {#motion-blur}
 
 You can add a linearly fading blur in one direction only (giving a radius and sigma, plus an the angle in which the blur should occur), by using a "`-motion-blur`".
 
@@ -758,7 +735,7 @@ If you find a more practical or interesting example or use of the above please [
 
 ------------------------------------------------------------------------
 
-## Feathering Shapes using Blur
+## Feathering Shapes using Blur {#feathering}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -829,7 +806,7 @@ A proper solution would be to find some sort of measure about how distant a poin
 
 ------------------------------------------------------------------------
 
-## Related Operators
+## Related Operators {#related}
 
     Basic image modifications
       -despeckle -enhance
@@ -863,10 +840,10 @@ A proper solution would be to find some sort of measure about how distant a poin
       -adaptive-resize
         Resize but attempt not to blur across sharp color changes
 
-------------------------------------------------------------------------
-
-Created: 19 April 2004  
- Updated: 6 October 2007  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/blur/`
+---
+created: 19 April 2004  
+updated: 6 October 2007  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-6
+url: http://www.imagemagick.org/Usage/blur/
+---
