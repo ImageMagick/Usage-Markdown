@@ -1,49 +1,5 @@
 # Color Basics and Channels
 
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) What is to Color](#intro)
--   [What is Color?](#intro)
--   [RGB color space](#rgb)
--   [CMY color space](#cmy)
--   [CMYK color space](#cmyk)
--   [Other Color Spaces](#other)
-
-[![](../img_www/granitesm_right.gif) Human Color Perception](#perception)
--   [Gamma Correction](#gamma)
--   [sRGB Colorspace Correction](#srgb)
--   [**Processing Real Images**](#processing)
--   [Gamma of your Monitor](#monitor)
-
-[![](../img_www/granitesm_right.gif) Color Specification](#colors)
--   [Colors by Name](#color_names)
--   [Color Name Conflicts](#color_conflicts)
--   [Semi-Transparent Colors](#color_semitrans)
-
-[![](../img_www/granitesm_right.gif) Color Channels](#channels)
--   [ColorSpace - How Color is Stored](#colorspace)
--   [Separating Channel Images](#separate)
--   [Grayscale Channels from Colorspaces](#grayscale)
--   [Other Channel Separation Methods](#channel_other)
--   [Combining RGB Channel Images](#combine)
--   [Combining non-RGB Channel Images](#combine_other)
--   [Zeroing Color Channels](#zeroing)
-
-[![](../img_www/granitesm_right.gif) Colorspaces](#colorspaces)
--   [Hue based Colorspaces (HSL, HSB)](#hue_colorspaces)
--   [Generating a HSL ColorWheel](#colorwheel)
--   [Perceptual Colorspaces (Lab, Luv)](#colorspace_LAB)
--   [The LCH ColorWheel](#colorwheel_LCH)
-
-[![](../img_www/granitesm_right.gif) Replacing Colors in an Image](#replace) ![](../img_www/space.gif) (replacing specific colors)
--   [Replace a Specific Color](#opaque)
--   [Replace a Color in the Image](#replace_draw)
--   [Floodfill Draw](#floodfill_draw)
--   [Floodfill Operator](#floodfill)
--   [Fuzz Factor, Matching Near Colors](#fuzz)
--   [Fuzz Factor Distance](#fuzz_distance)
--   [Fuzz Factor and Transparent Colors](#fuzz_alpha)
-
 Raster Images, which is what ImageMagick deals with (in general) basically consists of an array of individual points or pixels of color.
 Modifying the individual points and how they are represented is what we will look at in this section.
 
@@ -51,7 +7,7 @@ In the next section we will look at more general global modification of the colo
 
 ------------------------------------------------------------------------
 
-## What is Color?
+## What is Color? {#intro}
 
 To really understand color, you need to know exactly what color is.
 
@@ -88,7 +44,7 @@ As such a monitors 50/60Hz update cycle may look like a blaze of movement rather
 
 For more information see [Wikipedia, Color Vision](http://en.wikipedia.org/wiki/Color_vision) and [Wikipedia, Color](http://en.wikipedia.org/wiki/Color).
 
-### RGB Color Space, and Channels
+### RGB Color Space, and Channels {#rgb}
 
 So RGB color space is really a way of representing images using three values Red, Green, and Blue, that will fool us into thinking we are seeing something in the real world.
 Images can thus be stored as an 3 arrays values, with each of the three values forming a single pixel, or point of color, to be displayed.
@@ -128,7 +84,7 @@ When the three colors shine on the same spot say on a white wall, we see white.
 
 It is because of how our eyes actually see these 'primary' colors, that color images are generally expressed in terms of RGB values, which are also termed 'color channels'.
 
-### CMY color space
+### CMY color space {#cmy}
 
 When you are printing you have a different problem.
 A piece of paper can not generate light, only reflect it.
@@ -159,7 +115,7 @@ So really to convert a RGB image to a CMK image all that you need to do is [Nega
 
 As we are selectively removing wavelengths, Cyan, magenta, and Yellow are known as 'subtractive colors'.
 
-### CMYK color space
+### CMYK color space {#cmyk}
 
 The major problem with selectively removing wavelengths, is that just removing all red, green, and blue light, by applying all three cyan, magenta, and yellow inks, does not actually remove all the light that is being reflected.
 As a result you will be left not with a black color, but a horrible looking muddy brown color.
@@ -194,7 +150,7 @@ This means far less ink, with the paper becoming less 'wet' and less likely to r
 For another similar discussion of how RGB and CMYK colors work see the introduction page of.
 [XaraXone Workbook, Defining Color](http://www.xaraxone.com/webxealot/workbook40/page_1.htm).
 
-### Other Color Spaces
+### Other Color Spaces {#other}
 
 Other colorspaces are just other ways of representing those same colors, or some of the others beyond strict RGB that our imperfect eyes can also make out.
 However such color spaces have little bearing on either displaying those colors using a monitor, or in printing.
@@ -228,7 +184,7 @@ IM version 7 Greyscale is a single channel image (much smaller memory usage).
 
 ## Gamma Correction and sRGB Colorspace
 
-### Human Color Perception
+### Human Color Perception {#perception}
 
 In the above we saw that you can represent images in many different ways.
 All the color-spaces we looked at above are known as 'linear' colorspaces, which means that the actual value used represents the actual 'intensity' values of the color in an image.
@@ -265,7 +221,7 @@ $$
 
 The value '`2.2`' is the average gamma function value, typical of most human beings.
 
-### Gamma Correction
+### Gamma Correction {#gamma}
 
 Gamma Correction is a way of adjusting the color values that are actually saved, so that the final image looks much more uniform in its spread of colors.
 
@@ -305,7 +261,7 @@ For more information on Gamma Correction see
 
 You may also like to look at the "`-auto-gamma`" operator, which tries to adjust gamma to produce a linear-RGB image, with equal amounts of light and dark (in linear space).
 
-### sRGB Colorspace Correction
+### sRGB Colorspace Correction {#srgb}
 
 Saving an image using a sRGB Colorspace is very similar to Gamma correcting an image, but is slightly more complicated so as to better reproduce the actual response of the human eye, specifically with very dark shades of color.
   
@@ -376,7 +332,7 @@ For a 8-bit Gray value of 1, sRGB is 60 times brighter than the equivalent Gamma
 A value of 8 is 5 times brighter.
 This will not make any noticeable difference in most cases but it can, when a very dark picture is handled.
   
-### Processing Real Images
+### Processing Real Images {#processing}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -405,7 +361,7 @@ Also see warnings about colornames and drawing in linear colorspace, in [Drawing
 One of the best external references to this is [gamma error in picture scaling](http://www.4p8.com/eric.brasseur/gamma.html) and even has a [Section on ImageMagick](http://www.4p8.com/eric.brasseur/gamma.html#ImageMagick).
 This includes the latest update, as well as references back to these pages.
   
-### Gamma of your Monitor
+### Gamma of your Monitor {#monitor}
 
   
 Stand back from your monitor a few meters (yards) and look at the image to the left.
@@ -459,12 +415,12 @@ On the other hand my personal laptop as a very uniform display, with a reasonabl
 
 ------------------------------------------------------------------------
 
-## Color Specification
+## Color Specification {#colors}
 
 Colors in IM can be specified in many ways.
 The best guide on this is on the Official IM Website [Color Names](http://www.imagemagick.org/script/color.php).
 
-### Colors by Name
+### Colors by Name {#color_names}
 
 Many colors have been given specific names, which make then easier to use.
 For example "`RoyalBlue`" is a very nice bright off blue color.
@@ -489,7 +445,7 @@ Essentially there are some areas of the HSL color space that have very few named
 It can be difficult to find a specific named color to use.
 But by loading the image to the right in the IM "`display`" program you can use the middle mouse button to look at the ImageMagick color name for the specific color that has been plotted.
 
-### Special Color Names
+### Special Color Names {#color_specials}
 
 There are a few special colors, which are used for special purposes within ImageMagick.
 
@@ -498,7 +454,7 @@ There are a few special colors, which are used for special purposes within Image
 '`Opaque`' is just an alias for '`Black`', and as such is rarely used.
 It is typically only used when want to mean ANY opaque color, such as when doing Alpha Channel Processing.
 
-### Color Name Conflicts
+### Color Name Conflicts {#color_conflicts}
 
 Color Names can come from three different sources, SVG, X11, and XPM, and most names produce the same color regardless of the defining source.
 But there are a few colornames which produce different colors, depending on the color specification being used.
@@ -530,7 +486,7 @@ Notes about the above...
 
 **Caution is recommended when selecting a color for a specifc purpose**.
 
-### Colors and Colorspace
+### Colors and Colorspace {#color_colorspace}
 
 While many colors have names, most colors found in images do not, they are just a set of values, usually 3, that specify a specific color.
 However three values on there own does not fully define a color, you also need to specify the 'colorspace' or 'color system' that those values belong.
@@ -551,7 +507,7 @@ As of IM v6.7.8-3, you can use the function '`icc-color(colorspace,color...)`' t
 
 *Future: Examples of use*
 
-### Semi-Transparent Colors
+### Semi-Transparent Colors {#color_semitrans}
 
 You can directly specify semi-transparent colors directly in only two different ways.
 
@@ -638,13 +594,13 @@ convert -size 50x50 xc:none \
 
 ------------------------------------------------------------------------
 
-## Color Channels
+## Color Channels {#channels}
 
 The actual color data of an image is stored as arrays of values, known as channels.
 Typically an image will have at least 3 channels, representing red, green, and blue color values.
 But as you saw above the values stored could represent other colorspaces.
 
-### Colorspace, and Channel Naming
+### Colorspace, and Channel Naming {#colorspace}
 
 The primary purpose of "`-colorspace`" operator is to change the way IM stores the colors of an image within memory.
 
@@ -684,7 +640,7 @@ So lets look at how we can manipulate color channels.
 Remember each channel is just an array of values.
 All the channels would then combine together to represent that actual color of each pixel within the image.
 
-### Separating Channel Images
+### Separating Channel Images {#separate}
 
 The easiest way separating out the individual color channels is to use the "`-separate`" operator to extract the current contents of each channel as a gray-scale image.
 
@@ -733,7 +689,7 @@ In reality it represents the amount of 'ink' a CMYK printer should deposit on th
 Note that by default the "[`-channel`](../option_link.cgi?channel)" setting does not include the special [Matte Transparency Channel](../masking/#matte) of the image.
 If you want to always generate all channels that is present, you can use a "`-channel ALL`" channel setting, or use '`RGBA`' or '`CMYKA`' "[`-channel`](../option_link.cgi?channel)" setting.
 
-### Grayscale Channels from Colorspace Representations
+### Grayscale Channels from Colorspace Representations {#grayscale}
 
 You can extract specific channel values from colorspaces for special purposes.
 For example here we extract the images grayscale brightness or intensity from the rose image, using a number of different representations.
@@ -792,7 +748,7 @@ Note the 'Lightness\*' channel from the LAB (and also LUV) colorspace (not to be
 
 Note that if given a grayscale image, all the colorspace grayscale images produce exactly the same image as the input greyscale image, with the exception of 'Lightness\*' ('`R`') channel image for a LAB / LUV colorspace.
 
-### Other Channel Separation Methods
+### Other Channel Separation Methods {#channel_other}
 
 One method is to copy one channel to all the other channels, to generate a grayscale gray-scale image, just as what the [Separate Operator](#separate) generates.
 A simple, but slow, method is to use the [FX DIY Operator](../transform/#fx).
@@ -810,7 +766,7 @@ This is often regarded as the 'simplest' solution to understand, and has been us
 Other methods involve using a multitude of techniques to 'zero' out the unwanted channels.
 These are listed in [Zeroing Color Channels](#zeroing) below, and are usally a lot faster that using "`-fx`".
 
-### Combining RGB Channel Images
+### Combining RGB Channel Images {#combine}
 
 Once you have separated out all the image color channels, and processed them, you will also need to be able to rejoin the images back together again.
 
@@ -852,7 +808,7 @@ convert  separate_red.gif separate_blue.gif -background black \
 
 [![\[IM Output\]](separate_red.gif)](separate_red.gif) [![\[IM Output\]](separate_blue.gif)](separate_blue.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_red_blue.gif)](rose_red_blue.gif)
 
-### Combining non-RGB Channel Images
+### Combining non-RGB Channel Images {#combine_other}
 
 As of IM v6.4.3-7, you can also "`-combine`" channel images that represent other colorspaces, but you need to tell IM what colorspace the resulting image should be.
 
@@ -928,7 +884,7 @@ convert rose: -colorspace Lab \
 
 As you can see this simplifies things, but it may not always be practical, for the effect you want to achieve.
 
-### Zeroing Color Channels
+### Zeroing Color Channels {#zeroing}
 
 Sometimes you have an image (RGB or some other colorspace) where you just want to clear or 'zero' one or two of the color channels but leave all the other channels as is.
 
@@ -981,7 +937,7 @@ However there are many not so obvious ways you can do this...
 
 ------------------------------------------------------------------------
 
-## Colorspaces
+## Colorspaces {#colorspaces}
 
 So far we have concentrated on the '`sRGB`', '`RGB`' and '`CMYK`' colorspaces.
 That is because these are the colorspaces that is typically used for display, printing and traditional storage of images in files.
@@ -993,7 +949,7 @@ Because of this many colorspaces and color systems have been developed, often fr
 Painters for example developed a system of colors (based on color sources like lapus luzuli), shades and tinting.
 Later computer systems using RGB, needed better ways for users to select or modify colors, in ways that was not to computationally intensive.
 
-### Hue Based Colorspaces
+### Hue Based Colorspaces {#hue_colorspaces}
 
 Probably one of the most well known alternative is the cyclic-hue, based system, which was developed as a color selection interface for RGB colors.
 
@@ -1030,7 +986,7 @@ But to see this we are better off looking at more practical represntations of th
 
 If you look at the last 'brightness/lightness' images in the above separations, you will see that '`HSB`' treats a strong (near primary) 'red' color as almost white, while '`HSL`' treats it as more like a mid-tone gray intensity.
 
-### Generating a HSL Color Wheel
+### Generating a HSL Color Wheel {#colorwheel}
 
 The above raw separations of the color from an image is still difficult to understand.
 To better understand the colorspace, we need to try and view it The colorspace is more usually represented as a circular polar gradient, showing some part of the colorspace.
@@ -1157,7 +1113,7 @@ See the examples in [Modulate in HCL Colorspace](../color_mods/#modulate_HCL).
 
 *HWB Colorspace ???*
 
-#### Perceptual Colorspaces
+### Perceptual Colorspaces {#colorspace_LAB}
 
 The colorspaces '`Lab`' and '`Luv`' are designed, such that they fully separate the greyscale intensity from the color components of an image.
 Unlike '`RGB`' and '`sRGB`' colorspaces.
@@ -1191,7 +1147,7 @@ Other better examples of the '`Lab`' and '`Luv`' colorspace can be seen using it
 
 For practical example of using these colorspace see [Resizing in Lab colorspace](../resize/#resize_lab).
 
-#### Lab and Luv, based Color Spaces
+### Lab and Luv, based Color Spaces {#colorwheel_LCH}
 
 The '`HCL`' colorspace is based on the '`LCHuv`' colorspace, which is a cylindrical representation of the '`Luv`' colorspace, though with a simpler formula for the lightness channel, so as to generte pure white at maximum lightness.
 
@@ -1252,7 +1208,7 @@ Normal conversions of images will not generate these colors.
 
 ------------------------------------------------------------------------
 
-## Replacing Colors in Images
+## Replacing Colors in Images {#replace}
 
 ImageMagick naturally provides a number of options to replacing a specific and near match colors with another color.
 This is great when dealing with icons and 'bitmap' type images that contain very few colors, but tends to fail when dealing with images containing shades of colors or anti-aliasing edge pixels.
@@ -1268,7 +1224,7 @@ This is a short coming that may change in a future version of IM.
 
 With that caveat, lets look at the ways IM does provide for the direct replacement of specific colors with another color.
 
-### Replace a Specific Color
+### Replace a Specific Color {#opaque}
 
 The "`-opaque`" and "`-transparent`" operators are designed for replacing one color in an image with another.
 
@@ -1343,7 +1299,7 @@ The "`-opaque`" color replacement cannot replace a color with a tiled pattern.
 It will only replace colors with another single specific color.
 However both the "`-draw`" and "`-floodfill`" color replacement methods can (see below).
 
-### Replace using a Color in the Image
+### Replace using a Color in the Image {#replace_draw}
 
 You can also use [Draw Color Replacement](../draw/#color) to recolor images based on colors present in the image itself, rather than a specific color.
 
@@ -1394,7 +1350,7 @@ convert present.gif -tile pattern:right30 \
 
 For more advanced replacement techniques, I suggest you look at [Background Removal](../masking/#bg_remove).
 
-### Floodfill Draw
+### Floodfill Draw {#floodfill_draw}
 
 The [Draw Color](../draw/#color) methods also provide you with a simple method of replacing a color by 'floodfilling'.
 That is, rather than replacing ALL the matching colors within the image, you can select just the colors which are 'connected to' or 'attached' to the specified point in the image.
@@ -1422,7 +1378,7 @@ convert present.gif -bordercolor white -border 1x1 \
 
 Of course you can adjust what colors are 'matched' using the [Fuzz Factor](#fuzz) control setting below, which is especially important for [JPEG](../formats/#jpeg) images.
 
-### Floodfill Operator
+### Floodfill Operator {#floodfill}
 
 The "`-floodfill`" operator was added to make floodfilling slightly easier, especially when you what to exactly specify the color that you specifically want to replace.
 This can be especially important when using [Fuzz Factor](#fuzz) color matching.
@@ -1474,7 +1430,7 @@ In this case only the '`Green`' and '`Blue`' flood-fill operations 'hit a disk' 
 It also means that if you already filled a specific area, later fills will not 're-fill' the same area if two points hit that area.
 that can save a lot of time.
 
-### Fuzz Factor - Matching Similar/Multiple Colors
+### Fuzz Factor - Matching Similar/Multiple Colors {#fuzz}
 
 The overall results of just selecting a single color to replace, as shown in the previous examples is usually not very nice.
 The edges or areas of solid colors generally have a mix of colors at the edge, due to anti-aliasing (See [Anti-Aliasing](../antialiasing/) for more information).
@@ -1524,7 +1480,7 @@ It also effects GIF "`-layers        OptimizeTransparency`", and "`-compose     
 
 It also effects the results of "`compare`" and specifically the "`-metric AE`" or Absolute Error Pixel Count.
 
-#### Fuzz Factor Distance
+### Fuzz Factor Distance {#fuzz_distance}
 
 The "`-fuzz`" setting is actually a form of color 'distance' setting.
 Any color that is within the given distance of the color being looked for, will match that color, even though it is not an exact match.
@@ -1673,7 +1629,7 @@ As such it is not until you reach a large fuzz factor of 28%, that the color in 
 As the fuzz factor gets larger more and more colors will match until only the colors at the extreme corners of the color cube remain.
 At around 50% the corner colors will also start to match, and so at 51% every opaque RGB color will have matched.
 
-#### Fuzz Factor and Transparent colors
+### Fuzz Factor and Transparent colors {#fuzz_alpha}
 
 Using a "`-fuzz`" factor becomes more complicated when matching involves transparent and semi-transparent colors.
 
@@ -1773,10 +1729,10 @@ This example is essentially equivalent to a threshold of the alpha channel, befo
       With a ImageMagick API the results can be more directly retrieved from the
       image.
 
-------------------------------------------------------------------------
-
-Created: 1 December 2010  
- Updated: 9 March 2011  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/color_basics/`
+---
+created: 1 December 2010  
+updated: 9 March 2011  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.7.0-9
+url: http://www.imagemagick.org/Usage/color_basics/
+---
