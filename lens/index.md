@@ -1,26 +1,13 @@
 # Lens Correction
 
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Introduction to Lens Correction](#lens_correction)
-[![](../img_www/granitesm_right.gif) Non-scaling Restraint](#non-scaling)
-[![](../img_www/granitesm_right.gif) Ready-made Parameter Sets](#ready_made)
-[![](../img_www/granitesm_right.gif) Calibrating From Scratch](#scratch)
--   [Basic Appoach](#basic)
--   [Determining lens parameter sets with Hugin](#practice)
--   [Defining point sets](#pointsets)
-
-[![](../img_www/granitesm_right.gif) Example](#examples)
-[![](../img_www/granitesm_right.gif) Keyboard Example](#keyboard) (by El-Supremo)
-
 When taking photographs, the images generated are actually distorted by both lens effects and spherical perspective effects.
-If you plane to use photos you will generally need to correct for these effects, and that is what will be looked at in this section.
+If you plan to use photos, you will generally need to correct for these effects, and that is what will be looked at in this section.
 
 The majority of section was contributed by Wolfgang Hugemann.
 
 ------------------------------------------------------------------------
 
-## Introduction to Lens Correction
+## Introduction to Lens Correction {#lens_correction}
 
 Fisheye lenses and low-cost wide-angle lenses (or rather zoom lenses when set to short focal length) typically produce a pronounced barrel distortion.
 This distortion can however be mostly corrected by applying suitable algorithmic transformations to the digital photograph.
@@ -37,7 +24,7 @@ For photographs taken with cameras that don't offer this possibility, ImageMagic
 The following text is an abridged version of paper [Correcting Lens Distortion (PDF)](correcting_lens_distortions.pdf) (dealing with applications in accident reconstruction).
 The explanations given here are a more hands-on approach, concentrating on the ways to get in hold of the adequate lens correction parameters.
 
-## Non-scaling Restraint
+## Non-scaling Restraint {#non-scaling}
 
 As described in the [Barrel Distortions](../distorts/#barrel) The barrel distortion is defined by the mathematical formula
 
@@ -75,7 +62,7 @@ Nevertheless, it proves to work astonishingly precisely in practice.
 
 ------------------------------------------------------------------------
 
-## Ready-made Parameter Sets
+## Ready-made Parameter Sets {#ready_made}
 
 PTlens's current lens database, being the "marrow" of the program, is encrypted and can only be read by PTlens itself (and few other software whose programmers obviously licensed it).
 Until February 2006, however, PTlens's database was coded in XML format, i.e. an easily editable text format.
@@ -110,7 +97,7 @@ This gives a crop factor of 152 / 31 = 4.90, which roughly corresponds to the 4.
 The coefficients of the correction by barrel distortion are supplied for six focal lengths, namely 8.2 mm, 10.1 mm, 13.6 mm, 18.4 mm, 23.4 mm, 28.3 mm and 31.0 mm.
 The coefficients `a` and `c` are, for this lens, set to zero, i.e. the distortion is described only by the second-order term `b`.
 
-Note that many lens's will also have values for `a` and `c` parameters as well, and these should also be interpolated in a similar way.
+Note that many lenses will also have values for `a` and `c` parameters as well, and these should also be interpolated in a similar way.
 
 If we have a photograph `DSCN0001.jpg` taken with a Nikon Coolpix 995 set to the shortest focal length, this photograph could be corrected by ImageMagick via
 
@@ -134,9 +121,9 @@ The Windows section shows a [VBScript Example](../windows/#vb_example) in which 
 
 ------------------------------------------------------------------------
 
-## Calibrating from scratch
+## Calibrating from Scratch {#scratch}
 
-### Basic Approach
+### Basic Approach {#basic}
 
 When determining the lens parameters, all programs rely on the same paradigm: the ideal perspective mapping should map real world straight lines to straight lines in the image.
 So if a set of real-world points P<sub>0</sub>, P<sub>1</sub>, ..., P<sub>n</sub> is known to lie on a straight line, their images p<sub>0</sub>, p<sub>1</sub>, ..., p<sub>n</sub> must also fall onto a straight line.
@@ -170,10 +157,10 @@ $$
 Thus three real-world points and their corresponding image points would suffice to determine the parameters describing the straight line and the lens distortion `k1, k2, b`.
 
 In practice, the coordinates of the real-world points are rarely known, such that one needs more than just three points to determine the sought parameters.
-Most calibration software uses a rectangular grid of straight lines (often a chequerboard) to generate a set of equations and then calculate the mapping parameters by a nonlinear least-squares fit.
+Most calibration software uses a rectangular grid of straight lines (often a checkerboard) to generate a set of equations and then calculate the mapping parameters by a nonlinear least-squares fit.
 Some programs generate the set of control points on their own, often using pre-defined templates; other programs require the user to select the control points from the calibration image.
 
-### Determining lens parameter sets with Hugin
+### Determining lens parameter sets with Hugin {#practice}
 
 In the following, we will demonstrate how to determine a set of lens correction parameters by the use of Hugin.
 There is also a ready-made "Simple Lens Calibration Tutorial" on Hugin's Website, but at the time of this writing (2014), it seems to be too simple to provide reliable parameters that can later be used for a multitude of corrections.
@@ -237,7 +224,7 @@ convert calibration_image.jpg -distort barrel 'a b c' flat.jpg
 replacing the values `a b c` with the ones just determined.
 The lines in the output image should be exactly straight, otherwise the optimisation has failed and needs to be performed with a deviating start vector or a corrected control point set.
 
-### Defining point sets
+### Defining point sets {#pointsets}
 
 For a serious calibration, it is recommendable to manually edit the Hugin project file and define the point coordinates and point sets by other means.
 The project file is a plain text file with the extension PTO, you can open it with a simple text editor and supply a point list.
@@ -272,9 +259,9 @@ A ready-made example, both with a calibration image and the corresponding Hugin 
 
 ------------------------------------------------------------------------
 
-## Examples of Lens Correction
+## Examples of Lens Correction {#examples}
 
-### Camp Mobile
+### Camp Mobile {#campmobile}
 
   
 [![\[IM Output\]](campmobile.jpg)](campmobile.jpg)  
@@ -294,7 +281,7 @@ The image to the right shows the difference between greyscale versions the two p
 Again, the effects of the correction are best illustrated by the horizontal stripe at the top.
 The white circle (indicating zero difference) results from the non-scaling restriction: the points on a circle with a diameter equal to the smaller dimension of the image remain unaltered.
 
-### GoPro flattening
+### GoPro flattening {#gopro}
 
 The GoPro camera lens produces a pronounced barrel distortion, which seems to be part of its branding.
 For instance, the GoPro Hero 3+ silver edition has a fisheye lens with a fixed focal length of 2.77 mm, corresponding to a focal length of 16 mm in 35 mm film, if the entire photosensitive area is used.
@@ -349,7 +336,7 @@ These parameters can be used for a frame-wise correction with ImageMagick.
 As an alternative, they can be used to "flatten" the entire video by the [AVIsynth](www.avisynth.org) plugin [DeBarrel](http://www.avisynth.nl/users/vcmohan/DeBarrel/DeBarrel.html), which also uses the Panorama Tools lens correction model.
 
 
-### Two Keyboards by el\_supremo
+### Two Keyboards by El\_Supremo {#keyboard}
 
 The photo that I took of my two keyboards has a very obvious barrel distortion in it, because it was taken at a focal length of 17 mm.
 
@@ -414,6 +401,7 @@ convert keyboards.jpg \
 [![\[IM Output\]](keyboards_ptlens.jpg)](keyboards_ptlens.jpg)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> :REMINDER:
 > Of course you should not save to JPEG until you have finished processing your image completely, due to the JPEG lossy compression.
 
 In the original photo the distortion is particularly obvious along the bottom of the music stand and along the upper keyboard.
