@@ -35,7 +35,7 @@ These examples involve the combining of multiple 'layers' of images to produce t
 
 ------------------------------------------------------------------------
 
-## Layering Images Introduction
+## Layering Images Introduction {#intro}
 
 As we have previously noted, ImageMagick does not deal with just one image, but a sequence or list of images.
 This allows you to use IM in two very special image processing techniques.
@@ -59,7 +59,7 @@ Only when all the image layers have been created do you [Flatten](#flatten), [Mo
 
 ------------------------------------------------------------------------
 
-## Appending Images
+## Appending Images {#append}
 
 Appending is probably the simplest, of the multi-image operations provided to handle multiple images.
 
@@ -186,13 +186,14 @@ See also [Montage Concatenation Mode](../montage/#concatenate), for an alternati
 
 ------------------------------------------------------------------------
 
-## Composition of Multiple Pairs of Images
+## Composition of Multiple Pairs of Images {#composition}
 
 Compostion is the low-level operation that is used to merge two individual images together.
 Almost all layering techniques eventaully devolve down to merging images together two at a time, until only one image is left.
 
 So lets start by looking at ways of doing low-level composition of image pairs.
-### Using the Composite Command
+
+### Using the Composite Command {#composite}
 
 The traditional method of combining two images together using ImageMagick is though the "`composite`" command.
 This command can only combine only two images at a time, saving the results of each operation into a file.
@@ -235,7 +236,7 @@ The big disadvantage with this method is that you are using multiple commands, a
 
 To find more examples of using the "`composite`" command, to overlay images on top of other images, see "[Annotating by Overlaying Images](../annotating/#overlay)" and "[Image Positioning using Gravity](../annotating/#image_gravity)".
 
-### Composite Operator of Convert
+### Composite Operator of Convert {#convert}
 
 The "`-composite`" operator is available within the "`convert`" command.
 For more details see [Convert -composite Operator](../basics/#composite).
@@ -283,7 +284,7 @@ convert -size 100x100 xc:skyblue \
 
 [![\[IM Output\]](compose_resize.gif)](compose_resize.gif)
 
-### Draw Multiple Images
+### Draw Multiple Images {#draw}
 
 Also using "`convert`" you can also use [Draw Primitives](../draw/#primitive) to overlay images onto its working canvas.
 
@@ -318,7 +319,7 @@ Drawn images are "`-gravity`" effected, just like text.
 
 ------------------------------------------------------------------------
 
-## Layering Multiple Images
+## Layering Multiple Images {#layers}
 
 True layering of images requires methods to combine multiple images together, without needing to individually compose each pair of images separately.
 This is where the various `-layers` operator methods come into their own.
@@ -329,7 +330,7 @@ Note that 'layered images' is practically identical to the handling 'animated fr
 As such it is recommended you also look at both [Animation Basics](../anim_basics/) and [Animation Modifications](../anim_mods/) for techniques involving processing individual 'layers' or 'frames'.
 Actually animations often use the same `-layers` operator for processing images.
 
-### Flatten - onto a Background Image
+### Flatten - onto a Background Image {#flatten}
 
 The "`-layers flatten`" image list operator, (or its shortcut "`-flatten`") will basically "[Compose](../compose/)" each of the given images on to a background to form one single image.
 However the image positions are specified using their current [Virtual Canvas, or Page](../basics/#page) offset.
@@ -430,7 +431,8 @@ It also will not 'expand' the image itself to cover the whole viewport if the im
 A common mis-use of the "`-flatten`" operator is to [Remove Transparency](../masking/#remove) from an image.
 That is to get rid of any transparency that an image may have, but overlaying it on the background color.
 However this will not work when multiple images are involved as as such no longer recommended.
-### Mosaic - Canvas Expanding
+
+### Mosaic - Canvas Expanding {#mosaic}
 
 The "`-layers mosaic`" operator (or its "`-mosaic`" shortcut) is more like a expanding canvas version of the [Flatten Operator](.#flatten).
 Rather than only creating an initial canvas based on just the canvas size of the initial image, the [Mosaic Operator](#mosaic) creates a canvas that is large enough to hold all the images (in the positive direction only).
@@ -464,7 +466,7 @@ convert -page -5-10  balloon.gif   -page +35+30 medical.gif  \
 
 [![\[IM Output\]](mosaic_clip.gif)](mosaic_clip.gif)
 
-### Merging - to Create a New Layer Image
+### Merging - to Create a New Layer Image {#merge}
 
 The "`-layers merge`" operator is almost identical to the previous operators and was added with IM v6.3.6-2.
 It only creates a canvas image just large enough to hold all the given images at their respective offsets.
@@ -540,7 +542,7 @@ Other examples of using this operator is to generate a simple series of [Overlap
     actual image data, while ensuring everything is contained on a valid
     virtual (positive) canvas of minimal size.
 
-### Coalesce Composition - a Progressive Layering
+### Coalesce Composition - a Progressive Layering {#coalesce}
 
 The "`-layers coalesce`" image operator (or its "`-coalesce`" shortcut) is really designed for converting GIF animations into a sequence of images.
 For examples, see [Coalescing Animations](../anim_basics/#coalesce) for details.
@@ -597,7 +599,7 @@ It only uses an '`Over`' compose method, as this is what is required for GIF ani
 
 Using different "`-compose`" methods with the more standard image layering operators is the subject of the next set of examples.
 
-### Compose Methods and Layering
+### Compose Methods and Layering {#compose}
 
 The three [Layering](#layers) methods '`flatten`', '`mosaic`' will make use of the "`-compose`" setting to determine the composition method used to overlay each image in sequence.
 As such you could think of these functions as a multi-image "`-composite`" operator with the ability to set an initial "`-background`" canvas color.
@@ -659,7 +661,7 @@ convert -size 60x60 \
 
 [![\[IM Output\]](flatten_xor.png)](flatten_xor.png)
 
-### Layers Composite - Merge Two Layer Lists
+### Layers Composite - Merge Two Layer Lists {#layer_composite}
 
 With IM v6.3.3-7 the "`-layers`" method, '`Composite`' was added allowing you compose two completely separate sets of images together.
 
@@ -683,7 +685,7 @@ So see [Multi-Image Alpha Composition](../anim_mods/#compose) for more details.
 
 ------------------------------------------------------------------------
 
-## Handling Image Layers
+## Handling Image Layers {#layer_examples}
 
 Laying multiple images using the various layer operators above is a very versatile technique.
 It lets you work on a large number of images individually, and then when finished you combine them all into a single unified whole.
@@ -691,7 +693,7 @@ It lets you work on a large number of images individually, and then when finishe
 So far we have shown various ways of merging (composing or layering) multiple images in many different ways.
 Here I provide some more practical examples on just how to make use of those techniques.
 
-### Layering Of Thumbnail Images
+### Layering Of Thumbnail Images {#layer_thumnails}
 
 You can also use this technique for merging multiple thumbnails together in various complex ways.
 
@@ -710,7 +712,7 @@ convert -page +5+5    holocaust_tn.gif \
 
 [![\[IM Output\]](overlap_canvas.jpg)](overlap_canvas.jpg)
 
-### Calculated Positioning of Images.
+### Calculated Positioning of Images {#layer_calc}
 
 The [Virtual Canvas Offset (page)](../basics/#page) can be set in many ways.
 More specifically you can "`-set`" set this per-image [Attribute](../basics/#attribute), and even calculate a different location for each and every image.
@@ -780,7 +782,7 @@ That means you could position a list of images according to say values found in 
 How useful 'mapped positions' would be is another matter.
 It is just another possibility.
 
-### Two Stage Positioning of Images
+### Two Stage Positioning of Images {#layer_prog}
 
 You can simplify your image processing, by separating them into two steps.
 One step can be used to generate, distort, position and add fluff to images, with a final step to merge them all together.
@@ -845,7 +847,7 @@ Other possibilities include...
 
 Basically you have complete freedom in the positioning of images on the virtual canvas, and can then simply leave IM to sort out the final size of the canvas needed to whole all the images.
 
-### Pins in a Map
+### Pins in a Map {#layer_pins}
 
 Here is a typical layering example, placing coloured pins in a map, at specific locations.
 
@@ -921,7 +923,7 @@ The scripts in [Image Warping Animations](../warping/#animations) use this techn
 
 Both methods avoid the need to generate temporary images.
 
-### Layers of Shadows
+### Layers of Shadows {#layer_shadow}
 
 Correctly handling semi-transparent shadow effects in a set of overlapping images is actually a lot more difficult than it seems.
 Just overlaying photos with shadows will cause the shadows to be applied twice.
@@ -1154,7 +1156,7 @@ However the shadow currently does not become more blurry with depth.
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > The above will be a lot simplier using the IMv7 "magick" command, which would allow you to use 'fx calculations' directly the argument to "`-shadow`", that would let you not only calculate a larger offset for the shadow with depth, but also let you mak ethe shadow more blurry with depth.
 
-### Positioning Distorted Perspective Images
+### Positioning Distorted Perspective Images {#layer_distort}
 
 Aligning distorted images can be tricky, and here I will look at aligning such images to match up at a very specific location.
 Here I have two images that highlight a specific point on each image.
@@ -1347,7 +1349,7 @@ A similar but simpler problem is looked at in [Text Positioning using Distort](.
 
 ------------------------------------------------------------------------
 
-## Evaluate-Sequence - Direct Mutli-Image Merging Methods
+## Evaluate-Sequence - Direct Mutli-Image Merging Methods {#evaluate-sequence}
 
 The "**`-evaluate-sequence`**" methods, are designed to merge multiple images of the **same size** together in very specific ways.
 
@@ -1357,7 +1359,7 @@ Many of the methods provided can even be performed using normal multi-image laye
 The operator uses the same methods as "`-evaluate`" so you can get a list of them using "`-list Evaluate`".
 Though some of these (such as '`Mean`' and '`Medium`') are really only useful when used with this operator.
 
-### Mean (Average) of multiple images
+### Mean (Average) of multiple images {#evaluate-seq_mean}
 
 Essentially both the older "`-average`" and the newer "`-evaluate-sequence mean`" will create a average of all the images provided.
 
@@ -1387,7 +1389,7 @@ Related to this, and containing relevent maths is the discussion [Don't load all
 
 Another alternative to using '`mean`' is to use the newer [Poly Operator](#poly), which can individually weight each image.
 
-### Max/Min Value of multiple images
+### Max/Min Value of multiple images {#eval-seq_max}
 
 The '**`Max`**' and '**`Min`**' methods will get the maximum (lighter) values and minimum (darker) values from a sequence of images.
 
@@ -1398,7 +1400,7 @@ WARNING: This is not a selection of pixels (by intensity), but a selection of va
 That means the output image could result in the individule red, green and blue values from different images, resulting in a new color not found in any of the input images.
 See the [Lighten Compose Method](../compose/#lighten) for more details of this.
 
-### Median Pixel by Intensity
+### Median Pixel by Intensity {#eval-seq_median}
 
 The "`-evaluate-sequence Median`" will look for the pixel which has an intensity of the middle pixel from all the images that are given.
 
@@ -1419,7 +1421,7 @@ The key point is that each pixel will come completely from one image, and sorted
 You will never get a mix of values, producing a color mixed from different images.
 The exact color of each pixel will come completely from one image.
 
-### Add Multiple Images
+### Add Multiple Images {#eval-seq_add}
 
 The '**`Add`**' method is will of course simply add all the images together.
 
@@ -1454,7 +1456,7 @@ convert  ...  \
        ...
 ~~~
 
-### Multiple/Divide Multiple Images
+### Multiple/Divide Multiple Images {#eval-seq_multiply}
 
 '**Multiply**' and '**Divide**' are accepted as methods by "`-evaluate-sequence`" but they generate unexpected and odd results, as they are using the actual color value of the images rather than the normalised color value, just as "`-evaluate`" does.
 As a result the scale of the multiply and divide is too large.
@@ -1467,7 +1469,7 @@ In the meantime, you are better using the equivalent 'flatten' method for Multip
 convert ... -background white -compose multiply -layers flatten ...
 ~~~
 
-## Poly - Merge Multiple Images Using a Polynomial
+## Poly - Merge Multiple Images Using a Polynomial {#poly}
 
 Closely related to "`-evaluate-sequence and specifically to the 'mean`' method (image averaging), is the "`-poly`" operator (added IM v6.8.0-5).
 
