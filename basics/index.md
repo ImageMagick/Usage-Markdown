@@ -1,80 +1,14 @@
 # Basic Usage
 
-**Index**  
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-   * [![](../img_www/granitesm_right.gif) ImageMagick Command Line Processing](#cmdline)
-     * [Why did Command Line Style Change!](#why)
-     * [IMv6 command line Syntax](#syntax)
-     * [Operators and Setting Options](#options)
-       * [Settings](#option_settings): [operator](#option_ops), [input](#option_in), [output](#option_out), [control](#option_ctrl)
-       * [Operators](#option_operators): [create](#option_create), [simple](#option_simple), [list](#option_list), [stack](#option_stack), [misc](#option_misc)
-     * [A Working Example of an IM Command](#example) identify -format "%l" rose.png
-     * [Legacy Command Line Style](#legacy)
-     * [Command Line (CLI) vs API](#cmd_vs_api)
-     * [Argument Handling](#arguments)
-       * [Percent Escapes](#arg_percent)
-       * [Delayed Percent Escapes](#arg_delayed)
-   * [![](../img_www/granitesm_right.gif) ImageMagick Commands](#im_commands)
-     * [Convert -- convert and modify images](#convert)
-     * [Identify -- Output information about this image](#identify)
-       * [Identify, To Ping or not to Ping!](#identify_ping)
-       * [Identify as a floating point Calculator](#identify_math)
-       * [Extra Cavats about Identify](#identify_cavats)
-       * [Identify Alternatives - Text Output Options](#identify_alt)
-     * [Mogrify -- in-place batch processing](#mogrify)
-       * [Alpha Composition with Mogrify](#mogrify_compose)
-       * [Using Convert Instead of Morgify](#mogrify_convert)
-       * [Batch Processing Alternatives](#mogrify_not)
-     * [Composite -- overlaying images in special ways](#composite)
-     * [Montage -- generating arrays of thumbnails](#montage)
-     * [Display -- Slideshows of Images](#display)
-     * [Animate -- Show GIF Animations](#animate)
-     * [Compare -- Look for Differences](#compare)
-     * [Stream -- Pipelined Image Processor](#stream)
-     * [Import -- Read Images from On-screen Display](#import)
-     * [Conjure -- Experimental IM Scripting Language](#conjure)
-
-   * [![](../img_www/granitesm_right.gif) Image Lists](#image_list)
-     * [Parenthesis -- processing images 'on-the-side'](#parenthesis)
-     * [Parenthesis and Settings](#respect-parenthesis)
-     * [Image List Operators](#list_ops)  
-       [-delete](#delete), [-insert](#insert), [-swap](#swap),  
-       [-reverse](#reverse), [-clone](#clone), [-duplicate](#duplicate)
-     * [Combining Image List Operations](#seq_combine)
-
-   * [![](../img_www/granitesm_right.gif) Complex Image Processing and Debugging](#complex)
-
-   * [![](../img_www/granitesm_right.gif) Meta-data: Attributes, Properties and Artifacts](#settings)
-     * [Setting/Changing Image Atrributes](#attributes)
-     * [Page, Repage and Image Offset Control](#page)
-     * [Set Per-Image Properties](#set)
-     * [Define Global Artifacts](#define)
-     * [Image Type when Reading and Writing](#type)
-
-
-   * [![](../img_www/granitesm_right.gif) Controlling the Quality of Images](#image_quality)
-     * [Depth - File Format Bit Depth](#depth)
-     * [Quality - In Memory Bit Quality](#quality)
-     * [HDRI - Floating Point Quality](#hdri)
-       * [Quantum Effects, HDRI vs non-HDRI](#quantum_effects)
-       * [Clamp image bounds in HDRI](#clamp)
-       * [HDRI File Formats](#hdri_formats)
-     * [What Q-level should I use](#quality_best)
-     * [Image Density or Resolution](#density)
-       * [Photoshop and Density](#density_photoshop)
-     * [Some Speed Tests based on Quality](#speed
-   * [![](../img_www/granitesm_right.gif) ImageMagick Operational Controls](#controls)
-   
 Here we explain in detail the command line processing that IM follows, some of the new image processing abilities, the ideas, philosophy, and methodology, and what is actually going on, internally.
 
 With this background knowledge the rest of the examples provided pages becomes much clearer. Even if you only use the Application Program Interface (API), this section is well worth knowing and understanding.
 
 ------------------------------------------------------------------------
 
-## ImageMagick Command Line Processing
+## ImageMagick Command Line Processing {#cmdline}
 
-### Why did the command line style change! or...  
+### Why did the command line style change! or... {#why}
 
 The problem with previous versions of IM
 
@@ -136,7 +70,7 @@ The solution to the problem, unfortunately required a drastic measure and some i
 
 In essence command line usage in versions before version 6 was ill-defined and in my thinking broken, producing numerous odd and unexpected results.
   
-### IMv6 command Syntax
+### IMv6 command Syntax {#syntax}
 
 Note that no 'operation' should be given, before at least one image is either read in or created. In fact you may like to consider a 'image read/create' also as an operation as well.
 This means the **IMv6 syntax** can now be simplified as being...
@@ -147,19 +81,21 @@ command { [-setting]... "image"|-operation }...  "output_image"
 
 With the part in {...} being repeated with as many 'reads' or 'operations' you want or need, to process your images in the exact order required.
   
-### Types of Options - Operators and Settings...
+### Types of Options - Operators and Settings... {#options}
 
 A summary of the following is now also available from the [ImageMagick Website](http://www.imagemagick.org/) on [The Anatomy of the Command Line](http://www.imagemagick.org/script/command-line-processing.php).
 
 All command line options will now fall into two basic groups: 'settings' and 'image operators'. Settings set values, Operators actually preform some action.
-  
-**Setting Options**
-  
-are command line options that only save information, that will be used later by other 'image operators'. That is they do not do anything, except set some value, to be used later. Many of the options have both a '`-`' and a '`+`' style. The latter is generally used to turn off the setting, or reset it to its normal default state. This allow you remove the effect of a setting quickly and simply.
+
+#### Setting Options {#option_settings}
+
+Setting Options are command line options that only save information, that will be used later by other 'image operators'. That is they do not do anything, except set some value, to be used later. Many of the options have both a '`-`' and a '`+`' style. The latter is generally used to turn off the setting, or reset it to its normal default state. This allow you remove the effect of a setting quickly and simply.
   
 For example "`+gravity`" will return the gravity setting to the initial 'gravity none' state. Settings can be further divided into a number of sub-categories...
-  
-**Operator Settings** which control how later operators function. They set the colors, and fonts that may be used by an operator, control placement of images and text, the lookup of color from source images, control the method of processing by some of the more complex operators, etc., etc., etc..
+
+#### Operator Settings {#option_ops}
+
+Operator Settings which control how later operators function. They set the colors, and fonts that may be used by an operator, control placement of images and text, the lookup of color from source images, control the method of processing by some of the more complex operators, etc., etc., etc..
   
 ~~~
 -dither -gravity -fill -background     -bordercolor -stroke -font -pointsize     -strokewidth -box -virtual-pixel -interpolate
@@ -167,8 +103,10 @@ For example "`+gravity`" will return the gravity setting to the initial 'gravity
 
   
 Most setting options belong to this category.
-  
-**Input Settings** are specifically restricted to controlling the creation of images that are created or read in. Typically they are used to assign or override specific meta-data that is to be associated with the image(s) created after that setting was defined.
+
+#### Input Settings {#option_in}
+
+Input Settings are specifically restricted to controlling the creation of images that are created or read in. Typically they are used to assign or override specific meta-data that is to be associated with the image(s) created after that setting was defined.
   
 they are created or read in from an external file.
   
@@ -180,8 +118,10 @@ they are created or read in from an external file.
 Remember, they are ONLY applied when an image is created or read in and are otherwise completely ignored.
   
 The special operator, "`-set`" has been provided to change the meta-data of images after they have been read into memory, or processed in some way. See [Meta-Data](#meta-data) below for more details.
-  
-**Output Settings** which are only used during the writing or saving of images back to disk.
+
+#### Output Settings {#option_out}
+
+Output Settings which are only used during the writing or saving of images back to disk.
   
 While they can be given anywhere on the command line, they are only applied when the image is written, either as the default last image filename argument operation, or via a "`-write`", or "`-identify`" operation.
   
@@ -193,8 +133,10 @@ While they can be given anywhere on the command line, they are only applied when
 If not set, or turned off (using their plus '`+`' form), an appropriate default will be used. Generally this default is a saved value from the last image read in.
   
 A few 'operation settings' such as the current "`-background`" color, is also assigned to the image, if the file format requires.
-  
-**Control & Debugging Settings** which control how IM, in general, performs its tasks. These includes...
+
+#### Control & Debugging Settings {#option_ctrl}
+
+Control & Debugging Settings which control how IM, in general, performs its tasks. These includes...
   
 ~~~
 -verbose -debug -warnings -quiet     -monitor -regard-warnings
@@ -202,19 +144,17 @@ A few 'operation settings' such as the current "`-background`" color, is also as
 
   
 See [IM Operation Controls](#controls) below, for more information on these special settings.
-  
-  
-  
 
-  
-**Image Operators**
-  
+#### Image Operators {#option_operators}
+
 Are command line arguments that will modify the image(s) in some way. They are performed **immediately** when seen, and may use other 'setting options' that have been given previously on the command line.
   
 These operators can be grouped into a few sub-categories...
-  
-**Image Creation Operators** which will read images from a file or pipeline, or generate new images. These include...
-  
+
+#### Image Creation Operators {#option_create}
+
+Image Creation Operators which will read images from a file or pipeline, or generate new images. These include...
+
 ~~~
 image.png xc: canvas: logo: rose:        gradient: radial-gradient: plasma:        tile: pattern: label: caption: text:
 ~~~
@@ -223,8 +163,10 @@ image.png xc: canvas: logo: rose:        gradient: radial-gradient: plasma:     
 As 'operators' they are also performed immediately when seen on the command line. They only add new images to those already in memory, but do not touch those previously read.
   
 Of course being operators, any previously defined 'settings' will be applied to them. Especially [Input Settings](#option_in), used to control the input from the file or file stream. For example "`-size`", which hints at the size of the image you want to create, or setting that define or override image meta-data such as "`-delay`", and "`-page`".
-  
-**Simple Image Processing Operators** will modify all images that have already been read into memory. Each image is modified separately to every other image. They include operations such as...
+
+#### Simple Image Processing Operators {#option_simple}
+
+Simple Image Processing Operators will modify all images that have already been read into memory. Each image is modified separately to every other image. They include operations such as...
   
 ~~~
 -crop  -repage  -border -frame     -trim -chop -draw  -annotate     -resize -scale -sample -thumbnail     -magnify -adaptive-resize  -liquid-resize     -distort -morpohology -sparse-color     -rotate -swirl -implode  -wave     -flip  -flop  -transpose  -transverse     -blur -gaussian-blur -convolve -shadow     --radial-blur -motion-blur -sharpen -unsharp     -adaptive-sharpen  -adaptive-blur     -noise  -despeckle -median     -negate  -level  -level-color  -gamma     -auto-level -auto-gamma -sigmoidial-contrast     -normalize -linear-stretch  -contrast-stretch     -colorize  -tint  -modulate  -contrast     -equalize  -sepia-tone   -solarize     -recolor -opaque  -transparent     -colors  -map  -ordered-dither  -random-dither     -raise -paint -sketch -charcoal -edge     -vignette -emboss -shade -poloroid     -encipher  -decipher  -stegano     -evaluate -function     -alpha -colorspace -separate          And probably many other opertors I have forgotten! (or have been added)
@@ -238,8 +180,10 @@ If more than one image is present, *all* images are operated on, one at a time i
 Note that it is posible that some of these operators can generate multiple images. For example "`-crop`" could generate multiple image 'tiles', or "`-separate`" which splits images into separate channel images. As such you may end up with more images in memory. But all of them only take one image at a time as input.
   
 Note that many API's only apply the equivalent operation to just the first image in the image list given. That is they may not loop over each image. The "`convert`" and other CLI (command line interface) commands, however apply the operator to each image in the current image list in turn.
-  
-**Multi-Image List Operators** are special in that they modify the whole current list of images as a single entity. They could replace the whole list with a single combined image, or modify each image depending on the other images found before or after it. They are used for alpha composition, animation handling, color channel handling, etc...
+
+#### Multi-Image List Operators {#option_list}
+
+Multi-Image List Operators are special in that they modify the whole current list of images as a single entity. They could replace the whole list with a single combined image, or modify each image depending on the other images found before or after it. They are used for alpha composition, animation handling, color channel handling, etc...
   
 ~~~
 -append -flatten  -mosaic -layers     -composite  -combine  -fx  -coalesce     -clut  -average  -evaluate-sequence
@@ -251,8 +195,10 @@ Remember the whole list is treated as a single entity, and some images may be re
 The [Layers Composite](../anim_mods/#composite) method is currently the only operator that will spilt the current image list into two completely separate image lists, before merging them together to form completely new list of images. It makes the split by looking for the special '`null:`' image somewhere in the current image list.
   
 None of these operators can be used in a "`mogrify`" command, as that command processes a list of input images (given at the end) as a individual images.
-  
-**Image Stack Operators** affects the ordering of the list of images currently in memory. Specifically they provide special 'on the side' processing of images. They are in many way similar to the previous [Image List Operator](#option_list), but they don't actual modify the images themselves, only how they are arranged in memory.
+
+#### Image Stack Operators {#option_stack}
+
+Image Stack Operators affects the ordering of the list of images currently in memory. Specifically they provide special 'on the side' processing of images. They are in many way similar to the previous [Image List Operator](#option_list), but they don't actual modify the images themselves, only how they are arranged in memory.
   
 ~~~
 ( ) -delete -insert -swap     -reverse -duplicate -clone
@@ -262,8 +208,10 @@ None of these operators can be used in a "`mogrify`" command, as that command pr
 Note that parenthesis '`(`' and '`)`' may require backslashing or quoting, to prevent any special meaning given to it by the Command Line shell Interface (CLI).
   
 None of these operators can be used in a "`mogrify`" command, as that command processes a list of input images (given at the end) as a individual images.
-  
-**Miscelanious Special Operators** are operators that do things in either an unusual or non-standard ways (compared to the above).
+
+#### Miscelanious Special Operators {#option_misc}
+
+Miscelanious Special Operators are operators that do things in either an unusual or non-standard ways (compared to the above).
   
 ~~~
 -geometry -version -list -bench        -concurrent -preview
@@ -288,7 +236,7 @@ This is what makes version 6 different from every previous version of IM. All op
 
 The [IM Examples Options Reference](../reference.html) can be used to identify what is an 'setting' and what is an 'operator'.
 
-### Working Example of an IM Command
+### Working Example of an IM Command {#example}
 
   
 Let's take a look at an example, and how it will be processed by IM version 6.
@@ -316,7 +264,7 @@ Let's break this down and look at what IM v6 does...
 
 As you can see the processing of the command line in ImageMagick version 6 is very straightforward, and logical, making the result predictable. And that is the point...
 
-### Legacy Command Line Style
+### Legacy Command Line Style {#legacy}
 
 Due to the fact that a lot of IM scripts out there use a command with a single image operator of the form...
 
@@ -359,7 +307,7 @@ This style of command line is for legacy support only, and as such is deprecated
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Do not expect that this legacy support will continue into IM version 7. Plans for IM v7 include single-pass processing of command lines, which in turn will allow for the use of reading image processing options from files and even pipelines. However a single-pass processing technique will not allow for the saving of operators BEFORE reading an image to apply them to. As such they will probably produce 'no image' type errors.
 
-### Command Line vs API
+### Command Line vs API {#cmd_vs_api}
 
 There is a couple of major differences between a command line IM, and using the Magick API's, such as PerlMagick, RMagick, PHP IMagick, and MagickWand.
 
@@ -409,7 +357,7 @@ The "`conjure`" program (see below) was originally designed to allow better scri
 
   
 
-### Argument Handling
+### Argument Handling {#arguments}
 
 Beyond the filenames and options on the command line there are only a few basic styles of option arguments that are used.
 
@@ -419,7 +367,7 @@ Beyond the filenames and options on the command line there are only a few basic 
 -   Floating Point Lists (sometimes with [Percent Escapes](#arg_percent))
 -   Free Form Text Strings (with [Percent Escapes](#arg_percent))
 
-#### Constant Names
+#### Constant Names {#arg_constant}
 
 Constant Names are specific string constants that are used to look up a internal library of allowed settings that may be used by an option.
 
@@ -452,7 +400,7 @@ These constant names are not just for settings, but also to declare the operatio
 
 Some of the constant names are read from external configuration files. For example, color names such as for "`-fill`", "`-stroke`", "`-background`" and "`-mattecolor`". Or the special 'threshold' maps used for "`-ordered-dither`". Again "`-list`" can be used to look up what names your currently installed version of IM knows about.
 
-#### Constant Name List
+#### Constant Name List {#arg_const_list}
 
 This is a little used argument and is most commonly used in settings that need one or two colors, such as [Level Adjustment by Color](../color_mods/#level-colors). The "`-level-colors`" option can take any of the following argument styles.
 
@@ -464,7 +412,7 @@ It is also used for Image Selection, for operations that make use of multiple im
 
 Another option that makes heavy use of this is [Channel Selection](../color_basics/#channel) where you can specify a list of specifically named channels. For example: '`Red,Green,Blue,Black,Alpha`'. However the [Channel Setting](../color_basics/#channel) can also use a shorthand using a string of single letters (Eg: '`RGBA`')
 
-#### Geometry Arguments
+#### Geometry Arguments {#arg_geometry}
 
 This is the most common form of option argument, and is typically used to specify sizes, rectangles, and offsets for various operations. But it is also used by any option that needs any list of 1 to 5 numbers, whether they are integers, or floating point.
 
@@ -495,7 +443,7 @@ This means that a geometry argument of '`%50`' has exactly the same meaning as '
 >  
 > There is a [Future Proposal](../bugs/future/#settings) about exactly when a percent escape will be expanded that could fix this problem with geometry arguments. And hopefully will be part of IMv7.
 
-#### Floating Point Lists
+#### Floating Point Lists {#arg_list}
 
 If more than 5 floating point numbers are needed, perhaps even a unknown number of values, then a **Floating Point List** argument, is used, though at the moment these are generally parsed by individual options, as thay can vary slightly from option to option.
 
@@ -503,11 +451,12 @@ Generally they consist of a string (typically quoted) of comma or space separate
 
 One variant of floating point numbers is used by "`-sparse-color`", allowing you to substitute colors for some floating point values. Internally these are still converted to floating point values when the resulting array is passed into the core library function.
 
-#### Freeform Strings
+#### Freeform Strings {#arg_string}
 
 Other options just take a string as an argument. Either for generating labels, annotating text, or saving as image meta-data.
 These will typically include [Percent Escapes](#arg_percent) in the string which are replaced (substituted) at some point before the string is used. It may be an immediate substitution, or the substitution may be performed later, just before the arguemnt is actually used. (See [Delayed Percent Escapes](#arg_delayed) below.
-#### Arguments with Percent Escapes
+
+#### Arguments with Percent Escapes {#arg_percent}
 
 Because of their nature, either of last two types of arguments are often pre-processed so as to expand [Image Property Percent Escape](http://imagemagick.org/script/escape.php) within the string.
 
@@ -529,7 +478,7 @@ Not only that but you can even calculate different arguments depending in the co
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Before IM v6.6.9-0 [Percent Escapes](http://imagemagick.org/script/escape.php) and more specifically [FX Percent Escapes](../transform/#fx_escapes) involving image indexes, such as '`%p`', '`%n`', '`%[fx:t]`' and '`%[fx:n]`' were broken. Typically they would only return unhelpful values of either '`0`' or '`1`', and not the actual index and number of images in the current image list.
 
-#### Delayed Percent Escapes
+#### Delayed Percent Escapes {#arg_delayed}
 
 Note that for some setting options [Percent Escapes](http://imagemagick.org/script/escape.php) must not be expanded immediately they are seen, but simply stored AS given. It is only later when the text is actually used, that any [Percent Escapes](http://imagemagick.org/script/escape.php) found in the string should be expanded, when the image they will be used with are finally known.
 
@@ -545,14 +494,14 @@ This means you can specify a "`-label`" containing image specific [Percent Escap
 
 ------------------------------------------------------------------------
 
-## ImageMagick Commands
+## ImageMagick Commands {#im_commands}
 
 While the bulk of these ImageMagick example pages use the "`convert`" command to process images, there are a number of other ImageMagick commands, which I'll briefly introduce here.
 
 Some of these commands however can not be demonstrated properly on a web page. 
 However I will try to give you hints and tips involving those commands here, even if I can't actually show their output directly, here.
 
-### Convert -- Convert and Modify Images
+### Convert -- Convert and Modify Images {#convert}
 
 The "`convert`" command is the main workhorse of ImageMagick, and as such just about every set of examples in these pages uses this command. As such I will not cover the use of this command much here, but look at a little history instead.
 
@@ -567,7 +516,7 @@ IM version 6 saw the switch from a simple 'options' style, to a 'do it as you se
 
 As a result of this, "`convert`", is no longer so much about 'converting' images from one format to another, but as a command line API for accessing image processing functions, to create, and modify images in very complex ways, without needing a degree in image processing, or programming in a computer language (such as Perl, PHP, or C). Of course some shell scripting knowledge is helpful, though not strictly required.
   
-### identify -- Print the details of images, that IM sees
+### identify -- Print the details of images, that IM sees {#identify}
 
 The "identify" command is designed to return information about an images in a simple and useful way. By default it outputs a simple compact summary, detailing the images name, file format, image size, virtual canvas size and offset, color depth, internal format type, and if known the original size of the image on disk in human terms.
 For example...
@@ -596,7 +545,7 @@ identify -format '%k\n' tree.gif
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Before IM v6.8.5-8 "`-format`" would automatically add a end-of-line character(s) to the output, so as to separate multiple image results. This is no longer done, so you may need to add your own appropriate EOL characters to the "`-format`" string.
 
-#### Identify, to Ping or not to Ping
+#### Identify, to Ping or not to Ping {#identify_ping}
 
 IM "`identify`" by default only reads minimal basic information about an image, using a technique know as "`-ping`". This means identify only reads enough of the image file to determine simple image information, such as size, without trying to read the whole image into memory. See [Ping, Operational Control](#ping) below.
 This is a big advantage of "`identify`" has over "`convert`".
@@ -630,7 +579,7 @@ identify +ping -format '"%l"\n' rose.png
 
 Generally you do not need to worry about it too much. Unless you are dealing with very large images such as photos.
 
-#### Identify as a floating point Calculator
+#### Identify as a floating point Calculator {#identify_math}
 
 You can do some floating point mathematics using [FX Escape Expressions](../transform/#fx_escapes)...
 
@@ -644,7 +593,7 @@ Note that the math does not even need to be related to the image itself, allowin
 
 As we are only needing basic information we used the [Ping](#ping) control to prevent identify from reading in the whole image. It has no effect on the outcome in this case, but can speed up the command enormously.
 
-#### Extra Cavats about Identify
+#### Extra Cavats about Identify {#identify_cavats}
 
 **Specific Format Details**  
 Normally IM reads in the image into memory (which is essentially into own internal data format), using various image library APIs and delegate programs, before outputting the results it sees using identify. That is "`identify`" analyzes the image/data content it has read in and stored. It does not analyze how the specific file format stores or handles the image data.
@@ -669,7 +618,7 @@ else
 fi
 ~~~
 
-#### Identify Output Alternatives
+#### Identify Output Alternatives {#identify_alt}
 
 As of IM v6.2.4 you can also produce identify output from the "`convert`" command using the special "`info:`" output file format.
 
@@ -727,7 +676,7 @@ One final word about these options. All of them by default will print to the 'st
 
 Writing the output using "`info:`" will let you direct the output to a specific file, just like you can to an image file. You can also direct the output to a previously prepared file descriptor, using the special "`fd:`" output file format. Of course that writes once per image, so some juggling of images may be needed to arrange for it to output once only.
 
-### Mogrify -- in-place batch processing
+### Mogrify -- in-place batch processing {#mogrify}
 
 The "`mogrify`" command is in many ways like "`convert`" except it is designed to *modify images in place*. That is it's primary purpose is to read images (or animations), one file at a time, and modify them, before save the image back into the *exact same filename* the image was read from. Because of this...
 
@@ -797,7 +746,7 @@ Actually I also recommend that scripts include a quick 'tests' on things like "`
 
 This is actually a good idea for any large scale image processing project, so as to protect users from unforeseen consequences. I do this myself in IM Examples, and it has saved me a lot of trouble.
 
-#### Alpha Composition using "`mogrify`"
+#### Alpha Composition using "`mogrify`" {#mogrify_compose}
 
 Because "`mogrify`" can not use [Multi-Image List Operators](#option_list) it can not easily overlay thing like logos, or mask images using [Alpha Composition](../compose/#compose).
 
@@ -817,7 +766,7 @@ Note that any Alpha Composition method can be used in this way, but only with a 
 
 Also as "`mogrify`" will be reading the 'source' image multiple times, I suggest you use the special IM specific "[MPC:](../files/#mpc)" file format to reduce the overhead of decoding the image when reading it over and over. This image file format does not need to be parsed by IM as it will be mapped directly from disk into memory (for the same machine it was created on). This saves a lot of processing time, especially in dealing with a large number of images.
 
-#### Using Convert Instead of Morgify
+#### Using Convert Instead of Morgify {#mogrify_convert}
 
 Using a special technique to modify the output filename using [Percent Escapes](http://imagemagick.org/script/escape.php), (see [Filename Percent Escapes](../files/#save_escapes)), you can replace "`mogrify`" with a more versatile "`convert`" command.
 
@@ -840,7 +789,7 @@ Also as all the images are in memory as a single image list, you will need to be
 
 Of course just as with "`mogrify`" this method of using "`convert`" can be dangerous, as it could easily overwrite and destroy the original image files.
 
-#### Batch Processing Alternatives
+#### Batch Processing Alternatives {#mogrify_not}
 
 If batch processing images using "`mogrify`" is not practical, especially if you are copying the images rather than modifying them in place, then it may be better to use some other non-IM looping solutions. These include...
 
@@ -883,7 +832,7 @@ For Windows Users I refer you to the [Windows Usage](../windows/) section, and i
 > However this could cause a bug, repeated mogrify execution, or possibly even a 'hack' from a some evil source that provided the filename to use.
 > Caution and complete understanding of security issues is advised.
   
-### Composite -- overlaying images in special ways
+### Composite -- overlaying images in special ways {#composite}
 
 The "`composite`" command is designed specifically for simple alpha compositing (overlaying) of two images together in various ways. This includes limiting the area in which images are combined together, though the use of a third masking image.
 
@@ -901,7 +850,7 @@ For more information on the method by which two images can be merged together se
 
 The overlay limiting or 'Masking' abilities is also detailed in the above examples page in [Using a Compose Mask to Limit the Composed Area](../compose/#mask).
 
-### Montage -- generating arrays of thumbnails
+### Montage -- generating arrays of thumbnails {#montage}
 
 The special IM image indexing command "`montage`" also followed the same 'do it as you see it' style of command line structure, as "`convert`".
 
@@ -911,7 +860,7 @@ This makes "`montage`" much more versatile than it was in IM version 5, as you c
 
 For more details about "`montage`" see [Montage, Arrays of Thumbnails](../montage/).
   
-### display -- Slideshows of Images
+### Display -- Slideshows of Images {#display}
 
 The "`display`" program is designed to display a image, or list of images in the form of a looped slideshow. It is not designed for a carefully orchestrated and timed animation of images, for that use the "`animate`" command.
 
@@ -1055,7 +1004,7 @@ For example (using the non-IM command "`xdotool`")...
 xdotool search -class "display" windowkill
 ~~~
 
-### animate -- Show an animation of images
+### animate -- Show an animation of images {#animate}
 
 In many ways "`animate`" and "`display`" are extremely similar.
 
@@ -1075,11 +1024,11 @@ convert image1.png image2.png -scale 400% miff:- |\
 
 I have written a script to take advantage of this method called "`flicker_cmp`", and find it extremely useful to pickup very subtle changes in pixel intensity that I would otherwise miss.
   
-### compare -- Look for Differences
+### compare -- Look for Differences {#compare}
 
 All current information on this is on the [Image Comparison Page](../compare/) section of IM Examples.
 
-### stream -- pipeline processing of massive images
+### stream -- pipeline processing of massive images {#stream}
 
 "`stream`" is a special program that is designed to handle extracting a portion of a very large image file. It is the only such program within ImageMagick, all others read the images completely into memory before processing (the exception is JPEG images via the "`-size`", as this option is passed to the JPEG delegate library).
 
@@ -1098,7 +1047,7 @@ stream -map rgb -storage-type char -extract 100x100+200+100 logo: - |\
 
 For more information and examples see [Really Massive Image Handling](../files/#massive).
 
-### import -- read images from the on screen display
+### import -- read images from the on screen display {#import}
 
 The "`import`" command is a special program that can be used to grab and extract images from an X windows display. For example lets get it to grab and print a window you select from your display...
 
@@ -1125,7 +1074,7 @@ See also the special input format, "`X:`" as an alternative to using "`import`".
           convert clipboard:myimage image.png
         and not "import"
 
-### conjure -- IM experimental scripting language
+### conjure -- IM experimental scripting language {#conjure}
 
 Was originally designed to allow scripted Imagemagick use, with the use of multiple image lists, but the improvements made to IM v6 "`convert`" has seen this experimental API fall into disuse.
 
@@ -1135,7 +1084,7 @@ In my opinion, using the "`conjure`" script is probably better and easier when d
 
 ------------------------------------------------------------------------
 
-## Image Lists...
+## Image Lists... {#image_list}
 
 One of the most important points to remember with ImageMagick, and one that confuses both new users and experienced users, is that...
 
@@ -1155,7 +1104,7 @@ Finally when a new image is read in or created, IM only adds that new image to t
 When saving images, IM will save the whole image list that is in memory at the time of writing. If image format allows it IM will write ALL the images into a single file. 
 If the format does NOT allow multiple images (for example JPEG), it will write the images into separate files (See [Writing a Multiple Images](../files/#write_list)).
 
-### Parenthesis -- processing images 'on-the-side'
+### Parenthesis -- processing images 'on-the-side' {#parenthesis}
 
 With the formalization of the command line options, the processing order is now exactly predictable, and it has also become possible to add parenthesis (or brackets) to the image processing. This has been a desired feature by IM users for a long time, and allows you to do things never before possible in a single command.
 
@@ -1218,7 +1167,8 @@ convert \( eye.gif    news.gif  +append \) \
 [![\[IM Output\]](cmd_array2.gif)](cmd_array2.gif)
 The first set of parenthesis aren't strictly needed, and do add a tiny amount of extra work to IM's internal processing, but it does make it clear what the command is doing by separating the processing steps.
 It may also be easier for image processing scripts to perform each processing step as a separate parenthesis, as a means of separating the processing steps, it is applying.
-### Parenthesis and Settings
+
+### Parenthesis and Settings {#respect-parenthesis}
 
 Option 'settings' are not affected by parenthesis, and will continue across the parenthesis image operators, until the setting is changed or turned off.
   
@@ -1272,7 +1222,7 @@ convert -respect-parenthesis \
 
 [![\[IM Output\]](cmd_settings_lots.gif)](cmd_settings_lots.gif)
 
-### Image List Operators
+### Image List Operators {#list_ops}
 
 With the stronger emphasis by IM on image sequences, especially within parenthesis, it is no surprise that a set of new image operators have been provided to manipulate the image lists.
 
@@ -1280,7 +1230,7 @@ The arguments to these operators are numbers indexing the image list, starting w
 However if you give a negative index, the images are referenced from the end (last image added) of the image list. That is a index of '`-1`' is the last image in the current image list (generally the last image read or created), '`-2`' for the second last and so on.
 
   
-#### `-delete {index_range_list}`
+#### `-delete {index_range_list}` {#delete}
 
 The "`-delete`" list operator is the simplest of the image list operators, it just deletes images from the current image list.
 
@@ -1329,7 +1279,7 @@ convert long_animation.gif  new_frame.gif  -delete 0--25  animation_new.gif
 
 This time the "`-delete`" will delete all images between the first, to the last 25th image, leaving at most 24 images in the list. If only 24 or less images are present, the given range of images to be deleted will be effectively reversed, and the "`-delete`" operator will not delete anything.
 
-#### `-insert {index}`
+#### `-insert {index}` {#insert}
 
 The "`-insert`" operation is sort of the opposite of "`-delete`". It will take the last image in the current image list and insert so that it is positioned at the given index.
 
@@ -1361,7 +1311,7 @@ convert font_[0-3].gif tree.gif +insert +append seq_insert3.gif
 
 To do the inverse of the above (move an image to the end of the image list), can be done by first using "`-duplicate 1,0`" to copy the first image, then use "`-delete 0`" to delete the first image.
   
-#### `-swap {index}[,{index}]`
+#### `-swap {index}[,{index}]` {#swap}
 
 Simply put "`-swap`", will swap the positions of two images in the current image list. For example "`-swap 0,2`" will swap the first and the third images in the current image list.
 
@@ -1396,7 +1346,7 @@ convert font_[0-3].gif  -swap 1  +append  seq_swap3.gif
 
 [![\[IM Output\]](seq_swap3.gif)](seq_swap3.gif)
   
-#### `-reverse`
+#### `-reverse` {#reverse}
 
 The "`-reverse`" operator (added to IM v6.3.4) will quite simply reverse the order of the whole image list.
 
@@ -1408,7 +1358,7 @@ convert font_[0-3].gif -reverse  +append seq_reverse.gif
 
 It is basically an ultimate [Swap Operator](#swap).
   
-#### `-clone {index_range_list}`
+#### `-clone {index_range_list}` {#clone}
 
 This image list operator is a little different. Given an image list number "`-clone`" will make a copy of an image that has been saved by the 'open bracket' or 'parenthesis' operator. That is...
 
@@ -1468,7 +1418,7 @@ Also in the examples above I am generating clones and appending them to the curr
 
 The [MPR:](../files/#mpr) Image Memory Register, can also be used to clone images and was available in IM v5. It is actually still a useful method for cloning and storing a whole image list (of unknown length) for later use, and not just a single individual images as the above image list operators do.
   
-#### `-duplicate {count}[,{index_range}]`
+#### `-duplicate {count}[,{index_range}]` {#duplicate}
 
 You can use "`-duplicate`" to generate a extra copies (clones) of an image, from the current image list (added IM v6.6.8-7). The new images are added to the end of the list.
 Unlike the previous (and older) [Clone Operator](#clone) it does not require the use of parenthesis.
@@ -1537,7 +1487,7 @@ convert font_7.gif \( +clone \) -morph 3  +append seq_dup_morph.gif
 
 Note however that by mis-using the [Color Morph Operator](../anim_mods/#morph) the images are actually being processed, as such it takes time for morph to actually process the images (producing no change). Also the images created will contain actual copies of the original data, and are not simple, memory saving clones.
   
-### Combining Image Sequence Operations
+### Combining Image Sequence Operations {#seq_combine}
 
 Using these operators, you can extract a copy of a specific image, modify it, and return that image back where you got it from.
 For example, here I make a "`-clone`" of the 2rd image (image index '1'), rotate the images colors from blue to red, then replace the original image with the modified one by first "`-delete`" it and "`-insert`" the new one.
@@ -1563,7 +1513,7 @@ These techniques are continued below in the next section on [Complex Image Proce
 
 ------------------------------------------------------------------------
 
-## Complex Image Processing and Debugging
+## Complex Image Processing and Debugging {#complex}
 
 Thanks to the addition of [Image Sequence Operators](#image_seq) (see above), you no longer need to process images one step at a time, saving the image and re-reading it again each time. Instead you can now simply hold the intermediate image in memory and continue processing it. This saves a lot of time, both in the converting of images to a file format, and in the actual IO to save the image to slow disk.
 
@@ -1652,7 +1602,7 @@ Also see [Hints for Better ImageMagick Shell/PHP Scripts](../api/#scripts), on w
 
 ------------------------------------------------------------------------
 
-## Image Meta-data: Attributes, Properties and Artifacts
+## Image Meta-data: Attributes, Properties and Artifacts {#settings}
 
 So far we have look at images and the actual content or data that makes up the image. But images are more than just 'image data'. There are many attributes or meta-data that is also part of an image, and affect its image processing and how other programs should handle the image.
 
@@ -1693,7 +1643,7 @@ Users can modify these global values using [Define](#define) (see below), or wit
 
 Understanding these three storage methods is the key to knowing how settings and meta-data handling works within ImageMagick. And allow you to do some very advanced and normally difficult to achieve image processing techniques.
 
-### Setting/Changing Image Attributes
+### Setting/Changing Image Attributes {#attributes}
 
 Simple Meta-data are image attributes that are often have the greatest importance to image processing. So important they are decoded and made available in the image data structure to allow fast use by image processing operators.
 
@@ -1823,7 +1773,7 @@ This works, but is extremely awkward and painful to use, especially when dealing
 
     Is it any wonder then why settings can be so confusing.
 
-### Page, Repage, and the Virtual Canvas
+### Page, Repage, and the Virtual Canvas {#page}
 
 The 'page' or 'virtual canvas' settings primary purpose within IM is to define how a the 'real' part of an image, (the part that actually contains color pixel data), fits in a larger context of a 'canvas'. This is especially important when multiple images are involved and need to be positioned relative to each other for [Layers of Multiple Images](../layers/) and in [GIF Animations](../anim_basics/#gif_anim).
 
@@ -1883,11 +1833,11 @@ What virtual canvas information is saved with an image is format dependent.
 
 Like many image file formats, JPEG images do not save virtual canvas information at all. The information is just ignored and lost.
 
-####GIF
+#### GIF
 
 The size of the virtual canvas and offsets will be saved as part of its GIF animation handling. However it will not handle negative offsets. Any negative offset will be reset to zero on save.
 
-####PNG
+#### PNG
 
 Offsets and even negative offsets is saved, but the PNG file format does not normally save the virtual canvas information. However PNG images saved by IM will include the virtual canvas size information, but is only used by other IM commands.
 
@@ -1897,7 +1847,7 @@ Only the internal MIFF file format does not have any such limitations.
 
 Note that "`-page`" has special meaning for "`text:`" and "`ps:`" image generator operators (See [Text: Multi-line Text Files](../text/#text) and [PS: Postscript formatted Text and Graphics](../text/#postscript)). As such its normal canvas size and offset meaning are not used during the creation of these images.
 
-### Set and Per-Image Properties
+### Set and Per-Image Properties {#set}
 
 However IM can not make an option for handling every possible setting that an image can have. That would be just impossible. Not only that users often like to add or define their own settings.
 
@@ -1953,7 +1903,7 @@ The above will generate a image named "`rose-70x46.png`".
 
 Only user defined settings prefixed with the "`filename:`" string can be used inside the output filename, as a security measure, though any name can be used. For more examples of this see [Filename Percent Escapes](../files/#save_escapes).
 
-### Define and Global Artifacts
+### Define and Global Artifacts {#define}
 
 Defined values are known as '**Artifacts**' and are defined globally across all images, and are set using the special "`-define`" operator.
 
@@ -2083,7 +2033,7 @@ Actually what realy happens is that "`-set`" is applied to every image in the cu
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > At this time the 'FX escape' has no way of reading properties or artifacts. And as such you current can not do arithmetic on such values.
 
-### Image Type when Reading and Writing
+### Image Type when Reading and Writing {#type}
 
 The "`-type`" operator/setting defines the style or color space to use when an image is being read in or written out, to ensure the resulting image (in memory, or in the image file) is what you expect it to be. As part of this, it may do some [Color Space](../color_basics/#colorspace) modifications at the time of the file I/O, though only to ensure the image is in a form that was expected.
 
@@ -2101,9 +2051,9 @@ Unfortunately the exact meaning and capabilities of "`-type`" depend on the spec
 
 ------------------------------------------------------------------------
 
-## Controlling the Quality of Images
+## Controlling the Quality of Images {#image_quality}
 
-### Depth - File Format Bit Depth
+### Depth - File Format Bit Depth {#depth}
 
 **Quality and Depth** are two terms are often talked about in Mailing Lists and in these example pages, so I'd like to explain them a little. *Quality* is a compile time setting in ImageMagick, and is used to determine the size of the values use to store images in IM memory and during processing. Basically it means the **Quality of Processing** that a specific IM was compiled for.
 
@@ -2139,7 +2089,7 @@ However while a low quality IM is faster and more memory efficient, it does not 
 
 At Q8 the intermediate images in memory will remain stored as 8 bit quality, and thus multiple operations will each introduce more and more distortion. The result can be serious bit level rounding effects, especially for extreme colors near white and black. (see below).
   
-### Quality - In Memory Bit Quality
+### Quality - In Memory Bit Quality {#quality}
 
 Remember, *Quality* is a compile time setting in ImageMagick, and is used to determine the size of the values use to store images in IM memory and during processing. It can not be changed, except by re-compiling ImageMagick from sources.
 
@@ -2162,7 +2112,7 @@ However while a Q8 version of IM it will let you output a 16 bit depth images, s
 >  
 > Also may operators that generate extra colors such as [Image Resizing](../resize/), will also reset the 'depth' of the image in memory to the compile time quality setting, so that IM will then try to save it at the appropriate, and hopefully higher depth, if possible.
 
-### HDRI - floating point quality
+### HDRI - floating point quality {#hdri}
 
 HDRI, or [High Dynamic Range Imaging](http://en.wikipedia.org/wiki/High_dynamic_range_imaging), was originally designed to more naturally represent our eyes ability to see both bright and dark areas of a scene simultaneously. In practical image processing terms it does a lot more than that.
 
@@ -2176,7 +2126,7 @@ For information of compiling a HDRI version of IM see [Enabling HDRI in ImageMag
 
 One important operator that should be kept in mind when using HDRI is "`-clamp`". This option will clip the values in an image that fall outsize the normal range for images. That is any negative value will be clipped to zero, and any value larger than 'QuantumRange' will be set to that value. It does NOT however 'round off' the floating-point values into integers.
 
-#### Quantum Effects, HDRI vs non-HDRI
+#### Quantum Effects, HDRI vs non-HDRI {#quantum_effects}
 
 **Quantum Rounding...**  
 For example here I use the [Level](../color_mods/#level) and the [Reverse Level](../color_mods/level_plus) operators to compress the color range of a gradient image down so they only use the values from 0 to 15, then un-compress it again. The resulting gradient is also displayed as an image profile (using the script "`im_profile`") to make it easier to follow.
@@ -2232,7 +2182,7 @@ im_profile -s level_clipping_hdri.png  level_clipping_hdri_pf.gif
 
 As you can see the gradient remains perfectly intact, even after heavy compression or stretching of the image and back again.
 
-#### Clamp to Enforcing image bounds in HDRI
+#### Clamp to Enforcing image bounds in HDRI {#clamp}
 
 You can force HDRI image to be 'clipped' by the normal image value range by using "`-clamp`" between the two level options. For example...
 
@@ -2251,7 +2201,7 @@ However this image would not be exactly the same as a non-HDRI result, as while 
 
 The "`-clamp`" option can be vitally important when using HDRI, to achieve the result you are wanting.
 
-#### HDRI File Formats
+#### HDRI File Formats {#hdri_formats}
 
 Of course saving a image that contains very small, large or negative values into a normal image file format will also be clipped, quantized, and even color reduced, for the same reasons as above. As such if you need to save images that have not been 'normalized' back into a 0 to 'Quantum Range' scale, then you will need to use one of the rare floating point image file formats.
 
@@ -2272,7 +2222,7 @@ The image file formats that can use with this special flag to save floating poin
   
  The direct memory-to-disk file format [MPC](../files/#mpc), will also save floating point values used by a HDRI version of IM, and will not need any special flags. But as with any [MPC](../files/#mpc) image file, only the exact same version (specific compilation) of IM on the same machine will correctly read such a file. As such it is only good for temporary 'quick read' files for scripted image processing, and not for long term storage.
 
-### What Q-level should I use
+### What Q-level should I use {#quality_best}
 
 In summary, what type of ImageMagick should I use? Q8, Q16, HDRI?
 
@@ -2284,7 +2234,7 @@ The next level is **Q16 HDRI**, that takes precision to 32 bit floating point va
 
 That is it in a nut shell. Q16 is good middle ground for most operations involving distortions and multi-image compositions and image processing effects. Q8 if memory is tight but you are only doing simple operations, HDRI is you are doing extreme operations.
 
-### Image Density or Resolution
+### Image Density or Resolution {#density}
 
 While in-memory [Quality](#quality) and file format [Depth](#depth) specifies the color 'resolution', the *Density* of an image is the spatial (space) resolution of the image. That is the density (generally expressed as dpi, or dots per inch) of an image define how far apart (or how big) the individual pixels, and thus the overall size of the image in real world terms.
 
@@ -2300,7 +2250,7 @@ Remember density or resolution is purely a number stored within an image and has
 
 For more information on Resolution and Density of images see the notes on the [Resample Resize Operator](../resize/#resample). For information of Resolution and Density for Text and Fonts see [Pointsize and Actual Font Size](../text/#pointsize).
 
-#### Photoshop and Density
+#### Photoshop and Density {#density_photoshop}
 
 The "Photoshop" image editor saves an extra copy of the images resolution into a separate profile (named '`8BIM`') in the image, which IM will NOT touch. Thus if you change the resolution of an image with IM, you probably should also strip the profiles from the image before loading it back into "photoshop", or you may not see any density changes. .
 
@@ -2314,7 +2264,7 @@ For example
 exiftool -g -Photoshop:XResolution=300 -Photoshop:YResolution=300 file.tif
 ~~~
 
-#### Speed Tests based on Quality
+#### Speed Tests based on Quality {#speed}
 
 Some speed tests were submitted to [IM Forum, Q8 vs. Q16 speed (& HDRI)](../forum_link.cgi?f=1&t=26011&p=114168).
 
@@ -2335,7 +2285,7 @@ Rough results from the above artical
 
 ------------------------------------------------------------------------
 
-## ImageMagick Special Controls
+## ImageMagick Special Controls {#controls}
 
 IM also has a few special options that it uses to control its operational working, information reporting, and for debugging purposes.
 
@@ -2469,10 +2419,10 @@ Limiting image size (quick note)
 
 To prevent excess memory usage, set your memory limit to say 16GB. Now set the disk limit to 4GB. ImageMagick will exit if the disk limit is exceeded, with a "cache resource exhausted" exception.
 
-------------------------------------------------------------------------
-
-Created: 30 January 2004  
- Updated: 19 September 2012  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/basics/`
+---
+created: 30 January 2004  
+updated: 19 September 2012  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 7.0.0
+url: http://www.imagemagick.org/Usage/basics/
+---
