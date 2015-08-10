@@ -1,9 +1,5 @@
 # Displacement Bugs -- Partially Fixed
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-
 This is a demonstration of numerous bugs that I found in the "`composite`" commands "`-displace`" method, in IM versions 6.2.8 and before.
 
 Strictly speaking this method is not a composition method, but a multi-image transformation mapped, image warping operation.
@@ -113,10 +109,10 @@ However the last three images show that only the first *X amplitude* value is us
 In other words only the first image in generating in the above is correct, as documented by the IM manual.
 And other three images are wrong!.
 
-------------------------------------------------------------------------
-
-Created: 9 June 2006  
- Updated: 10 June 2006  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/displace/`
+---
+created: 9 June 2006  
+updated: 10 June 2006  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.2.8
+url: http://www.imagemagick.org/Usage/bugs/displace/
+---

@@ -1,9 +1,5 @@
 # Testing for Minor Bugs
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-
 These examples are quick tests, with little or no explanation, to check on whether a specific known, but simple, bug has been fixed or not in the last version of IM.
 As such whenever a new release of IM is downloaded, this page is automatically re-generated to test the current status of the bug in question.
 
@@ -171,10 +167,10 @@ convert -size 180x80 xc: -font ArialBk -pointsize 72 \
 
 [![\[IM Output\]](font_dash_bug.gif)](font_dash_bug.gif)
 
-------------------------------------------------------------------------
-
-Created: 18 August 2005  
- Updated: 7 May 2010  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/testing/`
+---
+created: 18 August 2005  
+updated: 7 May 2010  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.3-10
+url: http://www.imagemagick.org/Usage/bugs/testing/
+---

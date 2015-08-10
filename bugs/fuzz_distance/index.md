@@ -1,8 +1,5 @@
 # Fuzz Distance and Transparent Colors -- FIXED
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
 Exploration of the distance algorithm used by [-fuzz](../option_link.cgi?fuzz) color matching algorithm.
 Especially with regards to transparent colors.
 
@@ -145,10 +142,10 @@ Other color spaces can also easily use this formula as the 'color space' distanc
     FUTURE: have some method of outputing the actual distance, in terms of both value and percentages.
     Perhaps as a "compare -metric Fuzz".
 
-------------------------------------------------------------------------
-
-Created: 7 December 2010  
- Updated: 8 December 2010  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/fuzz_distance/`
+---
+created: 7 December 2010  
+updated: 8 December 2010  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.6-4
+url: http://www.imagemagick.org/Usage/bugs/fuzz_distance/
+---

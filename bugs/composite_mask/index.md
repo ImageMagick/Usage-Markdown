@@ -1,9 +1,5 @@
 # Composite Mask Bug - Fixed
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-
 The following is a demonstration of a known bug, in the handling of composite mask for ALL alpha composition modes.
 Some versions of IM trialed a different way of fixing that worked for black an white shape mask, but not a greyscale blend of the results.
 This is an on going issue.
@@ -159,10 +155,10 @@ Specifically it would result in the colors being overlaid multiple times, which 
 I recommend the creation of an internal 'Mask blend' type operation as a faster and simpler method of doing the whole thing.
 This would be the only 'three image' operation that should be needed for alpha composition, other that [2-Dimensional Displacement Mapping](../../compose/#displace_2d).
 
-------------------------------------------------------------------------
-
-Created: 26 September 2005  
- Updated: 18 June 2007  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/composite_mask/`
+---
+created: 26 September 2005  
+updated: 18 June 2007  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.2.6
+url: http://www.imagemagick.org/Usage/bugs/composite_mask/
+---

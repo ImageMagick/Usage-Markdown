@@ -1,9 +1,5 @@
 # Drawing a Percent Bug - FIXED
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-
 **Note:** Drawing Percent Characters is no longer a issue in IM, as percent '`%`' escapes were completely removed from all operators except "`-annotate`" for drawing text, and "`-label`" for "`monatge`" labels.
 
 This page is for reference for older IM users who may still have to deal with this bug.
@@ -51,10 +47,10 @@ convert -size 250x50 xc:none  -box white  -pointsize 20 -gravity center \
 
 [![\[IM Output\]](draw_percent_fixed.gif)](draw_percent_fixed.gif)
 
-------------------------------------------------------------------------
-
-Created: 1 August 2005  
- Updated: 9 August 2005  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/draw_percent/`
+---
+created: 1 August 2005  
+updated: 9 August 2005  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.2.3
+url: http://www.imagemagick.org/Usage/bugs/draw_percent/
+---

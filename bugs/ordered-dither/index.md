@@ -1,9 +1,5 @@
 # Ordered Dither Upgrade
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-
 The following is a demonstration before and after results and IM Examples development examples of a new or exapnded aspect of ImageMagick.
 
 During the creation of the IM Examples for [Quantization and Dithering](../../quantize/) I saw an oppertunity to expand the ordered dither functionality to not only provide more ordered dither patterns, but also expand it to provide an ordered dithered posterization functionality.
@@ -383,10 +379,10 @@ convert gradient:'[600x1]' -scale 600x20\! -negate \
 
 It is the mathematics developed for this final, posterization ordered dither from a single threshold map, that was encoded to produce the new `OrderedPosterizeImage()`, function defined above.
 
-------------------------------------------------------------------------
-
-Created: 18 September 2006 (from 'quantize' example page)  
- Updated: 24 September 2006  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bug/ordered-dither/`
+---
+created: 18 September 2006 (from 'quantize' example page)  
+updated: 24 September 2006  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.2.9
+url: http://www.imagemagick.org/Usage/bug/ordered-dither/
+---
