@@ -1,35 +1,5 @@
 # Multi-Image Layers
 
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Layers Introduction](#intro)
-[![](../img_www/granitesm_right.gif) Appending Images](#append) (-append)
-[![](../img_www/granitesm_right.gif) Composition of Multiple Pairs of Images](#composition)
--   [Using Composite Command](#composite) (composite, -geometry)
--   [Composite Operator of Convert](#convert) (-composite, -geometry)
--   [Draw Multiple Images](#draw) (-draw 'image ..')
-
-[![](../img_www/granitesm_right.gif) Layering Multiple Images](#layers)
--   [Flatten - onto a Background Image](#flatten)
--   [Mosaics - Canvas Expanding](#mosaic)
--   [Merging - to Create a New Layer Image](#merge)
--   [Coalesce Composition - a Progressive Layering](#coalesce)
--   [Compose Methods and Layering](#compose)
--   [Layers Composite - Merge Two Image Lists](#layer_composite)
-
-[![](../img_www/granitesm_right.gif) Layering Image Examples](#layer_examples)
--   [Layering Thumbnails](#layer_thumbnails)
--   [Calculated Positioning of Images](#layer_calc)
--   [Two Stage Positioning of Images](#layer_prog)
--   [Pins in a Map](#layer_pins)
--   [Layers of Shadows](#layer_shadow)
--   [Distorted Image Placement using Layers](#layer_distort)
-
-  
-[![](../img_www/granitesm_right.gif) Evaluate Sequence Multi-Image Merging](#evaluate-sequence)
-[Mean (average)](#eval-seq_mean),  [Min/Max Value](#eval-seq_max),  [Median Pixel](#eval-seq_median),   [Add](#eval-seq_add),  [Multiply](#eval-seq_multiply)
-[![](../img_www/granitesm_right.gif) Poly - Merge Mutli-images Using a Polynomial](#poly)
-
 Overlaying multiple images onto each other to generate a larger 'composite' is generally known as using image 'layering'.
 These examples involve the combining of multiple 'layers' of images to produce the final larger more complex image.
 
@@ -40,7 +10,7 @@ These examples involve the combining of multiple 'layers' of images to produce t
 As we have previously noted, ImageMagick does not deal with just one image, but a sequence or list of images.
 This allows you to use IM in two very special image processing techniques.
 
-You can for example think of each image in the list as a single frame in time, so that the whole list can be regarded as being a *Animation*.
+You can, for example, think of each image in the list as a single frame in time, so that the whole list can be regarded as being an *Animation*.
 This will be explored in other IM Example Pages.
 See [Animation Basics](../anim_basics/).
 
@@ -51,7 +21,7 @@ Above that you can have a fuzzy see though shadow.
 Then the next layer image contains the object that casts that shadow.
 On top of this a layer with some text that is written over that object.
 
-That is you can have a sequence of images or 'layers' that each adds one more piece to a much more complex image.
+That is, you can have a sequence of images or 'layers' that each adds one more piece to a much more complex image.
 Each image layer can be moved, edited, or modified completely separately from any other layer, and even saved into a multi-image file (such as TIFF:, MIFF: or XCF:) or as separate images, for future processing.
 And that is the point of image layering.
 
@@ -66,7 +36,7 @@ Appending is probably the simplest, of the multi-image operations provided to ha
 Basically it joins the current sequence of images in memory into a column, or a row, without gaps.
 The "`-append`" option appends vertically, while the plus form "`+append`" appends horizontally.
 
-For example here we append a set of letter images together, side-by-side, to form a fancy word, in a similar way that individual 'glyphs' or letters of a 'font', are joined together.
+For example, here we append a set of letter images together, side-by-side, to form a fancy word, in a similar way that individual 'glyphs' or letters of a 'font', are joined together.
 
 ~~~
 convert font_A.gif font_P.gif font_P.gif font_E.gif font_N.gif \
@@ -118,6 +88,7 @@ convert rose:  -background LawnGreen label:Rose \
 Similar vertical alignment can be achieved when using "`+append`"
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
+> :WARNING:
 > Before IM v6.4.7 it was much more difficult to align appended images, and generally involved using a "`-flop`" for right alignment.
 > Or using "`-extent`" or "`-border`" to adjust the image width for centered aligned appends.
 >  
@@ -140,8 +111,8 @@ convert font_{0,0,6,1,2}.gif +append  dragon_long.gif \
 
 [![\[IM Output\]](append_multi.gif)](append_multi.gif)
 
-We appended each row of images together, then appende a larger image below that.
-This is very simple, and straight-forward.
+We appended each row of images together, then appended a larger image below that.
+This is very simple, and straightforward.
 
 By using [parenthesis](../basics/#parenthesis), you can append just the numbers after the larger image.
 For example, here append all the numbers together, before appending them vertically to the dragon image we read in before the numbers.
@@ -154,6 +125,7 @@ convert dragon_long.gif  '(' font_{0,0,6,2,9}.gif +append ')' \
 [![\[IM Output\]](append_parenthesis.gif)](append_parenthesis.gif)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> :REMINDER:
 > The parenthesis in the above must be either quoted, or escaped with a backslashed ('`\`') when used with a UNIX shell, otherwise they will be interpreted by the shell as something completely different.
 >
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -176,6 +148,7 @@ Technically the first set of parenthesis is not needed, as no images have been r
 See also [Montage Concatenation Mode](../montage/#concatenate), for an alternative way of creating arrays of equal sized images.
   
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
+> :EXPERT:
 > The "`-append`" operator will only append the actual images, and does not make use the virtual canvas (image page) size of offset.
 > However the virtual canvas information seems to be left in a funny state with the canvas sizes being added together and the offset set to some undefined value.
 >
@@ -191,13 +164,13 @@ See also [Montage Concatenation Mode](../montage/#concatenate), for an alternati
 Compostion is the low-level operation that is used to merge two individual images together.
 Almost all layering techniques eventaully devolve down to merging images together two at a time, until only one image is left.
 
-So lets start by looking at ways of doing low-level composition of image pairs.
+So let's start by looking at ways of doing low-level composition of image pairs.
 
 ### Using the Composite Command {#composite}
 
 The traditional method of combining two images together using ImageMagick is though the "`composite`" command.
 This command can only combine only two images at a time, saving the results of each operation into a file.
-This of course does not stop you from using it to layer multiple images, one image at a time...
+This, of course, does not stop you from using it to layer multiple images, one image at a time...
 
 ~~~
 convert -size 100x100 xc:skyblue composite.gif
@@ -210,6 +183,7 @@ composite -geometry +10+55 shading.gif composite.gif composite.gif
 [![\[IM Output\]](composite.gif)](composite.gif)
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> :REMINDER:
 > As all input images are read in by ImageMagick BEFORE the output image is opened, you can output to one of the input images.
 > This allows you to work on the same image over and over, as shown above, without problems.
 >
@@ -227,7 +201,7 @@ composite -geometry 16x16+10+55 shading.gif comp_resize.gif comp_resize.gif
 
 [![\[IM Output\]](comp_resize.gif)](comp_resize.gif)
 
-The "`composite`" command also has a few other advantages in that you can use to control the way the image is drawn onto the background with the "`-compose`" option and its relative position is effected by the "`-gravity`" setting.
+The "`composite`" command also has a few other advantages in that you can use to control the way the image is drawn onto the background with the "`-compose`" option and its relative position is affected by the "`-gravity`" setting.
 
 You can also "`-tile`" the overlay so that it will just cover the background image, without needing to specify tile limits.
 This is something only available when using "`composite`".
@@ -315,7 +289,7 @@ convert -size 100x100 xc:skyblue \
 The 'drawn' images can also be [Rotated, Scaled, and Affine Distorted](../draw/#transform) during the overlay process.
 Though that can be tricky to get working the way you want.
 
-Drawn images are "`-gravity`" effected, just like text.
+Drawn images are "`-gravity`" affected, just like text.
 
 ------------------------------------------------------------------------
 
@@ -348,12 +322,13 @@ convert -size 100x100 xc:skyblue \
 [![\[IM Output\]](flatten_canvas.gif)](flatten_canvas.gif)
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
+> :WARNING:
 > As of IM v6.3.6-2 the "`-flatten`" operator is only an alias for a "`-layers 'flatten'`" method.
 >
 > Thus the "`-flatten`" option can be regarded as a short cut for the "`-layers`" method of the same name.
 
 You don't need to create an initial canvas as we did above, you can instead let "`-flatten`" create one for you.
-The canvas color will be the current "`-background`" color, while its size is defined by the first images [Virtual Canvas](../basics/#page) size.
+The canvas color will be the current "`-background`" color, while its size is defined by the first image's [Virtual Canvas](../basics/#page) size.
 
 ~~~
 convert -page 100x100+5+10  balloon.gif   -page +35+30 medical.gif  \
@@ -364,11 +339,12 @@ convert -page 100x100+5+10  balloon.gif   -page +35+30 medical.gif  \
 [![\[IM Output\]](flatten_page.gif)](flatten_page.gif)
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> While the "`-gravity`" setting will effect image placement defined using "`-geometry`" settings, it will not effect image positioning using [virtual canvas offsets](../basics/#page) set via the "`-page`" setting.
+> :REMINDER:
+> While the "`-gravity`" setting will affect image placement defined using "`-geometry`" settings, it will not affect image positioning using [virtual canvas offsets](../basics/#page) set via the "`-page`" setting.
 > This is part of the definition of such offsets.
 > See [Geometry vs Page Offsets](../compose/#geometry) for more details.
 >
-> If placement with "`-gravity`" is need look at either the above multi-image composition methods, or the special [Layers Composition](../anim_mods/#composite) method that can handle both positioning methods simultaneously.
+> If placement with "`-gravity`" is needed, look at either the above multi-image composition methods, or the special [Layers Composition](../anim_mods/#composite) method that can handle both positioning methods simultaneously.
 
 If any image does not appear in the defined virtual canvas area, it will either be clipped or ignored, as appropriate.
 For example here we used a smaller canvas size, causing the later images not to appear completely on that canvas.
@@ -398,6 +374,7 @@ convert balloon.gif \( +clone  -background navy  -shadow 80x3+5+5 \) +swap \
 Note that as I want the shadow under the original image, I needed to [swap](../basics/#swap) the two images place them in the right order.
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> :REMINDER:
 > Using [Flatten](#flatten) for adding generated [Shadow Images](../blur/#shadow) is not recommended, as generated shadow images can have negative image offsets.
 >
 > The recommended solution, as given in the section on [Shadow Images](../blur/#shadow), is to use the more advanced [Layer Merging](#merge) technique, we will look at later.
@@ -430,7 +407,7 @@ It also will not 'expand' the image itself to cover the whole viewport if the im
 
 A common mis-use of the "`-flatten`" operator is to [Remove Transparency](../masking/#remove) from an image.
 That is to get rid of any transparency that an image may have, but overlaying it on the background color.
-However this will not work when multiple images are involved as as such no longer recommended.
+However this will not work when multiple images are involved and, as such, is no longer recommended.
 
 ### Mosaic - Canvas Expanding {#mosaic}
 
@@ -448,12 +425,13 @@ convert -page +5+10  balloon.gif   -page +35+30 medical.gif  \
 [![\[IM Output\]](mosaic.gif)](mosaic.gif)
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
-> As on IM v6.3.6-2 the "`-mosaic`" operator is only an alias for a "`-layers 'mosaic'`".
+> :WARNING:
+> As of IM v6.3.6-2 the "`-mosaic`" operator is only an alias for a "`-layers 'mosaic'`".
 >
 > Thus the "`-mosaic`" option can be regarded as a short cut for the "`-layers`" method of the same name.
 
 Note that both "`-mosaic`" and "`-flatten`" still creates a canvas that started from the 'origin' or 0,0 pixel.
-This is part of the definition of an images 'virtual canvas' or 'page' and because of this you can be sure that the final image for both operators will have a no virtual offset, and the whole canvas will be fully defined in terms of actual pixel data.
+This is part of the definition of an image's 'virtual canvas' or 'page' and because of this you can be sure that the final image for both operators will have a no virtual offset, and the whole canvas will be fully defined in terms of actual pixel data.
 
 Also note that "`-mosaic`" will only expand the canvas in the positive directions (the bottom or right edges), as the top and left edge are fixed to the virtual origin.
 That of course means "`-mosaic`" will still clip images with negative offsets...
@@ -496,7 +474,7 @@ convert -page +5+10  balloon.gif   -page +35+30 medical.gif  \
 As you can see the image is only just big enough to hold all the images which were placed relative to each other, while I discarded the resulting images offset relative to the virtual canvas origin.
 This preservation of relative position without clipping or extra unneeded space is what make this variant so powerful.
 
-Lets try this again by giving one image a negative offset...
+Let's try this again by giving one image a negative offset...
 
 ~~~
 convert -page -5-10  balloon.gif   -page +35+30 medical.gif  \
@@ -514,9 +492,9 @@ The offset was removed as web browsers often have trouble with image offsets and
 But if I did not remove that offset, all the images will remain in their correct location on the virtual canvas within the generated single layer image, allowing you to continue to process and add more images to the merged image.
 Typically you would use a "`-background`" color of '`None`', to make the unused areas of the merged image transparent.
 
-When applied to a single image, [Layer Merging](#merge) will replace any transparency in the image with the solid color background, but preserve the images original size, as well as any any offsets in that image, The virtual canvas size of the image however may be adjusted to 'best fit' that images size and offset.
+When applied to a single image, [Layer Merging](#merge) will replace any transparency in the image with the solid color background, but preserve the image's original size, as well as any any offsets in that image, the virtual canvas size of the image however may be adjusted to 'best fit' that image's size and offset.
 
-The operators original purpose was allow users to more easily merge multiple distorted images into a unified whole, regardless of the individual images offset.
+The operator's original purpose was allow users to more easily merge multiple distorted images into a unified whole, regardless of the individual images' offset.
 For example when aligning photos to form a larger 'panorama'.
 You could simply start with a central undistorted base image (without an offset), and use this operator to overlay the other images around that starting point (using either negative or positive offsets) that have been aligned and distorted to match that central image.
 
@@ -558,7 +536,7 @@ convert  -page 100x100+5+10 balloon.gif -layers coalesce  coalesce_canvas.gif
 
 [![\[IM Output\]](coalesce_canvas.gif)](coalesce_canvas.gif)
 
-When dealing with a image consisting on multiple layers, [Coalesce](#coalesce) can be used to generate a 'Progressive Layering' of the image.
+When dealing with an image consisting of multiple layers, [Coalesce](#coalesce) can be used to generate a 'Progressive Layering' of the image.
 But to do this we need to take a few precautions, to disable any 'GIF animation' handling by the operator.
 
 ~~~
@@ -605,9 +583,9 @@ The three [Layering](#layers) methods '`flatten`', '`mosaic`' will make use of t
 As such you could think of these functions as a multi-image "`-composite`" operator with the ability to set an initial "`-background`" canvas color.
 
 However using anything but the default [Alpha Composition](../compose/) of '`Over`' requires some thought before applying or you will get unexpected results.
-You may also may need to thing about the effect of the "`-background`" color that is used by these operators to generate a starting canvas, onto with each image (including the first) in composed.
+You may also may need to think about the effect of the "`-background`" color that is used by these operators to generate a starting canvas, onto with each image (including the first) in composed.
 
-For example lets place each successive image *under* the previous images using a '`DstOver`'...
+For example, let's place each successive image *under* the previous images using a '`DstOver`'...
 
 ~~~
 convert -page 100x100+5+10 balloon.gif   -page +35+30 medical.gif  \
@@ -663,7 +641,7 @@ convert -size 60x60 \
 
 ### Layers Composite - Merge Two Layer Lists {#layer_composite}
 
-With IM v6.3.3-7 the "`-layers`" method, '`Composite`' was added allowing you compose two completely separate sets of images together.
+With IM v6.3.3-7 the "`-layers`" method, '`Composite`' was added allowing you to compose two completely separate sets of images together.
 
 To do this on the command line a special '`null:`' marker image is needed to define where the first *destination* list of images ends and the overlaid *source* image list begins.
 But that is the only real complication of this method.
@@ -687,7 +665,7 @@ So see [Multi-Image Alpha Composition](../anim_mods/#compose) for more details.
 
 ## Handling Image Layers {#layer_examples}
 
-Laying multiple images using the various layer operators above is a very versatile technique.
+Layering multiple images using the various layer operators above is a very versatile technique.
 It lets you work on a large number of images individually, and then when finished you combine them all into a single unified whole.
 
 So far we have shown various ways of merging (composing or layering) multiple images in many different ways.
@@ -717,7 +695,7 @@ convert -page +5+5    holocaust_tn.gif \
 The [Virtual Canvas Offset (page)](../basics/#page) can be set in many ways.
 More specifically you can "`-set`" set this per-image [Attribute](../basics/#attribute), and even calculate a different location for each and every image.
 
-For example here I read in a big set of images (small icon images all the same size) and arrange them in a circle.
+For example, here I read in a big set of images (small icon images all the same size) and arrange them in a circle.
 
 ~~~
 convert {balloon,castle,eye,eyeguy,ghost,hand_point,medical}.gif \
@@ -735,30 +713,28 @@ The key to the above example is the "`-set page`" operation that uses the normal
 This value is then mapped to position the image (by angle) in a circle of 80 pixels radius, using [FX Expressions as a Percent Escape](../transform/#fx_escapes).
 
 The position calculated is of the top-left corner of the image (not its center, though that is a simple adjustment), which is then [Merged](#merge) to generate a new image.
-The positioning is done without regard of the offset being positive or negative, which is the power of the [Merge Laying Operator](#merge).
-That is we generated a new image of all the images as they are relative to each other.
+The positioning is done without regard to the offset being positive or negative, which is the power of the [Merge Laying Operator](#merge).
+That is, we generated a new image of all the images as they are relative to each other.
 
 The final "`+repage`" removes the final resulting negative offset of the merged layer image, as this is no longer needed and can cause problems when viewing the resulting image.
 
 Note that the first image (right-most in result) is layered below every other image.
 If you want the layering to be truely cyclic so the last image was below this first one, you may have either: to generate and combine two versions of the above, with different ordering of the images; or overlay the first image on the last image, correctly, before generating the circle.
-Both solutions are tricky, and is left as a exercise.
+Both solutions are tricky, and are left as a exercise.
 
-This technique is powerful, but it can only position images to a integer offset.
-If you need more excate sub-pixel positioning of images then the images will need to be distorted (translated) to the right location rather than simply adjusting its virtual offset.
+This technique is powerful, but it can only position images to an integer offset.
+If you need more exact sub-pixel positioning of images then the images will need to be distorted (translated) to the right location rather than simply adjusting its virtual offset.
 
 #### Incrementally Calculated Positions
 
 You can access some image attributes of other images using FX expressions, while setting the attribute of images as they are processed.
-This means that you can set the location of each image, relative the calculated position of the previous image.
+This means that you can set the location of each image, relative to the calculated position of the previous image.
 
-For example this sets the position of each image to be the position of the previous image, plus the previous images width.
+For example this sets the position of each image to be the position of the previous image, plus the previous image's width.
 
 ~~~
 convert  rose: netscape: granite: \
-        \
         +repage -set page '+%[fx:u[t-1]page.x+u[t-1].w]+0' \
-        \
         -background none -layers merge +repage append_diy.png
 ~~~
 
@@ -774,7 +750,8 @@ That overall displacement however is junked by the final "`+repage`".
 You can use some extra calculation to have it ignore this offset, but it isn't needed in the above.
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> When using a image index such as '`u[t]`' all image selectors '`u`', '`v`', and '`s`', all references the same image, according to the '`[index]`' given.
+> :REMINDER:
+> When using an image index such as '`u[t]`' all image selectors '`u`', '`v`', and '`s`', all references the same image, according to the '`[index]`' given.
 > As such it is better to use '`u`' (the first or zeroth image) as a mnemonic of this indexing behaviour (and in case this changes).
 
 This ability to access attributes of other images, also includes the pixel data of other images.
@@ -784,9 +761,9 @@ It is just another possibility.
 
 ### Two Stage Positioning of Images {#layer_prog}
 
-You can simplify your image processing, by separating them into two steps.
+You can simplify your image processing, by separating it into two steps.
 One step can be used to generate, distort, position and add fluff to images, with a final step to merge them all together.
-For example, lets create [Polaroid Thumbnails](../transform/#polaroid) from the larger original images in [Photo Store](../img_photos/INDEX.html), processing each of them individually (keeping that aspect separate and simple).
+For example, let's create [Polaroid Thumbnails](../transform/#polaroid) from the larger original images in [Photo Store](../img_photos/INDEX.html), processing each of them individually (keeping that aspect separate and simple).
 
 ~~~
 center=0   # Start position of the center of the first image.
@@ -817,16 +794,16 @@ done |
 [![\[IM Output\]](overlapped_polaroids.jpg)](overlapped_polaroids.jpg)
 
 The script above seem complicated but isn't really.
-It simply generates each thumbnail image in a loop, while at the same time center pads (using [Extent](../crop/#extent)) and [Trims](../canvas/#trim) each image so that the images 'center' is in a known location on the virtual canvas.
+It simply generates each thumbnail image in a loop, while at the same time center pads (using [Extent](../crop/#extent)) and [Trims](../canvas/#trim) each image so that the image's 'center' is in a known location on the virtual canvas.
 It could actually calculate that postion, though that may require temporary files, so it is better to ensure it is in a well known location, for all images.
 
 The image is then translated (using a relative "`-repage`" operator, see [Canvas Offsets](../basics/#page)), so that each image generated will be exactly 60 pixels to the right of the previous image.
-That is, each image center is spaced a fixed distance apart, regardless of the images actual size, which could have changed due to aspect ratios and rotations.
+That is, each image center is spaced a fixed distance apart, regardless of the image's actual size, which could have changed due to aspect ratios and rotations.
 
 The other major trick with this script is that rather than save each 'layer image' into a temporary file, you can just write the image into a pipeline using the [MIFF:](../files/#miff) file format.
 A method known as a [MIFF Image Streaming](../files/#miff_stream).
 
-This works because the "`MIFF:`" file format allows you to simply concatenate multiple images together into a single data stream, while preserving all the images meta-data, such as its virtual canvas offset.
+This works because the "`MIFF:`" file format allows you to simply concatenate multiple images together into a single data stream, while preserving all the image's meta-data, such as its virtual canvas offset.
 
 This technique provides a good starting point for many other scripts.
 Images can be generated, or modified and the final size and position can be calculated in any way you like.
@@ -855,10 +832,10 @@ Here is a typical layering example, placing coloured pins in a map, at specific 
 The end of the pin is at position `+18+41`.
 
 I also have a image of a [Map of Venice](map_venice.jpg), and want to put a pin at various points on the map.
-For example 'Accademia' is locate at pixel position, `+160+283`.
+For example 'Accademia' is located at pixel position, `+160+283`.
 
 To align the push-pin with that position you need to subtract the location of the end of the pin from map position.
-This produces a offset of `+142+242` for our 'pin' image.
+This produces an offset of `+142+242` for our 'pin' image.
 
 Here is the result, using layered images
 
@@ -869,16 +846,16 @@ convert map_venice.jpg    -page +142+242 push_pin.png \
 
 [![\[IM Output\]](map_push_pin.jpg)](map_push_pin.jpg)
 
-This example was from a IM Forum Discussion, [Layering Images with Convert](../forum_link.cgi?f=1&t=20251).
+This example was from an IM Forum Discussion, [Layering Images with Convert](../forum_link.cgi?f=1&t=20251).
 
-**Lets automate this further.**
+**Let's automate this further.**
 
 We have a file listing the locations and colors for each of the pins we want to place in the map.
 The location name in the file is not used and is just a reference comment on the pixel location listed.
   
 [![\[Data File\]](map_venice_pins.txt.gif)](map_venice_pins.txt)
 
-Lets read this text file, to create 'pins' in a loop.
+Let's read this text file, to create 'pins' in a loop.
 
 ~~~
 pin_x=18  pin_y=41
@@ -911,7 +888,7 @@ cat map_venice_pins.txt |\
 
 [![\[IM Output\]](map_venice_pins.jpg)](map_venice_pins.jpg)
 
-Note it assumes the original pin color is red ( which has a hue of 0 ) and uses the [Modulate Operator](../color_mods/#modulate) to re-color it to other colors, with the appropriate scaling calculations.
+Note it assumes the original pin color is red (which has a hue of 0) and uses the [Modulate Operator](../color_mods/#modulate) to re-color it to other colors, with the appropriate scaling calculations.
 Note that the modulate argument for a no-op hue change is 100, with it cycling over a value of 200 (a sort of pseudo-percentage value).
 
 *FUTURE: perspective distort map, adjust pin size for 'depth' on the map calculate change in pin position due to distortion, and 'pin' it to the distorted map.*
@@ -1081,7 +1058,7 @@ Something I would not have considered posible myself.
 
 The advantage of this method is that you can deal with a whole list of images as a whole, rather than having to accumulate one image at a time, and repeating the same block of operations over and over.
 
-First lets again look at the simplier 'contant shadow' problem.
+First let's again look at the simpler 'contant shadow' problem.
 
 ~~~
 convert \
@@ -1154,6 +1131,7 @@ You can see the same set of blocks that was used previously, but with much more 
 However the shadow currently does not become more blurry with depth.
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> :REMINDER:
 > The above will be a lot simplier using the IMv7 "magick" command, which would allow you to use 'fx calculations' directly the argument to "`-shadow`", that would let you not only calculate a larger offset for the shadow with depth, but also let you mak ethe shadow more blurry with depth.
 
 ### Positioning Distorted Perspective Images {#layer_distort}
@@ -1397,7 +1375,7 @@ Again they are basically equivalent to using a [Lighten and Darken Composition M
 With the right selection of background canvas color, you could use [Flatten Operator](#flatten) with the equivalent compose method.
 
 WARNING: This is not a selection of pixels (by intensity), but a selection of values.
-That means the output image could result in the individule red, green and blue values from different images, resulting in a new color not found in any of the input images.
+That means the output image could result in the individual red, green and blue values from different images, resulting in a new color not found in any of the input images.
 See the [Lighten Compose Method](../compose/#lighten) for more details of this.
 
 ### Median Pixel by Intensity {#eval-seq_median}
@@ -1407,9 +1385,9 @@ The "`-evaluate-sequence Median`" will look for the pixel which has an intensity
 That is for each position it collects and sorts the pixel intensity from each of the images.
 Then it will pick the pixel that falls in the middle of the sequence.
 
-It can also be used as a alternative to simply averaging the pixels of a collection of images.
+It can also be used as an alternative to simply averaging the pixels of a collection of images.
 
-This could be used for example by combining an image with two upper and lower 'limiting' images.
+This could be used, for example, by combining an image with two upper and lower 'limiting' images.
 As the pixel will be the middle intensity you will either get the pixel from the original image, or a pixel from the 'limiting' images.
 In other words you can use this to 'clip' the intensity of the original image.
 Strange but true.
@@ -1473,7 +1451,7 @@ convert ... -background white -compose multiply -layers flatten ...
 
 Closely related to "`-evaluate-sequence and specifically to the 'mean`' method (image averaging), is the "`-poly`" operator (added IM v6.8.0-5).
 
-This operator is given a list of two numbers for each image in memory, one to provide a multiplicative weight for each image, but also a power-of exponent to each image.
+This operator is given a list of two numbers for each image in memory, one to provide a multiplicative weight for each image, and a second to provide a *power-of exponent* to each image.
 This lets you merge a list of images as if each image was the variable input to a polynomial equation.
 The color values from each image is treated as if they were a normalized 0 to 1 value.
 
