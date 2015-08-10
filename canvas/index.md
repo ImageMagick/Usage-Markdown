@@ -1,84 +1,14 @@
 # Canvas Creation
 
-**Index**
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-   * [![](../img_www/granitesm_right.gif) Solid Color Canvases](#solid)
-     * [Direct Generation](#solid)
-     * [Blanking Existing Images](#blank)
-     * [Blanking Image with Picked Color](#blank_pick)
-     * [Overlay a Specific Color](#specific)
-     * [Other Canvas Techniques](#other)
-
-   * [![](../img_www/granitesm_right.gif) Gradients of Colors](#gradient)
-     * [Gradient Image Generator](#gradient)
-     * [Radial Gradient Generator](#radial-gradient)
-     * [Gradients with Transparency](#gradient_transparent)
-     * [Histogram Adjusted Gradients](#gradient_histogram)
-     * [Evaluated Gradients](#gradient_functions)
-     * [Distorted Gradients](#gradient_distort)
-     * [Gradients by Composition](#gradient_compose)
-     * [Gradients in other Colorspaces](#gradient_colorspace)
-     * [Resized Image Gradients](#gradient_resize)
-     * [Interpolated Lookup Gradients](#gradient_interpolate)
-     * [Roll your own Gradient](#gradient_fx)
-     * [More Complex DIY Gradients](#gradient_complex)
-     * [DIY Gradients and Hues](#gradient_complex_hues)
-
-   * [![](../img_www/granitesm_right.gif) Sparse Points of Color](#sparse-color)
-     * [**Barycentric** - The Triangle Gradient](#barycentric)
-       * [Two Color Gradients](#two_color_gradients)
-       * [Diagonal Gradients](#diagonal_gradients)
-       * [Barycentric and Two Color Gradients](#two_point_gradients)
-       * [Generating the Perfect Gradient](#perfect_gradients)
-     * [**Bilinear** - 4 Point Gradient](#bilinear)
-     * [**Voronoi** - Nearest Color](#voronoi)
-     * [**Shepards** - Spotlights of Color](#shepards)
-     * [**Inverse** - Sharp Points of Color](#inverse)
-     * [Shepards Power Factor](#shepards_power)
-     * [Summary of Sparse Color Methods](#sparse_summary)
-     * [Channel Setting and Sparse Color](#sparse_channel)
-     * [Sparse Color as a Fill Operator](#sparse_fill)
-     * [Sparse Color Shepards, a Blur Alternative](#sparse_blur)
-     * [Shepards Method 'Leaks'](#shepards_leakage)
-
-   * [![](../img_www/granitesm_right.gif) Plasma Images](#plasma)
-     * [Plasma Gradients](#plasma_gradients)
-     * [Fractal Plasma](#plasma_fractal)
-     * [Gray-scale Plasma](#plasma_greyscale)
-     * [Seeded Plasma](#plasma_seeded)
-     * [Problems using Plasma](#plasma_problems)
-
-   * [![](../img_www/granitesm_right.gif) Random Images](#random)
-     * [Raw Random Noise](#random_noise) - pure random
-     * [Plasma Gradients](#plasma_gradients)
-     * [Random Speckles](#random_specks) - pixel dust
-     * [Blurred Random Images](#random_blur) - random blobs
-     * [Random Granularity](#granularity) - order in the chaos
-     * [Random Flux](#random_flux) - animated randomness
-     * [Random Ripples](#random_ripples) - dispersion maps
-
-   * [![](../img_www/granitesm_right.gif) Tiled Canvases](#tile)
-     * [Tiled Canvas](#tile)
-     * [Offset Tiling Canvases](#tile-offset)
-     * [Tiling with an Image In Memory](#tile_memory)
-     * [Modifying Built-in Patterns](#pattern)
-     * [Modifying Tile Images](#tile_mod)
-     * [Generating Tile Images](#tile_gen)
-     * [Random Noise Tiles](#tile_random)
-     * [Hexagonal Tiling](#tile_hex)
-     * [Triple Hex Tiling](#tile_triple_hex)
-     * [Diagonal Mirror Tiling](#tile_diagonal)
-
 Canvases are used by ImageMagick both as a starting image for drawing on, backgrounds to overlay images with transparent areas, or even just as part of general image processing.
 They can be a solid color, or a range of colors, or even a tile of a smaller image.
 Here we look at just some of the methods that can be used to generate a whole range of canvas images.
 
 ------------------------------------------------------------------------
 
-## Solid Color Canvases
+## Solid Color Canvases {#solid}
 
-### Direct Generation
+### Direct Generation {#solid_direct}
 
 Generating a canvas of a specific color and size is very simple to do.
 You just specify "`-size`" (defaulting to "`1x1`" is no size given), and then use "`canvas:`" to generate a a canvas of the color given.
@@ -119,7 +49,7 @@ convert rose:  -crop 1x1+40+30 +repage -scale 100x100\! canvas_pick.gif
 
 [![\[IM Output\]](canvas_pick.gif)](canvas_pick.gif)
 
-### Create Image of same size
+### Create Image of same size {#sized}
 
 One most basic techniques, when using ImageMagick, is to generate a canvas of the same size as some existing image.
 This can be done by converting that existing image into the canvas needed, but preserving the image's original size.
@@ -139,7 +69,10 @@ I did design it to contain a range of colors, transparencies and other features,
   
 [![\[IM Output\]](test.png)](test.png)
 
-### Overlay a Specific Color
+
+<a name="blank"></a><!-- legacy anchor -->
+
+### Overlay a Specific Color {#specific}
 
   
 As of IM v6.4.2-1 you can use the "`+level-colors`" with a single color and no comma's, to set all the colors.
@@ -259,7 +192,8 @@ convert test.png -alpha set -fill '#FF000040' -draw 'color 0,0 reset' \
 [![\[IM Output\]](color_semitrans.png)](color_semitrans.png)
 
 Also note that when using "`-fx`" operator with transparency, you will need to set "`-channel`" to modify all four '`RGBA`' color channels.
-### Blanking Image with Picked Color
+
+### Blanking Image with Picked Color {#blank_pick}
 
 Blanking images using a color from the original image is also posible, though can be tricky.
 It is a useful technique when you want to use a specific pixel as a 'background color'.
@@ -301,7 +235,7 @@ convert rose: -set option:distort:viewport '%wx%h+0+0' \
 
 [![\[IM Output\]](color_pick_distort.png)](color_pick_distort.png)
   
-### Other Canvas Techniques
+### Other Canvas Techniques {#other}
 
 Their lots of other ways of generating canvases of very specific colors, but they are rather obtuse.
 As such without some heavy commenting, it may not be obvious which you are doing when you look at your IM script months or years later.
@@ -527,7 +461,7 @@ convert  test.png  +level 40%,40%  -alpha off  grey_level.png
 
 ------------------------------------------------------------------------
 
-## Gradients of Color
+## Gradients of Color {#gradient}
 
 As you saw above you can create canvases of solid colors easy enough.
 But sometimes you want something more interesting.
@@ -600,7 +534,7 @@ convert -size 10x120  gradient:darkcyan-snow      gradient_snow_scape.jpg
 > As a result the gradient was a predominately vertical gradient, just as it is now, but not a perfect one.
 > Usually this fact was only important in special case such as test images, and for use in [Image Mapping](../mapping/#intro).
 
-## Radial Gradients
+## Radial Gradients {#radial-gradient}
 
   
 As of IM v6.4.4 you can also generate radial gradient images in a similar way.
@@ -641,7 +575,7 @@ convert -size 100x100  radial-gradient:tomato-steelblue  rgradient_range5.jpg
 
 [![\[IM Output\]](rgradient_range1.jpg)](rgradient_range1.jpg) [![\[IM Output\]](rgradient_range2.jpg)](rgradient_range2.jpg) [![\[IM Output\]](rgradient_range3.jpg)](rgradient_range3.jpg) [![\[IM Output\]](rgradient_range4.jpg)](rgradient_range4.jpg) [![\[IM Output\]](rgradient_range5.jpg)](rgradient_range5.jpg)
 
-### Gradients with Transparency
+### Gradients with Transparency {#gradient_transparent}
 
   
 As of IM v6.2.9-8 the "`gradient:`" (and later "`radial-gradient:`") image creation operator understands the use of transparent and semi-transparent colors.
@@ -667,7 +601,7 @@ convert -size 100x100 gradient:none-black \
 
 [![\[IM Output\]](gradient_trans_colorize.png)](gradient_trans_colorize.png)
 
-### Gradients by Histogram Adjustment
+### Gradients by Histogram Adjustment {#gradient_histogram}
 
 You can create a non-linear gradient by applying some form of histogram adjustment to a linear gradient.
 
@@ -681,7 +615,7 @@ convert -size 100x100 gradient: -sigmoidal-contrast 6,50% \
 [![\[IM Output\]](gradient_sigmoidal.jpg)](gradient_sigmoidal.jpg)
 
 This type of gradient is especially good for generating [Overlapping Photos](../photos/#overlap), as it removed the sharp gradient changes at the beginning of the overlapping region.
-### Evaluate/Function Gradients
+### Evaluate/Function Gradients {#gradient_functions}
 
 You can also use the [Evaluate Operator](../transform/#evaluate) and related [Function Operator](../transform/#function) to modify a simple linear gradient.
 
@@ -710,7 +644,8 @@ convert -size 100x100 gradient: -function sinusoid 4,-90  \
 
 [![\[IM Output\]](gradient_bands.jpg)](gradient_bands.jpg)
 Both of these closely related operators allow you to modify images and gradients based on Sine Curves, Polynomials, Logarithmic and Power-of mathematical functions.
-### Distorted Gradients
+
+### Distorted Gradients {#gradient_distort}
 
 #### Rotated Gradient
 
@@ -849,7 +784,7 @@ convert -size 100x100 radial-gradient: \
 
 [![\[IM Output\]](gradient_bird.jpg)](gradient_bird.jpg)
 
-### Gradients by Composition
+### Gradients by Composition {#gradient_compose}
 
 You can also modify gradients by combining them using various composition methods.
 For example you can use the [Modulus\_Add](../compose/#modulus_add) compose method to produce venetian blind types of gradients.
@@ -882,7 +817,7 @@ convert -size 100x100 gradient:yellow-blue \
 ~~~
 
 [![\[IM Output\]](gradient_colormap.jpg)](gradient_colormap.jpg)
-### Gradients in other Colorspaces
+### Gradients in other Colorspaces {#gradient_colorspace}
 
 While "`gradient:`" generator currently cannot generate gradients directly in some another [Color Spaces](../color_basics/#colorspace), (only RGB gradients are created) you can transfer gradients into a different color space to generate interesting effects.
 For example...
@@ -927,7 +862,7 @@ convert -size 100x300 gradient:'#FFF-#0FF' -rotate 90 \
 
 A similar example to the above is [Color Wheel](../color_basics/#colorwheel), which is generated by [Combining Channel Images](../color_basics/#combine) with both a Hue and a Lightness gradient.
 
-### Resized Gradient
+### Resized Gradient {#gradient_resize}
 
 One trick that was brought up on the [ImageMagick Mailing List](http://www.imagemagick.org/script/mailing-list.php) by Glenn Randers-Pehrson, was to create a very small image, two pixels across, then expand that to the image size needed using "`-resize`".
 
@@ -1009,7 +944,7 @@ convert xc:black xc:red xc:yellow xc:green1 xc:cyan xc:blue xc:black \
 With this method you can use any color combination and order for the gradients generation.
 This makes it very well suited to generating [Color Lookup Tables](../color_mods/#color_lut).
 
-### Interpolated Lookup Gradients
+### Interpolated Lookup Gradients {#gradient_interpolate}
 
 For more information on the "`-interpolate`" setting see [Interpolation Setting](../misc/#interpolate).
 
@@ -1105,7 +1040,7 @@ As the two diagonally opposite yellow corners are the same, a diagonal of yellow
 With the other colors linearly mapped to those triangles.
 If the two diagonal colors are not the same, you may get a different diagonal division.
 
-### Roll your own gradient
+### Roll your own gradient {#gradient_fx}
 
 The [FX DIY Operator](../transform/#fx), lets you define your own gradients or other image generation, based on the current pixel position.
 
@@ -1196,7 +1131,7 @@ This is why the above looks so much more complex than it really is.
 
 This last example can be generated faster by [Distorting a Gradient](#gradient_distort).
 
-### More Complex DIY Gradients
+### More Complex DIY Gradients {#gradient_complex}
 
 Of course an FX function can generate color gradients.
 For example here is a gradient based on distance ratios, using an extremely complex FX expression.
@@ -1261,7 +1196,7 @@ The problem with using either 'Inverse Distance' or 'Shepard's Method' (inverse 
 As a result you get a sort of underlying 'average color' in between the points, and especially at a large distance from all control points.
 This, in turn, produces 'spots' of color rather than a smooth gradient of color.
 
-### DIY Gradients and Hues  
+### DIY Gradients and Hues {#gradient_complex_hues}
 
 -- (Hues are hard to deal with)
 
@@ -1352,7 +1287,7 @@ This is also probably why very few operations actually work with hue directly.
 
 ------------------------------------------------------------------------
 
-## Sparse Points of Color
+## Sparse Points of Color {#sparse-color}
 
 The "**`-sparse-color`**" operator was added to IM v6.4.3-0 will take an image and set the color given at each of the given floating point '`x,y`' coordinates.
 That is of the form...
@@ -1377,7 +1312,7 @@ Typically after interpolation the maps are further processed to generate 'iso-li
 
 In this case you would think of the generated image as being a simple gray-scale 'height map' of the input data, or perhaps even of all three variables simultaneously, each to a separate image 'channel'.
 
-### Barycentric (triangle gradient)
+### Barycentric (triangle gradient) {#barycentric}
 
 The "`Barycentric`" method, will map three and only three points into a linear triangle of color.
 The colors outside this triangle continue as before.
@@ -1441,7 +1376,8 @@ convert sparse_barycentric.png -separate sparse_bary_%d.gif
 It is only because of the use of primary colors that the above gradients all were mapped parallel to one of the edges of the triangle.
 That is not typically the case.
 But you will always get a simple linear gradient in each separate channel of the image, and a flat plane of values in 3D color space.
-#### Barycentric and Two Color Gradients
+
+#### Barycentric and Two Color Gradients {#two_color_gradients}
 
 This parallel effect of the triangular barycentric gradient is actually very useful.
 If two of the points were set to the same color, then those to points will define the 'angle' of the gradient between them and the other colored point.
@@ -1470,7 +1406,7 @@ convert -size 100x100 xc: -sparse-color  Barycentric \
 
 [![\[IM Output\]](sparse_bary_gradient_2.png)](sparse_bary_gradient_2.png)
 
-#### Diagonal Gradients
+#### Diagonal Gradients {#diagonal_gradients}
 
 This provides a simple way of generating any linear diagonal gradient using just two colors.
 
@@ -1498,7 +1434,7 @@ Notice that in both cases one of the those points is not even located within the
 
 Also note the use of [Percent Escapes](../basics/#arg_percent) to make the positions automatically adjust to the size of the images on which the gradient is being drawn.
 
-#### Two Point Gradients
+#### Two Point Gradients {#two_point_gradients}
 
 If only two color points are given, IM will generate the third point for you, so that the angle is perpendicular between the two original points.
 The result is a simple linear gradient over which you have a lot of control.
@@ -1512,7 +1448,8 @@ convert -size 100x100 xc: -sparse-color  Barycentric \
 ~~~
 
 [![\[IM Output\]](sparse_bary_two_point.png)](sparse_bary_two_point.png)
-#### Generating the Perfect Gradient
+
+#### Generating the Perfect Gradient {#perfect_gradients}
 
 Generating perfect mathematical gradient (such as for [Fourier Transforms](../fourier/), Mathematical Tiling, or [Image Mapping](../mapping/#distort), requires special gradients that is different to the gradients we have so far looked at.
   
@@ -1601,7 +1538,7 @@ convert -size 1x6 gradient: -chop 0x1 -scale 2000%  gradient_chopped.png
 
 But if it does not matter, than don't worry about it, use whatever is simplest for the task at hand.
 
-### Bilinear (4 point gradient)
+### Bilinear (4 point gradient) {#bilinear}
 
 This method fits an equation to 4 points, over all three color channels to produce a uniform color gradient between the points, and beyond.
 
@@ -1632,7 +1569,7 @@ If less than 4 points are given the above function will be replaced by a 3 point
 If more than four points are given it will do a best fit of all the points, and thus may not actually match the given color at the point specified.
 This is not recommended.
 
-### Voronoi (nearest color)
+### Voronoi (nearest color) {#voronoi}
 
 The "`Voronoi`" method, just maps each pixel to the closest color point you have provided.
 This basically divides the image into a set of polygonal 'cells' around each point.
@@ -1716,7 +1653,7 @@ The unblurred output could also passed to various [Edge Detection](../transform/
 You can remap the image via a [Raster to Vector Convertor](../transform/#edge_vector) to generate vector lines.
 However I found the default '`autotrace`' settings may need to be adjusted with "`-corner-threshold 120`" so it will detect the corners better.
 
-### Shepards (spots of color)
+### Shepards (spots of color) {#shepards}
 
 The "`Shepards`" method uses a ratio of the inverse squares of the distances to each of the given points to determine the color of the canvas at each point.
 See [More Complex DIY Gradients](#gradient_complex) above for examples of how the mathematics is performed.
@@ -1739,7 +1676,7 @@ By surrounding a specific area with a similar color you can generate a plateau o
 This method is also what is used to generate a displacement field, such as what is used in [Shepards Image Distortions](../distorts/#shepards).
 In that case X and Y displacement vectors is what is being mapped rather than color R,G,B values.
 
-### Inverse (sharp points of color)
+### Inverse (sharp points of color) {#inverse}
 
 The "`Inverse`" method is practically identical to "`Shepards`", except that it uses a more direct inverse distance weighting of the points given.
 See [More Complex DIY Gradients](#gradient_complex) above for examples of how the mathematics is performed.
@@ -1796,7 +1733,7 @@ convert -size 100x100 xc: -sparse-color Inverse \
 
 These effects also applies to '`Shepards`' method too!
 
-### Shepards Power Factor
+### Shepards Power Factor {#shepards_power}
 
 Both the [Shepards](#shepards) and [Inverse](#inverse) sparse color methods are actually the same but with different 'power levels' applied to the inverse distance weights.
 (2.0 and 1.0 respectiavally).
@@ -1860,7 +1797,7 @@ At very high power levels it will eventually reproduce the same pattern as a [Vo
 This define not only effects [Shepards Sparse Color](#shepards), but also will have similar effects on [Shepards Distortion Method](../distorts/#shepards) which is based on displacement maps generated by the sparse color method.
 However it does not effect the [Inverse](#inverse) sparse color method, which always uses a power-level of 1.0.
 
-### Summary of Sparse Color Methods
+### Summary of Sparse Color Methods {#sparse_summary}
 
 Here is a repeat of the various, 4 point "`-sparse-color`" images, for comparison.
   
@@ -1900,7 +1837,7 @@ At this time only '`Voronoi`', '`Shepards`' and '`Inverse`' methods are suitable
 *More "`-sparse-color`" methods are planned.
 If you have any ideas mail them to me.*
 
-### Channel and Sparse Color
+### Channel and Sparse Color {#sparse_channel}
 
 The "`-sparse-color`" operator is effected by the "`-channel`" setting which means you can use that setting to limit its effects to just a single channel, or expand it to the transparency channel.
 
@@ -1953,7 +1890,7 @@ As such in the above I could have used numbers instead of color names...
 
 This may be easier to handle in programmed scripts, and in API's, which may not have access to the 'colorname' translator.
 
-### Sparse Color as a Fill Operator
+### Sparse Color as a Fill Operator {#sparse_fill}
 
 One of the original reasons for creating the [Sparse Color Operator](#sparse-color), was so that you could give a image containing just a small number of fixed points of color, and from this 'fill-in' the rest of the undefined colors.
 
@@ -2011,7 +1948,7 @@ this is why the edges of the image have become in-distinct.
 This image was specifically developed to try and generate better 'edge feathering' techniques.
 See [Blur Feathering](../blur/#feathering) and [Distance Feathering](../morphology/#distance_feather) for other feathering techniques.
 
-### Sparse Color Shepards, a Blur Alternative
+### Sparse Color Shepards, a Blur Alternative {#sparse_blur}
 
 One alternative to using "`-sparse-color`" is to take the image of pixels on a transparent background, and [Blur](../blur/#blur) it.
 Afterward the transparency is junked.
@@ -2082,7 +2019,7 @@ How severe this problem is is not known, but shouldn't be too great, as those im
 
 Of course it still has the 'leakage' problem of the '`Shepards`' method, so lets look at this problem in more detail.
 
-### Shepards Method 'Leaks'
+### Shepards Method 'Leaks' {#shepards_leakage}
 
 The '`Shepards`' method does not have any understanding of 'boundaries', and as such colors on the far side of some 'line of color' will leak, or 'bleed thru' past that line.
 Eventually at a large distance you will get a pure average color of all the pixels.
@@ -2124,9 +2061,9 @@ I hope to implement this into ImageMagick at some point in the future.
 
 ------------------------------------------------------------------------
 
-## Plasma Images
+## Plasma Images {#plasma}
 
-### Plasma Gradients
+### Plasma Gradients {#plasma_gradients}
 
 While gradients provide a smooth range of colors, another image creation operator "`plasma:`" provides a different sort of gradient.
 One that is ideally suited to generating a random backdrop of color for your images.
@@ -2196,7 +2133,7 @@ convert -size 100x100  plasma:grey50-grey50 \
 
 Compare this image with the 'fractal plasma' images below.
 
-### Fractal Plasma
+### Fractal Plasma {#plasma_fractal}
 
 The plasma generator also has a special fractal mode, which produces highly colorful effects.
 The colors generated are enhanced to produce more exaggerated color changes.
@@ -2254,7 +2191,8 @@ convert -size 160x140  plasma:fractal \
 ~~~
 
 [![\[IM Output\]](plasma_swirl.jpg)](plasma_swirl.jpg)
-### Greyscale Plasma
+
+### Greyscale Plasma {#plasma_greyscale}
 
 Now the plasma generator will always generate color, even on a pure black solid color.
 However it is often useful to generate a pure grey-scale plasma.
@@ -2328,7 +2266,7 @@ These grey-scale plasma images are very useful for further processing, allowing 
 
 For example, look at the page on [Background Images](../backgrounds/) for a huge number of examples where the plasma fractal was used to produce lots of interesting effects.
 
-### Seeding or Repeating a Plasma Image
+### Seeding or Repeating a Plasma Image {#plasma_seeded}
 
 Remember "`plasma:`" can produce areas of near pure black or pure white, or any other color (though it isn't likely to be pure).
 And while it is unlikely you will get a image that is all in one color, it is also a possible outcome.
@@ -2371,7 +2309,7 @@ So placing this setting after your 'seeded plasma' will ensure that any later op
 
 By default the seed is randomized when IM starts, so you normally do not need to randomize it yourself using "`+seed`" to get a random result.
 
-### Problems using Plasma
+### Problems using Plasma {#plasma_problems}
 
 One problem that you should avoid with "`plasma:`" images is generating them with a high aspect ratio.
 It tends to distort the normal plasma color effects, pulling the colors out into needle-like streaks.
@@ -2400,9 +2338,9 @@ But the problem seems to be too deep to be able to fix without basically complet
 
 ------------------------------------------------------------------------
 
-## Random Images
+## Random Images {#random}
 
-### Raw Random Noise
+### Raw Random Noise {#random_noise}
 
   
 As of IM v6.3.5 you can generate a purely random image from an existing image using Noise Generator, "`+noise`" method '`Random`'.
@@ -2432,7 +2370,7 @@ convert -size 100x100 gradient: -separate \
 
 The result may seem very random, but it will produce a more controlled range of colors, (or just color values).
 
-### Random Specks (pixel dust)
+### Random Specks (pixel dust) {#random_specks}
 
 Generating images of scattered random pixels can also be very useful.
 
@@ -2472,7 +2410,7 @@ For examples see [Star Generators](../advanced/#stars).
 Like [Seeded Plasma Images](#plasma_seeded) you can also use the "`-seed`" setting to pre-initialise the random number generator.
 This allows you to generate the same random image(s) repeatably for a particular machine, just as you can for plasma images.
 
-### Blurred Random Images (random blobs)
+### Blurred Random Images (random blobs) {#random_blur}
 
 Now while you can make direct use of random images to create speckled effects, purely random images are generally not very useful.
 But by [Blurring](../blur/#blur) a purely random image you will introduce some 'neighbourhood' order, such that nearby pixels become related.
@@ -2564,7 +2502,7 @@ From individual pixels generating a black and white 'snow' until you get a very 
 
 For more examples of using random images, see [Background Images](../backgrounds/) or to have a look at generating randomised canvases, see [Random Spots of Solid Color](../misc/#spots).
 
-### Random Granularity (order in the chaos)
+### Random Granularity (order in the chaos) {#granularity}
 
 Now remember all the blurred random images were generated from the same initial random image, thus they are all related.
 But every new random image generated will have a completely different pattern, though the patterns will more or less look similar in structure.
@@ -2643,7 +2581,7 @@ Note that as the same random image is used as a source the 'granules' or spots d
 Also remember that while I have reduced the number of colors in the animation, the structure of the full random image is actually smooth gradient between two sets of white and black granules.
 This gradient is what makes the image useful in other techniques.
 
-### Random Flux (animation cycles)
+### Random Flux (animation cycles) {#random_flux}
 
 Now as you saw above the granules or spots do not actually move all that much.
 But for animation effects you want a pattern that moves smoothly in time.
@@ -2756,7 +2694,7 @@ To make the motion less predictable for a longer cyclic sequence, you can also u
 
     FUTURE: Create even less predictable, long time 'harmonic' cycles.
 
-### Random Ripples
+### Random Ripples {#random_ripples}
 
 By adding another variation to a [Blurred Random Image](#random_blur) we can add another level of complexity that makes these images far more useful, and gives use another control variable beyond its [Granularity](#granularity).
 
@@ -2889,7 +2827,7 @@ A better multi-cycled flux cycle generator should remove this slight weirdness b
 
 ------------------------------------------------------------------------
 
-## Tiled Canvases
+## Tiled Canvases {#tile}
 
 Tile images can be very large or very small, are designed to fit together side-by-side and vertically to cover large areas of space.
 
@@ -2991,7 +2929,7 @@ convert rose: -set option:distort:viewport '%g' +delete  \
 
 See [Tiling via Distort](#tile_distort) (below) where we will look at this same technique to tile an image that is already in memory.
 
-### Offset Tiling Canvases
+### Offset Tiling Canvases {#tile-offset}
 
 Sometimes you need a little more control over the exact positioning of a background texture, either for aligning a tile pattern with some other image, or to avoid a bad correlation with some other part of the final image.
 For many of the standard tiling methods this can be achieved using the "`-tile-offset`" setting.
@@ -3064,7 +3002,7 @@ convert -size 80x80  xc: \
 
 In any case it is probably best to define the tile offset and tile image just before its first use, which has the same result as the above solution.
 
-### Tiling with an Image already In Memory
+### Tiling with an Image already In Memory {#tile_memory}
 
 Tiling an image you have in memory (created or modified) is not straightforward, and only a few indirect methods are available.
 
@@ -3182,7 +3120,7 @@ convert tree.gif -set option:distort:viewport 100x100-50-50 \
 
 [![\[IM Output\]](tile_distort_polar.gif)](tile_distort_polar.gif)
 
-### Modifying Built-in IM Patterns/Tiles
+### Modifying Built-in IM Patterns/Tiles {#pattern}
 
 See the full list of [ImageMagick Built In Images and Patterns](http://www.imagemagick.org/script/formats.php#builtin-images).
 There are a lot of such patterns, but I'll only look at one or two here.
@@ -3262,7 +3200,7 @@ convert -size 160x100 pattern:hexagons \
 
 [![\[IM Output\]](pattern_distorted.gif)](pattern_distorted.gif)
 
-### Modifying Tile Images
+### Modifying Tile Images {#tile_mod}
 
 The biggest problem people face with modifying tiles, whether it's an existing tile, or one of the built in patterns, is that many image operations destroy the 'tilability' of the image.
 
@@ -3344,7 +3282,7 @@ convert pattern:circles \( +clone \) +append \( +clone \) -append \
 
 [![\[IM Output\]](tile_circles.jpg)](tile_circles.jpg)
 
-### Generating Tile Images
+### Generating Tile Images {#tile_gen}
 
 The biggest problem you face when generating images that can tile together is trying to match the edges and corners of the image so that they can fit together seamlessly.
 If this is not done then all you get is a set of square boxes each with a repeated copy of the image.
@@ -3368,7 +3306,7 @@ For this reason, generating small tiles that do not seem to repeat is especially
 
     Generating Escher-like tile patterns.
 
-### Random Noise Tile
+### Random Noise Tile {#tile_random}
 
 Because a raw random noise canvas has no edges characteristics to begin with (every pixel color is completely independent of any of its neighbours), you can tile it without worry about edge distortions.
 Basically it is so extremely random at the pixel level, no edges match to begin with, so we don't lose anything, by tiling.
@@ -3408,7 +3346,7 @@ As you can see it is a lot simpler to create randomized tiles using the raw rand
 This particular image transformation is listed on the [Background Images](../backgrounds/) page and is titled "pits".
 See that page for lots of other image random image transformations, and examples of what they look like.
 
-### Hexagonal Tiling
+### Hexagonal Tiling {#tile_hex}
 
 Rather than tile in a square fashion, the 'random noise' image allows use to generate a very different sort of tile.
 By doubling the image dimensions and re-laying the tile in the extra space, but offset by half, we can generate a basic random noise hexagonal tile pattern.
@@ -3465,7 +3403,7 @@ It is however still the same type of pattern.
 
 *Future: how to cut out (mask) a hexagon from a image so it will tile perfectly, without gaps or overlaps.*
 
-### Triple Hex Tiling
+### Triple Hex Tiling {#tile_triple_hex}
 
 Like we did when coloring the the "`hexagons`" built-in pattern (See [Modifying Built-in IM Patterns/Tiles](#pattern) above), you can make three different variants of the initial tile, (with rotations for example) before re-mapping them to form the larger tile.
 
@@ -3504,7 +3442,7 @@ For a general image hex tiling we also need to mask out an equilateral triangles
 The pieces are then rotated so the equilateral trianlge edges are mirrored.
 This is not an easy task.
 
-### Diagonal Mirror Tiling
+### Diagonal Mirror Tiling {#tile_diagonal}
 
 Here is one way to take any square image and convert it into 8 mirrored images around a central point.
 Specifically we are generating a complex '**p4m**' tiling pattern.
@@ -3585,10 +3523,10 @@ Note that due to the non-mirroring nature of the tiling, you do not need need to
 Though it does not hurt to do so, if you want to follow the same type of process for both cases.
   
 
-------------------------------------------------------------------------
-
-Created: 19 December 2003  
- Updated: 22 March 2011  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/canvas/`
+---
+created: 19 December 2003  
+updated: 22 March 2011  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 7.0.0
+url: "http://www.imagemagick.org/Usage/canvas/"
+---
