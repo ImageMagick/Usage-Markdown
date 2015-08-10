@@ -1,9 +1,5 @@
 # Quantization and Transparent Colors
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-
 Exploration of the distance algorithm used by [-colors](../option_link.cgi?colors) quantization (color reduction) with regards to transparent colors.
 
 ------------------------------------------------------------------------
@@ -93,12 +89,10 @@ convert gradient_trans.png -quantize transparent \
 The major problem with dithering involving semi-transparency is that color selection needs to actually prefer fully-opaque, and at least one fully-transparent color.
 Normal quantization however has a tendancy to generate almost-fully-transparent, and near-opaque colors, which is generally not acceptable in this type of image work.
 
-------------------------------------------------------------------------
-
-Created: 3 May 2011  
- Updated: 3 May 2011  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/quantization/`
-
-
+---
+created: 3 May 2011  
+updated: 3 May 2011  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9
+url: http://www.imagemagick.org/Usage/bugs/quantization/
+---

@@ -1,9 +1,5 @@
 # Future Development
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-
 This page known problems in areas of IM currently under development, so are not true bugs, but works in progress.
 Also listed below are new enhancements and suggested development within ImageMagick itself.
 
@@ -509,10 +505,10 @@ One solution is to have 'stoke' default to 'fill' when unset, and fill not 'enla
 that way if you specific set stroke to 'none' areas will not become 'enlarged'.
 The problem is that at this time the stoke color can not be 'unset', or fall back to 'fill'.
 
-------------------------------------------------------------------------
-
-Created: 1 November 2005  
- Updated: 28 August 2012  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/future/`
+---
+created: 1 November 2005  
+updated: 28 August 2012  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.5.4
+url: http://www.imagemagick.org/Usage/bugs/future/
+---

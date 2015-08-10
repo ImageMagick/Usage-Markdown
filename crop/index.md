@@ -1658,10 +1658,10 @@ Other methods of fuzzy trimming is using various [Morphological Methods](../morp
 A user [HugoRune](../forum_link.cgi?u=14154) needed to trim an image down to a highly different contrast regaion for scanning purposes.
 See [Discussion on IM Forums](../forum_link.cgi?t=14247)
 
-------------------------------------------------------------------------
-
-Created: 15 March 2004  
- Updated: 7 August 2009  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/crop/`
+---
+created: 15 March 2004  
+updated: 7 August 2009  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-7
+url: http://www.imagemagick.org/Usage/crop/
+---

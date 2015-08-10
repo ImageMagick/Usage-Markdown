@@ -1,7 +1,5 @@
 # Development and Bugs
 
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-
 These pages demonstrate and provide workarounds for various bugs known to exist, *or used to exist* within IM.
 
 Most of these bug demonstration pages are not updated with the current distribution of IM. So that when a particular bug is fixed, the page can still demonstrate the unfixed effects of the bug. Check the version number at the bottom of the page for the last time those examples were generated.
@@ -39,11 +37,11 @@ Basically this allows for older IM users to check their implementation, and appl
 [OrderedPosterizeImage()](ordered-dither/)   Ordered Dither Expansion Notes   Added to IM v6.2.9-8
 ------------------------------------------   ------------------------------   --------------------
 
-------------------------------------------------------------------------
-
-Created: 15 August 2005  
- Updated: 10 June 2011  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- URL: `http://www.imagemagick.org/Usage/bugs/`
-
  [speech]: ../img_www/speech_start.gif
+
+---
+created: 15 August 2005  
+updated: 10 June 2011  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+url: http://www.imagemagick.org/Usage/bugs/
+---

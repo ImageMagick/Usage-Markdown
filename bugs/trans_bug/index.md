@@ -1,9 +1,5 @@
 # Semi-Transparent Draw and Overlay Bug -- FIXED
 
-**Index**
-[![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-[![](../../img_www/granitesm_left.gif) Known and Fixed Bugs Index](../)
-
 Demonstrantion of a Semi-transparent white on transparent black bug, found in ImageMagick 5.5.7 and earlier.
 They were fixed during the ImageMagick version 6 development.
 
@@ -89,10 +85,10 @@ Then we will not see the thin white border in the final result.
 
 [![\[IM Output\]](result_correct2.png)](result_correct2.png)
 
-------------------------------------------------------------------------
-
-Created: 15 December 2003  
- Updated: 28 April 2005  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/bugs/trans_bug/`
+---
+created: 15 December 2003  
+updated: 28 April 2005  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 5.5.7
+url: http://www.imagemagick.org/Usage/bugs/trans_bug/
+---

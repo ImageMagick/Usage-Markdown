@@ -1586,11 +1586,12 @@ Unfortunately there is no known tutorial (other than this) which specifically co
 The web site [DOS "For" Command Help](http://www.computerhope.com/forhlp.htm) web page has a better explaination of using the "`FOR`" command.
 You may also like to look at *[Bonzo](forum_link.cgi?u=6256)'s* [Batch Script](http://www.rubblewebs.co.uk/imagemagick/batch.php) page.
 
-------------------------------------------------------------------------
-
-Created: 23 April 2009  
- Updated: 21 March 2012  
- Author: Wolfgang Hugemann, &lt;ImageMagick\_AT\_Hugemann.de&gt;  
- HTML Updated by: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen\_AT\_griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/windows/`
+---
+created: 23 April 2009  
+updated: 21 March 2012  
+author:
+ - "Wolfgang Hugemann, &lt;ImageMagick\_AT\_Hugemann.de&gt;"
+ - "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen\_AT\_griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.5.8-7
+url: "http://www.imagemagick.org/Usage/windows/"
+---

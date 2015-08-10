@@ -368,7 +368,7 @@ However the macro detail can be recovered quite well.
 
 It is sharpening algorithms which can recover of finer detail in a blurred, or heavily zoomed image, that makes big money in software packages used by police forces, astronomers, and government spy agencies.
 
-### Unsharp Images
+### Unsharp Images {#unsharp}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -1038,10 +1038,10 @@ For details of using this for feathering see [Feathering Shapes using Distance](
       -adaptive-resize
         Resize but attempt not to blur across sharp color changes
 
-------------------------------------------------------------------------
-
-Created: 19 April 2004  
- Updated: 6 October 2007  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/blur/`
+---
+created: 19 April 2004  
+updated: 6 October 2007  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-6
+url: http://www.imagemagick.org/Usage/blur/
+---

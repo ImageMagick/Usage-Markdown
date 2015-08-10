@@ -410,11 +410,13 @@ A visual comparison of this result with that obtained from Canon's software show
 
 *El-Supremo*
 
-------------------------------------------------------------------------
-
-Created: 10 January 2011  
- Updated: 01 July 2014  
- Author: Wolfgang Hugemann, &lt;ImageMagick\_AT\_Hugemann.de&gt; and others  
- HTML Updates by: [Anthony Thyssen](http://www.cit.gu.edu.au/~anthony/anthony.html), &lt;[A.Thyssen\_AT\_griffith.edu.au](http://www.cit.gu.edu.au/~anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/lens/`
+---
+created: 10 January 2011  
+updated: 01 July 2014  
+author:
+ - "Wolfgang Hugemann, &lt;ImageMagick\_AT\_Hugemann.de&gt;"
+ - "[Anthony Thyssen](http://www.cit.gu.edu.au/~anthony/anthony.html), &lt;[A.Thyssen\_AT\_griffith.edu.au](http://www.cit.gu.edu.au/~anthony/mail.shtml)&gt;"
+ - "and others"
+version: 6.6.8-5
+url: http://www.imagemagick.org/Usage/lens/
+---
