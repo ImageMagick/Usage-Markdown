@@ -1,61 +1,5 @@
 # Color Modifications
 
-**Index**
-<!--
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Converting Color to Gray-Scale](#grayscale) ![](../img_www/space.gif)
-[![](../img_www/granitesm_right.gif) Image Level Adjustments](#levels) ![](../img_www/space.gif)
--   [Negating Images](#negate) (reversing black and white)
--   [Level Adjustment Operator](#level) (contrast and black/white adjustment)
--   [Reversed Level Adjustments](#level_plus) (de-contrasting)
--   [Gamma Level Adjustment](#level_gamma) (mid-tone adjustments)
--   [Gamma Operator Adjustment](#gamma) (gamma without level adjustments)
--   [Level Adjustments by Color](#level-colors) (adjust image levels using colors)
--   [Sigmoidal Non-linearity Contrast](#sigmoidal) (non-linear contrast adjustment)
--   [Miscellaneous Contrast Adjustments](#contrast_misc)
-
-[![](../img_www/granitesm_right.gif) Adjustments Using Histogram Modification](#histogram) ![](../img_www/space.gif) (changing the histogram an image)
--   [Linear Histogram Stretching](#stretching)
--   [Normalize](#normalize) (auto-level stretching)
--   [Contrast Stretch](#contrast-stretch) (controlled stretching)
--   [Linear-Stretch](#linear-stretch) (alternative stretching)
--   [Histogram Redistribution](#hist_redist)
--   [Equalize](#equalize) (uniform histogram redistribution)
--   [Gaussian Redistribution](#gaussian_redist)
--   [Histogram Redistribution Methodology](#redist_method)
-
-[![](../img_www/granitesm_right.gif) DIY Level Adjustments](#diy_levels) ![](../img_www/space.gif) (general tinting operators)
--   [DIY Mathematical Linear Adjustments](#linear)
--   [Mathematical Non-linear Adjustments](#non-linear)
--   ['Curves' Adjustments](#curves)
-
-[![](../img_www/granitesm_right.gif) Tinting Midtones of Images](#tinting) ![](../img_www/space.gif) (general tinting operators)
--   [Uniform Color Tinting](#colorize)
--   [Midtone Color Tinting](#tint)
--   [Sepia Tone Coloring](#sepia-tone)
--   [Duotone Effect](#duotone)
--   [Color Tinting, DIY](#tint_diy)
--   [Color Tinting Overlay](#tint_overlay)
-
-[![](../img_www/granitesm_right.gif) Global Color Modifiers](#color_mods)
--   [Modulate Brightness, Saturation, and Hue](#modulate)
--   [Modulate the Hue Color Cycle](#modulate_hue)
--   [Modulate DIY](#modulate_diy)
--   [Modulate in Other Colorspaces](#modulate_colorspace)
--   [Modulate in HCL Colorspace (from LUV)](#modulate_HCL)
--   [Color Matrix Operator](#color-matrix)
--   [Solarize Coloring](#solarize)
-
-[![](../img_www/granitesm_right.gif) Recoloring Images with Lookup Tables](#color_lut) ![](../img_www/space.gif)
--   [Color Lookup Tables](#clut)
--   [Function to Color LUT conversion](#fx_to_lut)
--   [CLUT and Transparency Handling](#clut_alpha)
--   [Hald 3D Color Lookup Tables](#hald-clut)
--   [Hald CLUT Limitations](#hald_limits)
--   [Color Replacement using Hald CLUT](#hald_replacement)
--   [Full Color Map Replacement](#replace_colormap) (no solution, just ideas)
--->
-
 Here we look at techniques for modifying all the colors in an image as a whole$1\nWhether it is to lighten or darken the image, or more drastic color modifications.
   
 To explore these techniques we will need a test image...
@@ -73,7 +17,7 @@ I did design it to contain a range of colors, transparencies and other features,
 
 ------------------------------------------------------------------------
 
-## Converting Color to Gray-Scale
+## Converting Color to Gray-Scale {#grayscale}
 
 Gray scale images can be very useful for many uses, such as, furthering the processing of the original image or for use in background compositions.
 The best method of converting an image to gray-scale is to just ask IM to convert the image into a gray-scale [Color Space](../color_basics/#colorspace) representation for the image.
@@ -236,7 +180,7 @@ Examples see [Grayscale Channels from Colorspace Representations](../color_basic
 
 ------------------------------------------------------------------------
 
-## Image Level Adjustments
+## Image Level Adjustments {#levels}
 
 The most basic form of adjustment you can make to images are known as 'level' adjustments.
 This basically means taking the individual RGB color values (or even the alpha channel values) and adjusting them so as to either stretch or compress those values.
@@ -256,7 +200,7 @@ The graph shown to right is of the IM "`-noop`" operator which actually does not
 As such each of the image's color values are just mapped to exactly the same value without change.
 The lower gradient is thus the same as the upper gradient.
 
-### Image Negation
+### Image Negation {#negate}
 
 The simplest and most basic global level adjustment you can make is to negate the image, using the "`-negate`" image operator.
 
@@ -315,7 +259,7 @@ convert  negate_green.png  -channel green  -negate  negate_restore.png
 Negation is extremely common in image processing, particularly when dealing with gray-scale images as a step before or after other processing options.
 As such I recommend you play with it and keep it in mind whenever you are doing anything, as working with negated images can solve some otherwise difficult problems.
 
-### Direct Level Adjustments
+### Direct Level Adjustments {#level}
 
 The "`-level`" operator is the more general level adjustment operator.
 You basically give it two values a 'black\_point' and a 'white\_point', as well as an optional third value (gamma adjustment), which I will look at [later](#level_gamma).
@@ -406,7 +350,7 @@ Add the fact that you can modify individual channels (using the "`-channel`" set
 > This is most typically done after blurring an 'shape' image, to expand and stretch the results.
 > For examples of this see [Soft Edges](../thumbnails/#soft_edges), and [Shadow Outlines](../blur/#shadow_outline).*
 
-### Reversed Level Adjustments -- Decontrasting Images
+### Reversed Level Adjustments -- Decontrasting Images {#level_plus}
 
 As of IM version 6.4.2 the [Level Operator](#level) was expanded to provide a 'reversed' form "`+level`" (note the 'plus').
 Alternatively you can use the original "`-level`" form of the operator but add a '`!`' to the level argument given (for older API interfaces).
@@ -465,7 +409,7 @@ However this is rather difficult to calculate and do.
 As such a "`-level-colors`" operator has also been provided that will let you specify the black and white points in terms of specific colors rather than 'level' values.
 See [Level by Color](#level-colors) below.
 
-### Level Gamma Adjustments
+### Level Gamma Adjustments {#level_gamma}
 
 Both the above "`-level`" variants also allow you to use a third setting.
 The 'gamma' adjustment value.
@@ -500,7 +444,7 @@ convert  test.png  -channel B +level 25%,100%,.6 test_blue_tint.png
 This specific example could be used to tint a weather satellite photo, where only the sea is pure black, while land is more grey.
 Other alternatives to this blue channel adjustment are given below in [DIY Mathematical Non-linear Adjustments](#non-linear).
 
-### Gamma Operation Adjustments
+### Gamma Operation Adjustments {#gamma}
 
 The "`-gamma`" operator is also provided, and has exactly the same effect as the 'gamma' setting in the "`-level`" operator.
 However it will let you adjust the 'gamma' adjustment level for each individual channel as well.
@@ -526,7 +470,8 @@ As such a "`-evaluate POW 2.2`" will actually do a "`-gamma 0.45455`" (0.45455 i
   
 One of the less obvious uses of "`-gamma`" is to zero out specific image channels (see [Zeroing Color Channels](../color_basics/#zeroing)).
 Or color an image completely 'black', 'white' or some other primary color (see [Primary Colored Canvases](../canvas/#color_misc)).
-### Level Adjustment by Color
+
+### Level Adjustment by Color {#level-colors}
 
 The "`-level-colors`" operator was added to IM v6.2.4-1.
 Essentially, it is exactly the same as the [Level Operator](#level) we discussed above, but with the value for each channel specified as a color value.
@@ -622,7 +567,7 @@ convert rose: +level-colors 'rgb(102,75,25)',lemonchiffon  levelc_tan.gif
 
 In summary the "`+level-colors`" is a gradient color replacement, a linear tinting operator, and can also completely reset colors.
 
-### Sigmoidal Non-linearity Contrast
+### Sigmoidal Non-linearity Contrast {#sigmoidal}
 
 From a PDF paper on '*[Fundamentals of Image Processing](http://www.cs.dartmouth.edu/~farid/tutorials/fip.pdf)*' (page 44) they present an alternative to using a linear contrast control (level), with one using gamma correction known as '*sigmoidal non-linearity contrast control*'.
 
@@ -700,7 +645,7 @@ In fact anything higher than this value can be considered to be more like a fuzz
 
 For a practical example of using this operator see the advanced ["Gel" Effects Example](../advanced/#gel_effects), where it is used to sharpen the bright area being added to a shaped area color.
 
-### Miscellaneous Contrast Operators
+### Miscellaneous Contrast Operators {#contrast_misc}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -737,7 +682,7 @@ For a practical example of using this operator see the advanced ["Gel" Effects E
 
 ------------------------------------------------------------------------
 
-## Adjustments Using Histogram Modification
+## Adjustments Using Histogram Modification {#histogram}
 
 *This section was a joint effort by [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html) and Anthony Thyssen.*
 
@@ -822,7 +767,7 @@ As these operators make use of actual information coming from the image being pr
 
 Operators of this type include automatic linear 'level' type operators such as "`-normalize`", "`-contrast-stretch`", and "`-linear-stretch`", but also non-linear ones such as "`-equalize`", and others that may eventually be included into ImageMagick such as [Fred Weinhaus's](http://www.fmwconcepts.com/fmw/fmw.html) script, "[redist](http://www.fmwconcepts.com/imagemagick/redist/)".
 
-### Histogram Stretching
+### Histogram Stretching {#stretching}
 
 The simplest techniques, like the previous example simply stretch the histogram of the image outward to improve the color range.
 However instead of just blindly picking the *black-point* and *white-point* for [Level](#level) operation, they select points based on the images histogram.
@@ -851,7 +796,7 @@ The other difference is how 'zero' is handled, and that -linear-stretch actually
 A mathematically perfect normalization stretching operator is -auto-level.
 While a perfect 'white-point only' or 'black-point only' version is posible it has not been implemented at this time.
 
-### Auto-Level - perfect mathematical normalization
+### Auto-Level - perfect mathematical normalization {#auto-level}
 
 The "`-auto-level`" finds the largest and smalled values in the image to use to stretch the image to the full Quantum Range.
 At no time will values become 'clipped' or 'burned' as a result of the histogram being stretch beyond the value range.
@@ -871,7 +816,7 @@ That is the minimum will be adjusted to zero and maximum to Quantum range, and a
 
 It does not use 'histogram bins' or any other 'grouping of values' that other methods may use for either determining the levels to be used, or other histogram adjustments.
 
-### Normalize
+### Normalize {#normalize}
 
 The "`-normalize`" operator is the simplest of these three operators.
 It simply expands the grayscale histogram so that it occupies the full dynamic range of gray values, while clipping or burning 2% on the low (black) end and 1% on the on the high (white) end of the histogram.
@@ -946,7 +891,7 @@ This brings use to an important point
 In actual fact, "`-normalize`" is just a subset of the more general "`-contrast-stretch`" with default values for black-point 2% and white-point=1%.
 So what is "`-contrast-stretch`"?
 
-### contrast-stretch
+### Contrast-Stretch {#contrast-stretch}
 
 The "`-contrast-stretch`" operator (added IM v6.2.6) is similar to "`-normalize`", except it allows the user to specify the number of pixels that will be clipped or burned-in.
 That is it provides you with some control over its selection of the '*black-point*' and '*white-point*' it will use for the histogram stretching.
@@ -981,7 +926,7 @@ This will result in a contrast stretch with a minimum or possibly zero amount of
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-### Linear-Stretch
+### Linear-Stretch {#linear-stretch}
 
 In many ways "`-linear-stretch`" is very similar to the previous "`-contrast-stretch`" operator.
 Both functions can take black-point and white-point arguments as either raw counts or as percentages of the total number of pixels involved.
@@ -1151,12 +1096,12 @@ In the above result with "`-linear-stretch`", the image is stretched consistentl
 Thus there is no color shift between channels and the result is identical to that above without "`-channel RGB`".
 
 
-### Histogram Redistribution
+### Histogram Redistribution {#hist_redist}
 
 Histogram redistribution is a non-linear technique that redistributes the bins in a histogram in order to achieve some particular shape.
 The two most common shapes are uniform (flat) and Gaussian (bell-shaped), although Hyperbolic and Rayleigh are other types of distributions have also been used.
 
-### Equalize - Uniform Histogram Redistribution
+### Equalize - Uniform Histogram Redistribution {#equalize}
 
 For the case of a uniform distribution, the histogram bins are shifted, spaced and combined so that on average the histogram has a flat or constant height across the whole range.
 This is called histogram equalization.
@@ -1224,7 +1169,8 @@ convert zelda_uniform.png  -colorspace gray \
 
 *FUTURE: Add examples of equalizing in other colorspaces!
 That is, the grayscale channel in HSL, HSB and CMYK colorspaces.*
-### Gaussian Redistribution
+
+### Gaussian Redistribution {#gaussian_redist}
 
 Equalizing a histogram is not the only way of changing the histogram distribution of an image.
 Actually it isn't normally very useful, except in computer vision applications.
@@ -1248,7 +1194,7 @@ From the resulting grayscale histogram, you can see that the image is modified s
 For photos, this produces a more 'natural' looking result.
 The image will not only have been contrast optimized, but also adjusted in brightness so most of the pixels in the image have about a 60% grayscale brightness.
 
-### Histogram Redistribution Methodology
+### Histogram Redistribution Methodology {#redist_method}
 
 So how does this type of direct histogram adjustment work?
 
@@ -1457,9 +1403,9 @@ You may also be interested in Fred's "[retinex](http://www.fmwconcepts.com/image
 
 ------------------------------------------------------------------------
 
-## DIY Level Adjustments
+## DIY Level Adjustments {#diy_levels}
 
-### Mathematical Linear Histogram Adjustments
+### Mathematical Linear Histogram Adjustments {#linear}
 
 The various basic forms of [Level Adjustments](#level) shown above linearly adjust the colors of the image.
 
@@ -1523,7 +1469,7 @@ convert test.png   -fx "yellow*u+green*(1-u)"  fx_linear.png
 
 [![\[IM Output\]](fx_linear.png)](fx_linear.png)
 
-### Mathematical Non-linear Histogram Adjustments
+### Mathematical Non-linear Histogram Adjustments {#non-linear}
 
 While linear color adjustments are important, and faster methods are available, there are many situations where a linear 'level' adjustment, is not what is wanted, and this is where the "`-fx`" [DIY Operator](../transform/#fx), becomes more useful.
 
@@ -1572,7 +1518,7 @@ The value may need to be adjusted for different color values, so this is not a g
 
 Generally if you can express the color adjustment you want mathematically, you can then use "`-fx`" operator to achieve the results you want.
 
-### 'Curves' Adjustments
+### 'Curves' Adjustments {#curves}
 
 ![\[diagram\]](../img_diagrams/curves_gui.gif) Normally in a graphical photo editor you would be presented with a histogram 'curves' chart such as I have shown to the left.
 The user can then edit the 'curve' by moving four (or more) control points, and the histogram adjustment function will follow those points.
@@ -1669,9 +1615,9 @@ An alternative away generating 'curves' is looked at in the IM Forum Discussion 
 
 ------------------------------------------------------------------------
 
-## Tinting Images
+## Tinting Images {#tinting}
 
-### Uniformly Color Tinting Images
+### Uniformly Color Tinting Images {#colorize}
 
 Typically tinting an image is achieved by blending the image with a color by a certain amount.
 This can be done using an [Evaluate Operator](../transform/#evaluate) or [Blend Images](../compose/#blend) techniques, but these are not simple to use.
@@ -1742,7 +1688,7 @@ However if there is a possibility of using a version of IM older than IM v6.7.9 
 Note that you can blank canvases faster using [Level Adjustments by Color](#level-colors) operator with a single color, rather than a range of colors.
 See also [Blank Canvases](../canvas/#blank).
 
-### Midtone Color Tinting
+### Midtone Color Tinting {#tint}
 
 While the [Colorize operator](#colorize) applies the "`-fill`" color to tint all the colors in an image linearly, the "`-tint`" operator applies the "`-fill`" color in such a way as to only tint the mid-tone colors of an image.
 
@@ -1813,7 +1759,7 @@ convert  test.png  -fill white  -tint 70 tint_darker.png
 >
 > Using [Overlay Compostion Tinting](#tint_overlay) below will provide a more exact (though very linear, rather than parabolic) color tinting of mid-tone grays.
 
-### Sepia Tone Coloring
+### Sepia Tone Coloring {#sepia-tone}
 
 A special photographic recoloring technique, "`-sepia-tone`" is basically consists to converting the image into a gray-scale, and coloring all the mid-tones to a special brown color.
 
@@ -1852,7 +1798,7 @@ convert rose:  \( +clone -sepia-tone 60% \) -average  sepia-tone_blended.jpg
 
 See also [Hald Color Lookup Tables](#hald-clut) for a method by which you can save much more complex color change variations, such as the last example above.
 
-### Duotone Effect
+### Duotone Effect {#duotone}
 
 A 'duotone' is a printing method where you mix the grayscale of an image (black ink) with some other color to produce a better result, with a limited budget or printing equipment.
 For example the reason all the old photos you see today have a sepia-tone look about them, is because sepia-tone inks survived and did not deteriorate, or fade with time.
@@ -1903,7 +1849,7 @@ The technique also provides you with a very compact way of storing the specific 
 
 Also see [Hald Color Lookup Tables](#hald-clut) for more complex method of saving color changes, that go beyond coloring greyscale images.
 
-### Color Tinting, DIY
+### Color Tinting, DIY {#tint_diy}
 
 One of the biggest problems with "`-tint`" is that it is a grayscale (or vector) operator.
 That is, it handles each of the red,green,blue channels completely separately to each other.
@@ -1927,7 +1873,7 @@ Warning, this does not preserve image transparency correctly, but it will work f
 Note that unlike tint, any color can be used, including '`black`' as the color is not treated as a vector addition, but an alpha composition.
 The result is not quite the same as what you would get for a normal tint.
 
-### Color Tinting Overlay
+### Color Tinting Overlay {#tint_overlay}
 
 The special [Alpha Composition](../compose/#compose) methods '`Overlay`' and '`Hardlight`' were actually designed with color (and pattern) tinting in mind.
 These compose methods also will replace mid-tone grays leaving black and white highlights in the image alone.
@@ -1976,9 +1922,9 @@ This however is getting outside the scope of basic color handling so I'll leave 
 
 ------------------------------------------------------------------------
 
-## Global Color Modifiers
+## Global Color Modifiers {#color_mods}
 
-### Modulate Brightness, Saturation, and Hue
+### Modulate Brightness, Saturation, and Hue {#modulate}
 
 The "`-modulate`" operator is special in that it modifies an image in the special HSL (hue-saturation-lightness) [colorspace](../color_basics/#colorspace).
 It converts each color pixel in into this color space and modifies it and converts it back to its original color space.
@@ -2039,7 +1985,7 @@ Essentially small values produce more 'pastel' colors, while values larger than 
 Note that as the *brightness* and *saturation* are percentage multipliers, you would need to multiply by a very large number to change almost all the image color values to near maximum.
 That is you would need to use a *brightness* factor of close to one million, to make all colors except pure black, white.
 
-#### Hue Modulation
+#### Hue Modulation {#modulate_hue}
 
 The final value, *Hue*, is actually much more useful.
 It rotates the colors of the image, in a cyclic manner.
@@ -2109,7 +2055,7 @@ Though it is much less versatile.
 
 See also [Hald Color Lookup Tables](#hald-clut) for a method by which you can save color change variations, especially changes in Hue, for later reuse.
 
-#### Modulate DIY
+#### Modulate DIY {#modulate_diy}
 
 You can if really want to "Do It Yourself".
 You basically convert the image into the appropriate color space, modify the values, and convert back.
@@ -2129,7 +2075,7 @@ convert rose: -colorspace HSL \
 Of course if you modify the Hue (red channel) using this method you will need to ensure the final value 'wraps' around (a modulus), rather than simply clipping the value at the maximum or minimum value (both of which is the 'red' hue).
 As such it is probably easier to just directly use the [Modulate Operator](#modulate), for Hue modifications.
 
-#### Modulate in Other Colorspaces
+#### Modulate in Other Colorspaces {#modulate_colorspace}
 
 The biggest problem with "`-modulate`" is when handing images containing a lot of 'near white' colors.
 As it does its work in HSL colorspace, colors that are off-white will become more 'saturated' as the brightness is reduced.
@@ -2199,7 +2145,7 @@ HSB
 > The point is for some images you are damned if you use HSL, and for other images you are damned if you use HSB colorspace.
 > It just depends on what you are attempting to do!
 
-#### Modulate in LCHab and LCHuv Colorspace
+#### Modulate in LCHab and LCHuv Colorspace {#modulate_HCL}
 
 Hue modulation (in HSL or HSB colorpsace) is actually regarded as rather crude.
 These colorspaces do not take into account a more realistic intensity of the colors.
@@ -2290,7 +2236,7 @@ For more information on HCL colorspace hues, see the examples on [The LCH Color 
 > You can also use a '**`LCHab`**' (cylindrical version of the '`Lab') colorspace, however this version has discontinuities for   specific 'impossible' color values, especially in the green area.
 > It is not   recommended for use with the Modulate Operator.`
 
-### Color Matrix Operator
+### Color Matrix Operator {#color-matrix}
 
 The "`-color-matrix`" operator will recolor images using a matrix technique.
 That is to say you give it a matrix of values which represents how to linearly mix the various color channel values of an image to produce new color values.
@@ -2438,7 +2384,7 @@ For more information on using a color matrix see...
 However be warned that most of these implementations use a [Diagonally Transposed](http://en.wikipedia.org/wiki/Transposed) form of the matrix, in which columns form the equation, instead of the rows.
 Or involve fewer channels (smaller number of rows/columns).
 
-### Solarize Coloring
+### Solarize Coloring {#solarize}
 
 To "`-solarize`" an image is to basically 'burn' the brightest colors black.
 The brighter the color, the darker the solarized color is.
@@ -2492,7 +2438,7 @@ Another novel use of this operation is in determining if an image is basically a
 
 ------------------------------------------------------------------------
 
-## Recoloring Images with Lookup Tables
+## Recoloring Images with Lookup Tables {#color_lut}
 
 While you can recolor images using the various histogram color adjustments as shown above, there is another technique for recoloring images, simply by 'looking up' the modified values from a pre-prepared color gradient, or "Color Look Up Tables" (Color LUT, or CLUT).
 
@@ -2506,7 +2452,7 @@ A 3D color LUT however allow the whole color to be replaces as a function of the
 That is the output value of the red channel can be dependent on any or all of the input red, green, and blue values.
 This is sometimes called channel cross-talk.
 
-### Color (Channel) Lookup Tables
+### Color (Channel) Lookup Tables {#clut}
 
 A common requirement of a image processing tool is the ability to replace the whole range of colors, from a pre-prepared table of colors.
 This allows you to convert images of one set of colors (generally gray-scale) into completely different set of colors, just by looking up its replacement color from a special image.
@@ -2649,7 +2595,7 @@ For more examples of generating gradients see [Gradients of Color](../canvas/#gr
 You may also be interested in a way of tiling greyscale images using a image for each grey level, which can produce even better 'map' like images.
 See [Dithering with Patterns](../quantize/#diy_symbols).
 
-### Function to Color LUT Conversion
+### Function to Color LUT Conversion {#fx_to_lut}
 
 These pre-prepared "Lookup Table Images" (or LUTs) can also be used to greatly increase the speed of very complex and thus slow "`-fx`" operations, so instead of IM interpreting the functional string 3 or 4 times per pixel, it can do a much faster lookup of the replacement color.
 
@@ -2692,7 +2638,7 @@ WARNING: the above is incomplete (edges have not been darkened)
 
 As you can see, the result is very effective, and once an appropriate LUT gradient has been generated, you can re-use the same gradient over and over, as many times as you want.
 
-#### CLUT and Transparency Handling
+#### CLUT and Transparency Handling {#clut_alpha}
 
 The "`-clut`" operator is controlled by the "`-channel`" setting, but in reality, it only replaces the individual channel values within the image.
 
@@ -2747,7 +2693,7 @@ For normal image feathering would typically use much smaller values for both the
 
 [Fred Weinhaus](http://www.fmwconcepts.com/imagemagick/), has implemented a blurred feathering technique in his "[feather](http://www.fmwconcepts.com/imagemagick/feather/)" script, to make it easier to use.
 
-### Hald 3D Color Lookup Tables
+### Hald 3D Color Lookup Tables {#hald-clut}
 
 As of IM v6.5.3-4 you can now also use a full 3D Color Lookup Table which can be used to directly replace all the colors of multiple images.
 That is, instead of just looking up the value of each each color channel as a separate entity (as in the [CLUT](#clut) above), the whole color is used to lookup the new color.
@@ -2820,7 +2766,7 @@ All this is especially the case for very complex color modifications
 *Please mail me any Hald CLUT images you have found interesting or useful, and I will example them here.
 You will be credited, here as well!*
 
-#### Hald CLUT Limitations
+#### Hald CLUT Limitations {#hald_limits}
 
 Unlike the simpler 1 Dimensional gradient lookup using the [CLUT Operator](#clut) you can use a Hald CLUT to rotate colors.
 For example swap red and blue colors.
@@ -2832,7 +2778,7 @@ However this replacement lookup is by color only.
 You cannot use it to replace transparent colors in specific ways.
 It isn't after all a 4D color lookup hyper-cube!
 
-#### Color Replacement using Hald CLUT
+#### Color Replacement using Hald CLUT {#hald_replacement}
 
 Now as the whole color value is used to lookup the color replacement, you could also use this as a method of directly replacing all the colors in an image with some other color.
 
@@ -2851,7 +2797,7 @@ That is, create a 4-D color surface from the color changes discovered.
 
 When complete than you can apply the Hald CLUT to any other image so as to either make the same color transformation (in either direction) to any other image.
 
-### Full Color Map Replacement
+### Full Color Map Replacement {#replace_colormap}
 
 FUTURE: Replace all the colors in one color map with colors in another color map.
 Suggestions as to how to best do this is welcome, or programmers to implement some image color map function.
@@ -2886,11 +2832,10 @@ This will not just map the specified colors, but also re-map the colors between 
     Thresholds  (after negation)
       Specifically  -white-threshold and -black-threshold
 
-------------------------------------------------------------------------
-
-Created: 19 December 2003  
- Updated: 6 October 2011  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/color_mods/`
-
+---
+created: 19 December 2003  
+updated: 6 October 2011  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-2
+url: http://www.imagemagick.org/Usage/color_mods/
+---
