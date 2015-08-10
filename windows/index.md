@@ -1,46 +1,5 @@
 # Usage under Windows
 
-**Index**
-[![](../img_www/granitesm_right.gif) Introduction](#intro)
--   [What's the use of an IM script on my Windows PC?](#why)
--   [Possible environments for IM's command line tools](#environments)
--   [Running scripts effectively](#scripts)
--   [The Convert issue](#convert_issue)
--   [Character Encoding](#character_encoding)
--   [Installing ImageMagick under Windows](#IM_setup)
--   [Specialities and pitfalls](#pitfalls)
--   [Getting help](#help)
--   [Auxiliary programs and alternatives](#auxiliary)
-
-[![](../img_www/granitesm_right.gif) Using Cygwin](#cygwin)
-[![](../img_www/granitesm_right.gif) Using the DOS Shell and Batch Files](#dos)
--   [Converting Scripts: UNIX Shell to Window DOS](#conversion)
--   [Filename Handling in Batch files](#filenames)
--   [Batch Processing Several Files](#file_handling)
-    -   [FOR Loops](#for_loops)
-    -   [Batch processing a (sub-)directory tree](#for_recursive)
-    -   [Batch Processing an Arbitrary Number of Files](#arbitrary)
--   [Getting Information from ImageMagick](#data)
-    -   [Re-using the Output of an IM command](#output)
-    -   [Processing Single Line Output](#single)
-    -   [Set Multiple Values from a Single Command](#multiple)
--   [Performing Calculations](#calculations)
-    -   [Using IM's FX Expressions](#calc_fx)
-    -   [Using the SET command](#calc_set)
-    -   [Using Other External Calculators](#calc_other)
--   [Editing, Debugging and Runtime Error Testing](#debugging)
--   [Optimising execution time](#optimising_execution)
--   [Guidelines for Batch Programming](#batch_guidelines)
--   [Summing it up](#summing_it_up)
-
-[![](../img_www/granitesm_right.gif) Visual Basic Script (VBS)](#vb)
--   [A Basic Example: Lens Correction](#vb_example)
--   [Working with Several Files](#vb_files)
--   [Working with Text Files](#vb_text)
--   [Piping](#vb_piping)
--   [Testing and Debugging VBScripts](#vb_testing)
-
-[![](../img_www/granitesm_right.gif) Further Information](#more_info)
 Most of the commands in IM Examples were written specifically with LINUX and UNIX shell scripting in mind, as these systems are designed with batch processing and network servers in mind.
 However, more and more users of ImageMagick want to use it from the Windows Environment.
 This section provides details and examples of how you can use IM in that environment and, more important, how to convert a UNIX shell command (as used in the rest of the IM Examples) into its Windows DOS equivalent.
@@ -49,9 +8,9 @@ What you see here is his work, and IM users are indebted to him for his time and
 
 ------------------------------------------------------------------------
 
-## Introduction
+## Introduction {#intro}
 
-### What's the use of an IM script on my Windows PC?
+### What's the use of an IM script on my Windows PC? {#why}
 
 The following examples basically assume that you run IM on a Windows desktop computer, probably attached to a network.
 Well, there are a lot of readily available image manipulation programs, such as Adobe Photoshop, Corel's Paint Shop Pro, IrfanView (<http://www.irfanview.com/>) and even GIMP (<http://www.gimp.org/>).
@@ -102,7 +61,7 @@ As in the rest of IM's Example pages, we will only use IM's command line tools a
 The scripts are intended to run within a local network with drive letters assigned to each network drive.
 Most of the scripts are intended to be run on the client computers of that network, few aim at the network (file) server.
 
-### Possible environments for IM's command line tools
+### Possible environments for IM's command line tools {#environments}
 
 Under Windows, simple IM commands are usually run in the Windows Command Shell (a "DOS Shell" run by starting `cmd.exe`).
 For complex operations, performed in a lengthy command line or in a series of command lines, you will better write a script.
@@ -129,7 +88,7 @@ When running IM under Windows, you basically have the following alternatives:
 	The much more powerful successor of the ancient DOS shell, based on the .NET 2.0 technology.
 	The Powershell shipped with Windows 7 and is run by `powershell.exe`. It can be downloaded for Windows XP and Vista at Microsoft's website.
 
-### Running scripts effectively
+### Running scripts effectively {#scripts}
 
 Let's assume you have a perfect Windows script (a DOS batch file, a VBScript, or whatever) that takes the name(s) of the input file(s) as command line parameter(s), performs some manipulation and spits out the result as a single image or a series of images.
 You surely won't like to start a DOS command shell (or an alternative) everytime and provide the script with the filenames by typing them.
@@ -153,7 +112,7 @@ As all files are passed with fully qualified filenames (i.e. drive + path + name
 This error cannot be properly handled by the script once it occurs, as the error occurs **before** the script is actually run.
 The solution under Windows XP is usually to place the files in a location where the pathnames are shorter.
 
-### The Convert issue
+### The Convert issue {#convert_issue}
 
 IM's Windows installation routine adds IM's program directory to the search path, such that you can call IM's command line tools directly from the command prompt, without providing a path name.
 However, the names of IM's command line tools are rather unspecific (e.g. Convert, Identify, Compare ...) which provokes name conflicts with other programs.
@@ -195,7 +154,7 @@ IMconv = wsh.ExpandEnvironmentStrings("%PROGRAMFILES%") & "\ImageMagick\Convert"
 For reasons of simplicity, we will not use this code everytime in the following, but you should keep this in mind as a good habit.
 For a good alternative summary and solutions to this problem see [Ron Savage: MS Windows and convert.exe](http://savage.net.au/ImageMagick/html/install-convert.html).
 
-### Character Encoding
+### Character Encoding {#character_encoding}
 
 ImageMagick encodes strings in Unicode, more precisely in [UTF-8](http://en.wikipedia.org/wiki/Utf-8).
 By contrast, DOS uses codepages to encode characters (mostly in 8-bits).
@@ -248,7 +207,7 @@ A practical example is given below (See [Batch processing a (sub-)directory tree
 
 For more on UTF handling see the other IM examples and information in [Unicode or UTF8 Format Text Handling](../text/#unicode).
 
-### Installing ImageMagick under Windows
+### Installing ImageMagick under Windows {#IM_setup}
 
 ImageMagick is under constant development, new versions are released roughly on a monthly basis.
 It is strongly recommended to use an up-to-date version of IM, especially when IM doesn't seem to perform a job quite as you expect it to do.
@@ -284,7 +243,7 @@ You do not have to install GhostScript prior to ImageMagick, and ImageMagick wil
 It is only needed if you want to work with Postscript or PDF files.
 IM will determine the location of Ghostscript at runtime, quering it from the Registry.
 
-### Specialities and pitfalls
+### Specialities and pitfalls {#pitfalls}
 
 Quite extraordinarily for Windows programs, IM allows images to be written to *stdout* and read from *stdin* and thus use piping to cascade image processing tasks.
 The operation
@@ -316,7 +275,7 @@ compare -metric PSNR 1.png 2.png dif_1_2.png 2>result.txt
 
 So you have to redirect *stderr* ("2&gt;") to the text file, not *stdout* ("1&gt;" or just "&gt;").
 
-### Getting Help
+### Getting Help {#help}
 
 The command line options are extensively documented on [IM's website](http://www.imagemagick.org/script/command-line-options.php), but it's the [Usage Section](../) of its website which really demonstrates how to get them to work.
 This section of the website is quite well structured, allowing a problem-oriented approach to the task you would like to perform.
@@ -331,7 +290,7 @@ Just keep in mind that this will reveal code intended for application in a UNIX 
 Another very helpful source of information is the IM discussion board, aka the [Discourse Server User Forum](../forum_link.cgi?f=1), which you should incorporate in the bookmarks / favourites of your browser.
 Becoming a member will allow you to pose questions, which are mostly answered quickly by knowledgable users.
 
-### Auxiliary programs and alternatives
+### Auxiliary programs and alternatives {#auxiliary}
 
 Yes, it's true. There **are** certain jobs that other programs can do better than ImageMagick.
 Typically ones which are designed with specific formats in mind, rather than general image manipulation that ImageMagick provides.
@@ -347,7 +306,7 @@ But you can do a lot more by combining them together.
 
 ------------------------------------------------------------------------
 
-## Using Cygwin
+## Using Cygwin {#cygwin}
 
 As has been said above, ImageMagick was designed with UNIX and Linux in mind, so the easiest approach is probably to install a Bash shell on your Windows system and run the variety of IM scripts which have already been written for that system, for example [Fred Weinhaus' scripts](http://www.fmwconcepts.com/imagemagick).
 
@@ -398,9 +357,9 @@ For the moment, the above information should suffice to get you started.
 
 ------------------------------------------------------------------------
 
-## Using the DOS Shell and Batch Files
+## Using the DOS Shell and Batch Files {#dos}
 
-### Converting Scripts: UNIX Shell to Window DOS
+### Converting Scripts: UNIX Shell to Window DOS {#conversion}
 
 When invoking IM commands directly from the DOS command shell (using `cmd.exe`) you have to modify the scripts presented on IM's Example site (if they don't stem from this section), as most examples provided (in other sections) are generally intended to be run in a UNIX or LINUX command shell.
 In order to run them from a DOS command shell, you have to perform the following modifications:
@@ -519,7 +478,7 @@ The cryptic filename manipulation "%~dpn1.bat" is explained in the next section.
 Please note: The above SED script will only perform the rudimentary replacements mentioned above.
 It will NOT turn sophisticated Linux shell scripts (like those presented on [Fred Weinhaus' website](http://www.fmwconcepts.com/imagemagick)) into the equivalent batch file!
 
-### Filename Handling in Batch files
+### Filename Handling in Batch files {#filenames}
 
 As has been said above, IM is particulary useful when applying a standard sequence of processing steps to an image file.
 In such a case, the filename will be passed to the script as a command line parameter, either via Drag & Drop or via SendTo.
@@ -583,9 +542,9 @@ PAUSE
 
 which will just show the result of your string manipulation.
 
-### Batch Processing Several Files
+### Batch Processing Several Files {#file_handling}
 
-#### FOR Loops
+#### FOR Loops {#for_loops}
 
 The DOS `FOR` command can be used to process a series of files in a similar manner as it does under UNIX.
 In order to scale all JPEG files in the current directory by 50%, you could type the following line into a DOS box:
@@ -702,7 +661,7 @@ When using the `ECHO` command, we have to escape any special DOS characters, esp
 
 And yes, IM could have done all the above in a single processing command, removing the need for the "`.miff`" intermediate image, but that is not the point of this example.
 
-#### Batch processing a (sub-)directory tree
+#### Batch processing a (sub-)directory tree {#for_recursive}
 
 There are several techniques to process all files in a (sub-)directory tree.
 The simplest approach is to use the "`/R`" flag in the `FOR` statement to make it loop over all the files in all sub-directories under the current directory.
@@ -820,7 +779,7 @@ oReferences to the runtime values of environment variables within the loop now h
 The use of `GOTO` statements within a `FOR` loop is a possible source of very subtle errors and should therefore be avoided.
 In our batch we can however easily replace the jump by an `IF` statement bracketing the code block with the montage code.
 
-#### Batch Processing an Arbitrary Number of Files
+#### Batch Processing an Arbitrary Number of Files {#arbitrary}
 
 In DOS batch files, only nine command line parameters can be addressed directly by `%1` to `%9`.
 In former Windows versions, you could only circumvent this limitation by the `SHIFT` command, which caused a circular shift of the command line parameters.
@@ -886,9 +845,9 @@ This simple pattern match requires that we have change to the current drive (via
 -   CD %1 if a folder name was handed to the script
 -   CD %p1 if a filename was handed to the script.
 
-### Getting Information from ImageMagick
+### Getting Information from ImageMagick {#data}
 
-### Re-using the Output of an IM command
+### Re-using the Output of an IM command {#output}
 
 In recent versions of Windows, the `FOR` statement has become much more powerful, see [DOS "For" Command Help](http://www.computerhope.com/forhlp.htm).
 By using the "`/F`" option, you can read the input for the substitution variable from a file, a string or from the output of another DOS command or another program.
@@ -1002,7 +961,7 @@ FOR /F %%A in ('convert -list colorspace ^| FIND "RGB"') DO CALL cspace %%A
 
 In this case, the pipe symbol "`|`" has to be escaped, because it is not bracketed by double quotes (only by the single quotes needed for the `FOR` statement) and is (at least in command line above) not meant in its usual sense.
 
-#### Processing Single Line Output
+#### Processing Single Line Output {#single}
 
 This technique can also usefully be applied to a single-line output.
 We can, for example, apply an automatic gamma correction that roughly sets the average brightness of a picture to the middle of the quantum range (i.e. 127 for a color depth of 8 bit) by a technique explained on [Fred Weinhaus' website](http://www.fmwconcepts.com/imagemagick/):
@@ -1061,7 +1020,7 @@ With the asterisk ("\*") we asking the rest of the line to be stored in the four
 We can now format the date as we like to.
 We have chosen the Anglo-American notation "mm/dd/yyyy" as in the above example.
 
-#### Set Multiple Values from a Single Command
+#### Set Multiple Values from a Single Command {#multiple}
 
 A technique for setting multiple values from the one ImageMagick Command is to have the command format the data, so that you can set multiple variables.
 
@@ -1071,13 +1030,13 @@ FOR /F %%L IN ('identify -format "Width=%%w\nHeight=%%h" %1') DO set %%L
 
 This results in setting both the DOS variables '`Width`' and '`Height`' from the single ImageMagick command call.
 
-### Performing Calculations
+### Performing Calculations {#calculations}
 
 The DOS command interpreter is poor when it comes to calculations.
 You can use it to perform simple integer arithmetic.
 But for doing more complex floating point mathematics, you have access to IM's [FX Format Expression](../transform/#fx_escapes%0A), or a third party DOS calculator program.
 
-#### Using IM's FX Expressions
+#### Using IM's FX Expressions {#calc_fx}
 
 IM's [FX Format Expression](../transform/#fx_escapes) can be used for floating point mathematics and can add that maths to larger formated strings, as has been demonstrated above in the first example of the section [Processing Single Line Output](#single).
 By use of the `SET` command, the result can be stored in an environment variable and used later in the batch file.
@@ -1106,7 +1065,7 @@ The [FX Expressions](../transform/#fx_escapes) cannot only generate numbers, but
 For example, in [Border with Rounded Corner](../thumbnails/#rounded_border) it was used to directly generate a complex draw string based on image width and height information.
 This added feature, along with avoiding and further dependence on other external programs makes this method a preferable method for doing calculations in your batch script.
 
-#### Using the SET command
+#### Using the SET command {#calc_set}
 
 The `SET` command can perform some simple integer math and some basic string manipulation when the "`/A`" option is invoked.
 In the following example, we roughly calculate the width of the time-date string by use of the `SET` command:
@@ -1135,7 +1094,7 @@ If the average color intensity is less than 50%, the string will be white, other
 The example also makes use of the `IF` statement.
 Please note that the `ELSE` part has to be placed in the same line and that the first command has to be bracketed.
 
-#### Using Other External Calculators
+#### Using Other External Calculators {#calc_other}
 
 As an alternative, you can use a DOS program which provides floating point math, such as [EVAL](http://tp.lc.ehu.es/anonym/msdos/eval100.zip).
 If you place this file in the IM program directory or in the Windows system directory, you can perform floating point calculations in any DOS shell window.
@@ -1173,7 +1132,7 @@ DEL *.miff
 DEL *.gif
 ~~~
 
-### Editing, Debugging and Runtime Error Testing
+### Editing, Debugging and Runtime Error Testing {#debugging}
 
 In principle, DOS batch files can be written in any editor, even with Windows' Notepad.
 You should however use an editor with syntax highlighting for DOS batch files.
@@ -1269,7 +1228,7 @@ We then store the minimum required version in the environment variable MINVERSIO
 In the third line, we call Convert with the '-version' option, extract the first line from the output via `^|FIND "Version"`, get the third word from that line and store it in the environment variable VERSION.
 We then compare this version to the minimal required version in the fourth line.
 
-### Optimising execution time
+### Optimising execution time {#optimising_execution}
 
 To measure the execution time, you can display the content of the `%TIME%` environment variable.
 The following script tests various various ways to calculate the average brightness of a (large) image file, say a digital photograph:
@@ -1321,7 +1280,7 @@ The full (and more elegant) sample code can be found [here](http://stackoverflow
 Another approach is the *TimeIt* utility offered by the Windows 2003 Ressource Kit, which can be downloaded [here](http://www.microsoft.com/download/en/details.aspx?id=17657).
 Officially however, it only supports Windows XP.
 
-### Guidelines for Batch Programming
+### Guidelines for Batch Programming {#batch_guidelines}
 
 These are, in short, the rules to follow when programming batch files:
 
@@ -1337,7 +1296,7 @@ These are, in short, the rules to follow when programming batch files:
 -   Don't forget to escape special charcters in strings, e.g. "^|".
 -   Integer calculations performed by `SET /A` treat any number starting with zero as octal, thus put a "1" in front of each such number.
 
-### Summing it up
+### Summing it up {#summing_it_up}
 
 The above examples prove that the simple DOS batch file is astonishingly versatile when it is combined with the possibilities offered by ImageMagick.
 In fact, almost everything can be done in some (crude) way in a batch file.
@@ -1348,7 +1307,7 @@ If you are aiming at more than basic image processing tasks, it is probably reco
 
 ------------------------------------------------------------------------
 
-## Visual Basic Script (VBS)
+## Visual Basic Script (VBS) {#vb}
 
 The scripting capabilities of the [Microsoft Windows Script Host](http://en.wikipedia.org/wiki/Windows_Script_Host) (WSH) are more sophisticated than those of the simple batch file language.
 The WSH is language-independent in the sense that it can make use of different Active Scripting language engines.
@@ -1369,7 +1328,7 @@ As has been said in the section [Installing ImageMagick under Windows](#IM_setup
 IM's tools such as Convert, Montage and Identify will instead be run directly by invoking the shell's run command, with all the needed options and filenames, pretty much the same way it is done in batch files.
 When assembling the command string, we will however take advantage of the features offered by a real programming language.
 
-### A Basic Example: Lens Correction
+### A Basic Example: Lens Correction {#vb_example}
 
 As the use of the WSH generates some overhead, our start example is not too basic, in order to demonstrate the advantages of VBScript compared to a simple batch file.
 In the following, we will correct the lens distortion for the Nikon 995 digital camera by use of IM's [barrel distortion](../distorts/#barrel).
@@ -1442,7 +1401,7 @@ Convert %1 -distort barrel "0.0 !B! 0.0" "%~dpn1_pt%~x1"
 but the VBS code is more straightforward, easier to modify and can easily be extended in regard to error checking and alike.
 Please note that line breaks in the second FOR statement are impossible, such that we have to leave it as long as it is.
 
-### Working with Several Files
+### Working with Several Files {#vb_files}
 
 One genuine advantage of VBScript in comparison to DOS batch files is that you can easily loop through an abitrary count of command line arguments.
 You could, for instance, pick a number of files in the Windows Explorer and combine the selected images to an index print via IM's Montage.
@@ -1527,7 +1486,7 @@ Marginal note: The red time code at the top right of each frame was generated by
 The frames were dumped by exporting them from [VirtualDub](http://www.virtualdub.org/).
 With the embedded time code, the frames do not necessarily have to be temporally equidistant, i.e. can be chosen as needed in the Windows Explorer and sent to the script, which is placed in the SendTo folder.
 
-### Working with Text Files
+### Working with Text Files {#vb_text}
 
 When working with scripts on a client computer, the input information is generally supplied via Drag & Drop or SendTo, i.e. basically consists of filenames which will be processed in a manner predefined by the script.
 Any additional information has either to be supplied by user interaction at runtime or to be supplied in form of a text file.
@@ -1577,7 +1536,7 @@ WinMorph stores its information in a structured text file which contains (amongs
 Thus we can derive all information needed for IM's perspective distortion from the WinMorph file.
 You can download a copy of all the files and images involved in the file [wmpr.zip](wmpr.zip).
 
-### Piping
+### Piping {#vb_piping}
 
 So far we have invoked IM's command line tools (like Convert, Identify, Montage) directly via the Run or Exec function of the Shell object.
 If, however, we want to use IM's piping capabilities, i.e. feeding one command with the output of the preceeding one, we have to call the command line tools via a command environment.
@@ -1600,7 +1559,7 @@ wsh.run command, 7, true
 Here we call the command processor cmd with the option /c in order to close the command box automatically when finished.
 For debugging purposes, we could also invoke it with the /k option, which leaves the command box open and allows us to read possible error messages.
 
-### Testing and Debugging VBScripts
+### Testing and Debugging VBScripts {#vb_testing}
 
 Basically, we are using VBScript to construct the argument list for IM's command line tools, which are then run either themselves or within a DOS box.
 This means that first of all you should ensure that
