@@ -612,11 +612,11 @@ composite gradient_src.png -compose Multiply gradient_dst.png \
           gradient_result.png
 ~~~
 
-![Source](gradient_src.png, "Source")
+![Source](gradient_src.png)
 ![](../img_www/multiply.gif)
-![Dest](gradient_dst.png, "Dest")
+![Dest](gradient_dst.png)
 ![](../img_www/right.gif)
-![Result](gradient_result.png, "Result")
+![Result](gradient_result.png)
 
 Basically, if you use the color value of the overlay (source) pixel vertically, and the background (destination) pixel horizontally, you can look up the value that will result from applying that operator with those values.
 
