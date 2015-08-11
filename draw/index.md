@@ -1,57 +1,5 @@
 # Drawing
 
-**Index**  
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-   * [![](../img_www/granitesm_right.gif) ImageMagick Draw Command](#draw)
-     * [Draw Primitives](#primitives)
-     * [Bezier Curve Primitive](#bezier)
-     * [Color Fill Primitives](#color)
-     * [Matte Fill Primitives](#matte)
-
-   * [![](../img_www/granitesm_right.gif) Specifics about Draw Commands](#specifics)
-     * [Pixel Coordinates](#coordinates)
-     * [Drawing with Gamma and Colorspace Correction](#colorspace)
-     * [Stroke and Strokewidth](#stroke)
-     * [Drawing Lines with Strokewidth and Stroke](#strokewidth)
-     * [Draw Stroke and Fill Bounds](#bounds)
-
-   * [![](../img_www/granitesm_right.gif) MVG - Magick Vector Graphics](#mvg)
-     * [Command Line Settings vs MVG Settings](#settings)
-     * [MVG Specific Settings](#mvg_settings)
-     * [SVG Path Drawing](#paths)  
-       * [moves and lines](#lines),
-       * [elliptical arcs](#arcs),  
-       * [cubic curves](#cubic), 
-       * [quadratic curves](#quad)
-     * [Transformation of the Drawing Surface](#transform)
-     * [Affine Transformation](#affine)
-     * [Push/Pop Drawing Context](#push_context)
-     * [Push/Pop Special Objects](#push_objects)
-     * [Reading MVG files](#reading)
-
-   * [![](../img_www/granitesm_right.gif) Drawing Symbols](#symbols)
-     * [Symbols Drawing Techniques](#symbol_drawing)
-     * [Alternatives to Drawing Symbols](#symbol_alts)
-     * [Drawing Circles](#circles)
-     * [Drawing Arrow Heads](#arrows)
-
-   * [![](../img_www/granitesm_right.gif) Drawing Objects](#objects)
-     * [Wide Strokes of Color](#wide_strokes)
-     * [Cylinders](#cylinders)
-
-   * [![](../img_www/granitesm_right.gif) Drawing Text Strings](#text)
-     * [To Quote or Backslash?](#quote)
-     * [About Percent Characters](#percent)
-     * [Use Annotate Instead](#annotate)
-
-   * [![](../img_www/granitesm_right.gif) IM and SVG Handling](#svg)
-     * [SVG Input Drivers: RSVG vs MSVG](#svg_drivers)
-     * [SVG settings](#svg_settings)
-     * [SVG Output Handling](#svg_output)
-
-   * [![](../img_www/granitesm_right.gif) Non-IM Vector Graphic Programs](#other)
-
 Drawing in IM is the way to add new elements to an existing image.
 While a lot of text drawing is covered in the examples page for [Compound Font Effects](../fonts/), and in [Image Annotating](../annotating/), this page deals with the other more general aspects of the "`-draw`" operator.
 
@@ -60,7 +8,7 @@ But has expanded over time to be the interface for vector graphic to raster imag
 
 ------------------------------------------------------------------------
 
-## ImageMagick Draw Commands
+## ImageMagick Draw Commands {#draw}
 
 Images in computers are generally saved in two different ways.
 The first and most common way you have seen throughout these example pages is known as Raster Graphics.
@@ -89,7 +37,7 @@ The "`-draw`" image operator, is a window into the ImageMagick vector drawing fu
 > One example is a RSVG library or GTK SVG library which is available at compile time.
 > IM will link to those libraries to convert SVG rather than attempting to do it itself.
 
-### Primitive Draw Commands
+### Primitive Draw Commands {#primitives}
 
 Lets start with the oldest, simplest, and most common drawing primitives of the "`-draw`" image operator of MVG commands.
 
@@ -203,7 +151,7 @@ Other modifiers for these operations, include: "`-fill`", "`-tile`", "`-origin`"
 
 Their are other modifiers but these are related to the more advanced [Magick Vector Graphics language](#mvg).
 
-### Bezier Primitive
+### Bezier Primitive {#bezier}
 
 The '`bezier`' primitive is used to draw curves.
 Each command will draw just one curve segment.
@@ -310,7 +258,7 @@ Actually I recommend you don't use the '`bezier`' primitive at all, but use the 
 This has a special '`S`" curve continuation function that automatically does the appropriate control point 'reflection' to generate smoothly joining curve segments and reduces the number of control points you need to use.
 You can also define points relative to the last end point in the path.
 
-### Color Fill Primitives
+### Color Fill Primitives {#color}
 
 On top of the above 'simple' primitives, "`-draw`" also provides a set of color fill or modification primitives.
 These modify the color(s) in the image starting at the point specified, according to the method chosen.
@@ -436,7 +384,7 @@ This is actually very useful in that it gives one simple way of generating a pla
 
 FUTURE: Using a "`-tile`" pattern to fill the area.
 
-### Matte Fill Primitives
+### Matte Fill Primitives {#matte}
 
 The '`matte`' draw primitive works in exactly the same way as the '`color`' primitive described above, except it will not replace the color of the areas selected, only the 'matte' channel of the areas selected.
 (That is only the 'alpha' or 'matte' channel is adjusted by these fill functions).
@@ -481,9 +429,9 @@ All is not lost however, as can be seen in the examples for [Background Removal]
 
 ------------------------------------------------------------------------
 
-## Specifics about Draw Commands
+## Specifics about Draw Commands {#specifics}
 
-### Pixel Coordinates
+### Pixel Coordinates {#coordinates}
 
 The "`-draw`" command (and many others in IM) use what is calls "Pixel Coordinates".
 That is a coordinate of '`10,10` is the center of the pixel 10 pixels down and to the left from the top-left corner.
@@ -499,7 +447,7 @@ To convert 'pixel coordinates' to image coordinates, add ½ As such the center o
 
 *Example: center of a circle in small image*
 
-### Drawing with Gamma and Colorspace Correction
+### Drawing with Gamma and Colorspace Correction {#colorspace}
 
 As with almost all ImageMagick operations, "`-draw`" is a linear operator.
 And as such works in a linear RGB colorspace.
@@ -593,7 +541,7 @@ As you can see by using gamma or colorspace correction, the line become very smo
 >  
 > Correct mapping of named 'sRGB' colors, to the colorspace of the image being draw to, will be fixed as part of IMv7 Development.
 
-### Stroke, StrokeWidth and Fill Interaction
+### Stroke, StrokeWidth and Fill Interaction {#stroke}
 
 The "`-stroke`" and "`-strokewidth`" options are used when drawing an outline around a font's edge.
 
@@ -666,7 +614,7 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 -fill white \
 For more examples of using stroke see [Compound Font Effects](../fonts/).
 Have a special look at the "[Balloon Effect](../fonts/#balloon)".
 
-### Drawing (Stroke) Lines
+### Drawing (Stroke) Lines {#strokewidth}
 
 The default line drawing in IM has few weird behaviors, which are worth knowing about.
 
@@ -852,7 +800,7 @@ A 2.5 pixel wide line is perfectly valid.
 > This I also regard as a bug.
 > See [Draw Fill Bounds](#bounds).
 
-### Draw Fill Bounds
+### Draw Fill Bounds {#bounds}
 
 There are a few other points that you should note about the various draw primitives.
 
@@ -914,7 +862,7 @@ FUTURE BUG FIX: The area filled should be exact, but to compensate for this when
 
 ------------------------------------------------------------------------
 
-## MVG - Magick Vector Graphics
+## MVG - Magick Vector Graphics {#mvg}
 
 The primitives shown above form the basis of all the "`-draw`" operations provided.
 Together that are the starting point for a special internal language in ImageMagick, called the **Magick Vector Graphics** language.
@@ -932,7 +880,7 @@ Unlike SVG, MVG does not have any form of 'containers' or sets of image commands
 These are all removed during the conversion process to produce a simplified sequence of MVG drawing commands.
 Instead it uses a concept of [Graphic Contexts](#push_context) to save and restore various drawing settings, which is what we will now look at.
 
-### Command Line Settings vs MVG Settings
+### Command Line Settings vs MVG Settings {#settings}
 
 First of all, almost all the settings you set via the command line options that the the draw primitives use have direct equivalents in the MVG drawing commands.
 
@@ -1022,7 +970,7 @@ convert -size 100x60 xc:skyblue  \
 
 [![\[IM Output\]](draw_circle_multi.gif)](draw_circle_multi.gif)
 
-### MVG Specific Settings
+### MVG Specific Settings {#mvg_settings}
 
 Other MVG settings that control the way lines and objects are drawn are also useful to know even when using the primitive operations.
 These include..
@@ -1132,7 +1080,7 @@ For example, a '`stroke-miterlimit`' of 1.414 converts a '`miter`' to '`bevel`' 
 A value of 4.0 (the default) converts the join for angles less than approximately 29 degrees.
 While a value of of 10.0 converts them for an angle less than approximately 11.5 degrees.
 
-## SVG Path Drawing
+## SVG Path Drawing {#paths}
 
 
 The SVG path is the basic drawing primitive of SVG.
@@ -1168,6 +1116,8 @@ Thus you can define an object in terms of relative coordinates and just supply a
 
 On the other hand you can also use other 'graphic-content' commands to move a whole drawing within a 'viewbox' or 'translation', (see below).
 So really it does not matter if you use absolute or relative coordinates in SVG paths.
+
+### Moving and Lines {#lines}
 
 **Moves, Lines and Path Closures** are the initial starting point for learning about SVG object paths.
 
@@ -1267,6 +1217,8 @@ convert -size 100x60 xc:skyblue -fill white -stroke black \
 [![\[IM Output\]](path_separate.gif)](path_separate.gif)
 
     FUTURE: coordinate aligned paths  "H" and "V" 
+
+### Elliptical Arcs {#arcs}
 
 **Elliptical Arcs** are the circle drawing function of SVG Paths...
 
@@ -1460,6 +1412,8 @@ The only way to avoid doubling up multiple lines is to draw all the filled areas
 That is you will need to drawing everything twice, ensuring things match up properly.
 Thus, doubling up of the outlines is probably the simplest solution.
 
+### Cubic Curves {#cubic}
+
 **Cubic Bezier** curves can be defined using a '`C`' function defining two control points, and the final end point.
 For continuing Cubic Bezier curves that use a mirror image of the last control point (for a continuous curve), you can use a '`S`' function.
 
@@ -1542,6 +1496,8 @@ For example *Luis Guerra* reports that "[Inkscape](http://www.inkscape.org/)" ge
 > I'd love to hear about it.
 > You will be credited with the technique as others have.
 
+### Quadratic Bezier {#quad}
+
 **Quadratic Bezier** is a simplification of the Cubic Bezier function, when the two control points are merged into a single control point.
 Again you can start the curve with a '`Q`' function, and then use a '`T`' function to continue the curve, mirroring the last control point.
 
@@ -1578,7 +1534,7 @@ This may be the key to determined which type of arc'ing line segment you should 
 
 For more examples of this path function see, [SVG: Quadratic Bezier Curve Commands](http://www.w3.org/TR/SVG/paths.html#PathDataQuadraticBezierCommands).
 
-### Warping of the Drawing Surface
+### Warping of the Drawing Surface {#transform}
 
 On top of these abilities, the drawing surface on which the objects are drawn can be warped in various ways to allow you to do some amazing things.
 
@@ -1664,7 +1620,7 @@ These operators have equivalents outside the MVG "`-draw`" string, for general u
 However these command line versions are operators and are applied immediately to images already existing in memory rather that to a drawn surface only which vector objects have yet to be drawn.
 For more details see [Distorting Images](../distorts/#summary).
   
-### Affine Warping of the Drawing Surface
+### Affine Warping of the Drawing Surface {#affine}
 
 All five of the above canvas transformations can be combined into a general Affine Matrix Operator.
 Either by using the MVG primitive '`affine`' or setting the affine transformation using "`-affine`" before calling "`-draw`".
@@ -1719,7 +1675,7 @@ convert -size 100x60 xc:skyblue \
 For more complex Affine transformations you can make use of the [Affine Helper Scripts](../distorts/affine/#affine_scripts) that were created for the purpose.
 These scripts convert things like a rotation angle and center point into affine coordinates that you can directly use in your "`-draw affine`", or "`-affine`" setting.
 
-### Push/Pop Context
+### Push/Pop Context {#push_context}
 
 Some MVG primitives actually rely on the use of these transforms to be used properly.
 For example the [Ellipse Primitive](#primitive_circle) can only be directly specified with orthogonally aligned axis.
@@ -1758,7 +1714,7 @@ That includes and surface warping, such as '`translate`' and '`rotate`', as well
 These primitives make it easy to draw very complex objects with many transformations, and then restore things back to a more 'normal' situation for later drawing operations.
 You can see a more practical demonstration of this in [Drawing Arrows](#arrows) below.
 
-### Push/Pop Special Objects
+### Push/Pop Special Objects {#push_objects}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -1795,7 +1751,7 @@ You can see a more practical demonstration of this in [Drawing Arrows](#arrows) 
     For examples see Florent Monnier's development site...
       http://www.linux-nantes.fr.eu.org/~fmonnier/OCaml/MVG/
 
-### Reading MVG Files
+### Reading MVG Files {#reading}
 
 As you can see in the above examples the MVG "[-draw](../option_link.cgi?draw)" arguments can become very long.
 In fact the conversion of SVG to MVG can produce some extremely long MVG drawing arguments (see below).
@@ -1855,7 +1811,7 @@ convert    mvg_circles2.mvg    mvg_image.gif
     You can of course go the whole way and use the more universal SVG format.
     See "SVG format handling" below.
 
-### MVG Alpha Composition
+### MVG Alpha Composition {#alpha_composition}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -1876,12 +1832,12 @@ convert    mvg_circles2.mvg    mvg_image.gif
 
 ------------------------------------------------------------------------
 
-## Drawing Symbols
+## Drawing Symbols {#symbols}
 
 Sometimes you have a set of points on an image where you want to draw reference symbols, like crosses, circles, etc...
 Unfortunately at this time IM does not have commands to draw such symbols easily, but with a little bit of extra work you can draw such symbols.
 
-### Symbol Drawing Techniques
+### Symbol Drawing Techniques {#symbol_drawing}
 
 The trick to drawing multiple symbols in a given list of locations, is to generate the MVG drawing commands using a shell script, or whatever API you are using, so as to transform the given a set of points into the appropriate set of drawing commands.
 
@@ -2003,11 +1959,11 @@ Other symbols that you could generate include boxes, diamonds, error-bars, etc..
 
 Also see '[Drawing Circles](#circles) below, for other circle methods, including a no-calculate relative 'path' circle draw.
 
-### Alternatives to Drawing Symbols
+### Alternatives to Drawing Symbols {#symbol_alts}
 
 There are other ways of adding symbols to images, other than directly drawing them.
 
-#### Symbol Fonts
+#### Symbol Fonts {#symbol_fonts}
 
 You can extract symbols from a [Symbol Font](../text/#symbol) and save them as a small bitmap.
 You can also use small pre-defined but colorful images for this too.
@@ -2024,7 +1980,7 @@ However a looped method may be more useful, such as given in [Programmed Positio
 
 *FUTURE: example of layering images using coordinates*
 
-#### Morphology
+#### Morphology {#symbol_morphology}
 
 Another alternative is to use [Morphology](../morphology/#intro), to '[Dilate](../morphology/#dilate)' a single pixel, using special 'shape' kernels such as '`Disk`' and '`Ring`' and '`Plus`', or even your own [User Defined Kernel](../morphology/#user).
 
@@ -2048,7 +2004,7 @@ But that can also be a disadvantage.
 A major Disadvantage is that the positions are only at integer locations.
 You can not 'draw' using a floating point 'sub-pixel' positioning.
 
-#### Convolution
+#### Convolution {#symbol_convolution}
 
 An almost identical technique is to use '[Convolve](../convolve/#convolve)', with specially designed kernels, which allows you to set various shades of gray, rather than just a simple on/off result, as above.
 
@@ -2095,14 +2051,14 @@ convolve_image  points_pixels.gif marker.png   point_markers.png
 This technique came out of a discussion on the IM Forums [A Fun Experience with IM](../forum_link.cgi?t=17259&p=64696).
 The user wanted to place tiny people, on a background image of a football field so that their positions spell out a persons name, in the picture.
 
-#### Layered
+#### Layered {#symbol_layered}
 
 A different technique such as [Layers of Images](../layers/), positioned using a list of the pixel that you extracted from the source image, may be the better approach.
 You can overlay more distant symbol images first, before the foreground images, and you can programmically pick, or randomise, what symbols replaces what point.
 
 For an example of this see [Pins in a Map](../layers/#layer_pins).
   
-### Drawing Circles
+### Drawing Circles {#circles}
 
 The draw options provide you with a number of ways to do something very basic...
 Drawing Circles.
@@ -2210,7 +2166,7 @@ convert -size 100x60 xc:  -stroke Orange  -fill LemonChiffon  -strokewidth 2 \
 
 Can you think of other ways to draw circles?
 
-### Drawing Arrows -- position, rotate and scale symbols
+### Drawing Arrows -- position, rotate and scale symbols {#arrows}
 
 Using the above techniques you can create a special symbols such as a arrow head, that you can position so its point is at the very end of a line, and draw over it..
 If you draw the arrow after the line (typical situation) then the arrow will be drawn on top of the line.
@@ -2226,7 +2182,7 @@ However their are three types of arrows, that can be defined, and each type is d
 -   **Indicators**, that point out some detail.
     For this the 0,0 point probably should be either the tip, or some distance in front of the arrow itself.
 
-#### Measurement Arrows
+#### Measurement Arrows {#arrows_measurement}
 
 Simply adding a arrow head to the end a line is relatively easy to do.
 You basically create a 'arrow head' [symbol](#symbols), and draw it at the right position.
@@ -2339,7 +2295,7 @@ This means that after 'popping' the 'canvas warp' is canceled, and draw is retur
 
 The above technique is just one way of generating arrows, a good one when drawing arrows as part of measuring distances, such as in technical drawings.
 
-#### Vector Arrows
+#### Vector Arrows {#arrows_vector}
 
 Vectors as mentioned show both direction and intensity of some value.
 That means that the length of the arrow is variable, and the arrow head could be at just about any position away from the vectors starting point.
@@ -2379,7 +2335,7 @@ convert -size 100x100 xc: \
 
 [![\[IM Output\]](arrow_with_tails.gif)](arrow_with_tails.gif)
 
-#### Indicator Arrows
+#### Indicator Arrows {#arrows_indicator}
 
 In the above I also demonstrated an indicator arrow pointing to the start point of the previous vector arrow.
 
@@ -2399,9 +2355,9 @@ If this is a problem put in a request on the IM bugs forum, and hopefully text j
 
 ------------------------------------------------------------------------
 
-## Drawing Objects
+## Drawing Objects {#objects}
 
-### Wide Strokes of Color
+### Wide Strokes of Color {#wide_strokes}
 
 You don't have to completely enlose a fill area with a path or outline to create various shapes.
 Using very large and wide [Strokes](#stroke) you can generate big areas and swatches of color on a canvas.
@@ -2430,7 +2386,7 @@ convert -size 100x100 xc: \
 
 *What can you come up with?* Let us know.
   
-### Cylinders
+### Cylinders {#cylinders}
 
 In a [IM Forum Discussion](../forum_link.cgi?t=17550) there was a heavy discussion on drawing cylinders, and specifically shaded cylinders, using ImageMagick draw commands.
 
@@ -2484,9 +2440,9 @@ It is amazing what you can do with a little bit of fore-thought.
 
 ------------------------------------------------------------------------
 
-## Drawing Special Characters in the Text String
+## Drawing Special Characters in the Text String {#text}
 
-### To Quote or Backslash?
+### To Quote or Backslash? {#quote}
 
 One of the biggest problem people have with -draw is the drawing of characters that also have special significance to UNIX shells and the DOS command line or even other languages like C, Perl, PHP, R, or Visual Basic.
 
@@ -2609,7 +2565,7 @@ As such only the MVG quoting and escapes are present.
 
 Note that in the above if I had used single quotes for the MVG text string, the only change is that I would need to backslash the single quote characters rather than the double quote characters in the string.
 
-**About Percent Characters**
+### About Percent Characters {#percent}
 
 Just one final point about special 'escape' characters in the "`-draw text`" operator.
 Percent characters '`%`' should draw 'as is'.
@@ -2632,7 +2588,7 @@ convert -size 250x50 xc:none -box white  -pointsize 20 -gravity center \
 
 For more details of the 'percent bug', and ways to avoid it when using "`-draw`" in older ImageMagick's, see the [Drawing a Percent Bug](../bugs/draw_percent/) page.
 
-**Annotate instead of Draw**
+### Annotate instead of Draw {#annotate}
 
 The better way of avoiding these types of problems is to use "`-annotate`" rather than draw for text drawing.
 This operator is a wrapper around the draw operator and allows the use of all the capabilities of draw, but in a simpler form.
@@ -2687,9 +2643,9 @@ For more information see [Annotate Text Drawing Operator](../text/#annotate), an
 
 ------------------------------------------------------------------------
 
-## IM and SVG handling
+## IM and SVG handling {#svg}
 
-### SVG Input Drivers: RSVG vs MSVG
+### SVG Input Drivers: RSVG vs MSVG {#svg_drivers}
 
 Handling the actual SVG image format is a very complex business.
 The engine needs to handle all its aspects, as defined by the [SVG -- Scalable Vector Graphics](http://www.w3.org/TR/SVG/) document.
@@ -2764,7 +2720,7 @@ Gravity is not part of the the SVG specification, though it is an integral part 
 Also remember that MVG does not have the same container mechanism that SVG has.
 The internal MSVG converter replaces the XML containers with the pushing and popping of graphic contexts (see the MVG output above), which has the same effect.
 
-### SVG settings
+### SVG settings {#svg_settings}
 
 The SVG image format is a vector format (See [A word about Vector Image formats](../formats/#vector)), and as such the image normally does not have a default 'size'.
 Instead it is 'drawn' or 'rendered' at a particular "`-density`" just like postscript (default density is 72 dpi).
@@ -2797,7 +2753,7 @@ These are fortunately even rarer.
   
 A simple fix is typically just change all 'pixels' units in the SVG to 'points', but it should not be done blindly, in case the use of 'pixels' was used on purpose.
   
-## SVG Output Handling
+## SVG Output Handling {#svg_output}
 
 As of IM v6.4.2, IM can convert ANY bitmap image into an SVG vector graphic!
 The conversion is not always successful, but larger and/or simpler images (like a bitmap mask) will convert very well.
@@ -2844,32 +2800,20 @@ An an alternative, you can actually use the "autotrace" command directly, as sho
 
 ------------------------------------------------------------------------
 
-## Non-IM Vector Graphic Editors
+## Non-IM Vector Graphic Editors {#other}
 
 ImageMagick is a pixel array processor, It will generally not save vector images ('MVG' is the only exception to this), only read them and convert them to pixel arrays.
 
 The same is true of other pixel image editors, such as Gimp, Photoshop, and so on.
 
 For editing and handling vector based images use programs such as
-  
-Sodipodi 
-  
-SVG based Vector Graphics Editor
-  
-Xfig
-  
-Simple, but very good, Vector Object Editor  
- (Great for signs, maps, and arranging photos on a page)
-  
-Dia
-  
-AutoTrace
-  
-Convert a shape in a bitmap array to vector outlines
-  
-Sketch
-  
-Python based vector editor with curved text.
+
+- **Sodipodi** SVG based Vector Graphics Editor
+- **Xfig** Simple, but very good, Vector Object Editor
+    (Great for signs, maps, and arranging photos on a page)
+- **Dia**
+- **AutoTrace** Convert a shape in a bitmap array to vector outlines
+- **Sketch** Python based vector editor with curved text.
 
 This is of course not a complete list.
 Even many word processors, such as OpenOffice, Word, and TeX, generally have various simple, though often difficult to use, object editors.
@@ -2878,10 +2822,10 @@ However for general converting a vector graphic format to a different vector for
 ImageMagick is, and always will be, essentially a raster image or bitmap graphics converter and manipulator.
 For more information see [A word about Vector Image formats](../formats/#vector).
 
-------------------------------------------------------------------------
-
-Created: 24 March 2004  
- Updated: 14 March 2011  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/draw/`
+---
+created: 24 March 2004  
+updated: 14 March 2011  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.7.1-1
+url: http://www.imagemagick.org/Usage/draw/
+---
