@@ -1,54 +1,11 @@
 # Compound Font Effects
 
-**Index**  
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)  
-   * [![](../img_www/granitesm_right.gif) Compound Fonts](#fonts) ![](../img_www/space.gif) Drawing text as images in various styles
-     * [Tile Filled](#tile)
-     * [Gradient Filled](#gradient)
-     * [Upside-Down](#upside-down)
-     * [Hard Shadow](#hard_shadow)
-     * [Sheared Shadow](#slewed)
-     * [Slanted](#slanted)
-     * [Stamp](#stamp)
-     * [Extruded](#extrude)
-     * [Outline](#outline)
-     * [Multi-color Outline](#multi-color)
-     * [Stroke](#stroke)
-     * [Thick Stroke](#thick_stroke)
-     * [Thin Stroke](#thin_stroke)
-     * [Double Outline](#double_outline)
-     * [Psychedelic](#psychedelic)
-     * [Balloon](#balloon)
-     * [Joined](#joined)
-     * [Overlapped](#overlapped)
-     * [Jittered](#jittered)
-     * [Fuzzy](#fuzzy)
-     * [Fuzzy Shadow](#fuzzy_shadow)
-     * [Soft Shadow](#soft_shadow)
-     * [Soft Outline](#soft_outline)
-     * [Denser Soft Outline](#denser_soft_outline)
-     * [Distance Blurred Shadow](#var_blur)
-     * [Bevel](#bevel)
-     * [Conical](#conical)
-     * [Inner Bevel](#inner_bevel)
-     * [Arch](#arch)
-     * [Arc](#arc)
-     * [Circle](#circle)
-     * [Vibrato](#vibrato)
-     * [Comet](#comet)
-     * [Smoking](#smoking).
-   * [![](../img_www/granitesm_right.gif) Using a Mask Image with Fonts](#mask) ![](../img_www/space.gif) To remove parts of an image, before overlay
-   * [![](../img_www/granitesm_right.gif) Advanced Font Processing](#advanced) ![](../img_www/space.gif) Expanding fonts to produce more complex results
-     * [More Complex Fonts](#example)
-     * [Neon Sign](#neon)
-     * [Metallic](#metallic)
-
-Drawing text is only the start of what is possible with ImageMagick$1\nHere we look at modifying the basic text drawing ability of IM to create fancy fonts and special effects, which you can then use on your web pages and documents.
+Drawing text is only the start of what is possible with ImageMagick
+Here we look at modifying the basic text drawing ability of IM to create fancy fonts and special effects, which you can then use on your web pages and documents.
 
 ------------------------------------------------------------------------
 
-## Compound Font Effects
+## Compound Font Effects {#fonts}
 
 Plain old text as images is boring, but with very little effort you can overlay and color text so as to produce some very weird and wonderful effects.
 
@@ -57,7 +14,8 @@ To do this we need to draw text multiple times, overlay different tiles and colo
 Note that many of these effects can be applied to other images besides a basic font such as we are using.
 In particular you can use the effects on clip-art images.
 
-### Gradient Font
+### Tiled Font {#tile}
+
 You are not limited to drawing fonts in a fixed color.
 You can use a tile pattern over the font.
 
@@ -78,7 +36,8 @@ Note that the "`-tile`" setting overrides any "`-fill`" color for the "`-draw`" 
 The tiling image can be offset relative to the background image origin by specifying a "`-origin`" setting, BEFORE you set the "`-tile`" image.
 The image is rolled by the amount specified during its assignment as the fill tile.
 
-### Gradient Font
+### Gradient Font {#gradient}
+
 The tile used does not have to be small either, but can be the size of the whole canvas.
 
 ~~~
@@ -89,7 +48,7 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 [![\[IM Output\]](font_gradient.jpg)](font_gradient.jpg)
 
-**Upside Down Font**:
+### Upside Down Font {#upside-down}
 
 ~~~
 convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
@@ -99,7 +58,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 [![\[IM Output\]](font_upsidedown.jpg)](font_upsidedown.jpg)
 
-### Hard Shadow
+### Hard Shadow {#hard_shadow}
+
 Drawing the font twice with an offset, you can make a simple 'hard' shadow effect.
 
 ~~~
@@ -111,7 +71,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 [![\[IM Output\]](font_shadow.jpg)](font_shadow.jpg)
 
-### Sheared Shadow
+### Sheared Shadow {#slewed}
+
 As the "`-annotate`" font drawing operator can rotate the vertical dimension separately to the horizontal dimension, you can specify some odd ball rotation 'slewing' or 'shearing' of the font.
 This is great for making weird shadows, or making your own italic or slanted font.
 
@@ -129,7 +90,8 @@ To see a table summarizing the effects of the text rotations, see [Annotate Text
 Of course the Candice font is not a good font to show this effect, and other details may need to be added to make it the result look more 3D like.
 For example [Blurring the shadow with distance](#var_blur).
 
-### Slanted Font
+### Slanted Font {#slanted}
+
 You can also use "`-draw`" to slant your font too, though it is a little trickier, as it involves extra MVG (Magick Vector graphics) actions, to warp the drawing surface.
 As the surface is being warped it is a good idea to set the font location first using '`translate`' before warping.
 
@@ -150,7 +112,8 @@ If you come up with anything interesting, pass it on to me, so it can be shared 
 > Both "`-annotate`" and "`-draw skew?`" operations actually rotates the X and Y axis of the drawing surface.
 > This is different from the effects of using "`-shear`" on an existing image, which lengthens the sheared axis of the image so the height (or width) or the image does not change due to the operation.
 
-### Stamped Font
+### Stamped Font {#stamp}
+
 By drawing the font three times in darker and lighter and the original colors you can make a stamp like indent.
 
 ~~~
@@ -168,7 +131,9 @@ This can only be done on a solid colored background, See [Using a Mask Image](#m
 
 If you swap the two colors you will of course get a raised font, instead of a indented font.
 
-**Extruded** or 3d block font: can be generated by repeating the font multiple times.
+### Extruded {#extrude}
+
+Or 3d block font: can be generated by repeating the font multiple times.
 
 ~~~
 convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
@@ -188,8 +153,9 @@ Note that this is NOT a simple shadow, but a proper thickening of the drawn font
 
 This is very repetitive and cannot only be used for fonts, but can be used for any 'shaped' image.
 For another example of this see [Adding Thickness to a Thumbnail](../thumbnails/#thickness).
-  
- ### Outlined Font
+
+### Outlined Font {#outline}
+
 We can create an outlined font using multiple drawing with small position offsets.
 
 ~~~
@@ -235,7 +201,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 You will also notice that the drawing [-fill](../option_link.cgi?fill)" color can be changed inside the "`-draw`" argument.
 
-### Multi-Color Outline
+### Multi-Color Outline {#multi-color}
+
 The other reason this technique is useful is that you are not limited to just one outline color in drawing the font.
 By re-drawing the font 12 times in 5 different colors in a very carefully designed sequence, you can make a colorful "raised" font, with some edge color smoothing.
 
@@ -262,7 +229,8 @@ convert -size 320x100 xc:lightblue \
 
 There are better methods to create a raised font like this, but this works, is simple, and only uses a few colors, rather that a whole range of colors.
 
-### Outline (Stroke) Font
+### Outline (Stroke) Font {#stroke}
+
 The "`-stroke`" setting allows you to draw an outline of the font directly.
 Normally the stroke color is set to "none", so is not used.
 The thickness of the stroke is varied with "`-strokewidth`", which defaults to a good value of 1.
@@ -287,8 +255,9 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 Notice how the stroke color eats away not only the outside of the font, but the inside as well.
 For more detail see the results of my [Stroke and Stroke Width Options](../draw/#stroke).
-  
- ### Thick Stroke
+
+### Thick Stroke {#thick_stroke}
+
 By again redrawing the font a second time, but without the stroke turned on, the internal parts of the lines are removed, creating a more pleasing thickly outlined font.
 
 ~~~
@@ -302,7 +271,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 -fill white \
 
 Using the [-stroke](../option_link.cgi?stroke)" setting is taken even further, in [Stroke and StrokeWidth Options](../draw/#stroke) where is aspect of drawing operators are explored in greater depth.
 
-### Thin Stroke
+### Thin Stroke {#thin_stroke}
+
 By turning off the fill color, you can leave just the outline of the font.
 
 ~~~
@@ -313,7 +283,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 [![\[IM Output\]](font_stroke_thin.jpg)](font_stroke_thin.jpg)
 
-### Doubled Outline
+### Doubled Outline {#double_outline}
+
 By redrawing using multiple stroke thicknesses, you can generate a double outline!
 The first draw can use any fill color to fill the inside of the font, or left as none as we did here to leave the background alone.
 However the last font draw must be with done with a fill setting of "none", or it will not work.
@@ -330,7 +301,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 Unlike the 'stamped font' previously, the above did not require the middle part the of font to be erased.
 As such this will work on any background without complication.
 
-### Psychedelic Font
+### Psychedelic Font {#psychedelic}
+
 In a similar way by slowly reducing the stroke width size while swapping colors, a psychedelic outline effect can be easily generated.
 
 ~~~
@@ -349,7 +321,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 -fill white \
 You can make it even more psychedelic by using clashing colors, different stroke widths, or even moving the font position around a little.
 Experiment and see what you can come up with.
 
-### Balloon Effect
+### Balloon Effect {#balloon}
+
 Here I did exactly the same as the "Thick Stroke Font" above, but purely by accident I used a white stroke color when re-drawing the font.
 This resulted in a interesting enlargement of the font, with a thick outline.
 The 'puffy' looking font is as if had been inflated like a balloon.
@@ -365,9 +338,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 [![\[IM Output\]](font_balloon.jpg)](font_balloon.jpg)
 
-  
-### Overlapped Characters
-### Joined Characters
+### Joined Characters {#joined}
+
 By using a small negative [Character Space Kerning](../text/#kerning) setting (adding IM v6.4.7-10) and drawing the font twice (such as in the previous example), you can cause all the characters in a 'thick' font join together, so as to produce an interesting variation.
 
 ~~~
@@ -380,7 +352,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 [![\[IM Output\]](font_joined.jpg)](font_joined.jpg)
 
-### Overlapped Characters
+### Overlapped Characters {#overlapped}
+
 A variation on this however is to draw each and every character separately so that each character is overlaid on top of the previous characters.
 
 ~~~
@@ -405,7 +378,8 @@ See [Determining Font Metrics](../text/#font_info) for examples.
 Note unlike when using the "`-kerning`" setting (previous example) each characters position in the above was adjusted artistically by different amounts rather than just some simple fixed amount.
 For example, only a little overlap between the 't' and the 'h', but a lot more overlay between the 'n' and 'y' characters.
 
-### Jittered Characters
+### Jittered Characters {#jittered}
+
 if you go so far as drawing individual characters (overlapping or not) then you can place them in a 'jitter' or randomized pattern, particularly with different up-down offsets.
 
 You can even take this to an extreme to generate a special effect such as...
@@ -425,8 +399,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 [![\[IM Output\]](font_jittered.jpg)](font_jittered.jpg)
 
-  
- ### Fuzzy Font
+### Fuzzy Font {#fuzzy}
+
 A straight spreading of a font color using "`-blur`" operator.
 This operator allows you to take a image and spread it out in all directions.
 This allows you to generate softer looking shadows, and or spray paint like effects.
@@ -451,7 +425,8 @@ If you want to use a blur an existing image, you will have to draw the font sepa
 > Also the blurring of the image generally makes the use of "`-trim`" afterward fairly useless.
 > Manual trimming, or other adjustments may be needed whenever you use blurring on an image.
 
-### Fuzzy Shadow
+### Fuzzy Shadow {#fuzzy_shadow}
+
 Use the fuzzy font as a offset for a soft shadow.
 Note that we also used a larger spread value.
 
@@ -464,7 +439,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 [![\[IM Output\]](font_shadow_fuzzy.jpg)](font_shadow_fuzzy.jpg)
 
-### Soft Shadow
+### Soft Shadow {#soft_shadow}
+
 The "`-shadow`" operator will not only allow you to generate and position soft fuzzy shadows for images containing transparency, but will also allow you to set use any color and set a general transparency level.
 
 ~~~
@@ -492,7 +468,8 @@ montage -background none -fill white -font Candice \
 
 However you do not have any control over the offset, color, or amount of blur of the montage shadow (as yet).
 
-### Soft Outline
+### Soft Outline {#soft_outline}
+
 use the fuzzy font as the outline border.
 This is like using the original font as a mask to a spray gun.
 
@@ -508,7 +485,8 @@ Note that the edge is very light as not only is the black color spread out, but 
 
 One way to fix this is to use a [Shadow Outline](../blur/#shadow_outline), with a [Level Adjustment](../color_mods/#level) to fix that lightness, though that uses some very advanced image processing techniques.
 
-### Denser Soft Outline
+### Denser Soft Outline {#denser_soft_outline}
+
 Another way to fix the lightness of the soft outline is to blur a font that has a wide stroke outline.
 This effectively moved the 50% blur point further away from the edge of the font.
 It will also allow a even larger the blur value to be used, allowing the black color to spread out further.
@@ -524,7 +502,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 As a practical example of this method see the examples generated in [Adding image labels to thumbnails](../thumbnails/#labels) and the last example in [Annotating on Top of Images](../annotating/#anno_on).
   
-### Distance Blurred Shadow
+### Distance Blurred Shadow {#var_blur}
+
 With the introduction of [Variable Blur Mapping](../mapping/#blur) you can now blur a shadow so that be becomes more blurry with the apparent distance of that shadow from the casting object.
 
 For example here I took the [Sheared Shadow Font](#slewed) and blurred the shadow so it is unblurred at the top, and more blurry at the bottom.
@@ -551,7 +530,8 @@ Basically it can not make the shadow shorter or longer, like a real shadow, as i
 A better method is to use a three point [Affine Distortion](../distorts/#affine) which gives you the better control over the placement of the shadow (See [3d Shadows, using Affine Shears](../distorts/#shadow3d)).
 Of course you will still need the [Variable Blur](../mapping/#blur) technique to make look right.
   
-### Beveled Font
+### Beveled Font {#bevel}
+
 The [Shade Operator](../transform/#shade) can be used to generate very nice looking 3D font with a beveled and smoothly curving edge.
 
 ~~~
@@ -568,7 +548,8 @@ On the other hand, there are a lot of methods which can replace the grey scale o
 The biggest problem with using shade to 'bevel' a font is that the thickness of the bevel is not readily adjustable.
 It is basically fixed to an approximately 5 pixel thickness, regardless of the font size used.
   
-### Conical Font
+### Conical Font {#conical}
+
 By using the new [Morphology Distance Method](../morphology/#distance) (as of IM v6.6.2) combined with the [Shade Operator](../transform/#shade) you can make the whole font look like it is a 3 dimensional mountain ridge.
 
 This does requires some special handling of the anti-aliasing pixels as per [Distance with an Anti-aliased Shape](../morphology/#distance_anti-alias), but the result is a cone shaped mountain-like font.
@@ -622,7 +603,8 @@ convert -size 320x100 xc:black -font ArialBk -pointsize 70 \
 
 [![\[IM Output\]](font_chebyshev.jpg)](font_chebyshev.jpg)
 
-### Inner Bevel Font
+### Inner Bevel Font {#inner_bevel}
+
 Limiting the distance by clipping the distance function will bevel just the edges of the shape.
 
 ~~~
@@ -636,7 +618,8 @@ convert -size 320x100 xc:black -font Candice -pointsize 72 \
 [![\[IM Output\]](font_inner_bevel.jpg)](font_inner_bevel.jpg)
 
   
-### Arched Font
+### Arched Font {#arch}
+
 The "`-wave`" operator (see [Sine Wave Displacement](../warping/#wave) for details), will shift the pixels of the image vertically, to form an arch.
 Verticals will remain vertical, with the characters being sheared to produce the curve.
 
@@ -654,7 +637,8 @@ Also as "`-wave`" adds extra space to the image by the amount it is arched, requ
 
 It is a simple, fast but effective way of making an arch of text.
 
-### Arc Font
+### Arc Font {#arc}
+
 The [General Distortion Operator](../distorts/#distort) also provides other text/image warping methods.
 The '`Arc`' method for example will bend a font into a true circular arc, rather than the vertically shifted 'arch' of the previous example.
 
@@ -668,7 +652,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 [![\[IM Output\]](font_arc.jpg)](font_arc.jpg)
 
   
-### Circle Font
+### Circle Font {#circle}
+
 You can even take it to extremes and wrap the text into a complete, or almost complete circle.
 
 ~~~
@@ -682,7 +667,8 @@ convert -font Candice -pointsize 32 -background lightblue \
 
 See [Arc Distortion](../distorts/#arc) for more options and possibilities.
 
-### Spiral Font
+### Spiral Font {#spiral}
+
 Adding a little rotation to slant the font at an angle before wrapping it, the circle can be converted into a spiral.
 
 ~~~
@@ -699,7 +685,8 @@ You could solve that by using a perspective distortion as part of the text rotat
 The problem with this technique is that you can only do one twist of the spiral, though with multiple lines and some care to line up the lines, you could generate multiple spirals.
 *If you try this, please submit an example back to me?*
   
-### Vibrato Font
+### Vibrato Font {#vibrato}
+
 The "`-wave`" operator that we used in the [Arch'ed Font](#arch) above can also be used at a higher frequency and smaller amplitude to make a vibrating font.
 Also by adding some rotation operations, you can even make the vibration at whatever angle you like!
 
@@ -714,7 +701,8 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 For more information on using distorts like this see example page on [Warping Images](../warping/), and especially the [Wave Distortion Operator](../warping/#wave).
 
-### Comet Font
+### Comet Font {#comet}
+
 One of the specialized blurs operators, "`-motion-blur`" allows you to create a comet like tail to objects in an image.
 
 ~~~
@@ -730,7 +718,8 @@ You can liven this compound font up by using different colors to make a real fie
 
 You can also do much more with [Specialized Blurs](../blur/#special_blurs), however this whole aspect of IM is still experimental and the syntax of these operators may change in the near future.
 
-### Smoking Font
+### Smoking Font {#smoking}
+
 Combining this with wave and you can make the comet font look like smoke, a smell, or even flames are rising off the font!
 
 ~~~
@@ -749,7 +738,7 @@ convert -size 320x120 xc:lightblue  -font Candice  -pointsize 72 \
 
 ------------------------------------------------------------------------
 
-## Using a Mask Image with Fonts
+## Using a Mask Image with Fonts {#mask}
 
 Drawing a "Stamped Font" on a background image is actually a lot more difficult that most of the methods of generating fancy fonts I detailed above.
 The reason is that part of the original font is erased, which presents a problem when drawing it on a background that is not a simple solid color.
@@ -858,11 +847,11 @@ For more information on using image masks, see [Editing Image Masks](../masking/
 
 ------------------------------------------------------------------------
 
-## Advanced Font Processing
+## Advanced Font Processing {#advanced}
 
 By combining the above techniques together, with appropriate colors and other fancy fonts that are available, you can make some fantastic effects, which often look completely different to the original techniques shown above.
 
-### More Complex Fonts - an example
+### More Complex Fonts - an example {#example}
 
 For example here we generate a very complex and colorful bit of text.
 
@@ -891,7 +880,7 @@ That last method also [Removes the Transparency](../masking/#remove), replacing 
 
 For more information on such complex image processing see, [Complex Image Processing and Debugging](../basics/#complex).
 
-### Neon Sign
+### Neon Sign {#neon}
 
 Here is another simple example.
 By using a [Soft Outline](#soft_outline) font on a dark background, but using all the same colors, and an appropriate font, you can generate a simple 'Neon Sign' effect...
@@ -912,7 +901,7 @@ See [Advanced IM Examples](../advanced/) for special effects such as ["Gel" Effe
 For some examples of other font effects you may like to try and implement see [XaraXone, Using Contour Tool](http://www.xaraxone.com/webxealot/workbook35/page_3.htm).
 IM can easily create contour effects such as those shown.
 
-### Metallic Effect
+### Metallic Effect {#metallic}
 
 This effect is essentially a rounding, and Color Lookup Table replacement effect.
 See discussion [Metallic Effect](../forum_link.cgi?f=1&t=23904).
@@ -960,10 +949,10 @@ convert metallic_input.png -set colorspace RGB \
 
 [![\[IM Output\]](metallic.png)](metallic.png)
 
-------------------------------------------------------------------------
-
-Created: 7 November 2003  
- Updated: 30 September 2012  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/fonts/`
+---
+created: 7 November 2003  
+updated: 30 September 2012  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.2-8
+url: http://www.imagemagick.org/Usage/fonts/
+---

@@ -1,60 +1,5 @@
 # Resampling Filters
 
-**Index**  
-<!--
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Resampling Artefacts](#artefacts) - How good is Resize?
-[Blocking](#blocking),  [Ringing](#ringing),  [Aliasing](#aliasing),  [Blurring](#blurring)
--   [ImageMagick Resize VS Photoshop Resize](#photoshop)
-
- 
-[![](../img_www/granitesm_right.gif) Resampling Filters](#filter)
--   [Interpolated Filters](#interpolated)
-    [Point](#point),  [Box](#box),  [Triangle](#triangle),   
-    [Other Interpolation Filters](#interpolate_other)  
-    [Hermite](#hermite),  [Lagrange](#lagrange-i),  [Catrom](#catrom-i)
--   [Gaussian Blurring Filter](#gaussian)
-    -   [Gaussian](#gaussian), 
-    -   [Sigma Expert Control](#sigma)
-    -   [Other Gaussian-like Filters](#gaussian_other)
-        [Quadratic](#quadratic),  [Spline](#spline)
--   [Filter Support Expert Control](#support)
--   [Filter Blur Expert Control](#blur)
--   [Gaussian Interpolator Filter](#gaussian_interpolator)
--   [Windowed Sinc Filters](#windowed)
-    -   [How Windowing Filters Work](#window_how)
-    -   [The Various Windowing Filters](#windowing)
-        [Sinc](#sinc),  [Hann](#hann),  [Hamming](#hamming),  [Blackman](#blackman),  [Bohman](#bohman),   
-        [Kaiser](#kaiser),  [Bartlett](#bartlett),  [Parzen](#parzen),  [Cosine](#cosine),  [Welch](#welch)
-    -   [Lanczos Filter](#lanczos)
-    -   [Windowing Support Size in Lobes](#lobes)
-
-![](../img_www/granitesm_right.gif) Resampling Filters (Cont)
-[Lagrange Filter](#lagrange)
-[Cubic Filters](#cubics)
-[Spline](#spline-c),  [Catrom](#catrom-c),  [Hermite](#hermite-c),  [Mitchell](#mitchell)
--   [Cubic BC Settings](#cubic_bc)
-
-[Cylindrical Filters](#cylindrical) -- Filters for Distort
--   [Interpolated Cylindrical Filters](#cyl_interpolated)
--   [Cylindrical Gaussian](#cyl_gaussian)
--   [Jinc Windowed Filters](#jinc)
--   [Distort and the No-Op case](#distort_noop)
-    [Cylindrical Lanczos](#lanczos_cylindrical),  [Lanczos2](#lanczos2),   
-    [LanczosSharp](#lanczos_sharp),  [Lanczos2Sharp](#lanczos2sharp),  [LanczosRadius](#lanczos_radius),   
-    [Robidoux](#robidoux),  [Robidoux Sharp](#robidoux_sharp) [Robidoux Soft](#robidoux_soft)
--   [Cylindrical Filters Summary](#cyl_summary)
-
-[Expert Filter Controls](#options)
-[Summary of Resize filters](#summary)
--   [Filter Comparison](#compare)
--   [Best Filter](#best_filter)?
--   [IM's Default Filter](#default_filter)
-
-
-[![](../img_www/granitesm_right.gif) Resampling by Nicolas Robidoux](nicolas/) (sub-section)
--->
-
 Here we get in to the lower level aspects of Resize and Distortion of images, looking at the resampling filters that is used to determine the final color of each individual pixel in the resulting image.
 
 This is extensive, long studied, and often full of opinion and personal views rather than any hard qualitive facts, as it is imposible to determine what constitutes a perfect resize image.
@@ -64,13 +9,13 @@ It is recommended you read and understand the [Resize and Scaling Operators](../
 
 ------------------------------------------------------------------------
 
-## Resampling Artefacts - How good is IM Resize
+## Resampling Artefacts - How good is IM Resize {#artefacts}
 
 Image resizing has to combat a very difficult problem.
 How do you reduce an array of values, into a smaller, or larger array of values so that it look good to our eyes.
 A lot of things can go wrong while attempting to do this, but they fall into four basic categories..
 
-### Blocking
+### Blocking {#blocking}
 
 Essentially, if you enlarge an image simply by replicating pixels, you will create larger rectangular blocks of pixels.
 In fact magnifying images using either "`-scale`" or "`-sample`" does exactly that, producing an enlarged pixelated image.
@@ -100,7 +45,7 @@ Or perhaps when you are trying to rotate images, without generating and new, or 
 
 Techniques for doing actually preserving the 'blockiness', but filling in the squares with diagonal lines, is known as [Pixel Art Scaling Algorithms](http://www.wikipedia.org/wiki/Pixel_art_scaling_algorithms), and many such schemes have been developed.
 
-### Ringing
+### Ringing {#ringing}
 
 Ringing is an effect you often see in very low quality JPEG images close to sharp edges.
 It is typically caused by an edge being over compensated for by the resize or image compression algorithm, or a high quality filter being used with a bad support size.
@@ -146,7 +91,7 @@ convert -size 1x1 xc: -bordercolor '#444' -border 4x4 \
 These effects are not normally visible, and only seen here because of the use of the use of a raw '`Sinc`' or '`Jinc`' filter (see [Windowed Filters](#windowed) below) for some extreme enlargements.
 Typically a 'raw' filter like this is not used.
 
-### Aliasing and Moiré Effects
+### Aliasing and Moiré Effects {#aliasing}
 
 Aliasing effects are generally seen as the production of 'staircase' like effects along edges of images.
 Often this is caused either by raw sampling of the image such as using "`-sample`", or overly sharpening of the image during resizing.
@@ -207,7 +152,7 @@ As you can see even a slight resize will show up any aliasing a resize operator 
 In fact if you look closely you may even seen a very light Moiré effect in the original unscaled crop of the original starting image, which is produced from the limitations of only using a raster image at a density suitable for display on a computer screen.
 That is how sensitive this test image is in showing aliasing effects caused by shrinking images.
 
-### Blurring
+### Blurring {#blurring}
 
 Most people are familiar with blurring that can be generated by the use of "`-resize`".
 In fact this is probably the number one complaint about any resize image, and with good reason.
@@ -237,7 +182,7 @@ No guarantees can be given.
 The better method of fixing bluring effects cause by resize is to re-filter the image using a sharpening operator.
 See [Sharpen Resized Images](../resize/#resize_unsharp) above for more details.
 
-### IM Resize vs other Programs
+### IM Resize vs other Programs {#photoshop}
 
 A practical comparison of IM's default resize operator to a number of other programs in resizing a real-world image has been provided by, Bart van der Wolf at...
 
@@ -259,7 +204,7 @@ WARNING: These filter comparisons were made before IM Resize filters were overha
 
 ------------------------------------------------------------------------
 
-## Resampling Filters
+## Resampling Filters {#filter}
 
 The "`-filter`" setting is the key control on how "`Image Resizing`" as well as "`General Distort Operator`", works to produce a clean result with the minimum of [Resampling Artefacts](#artefacts).
 
@@ -283,7 +228,7 @@ He was especially eager for the addition of the '`Lagrange`' family of filters, 
 
 Also thanks goes to [Nicolas Robidoux](http://ca.linkedin.com/pub/nicolas-robidoux/40/3ab/b73), who's mathematics helped solve a major fault in the [General Distort Operator](../distorts/#distort), and then develop [Cylindrical Filters](#cylindrical), that produce better results that what you get with the [Resize Operator](../resize/#resize).
 
-### How filters work
+### How filters work {#how_filters_work}
 
 When resizing an image you are basically trying to determine the correct value of each pixel in the new image, based on the pixels in the original source image.
 However these new pixels do not match exactly to the positions of the old pixels, and so a correct value for these pixels needs to be determined in some way.
@@ -304,9 +249,9 @@ The design of these weighting functions, or 'filters' is a very complex business
 A good starting point if you are interested in this is [Wikipedia: Nyquist–Shannon sampling theorem](http://en.wikipedia.org/wiki/Nyquist-Shannon_sampling_theorem#Application_to_multivariable_signals_and_images).
 However, you really don't need to go that far to understand existing filters and their effects on images.
 
-### The Filters
+### The Filters {#the_filters}
 
-### Interpolated Filters
+### Interpolated Filters {#interpolated}
 
 The simplest type of resize filter functions are **Interpolative** methods.
 These take a specific pixel location in the source image and try to simply determine a logical color value of the image at that location based on the colors of the surrounding pixels.
@@ -321,7 +266,7 @@ For more information see IM's [Interpolation Setting](../misc/#interpolate).
 
 It is not however suitable for general image resizing.
 
-#### Point
+#### Point {#point}
 
 Using a "`-filter`" setting of '`Point`' basically means to use an unscaled interpolation filter.
 For the [Resize Operator](../resize/#resize), it will just select the closest pixel to the new pixels position, and that is all.
@@ -373,7 +318,7 @@ Even at this level, you will get extreme [blocking](#blocking) and [aliasing](#a
 
 As such, a '`Point`' filter, or the faster equivalent [Sampling Operator](#sample), is not recommended for normal image resizing.
 
-#### Box
+#### Box {#box}
 
 The '`Box`' filter setting is exactly the same as '`point`' with one slight variation.
 When shrinking images it will average, and merge the pixels together.
@@ -466,7 +411,7 @@ Box+5
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > The [Scale Operator](../resize/#scale) also produces similar results, but with some pixel color mixing, when enlarging, unless enlarging by a integer scaling factor.
 
-#### Triangle
+#### Triangle {#triangle}
 
 [![\[IM Output\]](graph_filter_triangle.gif)](graph_filter_triangle.jpg) The '**Triangle**' or '`Bilinear`' interpolation filter just takes the interpolation of the nearest neighborhood one step further.
 Instead of just directly averaging the nearby pixels together, as '`Box`' does, it weights them according to how close the new pixels position is to the the original pixels within the neighborhood (or '*support*' region).
@@ -561,21 +506,33 @@ As you can see the central pixel was merged with the neighboring pixels to produ
 
 All the interpolation filters, produce similar gradient patterns between neighboring pixels and is also the reason why they are so well suited to image enlargements.
 
-#### Other Interpolation Filters
+#### Other Interpolation Filters {#interpolate_other}
 
-[![\[IM Output\]](graph_interpolation.gif)](graph_interpolation.jpg) To the right I have graphed the various interpolation filters, except for '`Point`' which is actually very special case of an unscaled '`Box`' filter (a pure '`NearestNeighbor`' interpolation).
+To the right I have graphed the various interpolation filters, except for '`Point`' which is actually very special case of an unscaled '`Box`' filter (a pure '`NearestNeighbor`' interpolation).
+
+##### Hermite {#hermite}
+
+[![\[IM Output\]](graph_interpolation.gif)](graph_interpolation.jpg)
 
 Other interpolation filters include '`Hermite`' which is very similar to triangle in results, but producing a smoother round off for enlargements, that smooths gradient transitions.
 Click on the [graph on the right](graph_lagrange_interpolate.jpg) to see a graph of these three filter functions.
 
-[![\[IM Output\]](graph_lagrange_interpolate.gif)](graph_lagrange_interpolate.jpg) The '`Lagrange`' filter has been called a 'universal' interpolation filter.
+##### Lagrange {#lagrange}
+
+[![\[IM Output\]](graph_lagrange_interpolate.gif)](graph_lagrange_interpolate.jpg)
+
+The '`Lagrange`' filter has been called a 'universal' interpolation filter.
 By varying the 'support' size (See the [Support Expert Setting](#support) below), it can generate all the previously looked at interpolation filters (except '`Hermite`').
 The default settings (a Lagrange order 3 filter (support=2.0) as shown as the purple line on the graph right) provides a reasonable 'cubic' filter.
 It works very well though the gradient change can result in some noticeable [blocking](#blocking) effects on enlargement, though with bitmap images and line drawings this can be a good thing.
 
 More on the other [Lagrange Filter](#lagrange) orders later.
 
-[![\[IM Output\]](graph_filter_catrom.gif)](graph_filter_catrom.jpg) The '`Catrom`' (Catmull-Rom) filter is a well known standard [Cubic Filter](#cubics) often used as a interpolation function, and is available under the same name.
+##### Catrom {#catrom}
+
+[![\[IM Output\]](graph_filter_catrom.gif)](graph_filter_catrom.jpg)
+
+The '`Catrom`' (Catmull-Rom) filter is a well known standard [Cubic Filter](#cubics) often used as a interpolation function, and is available under the same name.
 This filter produces a reasonably sharp edge, but without a the pronounced gradient change on large scale image enlargements that a '`Lagrange`' filter can produce.
 
 
@@ -594,14 +551,14 @@ These [Interpolation Settings](../misc/#interpolate) include: '`NearestNeighbor`
 
 *ASIDE: At this time the smoothed triangle filter '`Hermite`' has not been directly implemented as an [Interpolation Setting](../misc/#interpolate), which is a shame as it is quite a good interpolation filter.*
 
-### Gaussian Blurring Filters
+### Gaussian Blurring Filters {#gaussian_filters}
 
 In the complex mathematics of Fourier Transforms into frequency domains, resize filters are meant to remove any high frequency noise that may be present.
 This noise is caused by the sampling of a real world image into pixels, and when you resize an image, that noise appears as aliasing and Moiré effects.
 
 Because of this the Gaussian Bell Curve became a natural early candidate as a resizing or resample filter, as it is the ideal model for real world effects.
 
-#### Gaussian
+#### Gaussian {#gaussian}
 
 [![\[IM Output\]](graph_filter_gaussian.gif)](graph_filter_gaussian.jpg) The **Gaussian** filter is a very special filter that generates that same 'bell curve' shape in the frequency domain.
 This makes it very useful as an image filter as it guarantees a good removal of this high frequency noise in a highly controllable way.
@@ -639,7 +596,7 @@ convert xc:red -bordercolor yellow -border 1 \
 As you can see a single pixel enlarges into perfectly circular dot.
 Only Gaussian and Gaussian-like filters will do this.
 
-#### Gaussian Sigma Expert Control
+#### Gaussian Sigma Expert Control {#sigma}
 
 You can control the Gaussian Filter directly using a a special expert option "`-define filter:sigma={value}`" to specify the actual 'sigma' value of the Gaussian curve.
 
@@ -659,9 +616,11 @@ The [Support Expert Setting](#support) can be used to override, but it is typica
 >
 > A more generalized control, for other filters can be achieved using [Blur Filter Expert Control](#blur) which we will look at later.
 
-#### Other Gaussian-like Filters
+#### Other Gaussian-like Filters {#gaussian_other}
 
-[![\[IM Output\]](graph_gaussian.gif)](graph_gaussian.jpg) If you study the comparative graphs to the right you will see that '**`Quadratic`**' filter as well as the slightly more complex '**`Spline`**' filter follow the weighting curve of the '`Gaussian`' filter quite well.
+[![\[IM Output\]](graph_gaussian.gif)](graph_gaussian.jpg)
+
+If you study the comparative graphs to the right you will see that '**`Quadratic`**' filter as well as the slightly more complex '**`Spline`**' filter follow the weighting curve of the '`Gaussian`' filter quite well.
 And being polynomial functions they are also a lot faster to calculate, which was why they were originally invented.
 
 While '`Quadratic`' is very slightly more blurry than the [Gaussian Filter](#gaussian), the '`Spline`' filter is even more blurry, with an equivalent [Sigma](#sigma) setting of approximately '`0.65`'.
@@ -678,7 +637,7 @@ The '**`Mitchell`**' filter is also shown in the comparison graph.
 This filter also has a some blurring at the 1.0 distance from the sampling point, which also makes this filter slightly blurry, much like the other filters we have seen.
 However it also has some negative weighting in its curve, which while producing [ringing](#ringing) effects (see [Window Sinc Filters](#windowed) later), offsets that bluriness near sharp edges.
 
-### Filter Support Expert Control
+### Filter Support Expert Control {#support}
 
 The Gaussian filter is known as a IIR (Infinite Impulse Response) filter, which simply means that the response 'curve' it uses never reaches zero.
 That is, no matter how far away from the sampling point you get, you will still have some non-zero contribution to the result from very distant pixels.
@@ -744,7 +703,7 @@ Remember these are 'expert' options, and as such you are more likely to make thi
 That is why they are not a simple command line option, but provided via the special "`-define`" option.
 Of course you are welcome to play, just as I have done above, so as to try and understand things better, and IM provides these options so that you can do just that.
 
-### Filter Blur Expert Control
+### Filter Blur Expert Control {#blur}
 
 A special expert option, "`-define filter:blur={value}`" can be used to adjust amount of blurring that a filter provides.
 A value of '`1.0`' producing the default action, while smaller and larger values adjust overall 'blurriness'.
@@ -808,7 +767,7 @@ The [Lagrange Filters](#lagrange) uses [Support Expert Filter Setting](#blur) to
 > Before IM v6.3.6-3 the '`filter:blur`' define was mistakenly set by the option "`-support`", which was very misleading in exactly what it did.
 > This option has been deprecated, and no longer available.
 
-### Gaussian Interpolator Filter Variant
+### Gaussian Interpolator Filter Variant {#gaussian_interpolator}
 
 [![\[IM Output\]](graph_blurred.gif)](graph_blurred.jpg) A [Blur Control](#blur) value of '`0.75`' on [Gaussian-like Filters](#gaussian_other), or using a [Sigma Control](#sigma) value of '`0.375`' for the [Gaussian Filter](#gaussian) will generate a variation I call a **Gaussian Interpolator**.
 
@@ -851,9 +810,9 @@ Gaussian
 Gaussian Interpolator  
 (blur=0.75 or sigma=0.375)
 
-### Windowed Sinc Filters
+### Windowed Sinc Filters {#windowed}
 
-#### Sinc Filters
+#### Sinc Filters {#sinc}
 
 Mathematics has determined that the ideal filter for resizing image (using a 2-pass 'tensor' resize technique) is the the *Sinc()* function.
 (See [Nyquist-Shannon sampling theorem](http://en.wikipedia.org/wiki/Nyquist-Shannon_sampling_theorem#Application_+to_multivariable_signals_and_images)).
@@ -896,7 +855,7 @@ What is recommended and provided are 'windowed' forms of the Sinc function, whic
 These *Windowing Filters* include filters such as; '`Blackman`', '`Bohman`', '`Hann`', '`Hamming`' '`Lanczos`'.
 '`Kaiser`', '`Welch`', '`Bartlett`', and '`Parzen`'.
 
-#### How Windowed Filters Work
+#### How Windowed Filters Work {#window_how}
 
 [![\[IM Output\]](graph_sinc_windowing.gif)](graph_sinc_windowing.jpg) For example, the graph to the right shows three functions (click to get an enlarged view).
 The red function is the mathematically ideal *Sinc()* function, which stretches off to infinity.
@@ -915,7 +874,17 @@ Either the Sinc or the Jinc function (depending on the image processing operator
 > As a consequence the filters were often mis-understood or rarely used by IM users.
 > This has now been fixed.
 
-#### The Various Windowing Filters
+<a name="hann"></a>
+<a name="hamming"></a>
+<a name="blackman"></a>
+<a name="bohman"></a>
+<a name="kaiser"></a>
+<a name="bartlett"></a>
+<a name="parzen"></a>
+<a name="cosine"></a>
+<a name="welch"></a>
+
+#### The Various Windowing Filters {#windowing}
 
 [![\[IM Output\]](graph_windowing.gif)](graph_windowing.jpg) To the right is a graph of all the various windowing functions that IM has available at the time of writing (more was added later).
 Yes, there are a lot of them, as windowing functions have been the subject of intense study by numerous signal processing experts.
@@ -974,7 +943,7 @@ On the other hand a image processing expert, who has been instrumental in ImageM
 Though he selects filters based more on the exact requirements for specific images.
 You can see his suggestions and comments in [Techniques Recommended by Nicolas Robidoux](nicolas/).
 
-### Lanczos Filter
+### Lanczos Filter {#lanczos}
 
 We have mentioned the '**`Lanczos`**' filter a number of times already.
 It is probably the most well known of the [Windowed Filters](#windowed), which falls in the middle of the range of windowed filters we have seen.
@@ -998,7 +967,7 @@ That however is typically not a problem with the way IM caches filter values bef
 
 Having said this, a long [Discussion in the IM forums](../forum_link.cgi?t=20992&p=85257) seems to indicate that for orthogonal (tensor) resizing, a 4 lobe '`Lanczos`' actually works better for shrinking images, while preventing [Moiré](#aliasing) in images of objects with very fine patterns, but at the cost of more [Ringing](#ringing).
 
-### Windowing Size in Lobes
+### Windowing Size in Lobes {#lobes}
 
 As I mentioned, the underlying Sinc (and Jinc) filter function is actually infinite in size.
 Though by default IM limits them using the specified windowing function to a much smaller, more practical size.
@@ -1038,7 +1007,7 @@ If neither *Sinc()* or *Jinc()* functions are used for the filter definition, th
 
 Note however that a '`filter:support`' setting will override any '`filter:lobes`' setting given, so it is better to only define the latter expert option.
 
-### Lagrange Filter
+### Lagrange Filter {#lagrange}
 
 Just as the '`Gaussian`' filter is a mathematically slow function (not that it affects the overall speed very much thanks to IM's caching of results), the [Sinc/Jinc Windowed Filters](#windowed) are even slower and more complex to compute due to the need to compute trigonometric functions for use in both weighting and windowing functions.
 
@@ -1079,7 +1048,13 @@ It is 'the' self-windowing resize filter.
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > The '`Lagrange`' filter was not fully defined and usable until IM version v6.3.7-1.
 
-### Cubic Filters
+
+<a name="spline-c"></a>
+<a name="catrom-c"></a>
+<a name="hermite-c"></a>
+<a name="mitchell"></a>
+
+### Cubic Filters {#cubics}
 
 As many image experts were trying to find a better and faster-to-calculate filter for image resizing, a family of filters evolved, and became known as Cubic Filters.
 These are much like the [Lagrange Filters](#lagrange) shown previously, and were made up of a smaller fixed set of piece-wise sections.
@@ -1148,7 +1123,7 @@ Also shown are the lines representing the 'B-Spline', 'Cardinal' and 'Keys' filt
 
 Internally all these filters only differ by the pre-defined B,C settings of the filter, in fact IM uses the same internal function to generate all cubic filters, only with different B,C settings to define those filters.
 
-#### Cubic B,C Expert Controls
+#### Cubic B,C Expert Controls {#cubic_bc}
 
 You can use the special expert settings to set the B,C settings that a [Cubic Filter](#cubics) is using.
 
@@ -1198,7 +1173,7 @@ The '`Robidoux`' filter is the default filter used by the [General Distort Opera
 > As such you can re-define this windowing filter in terms of B,C expert options.
 > How useful this is, and what effect it has on the resulting windowed Sinc (or Jinc), is unknown, and not recommended.
 
-### Cylindrical Filters - for Distort
+### Cylindrical Filters - for Distort {#cylindrical}
 
 As we have touched on a number of times already, the [Distort Operator](../distorts/#distort) uses the filter setting to resample images in a slightly different way to the [Resize Operator](../resize/#resize).
 
@@ -1211,7 +1186,7 @@ That is to say [Distort](../distorts/#distort) applies the filters to produce '*
 
 Because of this the filters themselves often need to be adjusted or are designed specifically for this type of usage.
 
-#### Interpolated Cylindrical Filters
+#### Interpolated Cylindrical Filters {#cyl_interpolated}
 
 Here I use a '`Box`' filter to enlarge a single pixel image by 30 times using the equivalent [Resize](../resize/#resize) and [Distort](../distorts/#distort) operators.
 
@@ -1326,7 +1301,7 @@ The internal artefacts is especially evident in the '`Triangle`' filter.
 
 However remember that interpolation filters are not particularly good for extreme magnification (shrinking) of distorted images, but they are very good for magnification (enlarging).
   
-#### Cylindrical Gaussian
+#### Cylindrical Gaussian {#cyl_gaussian}
 
   
 The one filter which produces no difference in results between an orthogonal 'resize' and a cylindrical 'distort' forms, is the special '`Gaussian`' filter...
@@ -1367,7 +1342,7 @@ Similarly as given in the discussion on the [Sigma Expert Control](#sigma), you 
 >
 > I personally find using this slightly larger sigma value does indeed smooth out any 'blocking' artefacts along aliased diagonal edges when doing enlargements of line drawings, but using a larger sigma here is for aliasing removal and smoothing, not image enlargement.
 
-#### Windowed Jinc Cylindrical Filters
+#### Windowed Jinc Cylindrical Filters {#jinc}
 
 [![\[IM Output\]](graph_jinc.gif)](graph_jinc.jpg) The *Jinc()* function (sometimes inaccurately called a '`Bessel`' filter) is the 'Sinc' equivalent for use with a cylindrical filtering operation.
 Though very similar and closely related to *Sinc()*, it is designed to filter a rectangular array of values using a radial or cylindrical distance, rather than only in orthogonal (axis aligned) directions.
@@ -1393,7 +1368,7 @@ However just about any other pattern, such as lines, edges, corners, all remain 
 This 'problem' can be a good thing, as it means that 2-dimensional cylindrical Jinc derived filter can be used as method of removing strong pixel hash type patterns from images, such as those generated by a [Color Reduction Dither](../quantize/#dither), without greatly effecting the sharpness of the rest of the image.
 That is it could be used as a 'Dither Removal Method' (see below).
 
-### Distort and Filters in the No-Op case
+### Distort and Filters in the No-Op case {#distort_noop}
 
 Ideally, no-op distortion should return exactly the same image.
 But as you have seen in previous examples, this may not actually happen.
@@ -1463,7 +1438,7 @@ In some case even enhance the hash pattern further.
 The question thus arises of how to tune the distort filters so as to minimize the color distortions generated by the filter for a no-op distortion.
 The way Nicolas Robidoux decided to do this was by selecting a blur (rescaling of the support of the filter kernel) that tends to preserve orthogonal edges as much as posible.
 
-#### Cylindrical Lanczos Filter
+#### Cylindrical Lanczos Filter {#lanczos_cylindrical}
 
 Now as discussed above "[`Lancoz`](#lanczos)" is normally defined as a '*Sinc()*' function used both the weighting and windowing of the filter.
 
@@ -1478,7 +1453,7 @@ Hence the use of the same name.
 
 For more info on this see this [Post in BC-splines Discussion](../forum_link.cgi?f=22&t=19823&p=79247).
 
-#### Lanczos2 - 2-lobed Lanczos
+#### Lanczos2 - 2-lobed Lanczos {#lanczos2}
 
 For convenience this two lobed version, simply named '`Lanczos2`', was included in IM v6.6.4-10, specially for use in distortions.
 
@@ -1487,7 +1462,7 @@ See the [graph above](graph_jinc.jpg), and as IM filter automatically switches b
 
 It can can also be used for resize too (as a Sinc-Sinc function), though I don't recommend it as it is probably a bit too small, and becomes practically equivalent to the various other cubic functions.
 
-#### LanczosSharp - A slighly sharpened Lanczos
+#### LanczosSharp - A slighly sharpened Lanczos {#lanczos_sharp}
 
 It was observed that windowing a *Jinc()* function leads to much blurrier EWA distort results, than analogous windowed *Sinc()* function, in the orthogonal resize results (especially with thin lines).
 This was particularly the case for mild distortions.
@@ -1497,7 +1472,7 @@ With some calculation, Nicolas Robidoux, Professor of Mathematics at Laurentian 
 
 However the resulting filter still has the strong blurring of low level 'pixel hash' patterns, of [Windowed Jinc Cylindrical Filters](#jinc).
 
-#### Lanczos2 Sharpened
+#### Lanczos2 Sharpened {#lanczos2sharp}
 
 [![\[IM Output\]](graph_cyl_lanczos_2.gif)](graph_cyl_lanczos_2.jpg) The same problem was more severe in '`Lanzcos2`' filters, so Nicolas also produce a sharper '`Lanczos2Sharp`' filter, using a slightly larger [Blur Expert Control](#blur).
 This resulted in a filter with only minimal blurring for vertical or horizontal lines in a 'no distort' case.
@@ -1505,7 +1480,7 @@ This resulted in a filter with only minimal blurring for vertical or horizontal 
 This sharpened filter results in a small shift of the zero point, so that it is now located at approximatally '`1.1684`'.
 This may not seem like much but it makes a huge difference in the amount of blur the filter generates for images with little to no distortion.
 
-#### Lanczos Radius
+#### Lanczos Radius {#lanczos_radius}
 
 [![\[IM Output\]](graph_cyl_lanczos_3.gif)](graph_cyl_lanczos_3.jpg) This is a EWA Lanczos filter that is blurred (sharpened) so that the number of lobes used (3 by default) fits into a integer support radius.
 That is a 3 lobe EWA Lanczos (based on a Windowed Jinc) is sharpened to have a support of exactly radius 3.
@@ -1518,7 +1493,7 @@ Nicolas recommended the addition of this filter so you don't need to do that cal
 
 *Include number of lobes as a reference.*
 
-#### Robidoux Cylindrical Filter
+#### Robidoux Cylindrical Filter {#robidoux}
 
 [![\[IM Output\]](graph_robidoux.gif)](graph_robidoux.jpg)
 
@@ -1539,7 +1514,7 @@ That is not to say that it is 'the best' filter to use, and even Nicolas likes t
 I have marked this filter on the "[Cubics Map](../img_diagrams/cubic_survey.gif)" generated by the [Mitchell-Netravali Survey](#mitchell), so you an see just how closely related to the '`Mitchell`' filter it is.
 It would in fact make a reasonable filter for either orthogonally resized or cylindrically distorted images.
 
-#### Robidoux Sharp Cylindrical Filter
+#### Robidoux Sharp Cylindrical Filter {#robidoux_sharp}
 
 The '`RobidouxSharp`' filter is a slightly sharper version of the '`Robidoux`' filter, though some feel that the results are too sharp.
 
@@ -1552,14 +1527,14 @@ As such users can select from any of these three filters to control the blur-sha
 
 For details of this filter see the [BC-splines](../forum_link.cgi?f=22&t=19823&p=83898) discussion on IM Forums.
 
-#### Robidoux Soft Cylindrical Filter
+#### Robidoux Soft Cylindrical Filter {#robidoux_soft}
 
 This was added much later, and is very different to the other Cylindrical filters seen.
 Yes it is much more blurry to make it more useful for upsizing or enlarging images, which allows it to avoid some stair-casing effects on photos no brick buildings.
 
 For more info on this see this [Post in BC-splines Discussion](../forum_link.cgi?f=22&t=19823&p=109820), as well as this discussion from a [photo processing forum discussion](http://www.luminous-landscape.com/forum/index.php?topic=77949.msg723814#msg723814).
 
-#### Cylindrical Filter Summary
+#### Cylindrical Filter Summary {#cyl_summary}
 
 Nicolas Robidoux in the long, and on going, forum discussion on the [Proper Scaling of a Jinc Filter in EWA](../forum_link.cgo?p=83754) gives this as a summary of cylindrical filters...
   
@@ -1573,7 +1548,7 @@ So much he has his own section [Resampling by Nicolas Robidoux](nicolas/) which 
 
 ------------------------------------------------------------------------
 
-### Expert Filter Controls
+### Expert Filter Controls {#options}
 
 In the various sections above I introduce a large number of special 'expert' controls, which will allow you to modify the various filters in various ways.
 You define these expert settings using [Global Define Setting](../basics/#define) (or equivalent [Set Option](../basics/#set)).
@@ -1714,7 +1689,7 @@ They are not meant for production use, but as a method for exploring or producin
 
 Use at your own peril!
 
-### Summary of Resize Filters
+### Summary of Resize Filters {#summary}
 
 The following is my own personal view after studying, recoding, and documenting all the above filters available in ImageMagick.
 If you think I may be wrong or like to express your opinion, I invite you to express your views on the IM forum, and invite me to respond.
@@ -1732,7 +1707,7 @@ The [Cubic Filters](#cubics) are a mixed bag of fast and simple filters, of fixe
 
 Generally if the resize results are acceptable as is, leave things alone, as you are more likely to make things worse, not better.
 
-#### Filter Comparison
+#### Filter Comparison {#compare}
 
 *Enlargement...*
 
@@ -1796,7 +1771,7 @@ convert rings_sm_orig.gif -filter {filter_type} -resize 100x {result}
 As you can see the [Interpolated Filters](#interpolated) produce lots of [aliasing artefacts](#aliasing), while the [Gaussian Blurring Filters](#gaussian) tend to blur out more lines than the others.
 But all the other filters tend to produce a reasonable job.
 
-#### The Best Filter?
+#### The Best Filter? {#best_filter}
 
 That is something you will need to work out yourself.
 Often however it depends on what type of image and resizing you are doing.
@@ -1810,7 +1785,7 @@ For those interested I recommend you look at the IM User Discussion topic [a way
 
 The choice is yours, and choice is a key feature of ImageMagick.
 
-#### IM's Default Filter...
+#### IM's Default Filter... {#default_filter}
 
 It is for these reasons that '`Mitchell`' is the default filter for enlargement, as well as for shrinking images involving transparency, or images containing a Palette (or colormap).
 However the '`Lanczos`' will be used in all other cases, that is shrinking normal images (typically photographs).
@@ -1819,7 +1794,7 @@ For [Distort](../distorts/#distort), the filter setting defaults to the '`Robido
 
 You can of course override these choices.
 
-### Nicolas Robidoux
+### Nicolas Robidoux {#nicolas}
 
 Nicolas Robidoux is a image processing expert with a lot more to say and recommend about trying to get the absolute best results from your image resizing.
 
@@ -1827,10 +1802,10 @@ So much so he has his own section...
 
 [Resampling by Nicolas Robidoux](nicolas/).
 
-------------------------------------------------------------------------
-
-Created: 10 October 2012 (split from resize)  
- Updated: 14 Feburary 2013  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/filter/`
+---
+created: 10 October 2012 (split from resize)  
+updated: 14 Feburary 2013  
+author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
+version: 6.7.9-10
+url: http://www.imagemagick.org/Usage/filter/
+---

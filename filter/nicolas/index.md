@@ -1,21 +1,5 @@
 # Resampling by Nicolas Robidoux
 
-**Index**  
-  
- * [![](../../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../../)
-   * [![](../../img_www/granitesm_left.gif) Resampling Filters](../)
-     * [![](../../img_www/granitesm_right.gif) Methods Recommended by Nicolas Robidoux](#short)
-       * [**Short Answer**](#short)
-       * [Quality Control](#quality)
-       * [Detailed Answer](#detailed)
-       * [Recommended Upsampling Methods (Enlarging)](#upsampling)
-       * [Upsampling Examples](#upsampling_examples)
-       * [Recommended Methods for Downsampling (Shrinking)](#downsample)
-       * [Downsampling Examples](#downsampling_examples)
-       * [Borderline Cases](#borderline)
-       * [Feedback](#feedback)
-       * [Thanks](#thanks)
-
 The following has been provided by [Nicolas Robidoux](http://ca.linkedin.com/pub/nicolas-robidoux/40/3ab/b73), now a Senior Research Scientist at [Phase One A/S](http://www.phaseone.com).
 He has been of great help in improving image processing in ImageMagick, especially the development of [Cylindrical Filters](../#cylindrical) as used by the EWA resampling of the [General Distortion Operator](../../distorts/#distort).
 
@@ -26,7 +10,7 @@ WARNING: Some of the techniques may only work with recent versions of ImageMagic
 
 ------------------------------------------------------------------------
 
-### Short Answer
+### Short Answer {#short}
 
 When resizing, I (Nicolas Robidoux) generally stick to either a tensor (orthogonal, or 2-pass) [Resize (`-resize`) Operator](../../resize/#resize) filter, or an EWA (Elliptical Weighted Averaging) [Distort Resize (`-distort Resize`) operator](../../resize/#distort_resize).
 Although the filter kernels used with tensor and EWA operations are built using the same families of mathematical functions, they give very different results when used with `-resize` and when used with `-distort Resize`.
@@ -125,7 +109,7 @@ The linear light enlargements (RGB and XYZ) are almost always significantly wors
 The [sigmoidized](../../resize/#resize_sigmoidal) elargements generally look best, although [enlargements through Lab](../../resize/#resize_lab) are sometimes even better.
 Enlargements through linear light often look so bad that you are better off ignoring color space issues and filtering sRGB pixel values directly (using commands like the above).
 
-### Quality Control
+### Quality Control {#quality}
 
 Use the [Expert Filter Option](../#options) "`-define filter:verbose=1`" to make ImageMagick give detailed information on the selected filter for a resize or distort operation.
 
@@ -148,12 +132,12 @@ You may want to navigate color spaces using color profiles instead of the built-
 
 These recommendations have not been carefully checked with an active transparency channel.
 
-### Detailed Answer
+### Detailed Answer {#detailed}
 
 Downsampling (reducing the image's pixel count, for example, producing thumbnails) and upsampling (enlarging or, more generally, resampling without downsampling much) produce different artefact mixes.
 For this reason, different techniques are recommended for each type of geometrical operation.
 
-### Recommended Upsampling Methods (Enlarging)
+### Recommended Upsampling Methods (Enlarging) {#upsampling}
 
 Results of resizing using the [LanczosSharp EWA Filter](../#lanczos_sharp) through a [Sigmoidized Colorspace](../../resize/#resize_sigmoidal) are fairly artefact free, if a bit blurry.
 The built-in LanczosSharp, discussed in the [Short Answer](#short), works well, but I prefer a version with slightly less de-blur, obtained with the "`-filter Lanczos -define filter:blur=.9891028367558475`".
@@ -280,7 +264,7 @@ convert {input} -colorspace RGB +sigmoidal-contrast 10.75 \
 Again, you may want to try the [tensor (`-resize`) version](../#gaussian_other); it preserves horizontal and vertical features well, and is very slightly more blurry.
 It works fine without HDRI.
 
-### Upsampling Examples
+### Upsampling Examples {#upsampling_examples}
 
 In this section, I show the results of enlarging a minuscule image produced by the following code, 10 times (from 10x6 to 100x60).
 
@@ -318,7 +302,7 @@ Such results are the basis for the "don't enlarge through linear light" recommen
 
 [![\[IM Output\]](enlarged_linear.png)](enlarged_linear.png)
 
-### Recommended Methods for Downsampling (Shrinking)
+### Recommended Methods for Downsampling (Shrinking) {#downsample}
 
 Basically, the filters recommended for upsampling are also recommended for downsampling.
 Downsampling, however, should almost always be done using a linear light [Colorspace Correction](../../resize/#resize_colorspace) technique.
@@ -422,7 +406,7 @@ With the exception of EWA Triangle, tensor Triangle and EWA Lanczos3Sharpest, th
 Adjusting the `blur` (between 0.7 and 1.0) or `B` parameters (between 0.0 and 1.0) should obviate the need for [USM (Unsharp) Sharpening](../../resize/#resize_unsharp), a common final step when downsampling, or allow you to use less of it.
 Note however that low values of the `blur` and `B` parameters generally lead to considerable artefacts; high values, to blur.
 
-### Downsampling Examples
+### Downsampling Examples {#downsampling_examples}
 
 These examples use the [Smaller Rings Image](rings_sm_orig.gif) image also used in the [Aliasing and Moiré Effects](../#aliasing) section.
 Instead of resizing this 200x200 image down to 100x100, using sRGB values directly, we downsize to 101x101 through linear RGB.
@@ -435,7 +419,7 @@ Nonetheless, some of the filters manage a pretty good balance between sharpness 
 EWA LanczosSharp, EWA Quadratic, EWA Lanczos Radius 3 and EWA Robidoux also do well in this test.
 Generally, EWA methods have good moiré suppression.
 
-### Borderline Cases
+### Borderline Cases {#borderline}
 
 If you are changing the aspect ratio to the extent that you upsample (enlarge) in one direction and downsample (reduce) in the other, use a technique that works well in both situations, like linear light EWA LanczosSharp, tensor Ginseng, EWA Lanczos Radius 3, or EWA quadratic B-spline-windowed Jinc 3-lobe ("QuadraticJinc").
 
@@ -448,7 +432,7 @@ The usual EWA Lanczos Radius 3, EWA LanczosSharp and EWA QuadraticJinc work well
 Sigmoidization should be used sparingly (constrast&lt;5.5), if at all.
 In other words, you probably should stick to linear light when barely resizing, although the "should" is weaker than if you are shrinking a lot in one or both directions.
 
-### Feedback
+### Feedback {#feedback}
 
 I read positive and negative comments with interest.
 These recommendations are a work in progress, and consequently examples in which they fall short of expectations are particularly valuable.
@@ -460,16 +444,17 @@ For example, it appears that sigmoidization is not so good with "defective" imag
 Sending NicolasRobidoux a message through the [ImageMagick Forums System](../../forum_link.cgi?u=17521) is a good way to point me to a relevant post.
 Otherwise, try &lt;nicolas.robidoux@gmail.com&gt;.
 
-### Thanks
+### Thanks {#thanks}
 
 I (Nicolas Robidoux) thank John Cupitt, Henry HO, Bryant Moore, Mathias Rauen, Adam Turcotte, Dane Vandeputte, Luiz E. Vasconcellos and [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html) for useful comments, with special thanks to [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html) on whose shoulders I stood when developing EWA methods.
 Anthony and Cristy built quite a nice platform for image processing research.
 
-------------------------------------------------------------------------
-
-Created: 10 October 2012  
- Updated: 21 October 2012  
- Author: [Nicolas Robidoux](http://ca.linkedin.com/pub/nicolas-robidoux/40/3ab/b73), &lt;nicolas.robidoux@gmail.com&gt;  
- Formating: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/filter/nicolas/`
+---
+created: 10 October 2012  
+updated: 21 October 2012  
+author:
+- "[Nicolas Robidoux](http://ca.linkedin.com/pub/nicolas-robidoux/40/3ab/b73), &lt;nicolas.robidoux@gmail.com&gt;"
+- "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.8.0-5
+url: http://www.imagemagick.org/Usage/filter/nicolas/
+---
