@@ -1,48 +1,10 @@
 # Masks
 
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif)Alpha (Matte) Channel](#alpha_channel)
--   [Internal Matte Channel](#matte)
--   [Alpha Channel Operator](#alpha)
-    [`Off`](#alpha_off)  (or [+matte](#alpha_off)),  [`Set`](#alpha_set)  (or [`-matte`](#alpha_set)),  [`On`](#alpha_on),   
-     [`Opaque`](#alpha_opaque),  [`Transparent`](#alpha_transparent),  [`Extract`](#alpha_extract),  [`Copy`](#alpha_copy),   
-     [`Shape`](#alpha_shape),  [`Remove`](#alpha_remove),  [`Background`](#alpha_background)  
--   [Remove Transparency of an Image](#remove)
--   [Boolean Alpha Transparency](#boolean_transparency)
--   [Outline or Halo Transparency](#outline)
-
-[![](../img_www/granitesm_right.gif) Using Masks with Images](#masks)
--   [Editing a Image Mask](#editing)
--   [Masks as Colored Shapes](#shapes)
--   [Mathematical Composition](#compose)
--   [Masked Alpha Composition](#masked_compose)
--   [Aligning Two Masked Images](#aligning) (under construction)
-
-[![](../img_www/granitesm_right.gif) Special Image Masks](#special_masks)
--   [Write Mask - Protect Pixels form Change](#write_mask)
--   [Clip Mask and Clip Paths](#clip_mask)
--   [Read Masks - Ignore Pixel Input](#read_mask)
-
-[![](../img_www/granitesm_right.gif) Regions and Region Sub-Images](#regions)
--   [Warping a Local Region](#region_warping)
--   [How Regions Work, and its Problems](#region_internals)
-
-[![](../img_www/granitesm_right.gif) Background Removal](#bg_remove)
--   [Simple Backgrounds (floodfill)](#floodfill)
--   [Masking Bordered Objects](#border_cut)
--   [Removing a Known Background](#known_bgnd)
--   [Difference Image Masking and Feathering](#difference)
--   [Recovering Semi-Transparent Edges](#semi-trans)
--   [Background Removal using Two Backgrounds](#two_background)
-
-[![](../img_www/granitesm_right.gif) Hole\_Filling](#hole_filling) (under construction)
-
 In these examples, we look at the special handling of transparency, the transparency channel, using masks, and ultimatally the removal of unwanted backgrounds, or other elements, such as signs, text, spam.
 
 ------------------------------------------------------------------------
 
-## Alpha (matte) Channel
+## Alpha (matte) Channel {#alpha_channel}
 
 The transparency (alpha) channel of an image is completely optional, and often requires special handling separate to the normal 'color' channels.
 See [Image Color Space](../color_basics/#colorspace) above.
@@ -70,7 +32,7 @@ composite -compose Dst_Over -tile pattern:checkerboard \
 
 [![\[IM Output\]](moon_background.jpg)](moon_background.jpg)
 
-### Internal Matte Channel
+### Internal Matte Channel {#matte}
 
 Now, internally, IM v6 stores the transparency information in a 'matte' channel, which like the color channel, is just a plain greyscale image of values which range from white, for fully-transparent (or clear), to black for fully-opaque.
 It is sort of like what you would get if you look at a silhouette of the original image.
@@ -96,7 +58,7 @@ This technique for extracting the 'matte' of an image was common when IM v5 was 
 Basically, it was the the only method provided to get access to the transparency of an image.
 It is now very rarely used.
 
-### Controlling Image Transparency
+### Controlling Image Transparency {#alpha}
 
 There are two operators that give you low-level control of the transparency channel of an image in memory.
 The newer operator "`-alpha`" methods are now the recommended method of control, though many IM Examples still show and use the older "`-matte`" operator.
@@ -124,7 +86,7 @@ On the other hand, creating a canvas using some other [Color Name](../color_basi
   
 Here are the various "`-alpha`" methods and examples of how they affect images and their transparency.
 
-#### Alpha Off or "`+matte`"
+#### Alpha Off or "`+matte`" {#alpha_off}
 
 This is just a simple switch on the image, which turns off any effect the transparency has on the image.
 It does not actually delete or destroy the alpha channel attached to the image, it just turns off any effect that channel has on the image.
@@ -157,7 +119,7 @@ That is, it just turns off the transparency channel.
 Note that turning off alpha, is often required before using a gray-scale mask image with the [CopyOpacity](../compose/#copyopacity) Alpha composition method.
 If you don't do this, the compostion operator will copy the the enabled transparency (opacity channel) rather than use the intended grayscale colors.
 
-#### Alpha Set or "`-matte`"
+#### Alpha Set or "`-matte`" {#alpha_set}
 
 The '`Set`' alpha method is the same as the older "`-matte`" option.
 This ensures that the image has a 'transparency' or alpha/matte channel, but if it was not present or turned off, that it is initialised to be fully-opaque (See the [Alpha Opaque](#alpha_opaque) method below).
@@ -187,7 +149,7 @@ This is typically used **after reading images** from an unknown image file forma
 This operator will then ensure that the image does have an alpha channel (for image formats like JPEG), but leaving any enabled and existing alpha channel alone (such as for GIF or PNG formats).
 This is the recommended way of ensuring an image has an alpha channel after reading it into memory, or more importantly, after an image has been processed and you want to re-enable a clean alpha channel.
 
-#### Alpha On
+#### Alpha On {#alpha_on}
 
 The "`-alpha On`" is the exact opposite to the previously looked at [Alpha Off](#alpha_off) method.
 Typically, this is *too simplistic* for the purpose you are wanting and as such **should be very RARELY used**.
@@ -208,7 +170,7 @@ The only time [Alpha On](../option_link.cgi?alpha) should be used is when you pr
 For example, turning the alpha channel off then on can be used to preserve the alpha channel data before applying some very specific operators, such as "`-shade`".
 For an example of this special usage, see [Shaded Shape Images](../transform/#shade_shape).
 
-#### Alpha Opaque
+#### Alpha Opaque {#alpha_opaque}
 
 This method not only ensures the alpha channel is 'active' but that it is also completely opaque, regardless of if the image had transparency 'activated/on' or 'deactivated/off'.
 For example...
@@ -230,7 +192,7 @@ convert moon.png +matte -matte alpha_opaque_matte.png
 The original 'shape' of the image can no longer be recovered after this operation as the original alpha channel data has been overwritten.
 Of course, that is also equivalent to using "`-alpha off -alpha set`", though you may as well use "`-alpha opaque`" in that case.
 
-#### Alpha Transparent
+#### Alpha Transparent {#alpha_transparent}
 
 Similarly, this ensures the alpha channel is 'active' but also fully transparent.
 
@@ -251,7 +213,7 @@ convert moon.png  -alpha transparent  -alpha off  alpha_transparent_off.png
 Of course, the original 'shape' of the image was actually destroyed, so it can no longer be recovered after this operation.
 Other ways of making an image fully transparent are presented in [Transparent Canvas](../canvas/#transparent).
 
-#### Alpha Extract
+#### Alpha Extract {#alpha_extract}
 
 The '`Extract`' method will simply copy the 'alpha' mask of the image as a grayscale channel mask.
   
@@ -290,7 +252,7 @@ These 'gray' pixels are actually used to good effect in [Edge Outlines from Anti
 This side-effect of saving the alpha channel, has particular benefits when Using the [Shade Operator](../transform/#shade), which does not understand or use the alpha channel of an image.
 See the sub-section, [Masking Shaded Shapes](../transform/#shade_mask).
 
-#### Alpha Copy
+#### Alpha Copy {#alpha_copy}
 
 The '`Copy`' method is the reverse of '`Extract`', and essentially performs a [CopyOpacity](../compose/#copyopacity) against itself.
 That is it will turn a gray-scale image (regardless if its alpha channel is enabled or not) into a shape mask image.
@@ -305,7 +267,7 @@ It does not matter if the image had an existing alpha channel or not, all it doe
 Once you have a shape mask, you can use various [Color Tinting](../color_mods/#tinting) or [Duff-Porter](../compose/#duff-porter) alpha composition methods, to color it.
 For examples of using a shape mask see [Masks as Colored Shapes](#shapes).
 
-#### Alpha Shape
+#### Alpha Shape {#alpha_shape}
 
 To make use of a grayscale image easier, the '`Shape`' method not only creates a shape mask (as per [Alpha Extract](#alpha_extract), but will also color it using the current background color.
 
@@ -345,7 +307,7 @@ convert alpha_extract.png +level-colors Blue,Yellow level_color.png
 > :REMINDER:
 > The above will map the colors using a linear colorspace, and may need to be converted to sRGB at some point to get a more visually correct gradient of colors.
 
-#### Alpha Remove
+#### Alpha Remove {#alpha_remove}
 
 The "`-alpha Remove`" method (added to IMv6.7.5) is designed to remove the transparency from an image, using the current "`-background`".
 
@@ -361,7 +323,7 @@ This operation is simple and fast, and does the job without requiring any extra 
 It is thus the preferred way of removing image transparency.
 For other techniques, or if your Imagemagick is older than v6.7.5, then look at the larger discussion [Removing Transparency from Images](#remove)) below.
 
-#### Alpha Background
+#### Alpha Background {#alpha_background}
 
 As of IM v6.5.2-10, a '`Background`' method was made available that will set the hidden color of fully-transparent pixels to the current background color.
 Normally this color is of no consequence, as it can only be seen if the alpha channel is [turned off](#alpha_off).
@@ -410,7 +372,7 @@ That last method (see [Fuzz Factor and Transparent colors](../color_basics/#fuzz
 It will produce some data loss, but may improve compression in images with lots of near-fully-transparent colors.
 Often these nearly total transparent pixels can have very odd or wrong colors, and this method will allow you to remove such odd pixels before they cause other problems.
 
-### Removing Transparency from Images
+### Removing Transparency from Images {#remove}
 
 While the [Alpha Off](#alpha_off) will simply flip a switch and turn off the transparency channel.
 You can also get the same effect if you attempt to save the image into a file format that does not allow the use of transparency.
@@ -498,13 +460,13 @@ composite -compose Dst_Over -tile pattern:checkerboard \
 > When the virtual canvas is involved, you may need to look at the details of individual operators more closely.
 > In many cases the virtual canavs effects can be useful to your overall image processing.
 
-### Boolean Alpha Transparency
+### Boolean Alpha Transparency {#boolean_transparency}
 
 For some image file formats, you don't need to completely remove the alpha channel, but only allow pure on/off or boolean transparency.
 Index (Palette) image file formats such as [GIF](../formats/#gif) and [PNG8](../formats/#png_formats), are typical of this.
 Examples are currently looked at in [GIF Boolean Transparency](../formats/#boolean_trans), but should eventually move here.
 
-### Outline or Halo Transparency
+### Outline or Halo Transparency {#outline}
 
 Sometimes you will like to add a outline around an image containing transparency.
 One way is to use [EdgeOut Morphology](../morphology/#edgeout) to quickly get all the neighbouring pixels to the original image, color them, and then [Under (DstOver) Compose](../compose/#dstover) it with the original image.
@@ -537,14 +499,14 @@ This last is actually similar to using a [Soft Outline Compound Font](../fonts/#
 
 ------------------------------------------------------------------------
 
-## Using Masks with Images
+## Using Masks with Images {#masks}
 
 ### Masking An Image
 
 As shown previously, there are a couple of ways to mask an image, so as to make part of the image transparent.
 And which method you choose depends on the whether your image mask is a grayscale mask, or a shaped mask.
 
-### Editing an Image Mask
+### Editing an Image Mask {#editing}
 
 The mask of an image is a really useful thing to have.
 We can, for example, erase parts of an image very easily by modify a mask of the original image.
@@ -609,7 +571,7 @@ In actual fact, erasing parts of an image using [Alpha Composition Methods](../c
 It will not preserve it.
 After all, a transparent color is actually not a real color!
 
-### Masks as Colored Shapes
+### Masks as Colored Shapes {#shapes}
 
 An alternative to just using the mask to add or re-add transparency to an image is to actually combine the mask directly with images in various ways.
 For example, suppose we just want to use a mask as a symbol or shape we want to overlay onto an image in various colors.
@@ -684,7 +646,7 @@ For more examples of re-coloring a base image, see the whole section on [Color M
 See also [Drawing Symbols](../draw/#symbols) for an alternative method of marking specific locations in an image.
 As well as a [Pinning Maps Laying Example](../layers/#layer_pins) for a more automated layering techniques.
 
-### Mathematical Composition
+### Mathematical Composition {#compose}
 
 Rather than overlaying the mask onto some background, you may only be interested in coloring the image with just the white or black parts of the mask itself.
 This is relatively straightforward, simply by using some [Mathematical Alpha Composition Methods](../compose/#math) to change the color of the mask to match a color, tile or other image.
@@ -703,7 +665,7 @@ convert mask_bite.png -size 100x100   tile:tile_water.jpg  \
 
 The '`Multiply`' alpha composition method is especially useful for replacing the background of text images (i.e.: black text on white background), such as images generated from [Postscript Documents](../text/#postscript).
 
-### Masked Alpha Composition
+### Masked Alpha Composition {#masked_compose}
 
 The special three image form of [Masked Alpha Composition](../compose/#mask) allows you to use the same mask to directly merge two images together.
 
@@ -722,7 +684,7 @@ Remember the final size and meta-data of the resulting image will come from the 
 And finally, remember that if you use the "`composite`" command instead of "`convert`", the 'overlay' image (white parts) is given first with the 'background' image (black parts) second.
 In other words, the first two images need to be swapped for that command.
 
-### Aligning Two Masked Images
+### Aligning Two Masked Images {#aligning}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -822,9 +784,9 @@ In other words, the first two images need to be swapped for that command.
 
 ------------------------------------------------------------------------
 
-## Special Image Masks
+## Special Image Masks {#special_masks}
 
-### Write Masks - Protecting Pixels from Change
+### Write Masks - Protecting Pixels from Change {#write_mask}
 
 A 'write' or 'clip-mask' is a special greyscale image that is added to an existing image of the size size.
 It defines areas of the image which are to be classed as 'immutable' or 'not-writable' by most image processing operators.
@@ -900,7 +862,7 @@ One such example was discussed in the IM Discussion forum, [Cleaning up noise ar
 *NOTE: "`-crop`" should be able to preserve the image mask of individual images, by also cropping the mask and assigning to the new images.
 This however is currently not done.*
 
-### Clip Mask and Clip Paths
+### Clip Mask and Clip Paths {#clip_mask}
 
 The "`-clip-mask`" form of this operator, is almost exactly the same as the above but only provides a boolean (all-or-nothing) style of masking.
 As a result you can not achieve a 'blended' or smoothed result.
@@ -926,7 +888,9 @@ The newer "`-mask`" operator should be used instead.
 However, using both at the same time is not recommended, and results are not defined.
 Also this 'boolean mask' form has been removed from IMv7.
 
-### Clip Paths for TIFF images
+<a name="clip"></a>
+
+### Clip Paths for TIFF images {#clip-path}
 
 A 'clip path' is part of TIFF image file format, and defines a vector path that is used define a 'shaped area' within the TIFF image.
 In IM, the operators "`-clip`" and "`-clip-path`" read this 'clip-path' and convert it into a [Clip mask](#clip_mask) (above).
@@ -949,7 +913,7 @@ The "`+clip`" operator also turns off and removes the clip mask (just as "`+clip
 However, no file format saves the current clip mask with the image for any image file format.
 (At least in IMv6)
   
-### Read Masks - Ignore Pixel Input
+### Read Masks - Ignore Pixel Input {#read_mask}
 
 It is important to note that a write mask will limit what pixels will be written to an image.
 It does not, however, limit what pixels are being 'read' as part of the operation being performed, to create the new pixel data being written.
@@ -1014,7 +978,7 @@ True 'read masks' should be available IMv7 to make the above simply adding both 
 
 ------------------------------------------------------------------------
 
-## Regions and Region Sub-Images
+## Regions and Region Sub-Images {#regions}
 
 Regions are another way of limiting the effects of operations to a smaller area of an image.
 For example, here I color tint the whole rectangular region red...
@@ -1049,7 +1013,7 @@ In summary... A [Write Mask](#write_mask) will perform operations over the whole
 Note that there is nothing preventing you from using both of these methods together.
 Though if you apply a clipping mask to a region, the clipping mask should match the size of the region image that was extracted.
 
-### Warping a Local Region
+### Warping a Local Region {#region_warping}
 
 As an 'image region' actually extracts a 'small sub-image' of the original for processing, you can make use of the special 'localised' [Circular Distortions](../warping/#circular) to warp small regions of the original image.
 For example, here we have a line of stripes.
@@ -1085,7 +1049,7 @@ Note that when I used the [Wave Distortion](#wave), I had to crop the size of th
 Remember [Regions](#region) only work when used with [Simple Image Processing Operators](../basics/#option_simple).
 Any other operator including another "[`-region`](../option_link.cgi?region)" operator will cancel the region processing, before that operation is applied.
 
-### How Regions Work, and its Problems
+### How Regions Work, and its Problems {#region_internals}
 
 In reality the way regions work is...
 -   Extract from the image a smaller image according to the "[`-region`](../option_link.cgi?region)" operator, using a simple crop with the region argument.
@@ -1183,7 +1147,7 @@ Its removal or modification will not affect its restoration back onto the origin
 
 ------------------------------------------------------------------------
 
-## Background Removal
+## Background Removal {#bg_remove}
 
 One of the most common problems in image processing is mask generating from an existing fully-opaque image.
 Such images are commonly downloaded from the World Wide Web, or generated by programs, or in image formats that don't provide any form of transparency.
@@ -1194,7 +1158,7 @@ Consequentially there are hundreds of ways and variations on doing this task, al
 Closely related to image masking is transparency adjustments to match a background that an image is going to be overlaid on.
 This is talked about in detail as part of saving to the [GIF Image File Format](../formats/#gif) which only allows Boolean transparency.
 
-### Masking Simple Backgrounds (floodfill)
+### Masking Simple Backgrounds (floodfill) {#floodfill}
 
 When an image's background is a simple single solid color, you can often generate simple masks (and background removal) by just doing [Replacing Colors in Images](../color_basics/#replace).
 For example, here is a direct floodfill masking of an image with a solid color background.
@@ -1250,7 +1214,7 @@ convert cyclops_flood_3.png -background black -flatten \
 Also, if you do manage to use a high enough fuzz factor, you are likely to have the problem of having very little edging pixels left, or 'leaking' into the center of the image.
 Finally, a direct flood fill like this does not work for a background that isn't a simple single solid color.
 
-### Cutting Out Bordered Objects
+### Cutting Out Bordered Objects {#border_cut}
 
 Images with an existing single color border have a distinct advantage for these methods of background removal, as the border provides a definite boundary between what is 'inside' and what is 'outside' the image, and that in turn permits use of a better method of specifying the boundary of the background image.
 That is, rather than specifying what colors should be regarded as background, we can instead specify what colors mark the border of the object being masked.
@@ -1259,7 +1223,7 @@ That is, both colors are known, and so exactly how transparent the edges should 
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-### Removing a Known Background
+### Removing a Known Background {#known_bgnd}
 
 While removal of a simple background to a 'Boolean' mask, is relatively straightforward, things get more complicated when the background is not so simple.
 However, if the background itself is known, you can use that to help in its removal from other images.
@@ -1310,7 +1274,7 @@ As you can see, the '`ChangeMask`' composition method makes this process a lot e
 However, this only presents an 'on/off' style of background masking.
 It does not allow for fuzzy or anti-aliased edges, or transparent feathering of the result.
 
-### Difference Image Masking and Feathering
+### Difference Image Masking and Feathering {#difference}
 
 The above can be taken further to images that have aliased edges, as well as non-simple backgrounds.
 For example, Here we have a 'Cyclops' on a white background, which we want to extract.
@@ -1378,7 +1342,7 @@ This is also an example of [Blur Feathering](../blur/#feathering).
 But be warned that it is not quite the same as true [Feathering Shapes using Distance](../morphology/#distance_feather).
 However, when dealing with 'bitmap' or 'threshold masks' such as we created above, a small amount of blur feathering, followed by a larger amount of distance feathering, will probably produce the best overall result.
 
-### Recovering Semi-Transparent Edges
+### Recovering Semi-Transparent Edges {#semi-trans}
 
 The [Difference Masking](#difference) technique that we used above can be used with the previous [FloodFill Masking](#floodfill) technique to solve most of the problems we have seen with simpler masking techniques.
 Here we look at a multi-layered masking technique, but one that should produce near ideal removal of the image's background, while preserving the anti-alias shading pixels along the edge.
@@ -1542,7 +1506,7 @@ The image I used for this example is very difficult with a large 'edge' region.
 Most images are not nearly so bad, but this method is probably the best and most universal background removal technique.
 This has now been placed into a shell script called '`bg_removal`", which uses a single command, no temporary files, and has a number of extra options on the methods by which the masking is performed.
 
-### Background Removal using Two Backgrounds
+### Background Removal using Two Backgrounds {#two_background}
 
 The major problem with the previous techniques is that you really do not have enough information to completely recover all the information about the foreground object.
 You really need to recover two pieces of information, how transparent each pixel in the foreground object is, and what is its original color.
@@ -1555,7 +1519,9 @@ In that situation, you do have enough information to recover both the color and 
 The important factor in selecting two images, is that the background colors are as different as possible over the whole image.
 That is the colors are not only color complementary, but negative in intensity in all channels.
 For example...
-[![\[IM Input\]](match_navy.gif)](match_navy.gif) [![\[IM Input\]](match_gold.gif)](match_gold.gif)
+
+[![\[IM Input\]](match_navy.gif)](match_navy.gif)
+[![\[IM Input\]](match_gold.gif)](match_gold.gif)
 
 While a different background color is used, both images contain exactly the same object.
 The object shown is not simple, but contains lots of semi-transparent colors.
@@ -1684,7 +1650,7 @@ See the [IM Forum Discussion](../forum_link.cgi?t=18235) for more details.
 
 ------------------------------------------------------------------------
 
-## Hole Filling
+## Hole Filling {#hole_filling}
 
 While masking, adding transparency, and removing background provide one way of dealing with unwanted elements, often a 'hole' is not what you actually want as a result.
 Sure, you can just overlay images with holes over other images to fill them, but that may not provide a seamless result.
@@ -1692,10 +1658,10 @@ To erase elements from an image, you don't just want to cut them out, but replac
 And techniques for doing that is what we will look at here.
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-------------------------------------------------------------------------
-
-Created: 10 December 2003 (originally 'channels')  
- Updated: 10 March 2011  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/masking/`
+---
+created: 10 December 2003 (originally 'channels')  
+updated: 10 March 2011  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-5
+url: http://www.imagemagick.org/Usage/masking/
+---

@@ -1,45 +1,10 @@
 # Image Mapped Effects
 
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Introduction to Image Mapping](#intro)
-[![](../img_www/granitesm_right.gif) Color Lookup Tables](#color)
-[![](../img_www/granitesm_right.gif) Lighting Effects](#lighting)
-[![](../img_www/granitesm_right.gif) Multi-Image Masking](#multi-masking)
-[![](../img_www/granitesm_right.gif) Variable Blur Mapping](#blur)
--   [Elliptical Blurring](#blur_ellipse)
--   [Blur with Variable Aspect Ratio](#blur_aspect)
--   [Blur with Variable Angle](#blur_angle)
-
-[![](../img_www/granitesm_right.gif) Distorting Images using Image Mapping](#distort)
-[![](../img_www/granitesm_right.gif) Absolute Distortion Lookup Maps](#distortion_maps)
--   [Absolute Distortion Maps](#distortion_maps)
--   [Problems with Distortion Maps](#distortion_problems)
--   [Set a Undefined Pixel Border](#undefined_border)
--   [Hourglass Distortion Map](#hourglass)
--   [Set Undefined Pixels using a Mask](#undefined_masking)
--   [Unified Distortion Image](#distortion_unified)
--   [Spherical Distortion Map](#spherical)
--   [Circular Arc Distortion Map](#circlar_arc)
--   [Polar Distortion Map](#polar)
-
-[![](../img_www/granitesm_right.gif) Relative Displacement Lookup Maps](#displacement_maps)
--   [Relative Displacement Maps](#displacement_maps)
--   [Composite Displace Operator](#composite_displace)
--   [Simple Displacement Examples](#displace_simple)
--   [Displacement Graphing](#displace_graph)
--   [Area Displacement](#displace_areas)
--   [Rippled Water Reflections](#water_ripples)
-
-[![](../img_www/granitesm_right.gif) 2 Dimensional Displacement Maps](#displace_2d)
--   [Cylindrical Displacment](#displace_cylinder)
--   [Fractured Mirror](#displace_mirror)
-
 Distorting or modifying an image using some sort of secondary 'mapping' image that controls the process - be it replacing colors, variably blurring the image, or distorting images by specifying source coordinates absolutely or relatively.
 
 ------------------------------------------------------------------------
 
-## Introduction
+## Introduction {#intro}
 
 As you have seen in the previous sections on [Composition](../compose/), [Simple Warping](../warping/), and [Distorting](../distorts/), you can modify images in many different ways.
 However, they all are limited to the specific methods that have been built into ImageMagick.
@@ -68,7 +33,7 @@ That is to say you can apply it to a whole directory of images very quickly.
 In essence, what *Image Mapping* does is move the slow, and complex mathematics of a particular effect from a specific image, to a more general 'map' image.
 Once that 'map' is generated it can then be applied to a lot of actual images very quickly.
 
-### What are Image Maps
+### What are Image Maps {#image_maps}
 
 Mapping images are basically "Look Up Tables" or LUTs that define how a particular effect sould be applied to an image on an individual pixel by pixel basis.
 That is, whether an effect is applied, and to what degree, is completely controlled by the image map.
@@ -99,7 +64,7 @@ Once you have a map however you can use it many times.
 
 ------------------------------------------------------------------------
 
-## Color Lookup Tables
+## Color Lookup Tables {#color}
 
 Color Lookup Tables (CLUTs) are the simplest form of '*Image Mapping*' to understand.
 Basically a 'gray-scale' color value, of the source image, is used as a 'position' to lookup a replacement color value in a 'CLUT' which is simply a linear gradient of colors.
@@ -114,14 +79,14 @@ Another variation of this is the use a [Hald Color LUT](../color_mods/#hald) whi
 
 ------------------------------------------------------------------------
 
-## Lighting Effects
+## Lighting Effects {#lighting}
 
 This is simply lightening and/or darkening an image using an image map (a grayscale image), and is typically regarded as a fairly normal [Lighting Composition](../compose/#light).
 While it does not seem to be the case, it is still an image mapping technique.
 
 ------------------------------------------------------------------------
 
-## Multi-image Masking
+## Multi-image Masking {#multi-masking}
 
 With two images, you can make use of three image [Composite Masking](../compose/#mask), to use a 'mask' image to select which image is to supply the results.
 The 'mask' image is, in a sense, a very simple 'image map'.
@@ -143,7 +108,7 @@ The 'patterns' do not have to be small images, but could just as easily be full-
 
 ------------------------------------------------------------------------
 
-## Variable Blur Mapping
+## Variable Blur Mapping {#blur}
 
 Added to ImageMagick version 6.5.4-0, the "`-compose`" method '`Blur`' provides you with a method of replacing each individual pixel by an Elliptical Gaussian Average (a blur) of the neighbouring pixels, according to a mapping image.
 
@@ -214,7 +179,7 @@ That is, just because an area is not blurred does not mean that colors from that
 That is, colors from the unblurred area can 'leak' into the surrounding blurred areas.
 To blur a background without including foreground pixels, you need to use a [Read Mask Technique](../masking/#read_mask) to prevent them being read as part of the blur operation.
 
-### Elliptical Blurring
+### Elliptical Blurring {#blur_ellipse}
 
 The '`Blur`' compose setting uses a different technique to the normal [Blur or Gaussian Blur Operators](../blur/#blur), as it is implemented by using a Gaussian [Elliptical Area Resampling](../distorts/#area_resample) algorithm that was developed for scaled image resampling as part of [Generalized Distortion Operator](../distorts/#distort).
 
@@ -277,7 +242,7 @@ The image may appear very odd, but that is because the variable blur map is vert
 > Note that using long thin ellipses like this is actually a lot faster that using a single large circle.
 > In fact, the "`-blur`" operator gets its speed by using two separate horizontal and vertical blurs, whereas the "`-gaussian`" blur operator does a full 2 dimensional [convolution](../morphology/#convolve) in a simliar way to the '`Blur`' composition method just described.
 
-### Blur with Variable Aspect Ratio
+### Blur with Variable Aspect Ratio {#blur_aspect}
 
 So far, we have varied the size of the elliptical area used for the blur using 'blur map'.
 However, while the size of the ellipse and even its angle can be rotated, its shape and angle remain fixed.
@@ -322,7 +287,7 @@ convert black_circle.gif blur_map_aspect.gif \
 > :WARNING:
 > Before IM version 6.5.8-8 a bug was found in the handling of an angled vertical elliptical blur.
 
-### Blur with Variable Angle
+### Blur with Variable Angle {#blur_angle}
 
 So far, the angle of the ellipse used for blurring the image has been a constant angle over the whole image.
 That is the ellipse used for the blur has always been at the same angle, even though the aspect ratio of the ellipse can be varied by modifying the red and green channels of the blur map.
@@ -413,7 +378,7 @@ And with the use of templates you can create a whole library of blurring effects
 
 ------------------------------------------------------------------------
 
-## Distorting Images using Image Mapping
+## Distorting Images using Image Mapping {#distort}
 
 With the various distortion operators described in the previous sections of IM Exampled (such as [Simple Image Warping](../warping/) and [General Image Distortions](../distorts/)), you are restricted to just the various types distortions that have been programmed into the IM graphics library, generally using specific mathematical equations and formulas.
 
@@ -451,7 +416,7 @@ Both methods have advantages and disadvantages, as you will see.
 
 ------------------------------------------------------------------------
 
-## Absolute Distortion Lookup Maps
+## Absolute Distortion Lookup Maps {#distortion_maps}
 
 *FUTURE:*
 
@@ -521,7 +486,7 @@ convert koala.gif  map_compress.gif map_compress_y.gif \
 
 As you can see, the above recreated a variation of the implosion method, though only by compressing the images along the X and Y axis (simultaneously), rather than radially as the [Implode](#implode) operator does.
 
-#### The NO-OP Distortion Map revisited
+#### The NO-OP Distortion Map revisited {#noop_distortion_maps}
 
 Before we get any further, I would like to just step back a moment and have another look at the the 'noop' example above.
 This actually will blur the image slightly, as the formula as I have outlined is actually not exactly correct.
@@ -544,7 +509,7 @@ If the formula above is correct, the exact same original checker board pattern (
 However, it should be pointed out these slight inaccuracies are unimportant when you are actually applying a map with an actual distortion.
 As such, you can usually ignore this minor adjustment in the LUT mapping, unless such inaccuracies can become important, such as if you have undistorted areas in the LUT map you are applying that you want to preserve as accurately as possible.
 
-### Problems with Distortion Maps
+### Problems with Distortion Maps {#distortion_problems}
 
 The two maps we generated can, as in the previous example, be thought of as two separate distortions, one in the X direction and the other in the Y direction.
 In fact this is quite a valid thing to do.
@@ -594,7 +559,7 @@ And this represents the biggest problem with using an LUT to specify the absolut
 You have no way of specifying what IM should do in these undefined areas.
 You can't just specify an extra color as these are just a simple gray-scale image that uses the full range of values for the LUT.
 
-### Set an Undefined Pixel Border
+### Set an Undefined Pixel Border {#undefined_border}
 
 There are a number of ways to solve this 'undefined' pixel problem.
 The first, and probably the simplest, is to specify what color the pixels surrounding the image should be, using [Virtual Pixel Setting](../misc/#virtual).
@@ -614,7 +579,7 @@ convert koala.gif -virtual-pixel white \
 
 So, let's have a look at a particular example using this technique.
 
-### Hourglass Distortion Map
+### Hourglass Distortion Map {#hourglass}
 
 Now, I wanted a one dimensional distortion map, that scaled each row of the image differently based on that row's vertical coordinate... sort of producing a real carnival fun house mirror distortion that makes fat people look very thin.
 In other words, a sort of hourglass distortion.
@@ -673,7 +638,7 @@ This distortion map could be made even better by using a non-linear gradient so 
 
 *Anyone like to give this a go? Mail me.*
 
-### Set Undefined Pixels using a Mask
+### Set Undefined Pixels using a Mask {#undefined_masking}
 
 A more general way of solving the 'undefined pixel' problem, is to define a map of what pixels are actually a valid defined result in the distortion.
 In other words, a masking image.
@@ -691,7 +656,7 @@ convert distort_rot45_better.png map_rot45b_m.png \
 Now we have three images involved with the distortion map, and the results are getting very complex indeed.
 Of course, in a typical situation, you probably will not need to go that far, but for the general case you do.
 
-### Unified Distortion Image
+### Unified Distortion Image {#distortion_unified}
 
 You may, however, have noticed that all three maps are greyscale images.
 
@@ -728,7 +693,7 @@ One logical use for it is as a means to add highlights and shadows to the distor
 
 You can see this technique applied in the [Spherical Distortion Map](#spherical) example below.
 
-### Spherical Distortion Map
+### Spherical Distortion Map {#spherical}
 
 In the previous [Hourglass Distortion Map](#hourglass) example, I generated a gradient which was horizontally scaled by a cosine curve.
 With a little more work, you can generate a spherical shape instead...
@@ -816,7 +781,7 @@ convert mandrill_grid_sm.jpg   spherical_unified.png  \
 
 So now you can easily apply this distortion to lots of images, without needing all the original calculations and image processing used to generate the map.
 
-### Circular Arc Distortion Map
+### Circular Arc Distortion Map {#circlar_arc}
 
 Just to show just what is really possible by using positional distortion maps, here is an absolute distortion LUT, similar to what is provided by the ['Arc' Distortion Method](#arc) above.
 
@@ -860,7 +825,7 @@ Curved Text
 
 Of course, generating that distortion map was difficult, but once it has been done once, using any means you like (even artistically using an image editor like "`Gimp`" ), you can then reuse it on a huge number of images.
 
-### Polar Distortion Map
+### Polar Distortion Map {#polar}
 
 Sometimes you may need the destination image to be defined by the distortion map, rather than the source image, just to make things work correctly.
 
@@ -956,7 +921,7 @@ Try some of the other [Built-In Patterns](http://www.imagemagick.org/script/form
 
 ------------------------------------------------------------------------
 
-## Relative Lookup Displacement Maps
+## Relative Lookup Displacement Maps {#displacement_maps}
 
 As you can see, an [Absolute Distortion Map](#distortion_maps) is reasonably easy to create and use.
 However, it has a serious problem when a distortion has 'undefined' regions, or areas where the distortion goes 'outside' the normal bounds of the source image.
@@ -1036,7 +1001,7 @@ It is ideal for simple 'displacement' type distortions such as when generating e
 On the other hand, highly mathematical distortions such as 'polar', rotational, and 'perspective' distortions, or other real-world 3-d type mappings, are not easily achieved.
 That is not to say it is impossible, as later we will show that you can, in fact, convert between the two styles of maps - it is just more difficult.
 
-## Composite Displacement Operator
+## Composite Displacement Operator {#composite_displace}
 
 In the last example, the [DIY FX Operator](../transform/#fx) was used to do the displacement mapping.
 Naturally this is a very slow operator.
@@ -1077,7 +1042,7 @@ However,  the displacement map's offsets can still reference areas outside the o
 However, due to a quirk in the way in which the "`composite`" "`-tile`" setting works, you may not get quite the results you expect.
 It is thus not a recommended setting to use with [Displacement Mapping](#displacement_maps).
 
-### Simple Displacement Examples
+### Simple Displacement Examples {#displace_simple}
 
 A displacement map of raw areas of colors, without any smooth transition will generaly produce disjoint (discontinuous) displacements between the different areas in the resulting image, just as you saw above.
 
@@ -1173,7 +1138,7 @@ convert dismap_shrink.png  label.jpg -resize 200% miff:- |\
 
 A much better and smoother result.
 
-**Graphing a gradient**
+### Graphing a gradient {#displace_graph}
 
 Directly resulting from the above examples was an idea that by using Y displacements of a simple line, you can generate a graph of the colors of a displacement map.
 For example, here I generate a mathematical `sinc()` function (which is defined as '`sin(x)/x`'), and graph that gradient by using it as a displacement map...
@@ -1218,7 +1183,7 @@ composite  -   -displace 0x196  miff:- |\
 
 [![\[IM Output\]](displace_graph_3.gif)](displace_graph_3.gif)
 
-### Area Displacement (Linear)
+### Area Displacement (Linear) {#displace_areas}
 
 Let's try a more logical displacement problem... moving an area of an image in a straight line from one location to another.
 
@@ -1324,7 +1289,7 @@ But for larger displacements over a longer distance, a larger smooth gradient di
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-### Simple Displacement Morphing
+### Simple Displacement Morphing {#simple_morph}
 
     Modifying the Size of Displacement Vectors
 
@@ -1332,7 +1297,7 @@ But for larger displacements over a longer distance, a larger smooth gradient di
 
     Random 1D Displacements
 
-### Rippled Water Reflections
+### Rippled Water Reflections {#water_ripples}
 
 As mentioned before, displacement maps are especially useful for generating water and glass-like distortions.
 
@@ -1415,7 +1380,7 @@ Try it, experiment, and let me know what you come up with.
 
 ------------------------------------------------------------------------
 
-## 2-Dimensional Displacement Mapping
+## 2-Dimensional Displacement Mapping {#displace_2d}
 
 So far, all the displacement maps have only displaced the image in a single direction, though that direction can be at any angle by setting the appropriate '`XxY`' displacement value or 'vector'.
 
@@ -1440,7 +1405,7 @@ I am hoping to implement a nicer "`convert`" method for displacement mapping soo
 > It sometimes worked, and sometimes did not.
 > It is not recommended to attempt to even try to use it on IM's older than this version.
 
-### Cylindrical Displacement
+### Cylindrical Displacement {#displace_cylinder}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -1504,7 +1469,7 @@ I will annotate...
 
 This displacement distortion method has been built into the "`cylinderize`" script by Fred Weinhaus.
 
-### Fractured Mirror
+### Fractured Mirror {#displace_mirror}
 
 You can create a 'fractured mirror' look to an image by generating random areas of X and Y displacements.
 
@@ -1550,29 +1515,30 @@ That is, the cracks are also made visible.
 Of course, if I can find a better method of generating a more 'broken-like' displacement map, then the results of the above will also be a lot better.
 Ideas anyone? Mail me.
 
-### Shepards Displacement
+### Shepards Displacement {#shepards}
 
-### Random Displacements
+### Random Displacements {#random}
 
-### Lensing Effects
+### Lensing Effects {#lensing}
 
-### Frosted Glass Effects
+### Frosted Glass Effects {#frosted_glass}
 
-### Dispersion Effects (rotated displacements)
+### Dispersion Effects (rotated displacements) {#dispersion}
 
-### Dispersion Effects with Randomized Displacement
+### Dispersion Effects with Randomized Displacement {#dispersion_displace}
 
 ------------------------------------------------------------------------
 
 FUTURE: Other possible distort / displace mapping examples
+
 -   Raytrace a gradient onto 3D objects so that later ANY image can be be mapped onto those objects.
     -   X and Y gradient mapped images
     -   Pure Gray Image for color, highlights and shading
 
-------------------------------------------------------------------------
-
-Created: 14 January 2009 (distorts sub-division)  
- Updated: 25 December 2009  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/mapping/`
+---
+created: 14 January 2009 (distorts sub-division)  
+updated: 25 December 2009  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.7-7
+url: http://www.imagemagick.org/Usage/mapping/
+---

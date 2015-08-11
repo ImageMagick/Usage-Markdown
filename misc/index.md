@@ -1,36 +1,12 @@
 # Miscellaneous
 
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Interpolation](#interpolate) (Inter-pixel Color Lookups)
--   [Simple Interpolation Methods](#interpolate_simple)
--   [Bilinear](#bilinear),  [Mesh](#mesh),  [Catrom](#catrom),  [Spline](#spline)
--   [Interpolate on a Background](#interpolate_bgnd)
--   [Interpolate of a Rotated Line](#interpolate_line)
--   [Interpolate of a Rotate Edge](#interpolate_edge)
-
-[![](../img_www/granitesm_right.gif) Virtual Pixels](#virtual-pixel) (Missed-Image Color Lookups)
--   [Edge](#edge),  [Tile](#tile),  [Mirror](#mirror),  [Transparent](#transparent),  [Black](#black),  [Gray](#gray),  [White](#white),  [Background](#background),   
-     [HoriziontalTile](#horizontal_tile),  [HoriziontalTileEdge](#horizontal_edge),  [VerticalTile](#vertical_tile),  [VerticalTileEdge](#vertical_edge),   
-     [CheckerTile](#checker_tile),  [Random](#random),  [Dither](#dither)
--   [Virtual Pixel and Infinities](#virtual_infinities)
--   [Virtual Pixel Colors](#virtual_colors)
--   [Virtual Pixel Examples](#virtual_examples)
--   [Implosion Effects on Virtual Pixels](#virtual_implode)
-
-[![](../img_www/granitesm_right.gif) Random Spots of Solid Color](#spots)
-[![](../img_www/granitesm_right.gif) Annotate Argument Usage](#annotate) ![](../img_www/space.gif)
-[![](../img_www/granitesm_right.gif) Splice: Creating a New Image Operator](#splice)
-[![](../img_www/granitesm_right.gif) Border, Frame, and the use of BorderColor](#border)
-[![](../img_www/granitesm_right.gif) List Operator Testing](#list_test)
-
 This page consists of examples which test various aspects of ImageMagick, but which do not properly fit into the discussions on the other example pages - at least not formally.
 
 Also included on this page are some tables demonstrating the results of versions argument with specific IM operators. However other people have also done this, which unless I have something to add, I will not deal with further.
 
 ------------------------------------------------------------------------
 
-## Pixel Interpolation or Inter-pixel Color Lookup
+## Pixel Interpolation or Inter-pixel Color Lookup {#interpolate}
 
 The "`-interpolate`" setting is used when looking up a color in a source image, but that 'lookup point' falls between the pixels of the source image.
 This is done in various image operations, such as the "`-fx`" ([DIY Special Effects Operator](../transform/#fx)), and "`-distort`" ([Generalized Image Distortion Operator](../distorts/#distort)), as well as other related operators like the [Circular Distortions](../warping/#circular).
@@ -51,7 +27,7 @@ Of course, most area resampling algorithms tend to devolve to a interpolative me
 This is why [Interpolated Filters](../filter/#interpolated) and [Gaussian Blurring Filters](filter/#gaussian) tend to work better for enlarging images.
 Interpolation is basically a lower form of sampling, and is basically used when you want a simple and fast answer to the 'what color' question.
 
-### Simple Interpolation Methods
+### Simple Interpolation Methods {#interpolate_simple}
 
 These are straightforward, simple methods, that try to do as little as posible to return a color to use from a 'point interpolation'
 
@@ -128,7 +104,7 @@ Typically due to too small a support setting, or from playing with expert filter
 *FUTURE: Posible future interpolation option of "random" selection over the interpolated area.
 Could be useful for fancy interpolated effects!*
 
-### Bilinear
+#### Bilinear {#bilinear}
 
 '**`Bilinear`**' (or linear interpolation) is the **default interpolation method**, and probably one of the simplest ways of getting a real interpolated result, from combining colors of the pixels around the lookup or sampling point.
 Here is a diagram explaining how a bilinear interpolation works.
@@ -173,7 +149,7 @@ convert \( xc:blue xc:navy +append \) \
 
 The most important aspect of this default interpolation method, is that the very center pixel of the image will always be an average of all four corner colors, with perfect linear gradients at the edges, and exact color matching at the corners.
 
-### Mesh
+#### Mesh {#mesh}
 
 The "`-interpolate`" setting of '`Mesh`' is a variation of the '`Bilinear`' interpolation.
 Whereas '`Bilinear`' will produce a 3 dimensional curved surface, '`Mesh`' was designed to split the inter-pixel area into two flat triangular surfaces.
@@ -237,7 +213,7 @@ convert \( xc:blue xc:navy +append \) \
 As you can see, the result quite a reasonable gradient, though if you look hard you can see the diagonal join of the two separate triangles.
 The change isn't as smooth as bi-linear (which isn't exactly smooth either) but these do not try to preserve the sharp edges in resized or distorted images either.
 
-### Catrom (Catmull-Rom)
+#### Catrom (Catmull-Rom) {#catrom}
 
 The "`-interpolate`" setting of '`Catrom`' (generally imprecisely known as '`BiCubic`' interpolation), is more complex, in the determination of the colors of a point lookup.
 Basically, it does not just look at the colors in the corners of the inter-pixel area, but goes further to look at the colors beyond those nearest-neighbour pixels.
@@ -314,7 +290,7 @@ For more information and examples of this problem see [Resizing in LAB colorspac
 > Before IM v6.3.5-3 '`BiCubic`' was implemented as a very blurry '`Spline`' cubic interpolator.
 > That filter was renamed with this version of ImageMagick - see next.
 
-### Spline
+#### Spline {#spline}
 
 The '`Spline`' interpolation method, like '`Catrom`' above, also uses the nearest 16 pixels.
 However, this is a very blurry, Gaussian-like, interpolation.
@@ -366,7 +342,7 @@ Here you can see the effects of the color muting that results from the badly fit
 The results are generally fuzzier edges to colored areas, and thin lines.
 However, they also will never exhibit any negative 'ringing' effect that you may get with a '`Catrom`' interpolation.
 
-### Interpolation Background
+### Interpolation Background {#interpolate_bgnd}
 
 As the effects of interpolation are often over larger areas, here is an enlargement of the four main interpolation methods with white or black surrounding pixels.
 
@@ -405,7 +381,7 @@ The interpolated curve for '`catrom`' and '`spline`' is affected by the surround
 And finally, '`spline`' interpolation is really just gaussian-like blurring of the image (using a sigma of 0.65).
 Enough blurring to eliminate any 'ringing' or aliasing effect, though typically it is too blurry for most uses - see [Gaussian Filters](../filter/#gaussian).
 
-### Interpolation of a Rotated Line
+### Interpolation of a Rotated Line {#interpolate_line}
 
 Here I demonstrate the various interpolation methods by creating an image of a vertical line, and using an affine distortion to rotate the line by 17 degrees, then enlarging the view so you can see the anti-aliasing pixels generated.
 
@@ -442,7 +418,7 @@ However '`Spline`' tends to over blur the results, and is really more suited to 
   
 > Update: As of IMv6.7.3-4 the rotate operator is now internally using [Distort Operator](../distort/#distort), so the above many no longer be true.
 
-### Interpolation of a Rotated Edge
+### Interpolation of a Rotated Edge {#interpolate_edge}
 
 The results have a slight difference when the edge of an area is being distorted, compared to that of a single line of pixels.
 
@@ -467,7 +443,9 @@ Otherwise you will only see slight barely noticeable changes in pixel intensity.
 
 ------------------------------------------------------------------------
 
-## Virtual Pixels Missed Image Color Lookup
+## Virtual Pixels {#virtual_pixel}
+
+_Missed Image Color Lookup_
 
 Many operators often need to look-up colors which fall outside the boundaries of the image proper.
 This includes the operators for [Blurring Images](../blur/#blur), [General Image Distortion](../distorts/#distort), [Morphological and Convolution Operators](../morphology/), the [General Distortion Operator](../distorts/#distort), and even the very old [Implosion Operator](../warping/#implode).
@@ -486,6 +464,8 @@ convert -size 70x70 xc:  tree.gif \
 ~~~
 
 [![\[IM Output\]](virtual_default.gif)](virtual_default.gif)
+
+### Edge {#edge}
 
 '**`Edge`**' "`-virtual-pixel`" setting return the color of the the closest real pixel to the 'virtual' location requested.
 That is the nearest 'edge' color.
@@ -511,6 +491,8 @@ It is important to note how the color of the corner pixel, will end up completel
 This can result in the single corner pixel having a large effect on various image transformations.
 This 'corner' effect is especially noticeable when blurring images.
 
+### Tile {#tile}
+
 '**`Tile`**' Virtual Pixel setting is very useful for generating and ensuring the image processing edge effects are wrapped around the boundaries of the image.
 
 ~~~
@@ -523,6 +505,8 @@ convert tree.gif  -set option:distort:viewport 70x70-19-19 \
 
 This lets you ensure that images being worked on remain 'tileable', or become more 'tileable' as the image is modified.
 For further examples see [Modifying Tile Images](../canvas/#tile_mod).
+
+### Mirror {#mirror}
 
 '**`Mirror`**' is very similar to '`tile`' and may be better for some effects than the default '`edge`'.
 
@@ -543,6 +527,8 @@ However, it can also generate other effects.
 > This was fixed so the whole virtual canvas space is now correctly mirror tiled, not just the neighbouring virtual copies.
   
 > It only becomes important when using mirror tile with [General Distortion Operator](../distorts/#distort) to mirror tile a very large area, such as when [Viewing Distant Horizons](../distorts/#horizon).
+
+### Transparent {#transparent}
 
 '**`Transparent`**' just returns the transparent color for pixels outside the real image bounds.
 
@@ -569,6 +555,12 @@ convert tree.gif  -alpha off  -set option:distort:viewport 70x70-19-19 \
 
 The '`Transparent`' setting is particularly useful for image distortions, where the distorted image will later be 'layered' to build up larger images.
 For example, [3d Affine Cubes](../distorts/#cube3d), and [3d Perspective Boxes](../distorts/#cube3d).
+
+<a name="white"></a>
+<a name="gray"></a>
+<a name="black"></a>
+
+### White, Gray, and Black {#white_gray_black}
 
 The '**`white`**', '**`gray`**', and '**`black`**', settings are similar to the previous '`Transparent`' setting above.
 They just return that specific color for any pixel that falls out of bounds.
@@ -606,7 +598,9 @@ convert tree.gif  -set option:distort:viewport 70x70-19-19 \
 ~~~
 
 [![\[IM Output\]](virtual_bgnd.gif)](virtual_bgnd.gif)
-  
+
+### Horizontal Tile {#horizontal_tile}
+
 '**`HorizontalTile`**' VP setting was added to IM v6.4.2-6 as a special form of tiling that is useful for full 360 degree "`Arc`" and "`Polar`" distortions.
 The image is only tiled horizontally, while the virtual pixels above and below the tiles are set from the current "`-background`" color.
 
@@ -621,6 +615,8 @@ convert tree.gif  -set option:distort:viewport 70x70-19-19 \
 This lets you ensure that images being transformed remain 'tileable' horizontally.
 For further examples see [Modifying Tile Images](../canvas/#tile_mod).
 
+### Horizontal Tile Edge {#horizontal_edge}
+
 The '**`HorizontalTileEdge`**' (added in IM v6.5.0-1) also tiles the image horizontally across the virtual space, but replicates the side edge pixels across the other parts of the virtual canvas space.
 
 ~~~
@@ -632,7 +628,9 @@ convert tree.gif  -set option:distort:viewport 70x70-19-19 \
 [![\[IM Output\]](virtual_horizontal_edge.gif)](virtual_horizontal_edge.gif)
 
 These two VP methods were added for better handling of full circle '`Arc`' and '`Polar`' distortions where the en-circled image 'wraps around' and joins together end to end.
-  
+
+### Vertical Tile {#vertical_tile}
+
 Similarly the '**`VerticalTile`**' Virtual Pixel setting (also added IM v6.4.2-6, for completeness) tiles the image vertically only, with the current "`-background`" color used to fill in the sides of the image.
 
 ~~~
@@ -643,6 +641,8 @@ convert tree.gif  -set option:distort:viewport 70x70-19-19 \
 
 [![\[IM Output\]](virtual_vertical.gif)](virtual_vertical.gif)
 
+### Vertical Tile Edge {#vertical_edge}
+
 The '**`VerticalTileEdge`**' was added in IM v6.5.0-1, and replicates the side edge pixels across the rest of the virtual canvas space.
 
 ~~~
@@ -652,6 +652,8 @@ convert tree.gif  -set option:distort:viewport 70x70-19-19 \
 ~~~
 
 [![\[IM Output\]](virtual_vertical_edge.gif)](virtual_vertical_edge.gif)
+
+### Checker Tile {#checker_tile}
 
 In IM v6.5.0-1 '**`CheckerTile`**' was added to tile an image as if filling in a checkerboard pattern.
 The other squares are simply filled with the background color (which may be transparent).
@@ -678,6 +680,8 @@ convert -size 96x96 tile:balloon.gif \
   
 There are also a couple of more unusual "`-virtual-pixel`" settings.
 
+### Random {#random}
+
 '**`random`**', just picks a random pixel from the image to use.
 
 ~~~
@@ -696,7 +700,9 @@ This is especially bad when used with [Convolution](../convolve) or [Morphology]
 
 I have however found the random pattern to be very good when generating a [Perspective Horizion](../distorts/#horizon) as the pattern shows a more blurred result as you get closer to the horizon.
 The bluring gives the random pattern depth that would otherwise not be visible if using a simple solid color.
-  
+
+### Dither {#dither}
+
 '**`dither`**' however returns an ordered dithered pattern of colors based on pixels within 32x32 pixels of the requested position.
   
 That means that once you have progressed beyond 32 pixels from the image, the result will be again just the corner pixel color of the image.
@@ -718,8 +724,8 @@ If this image was larger, the yellow sun color would not reach the other corners
 
 This pattern is not 'random' and will always generate the same result for the same image.
 You could think of it as a more ordered form of '`random`' Virtual Pixel close to the image, but becomes more like '`edge`' in effect once you process further than 32 pixels from the image proper.
-  
-#### Virtual Pixel and Infinities
+
+### Virtual Pixel and Infinities {#virtual_infinities}
 
 You can see the effects of "`-virtual-pixel`" much more clearly in the results the [General Distortion Operator](../distorts/#distort), and especially with a [Perspective](../distorts/#perspective) distortion, allowing you to create a distorted view out toward an infinite distance.
 
@@ -741,14 +747,14 @@ Some other examples can also be seen in [Viewing Distant Horizons](../distorts/#
 Note that the 'sky' in the above view is actually generated from the "`-mattecolor`" setting, which is used by distort to represent areas that are 'Invalid', in this case the 'sky' of a perspective distortion.
 It did not come from the "`-virtual-pixel`" setting.
 
-#### Virtual Pixel Colors
+### Virtual Pixel Colors {#virtual_colors}
 
 None of the "`-virtual-pixel`" methods actually return a different or composite color to what is already present within the image, unless that color was specifically requested via one of the solid color methods: '`background`', '`transparent`', '`background`', '`black`', '`white`', '`gray`'.
 That is, no new colors are ever generated, though one specific color could be added (two for the [General Distortion Operator](../distorts/#distort)).
 
 Of course, if the requested pixels are being [Pixel Interpolated](#interpolate), or [Area Resampled](../distorts/#area_resample), such as in the perspective distorted view above, then those methods may merge the colors returned according ot the "`-virtual-pixel`" setting chosen.
 
-#### Virtual Pixel Effects on Operators
+### Virtual Pixel Effects on Operators {#virtual_examples}
 
 Here I explore the effects of the effects of "`-virtual-pixel`" setting with various operators.
 
@@ -851,7 +857,7 @@ convert -size 70x70 xc:none  -virtual-pixel background -background blue \
 
 [![\[IM Output\]](vp_motion_3.png)](vp_motion_3.png)
 
-### Implosion Effects of Virtual Pixels
+### Implosion Effects of Virtual Pixels {#virtual_implode}
 
 Here are some more interesting examples of various large value (&gt;1.0) implosions using various "[`-virtual-pixel`](../option_link.cgi?virtual-pixel)" settings.
 
@@ -864,48 +870,13 @@ for v in edge tile mirror dither random gray; do
 done
 ~~~
 
-Implode
-Edge
-Tile
-Mirror
-Dither
-Random
-Gray
-2
-[![\[IM Output\]](implode_edge_2.gif)](implode_edge_2.gif)
-[![\[IM Output\]](implode_tile_2.gif)](implode_tile_2.gif)
-[![\[IM Output\]](implode_mirror_2.gif)](implode_mirror_2.gif)
-[![\[IM Output\]](implode_dither_2.gif)](implode_dither_2.gif)
-[![\[IM Output\]](implode_random_2.gif)](implode_random_2.gif)
-[![\[IM Output\]](implode_gray_2.gif)](implode_gray_2.gif)
-5
-[![\[IM Output\]](implode_edge_5.gif)](implode_edge_5.gif)
-[![\[IM Output\]](implode_tile_5.gif)](implode_tile_5.gif)
-[![\[IM Output\]](implode_mirror_5.gif)](implode_mirror_5.gif)
-[![\[IM Output\]](implode_dither_5.gif)](implode_dither_5.gif)
-[![\[IM Output\]](implode_random_5.gif)](implode_random_5.gif)
-[![\[IM Output\]](implode_gray_5.gif)](implode_gray_5.gif)
-10
-[![\[IM Output\]](implode_edge_10.gif)](implode_edge_10.gif)
-[![\[IM Output\]](implode_tile_10.gif)](implode_tile_10.gif)
-[![\[IM Output\]](implode_mirror_10.gif)](implode_mirror_10.gif)
-[![\[IM Output\]](implode_dither_10.gif)](implode_dither_10.gif)
-[![\[IM Output\]](implode_random_10.gif)](implode_random_10.gif)
-[![\[IM Output\]](implode_gray_10.gif)](implode_gray_10.gif)
-50
-[![\[IM Output\]](implode_edge_50.gif)](implode_edge_50.gif)
-[![\[IM Output\]](implode_tile_50.gif)](implode_tile_50.gif)
-[![\[IM Output\]](implode_mirror_50.gif)](implode_mirror_50.gif)
-[![\[IM Output\]](implode_dither_50.gif)](implode_dither_50.gif)
-[![\[IM Output\]](implode_random_50.gif)](implode_random_50.gif)
-[![\[IM Output\]](implode_gray_50.gif)](implode_gray_50.gif)
-500
-[![\[IM Output\]](implode_edge_500.gif)](implode_edge_500.gif)
-[![\[IM Output\]](implode_tile_500.gif)](implode_tile_500.gif)
-[![\[IM Output\]](implode_mirror_500.gif)](implode_mirror_500.gif)
-[![\[IM Output\]](implode_dither_500.gif)](implode_dither_500.gif)
-[![\[IM Output\]](implode_random_500.gif)](implode_random_500.gif)
-[![\[IM Output\]](implode_gray_500.gif)](implode_gray_500.gif)
+| Implode | Edge                      | Tile                      | Mirror                      | Dither                      | Random                      | Gray                      |
+|:-------:|---------------------------|---------------------------|-----------------------------|-----------------------------|-----------------------------|---------------------------|
+| 2       | ![](implode_edge_2.gif)   | ![](implode_tile_2.gif)   | ![](implode_mirror_2.gif)   | ![](implode_dither_2.gif)   | ![](implode_random_2.gif)   | ![](implode_gray_2.gif)   |
+| 5       | ![](implode_edge_5.gif)   | ![](implode_tile_5.gif)   | ![](implode_mirror_5.gif)   | ![](implode_dither_5.gif)   | ![](implode_random_5.gif)   | ![](implode_gray_5.gif)   |
+| 10      | ![](implode_edge_10.gif)  | ![](implode_tile_10.gif)  | ![](implode_mirror_10.gif)  | ![](implode_dither_10.gif)  | ![](implode_random_10.gif)  | ![](implode_gray_10.gif)  |
+| 50      | ![](implode_edge_50.gif)  | ![](implode_tile_50.gif)  | ![](implode_mirror_50.gif)  | ![](implode_dither_50.gif)  | ![](implode_random_50.gif)  | ![](implode_gray_50.gif)  |
+| 500     | ![](implode_edge_500.gif) | ![](implode_tile_500.gif) | ![](implode_mirror_500.gif) | ![](implode_dither_500.gif) | ![](implode_random_500.gif) | ![](implode_gray_500.gif) |
 
 The 'dotty' nature of the above is a direct result of the direct 'interpolated sampling' used by the "[`-implode`](../option_link.cgi?implode)" operator - see [Direct Interpolated Lookup](../distorts/#lookup).
 This may change in a future version of IM, using [Area Resampling](../distorts/#area_resample).
@@ -921,7 +892,7 @@ Using such large values is an effect we do not recommend you use.
 
 ------------------------------------------------------------------------
 
-## Random Spots of Solid Color
+## Random Spots of Solid Color {#spots}
 
 By blurring a "`plasma:fractal`" canvas, then reducing the colors to very low values you can produce simple images containing random areas of different colors.
 However the results are highly variable depending on the final number of colors requested and the [Virtual Pixel](#virtual) setting (see above).
@@ -948,51 +919,12 @@ for n in 2 3 4 5; do
 done
 ~~~
 
-[![\[IM Output\]](spot2_edge.gif)](spot2_edge.gif)
-  
-[![\[IM Output\]](spot2_mirror.gif)](spot2_mirror.gif)
-  
-[![\[IM Output\]](spot2_tile.gif)](spot2_tile.gif)
-  
-[![\[IM Output\]](spot2_white.gif)](spot2_white.gif)
-  
-[![\[IM Output\]](spot2_black.gif)](spot2_black.gif)
-  
-3
-  
-[![\[IM Output\]](spot3_edge.gif)](spot3_edge.gif)
-  
-[![\[IM Output\]](spot3_mirror.gif)](spot3_mirror.gif)
-  
-[![\[IM Output\]](spot3_tile.gif)](spot3_tile.gif)
-  
-[![\[IM Output\]](spot3_white.gif)](spot3_white.gif)
-  
-[![\[IM Output\]](spot3_black.gif)](spot3_black.gif)
-  
-4
-  
-[![\[IM Output\]](spot4_edge.gif)](spot4_edge.gif)
-  
-[![\[IM Output\]](spot4_mirror.gif)](spot4_mirror.gif)
-  
-[![\[IM Output\]](spot4_tile.gif)](spot4_tile.gif)
-  
-[![\[IM Output\]](spot4_white.gif)](spot4_white.gif)
-  
-[![\[IM Output\]](spot4_black.gif)](spot4_black.gif)
-  
-5
-  
-[![\[IM Output\]](spot5_edge.gif)](spot5_edge.gif)
-  
-[![\[IM Output\]](spot5_mirror.gif)](spot5_mirror.gif)
-  
-[![\[IM Output\]](spot5_tile.gif)](spot5_tile.gif)
-  
-[![\[IM Output\]](spot5_white.gif)](spot5_white.gif)
-  
-[![\[IM Output\]](spot5_black.gif)](spot5_black.gif)
+| Num Colors | Edge                | Mirror                | Tile                | White                | Black                |
+|:-----------|---------------------|-----------------------|---------------------|----------------------|----------------------|
+| 2          | ![](spot2_edge.gif) | ![](spot2_mirror.gif) | ![](spot2_tile.gif) | ![](spot2_white.gif) | ![](spot2_black.gif) |
+| 3          | ![](spot3_edge.gif) | ![](spot3_mirror.gif) | ![](spot3_tile.gif) | ![](spot3_white.gif) | ![](spot3_black.gif) |
+| 4          | ![](spot4_edge.gif) | ![](spot4_mirror.gif) | ![](spot4_tile.gif) | ![](spot4_white.gif) | ![](spot4_black.gif) |
+| 5          | ![](spot5_edge.gif) | ![](spot5_mirror.gif) | ![](spot5_tile.gif) | ![](spot5_white.gif) | ![](spot5_black.gif) |
 
 The first three images have very specific effects on how the color 'spots' interact with the edges of the image.
 '`Edge`' and '`Mirror`' tend to cause the colors to join the edges at 90 degree angles.
@@ -1012,66 +944,14 @@ A small blur producing lots of small spots, a large blur, such as we used in the
   
 You can also produce a completely different set of colors and interactions by using a different color quantization color space.
 For example, here I repeat the last example (reducing to 5 colors) from above but use some more unusal "`-quantize`" color spaces for color selection - see [Color Quantization and ColorSpace](../quantize/#quantize).
-  
-RGB
-  
-[![\[IM Output\]](spot_RGB_edge.gif)](spot_RGB_edge.gif)
-  
-[![\[IM Output\]](spot_RGB_mirror.gif)](spot_RGB_mirror.gif)
-  
-[![\[IM Output\]](spot_RGB_tile.gif)](spot_RGB_tile.gif)
-  
-[![\[IM Output\]](spot_RGB_white.gif)](spot_RGB_white.gif)
-  
-[![\[IM Output\]](spot_RGB_black.gif)](spot_RGB_black.gif)
-  
-YIQ
-  
-[![\[IM Output\]](spot_YIQ_edge.gif)](spot_YIQ_edge.gif)
-  
-[![\[IM Output\]](spot_YIQ_mirror.gif)](spot_YIQ_mirror.gif)
-  
-[![\[IM Output\]](spot_YIQ_tile.gif)](spot_YIQ_tile.gif)
-  
-[![\[IM Output\]](spot_YIQ_white.gif)](spot_YIQ_white.gif)
-  
-[![\[IM Output\]](spot_YIQ_black.gif)](spot_YIQ_black.gif)
-  
-HSL
-  
-[![\[IM Output\]](spot_HSL_edge.gif)](spot_HSL_edge.gif)
-  
-[![\[IM Output\]](spot_HSL_mirror.gif)](spot_HSL_mirror.gif)
-  
-[![\[IM Output\]](spot_HSL_tile.gif)](spot_HSL_tile.gif)
-  
-[![\[IM Output\]](spot_HSL_white.gif)](spot_HSL_white.gif)
-  
-[![\[IM Output\]](spot_HSL_black.gif)](spot_HSL_black.gif)
-  
-XYZ
-  
-[![\[IM Output\]](spot_XYZ_edge.gif)](spot_XYZ_edge.gif)
-  
-[![\[IM Output\]](spot_XYZ_mirror.gif)](spot_XYZ_mirror.gif)
-  
-[![\[IM Output\]](spot_XYZ_tile.gif)](spot_XYZ_tile.gif)
-  
-[![\[IM Output\]](spot_XYZ_white.gif)](spot_XYZ_white.gif)
-  
-[![\[IM Output\]](spot_XYZ_black.gif)](spot_XYZ_black.gif)
-  
-OHTA
-  
-[![\[IM Output\]](spot_OHTA_edge.gif)](spot_OHTA_edge.gif)
-  
-[![\[IM Output\]](spot_OHTA_mirror.gif)](spot_OHTA_mirror.gif)
-  
-[![\[IM Output\]](spot_OHTA_tile.gif)](spot_OHTA_tile.gif)
-  
-[![\[IM Output\]](spot_OHTA_white.gif)](spot_OHTA_white.gif)
-  
-[![\[IM Output\]](spot_OHTA_black.gif)](spot_OHTA_black.gif)
+
+| Color Space | Edge                    | Mirror                    | Tile                    | White                    | Black                    |
+|:------------|-------------------------|---------------------------|-------------------------|--------------------------|--------------------------|
+| RGB         | ![](spot_RGB_edge.gif)  | ![](spot_RGB_mirror.gif)  | ![](spot_RGB_tile.gif)  | ![](spot_RGB_white.gif)  | ![](spot_RGB_black.gif)  |
+| YIQ         | ![](spot_YIQ_edge.gif)  | ![](spot_YIQ_mirror.gif)  | ![](spot_YIQ_tile.gif)  | ![](spot_YIQ_white.gif)  | ![](spot_YIQ_black.gif)  |
+| HSL         | ![](spot_HSL_edge.gif)  | ![](spot_HSL_mirror.gif)  | ![](spot_HSL_tile.gif)  | ![](spot_HSL_white.gif)  | ![](spot_HSL_black.gif)  |
+| XYZ         | ![](spot_XYZ_edge.gif)  | ![](spot_XYZ_mirror.gif)  | ![](spot_XYZ_tile.gif)  | ![](spot_XYZ_white.gif)  | ![](spot_XYZ_black.gif)  |
+| OHTA        | ![](spot_OHTA_edge.gif) | ![](spot_OHTA_mirror.gif) | ![](spot_OHTA_tile.gif) | ![](spot_OHTA_white.gif) | ![](spot_OHTA_black.gif) |
 
 Remember all the above images were generated from the same randomized source image.
 The different effects you see are the results of different ways of reducing the number of colors in the image.
@@ -1080,7 +960,7 @@ You can see how the "`-virtual-pixel`" setting defining what pixel colors blur s
 
 ------------------------------------------------------------------------
 
-## Annotate Argument Usage
+## Annotate Argument Usage {#annotate}
 
 IM Version 6 provided a new command line option for text drawing "`-annotate`" which bypasses the older "`-draw`" method to use the `Annotate()` API directly.
 This provides some new features to command line users.
@@ -1116,7 +996,7 @@ A most useful image operator.
 
 ------------------------------------------------------------------------
 
-## Splice: Creating a New Image Operator
+## Splice: Creating a New Image Operator {#splice}
 
 Just after the first release of ImageMagick version 6, a discussion developed in response to a question on the [ImageMagick Mailing List](http://www.imagemagick.org/script/mailing-list.php).
 The question involved adding extra space (rows and columns) into the middle of an image.
@@ -1146,7 +1026,7 @@ In older releases of IM, this would have required a large number of separate com
 
 ------------------------------------------------------------------------
 
-## Border, Frame, and the use of BorderColor
+## Border, Frame, and the use of BorderColor {#border}
 
 There is a debate, that "`-bordercolor`" should only be used to only add a border to images with the "`-border`" or "`-frame`".
 That is, many users think it should *not* be used to set the background behind images with transparency.
@@ -1205,7 +1085,7 @@ It may not be obvious to new users, but then that is what these example pages ar
 
 ------------------------------------------------------------------------
 
-## List Operator Testing
+## List Operator Testing {#list_test}
 
 All the following commands should produce exactly the same image, but all images are produced in slightly different ways, demonstrating the new, IM version 6, [Image List Operators](../basics/#image_list).
 
@@ -1385,10 +1265,10 @@ convert storm.gif news.gif eye.gif -reverse +append  list_test_27.gif
 
 [![\[IM Output\]](list_test_27.gif)](list_test_27.gif)
 
-------------------------------------------------------------------------
-
-Created: 6 November 2004  
-Updated: 13 March 2008  
-Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
-Examples Generated with: ![\[version image\]](version.gif)  
-URL: `http://www.imagemagick.org/Usage/misc/`
+---
+created: 6 November 2004  
+updated: 13 March 2008  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-8
+url: http://www.imagemagick.org/Usage/misc/
+---
