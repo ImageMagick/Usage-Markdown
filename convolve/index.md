@@ -1,53 +1,11 @@
 # Convolution of Images
-<!--
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Introduction to Convolution](#intro)
--   [Convolve](#convolve)
--   [Convolve Kernel Scaling](#kernel_scaling)
--   [Kernel Normalization (Automatic Scaling)](#normalize)
--   [Zero-Summing Normalization](#zero-summing_normalization)
--   [Blending Kernel with the Identity Kernel](#identity_addition)
--   [Output result Bias Control](#bias)
-
-[![](../img_www/granitesm_right.gif) Blurring Images](#blurring_images) (Low-Pass Filtering)
--   [Blurring Kernels](#blurring_kernels)
-    -   [`Unity` or Identity Kernel](#unity)
-    -   [Shaped Mean or Average Kernel](#mean)
-    -   [`Gaussian` Blurring Kernel](#gaussian)
-    -   [Linear 1D Gaussian (`Blur`)](#blur)
-    -   [Half Gaussian (`Comet`)](#comet)
--   [Gaussian vs Blur Kernels](#gaussian_vs_blur)
--   [Softened Blurring](#soft_blur) (blending with original image)
--   ['Un-sharpen' Images using Blurs](#unsharpen) (subtracting from the original image)
-
-[![](../img_www/granitesm_right.gif) Edge Detection Convolutions](#edgedet) (High-Pass Filtering)
--   [Edge Detection Kernels](#edgedet_kernels)
-    -   [Laplacian Of Gaussians (`LoG`)](#log)
-    -   [Difference Of Gaussians (`DoG`)](#dog)
-    -   [Discrete `Laplacian` Kernels](#laplacian)
--   [Sharpening Images with Edge Detection](#sharpening) (enhancing the edges of the original image)
-
-[![](../img_www/granitesm_right.gif) Directional Convolutions](#directional) (Slopes, Compass Filtering)
--   [Directional Kernels](#directional_kernels)
-    -   [`Sobel`](#sobel),  [`Roberts`](#roberts),  [`Prewitt`](#prewitt),  [`Compass`](#compass),  [`Kirsch`](#kirsch),  [`FreiChen`](#freichen)
-
-[![](../img_www/granitesm_right.gif) Correlate](#correlate)
--   [Convolve vs Correlate](#convolve_vs_correlate) (asymmetrical kernel effects)
--   [Correlation and Shape Searching](#correlate_search)
--   [Correlate vs HitAndMiss](#correlate_vs_hitandmiss)
-
-[![](../img_www/granitesm_right.gif) Neighbour Counting](#neighbours)
--   [Counting Neighbours](#counting)
--   [The Game of Life](#life)
--->
 
 Convolution uses the local 'neighbourhood' of pixels to modify images$1\nIt does this by merging and averaging all the color values around each pixel to blur images, to highlight edges and boundaries, and sharpen images.
 The convolution variation, 'Correlation' is also used for scanning and searching for specific patterns, producing a image denoting how closely images matches.
 
 ------------------------------------------------------------------------
 
-## Introdution to Convolution
+## Introduction to Convolution {#intro}
 
 The '`Convolve`' and the closely related '`Correlate`' methods, are is many ways very similar to [Morphology](../morphology/#intro).
 In fact they work in almost the exactly the same way, matching up a heighbourhood 'kernel' at each location, making them a just another special 'method' of morphology.
@@ -69,7 +27,7 @@ Both 'convolve' and 'correlate' are the same operation, except in a very minor b
 Later (See [Convolution vs Correlation](#convolve_vs_correlate)) we will examine exactly how the two operators really differ and why they differ in such a minor way.
 But in most circumstances they are the same method.
   
-### Convolve   ( ![](../img_www/mph_convolve.gif) )
+### Convolve ( ![](../img_www/mph_convolve.gif) ) {#convolve}
 
 As was mentioned above the '`Convolve`' method works by weighting each of the pixels in the local neighbourhood, according to the floating point values in the kernel.
 The weighted values are then simply added together to produce the new replacement pixel in the resulting image.
@@ -156,7 +114,7 @@ If you like to see some great examples of how '`Convolve`' actually does works, 
 
 The [Wikipedia, Convolve](http://en.wikipedia.org/wiki/Convolve) article has some nice 1-D animations of the convolution process.
 
-### Convolve Kernel Scaling
+### Convolve Kernel Scaling {#kernel_scaling}
 
 The above example works well for a mostly black image such as a single pixel, but if you were to apply this to a real image, you will have a problem...
 
@@ -223,7 +181,7 @@ Actually what this does is adjusts the overall intensity of the kernel results.
 As you will see in later examples, you will probably want to make the convolution result more or less powerful.
 This '*kernel\_scale*' factor lets you do that.
 
-### Kernel Normalization (automatic scaling)
+### Kernel Normalization (automatic scaling) {#normalize}
 
 Rather then working out the scaling factor (as above), you can simply ask the IM to work out this 'normalize scaling factor' internally by giving it the special '`!`' normalization flag.
 
@@ -264,7 +222,7 @@ For an example of this see ['Un-Sharpening' Images using Blurs](#unsharpen).
 
 If the kernel has been normalized in this way the [Show Kernel](../morphology/#showkernel) output will tell you that it is normalized.
 
-#### How Normalization Works
+#### How Normalization Works {#normalize_how}
 
 The actual way '*Kernel Normalization*' works is that all the kernel values are added together (including any negative values which is also posible).
 If the result is non-zero, then scale all the values so that their combined value adds up to a value of one ('`1.0`').
@@ -288,7 +246,7 @@ This includes the kernels: '`Laplacian`', '`Sobel`', '`Roberts`', '`Prewitt`', '
 Note that the '`FreiChen`' kernel has sub-types that are specially pre-weighted for more specific purposes.
 The FreiChen kernels should not be normalized, but used as is.
 
-### Zero-Summing Normalization
+### Zero-Summing Normalization {#zero-summing_normalization}
 
 Not all convolution kernels use only positive values.
 You can also get kernels that use a mix of positive and negative values and often the values of these kernels are meant to add up to zero to produce a [Zero-Summing Kernels](#zero-summing).
@@ -316,7 +274,7 @@ As such this form of normalization can still be used with [Blurring Kernels](blu
 
 However it should not be used to normalize directly defined [Sharpening](#sharpening) or even [Un-Sharpening](#unsharpen) kernels, as this can contain negative values, but are required to sum to a value of one (using the normal normalization method).
 
-### Blending Kernel with the Identity Kernel
+### Blending Kernel with the Identity Kernel {#identity_addition}
 
 The full syntax of the Kernel Scaling Setting is either...
 
@@ -348,7 +306,7 @@ This can make makes the scale easier to read and understand when fractions are i
 Example use of kernel scaling define...
 
 ~~~
--define convolve:scale='!50%,100%'  -morphology Convolve Laplacian:2  
+-define convolve:scale='!50%,100%'  -morphology Convolve Laplacian:2
 ~~~
 
 Will generate the requested '`Laplacian:2`' kernel...
@@ -404,7 +362,7 @@ For example all these scaling options are equivalent
 The same goes for the two normalization flags.
 They can appear anywhere in the convolve scaling setting, but they will always be applied first before any other scaling takes place.
 
-### Output result Bias Control
+### Output result Bias Control {#bias}
 
 When you are dealing with a kernel that contains negative values, some pixels in the resulting image should be assigned a negative value.
 This is especially the case with [Zero-Summing Kernels](#zero-summing) (see below).
@@ -441,7 +399,7 @@ One example of doing this is shown in the [Correlate Shape Search](#correlate_se
 
 ------------------------------------------------------------------------
 
-## Blurring Images (low-pass filtering)
+## Blurring Images (low-pass filtering) {#blurring_images}
 
 Another section of IM examples, specifically [Blurring, and Sharpening Images](../blur/), actually deals with practical aspects of this subject.
 Here we look at more specific details.
@@ -449,11 +407,11 @@ Here we look at more specific details.
 First however, we will describe the basic kernels and how you can use them directly without modification.
 Later we will look at ways of modifying the bluring to generate other effects.
 
-### Blurring Kernels
+### Blurring Kernels {#blurring_kernels}
 
 [![\[IM Output\]](kernel_unity.gif)](kernel_unity.gif)
 
-#### Unity
+#### Unity {#unity}
 
 This is a special kernel that actually does nothing.
 Only one kernel element is specified, and as a result each pixel is replace by itself without change.
@@ -485,7 +443,7 @@ However that can only produce a small 3x3 kernel, consisting of a central '`1.0`
 
 [![\[IM Output\]](kernel_shape.gif)](kernel_shape.gif)
 
-#### Mean or Average Filtering using Shape Kernels
+#### Mean or Average Filtering using Shape Kernels {#mean}
 
 While most convolution kernels defined below generally involve the use of a Gaussian Curve in some way, you can still use one of the previous [Morphology Shape Kernels](../morphology/#shape_kernels) to simply average the pixels over a given (large) area.
 Of course you will need to [Normalize](#normalize) the kernel so as to actually generate an average, rather than just a sum of the neighbourhood.
@@ -536,7 +494,7 @@ This was commonly used by Fred Wienhaus in his scripts before morphology was ava
 
 [![\[IM Output\]](kernel_gaussian.gif)](kernel_gaussian.gif)
 
-#### Gaussian Kernel (2d gaussian blur)
+#### Gaussian Kernel (2d gaussian blur) {#gaussian}
 
 As you may have gathered, the '`Gaussian`' kernel is the most commonly used kernel to [Convolve](#convolve) an image.
 This is the mathematical ideal kernel for blurring effects.
@@ -592,7 +550,7 @@ For more information on the effect of the '`Gaussian`' kernel arguments, and on 
 
 [![\[IM Output\]](kernel_blur.gif)](kernel_blur.gif)
 
-#### Blur Kernel (1d gaussian blur)
+#### Blur Kernel (1d gaussian blur) {#blur}
 
 The '`Blur`' kernel is very similar to the [Gaussian Kernel](#gaussian), and even takes the same arguments (see below).
 But where gaussian is a 2-dimensional curve, the '`Blur`' kernel produces a 1-dimensional curve.
@@ -645,7 +603,7 @@ See [Gaussian vs Blur Kernels](#gaussian_vs_blur) below for details of how this 
 
 [![\[IM Output\]](kernel_comet.gif)](kernel_comet.gif)
 
-#### Comet Kernel (half 1d gaussian blur)
+#### Comet Kernel (half 1d gaussian blur) {#comet}
 
 The '`Comet`' kernel is almost exactly the same as a '`Blur`' kernel, but is actually only a half a blur kernel.
 
@@ -686,7 +644,7 @@ Hopefully proper kernel rotation will implemented to create better motion blur t
 
 [![\[IM Output\]](kernel_blur_profile.gif)](kernel_blur_profile.gif)
 
-### Gaussian Curve
+### Gaussian Curve {#gaussian_curve}
 
 The Gaussian Curve, is a classical and idealized density function, that has a area of 1 under the curve.
 The '*sigma*' value represents the distance from the center to the point at which the curve crosses 50% of the peak value.
@@ -703,7 +661,7 @@ If you must set its value set it to at least 2 times that of the sigma, Otherwis
 
 It is special in that it is also the result you get from a poorly focused lens on an image, and as such is very commonly used in image processing.
 
-### Gaussian vs Blur Kernels
+### Gaussian vs Blur Kernels {#gaussian_vs_blur}
 
 As mentioned the '`Gaussian`' and '`Blur`' kernels are very closely related, and can in fact to the same job.
 Both are representations of the [Gaussian Curve](#gaussian_curve), the first being a 2-dimensional representation, while the other is a 1-dimensional representation.
@@ -760,7 +718,7 @@ The only difference in results between the two operators are small quantum round
 Both of these being caused by a loss of information generated due to saving a intermediate image between the two separate passes of the 'blur' convolutions.
 This difference is typically so small as to be invisible and of no concern to any practical usage.
 
-### Softened Blurring (blending with original image)
+### Softened Blurring (blending with original image) {#soft_blur}
 
 You can soften the impact of any sort of blur by blending it with some of the original image.
 Especially when applying a very strong blur.
@@ -812,7 +770,7 @@ As such values of '`100`' will give the blurred image, while '`0`' will give the
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Remember the "`-blur`" operator is exactly equivalent to using the faster 2-pass [Bluring Kernels](#blur).
   
-### 'Un-sharpen' Images using Blurs (subtracting from the original image)
+### 'Un-sharpen' Images using Blurs (subtracting from the original image) {#unsharpen}
 
 By taking this blending of kernels further, so that you start to use a negative scaling, you can subtract the blurring effects from the original image.
 The result is a technique called 'unsharp'.
@@ -868,7 +826,7 @@ However it is generally regarded as being slower, though not really by very much
 
 ------------------------------------------------------------------------
 
-## Edge Detection Convolutions (high-pass filtering)
+## Edge Detection Convolutions (high-pass filtering) {#edgedet}
 
 Edge Detection is another area in which convolutions are heavily used.
 
@@ -888,7 +846,7 @@ Because of that, you will need to either [Scale](#kernel_scale) or [Normalize](#
 
 Edge detection also has the side effect of providing ways of sharpening the edges of an image.
 
-### Zero-Summing Kernels
+### Zero-Summing Kernels {#zero-summing_kernels}
 
 All the edge detection kernels have one feature in common.
 They are all zero-summing.
@@ -955,11 +913,11 @@ This stores images in memory using floating point values and means that the imag
 However, even if you do use this special version of IM you will still need to post-process the results before saving to a normal image file format or you will need to use a special floating point enabled image file format.
 However you will not need to worry about clipping or rounding effects in the intermediate image results, making things easier to handle.
 
-### Edge detection Kernels
+### Edge detection Kernels {#edgedet_kernels}
 
 [![\[IM Output\]](kernel_log.gif)](kernel_log.gif)
 
-#### LoG: Laplacian Of Gaussians
+#### LoG: Laplacian Of Gaussians {#log}
 
 
 ~~~
@@ -994,7 +952,7 @@ This kernel is also ideal for [Sharpening Images](#sharpen).
 
 [![\[IM Output\]](kernel_dog.gif)](kernel_dog.gif)
 
-#### DoG: Difference of Gaussians
+#### DoG: Difference of Gaussians {#dog}
 
 ~~~
 DoG:{radius},{sigma1}[,{sigma2}]
@@ -1084,7 +1042,7 @@ This is because subtracting two normalized blurs, does not produce the same (inc
 However other than the magnitude, the above example image is equivalent to the first '`DoG`' kernel result, just faster to generate, especially for larger sigma values.
 And that is the point, even though it is more work, that complex method is faster than using a '`DoG`' or '`LoG`' kernel directly.
   
-#### Discrete Laplacian Kernels
+#### Discrete Laplacian Kernels {#laplacian}
 
 ~~~
 Laplacian:{type}
@@ -1270,7 +1228,7 @@ convert face.png -define convolve:scale='!' -bias 50% \
   
 [![\[IM Text\]](kernel_laplacian_19.txt.gif)](kernel_laplacian_19.txt)
 
-### Sharpening Images with Edge Detection (enhancing the edges of the original image)
+### Sharpening Images with Edge Detection (enhancing the edges of the original image) {#sharpening}
 
 The '`LoG`' and '`DoG`' kernels can also be used to sharpen images, as opposed to [Un-sharpening Images using Blurs](#unsharpen).
 
@@ -1325,7 +1283,7 @@ However for minor sharpening, such as [Sharpening Resized Images](../resize/#res
 
 ------------------------------------------------------------------------
 
-## Directional Convolutions (Slopes, and Compass)
+## Directional Convolutions (Slopes, and Compass) {#directional}
 
 Like the above, these kernels look for slopes in the color intensity of the image, but rather than any slope, these look for slopes in a specific direction.
 Mathematically this is known as a 'derivative' which is really just fancy way of saying 'slope'.
@@ -1340,12 +1298,12 @@ However I am certain that the embossing and shading kernel generation functions 
 
 So lets have a look at some of the 'named' directional kernels.
 
-### Directional Kernels
+### Directional Kernels {#directional_kernels}
 
-#### Sobel
+#### Sobel {#sobel}
 
 ~~~
-Sobel:{angle}  
+Sobel:{angle}
 ~~~
 
 [![\[IM Text\]](kernel_sobel.txt.gif)](kernel_sobel.txt)
@@ -1537,10 +1495,10 @@ convert face.png -colorspace Gray    -channel G \
 
 [![\[IM Output\]](face_sobel_magnitude_n_direction.png)](face_sobel_magnitude_n_direction.png)
   
-#### Roberts
+#### Roberts {#roberts}
 
 ~~~
-Roberts:{angle}  
+Roberts:{angle}
 ~~~
 
 [![\[IM Text\]](kernel_roberts.txt.gif)](kernel_roberts.txt)
@@ -1577,7 +1535,7 @@ That is the slope calculated is located for a point between the '`+1`' and '`-1`
 
 However this also means that by saving all the slopes around a pixel and adding them together, you get a much smaller sharper edge detection with only 2 pixels (rather than 4 pixels) highlighting sharp edge boundaries.
 
-#### Prewitt
+#### Prewitt {#prewitt}
 
 ~~~
 Prewitt:{angle}
@@ -1596,7 +1554,7 @@ convert face.png -define convolve:scale='50%!' -bias 50% \
 
 [![\[IM Output\]](face_prewitt.png)](face_prewitt.png)
 
-#### Compass
+#### Compass {#compass}
 
 ~~~
 Compass:{angle}
@@ -1614,7 +1572,7 @@ convert face.png -define convolve:scale='50%!' -bias 50% \
 
 [![\[IM Output\]](face_compass.png)](face_compass.png)
 
-#### Kirsch
+#### Kirsch {#kirsch}
 
 ~~~
 Kirsch:{angle}
@@ -1632,13 +1590,13 @@ convert face.png -define convolve:scale='50%!' -bias 50% \
 
 [![\[IM Output\]](face_kirsch.png)](face_kirsch.png)
 
-#### Frei-Chen
+#### Frei-Chen {#freichen}
 
 Three sets of kernels are provided by this built-in.
 The first is a 'Isotropic' (uniform direction) varient of '`Sobel`', where the '`2`' values have been replaced by a Square Root of 2.
 
 ~~~
-Frei-Chen:[{type},][{angle}]  
+Frei-Chen:[{type},][{angle}]
 ~~~
 
 [![\[IM Text\]](kernel_freichen.txt.gif)](kernel_freichen.txt)
@@ -1707,7 +1665,7 @@ However if you give a '*type*' value of '`10`' you will get a multi-kernel list 
 
 ------------------------------------------------------------------------
 
-## Correlate   ( ![](../img_www/mph_correlate.gif) )
+## Correlate ( ![](../img_www/mph_correlate.gif) ) {#correlate}
 
 Where the '`Convolve`' method is basically used for image processing, the '`Correlate`' method is designed more for pattern matching.
 That is, it performs a 'Cross-Correlation' of an image with its kernel, looking for a match of the given shape within the image.
@@ -1717,7 +1675,7 @@ The only difference between them is actually very minor, namely, an x and y refl
 
 The best guide I have found on the how correlation and convolution work and how they differ to each other is [Class Notes for CMSC 426, Fall 2005, by David Jacobs](http://www.cs.umd.edu/~djacobs/CMSC426/Convolution.pdf).
 
-### Convolution vs Correlation (asymmetrical kernel effects)
+### Convolution vs Correlation (asymmetrical kernel effects) {#convolve_vs_correlate}
 
 As I mentioned above the two operators '`Convolve`' and '`Correlate`' are essentially the same.
 In fact users often say convolution, when what they really mean is a correlation.
@@ -1781,7 +1739,7 @@ So people get relaxed and fuzzy on the meanings.
 
 It is only when they are not symmetrical, as in the case of [Shape Searching](#correlate_search) (see next), or with directional kernels such as [Sobel](#sobel), that the difference really becomes important.
 
-### Correlation and Shape Searching
+### Correlation and Shape Searching {#correlate_search}
 
 The real use of the '`Correlate`' method, (applying the kernel neighbourhood 'as is' without rotation), is an old, but simple method of locating shaped objects that roughly match the shape found in the provided kernel.
 
@@ -1875,7 +1833,7 @@ But also look at Fred Weinhaus's script "`maxima`".
 
 *FUTURE: Normalized Cross Correlation with the Fast Fourier Transform, for generating very fast image Correlations with very large images (both source image and sub-image).*
 
-### Correlation vs HitAnd Miss Morphology
+### Correlation vs HitAnd Miss Morphology {#correlate_vs_hitandmiss}
 
 If you compare the kernel image as I represented it to kernels that are used by the [Hit-And-Miss Morphology Method](../morphology/#hitmiss), you will find they actually represent the same thing.
 
@@ -1913,12 +1871,12 @@ However it is just as slow, especially for large images.
 
 ------------------------------------------------------------------------
 
-## Neighbour Counting
+## Neighbour Counting {#neighbours}
 
 One of the more unusual things convolution can be put to is known as neighbour counting.
 That is figuring out how many pixels exist in a particular area surrounding each pixel point in an image.
 
-### Counting Neighbours
+### Counting Neighbours {#counting}
 
 Basically by using a very simple convolution kernel you can create a image that contains a count of the number of neighbours surrounding a particular point in a binary image.
 
@@ -1960,7 +1918,7 @@ convert area.gif  -define convolve:scale=-1\! \
 
 Of course we could have used the original image as a mask to remove the uninteresting pixels too.
 
-### The Game of Life
+### The Game of Life {#life}
 
 In 1970 a British mathematician, John Horton Conway, publish in Scientific American, a special simulation which became very popular.
 It is now known as [Conway's Game of Life](http://en.wikipedia.org/wiki/Conway's_Game_of_Life).
@@ -2103,11 +2061,12 @@ Of course their are many faster dedicated programs for 'Life' and 'Cellular Auto
 
 As the results are simple binary images, you can also use IM's [Morphology](../morphology/#morphology) methods such as [Hit and Miss Pattern Searching](../morphology/#hmt) or [Cross-Correlation](#correlate_search) to search for specific life patterns, making using IM for life reseach more practical, if slow.
 
-------------------------------------------------------------------------
-
-Created: 26 May 2010 (Separated from "morphology")  
- Updated: 26 March 2013  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Major Input: [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink dot net&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/convolve/`
+---
+created: 26 May 2010 (Separated from "morphology")  
+updated: 26 March 2013  
+author:
+- "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+- "[Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink dot net&gt;"
+version: 6.6.9-9
+url: http://www.imagemagick.org/Usage/convolve/
+---
