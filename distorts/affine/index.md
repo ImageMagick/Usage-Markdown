@@ -1,7 +1,5 @@
 # Affine Matrix Transforms
 
-**Index**
-
 The Affine Projection Matrix is not a simple distortion operator to understand.
 But it is very versatile and fast to distort an image using it.
 In this section we take a look at how the affine matrix works, both in ImageMagick and all other Image Processors.
@@ -10,7 +8,7 @@ WARNING: See the first ![](../../img_www/warning.gif) message below.
 
 ------------------------------------------------------------------------
 
-## Affine Transformations
+## Affine Transformations {#affine}
 
 The Affine Transformation is a general rotation, shear, scale, and translation distortion operator.
 That is it will modify an image to perform all four of the given distortions all at the same time.
@@ -109,7 +107,7 @@ convert koala.gif -matte -virtual-pixel Transparent \
 
 The rest of these example use the old method as they were written long before the new "`+distort`" operator became available.
 
-### Affine Scaling
+### Affine Scaling {#affine_scale}
 
 The two '`1`' values in the last examples, or the '`sx`' and '`sy`' arguments, are scaling factors, and modifying these will enlarge or shrink the image.
 The size of the resulting image will be adjusted accordingly, so as to hold the complete result.
@@ -127,7 +125,7 @@ Note that the image are scaled to produce a similar result as "`-resize`", but a
 That is you can have semi-transparent (fuzzy) partial pixels along the edges of the image.
 See [Resize Distort/Affine](../../resize/#distort) for more details.
 
-### Affine Flips and Flops
+### Affine Flips and Flops {#affine_flip}
 
 This may not seem exciting or interesting, but image scaling with a negative will also produce "`-flip`" and "`-flop`" style of image transforms.
 
@@ -142,7 +140,7 @@ convert koala.gif -matte -virtual-pixel Transparent \
 
 [![\[IM Output\]](affine_flip.png)](affine_flip.png) [![\[IM Output\]](affine_flop.png)](affine_flop.png) [![\[IM Output\]](affine_180.png)](affine_180.png)
 
-### Affine Shearing
+### Affine Shearing {#affine_shear}
 
 The middle two zero arguments, '`rx`' and '`ry`', will shear the image in a similar way the "`-shear`" operator does.
 
@@ -168,7 +166,7 @@ The actual value use for the shear, is also not an angle, though is related (see
 That is a shear value of '`1`' will result in a 45 degree shear, while a value of '`.5`' is an approximate 30 degree shear.
 This gets more complex however if some scaling or both X and Y shears are also applied at the same time.
 
-### Affine Rotations
+### Affine Rotations {#affine_rot}
 
 You may have noticed in the last example above that you can rotate an image just by using shears.
 However when rotating an image by only using shears, the image will become larger.
@@ -221,7 +219,7 @@ convert koala.gif -matte -virtual-pixel Transparent \
 
 More on this [Affine Helper Script](#affine_scripts) later.
 
-### Position of Affine Results
+### Position of Affine Results {#affine_pos}
 
 You will have noticed the use of "`+repage`" in just about all the above examples of using an affine transformation.
 This is because the transformed image is not always a acceptable value for displaying images on web pages.
@@ -290,7 +288,7 @@ This special handling of virtual canvas offsets by the "`-transform`" operator i
 
 It also means that we can use that offset to set this images location correctly when it is combined with other images.
 
-### Affine Translations
+### Affine Translations {#affine_trans}
 
 As a pure translation of an image (using an integer offset), only moves an image to another location without distortion, the actual result of the "`-affine`" transformation, is that the images page offset on the virtual page or canvas is changed.
 However IM will still process each and every pixel in the image, even though there only a simple change in offset.
@@ -328,7 +326,7 @@ Of course if your affine matrix does more than just translate the image, or tran
 
 Translation components is an important part of a general "`-affine`" transformation, as it will allow you to rotate an image about any point on the image, or even outside the image being transformed.
 
-### Affine Result Re-Positioning
+### Affine Result Re-Positioning {#affine_repos}
 
   
 > ![](../../img_www/expert.gif)![](../../img_www/space.gif)
@@ -377,7 +375,7 @@ This is what we will look at in the next section.
 These are only some of the possibilities, and basically depends on just what you want to do with the resulting image.
 All you really need to do is decide whether you need to keep the offsets of the transformation, or not.
 
-### Compound Affine Translations
+### Compound Affine Translations {#affine_compound}
 
 It is important to know that all the non-translation affine matrix methods does not actually cause the 0,0 position of the image to move.
 The only time this point actually moves was when either the generated offset of the image was reset (generally using "`+repage`") or you also translated the resulting image, as part of the affine matrix.
@@ -455,14 +453,14 @@ convert koala.gif -matte -virtual-pixel Transparent \
 
 A perfect rotate by 60 degrees about the koala's nose.
 
-### Affine Helper Scripts
+### Affine Helper Scripts {#affine_scripts}
 
 As you can see in the examples above figuring out the affine matrix needed for your transform is not always easy.
 In fact it can be very difficult and may require a deep understanding of how affine matrices, and matrix calculations are performed to achieve the desired result.
 
 Because of this and to help in the creation of these examples I have created a number of helper scripts to let you calculate the affine matrix you needed.
 
-#### affine\_rotate
+#### affine\_rotate {#affine_rotate}
 
 The affine matrix in last example could be more simply calculated using the "`affine_distort`" script I introduced earlier.
 If you supply this script with a extra argument containing the point of rotation than it will calculate the correct affine matrix to do it.
@@ -493,7 +491,7 @@ That is you can take an image with a specific point, and rotate and re-position 
 > ![](../../img_www/reminder.gif)![](../../img_www/space.gif)
 > This can also be directly achieved much more efficiently and directly using the "`+distort`" method '`SRT`'.
 
-#### affine\_distort
+#### affine\_distort {#affine_distort}
 
 The script `affine_distort`" is a similar script, but will also allow you to scale or flip an image before it is rotated and translated to a new position.
 The argument order is a little different, making it a little harder to use, but it is much more versatile.
@@ -515,7 +513,7 @@ The script however will not do any shearing of the image, but that is rarely des
 >
 > In actual fact the '`SRT`' method was directly developed from the "`affine_distort`" script into the [Generalized Distort Operator](../#distort).
 
-#### affine\_transform
+#### affine\_transform {#affine_transform}
 
 A affine transformation can be fully defined by the how a triangle of three coordinates are translated.
 
@@ -542,7 +540,7 @@ Unlike the previous script this one can flip, scale and shear images, however it
 > However since its implementation, the coordinate entry has been reorder slightly differently.
 > See [Distortions Using Control Points](../#control_points).
 
-### Other Affine Transform Methods
+### Other Affine Transform Methods {#affine_other}
 
 As I explained at the start of the previous section, an affine matrix is a linear equation that maps a point on the original image to a new position on the destination image.
 
@@ -628,7 +626,7 @@ However other than that, the result of the transformation is correct.
 What is not shown above, is what IM actually did internally to transform a raster image.
 Which is the subject of the next section.
 
-### Affine Transform DIY (the internal details)
+### Affine Transform DIY (the internal details) {#affine_diy}
 
 This is what IM actually goes thru internally to do an affine transformation.
 
@@ -773,10 +771,10 @@ convert spaceship_diy_2.png \
 
 [![\[IM Text\]](spaceship_diy_2_port.png)](spaceship_diy_2_port.png)
 
-------------------------------------------------------------------------
-
-Created: 1 July 2007 (from distortion page above)  
- Updated: 10 October 2009  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/distorts/affine/`
+---
+created: 1 July 2007 (from distortion page above)  
+updated: 10 October 2009  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-7
+url: http://www.imagemagick.org/Usage/distorts/affine/
+---
