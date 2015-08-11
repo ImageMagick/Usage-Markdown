@@ -1,5 +1,7 @@
 # Distorting Images
 
+[Affine Matrix Transforms](affine/) (separate sub-directory)
+
 Having looked at the simple set of built-in image wrapping and distortion operators IM has provided since its early days, here we go deeper and look at the internal mechanics and more complex mathematical distortions of images.
 
 From this deeper understanding, we then looks at a more generalize image distortion operator.
