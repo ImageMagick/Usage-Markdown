@@ -1,48 +1,11 @@
 # Image File Handling
 
-**Index**
-<!--
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Image Formats Summary](#summary)
-[![](../img_www/granitesm_right.gif) Reading Images](#read)
--   [Read Modifiers](#read_mods)
--   [Input Filename Meta-character Handling](#read_meta)
--   [Compressed Images](#read_compressed)
-
-[![](../img_www/granitesm_right.gif) Saving Images](#save)
--   [Filename Percent Escapes](#save_escapes)
--   [GZipped Compressed Images](#save_gzip)
--   [Saved Attributes](#save_attributes)
--   [Encrypted Images](#save_encrypted)
--   [Writing a Multiple Images (adjoin)](#adjoin)
--   [Starting Sequence (Scene) Number](#scene)
--   [Writing an Image, Multiple Times](#write)
-
-[![](../img_www/granitesm_right.gif) Special Output File Formats](#special_formats) (Specific to IM)
-[`miff:`](#miff)   [`info:`](#info)   [`null:`](#null)   [`txt:`](#txt)   [`sparse-color:`](#sparse-color)   [`histogram:`](#histogram)   [`mpr:`](#mpr)   [`mpc:`](#mpc)   [`fd:`](#fd)   [`inline:`](#inline)  
-[`clipboard:`](#clipboard) -- Read/Write to/from windows clipboard
-[`ephemeral:`](#ephemeral) -- Auto-delete after read
-[`show:`, `win:`, and `x:`](#show) -- Display Images Directly
-[`x:` (as input)](#x) -- Display Capture and Re-draw
-[![](../img_www/granitesm_right.gif) Delegates and Coders for Image Formats](#delegates)
--   [Input Delegate Example](#delegate_input)
--   [Output Delegate Example](#delegate_output)
--   [Spawning External Commands](#delegate_spawn)
--   [Listing Delegates and Source Files](#delegate_list)
--   [Postscript and PDF Delegates](#delegate_postscript)
--   [Direct Delegate Format Conversion (taint)](#delegate_direct)
--   [Other Delegate Examples](#delegate_other)
-
-[![](../img_www/granitesm_right.gif) Really Massive Image Handling](#massive)
-[![](../img_www/granitesm_right.gif) Long Streams of Lots of Images, Video sequences](#image_streams)
--->
-
 To process an image, you not only need operators to work on the images, but you also need ways to read in and write out the image in as many different file formats as possible.
 In this section we look at IM file formats in general.
 
 ------------------------------------------------------------------------
 
-## Image Formats Summary
+## Image Formats Summary {#summary}
 
 One of the most common uses of ImageMagick is not to modify images at all, but only to convert an image from one image format to another.
 In fact this was the original reason for IM's creation was this sort of image format conversion.
@@ -61,7 +24,7 @@ For image formats demonstrated in IM Examples, see [Reference Index, File Format
 
 ------------------------------------------------------------------------
 
-## Reading Images
+## Reading Images {#read}
 
 IM by default will attempt to determine the image format type by the 'magic' file identification codes within the file itself.
 If this fails however you will need to specify the images file format using with the files suffix, or by adding a prefix format.
@@ -177,7 +140,7 @@ echo "eye.gif news.gif storm.gif" |\
 > It does not work with image generators such as "`rose:`" or "`label:string`".
 > It also can not be used to 'include' command line options from a file.
 
-### Read Modifiers or Extract Setting
+### Read Modifiers or Extract Setting {#read_mods}
 
 Image can be modified immediately they have been read into memory, but before the image(s) are actually added to the current image sequence.
 You can specify a "`-extract`" setting.
@@ -338,7 +301,7 @@ See [Setting/Changing Image Meta-Data](../basics/#meta-data).
 > Be very careful when passing a user provided argument to IM in a script, insuring that the argument is what you expect.
 > You do not want to let a web image processing script return a image of the system password file for example.
 
-### Input Filename Meta-Character Handling
+### Input Filename Meta-Character Handling {#read_meta}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -393,7 +356,7 @@ See [Setting/Changing Image Meta-Data](../basics/#meta-data).
 
     However that may also match another file such as "time_10_30.jpg" as well!
 
-### Compressing Images
+### Compressing Images {#read_compressed}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -412,7 +375,7 @@ See [Setting/Changing Image Meta-Data](../basics/#meta-data).
 
 ------------------------------------------------------------------------
 
-## Saving Images
+## Saving Images {#save}
 
 Processing images is well and good but it can be just as important to save the results in the right way.
 
@@ -458,7 +421,7 @@ In this case you can also see that the special "`-`" filename is also used to de
 
 For more information see the official guide at [The Anatomy of the Command Line, Output Filenames](http://www.imagemagick.org/script/command-line-processing.php#output).
 
-### Filename Percent Escapes
+### Filename Percent Escapes {#save_escapes}
 
 The save filename can contain a few special percent escape (`%`) sequences.
 Specifically, '`%d`', '`%x`', and '`%o`'.
@@ -519,7 +482,7 @@ This is a known problem for IMv6
 Another example of using 'Filename Escape Sequence' is in [Tile Cropping Images](../crop/#crop_tile), where the technique it is used to generate a filename based on a calculated tile position for each of the resulting images.
 Also see the example in [Using Convert Instead of Morgify](../basics/#mogrify_convert).
 
-### Automatic GZip Suffix
+### Automatic GZip Suffix {#save_gzip}
 
 IM will also automatically "`gzip`" images if a "`.gz`" suffix is given.
 
@@ -552,7 +515,7 @@ As you can see GZIP compression is actually slightly better than the LZW compres
 GZipped image files are more commonly used for longer term storage of image file formats that do not have any compression by default.
 This includes the IM File format "[MIFF:](#miff)" and the simpler [NetPBM](../formats/#netpbm) image file formats.
 
-### Saved Attributes
+### Saved Attributes {#save_attributes}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -580,12 +543,12 @@ This includes the IM File format "[MIFF:](#miff)" and the simpler [NetPBM](../fo
     else the -compression option is rarely used.  Often it is only used internally
     by IM to save images using the same compression the image was read with.
 
-### Encrypted Images
+### Encrypted Images {#save_encrypted}
 
 IM also allows you save sensitive images with encrypted with a pass phrase using the options "`-encipher`" and "`-decipher`".
 See [Encrypting Images](../transform/#encipher)
 
-### Writing a Multiple Images - Adjoin Techniques
+### Writing a Multiple Images - Adjoin Techniques {#adjoin}
 
 A major problem with saving images, is that ImageMagick works with a ordered sequence (list) of images, not just one image at a time.
 Because of this IM will attempt to write ALL the images in the current image sequence into the filename given.
@@ -666,7 +629,7 @@ Using this method, the images will not only be numbered, but will also list alph
 
 I thus recommended you add a '`%03d`' or whatever is appropriate, to the output filename whenever you plan on writing multiple images, as separate image files.
 
-### Written Scene Numbers
+### Written Scene Numbers {#scene}
 
 If you want the image sequence to start at '`1`', instead of '`0`', and don't want to rename all the resultant image files, the simplest solution is to prepend a 'junk' image on the front of the sequence to be written.
 
@@ -689,7 +652,8 @@ convert  eye.gif news.gif storm.gif  +adjoin -scene 101 image_%03d.gif
 [![\[IM Output\]](image_101.gif)](image_101.gif) [![\[IM Output\]](image_102.gif)](image_102.gif) [![\[IM Output\]](image_103.gif)](image_103.gif)
 
 Which produced the image files "`image_101.gif`" to "`image_103.gif`".
-### Writing an Image, Multiple Times
+
+### Writing an Image, Multiple Times {#write}
 
 While on the subject of writing images, it is possible to write an image from the middle of a sequence of image operations, using the special "`-write`" image operator.
 
@@ -750,13 +714,13 @@ At least for a moment.
 
 ------------------------------------------------------------------------
 
-## Special File Formats (specific to IM)
+## Special File Formats (specific to IM) {#special_formats}
 
 As you saw above (and will explore in the next section [Common Image File Formats](../formats/)), ImageMagick understands a huge number of well known image file formats.
 It also includes a good number of special image generators (as exampled in [Canvas Creation](../canvas/)).
 On top of these there are also some very special file formats, which allow some very special handling of images.
 
-**`miff:`**
+### `miff:` {#miff}
 
 Is the ImageMagick File Format.
 The whole image sequence and *all* the attributes associated with the images are saved in this file format.
@@ -797,7 +761,7 @@ See also the "`MPR`" image memory register, and "`MPC`" memory disk mapping form
 >
 > In may ways it is practically identical to a binary [PbmPlus](../formats/#pbmplus) Image file format,with a greatly expanded header to hold image meta-data, and more variations in number of channels and data types.
 
-**MIFF Image Streaming**
+#### MIFF Image Streaming {#miff_streaming}
 
 The "`miff:`" format is a 'streaming' image file format.
 That is to say multiple images are handled simply by appending or concatenating the images together, one after the other.
@@ -834,7 +798,7 @@ This can be especially useful for debugging complex image processing commands.
 The alternative method (commonly using in PHP scripts) is to use a 'generated command' technique, that uses a shell script to generate a long "`convert`" command to be run.
 The scripts in [Image Warping Animations](../warping/#animations) use this technique.
 
-**`info:`**
+### `info:` {#info}
 
 The "`info:`" file format (added in IM v6.2.4) does *NOT* output an actual image! This format basically outputs the same information that the ImageMagick "`identify`" command will output.
 
@@ -911,7 +875,7 @@ You can also use "`-print`" to print information, but that is applied only once 
 That means you can use this operator to calculate much more complex '`%[fx:...]`' expressions involving multiple images.
 But remember unlike the other methods above, it is only applied once across all images.
 
-**`null:`**
+### `null:` {#null}
 
 As an output format, this will just 'junk' the image results.
 As such if used as the final argument in a "`convert`", "`montage`", or "`composite`" command the final result will not be saved!
@@ -941,7 +905,7 @@ At this time there is no method to remove any "`null:`" or even '[missed image](
 However such a method has been proposed.
 Mail me if you find you need such a method.
 
-**`txt:`**
+### `txt:` {#txt}
 
 This is a simple ASCII text file, which basically lists each pixel in the image, one per line.
 It is not a general text to image converter, for that see [Multi-line Text Files Examples](../text/#text).
@@ -1082,7 +1046,7 @@ convert rose: -format '%[pixel:u.p{12,26}]' info:
 
 See also [Extracting Image Colors](../quantize/#extract).
 
-**`sparse-color:`**
+### `sparse-color:` {#sparse-color}
 
 This is a special output image format that will return a simple comma separated list of coordinates and colors for each pixel that is not transparent.
 The output string is suitable for direct input into the [Sparse Color Operator](../canvas/#sparse-color).
@@ -1101,7 +1065,7 @@ In many ways this is more useful that the "`txt:`" format shown above, but only 
 Be warned however that at the time of writing, the output is all one line.
 Shell scripts make like to convert space to newlines.
 
-**`histogram:`**
+### `histogram:` {#histogram}
 
 This is actually the "`miff:`" image format, but with a very large image comment that contains a complete count of all the colors within the image.
 That is in the "`miff:`" text header '`Comment={...}`' attribute.
@@ -1203,7 +1167,7 @@ See example in "`mpr:`" below.
 
 It would good if some method of generating histograms (and other graphs) became available as operators rather than a special output format.
 
-**`mpr:{label}`**
+### `mpr:{label}` {#mpr}
 
 (memory program register) will save the whole image sequence into a named memory register, from which you can later read the image data.
 As such if you want to save an image for use latter, in a complex image operation you can do so.
@@ -1273,7 +1237,7 @@ The [Image Cloning](../basics/#clone) operator cannot generally handle a unknown
 > This allows images (and there meta-data) to be passed between separately running IM commands, without needed disk space.
 > See [Distributed Pixel Cache Daemon](http://www.imagemagick.org/script/distribute-pixel-cache.php)
 
-**`mpc:`**
+### `mpc:` {#mpc}
 
 Is a special IM specific disk save format that was originally designed with really large images in mind.
 Basically is is a memory-mapped disk file of program memory, saved to disk as **two** binary files, a "`.mpc`" holding the meta-data of the image, and a "`.cache`" holding the images pixel-cache.
@@ -1314,7 +1278,7 @@ A [Crop](../crop/#crop) or [Resize](../resize/#resize) to much smaller image siz
 
 For more information see [Really Massive Image Handling](#massive) below.
 
-**`fd:{file_descriptor}`**
+### `fd:{file_descriptor}` {#fd}
 
 This special file name which allows you to specify a specific '*file descriptor*' the image is to read from or written to.
 
@@ -1327,7 +1291,7 @@ Including '`fd:2`' for '*standard error*', or whatever other previously opened f
 The most common use for this is in very advanced shell scripting, where you may have multiple file streams of images.
 Or for network daemons that may have multiple file streams open simultaneously.
 
-**`inline:{base64_file|data:base64_data}`**
+### `inline:{base64_file|data:base64_data}` {#inline}
 
 Inline images let you read an image defined in a special base64 encoding.
 
@@ -1411,11 +1375,11 @@ WARNING: Command line option input is restricted to 5000 characters.
 Also many shells (and particularly PC-DOS input) has total command line length limits.
 As such this is not suitable for very large base64 images.
 
-**`clipboard:`**
+### `clipboard:` {#clipboard}
 
 Read or Write the image to or from the Windows Clipboard (Windows only.)
 
-**`ephemeral:{image_file}`**
+### `ephemeral:{image_file}` {#ephemeral}
 
 Read and then Delete this image file.
 
@@ -1456,7 +1420,7 @@ rm -f input_image.png
 
 I have also used this in other background programs, as a signal that that background program is ready to continue.
 
-**`show:`, `win:` and `x:`** -- Display images directly on screen
+### `show:`, `win:` and `x:` -- Display images directly on screen {#show}
 
 These are special output formats that will which will directly display the image result to your screen.
 Instead of saving the image into a file, it just displays the result.
@@ -1487,7 +1451,7 @@ On the other hand, using '`x:`' or '`win:`' will wait for you to quit the displa
 Unfortunately none of these methods will display animations very well.
 For that you are better off piping the animation (in MIFF format) into the "`animate`" command.
 
-**`x:` (as input)** - Reading an X Window Display
+### `x:` (as input) - Reading an X Window Display {#x}
 
 You can also read the current X window display using the "`x:`" operator, in much the same way as you can with the "[import](../basics/#import) command.
 In fact without options it acts exactly like the "import" command.
@@ -1604,7 +1568,7 @@ Experiment, and please let me (and others) know what you come up with, either vi
 
 ------------------------------------------------------------------------
 
-## Coders and Delegates for Image Formats
+## Coders and Delegates for Image Formats {#delegates}
 
 **Coders** are dynamic library modules (usually written in the C programming language) that handle the "format:" aspect of image input and output.
 They can also be used by users to create special purpose filters.
@@ -1631,7 +1595,7 @@ The 'commands' themselves are listed in a file named "`delegates.xml`", and whic
 But it will also read a "`delegates.xml`" located in the users personal "`.magick`" sub-directory of there Linux/UNIX home directory.
 And it is in this second file that users should place their 'command delegates'.
 
-### Input Delegate Command Example
+### Input Delegate Command Example {#delegate_input}
 
 For example I can create a personal "`delegates.xml`" file in the "`.magick`" sub-directory of my Linux/UNIX home directory, of the form...
 
@@ -1695,7 +1659,7 @@ Then it converts the generated postscript file into a set of multiple images usi
 Of course using two, or more delegates like this can produce other problems due to the complex interactions, miss-installations, and bugs that may be present in the delegate programs.
 But in general it works.
 
-### Output Delegate Example
+### Output Delegate Example {#delegate_output}
 
 Similar things are done when saving to specific image file formats that IM does not directly understand.
 
@@ -1724,7 +1688,7 @@ This is actually the the 'MAGIC' part of 'ImageMagick'.
 
   
 
-### Spawning External Commands
+### Spawning External Commands {#delegate_spawn}
 
 A external command delegates does not have to just be for converting images to/from files, but can be used as a quick way to run (or 'spawn') complex commands in the background.
 Such a delegate will have the attribute "`spawn="True"`" added to it, and will launch the command, wait for it to delete its input image, then IM will continue as normal, leaving the command running in the background.
@@ -1746,7 +1710,7 @@ Or for your own complex command that you run with IM's results.
 
 I recommend you take a look at the "`show`" spawning delegate in your system "`delegate.xml`" file.
 
-### Delegate Listings
+### Delegate Listings {#delegate_list}
 
 A full list of external delegates that IM can use for converting image formats is read from a special system file called "`delegates.xml`" as well as a personal "`delegates.xml`" file (see below).
 If you can find this file it makes interesting reading.
@@ -1765,7 +1729,7 @@ Note that some delegates declared in any "`delegates.xml`" file will not be list
 All delegates are optional, and more than one can be created for a specific conversion.
 If one delegate is not available (it errors or image is not created), then IM will try the next delegate, until one is found that does work, or it runs out of delegates to try, at which point an error will be produced indicating it can not read that image.
 
-### Postscript and PDF Delegate
+### Postscript and PDF Delegate {#delegate_postscript}
 
 By using delegates ImageMagick can make use of external programs to do some of the more complex and specialized image format conversions.
 
@@ -1792,7 +1756,7 @@ For Postscript images, that usually means "`ghostscript`" is not installed, mis-
 >
 > For PDF we use the '`ps:color`' delegate rather than '`ps:alpha`' because the '`pngalpha`' ghostscript device only supports a one-to-one page-to-image conversion and PDF's generally are multi-page.
 
-### Direct Delegate Format Conversion (Taint)
+### Direct Delegate Format Conversion (Taint) {#delegate_direct}
 
 The delegate system also allows IM to call a external program to convert a image from one format to another format, without any processing of the image by ImageMagick itself.
 But only if the destination image is readable by IM as an image and the final result of the "`convert`" was an 'untainted' copy of the image.
@@ -1828,7 +1792,7 @@ Here the image IM reads does become 'modified' or 'tainted' so it will write out
 
   
 
-### Other Delegate Examples
+### Other Delegate Examples {#delegate_other}
 
 #### Modifying Postscript Delegate for CMYK postscript
 
@@ -1879,7 +1843,7 @@ convert  "ffmpeg:test1.mpg[40]"  frame_40.png
 
 ------------------------------------------------------------------------
 
-## Really Massive Image Handling
+## Really Massive Image Handling {#massive}
 
 For handling any sort of large image it would probably be better for you to use a Q8 version of ImageMagick, which has half the memory requirements of the higher quality Q16 version.
 Check your IM's compiled Q level using "`identify -version`".
@@ -2057,7 +2021,7 @@ Works on Linux, Windows and sometimes on Mac.
 
 ------------------------------------------------------------------------
 
-## Long Streams of Lots of Images, Video sequences
+## Long Streams of Lots of Images, Video sequences {#image_streams}
 
 Streams of images is another problem area.
 Here it isn't the size of the image that is of concern, but the shear number of images involved.
@@ -2100,10 +2064,10 @@ In this way Im can then process a stream of images, one image at a time.
 With a loop, or using the pipelined commands, it should be posible to generate streaming image filters.
 More experimentation needed.*
 
-------------------------------------------------------------------------
-
-Created: 27 October 2005 (separated from 'basics' page)  
- Updated: 10 May 2013  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/files/`
+---
+created: 27 October 2005 (separated from 'basics' page)  
+updated: 10 May 2013  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 7.0.0
+url: http://www.imagemagick.org/Usage/files/
+---
