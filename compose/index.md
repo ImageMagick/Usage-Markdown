@@ -1,67 +1,12 @@
 # Compositing Images
 
-**Index**
-<!--
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Image Composition in IM](#compose)
--   [Definition and Terms](#compose_terms)
--   [Image Composition Operators](#compose_operators)
-
-[![](../img_www/granitesm_right.gif) Positioning The Overlay Image](#geometry)
--   [Composite Geometry/Gravity Settings](#geometry)
--   [Layer Canvas/Page Offsets](#page)
-
-[![](../img_www/granitesm_right.gif) Raw Tables of Compose Methods](tables/) (Separate Page)
-[![](../img_www/granitesm_right.gif) Duff-Porter Alpha Composition Methods](#duff-porter)
--   [`Over`](#over),  [`Dst Over`](#dstover),  [`Src`](#src),  [`Copy`](#copy),  [`Replace`](#replace),   
-    [`Dst`](#dst), 
-    `In`,  [`Dst In`](#dstin), 
-    `Out`,  [`Dst Out`](#dstout),   
-    [`ATop`](#atop), 
-    `Dst ATop`,  [`Clear`](#clear),  [`Xor`](#xor)
-
-[![](../img_www/granitesm_right.gif) Mathematical Compose Methods](#math)
--   [`Multiply`](#multiply),  [`Screen`](#screen),  [`Bumpmap`](#bumpmap),  [`Divide`](#divide),   
-    [`Plus`](#plus),  [`Minus`](#minus),  [`ModulusAdd`](#modulus_add),  [`ModulusSubtract`](#modulus_subtract),   
-    [`Difference`](#difference),  [`Exclusion`](#exclusion),  [`Lighten`](#lighten),  [`Darken`](#darken),   
-    [`LightenIntensity`](#lighten_intensity),  [`DarkenIntensity`](#darken_intensity), 
--   [Set Theory Equivalent Operations](#set_theory)
--   [Mathematical Composition and Alpha Blending](#math_blending)
--   [Image Channel Mathematics using Image Composition](#image_math)
-
-[![](../img_www/granitesm_right.gif) Lighting Composition Methods (Light, Dodge, Burn)](#light)
--   [`Overlay`](#overlay),  [`Hard Light`](#hardlight),  [`Soft Light`](#softlight),   [`Pegtop Light`](#pegtoplight),    
-    [`Linear Light`](#linearlight), [`Vivid Light`](#vividlight), [`Pin Light`](#pinlight),  
-    [`Linear Dodge`](#lineardodge),  [`Linear Burn`](#linearburn),  [`Color Dodge`](#colordodge),  [`Color Burn`](#colorburn), 
-
-[![](../img_www/granitesm_right.gif) Channel Copying Methods](#channel)
--   [`Copy Opacity`](#copyopacity),   [`Copy Red`](#copyred),  [`Copy Green`](#copygreen),  [`Copy Blue`](#copyblue),   
-    [`Copy Cyan`](#copycyan),  [`Copy Magenta`](#copymagenta),  [`Copy Yellow`](#copyyellow),  [`Copy Black`](#copyblack),   
-    [`Hue`](#hue),  [`Saturate`](#saturate),  [`Luminize`](#luminize),  [`Colorize`](#colorize), 
-
-[![](../img_www/granitesm_right.gif) Dissolve one Image Over Another](#dissolve)
-[![](../img_www/granitesm_right.gif) Blend two images together](#blend)
--   [Blend verse Dissolve](#blend_dissolve)
--   [Using Blend to Modify a Single Image](#blend_use)
-
-[![](../img_www/granitesm_right.gif) Watermark or Modulate Image](#watermark)
-[![](../img_www/granitesm_right.gif) Using a Mask to Limit Composed Area](#mask)
--   [Compose Mask and Transparency](#mask_trans)
-
-[![](../img_www/granitesm_right.gif) Composite using Image Tiles](#tile)
-[![](../img_www/granitesm_right.gif) Special Composition Methods](#special)
-[`Mathematics`](#mathematics),  [`Change Mask`](#changemask)
-[![](../img_www/granitesm_right.gif) Image Mapping Composition Methods](#mapping)
-[Variable `Blur`](#blur),   [`Displace` Mapping](#displace)
--->
-
 Image Composition is the technique of combining images that have, or do not have, transparency or an alpha channel
 This is usually performed using the IM "`composite`" command.
 It may also be performed as either part of a larger sequence of operations or internally by other image operators.
 
 ------------------------------------------------------------------------
 
-## Image Composition in IM
+## Image Composition in IM {#compose}
 
 Image Composition is the process of merging two (and only two) images in a variety of ways.
 It is associated with **Alpha Composition** which describes the result based on which part of the overlay is transparent.
@@ -89,7 +34,7 @@ The order of the images is important.
 
 Practical examples of both techniques (and more) can be reviewed in [Layers of Multiple Images](../layers/#composite), and is recomended reading before continuing.
 
-### Definition and Terms
+### Definition and Terms {#compose_terms}
 
 The more important image is the *background* image often called the *destination* image as this image is the one which is modified by Image Composition.
 The *background* sets not only the final size of the Image Composition but *meta-data*, such as 'comments', 'labels', 'density', 'profiles' and so on, are also preserved.
@@ -132,7 +77,7 @@ In the "`composite`" command these arguments are passed using the special option
 As of IM v6.5.3-4, the "`convert`" command can pass special arguments to the "`-composite`" operator by using the [Define Setting](../basics/#define), "`compose:args`".
 For examples, see the special [Dissolve](#dissolve) and [Blend](#blend) methods below.
 
-### Image Composition Operators
+### Image Composition Operators {#compose_operators}
 
 Apart from the direct two image compositing styles shown above, there are a number of other image operations that also use alpha compositing as part of their internal image processing.
 These operations are affected by the current "`-compose`" setting, though they will use either their own internal positioning, or a [Layered Image](../layers/#flatten) virtual canvas offset positioning technique.
@@ -181,9 +126,9 @@ This composition operator is especially important for composing [Image Animation
 
 ------------------------------------------------------------------------
 
-## Positioning The Overlay Image
+## Positioning The Overlay Image {#geometry}
 
-### Composite Geometry/Gravity Settings
+### Composite Geometry/Gravity Settings {#geometry_composite}
 
 In normal Alpha Composition the "`-geometry`" setting is used with "`-gravity`" to position the source image relative to the destination image.
 Using these settings is covered in great detail in [Image Positioning using Gravity](../annotating/#image_gravity).
@@ -195,7 +140,7 @@ See [Geometry Resize](../resize/#geometry) and [Layering images with Composite](
 
 In Alpha Composition only two images are involved, the 'source' and the 'destination' (or 'background'), though a third [Masking Image](#mask) may also be provided limiting the affected area of the composition.
 
-### Layer Canvas/Page Offsets
+### Layer Canvas/Page Offsets {#page}
 
 The composition of Layered Images use a very different philosophy.
 All the images (as many as you like) are treated equally in the order given.
@@ -214,7 +159,7 @@ As each image can have a separate 'canvas offset' multiple image composition is 
 
 The two styles are very different positioning techniques and it is important you use the right style for the composition techniques you plan to use.
 
-### Both positioning Techniques
+### Both positioning Techniques {#both}
 
 Only one composition technique, the multi-image list [Layers Composition](../anim_mods/#composite) operator, allows you to use BOTH positioning methods simultaneously.
 
@@ -226,7 +171,7 @@ As such it is generally a good idea to only use fully-coalesced images for the d
 
 ------------------------------------------------------------------------
 
-## Duff-Porter Alpha Composition Methods
+## Duff-Porter Alpha Composition Methods {#duff-porter}
 
 The Duff-Porter image composition methods are a traditional set of 12 methods which are very well defined.
 They are known as Alpha Composition as the images are merged according to some aspect of the image transparency or 'Alpha Channel'.
@@ -285,7 +230,8 @@ See Controlling Image Transparency for details about 'handling the transparency 
 This is why Duff-Porter composition is often the preferred masking method, rather than the alternative 'CopyOpacity' which completely replaces the Alpha Channel of an image, and can make the undefined invisible colors, visible.
 
 
-Over (overlay image over background)
+### Over (overlay image over background) {#over}
+
 This is the default compose method, the one everyone thinks of when overlaying an image on top of another image.
 The overlay image is placed 'over' the background image in the same way as an 'animation cell' or 'overhead transparency' can be placed over a background scene or image.
 
@@ -315,7 +261,7 @@ convert  rose:   label_A_white.png \
 
 [![\[IM Output\]](convert_over.gif)](convert_over.gif)
 
-### Dst\_Over (put image 'under' background)
+### Dst\_Over (put image 'under' background) {#dstover}
 
 Like other 'Dst\_' methods, this works almost exactly like the 'Src\_' version of the method, but with the overlay and background images swapped.
 As such '`Dst_Over`' is equivalent to placing the source overlay image 'under' the destination.
@@ -351,7 +297,7 @@ composite  -compose Dst_Over -tile pattern:checkerboard \
 
 [![\[IM Output\]](compose_under_tiled.jpg)](compose_under_tiled.jpg)
 
-### Src ('crop' to background image dimensions)
+### Src ('crop' to background image dimensions) {#src}
 
 This operator completely replaces the background image with the overlay image.
 The colors and transparency in the background are completely junked leaving a blank image the same size as the original destination over which is applied the source image.
@@ -391,7 +337,7 @@ composite -compose Src -gravity South \
 [![\[IM Output\]](hand_point.gif)](hand_point.gif)  
 [![\[IM Output\]](compose_expand.gif)](compose_expand.gif)
 
-### Copy (copy or replace image)
+### Copy (copy or replace image) {#copy}
 
 This operator is not one of the 12 'Duff-Porter' compose methods which is why it was not on the chart above.
 It is very important nevertheless.
@@ -415,7 +361,7 @@ If there is no transparency it would perform exactly like '`Over`'.
 
 Internally, it uses a special composition control setting that tells IM not to modify the parts that are not overlaid.
 
-#### Outside-Overlay Control
+#### Outside-Overlay Control {#outside-overlay}
 
 As of IM v6.5.3-4 the ability to control if a composition method will effect also areas outside the area overlaid was made user controlable by [Defining](../basics/#define) "`compose:outside-overlay`".
 It is 'on' by default but you can turn it off by setting it's value to "`false`".
@@ -436,7 +382,7 @@ For more information see [SVG Composition 'clip-to-self' property](http://www.w3
 
 Note that the use of a [Write Mask](../masking/#write_mask) can also be used to achieve this type of control, but using shaped areas according to the mask that is given.
 
-### Dst (a 'no-op' compose)
+### Dst (a 'no-op' compose) {#dst}
 
 This operator does nothing.
 The source, or overlay image, is completely ignored and the destination, or background image, is left unchanged.
@@ -459,7 +405,7 @@ The "`-bordercolor`" defines the color inside the frame which is usually placed 
 
 The '`Dst`' method can also be useful in a script to disable an alpha composition in a large an complex command without needing to create two different IM commands.
 
-### Dst\_In (or 'mask' the background with source)
+### Dst\_In (or 'mask' the background with source) {#dstin}
 
 The '`Dst_In`' method is like using the source image as a '[`Copy_Opacity`](#copyopacity)' mask for the background image.
 It will remove the overlay image's shape from the background image like a cookie cutter which cuts out a cookie's shape from cookie dough.
@@ -480,7 +426,7 @@ Any color in the overlay is completely ignored.
 > All '`Dst_In` and '`Src_In`' methods actually does is multiply the alpha channels of the two images.
 > The color of the appropriate image (according to the method) is preserved.
 
-### Dst\_Out (or a 'erase' operation)
+### Dst\_Out (or a 'erase' operation) {#dstout}
 
 Using the 'cookie dough' metaphor of '`Dst_In`' the result of the '`Dst_Out`' method is the dough that was left behind once a cookie has been cut out.
 
@@ -534,7 +480,7 @@ convert -size 70x70 xc:none -fill white -draw 'circle 35,35 35,5' \
 > If you did not use parentheses you will find a circle of semi-transparent black pixels around the erased part of the image.
 > I know, it happened to me while creating this example much to my own annoyance.
 
-### ATop ('Over', but clip to background image)
+### ATop ('Over', but clip to background image) {#atop}
 
 Like '`Over`' but limit the result to the original shape of the background image.
 In other words, the alpha channel on the destination is unchanged but the image colors are overlaid by any non-transparent parts of the source image.
@@ -580,7 +526,7 @@ For showing the usage of this compose method, it isn't bad.
 
 Further examples of using '`ATop`' compose method, can be seen in [Generating 3-D Logos](../advanced/#3d-logos).
 
-### Clear (Clear the Background. Ignore overlay image)
+### Clear (Clear the Background. Ignore overlay image) {#clear}
 
 This is an unusual compose method that essentially ignores the overlay image completely, and just clears the background image.
 
@@ -614,7 +560,7 @@ convert rose:  hand_point.gif -alpha Set -gravity South \
 
 [![\[IM Output\]](compose_clear_limited.gif)](compose_clear_limited.gif)
 
-### Xor (Clear the area shared)
+### Xor (Clear the area shared) {#xor}
 
 This is a very strange and little used composition method.
 It overlays two images then clears the overlapped area to transparency.
@@ -644,7 +590,7 @@ As you can see overlapping multiple images can produce some wonderful effects wh
 
 ------------------------------------------------------------------------
 
-## Mathematical Compose Methods
+## Mathematical Compose Methods {#math}
 
 This group of compose methods lets you perform mathematics with the images.
 This may not seem very useful but for low level manipulation of images the methods allow you to do things which you may not normally think of.
@@ -666,18 +612,11 @@ composite gradient_src.png -compose Multiply gradient_dst.png \
           gradient_result.png
 ~~~
 
-[![\[IM Output\]](gradient_src.png)](gradient_src.png)  
-Source
-  
-![ +](../img_www/multiply.gif)
-  
-[![\[IM Output\]](gradient_dst.png)](gradient_dst.png)  
-Dest
-  
-![=&gt;](../img_www/right.gif)
-  
-[![\[IM Output\]](gradient_result.png)](gradient_result.png)  
-Result
+![Source](gradient_src.png, "Source")
+![](../img_www/multiply.gif)
+![Dest](gradient_dst.png, "Dest")
+![](../img_www/right.gif)
+![Result](gradient_result.png, "Result")
 
 Basically, if you use the color value of the overlay (source) pixel vertically, and the background (destination) pixel horizontally, you can look up the value that will result from applying that operator with those values.
 
@@ -686,7 +625,7 @@ Something that can be very useful.
 
 [![\[IM Output\]](gradient_op_multiply.png)](gradient_op_multiply.png)
 
-### Multiply   ( ![](../img_www/multiply.gif) )   (make white transparent for diagrams/text)
+### Multiply   ( ![](../img_www/multiply.gif) ) (make white transparent for diagrams/text) {#multiply}
 
 Is one of the more useful, but under-rated, compose methods and is a simple multiply of the two images.
 
@@ -731,7 +670,7 @@ Or it can be used on satellite cloud images before overlaying the result on a ge
 
 [![\[IM Output\]](gradient_op_screen.png)](gradient_op_screen.png)
 
-### Screen (make black transparent for diagrams/text)
+### Screen (make black transparent for diagrams/text) {#screen}
 
 This is almost exactly like '`Multiply`' except both input images are negated before the compose, and the final result is also then negated again to return the image to normal.
 In technical terms the two methods are 'Duals' of each other.
@@ -761,7 +700,7 @@ See [Mathematical Masking](../masking/#compose) for an example of using this to 
 
 [![\[IM Output\]](gradient_op_bumpmap.png)](gradient_op_bumpmap.png)
 
-### Bumpmap (greyscale multiply)
+### Bumpmap (greyscale multiply) {#bumpmap}
 
 The '`Bumpmap`' method is essentially the same as '`Multiply`', except that the source image is converted into grey-scale before being overlaid.
 In other words, it will darken the image anywhere the source image is dark.
@@ -784,7 +723,7 @@ However as it can only darken images, it is not as useful as the '`HardLight`' m
 
 [![\[IM Output\]](gradient_op_divide.png)](gradient_op_divide.png)
 
-### Divide, Divide\_Dst, Divide\_Src   ( ![](../img_www/divide.gif) )   (removing shading effects)
+### Divide, Divide\_Dst, Divide\_Src   ( ![](../img_www/divide.gif) ) (removing shading effects) {#divide}
 
 The two images are divided from each other.
 Which image divides which depends on if '`Divide_Src`' or '`Divide_Dst`' is applied.
@@ -858,7 +797,7 @@ See '`Color_Dodge`' for equivalences.
 
 [![\[IM Output\]](gradient_op_plus.png)](gradient_op_plus.png)
 
-### Plus   ( ![](../img_www/plus.gif) )   (Add colors together to form a blend)
+### Plus   ( ![](../img_www/plus.gif) ) (Add colors together to form a blend) {#plus}
 
 Add the colors of the overlay to the background.
 In essence causing the two images to blend together equally.
@@ -928,7 +867,7 @@ This means the '`Plus`' the only [Mathematical Compose Methods](#math) operator 
   
 [![\[IM Output\]](gradient_op_minus.png)](gradient_op_minus.png)
 
-### Minus, Minus\_Dst, Minus\_Src   ( ![](../img_www/minus.gif) )
+### Minus, Minus\_Dst, Minus\_Src  ( ![](../img_www/minus.gif) ) {#minus}
 
 The result is one image subtracted from the other.
 
@@ -967,7 +906,7 @@ See the [Linear Burn Compose Method](#linearburn) for more details.
 
 [![\[IM Output\]](gradient_op_modulusadd.png)](gradient_op_modulusadd.png)
 
-### ModulusAdd
+### ModulusAdd {#modulus_add}
 
 The '`ModulusAdd`' is much like the '`Plus`' except when the result exceeds white, it is wrapped (modulus) back to black.
 
@@ -1003,7 +942,7 @@ Note how I use a background of '`gray50`' to effectively 'roll' the gradient hal
 
 [![\[IM Output\]](gradient_op_modulussubtract.png)](gradient_op_modulussubtract.png)
 
-### ModulusSubtract
+### ModulusSubtract {#modulus_subtract}
 
 The '`ModulusSubtract`' operator is the same as '`Minus`' except that it is a modulus subtraction.
 Subtracting 'white' from 'gray' will result in the original 'gray', and not black, as the values wrap back around.
@@ -1021,7 +960,7 @@ This operator is not recommended for use in any situation, as '`ModulusAdd`' wit
 
 [![\[IM Output\]](gradient_op_difference.png)](gradient_op_difference.png)
 
-### Difference (image compare, and selective negate)
+### Difference (image compare, and selective negate) {#difference}
 
 The resulting image is the absolute difference in the color values.
 
@@ -1051,7 +990,7 @@ composite black_n_white.gif   rose: \
 [![\[IM Output\]](compose_negate.gif)](compose_negate.gif)
 [![\[IM Output\]](gradient_op_exclusion.png)](gradient_op_exclusion.png)
 
-### Exclusion (image difference excluding greys)
+### Exclusion (image difference excluding greys) {#exclusion}
 
 Its formula is: $Src + Dest - 2*Src*Dest$
 
@@ -1076,7 +1015,10 @@ This method is also closely related to how the [Xor](#xor) composition blending 
 
 [![\[IM Output\]](gradient_op_darken.png)](gradient_op_darken.png) [![\[IM Output\]](gradient_op_lighten.png)](gradient_op_lighten.png)
 
-### Lighten and Darken (select maximum/minimum value)
+<a name="lighten"></a>
+<a name="darken"></a>
+
+### Lighten and Darken (select maximum/minimum value) 
 
 Compare the source and destination image color values and take the respective lighter or darker value.
   
@@ -1137,6 +1079,9 @@ Though that does not always produce good results.
 > For comparisons of the difference in gray-scale from various colorspaces see the example [Gray-Scaling using Colorspace](../color_mods/#grayscale).
 
 [![\[IM Output\]](gradient_op_darken.png)](gradient_op_darken.png) [![\[IM Output\]](gradient_op_lighten.png)](gradient_op_lighten.png)
+
+<a name="lighten_intensity"></a>
+<a name="darken_intensity"></a>
 
 ### Lighten-Intensity and Darken-Intensity (select color by intensity)
 
@@ -1230,7 +1175,7 @@ It is a pretty horrible bit of processing, but as you can see, it works.
 To get a '`Darken_Intensity`' version, replace the "`-delete 1`" with "`-delete 0`", OR, replace "`-compose Lighten`" with "`-compose Darken`".
 Either will work.
 
-### Set Theory Equivalent Operations
+### Set Theory Equivalent Operations {#set_theory}
 
 A number of the mathematical methods above are also used to perform set theory or boolean operations with shapes.
 
@@ -1285,7 +1230,7 @@ convert circle_left.gif circle_right.gif \
 
 Note that a "`-clamp`" may be needed for [HDRI](../basics/#hdri) versions of ImageMagick when applying any of the above 'set' or 'boolean' composition methods, to prevent the generation of out of range values.
 
-### Mathematical Composition and Alpha Blending
+### Mathematical Composition and Alpha Blending {#math_blending}
 
 You can use the above mathematical composition methods for performing mathematical operations on image.
 However there is on major cave-at with this.
@@ -1336,7 +1281,7 @@ Though when doing such maths, you also generally do not have any alpha channel s
 >
 > This is important to provide correct 'addition' of masked shapes, such as demonstrated in [DstOut Composition](#dstout).
 
-### Image Channel Mathematics using Image Composition
+### Image Channel Mathematics using Image Composition {#image_math}
 
 If the image you are using a [Mathematical Compose Methods](../compose/#math) on are simply fully-opaque gray-scale images, then you can use the above methods on them directly, without any problems.
 
@@ -1399,7 +1344,7 @@ More specifically those examples look at using mathematical compositions for gen
 
 ------------------------------------------------------------------------
 
-## Lighting Composition Methods -- Light, Dodge, Burn
+## Lighting Composition Methods -- Light, Dodge, Burn {#light}
 
 These methods modify the colors of an image in highly complex ways and are typically used to adjust the shade or intensity of the image making some areas brighter and others darker.
 One of the images is usually a gray-scale overlay, with the other provides a color source.
@@ -1421,7 +1366,7 @@ Also a guide on correctly using these compose methods is practically non-existen
 
 [![\[IM Output\]](gradient_op_overlay.png)](gradient_op_overlay.png)
 
-### Overlay (add color to a gray-scale object)
+### Overlay (add color to a gray-scale object) {#overlay}
 
 This compose method is very unusual in that it has been designed to both '`Multiply`' (darken) and '`Screen`' (lighten) an image at the same time.
 Which method is applied to a specific pixel is selected by the value of the destination image, which can be regarded as being the 'lighting mask'.
@@ -1531,7 +1476,7 @@ Or in the more complex example [Better 3-D Logo Generation](../advanced/#3d-logo
 
 [![\[IM Output\]](gradient_op_hardlight.png)](gradient_op_hardlight.png)
 
-### Hard\_Light (add texture or highlight/shadow to an image)
+### Hard\_Light (add texture or highlight/shadow to an image) {#hardlight}
 
 This is the same as '`Overlay`' except the source and destination images are swapped.
 If you compare the gradient images of these two operators you can see that the gradient is diagonally transposed, showing the swap of the source and destination inputs.
@@ -1604,7 +1549,7 @@ The only difference is the images order.
 
 [![\[IM Output\]](gradient_op_softlight.png)](gradient_op_softlight.png)
 
-### Soft\_Light (softer highlighting of an image)
+### Soft\_Light (softer highlighting of an image) {#softlight}
 
 The '**`Soft_Light`**' compose method will also add highlights and shadows to an existing color image.
 However, the colors of the destination image are modified to produce a softer contrast.
@@ -1655,7 +1600,7 @@ If you had done this with '`Hard_Light`' the sides of the image would be pure bl
 
 [![\[IM Output\]](gradient_op_pegtoplight.png)](gradient_op_pegtoplight.png)
 
-### Pegtop\_Light (a smoother variation to soft light)
+### Pegtop\_Light (a smoother variation to soft light) {#pegtoplight}
 
 While '`Soft_Light`' is much smoother than either '`Hard_Light`' or '`Overlay`', it is still actually based on two separate functions joined together.
 The '**`Pegtop_Light`**' method produces a near identical result as '`Soft_Light`' but uses a single smooth function without any discontinuity, not even the minor hard to see one used in '`Soft_Light`'.
@@ -1674,7 +1619,7 @@ For details see the [Pegtop SoftLight Alternative](http://www.pegtop.net/delphi/
 
 [![\[IM Output\]](gradient_op_linearlight.png)](gradient_op_linearlight.png)
 
-### Linear\_Light (A very simple but strong shading scheme)
+### Linear\_Light (A very simple but strong shading scheme) {#linearlight}
 
 Another image shading method that is very sensitive to the overlaid shading image.
 It has much larger zones of pure black and white limits.
@@ -1688,7 +1633,7 @@ While it is a continuous function, it could really be considered a combination o
 
 [![\[IM Output\]](gradient_op_vividlight.png)](gradient_op_vividlight.png)
 
-### Vivid\_Light (a variant of Linear Light)
+### Vivid\_Light (a variant of Linear Light) {#vividlight}
 
 The '**`Vivid_Light`**' method is the same as that implemented in Photoshop 7, and is basically a minor refinement on the '`Linear_Light`' method.
 What it does is avoid shading the extremes, so as to make strong primary colors in the images more 'vivid'.
@@ -1709,7 +1654,7 @@ Another way of looking at this is a mix of '`Color_Dodge`' and '`Color_Burn`', f
 
 [![\[IM Output\]](gradient_op_pinlight.png)](gradient_op_pinlight.png)
 
-### Pin\_Light
+### Pin\_Light {#pinlight}
 
 The '**`Pin_Light`**' function is designed to better preserve the mid-tones of the destination image, restricting its shading to the lighter and darker overlay shading.
 Supposedly this simulates the harsh and sharp lighting changes that result from a tiny pinhole light source, rather than a more diffuse 'softer' light source.
@@ -1728,7 +1673,7 @@ $$
 
 [![\[IM Output\]](gradient_op_lineardodge.png)](gradient_op_lineardodge.png)
 
-### Linear\_Dodge (Photoshop 'Add' Compose)
+### Linear\_Dodge (Photoshop 'Add' Compose) {#lineardodge}
 
 If you compare the gradient image (right) for '**`Linear Dodge`**' with that of '`Plus`' you will find that for two opaque images they have the exact same effect.
 Its formula is of course: $Src + Dest$
@@ -1751,7 +1696,7 @@ For details see [Plus Blending](#plus_blend).
 
 [![\[IM Output\]](gradient_op_linearburn.png)](gradient_op_linearburn.png)
 
-### Linear\_Burn (A Photoshop 'Subtract' method)
+### Linear\_Burn (A Photoshop 'Subtract' method) {#linearburn}
 
 The '**`Linear Burn`**' compose method is an 'Add Minus One' composition, that produces the same result as if you negated all the input and output images of a '`Linear Dodge`' or '`Plus`' compose method.
 
@@ -1800,7 +1745,7 @@ Note however '`Linear Burn`' can not be applied directly to the alpha channel of
 
 [![\[IM Output\]](gradient_op_colordodge.png)](gradient_op_colordodge.png)
 
-### Color\_Dodge (photoshop division)
+### Color\_Dodge (photoshop division) {#colordodge}
 
 This composition method uses the source overlay image as a mask that sort of protects the background image from "light exposure" over long periods of time.
 The parts exposed to a lighter mask is made lighter, (or dodged), while black areas produce no change.
@@ -1831,7 +1776,7 @@ See '`Divide`' for an example of how dividing images can be used for the removal
 
 [![\[IM Output\]](gradient_op_colorburn.png)](gradient_op_colorburn.png)
 
-### Color\_Burn
+### Color\_Burn {#colorburn}
 
 This is the reverse of '`Color_Dodge`', equivalent to inverting all the input and output images.
 The result is that the background image is darkened by a dark masking image, while white produces no darkening.
@@ -1858,7 +1803,7 @@ Much like '`Color_Dodge`' can divide backgrounds to white.
 
 ------------------------------------------------------------------------
 
-## Channel Copying Methods
+## Channel Copying Methods {#channel}
 
 These image composition methods are designed to transfer image channel information from one image to another.
 It however makes some assumptions about the image from which the 'channel' is being copied.
@@ -1867,7 +1812,7 @@ I suggest you read the sections [Image Color Space](../color_basics/#colorspace)
 The most useful channel copying composition methods is '[`Copy_Opacity`](#copyopacity)' (see below).
 It is simplest way to completely replace (or add) just the alpha channel to an existing image using a separate greyscale mask image.
 
-### Copy\_Opacity (Set transparency from gray-scale mask)
+### Copy\_Opacity (Set transparency from gray-scale mask) {#copyopacity}
 
 The original purpose of the '`Copy_Opacity`' operator was to copy the transparency channel of the source image into the destination image, to set that image's transparent parts.
 This is more commonly done using Duff-Porter operators, which are specifically designed for compositing images with alpha transparencies.
@@ -1908,6 +1853,10 @@ More than likely you want to use '`Dst_In`' instead, to subtract the transparent
 This operator is explained in even more detail in [Using a Mask Image with Fonts](../fonts/#mask) and in [Editing Image Masks](../masking/#editing).
 It is also used in many other examples throughout these pages.
 
+<a name="copyred"></a>
+<a name="copygreen"></a>
+<a name="copyblue"></a>
+
 ### Copy\_Red, Copy\_Green, Copy\_Blue
 
 Copy the given color channel of the source image into the destination image.
@@ -1920,6 +1869,10 @@ These channel copying methods are rarely used today thanks to the use of various
 Note that when merging various grayscale gradient patterns very interesting color images can be generated using these operators.
 For some examples look at the color gradient combinations in [raw compose operator tables](tables/).
 
+<a name="copycyan"></a>
+<a name="copymagenta"></a>
+<a name="copyyellow"></a>
+
 ### Copy\_Cyan, Copy\_Magenta, Copy\_Yellow
 
 These are synonyms for the same methods in the previous section.
@@ -1930,7 +1883,7 @@ The same for '`Green`' and '`Magenta`' channels, and the '`Blue`' and '`Yellow`'
 Because of this copying the '`Cyan`' channel is the same as copying a '`Red`' channel.
 What type of channel the image data is representing depends on the current [Color Space](../color_basics/#colorspace) of the image in memory.
 
-### Copy\_Black
+### Copy\_Black {#copyblack}
 
 This also just copies the '`Black`' channel from source to the destination, if it exists.
 However that channel only exists for CMYK images.
@@ -1938,28 +1891,28 @@ However that channel only exists for CMYK images.
 If the 'Black' channel does not exist this does nothing, which is probably a bug.
 What it probably should do is copy a grey-scale 'Black' channel image, to the black channel of the destination image (assuming that it exists).
 
-### Hue (copy the hue of a RGB image to destination)
+### Hue (copy the hue of a RGB image to destination) {#hue}
 
 This operator copies the hue H of the source image to replace the hue of the destination image, leaving the backgrounds saturation S and luminance L (*OR is it luminance Y?*) unchanged.
 
 This assumes both images are in RGB colorspace image.
 I have not tested this with a non-RGB colorspace image.
 
-### Saturate (copy the saturation of a RGB image to destination)
+### Saturate (copy the saturation of a RGB image to destination) {#saturate}
 
 Copies the Saturation S from source to destination, (assuming the image is a RGB colorspace image) leaving the color hue H and luminance L (*OR is it luminance Y?*) unchanged.
 
 This assumes both images are in RGB colorspace image.
 I have not tested this with a non-RGB colorspace image.
 
-### Luminize (copy the luminance of a RGB image to destination)
+### Luminize (copy the luminance of a RGB image to destination) {#luminize}
 
 Copies the luminance L (*OR is it luminance Y?*) from source to destination, leaving the color hue H and saturation S unchanged.
 
 This assumes both images are stored using RGB colorspace.
 I have not tested this with a non-RGB colorspace image.
 
-### Colorize (copy the color hue and saturation to destination)
+### Colorize (copy the color hue and saturation to destination) {#colorize}
 
 Copies the hue H and saturation S from source to destination, leaving the color luminance L (*OR is it luminance Y?*) unchanged.
 
@@ -1968,7 +1921,7 @@ I have not tested this with a non-RGB colorspace image.
 
 ------------------------------------------------------------------------
 
-## Dissolve One Image Over Another
+## Dissolve One Image Over Another {#dissolve}
 
 What the "`-dissolve`" operator does is provide a controlled '`Over`' compose method.
 It adjusts the transparency of the overlay image, before it is overlaid on top of the the background, according to the percentages given.
@@ -2049,7 +2002,7 @@ The "`-dissolve`" compositing method is commonly used as an alternative way of [
 
 ------------------------------------------------------------------------
 
-## Blend Two Images Together
+## Blend Two Images Together {#blend}
 
 The "`-blend`" compositing method provides what the "`-dissolve`" compositing method was originally intended to provide, before it was hijacked for other more basic operations.
 
@@ -2115,7 +2068,7 @@ It is recommended that in most situations you only need to use the single argume
 |         | This is equivalent to the "`-average`" image sequence operator, but with two images. \ |
 |         | (See also [Averaging Images](../layers/#average)) |
 
-### Blend verse Dissolve
+### Blend verse Dissolve {#blend_dissolve}
 
 While both Dissolve and Blend will make images semi-transparent "`-dissolve`" composes the image using '`Over`', while "`-blend`" merges the images using '`Plus`'.
 
@@ -2165,7 +2118,7 @@ If you were to compare these two images, you will find they are exactly the same
 In summary, a [Dissolve](#dissolve) (over with just overlay image given a percentage of transparency) is the same as a [Blend](#blend) (weighted addition of both images each with appropriate percentages) produces the same result for any fully-opaque image.
 It is only when one or both images contain transparency that the two methods differ.
 
-### Using Blend to Modify a Single Image
+### Using Blend to Modify a Single Image {#blend_use}
 
 Blend is basically an 'interpolation function', or 'weighted average' allowing you to combine two fully-opaque images in a controlled linear way.
 That is 30% of the source plus 70% of the background, to produce a new 100% opaque image.
@@ -2273,7 +2226,7 @@ composite  -blend 200  rose: rose_blurred.png -alpha Set blend_blur_200.jpg
 
 ------------------------------------------------------------------------
 
-## Watermark Option - Compose '`Modulate`'
+## Watermark Option - Compose '`Modulate`' {#watermark}
 
 The "`-watermark`" composite option or the "`modulate`" compose method, is meant to *dis-color* images in HSB space for copyright purposes.
 
@@ -2318,7 +2271,7 @@ For other watermarking techniques see, [Watermarking with Images](../annotating/
 
 ------------------------------------------------------------------------
 
-## Using a Compose Mask to Limit the Composed Area
+## Using a Compose Mask to Limit the Composed Area {#mask}
 
 The "`composite`" command and "`-composite`" operator will also take a third masking image which will limit the area effected by the "`-compose`" method.
 
@@ -2372,7 +2325,7 @@ convert tile_aqua.jpg  tile_water.jpg  -size 94x94  gradient: \
 This provides a simple way of overlapping two images.
 See [Overlapping Photos](../photos/#overlap).
 
-### Compose Mask and Transparency
+### Compose Mask and Transparency {#mask_trans}
 
 You may think from the above that using a three image composite mask is very much like using the '`Copy_Opacity`' to set a transparency of the overlay image, then composite that over your background.
 And for images without any transparency (such as the above) you would be right.
@@ -2435,7 +2388,7 @@ If the mask was only used to modify the transparency of the source image the abo
 
 ------------------------------------------------------------------------
 
-## Compose using Image Tiles
+## Compose using Image Tiles {#tile}
 
   
 The "`-tile`" setting in "`composite`" is very different to that same setting in either "`convert`" or "`montage`".
@@ -2487,11 +2440,11 @@ Also see [Using Image Mask, Mathematical Composition](../color_basics/#compose).
 
 ------------------------------------------------------------------------
 
-## Special Composition Methods
+## Special Composition Methods {#special}
 
 There are also a few special purpose composition methods that have been added for one reason or another.
 
-### Mathematics (User Defined Mathematical Compose Method)
+### Mathematics (User Defined Mathematical Compose Method) {#mathematics}
 
 
 This composite method takes 4 numerical values to allow the user to define many different [Mathematical Compose Methods](#maths).
@@ -2608,7 +2561,7 @@ More importantly this composition method can be used to do special types of [Mat
 > And is currently only available from the "`compose`" command.
 > It is not available from the "`composite`" command due to its need for arguments.
 
-### Change\_Mask (Make similar pixels transparent)
+### Change\_Mask (Make similar pixels transparent) {#changemask}
 
 This is an unusual method that will only make specific pixels in the destination image full-transparent.
 That is, the pixels in the destination image that match the given source image, according to the current [Fuzz Factor](../color_basics/#fuzz) setting.
@@ -2670,7 +2623,7 @@ It can however be used to generate bitmap masks of the changes between the image
 >
 > The result however is so useful in its own right that it was made available for direct use by users, and so defined the name of this rather complex composition method.
 
-### Image Mapping Effect Methods
+### Image Mapping Effect Methods {#mapping}
 
 There are also a couple of special methods that are not strictly composition methods.
 Rather than directly combining the two images on a pixel by pixel bases, the source or overlap image is a special control map, for some larger effect.
@@ -2687,10 +2640,10 @@ See **[Variable Blur Mapping](../mapping#blur)** for details.
 The '**`Displace`**' method on the other hand provides both an absolute and relative pixel lookup displacement technique that generates not only specific image distortion methods, but also glass, lens, and ripple, effects.
 See **[Distort and Displacement Mapping](../mapping#distort)** for details.
 
-------------------------------------------------------------------------
-
-Created: 5 January 2004  
- Updated: 1 December 2010  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/compose/`
+---
+created: 5 January 2004  
+updated: 1 December 2010  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.7-7
+url: http://www.imagemagick.org/Usage/compose/
+---
