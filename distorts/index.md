@@ -1,94 +1,5 @@
 # Distorting Images
 
-**Index**  
-<!--
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) General Distortion Techniques](#summary)
--   [Forward or Direct Pixel Mapping](#forward_mapping)
--   [Reversed Pixel Mapping](#mapping)
--   [Interpolated Pixel Lookup](#lookup)
--   [Super-Sampling, Improved Results](#super_sample)
--   [Area Resampling, the next step](#area_resample)
--   [Area Sampling vs Super Sampling](#area_vs_super)
-
- 
-[![](../img_www/granitesm_right.gif) Affine Matrix Transforms](affine/) (separate sub-directory)
- 
-[![](../img_www/granitesm_right.gif) Generalized Distortion Operator](#distort)
--   [Distort Options, Controls, and Settings](#distort_options)
--   [Best Fit (+distort) Option](#distort_bestfit)
--   [Image Filters and Color Determination](#distort_filter)
-    [Virtual Pixels and Tiling](#distort_virtual)  
-    [Invalid Distortion Pixels](#distort_invalid)  
-    [EWA Resampling and Filters](#distort_ewa)  
-    [Resampling Failure](#distort_failure)  
-    [Interpolated Color Lookup](#distort_interpolate)
--   [Verbose Distortion Summary](#distort_verbose)
-    [No-Op Distortions](#distort_noop)
--   [Viewport, Where Distort Looks](#distort_viewport)
-    [Centered Square Crop](#centered_square)
--   [Output Scaling, and Super-Sampling](#distort_scale)
-
- 
-[![](../img_www/granitesm_right.gif) Introduction to Distortion Methods](#methods)  
- 
--   [**SRT** Distortion](#srt) (scale,rotate,translate)  
-     
--   [Methods of Rotating Images](#rotate_methods)
--   [Distortions Using Control Points](#control_points)
--   [Image Coordinates vs Pixel Coordinates](#control_coordinates)
--   [Control Points using Percent Escapes](#control_escapes)
--   [Control Point Least Squares Fit](#control_leastsq)
--   [Control Point Files](#control_files)
-
-[![](../img_www/granitesm_right.gif) Affine (Three Point) Distortion Methods](#affine)
--   [**Affine** Distortion](#affine)
--   [**Affine Projection** Distortion](#affine_projection)
--   [Affine Distortion Examples](#affine_examples)
-    [Affine Tiling](#affine_tile)  
-    [3D Cubes, using Affine Layering](#cube3d)  
-    [3D Shadows, using Affine Shears](#shadow3d)  
-    [3D Shadows, using Perspective](#shadow3d_var)
--   [**Resize** Distortion](#resize)
-
-[![](../img_www/granitesm_right.gif) Four Point Distortion Methods](#perspective)
--   [**Perspective** Distortion](#perspective)
-    [Viewing Distant Horizons](#horizon)  
-    [3D Boxes, using Perspective Layering](#box3d)
--   [**Perspective Projection** Distortion](#perspective_projection)
--   [Perspective Internals](#perspective_internals)
--   [Bilinear Distortion Metjods](#bilinear)
-    [**BilinearForward**](#bilinear_forward)  
-    [**BilinearReverse**](#bilinear_reverse)  
-    [Bilinear Tiling](#bilinear_tiling)  
-    [Bilinear Internals](#bilinear_internals)
-
-[![](../img_www/granitesm_right.gif) **Polynomial** Distortion](#polynomial)
-[![](../img_www/granitesm_right.gif) Circular and Radial Distortion Methods](#circular_distorts)
--   [**Arc** Distortion](#arc) (images in circular arcs)
-    [Arc into Full Circle Rings](#arc_rings)  
-    [Arc Distortion Examples](#arc_examples)  
-    [Arc, Center Point Placement](#arc_center)
--   [**Polar** Distortion](#polar) (full circle distort)
--   [**DePolar** Distortion](#depolar) (polar to cartesian)
--   [Depolar-Polar  Cycle Technique](#polar_tricks)
-    [Depolar-Polar Problem](#polar_problems)  
-    [Polar Rotation](#polar_rotation)  
-    [Rotational Blur](#rotation_blur)  
-    [Radial Streaks](#radial_streaks)
--   [**Barrel** Distortion](#barrel) (lens correction)
--   [**BarrelInverse** Distortion](#barrelinverse) (alternative barrel)
-
-[![](../img_www/granitesm_right.gif) Projective Distortions](#projective_distorts)
--   [Cylinder 2 Plane](#cylinder2plane)
--   [Plane 2 Cylinder](#plane2cylinder)
-
-[![](../img_www/granitesm_right.gif) Multi-Point and Freeform Distorts](#freeform_distorts)
--   [**Shepards** Distortion](#shepards) (taffy pulling!)
-    [Shepards and Image Rotations](#shepards_rotation)  
-    [Shedard's Power Factor](#shepards_power)  
-    [Shepards Summary](#shepards_summary)
--->
 Having looked at the simple set of built-in image wrapping and distortion operators IM has provided since its early days, here we go deeper and look at the internal mechanics and more complex mathematical distortions of images.
 
 From this deeper understanding, we then looks at a more generalize image distortion operator.
@@ -96,7 +7,7 @@ This includes distortions, from complex rotations, scaling and shearing, to pers
 
 ------------------------------------------------------------------------
 
-## General Distortion Techniques
+## General Distortion Techniques {#summary}
 
 Now that we have been introduce to the simple distortion operators that IM provides, lets take a step back and look at the nitty-gritty, and see how image distortions actually work, and how you can improve the way you use them.
 
@@ -119,7 +30,7 @@ In the above mentioned functions IM just sets the missing areas to the current b
 To be able to distort images in a much more general way you need to use a more general distortion technique known as **[Reverse Pixel Mapping](#mapping)**.
 For example this method is used by the more complex [Circular Distortions](../warping/#circular) such as [Imploding](../warping/#implode) and [Swirling](../warping/#swirl) images.
 
-### Forward or Direct Pixel Mapping
+### Forward or Direct Pixel Mapping {#forward_mapping}
 
 The first thing people think of when attempting to distort an image is to just take each pixel in the source image and move it directly to its new location in the destination image.
 
@@ -164,7 +75,7 @@ This technique is especially useful when dealing with 3-D digitization of real w
 here you have a 'cloud' of color surface points, where none of the point locations have structure to them.
 Splatting 3-dimentional points however is beyond IM's scope of handling 2-D raster images.
 
-### Reverse Pixel Mapping
+### Reverse Pixel Mapping {#mapping}
 
 Rather than trying to map pixels into the final image, you can map the coordinate of each pixel in the destination image to the corresponding location in the source image, and from the source image lookup the color that pixel should contain.
 This is known as a *Reverse Pixel Mapping* and is what just about every image distortion program does.
@@ -268,7 +179,7 @@ In other words mapping *destination to Source*.
 What term should be used...
 Take your pick.
 
-### Pixel Color Lookup
+### Pixel Color Lookup {#lookup}
 
 There are still a few problems with the above [Reverse Pixel Mapping](#mapping) technique.
 First of all is that when mapping a pixel from a fixed integer position in the destination, you can end up with a non-integer position in the source image.
@@ -304,7 +215,7 @@ In this case IM uses the current "`-matte`" setting for the pixel color.
 If it is a 'near-miss' IM will anti-alias this invalide color with a neighboring colors of the image plane, if it knows how.
 It does for perspective distortions.
 
-### Super Sampling
+### Super Sampling {#super_sample}
 
 Interpolation works well for simple image distortions.
 But if part of the source image gets compressed into a much smaller area, each destination pixel could actually require a merging of a much larger area of the source image.
@@ -395,7 +306,7 @@ The difficulty with super-sampling is in determining just how many 'point sample
 Also what sort of 'weighting' should be applied.
 See the [Wikipedia Entry on Super-Sampling](http://en.wikipedia.org/wiki/Super-sampling).
 
-### Area Resampling, for better Distortions
+### Area Resampling, for better Distortions {#area_resample}
 
 One of the best alternatives to super-sampling methods is **Area Re-sampling**.
 
@@ -431,7 +342,7 @@ Super Sample does not have this shape problem as each 'sample' is reverse mapped
 So it becomes the better sampling method in such cases.
 But as mentioned it may not sample all the pixels needed, or even sample too many pixels.
 
-### Area Sampling vs Super Sampling
+### Area Sampling vs Super Sampling {#area_vs_super}
 
 Here are all three sampling methods IM currently provides, when applied to a extreme infinitely tiled perspective image.
 See [Viewing Distant Horizons](#horizon) below for details, of this distortion.
@@ -518,7 +429,7 @@ It is not actually part of the how an image is distorted, except with regard to 
 
 ------------------------------------------------------------------------
 
-## Generalized Distortion Operator
+## Generalized Distortion Operator {#distort}
 
 With the generation of these examples, the ensuing discussions in the [IM Forums](forum_link.cgi?f=1), and multiple requests from users for easier and faster ways to do perspective and other distortions, a new operator was added to IM v6.3.5-1 to allow us to more easily add image distortions, of many different types.
 
@@ -541,9 +452,9 @@ This is especially the case for the '`Scale-Rotate-Translate`' (or '`SRT`' for s
 Many distortion *methods* take a list of control points (in [Image Coordinates](#control_coordinates)), and typically these are given as *pairs of coordinates* which control how the distortion is to modify the image.
 These pairs of coordinates are detailed more fully later in [Distortions Using Control Points](#control_points).
 
-### Distortion Options, Controls and Settings
+### Distortion Options, Controls and Settings {#distort_options}
 
-### Best Fit +Distort Flag
+### Best Fit +Distort Flag {#distort_bestfit}
 
 By default "`-distort`" will usually distort the source image(s) into an image that is the same size as the original image.
 There are exceptions to this, such as the '`Arc`' distortion (a polar mapping variant) where the input source image size really does not have much meaning in the distorted form of the image (see [Arc Distortion](#arc) below for details).
@@ -586,12 +497,12 @@ But those are fairly rare distortions, and uses can define there own [Viewport](
 The virtual offset of the distorted image on the virtual canvas, is adjusted to account for these 2 extra pixels, so the distorted image is correct for overlaying, though not for simple composition.
 But be warned that while [Crop](../crop/#crop), [Trim](../crop/#trim) will preserve the layered image location, [Shave](../crop/#shave), and [Chop](../crop/#chop), will shift the layer image, relative to this offset.
 
-### Distort Pixel Color Determination
+### Distort Pixel Color Determination {#distort_filter}
 
 As discussed above in [Reversed Pixel Mapping](#mapping) above, each point in the resulting image is determined by first mapping that pixels location in the destination image, to the equivalent (reverse distorted) location in the source image, according to the distortion method chosen.
 However the final color of the pixel is not so simple to determine, as it is effected by a large number of factors.
 
-#### Virtual Pixels and Tiling
+#### Virtual Pixels and Tiling {#distort_virtual}
 
 The distortion mapped point may not hit the actual source image, but somewhere beside it, or even a lot way from the actual image.
 The solution to this is to pretend the source image surrounded by an 'infinite' or 'virtual' surface, which is defined by the current "`-virtual-pixel`" setting.
@@ -600,7 +511,7 @@ For details and examples of the effect of this setting see [Virtual Pixel](../mi
 This can be very useful for generating distorted, or even undistorted tile patterns of the source image.
 Techniques for this are shown in the [Virtual Pixel](../misc/#virtual-pixel) section itself (undistorted) and in [Affine Tiling](#affine_tile) and [View Distant Horizons](#horizon) below.
 
-#### Invalid Distortion Pixels
+#### Invalid Distortion Pixels {#distort_invalid}
 
 Sometimes the distortion of a destination pixel does not even 'hit' this 'infinite' plane on which the image sits.
 This generally happens when you distort the image using some type of 3-dimensional space distortion method and the pixel 'vector' does not even hit e source plane in which the image lies.
@@ -612,7 +523,7 @@ As such the "`-mattecolor`" is output for the 'sky'.
 
 Actually the perspective distortion algorithm also manages to include some 'anti-aliasing' information for pixels close to the horizon, though that is uncommon for such situations.
 
-#### EWA Resampling and Filters
+#### EWA Resampling and Filters {#distort_ewa}
 
 Once you know where a destination pixel 'hits' the source image, you need to determine the color to make the destination pixel, using the pixels near the 'hit' point in the source image.
 
@@ -647,7 +558,7 @@ Similarly you can use the [Lobes Support Setting](../filter/#lobes), to control 
 > 
 > A [Super Sampling](#super_sample) technique is recommended for these distortion methods to prevent generating severe [Aliasing Artefacts](../filter/#aliasing) in areas of image compression (down sampling) in the results.
 
-#### Resampling Failure
+#### Resampling Failure {#distort_failure}
 
 In some special situations the EWA resampling Ellipse may fail to actually 'hit' any real pixel for it to create a weighted average, and so generate an appropriate color.
 
@@ -694,7 +605,7 @@ For examples of this see the section on [Cylindrical Filters](../filter/#cyl_int
 > They will disappear or change with a different selection of the "`-virtual-pixel`" setting.
 > Normally it is not a problem, and only seen here due to the incomplete coverage of EWA filter support.
 
-#### Interpolated, or Direct Color Lookup
+#### Interpolated, or Direct Color Lookup {#distort_interpolate}
 
 **You can use "`-filter point`", to turn off filtering, and hence EWA resampling.** Then only a fast and simple single 'point' sample of color (interpolation) will be used to determine the color of each pixel.
 
@@ -710,7 +621,7 @@ But it does work extremely well for images containing minimal distortions such a
 A [Super Sampling](#super_sample) technique can be combined with interpolation, to improve the results in areas of strong compression, minification or down-sampling.
 See [Depolar-Polar Cycle Problems](#polar_problems) (a distort that can not use EWA resampling) for an example of using super-sampling to resolve interpolated aliasing.
 
-### Verbose Distortion Summary
+### Verbose Distortion Summary {#distort_verbose}
 
 By setting "`-verbose`" before running "`-distort`" (use "`+verbose`" to turn off again), distort will output to the standard error channel, information on the algorithm and internal coefficients it calculates, and uses when distorting the given image, in the way specified.
 
@@ -745,7 +656,7 @@ Also for a example of using an FX command for image distortion see [FX Image Res
 The extra '`0.5`' additions and subtractions in the above is needed to convert 'pixel coordinates' into 'image coordinates', and is required for correct mathematical handling of image distortions.
 See [Image vs Pixel Coordinates](#control_coordinates) below.
 
-#### No-Op Distortions
+#### No-Op Distortions {#distort_noop}
 
 The above example shows the results of doing a no-op distort.
 That is running an image through distort (for some secondary effect) but without any actual distort involved (just a 1 to 1 mapping of pixels).
@@ -777,7 +688,7 @@ See [Tiling using Virtual Pixels via Distort](../canvas/#tile_distort) for examp
 That is using the [Distort Operator](#distort) for its secondary effects, such as multi-image virtual pixel tiling, image size enlarging or cropping, adding borders, or even translation (by integer or even sub-pixel amounts).
 None of which actually requires the image to be 'distorted' just 'modified' in some 'programmed' way.
   
-### Viewport, Where Distort Looks
+### Viewport, Where Distort Looks {#distort_viewport}
 
 As mentioned above using "`-distort`" or "`+distort`" changes what the resulting size and location of the 'destination image' to either be: the same as the source image (ignoring any virtual canvas settings), or, a best fit calculation for the distorted source image (if posible), respectivally.
 
@@ -846,7 +757,7 @@ convert koala.gif  -define distort:viewport=125x125-25-25 \
 
 [![\[IM Output\]](koala_viewport_4.gif)](koala_viewport_4.gif)
 
-#### Centered Square Crop
+#### Centered Square Crop {#centered_square}
 
 If you use the "`-set`" option to set the 'viewport' of the resulting image, you can include [Percent Escapes](../basics/#arg_escape) in the assigned value.
 More specifically you can include [FX Percent Escapes](../transform/#fx_escapes) that can do mathematical calculations.
@@ -891,11 +802,11 @@ Curtisy of [Fred Weinhaus's Tidbits Page](http://www.fmwconcepts.com/imagemagick
 
 A technique using multiple image processing techniques for doing the same thing is shown in [Thumbnails, Square Padding and Cropping](../thumbnails/#square).
 
-#### Other Viewport Examples
+#### Other Viewport Examples {#viewport_other}
 
 Also see [Methods of Rotating Images](#rotate_methods) below for other examples of using a viewport to control what part of the distorted space is visible in the results.
 
-### Output Scaling, and Super-Sampling
+### Output Scaling, and Super-Sampling {#distort_scale}
 
 ~~~
 -define distort:scale=N
@@ -937,9 +848,9 @@ Also as '[Area Re-Sampling](#area_resample)' is not needed when using '[Super Sa
 
 ------------------------------------------------------------------------
 
-## Introduction to Distortion Methods
+## Introduction to Distortion Methods {#methods}
 
-### Scale-Rotate-Translate (SRT) Distortion
+### Scale-Rotate-Translate (SRT) Distortion {#srt}
 
 One of the simplest distortion, but probably one of the most versatile, is the '`SRT` or '`Scale-Rotate-Translate`' distortion.
 (SRT is just a quick short-hand)
@@ -1083,7 +994,7 @@ convert spaceship.gif \
 Of course it is a very rough example of how you can use a '`SRT`' distortion to animated a static image, but you should get the idea.
 You can add more frames, and perhaps some flames and smoke to improve it further (submissions welcome and best result will be added here with your name).
 
-### Methods of Rotating Images
+### Methods of Rotating Images {#rotate_methods}
 
 Images can be rotated in many ways.
 But just simple rotations may not be what you are looking for.
@@ -1142,7 +1053,7 @@ This last is ideal for a [Minor Rotation Correction of Photos](../photos/#rotati
 
 The only reason this method is simpler, is because only one 'scale' value needs to be calculated, and as such can be done 'inline'.
 
-### Distortions Using Control Points
+### Distortions Using Control Points {#control_points}
 
 While the '`SRT`' distortion method is defined by specifying rotation angles and scaling factors, most distortions are defined by moving 'points' on the source image, and moving them to a new position in the resulting image.
 This is a bit like the movement of the 'center' point when defining a '`SRT`' translation.
@@ -1194,7 +1105,7 @@ convert koala.gif  -virtual-pixel white \
 Of course a '`SRT`' distortion could have reproduced the above two point '`Affine`' distortion, except that here we defined the distortion in a different way.
 Which form you should use is up to you, depending on what you are trying to achieve.
 
-### Image Coordinates vs Pixel Coordinates
+### Image Coordinates vs Pixel Coordinates {#control_coordinates}
 
 The use of control points in the general case is straightforward, but becomes more difficult when you need to align a distorted image, with another image or drawn constructions.
 
@@ -1219,7 +1130,7 @@ Warning: A draw stroke width of less than 1.0 does not work well, (See [Drawing 
 Also the area fill adds an extra 0.5 (matching the stroke width addition) to the edges of the fill area (See [Draw Fill Bounds](../draw/#bounds)).
 This is done regardless of the actual strokewidth used.
 
-### Control Points using Percent Escapes
+### Control Points using Percent Escapes {#control_escapes}
 
 You can also use [Percent Escapes](../basics/#arg_percent) within the distort arguments.
 
@@ -1243,7 +1154,7 @@ For a more advance examples on using the [Distort Operator](#distort) to resize 
 You can also use percent escapes to calculate distortions based on an images position within the current image list.
 Examples of this are given in [Animated Distorts](../anim_mods/#distort).
 
-### Control Point Least Squares Fit
+### Control Point Least Squares Fit {#control_leastsq}
 
 If you supply more than 3 control points for '`Affine`' distortion, or more than 4 points for '`Perspective`' or the '`Bilinear`' distortions, ImageMagick will perform an least squares average over all the given points to find an 'average' representation for those distortions.
 
@@ -1252,7 +1163,7 @@ This means if you are trying to match up one image with another image (a techniq
 Of course if one or more of those points do not 'fit' well with the other points, then the result will be skewed by the 'odd' point, as IM tries to find the best fit using all the control points given, including the bad one.
 Some check to find and remove 'bad coordinate pairs' may be needed for some situations.
 
-### Control Point from Files
+### Control Point from Files {#control_files}
 
 The list of numbers (arguments) to a distortion can also be read from a file by using a '`@filename`' syntax, just as you can input text for things like "`-annotate`" and "`label:`" (see [Escape Characters in Text Arguments](../text/#escape_chars)).
 
@@ -1286,9 +1197,9 @@ The use of coordinate and distortion argument files will become more important w
 
 ------------------------------------------------------------------------
 
-## Affine (Three Point) Distortion Methods
+## Affine (Three Point) Distortion Methods {#affine}
 
-### Affine Distortion
+### Affine Distortion {#affine_distortion}
 
 Both the '`SRT`' distortion, and the one and two point forms of the '`Affine`' distortion shown above are actually simplifications of a full 3 point form of the '`Affine`' distortion.
 In fact if you study the "[`-verbose`](../option_link.cgi?verbose)" output of any '`SRT`' distortion (see [verbose distort setting](#distort_verbose) for an example) you will find that internally it really is a '`AffineProjection`' distortion (see below).
@@ -1351,7 +1262,7 @@ Some check to eliminate 'bad coordinate pairs' may be needed.
 
 `Future: Add some code to IM to report how 'accuriate' each input coordinate pair is relative to the others to help determine what 'bad points' should be elliminated by the user.`
 
-### Affine Projection Distortion
+### Affine Projection Distortion {#affine_projection}
 
 As I have already mentioned, the various arguments of an '`SRT`' distortion and the control points of an '`Affine`' distortion, are mathematically transformed into 6 special numbers which represent the 'coefficients' of an '`Affine Projection`'.
 
@@ -1393,9 +1304,9 @@ The older way of doing this distortion in ImageMagick was to use the "[`-affine`
 However as of IM v6.4.2-8 this is just a simple call to '`AffineProjection`' using the 'plus' or 'bestfit' form of the [Distort Operator](#distort).
 See the [Affine Matrix Transforms](affine/) sub-page for more details.
 
-### Affine Distortion Examples
+### Affine Distortion Examples {#affine_examples}
 
-#### Affine Tiling
+#### Affine Tiling {#affine_tile}
 
 All three of the above affine-like distortion methods we have looked at so far, also provides interesting ways to generate various tiling patterns, based on a distorted image.
 
@@ -1430,7 +1341,7 @@ Note that I also used a "`-filter point`" to turn off [EWA Resampling](#distort_
 
 The [Distort Viewport](#distort_viewport) can also specify a offset, so as to 'roll' the tiled images on the resulting image.
 
-#### 3d Cubes, using Affine Layering
+#### 3d Cubes, using Affine Layering {#cube3d}
 
 The '`Affine`' distortion, with its control points is ideal for generating Orthographic, and Isometric Cubes (see Wikipedia, [Orthographic Projection](http://en.wikipedia.org/wiki/Orthographic_projection) and [Isometric Projection](http://en.wikipedia.org/wiki/Isometric_projection) for definitions), from three images.
 All that you need to do is figure out four control points on a destination image.
@@ -1471,7 +1382,7 @@ Shown to the right is an enlargement of one such join in the image, showing the 
 For an alternative method of creating a isometric cube, without using "[`-distort`](../option_link.cgi?distort)", is given in [Isometric Cube using Shears](../warping/#sheared_cube).
 However this technique does not allow you use sub-pixel coordinates (not that I used any in the above, but I could have), but is restricted to positioning images using whole pixel (integers) coordinates.
 
-#### 3d Shadows, using Affine Shears
+#### 3d Shadows, using Affine Shears {#shadow3d}
 
 The same layering methods used above can also be used to generate cool 3-dimensional shadows of odd shapes.
 That add a shadow of any 'flat' shape that is standing upright.
@@ -1521,7 +1432,7 @@ That is the shadow is not realistic.
 In reality the shadow should be sharp where it joins the 'standing shape' and getting more blurry as the shadow gets further way.
 This however can be done using a [Variable Blur Mapping](../mapping/#blur), such as used in [Distance Blurred Shadow Font](../fonts/#var_blur).
 
-#### 3D Shadow, using Perspective Compression
+#### 3D Shadow, using Perspective Compression {#shadow3d_var}
 
 This is another way to add variable blur to the shadow, though I don't actually recommend it, it is fairly simple to implement.
 This example was however developed before [Variable Blur Mapping](../mapping/#blur) was added to ImageMagick.
@@ -1554,7 +1465,7 @@ As a result the blur is also distorted and expanded so as to blur more around th
 As a result of the perspective blurring, we get a variable blur that should peak at about 100 pixels away from the ground base-line.
 As defined by the initial perspective blur control points.
 
-### Resize Images using Distort
+### Resize Images using Distort {#resize}
 
 Both [Distort](#distort) and [Resize](../resize/) are actually very similar in many aspects.
 They are both image distortion operators, and both use [Reverse Pixel Mapping](#mapping) to create the resulting image.
@@ -1595,7 +1506,7 @@ In other words it provides a direct comparison of 2 pass orthogonal filters, and
 
 See [Distort vs Resize](../resize/#distort_resize) for one just such comparison.
 
-#### Distort Resize Internals
+#### Distort Resize Internals {#resize_internals}
 
 The following is the equivalent operations that the above [Distort Resize](#resize) performed internally.
 
@@ -1633,9 +1544,9 @@ As such this 'method' is really a convenience 'macro' for users, an not actually
 
 ------------------------------------------------------------------------
 
-## Four Point Distortion Methods
+## Four Point Distortion Methods {#perspective}
 
-### Perspective Distortion
+### Perspective Distortion {#perspective_distortion}
 
 Probably the most common requested type of distortion, has been for a fast perspective distortion operation.
 This is a 4 point distortion, so requires at least 4 sets of control point pairs, or 16 floating point values.
@@ -1717,7 +1628,7 @@ If you like to see more detail of how the distortion works, look at the [Perspec
 You can also look at a Postscript implementation that was presented in a PDF paper [Perspective Rectification](http://www.fho-emden.de/~hoffmann/persprect13052005.pdf), by *Gernot Hoffmann*.
 Also have a look at [Leptonica Affine and Perspective Transforms](http://www.leptonica.com/affine.html).
   
-### Viewing Distant Horizons
+### Viewing Distant Horizons {#horizon}
 
 You can produce some very unusual effects using [Perspective Distortions](#perspective) if you adjust the coordinates to produce a 'vanishing point' within the boundaries of the image.
 
@@ -1820,7 +1731,7 @@ By using it ImageMagick saves a huge amount of time calculating colors close to 
 This happens when either the ellipse become so elongated as to exceed floating point limits, or the number of sampling pixels (bounding parallelogram of elipse) becomes 4 times larger than the input source image.
 This is currently not user setable.
   
-### 3d Boxes, Perspective Layering
+### 3d Boxes, Perspective Layering {#box3d}
 
 The 'plus' form of "[`+distort`](../option_link.cgi?distort)" which ensures the whole distorted image is preserved in a correctly positioned layer (or 'virtual-canvas') is designed so that if the same 'control points' used to distort images, those point will line up in 'virtual-space'.
 This means that if the images are [Layer Merged](../layers/#merge/) together, those images will also line-up according to the control points.
@@ -1892,7 +1803,7 @@ I recommend reading the [forum discussion](../forum_link.cgi?t=11726) as it cont
 
 *(More Contributed examples welcome)*
 
-### Perspective Projection Distortion
+### Perspective Projection Distortion {#perspective_projection}
 
 Just as the '`Affine`' distortion can be handled directly giving the mathematical coefficients for a '`Affine Projection`', so to '`Perspective`' can also be handled by 8 coefficients of a '`Perspective Projection`' distortion.
 
@@ -1939,7 +1850,7 @@ Remember the matrix you give is the forward projective matrix, that will map sou
 Internally ImageMagick will reverse the matrix so it can map destination image coordinates to source image coordinates.
 If you like to see what those values are use the [Verbose Distortion Option](#distort_verbose), to get IM output its internal coefficients as a [FX Operator Expression](../transform/#fx) (see next).
 
-### Perspective Internals
+### Perspective Internals {#perspective_internals}
 
 If you add "[`-verbose`](../option_link.cgi?verbose)" (see [Verbose Distortion Summary](#distort_verbose) above) just before the Perspective distortion IM will output two operators that should be near equivalent replacements to the "[`-distort`](../option_link.cgi?distort)" operator.
 One is a VERY SLOW "[`-fx`](../option_link.cgi?fx)" version (See [FX DIY operator](../transform/#fx).
@@ -2010,13 +1921,13 @@ convert perspective_rose.png -fill none -stroke black \
 
 As you can see the same point in the perspective distorted image has been correctly located in both images (even down to a sub-pixel level)!
 
-### Bilinear Distortions
+### Bilinear Distortions {#bilinear}
 
 The '`Bilinear`' distortion methods implements another, type of 4 point distortion.
 However this are not nearly as straightforward as a '`Perspective`' distortion we looked at above.
 But as you will see it is a very useful alternative distortion.
 
-#### Forward Bilinear Distortion
+#### Forward Bilinear Distortion {#bilinear_forward}
 
 For example lets take a special test image of a mandrill that has had a grid overlaid on it, and distort it with perspective and bilinear.
 
@@ -2102,7 +2013,7 @@ That compression direction can even be angled, rather than aligned along one axi
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Before IM v6.5.7-0 the '`BilinearForward`' distortion was still in development and had problems with specific 'degenerate' cases, that could cause a 'black' error image in specific situations.
 
-#### Reversed Bilinear Distortion
+#### Reversed Bilinear Distortion {#bilinear_reverse}
 
 Because only horizontal and vertical lines remain straight you can not use a '`BilinearForward` distortion to reverse the distortion.
 As the grid lines in the transformed image are no longer horizontal or vertical, they will no longer remain straight in the resulting image!
@@ -2162,7 +2073,7 @@ convert mandrill_grid.jpg -matte -virtual-pixel black \
 
 As you can see as the destination quadratrial was not a orthogonal rectangle the image was severely distorted producing lots of inward curving lines.
 
-#### Tiled Bilinear Distortions
+#### Tiled Bilinear Distortions {#bilinear_tiling}
 
 Now while a '`BilinearReverse`' produces 'curved' images from rectangular ones.
 The effect does produce interesting tile patterns that seem to generate curved 3-dimensional looking surfaces.
@@ -2198,7 +2109,7 @@ convert checks.png  -virtual-pixel tile  -mattecolor DodgerBlue \
 As such I do not recommend using a tiled form of '`BilinearForward`'.
 However I do recommend you define an appropriate "`-mattecolor`" when using the forward distortion, to prevent the appearance of unexpected gray patches of 'sky'.
 
-#### Bilinear Internals
+#### Bilinear Internals {#bilinear_internals}
 
 The actual formula for mapping a coordinate in the source image to a destination image using a '[Forward Mapped Bilinear Distortion](#bilinear_forward) is...
 
@@ -2251,7 +2162,7 @@ As you can see the resulting equations is very simple, as we are now applying it
 
 For further reading I direct you to [Leptonica Affine and Perspective Transforms](http://www.leptonica.com/affine.html).
 
-#### Combined Bilinear Distortion
+#### Combined Bilinear Distortion {#bilinear_combined}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -2267,7 +2178,7 @@ This however has not been implemented yet, though is a planned addition.
 
 ------------------------------------------------------------------------
 
-### Polynomial Distortion (distorts using a polynomial fit)
+### Polynomial Distortion (distorts using a polynomial fit) {$polynomial}
 
 The '`Polynomial`' distortion like most of the previous distortion methods also maps pairs of control points, but uses a standard polynomial equation.
 This means one extra argument is needed before the control points are given.
@@ -2381,11 +2292,11 @@ Because of this it is often used by geographers for aligning (and overlaying) ae
 
 ------------------------------------------------------------------------
 
-## Circular and Radial Distortion Methods
+## Circular and Radial Distortion Methods {#circular_distorts}
 
 This are distortions that involve the use of radial vectors as the major component of the distortion process.
 
-### Arc Distortion (curving images into circular arcs)
+### Arc Distortion (curving images into circular arcs) {#arc}
 
 The '`Arc`' distortion (as of IM v6.3.5-5) is a simple variation of a much more complex, [polar distortion](#polar) (see below).
 
@@ -2449,7 +2360,7 @@ convert rose: -virtual-pixel White -distort Arc 360  arc_rose_7.jpg
 
 [![\[IM Output\]](arc_rose_1.jpg)](arc_rose_1.jpg) [![\[IM Output\]](arc_rose_2.jpg)](arc_rose_2.jpg) [![\[IM Output\]](arc_rose_3.jpg)](arc_rose_3.jpg) [![\[IM Output\]](arc_rose_4.jpg)](arc_rose_4.jpg) [![\[IM Output\]](arc_rose_5.jpg)](arc_rose_5.jpg) [![\[IM Output\]](arc_rose_6.jpg)](arc_rose_6.jpg) [![\[IM Output\]](arc_rose_7.jpg)](arc_rose_7.jpg)
 
-#### Arc into Full Circle Rings
+#### Arc into Full Circle Rings {#arc_rings}
 
 Longer images will '`Arc`' distort a lot better over very large angles.
 For example you can wrap long images (like text messages) into rings.
@@ -2552,7 +2463,8 @@ convert -font Candice -pointsize 20 label:' Around the World ' \
 ~~~
 
 [![\[IM Output\]](arc_fill.jpg)](arc_fill.jpg)
-#### Arc Distortion Examples
+
+#### Arc Distortion Examples {#arc_examples}
 
 You can generate interesting effects using a [Arc Distortion](#arc), for example arcing a longish checkerboard pattern into the ring (using the [Virtual Pixel](../misc/#virtual-pixel) setting '`HorizontalTile`' produces...
 
@@ -2623,7 +2535,7 @@ The same dithering effects also produces the circular line of 'dashes' surroundi
 
 You can achieve a similar and more controlled version of this effect by using a '`Edge`' setting with image that has been modified to add interesting edge pixels.
 
-#### Arc Center Point Placement
+#### Arc Center Point Placement {#arc_center}
 
 By default '`Arc`' will completely ignore any [Virtual Canvas](../basics/#page) offset the image may have or even not report the location of the 'center' around which the image was arc'ed.
 However knowing the location of the 'center point' can be very useful.
@@ -2654,7 +2566,7 @@ Unfortunately as virtual offsets are used to position the image, the exact posit
 You can not position a [Arc Distortion](#arc) to a sub-pixel defined location without doing a second distortion.
 However you can do this for a [Polar Distortion](#polar) (see next).
   
-### Polar Distortion (full circle distorts)
+### Polar Distortion (full circle distorts) {#polar}
 
 The '`Polar`' distort (Added IM v6.4.2-6) is a more low level version of the '`Arc`' distortion above.
 But it will not automatically do 'bestfit', nor does it try to preserve the aspect ratios of images.
@@ -2738,7 +2650,7 @@ convert worldmap_sm.jpg -virtual-pixel HorizontalTile -background Black \
 
 [![\[IM Output\]](polar_arc_tiled.jpg)](polar_arc_tiled.jpg)
 
-### DePolar Distortion (Polar to Cartesian)
+### DePolar Distortion (Polar to Cartesian) {#depolar}
 
 This is essentially the inverse of a '`Polar`' distortion, and has exactly the same set of optional arguments.
 
@@ -2775,7 +2687,7 @@ convert polar_arctic.jpg  +distort DePolar 0  world_restored_2.jpg
 
 [![\[IM Output\]](polar_arctic.jpg)](polar_arctic.jpg) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](world_restored_2.jpg)](world_restored_2.jpg)
 
-### (De)Polar Cycle Tricks (radial/angular blurs)
+### (De)Polar Cycle Tricks (radial/angular blurs) {#polar_tricks}
 
 As we saw above using a '*Radius\_Max*' of '`0`' will ensure that the whole image will be mapped into a circle when using a '`Polar`' (*Cartesian to Polar*) distortion, and the same setting will map that circle back into a rectangular image by using '`DePolar`' (*Polar to Cartesian*).
 
@@ -2827,7 +2739,7 @@ convert flower_sm.jpg -virtual-pixel Black -distort DePolar -1 \
 
 Note that the direction of the rotation is reversed from that of the [Rotate Operator](../warping/#rotate) or the [SRT Distortion](#srt).
 
-#### Depolar-Polar Cycle problems
+#### Depolar-Polar Cycle problems {#polar_problems}
 
 In the image rotation above you may have notice some 'stair case' like distortions along the edge of the rotated image.
 This is a well known problem and is caused by compressing the large circular circumfrence of the image into the smaller 'width' of the input image.
@@ -2868,7 +2780,7 @@ The best idea is to limit this to 'landscale' or wide images, with super-samplin
 
 All you need to do now is replace the "[`-noop`](../option_link.cgi?noop)" operator with the appropriate command to generate the radial and rotational effect you are looking for.
 
-#### Example Depolar-Polar Effects
+#### Example Depolar-Polar Effects {#polar_rotation}
 
 So lets again show better **Polar Rotation** of the image, this time using super sampling.
 Note however that as the intermediate image is 4 times larger, the amount of [Image Roll](../warping/#roll) also needs to be 4 times larger.
@@ -2949,7 +2861,7 @@ See also [Stars and Comets](../advanced/#stars) for another example of doing thi
 Special thanks goes to [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html) for the special uses of a DePolar-Polar cycle, and for insisting that I ensure that these distortions were fully reversible for rectangular images.
 He puts this technique to good effect in a number of his [ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/index.html), including "`bump`", "`ripples`", and "`striations`".
   
-### Barrel Distortion (correcting lens distortions)
+### Barrel Distortion (correcting lens distortions) {#barrel}
 
 The Barrel Distortion (added to IM v6.4.2-4) is designed specifically for correcting the spherical distortions caused by camera lenses in photos.
 That is distortions such as barrel and pincushion effects, which are effectively the reverse of each other.
@@ -3086,7 +2998,7 @@ convert rose: -matte -virtual-pixel transparent \
 
 [![\[IM Output\]](barrel_pinch_2.png)](barrel_pinch_2.png)
   
-### BarrelInverse Distortion (alternative barrel distortion)
+### BarrelInverse Distortion (alternative barrel distortion) {#barrelinverse}
 
 The '`BarrelInverse`' distortion method is very similar to the previous [Barrel Distortion](#barrel) distortion method, and in fact takes the same set of arguments.
 However the formula that is applied is slightly different, with the main part of the equation dividing the radius.
@@ -3116,7 +3028,7 @@ convert rose: -matte -virtual-pixel transparent \
 
 ------------------------------------------------------------------------
 
-## Projective Distortions
+## Projective Distortions {#projective_distorts}
 
 These are distortions that is used to project or map images that exist on one surface, onto another surface.
 The projective lines may be parallel, or radiate from some specific location.
@@ -3125,7 +3037,7 @@ While technically [Affine](#affine) and [Perspective Distortions](#perspective) 
 
 Here are the more unusual 'Projective Distortions' that have been implemented, typically with the help of the [IM Discussion Forum](../forum_link.cgi?f=1).
 
-### Cylinder 2 Plane
+### Cylinder 2 Plane {#cylinder2plane}
 
 The '`Cylinder2Plane`' distort is a radial projective distortion from a point in the center of a cylinder to a flat plane that is at a tangent to that cylinder.
 
@@ -3177,7 +3089,7 @@ For example extracting a small 90-degree view from a larger 360 degree panorama 
 
 *FUTURE: extracting smaller flat 'viewing' images from a 360 panorama, as well as a animation that slowly pans around those 360 degrees.*
 
-### Plane 2 Cylinder
+### Plane 2 Cylinder {#plane2cylinder}
 
 The '`Plane2Cylinder`' distort is the reverse of the above projection, and takes the parameters...
 
@@ -3227,9 +3139,9 @@ convert -size 12x12 xc: -draw 'circle 6,6 6,2' -negate \
 
 ------------------------------------------------------------------------
 
-## Multi-Point and Freeform Distorts
+## Multi-Point and Freeform Distorts {#freeform_distorts}
 
-### Shepard's Distortion (taffy-like distort)
+### Shepard's Distortion (taffy-like distort) {#shepards}
 
 Shepard's method (added to IM v6.4.2-4) uses the movement of the given control points to distort the image in terms of 'local' effects.
 You can think of this as equivalent to a thick block of 'taffy' representing the source image, having pins driven into it and then the pins moved around.
@@ -3299,7 +3211,7 @@ This specific example is special as it is the distortion used by Fred Weinhaus f
 However his original script used a slow [DIY FX Operator](../transform/#fx), as [Shepards Distortion](#shepards) had yet to be added to IM.
 This script was actually where the original idea for [Shepards Distortion](#shepards) came from.
 
-#### Moving areas of an image
+#### Moving areas of an image {#shepards_transform}
 
 You can even move a whole sections of the image by moving a set of points around that section all together.
 For example lets move the koala's head sideways by using points around the head (red line), but also pinning the parts of the image we don't want to move (green line).
@@ -3353,7 +3265,7 @@ convert koala.gif -virtual-pixel Black -distort Shepards \
 
 The final thing to do in the above is to simply set a better "`-virtual-pixel`" setting to set what color the undefined black areas in the above should be.
 
-#### Shepards and Image Rotations
+#### Shepards and Image Rotations {#shepards_rotation}
 
 One aspect of this distortion is that it does not like any form of rotation!
 
@@ -3409,7 +3321,7 @@ convert koala.gif -virtual-pixel Black \
 
 [![\[IM Output\]](koala_push.png)](koala_push.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](koala_ear_push.png)](koala_ear_push.png)
 
-#### Shepard's Power Factor
+#### Shepard's Power Factor {#shepards_power}
 
 Normally the distance weights of a shepard's IWD (Inverse Weighted Distance) follows a inverse square law (<sup>1</sup>/<sub>r<sup>2</sup></sub>), however as of IM v6.8.0-10 you can now use the expert [define](../basics/#define) '`shepards:power`' to control the 'power-level' of the global weights.
 
@@ -3480,7 +3392,7 @@ convert koala.gif -virtual-pixel Black -define shepards:power=25 \
 
 Remember [Shepards Distortion](#shepards) is actually equivalent to a displacement map (mapping destination pixels to the source image) generated using the same technique as the [Shepards, Sparse Color Operator](../canvas/#shepards), which is also effected by this same power factor define.
 
-#### Shepard's Distortion, in summary
+#### Shepard's Distortion, in summary {#shepards_summary}
 
 The [Shepards Distortion](#shepards) is a very versatile and free form method, limiting its distortions to areas marked by the movements, or non-movements of the given points.
 Its distortions are localized and restricted according to the distances between neighboring control-points, though all points still do have an averaged global effect.
@@ -3510,10 +3422,10 @@ Fred Weinhaus script '[shapemorph2](http://www.fmwconcepts.com/imagemagick/shape
   
   
 
-------------------------------------------------------------------------
-
-Created: 14 January 2009 (distorts/warping sub-division)  
- Updated: 21 March 2012  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/distorts/`
+---
+created: 14 January 2009 (distorts/warping sub-division)  
+updated: 21 March 2012  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.7.0-9
+url: http://www.imagemagick.org/Usage/distorts/
+---
