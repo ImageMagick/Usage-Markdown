@@ -1493,10 +1493,10 @@ This avoids and quantum rounding, clipping or other effects on the final results
 It can for example be used to perform a weighted average of large numbers of images, such as averaging smaller groups of images, then averaging those groups together.
   
 
-------------------------------------------------------------------------
-
-Created: 3 January 2004  
- Updated: 19 April 2012  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/layers/`
+---
+created: 3 January 2004  
+updated: 19 April 2012  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.5-3
+url: http://www.imagemagick.org/Usage/layers/
+---
