@@ -1,44 +1,12 @@
 # Montage, Arrays of Images
 
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Montage, Introduction and General](#montage)
--   [Geometry - Tile Size (Image Resize)](#geometry_size)
--   [Geometry - Tile Spacing](#geometry_spacing)
--   [Tile Layout Controls](#tile)
--   [Frame Decoration](#frame)
--   [Border Decoration](#border)
--   [Shadow Decoration](#shadow)
--   [Labeling Montage Images](#label)
--   [Using Saved Image MetaData](#metadata)
--   [Leaving Gaps in a Montage](#null)
-
-[![](../img_www/granitesm_right.gif) Montage Settings](#settings)
--   [Montage Color Settings](#color)
--   [Montage Control Settings](#controls)
--   [Re-Using Settings for Image Read/Creation](#reuse)
--   [Montage vs Convert Option Differences](#diff)
-
-[![](../img_www/granitesm_right.gif) Indexes of Image Directories](#index)
--   [HTML Thumbnail Image Maps](#html) (basic index map)
--   [Smaller HTML Index Maps, using JPEG images](#html_jpeg)
--   [Visual Index](#vid) (A non-montage solution)
--   [A Montage of Polaroid Photos](#polaroid) (a fancy index map)
-
-[![](../img_www/granitesm_right.gif) Special Techniques in using Monatge](#special_usage)
--   [Montage into Columns](#columns)
--   [Overlapped Montage Tiles](#overlap)
--   [Montage Concatenation Mode](#concatenate)
--   [Zero Geometry](#zero_geometry) (caution required)
--   [Background and Transparency Handling](#bg)
-
 The original use of "`montage`" is to generate tables of image thumbnails, that is, to reference thumbnails of large collections of images, especially photos.
 While it still can be used for that purpose, it can also do a lot more.
 This page examines what you can do with "`montage`", and how you can use it on your own images.
 
 ---
 
-## Montage, Introduction
+## Montage, Introduction {#montage}
 
 The "`montage`" command is designed to produce an array of thumbnail images - sort of like a proof sheet of a large collection of images.
 
@@ -50,7 +18,7 @@ montage balloon.gif medical.gif present.gif shading.gif  montage.jpg
 
 [![\[IM Output\]](montage.jpg)](montage.jpg)
 
-### Geometry - Tile Size and Image Resizing
+### Geometry - Tile Size and Image Resizing {#geometry_size}
 
 The "`-geometry`" setting, is probably the most important control sizing of "`montage`" as it controls the size of the individual thumbnail images, and the spacing between them.
 
@@ -102,7 +70,7 @@ Alternatively, use a special size such as '`1x1<`' which tells IM to only resize
 As no image can be smaller than 1 pixel, no image will be resized.
 The tile size will thus be again the largest dimention of all the images on the page - see [Zero Geometry, caution required](#zero_geometry) for reasons why you may like to do this.
 
-### Geometry - Tile Spacing
+### Geometry - Tile Spacing {#geometry_spacing}
 
 The positional part of the "`-geometry`" setting will add space between the individual 'tiles', by adding a [Border](../crop/#border) of those dimensions around the tiles before [Appending](../layers/#append) them together.
 
@@ -110,7 +78,7 @@ That means for the default "`-geometry`" setting of '`+4+3`', the tiles will be 
 The same goes for the vertical spacing.
 Note how the space bewteen the tiles when all the images were resized (second last example) is twice the size of the space around the edges.
 
-### Tile Layout Controls
+### Tile Layout Controls {#tile}
 
 The next most important option in "`montage`" is the "`-tile`" setting.
 This tells "`montage`" what limits you want on how the tiled images are to be laid out on the final result.
@@ -246,7 +214,7 @@ montage  font_*.gif  -tile 4x1  -geometry +2+2  multi_%d.gif
 
 [![\[IM Output\]](multi_0.gif)](multi_0.gif) [![\[IM Output\]](multi_1.gif)](multi_1.gif) [![\[IM Output\]](multi_2.gif)](multi_2.gif)
 
-### Frame Decoration
+### Frame Decoration {#frame}
 
 The best part of using "`montage`" to arrange images is that it provides a lot of extra controls to add extra 'fluff' around each image.
 
@@ -263,7 +231,7 @@ This is not like the same option in "`convert`" - see [Adding a 3D frame](../cro
 The "`montage`" frame option will automatically figure out default values for the internal and external bevel of the frame.
 As such only a single argument number is needed.
 
-### Border Decoration
+### Border Decoration {#border}
 
 Sometime around IM v6.1.0, "[`-border`](../option_link.cgi?border)" became a new decorative option of "`montage`".
 It now adds extra 'padding' around each image, after it has been resized according to the "[`-geometry`](../option_link.cgi?geometry)" setting.
@@ -288,7 +256,7 @@ montage balloon.gif medical.gif present.gif shading.gif \
 That is, border would have been thus added to the image long before the images get resized (according to "[`-geometry`](../option_link.cgi?geometry)"), which resulted in different border widths around each image depending on the size of the image at that point.
 It was to remove this inconsistency that [**-border**](../option_link.cgi?border) became a special "`montage`" setting.
 
-### Shadow Decoration
+### Shadow Decoration {#shadow}
 
 Adding a shadow with the frame is also quite good.
 
@@ -344,7 +312,7 @@ However as you can see above, this is not always enough space.
 
 "`Montage`" currently also provides no controls for the offset, color or the 'softness' of the generated shadow (at least not yet), but then, you didn't have such control with hard rectangular shadow that was provided by older versions of "`montage`".
 
-### Labeling Montage Images
+### Labeling Montage Images {#label}
 
 You can also tell "`montage`" to label images with their source filenames, though you probably need to resize the image frames, or the labels may not fit, truncating the text label.
 
@@ -458,7 +426,7 @@ montage           label_medical.png \
 In the above, you can see that the first image was labeled using the label supplied with the image itself.
 The second had the incoming label removed by a "`-label '' `" setting, while the third also used the image's label because we turned off the label setting with "`+label`".
 
-### Using Saved Image MetaData
+### Using Saved Image MetaData {#metadata}
 
 When generating images for later use by "`montage`", it is important to know what sort of image metadata a specific image file format can save.
 For example, only PNG, and MIFF image file format can actually store '`label`' meta-data in their saved image file format...
@@ -532,7 +500,7 @@ rm my_data.*
 
 [![\[IM Output\]](my_data_files.jpg)](my_data_files.jpg)
 
-### Leaving Gaps in a Montage
+### Leaving Gaps in a Montage {#null}
 
 While you can leave extra space in a montage at the bottom by judicious use of the "`-tile`" setting and controlling the number of images given, leaving an empty tile space in the middle of a montage requires the use of a special image.
 
@@ -562,12 +530,12 @@ Some solutions for this includes labeling and framing the image thumbnails yours
 
 ---
 
-## More Montage Settings
+## More Montage Settings {#settings}
 
 The "`montage`" settings I have shown above are only the basic controls for "`montage`".
 There are a lot of other settings you may like to consider for your own needs.
 
-### Montage Color Settings
+### Montage Color Settings {#color}
 
 - `-background`
 The color outside the drawn frame.
@@ -587,7 +555,7 @@ The fill color for text labels and titles.
 - `-stroke`
 The stroke color for text labels and titles.
 
-### Montage Control Settings
+### Montage Control Settings {#controls}
 
 > `-tile {cols}x{rows}`
 > The number of images across and down used to fill a single montage image. If more images were read in or created than fits in a single montage image, then multiple images will be created. (See [Tile Controls](#tile) above)
@@ -622,7 +590,7 @@ These settings are used for the creation of labels added underneath the displaye
 These include settings such as "`-font`", "`-pointsize`" (ignored for "`-title`"), "`-density`", "`-fill`", "`-stroke`", and "`-strokewidth`".
 As long as any, or all, of the above settings are defined or reset, before the final 'output filename' argument, "`montage`" will use them as you have requested.
 
-### Re-Using Settings for Image Read/Creation
+### Re-Using Settings for Image Read/Creation {#reuse}
 
 Note, however, that many of these options are also used for other purposes, in either the generation of images or during image processing.
 But thanks to the 'do things as you see them' command line handling on IM v6, this presents no problem to the "`montage`" command.
@@ -675,7 +643,7 @@ As long as those settings do not interfere with your image creating and processi
 ASIDE: You may like to look at the shell script I wrote to do something similar to the above (and which works with earlier versions of "`montage`") to display a directory of truetype (.ttf) fonts, called "`show_fonts`".
 Another shell script example is "`show_colors`".
 
-### Montage vs Convert Option Differences
+### Montage vs Convert Option Differences {#diff}
 
 Now while "`montage`" generally allows you to use any "`convert`" settings and operators in reading and processing its input images, there are a few differences which need to be highlighted.
 These "`convert`" operators and settings are different when used within "`montage`".
@@ -719,9 +687,9 @@ You can also see the extra arguments required by the "`convert`" form of the "`-
 
 ---
 
-## Indexes of Image Directories
+## Indexes of Image Directories {#index}
 
-### HTML Thumbnail Image Maps
+### HTML Thumbnail Image Maps {#html}
 
 "`Montage`" is especially designed for generating thumbnail maps of images.
 For example, here I have created an index of the [Photo Images](../img_photos/) source directory, which holds the digital photos used for examples throughout IM Examples.
@@ -777,7 +745,7 @@ This will hopefully change, though HTML generation is not a primary goal of Imag
 
 For other ways of generating thumbnails and HTML index pages, read the [Thumbnail Examples Page](../thumbnails/).
 
-### Smaller HTML Index Maps, using JPEG images
+### Smaller HTML Index Maps, using JPEG images {#html_jpeg}
 
 The above index image generated a PNG format index image.
 This was used because it is a lossless format, which can be important when the images being indexed are of wildly different colors.
@@ -824,7 +792,7 @@ A big saving for a downloadable web page of thumbnails!
 You can make the JPEG image even smaller by using a smaller "`-quality`" setting, though the default setting produces a very reasonable result.
 Other possible options include using "`-sampling-factor 2x1`" to make it even smaller.
 
-### Visual Index Images (a non-montage solution)
+### Visual Index Images (a non-montage solution) {#vid}
 
 An alternative to using "`montage`", is to use a special "visual index" input format...
 
@@ -849,7 +817,7 @@ However, you do not have the same controls as you do if you had used "`montage`"
 
 Note that a VID HTML index creates a PNG format thumbnail image.
 
-### A Montage of Polaroid Photos
+### A Montage of Polaroid Photos {#polaroid}
 
 With the advent of a [Complex Polaroid Transform](../transform/#polaroid) it is now possible to generate quite a different style of montage, and montage indexing.
 
@@ -891,9 +859,9 @@ See [Photograph Store Index](../img_photos/INDEX.html) for the results of this s
 
 ---
 
-## Special Techniques using Montage
+## Special Techniques using Montage {#special_usage}
 
-### Montage into Columns
+### Montage into Columns {#columns}
 
 By default "`montage`" can only place the images in the order given (typically sorted order) row by row.
 However, sometimes you would like to have them shown in column order.
@@ -922,7 +890,7 @@ montage font_*.gif  -tile 1x3  -geometry 16x16+1+1  miff:- |\
 
 [![\[IM Output\]](montage_columns_2.gif)](montage_columns_2.gif)
 
-### Overlapped Montage Tiles
+### Overlapped Montage Tiles {#overlap}
 
 In the [IM User Forum](forum_link.cgi?f=1), during a discussion between, [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html) , aka *[fmw42](../forum_link.cgi?u=9098)* and another user *[pooco](../forum_link.cgi?u=10889)*, it was discovered that if you set the inter-tile space (set in the "`-geometry`" setting) to a negative number you can actually overlap the tiled areas into which the images are drawn.
 
@@ -966,7 +934,7 @@ I also would not expect any HTML image mapping to work correctly, without some f
 
 However, a more complex, and user controllable solution for overlapping images is demonstrated using a scripted form of [Layer Merging](../layers/#merge), which is the recommended and more logical solution - see examples in [Programmed Positioning of Layered Images](../layers/#example).
 
-### Montage Concatenation Mode
+### Montage Concatenation Mode {#concatenate}
 
 As you saw, "`montage`" has a special concatenation mode, which can be used to join images together without any extra spaces just like the "`-append`" option.
 I do, however, recommend you set the "`-tile`" option appropriately, so as to direct the appending either horizontally, vertically or in an array.
@@ -1019,7 +987,7 @@ As such, this quirk is not likely to be seen, except by mistake when you acciden
 > Basically, the resulting image map will be as if the generated montage was a true equally divided 'array' of images, rather than a concatenation of the images in line.
 > In other words it is wrong for lines of 'short' images.
 
-### Zero Geometry, caution required
+### Zero Geometry, caution required {#zero_geometry}
 
 With only "`-geometry`" spacing values (no image resizing specified), all montaged image frames are set to the same size, so that both the widest and tallest image will fit, without being resized.
 
@@ -1066,7 +1034,7 @@ This brings up another good rule of thumb...
 **Always set a non-zero geometry when using "`montage`"**
 Even if it is only the 'fake' geometry such as I used above.
 
-### Background and Transparency Handling
+### Background and Transparency Handling {#bg}
 
 By default, images are overlaid onto the montage canvas, which is created using the "`-background`" color setting, as you can see here.
 
@@ -1170,7 +1138,7 @@ montage font_9.gif  recycle.gif  medical.gif \
 Any suggestions, ideas, or other examples of using "`montage`" are of course always welcome.
 The same goes for anything in these example pages.
 
----
+---------------------------------------------------------------------------
 
 Montage Image Output Size
 
@@ -1189,9 +1157,9 @@ There is also an effect of adding a shadow to the montage in this calculation, b
 It does not appear to affect the tile size used.
 
 ---
-
-Created: 3 January 2004  
-Updated: 27 December 2009  
-Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
-Examples Generated with: ![\[version image\]](version.gif)  
-URL: `http://www.imagemagick.org/Usage/montage/`
+created: 3 January 2004
+updated: 27 December 2009
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-7
+url: http://www.imagemagick.org/Usage/montage/
+---
