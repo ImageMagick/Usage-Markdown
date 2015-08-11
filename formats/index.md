@@ -1,65 +1,11 @@
 # Common Image Formats
 
-**Index**  
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)  
-   * [![](../img_www/granitesm_right.gif) A Brief Summary of Common Image File Formats](#summary)
-   * [![](../img_www/granitesm_right.gif) GIF Image File Format](#gif)
-     * [GIF Limited Color Table](#gif_colors)
-     * [GIF Transparency Color](#gif_trans)
-     * [GIF Boolean Transparency](#boolean_trans)
-     * [GIFs on a solid color background](#bgnd)
-     * [GIFs on a background pattern](#bg_pattern)
-     * [GIFs for non-specific backgrounds](#dither) (transparency dithering)
-     * [Non-ImageMagick GIF Processing](#gif_non-im)
-     * [GIF Offset Handling](#gif_offsets)
-     * [Related GIF Output Formats - GIF87](#gif87)
-   * [![](../img_www/granitesm_right.gif) JPEG Image File Format](#jpg)
-     * [JPEG compression](#jpg)
-     * [JPEG transparency - NOT](#jpg_trans)
-     * [JPEG Color Distortion](#jpg_color)
-     * [Reading JPEG images](#jpg_read)
-     * [Writing JPEG images](#jpg_write)
-     * [Related JPEG Output Formats](#jpg_formats) (A quick summary)
-     * [Non-ImageMagick JPEG Processing](#jpg_non-im) (A quick summary)
-     * [Lossless JPEG Processing](#jpg_lossless)
-   * [![](../img_www/granitesm_right.gif) PNG Image File Format](#png)
-     * [PNG compression](#png_quality)
-     * [PNG better compression](#png_compress)
-     * [PNG, Web Browsers and Transparency](#png_www)
-     * [PNG and the Virtual Canvas](#png_offsets)
-     * [PNG Resolution, Density and Units](#png_density)
-     * [PNG Sub-Formats](#png_formats)
-     * [Writing PNG Image Controls](#png_write)
-     * [Non-ImageMagick PNG Processing](#png_non-im)
-   * [![](../img_www/granitesm_right.gif) Image Profiles](#profiles)
-     * [Changing Colorspace of an Image](#color_profile) -- RGB &lt;=&gt; CMYK conversion
-     * [IPTC Profiles](#profile_iptc)
-   * [![](../img_www/granitesm_right.gif) A Word about Vector Image Formats](#vector)
-   * [![](../img_www/granitesm_right.gif) Other Image File Formats](#other)
-     * [Postscript (PS),  Encapsulated PS (EPS),  PDF](#ps),  
-     * [PbmPlus/NetPBM (PBM, PGM, PPM, PNM, PAM)](#pbmplus),  
-     * [TIFF](#tiff),
-     * [BMP](#bmp),
-     * [ICO](#ico),
-     * [RAW Digital Image (CRW,CR2,etc)](#crw),  
-     * [MPEG, M2V and AVI](#mpeg),
-     * [MNG](#mng),
-     * [Digital Picture Exchange (DPX)](#dpx),  
-     * [PSD](#psd),
-     * [WMF](#wmf),
-     * [MacroMedia Flash (SWF)](#swf),  
-     * [Webpage HTML Conversion](#html),
-     * [PCL Printing Format](#pcl),  
-     * [Kodak PhotoCD Format (PCD)](#pcd),
-     * [Raw RGB Data](#rgb),
-
 Many of the image file formats have particularities which you need to keep in mind when using that format.
 This page deals with these special needs, and ways to improve results in those formats.
 
 ------------------------------------------------------------------------
 
-## A Brief Summary of Common Image File Formats
+## A Brief Summary of Common Image File Formats {#summary}
 
 For a introduction to reading and writing image formats see [Image File Formats](../files/).
 While a list of all the ImageMagick file formats are given on the [IM Image Formats Page](http://www.imagemagick.org/script/formats.php).
@@ -142,7 +88,7 @@ See [MPEG, M2V, and AVI](#mpeg) below).
 
 ------------------------------------------------------------------------
 
-## GIF Image File Format
+## GIF Image File Format {#gif}
 
 The GIF format is a very widely known image file format, as it has been around for a very very very long time (from the late 1980's).
 It is often picked for images which are to be displayed on web pages that involve transparency or image animation.
@@ -182,7 +128,7 @@ Its animation abilities also make it an ideal method of generating flashy attent
 
 For anything else its limitations make it a poor image file format and you may be better moving to JPEG, PNG, or a video image format for your needs.
 
-## GIF Limited Color Table
+### GIF Limited Color Table {#gif_colors}
 
     FUTURE: color reduction examples -- reference basic color dithering
     Ensuring that a specific color is present in the final GIF image
@@ -192,7 +138,7 @@ For anything else its limitations make it a poor image file format and you may b
 See [Advanced 3-D Bullet Scripting](../advanced/#3d-bullets) for an example of generating multiple images over a range of colors.
 This technique can also be used to auto-convert your image into multiple images for many different backgrounds colors and patterns.
 
-## GIF Transparency Color
+### GIF Transparency Color {#gif_trans}
 
 For example here we use identify to extract the transparent color, and the color table a particular GIF image file used to represent transparency.
 The perl script extracts just the specific fields of interest (which can be multi-line).
@@ -285,7 +231,7 @@ All the option does is specify what color should placed in the color table for t
 
 If you want to change a specific (exact) color to become transparent, then use the "`-transparent`" [Color Replacement Operator](../color_basics/#replace).
 
-## GIF Boolean Transparency
+### GIF Boolean Transparency {#boolean_trans}
 
 Because the GIF format does NOT understand semi-transparent colors, and as ImageMagick by default generates semi-transparent color as part of its normal [Anti-Aliasing Methods](../antialiasing/), when you save a image to this format it will often come out horrible looking.
 
@@ -404,7 +350,7 @@ convert a.png -channel A -threshold 15%   a_no_shadow.gif
 Most other solutions to the GIF Boolean transparency problem is to inextricably tie the image to the background color of the web page on which it lives.
 Methods for doing this are complex and tricky, and this is what we will now look at.
 
-### GIFs on a solid color background
+### GIFs on a solid color background {#bgnd}
 
 What we would really like to to somehow preserve the shading of the semi-transparent and anti-aliased pixels, and still display it nicely on the WWW.
 To do this we have to be a little tricky.
@@ -426,7 +372,7 @@ Of course for this method to work correctly you need to know what exactly the ba
 Also after we are finished the image will not be much good on any other background.
 A big sacrifice to make.
 
-### GIFs on a background pattern
+### GIFs on a background pattern {#bg_pattern}
 
 But what if you are using some pattern for a background, instead of a simple solid color?
 
@@ -521,7 +467,7 @@ See [Background Removal using Two Backgrounds](../masking/#two_background).
 If you don't have two such images, then you can not perfectly recover the images semi-transparency, but there are techniques that can do a reasonable though imperfect job.
 For this see the other sections of [Background Removal](../masking/#bg_remove).
   
-### GIFs for non-specific backgrounds (or Dithering the Transparency)
+### GIFs for non-specific backgrounds (or Dithering the Transparency) {#dither}
 
     FUTURE: This will move into a more generalise (non-GIF specific), alpha
     dithering section.
@@ -620,7 +566,7 @@ Basically The more work you put into what you want to do, the better the result 
     FUTURE: dither example with a dither color matching the light blue background
     of this web page.
 
-### Non-ImageMagick GIF Processing
+### Non-ImageMagick GIF Processing {#gif_non-im}
 
   
 [giftrans](http://www.ict.griffith.edu.au/anthony/software/#giftrans)
@@ -658,7 +604,7 @@ This script is very useful for studying, editing, adjusting and merging GIF anim
 For basic usage see [Animation List Information](../anim_basics/#list_info).
 Also see [Appending Animations (time synced)](../anim_mods/#append) for a practical example of its use.
 
-### GIF Image Offset handling
+### GIF Image Offset handling {#gif_offsets}
 
 While the GIF format saves images with offsets as part of its image animation handling, it will not save a negative offset.
 Any attempt to save a negative offset to a GIF image will result in the offset being reset to zero.
@@ -671,7 +617,7 @@ This can result in an empty canvas being display with no image data present, whi
 
 Both will display the image using the page canvas size, with the appropriate page offset if the image is wholly contained on that page canvas.
 
-### Related GIF Output formats
+### Related GIF Output formats {#gif87}
 
 GIF87: Output the image in the older GIF 87a format.
 
@@ -684,7 +630,7 @@ IM after v6.0.4 will always produce a GIF 89a image format file, unless the user
 
 ------------------------------------------------------------------------
 
-## JPEG Image File Format
+## JPEG Image File Format {#jpg}
 
 This format is about as common as the [GIF format](#gif) above.
 But where GIF is designed with small simple "cartoon-like" images in mind, JPEG is designed for large real life images with lots of different colors, and shades of colors, such as photographs.
@@ -789,7 +735,7 @@ A new JPEG image format, Jpeg2000, is becoming available which does allow lossle
 However this requires the 'JasPer' library to also be installed.
 To use this special format, you also need to use a "`-compress jpeg2000`" option or save to a JP2 file format, so IM will call the right library.
 
-### JPEG transparency - NOT
+### JPEG transparency - NOT {#jpg_trans}
 
 Other than compression, the other major problem that JPEG users faces is that
 
@@ -813,7 +759,7 @@ But depending on the image source (especially GIF images) the transparent areas 
 
 If this could be a problem the best idea is to have IM [Remove Alpha Transparency](../masking/#remove), before saving the image to the JPEG image file format.
 
-### JPEG Color Distortion (testing)
+### JPEG Color Distortion (testing) {#jpg_color}
 
 As mentioned above, the compression algorithm JPEG used is lossy.
 That image will be modified to allow it to compress better, reducing file space, hopefully.
@@ -890,7 +836,7 @@ convert netscape: -quality 50% JP2:- |\
 
 For more information of using the JPEG2000 coder, see [JPEG2000 encoding parameter documentation](http://www.imagemagick.org/script/jp2.php).
 
-### Reading JPEG Control Options
+### Reading JPEG Control Options {#jpg_read}
 
 #### [-define](../option_link.cgi?define) jpeg:size={width}x{height}
 This setting is a hint to the JPEG image library to read just enough of the input (JPEG) image file to create an image that is at least the given size (width × height) or larger.
@@ -946,9 +892,9 @@ The better way to do this however is to use a "`-matte`" or "`-alpha set`", afte
 
 See [Image Type when Reading and Writing](../basics/#type) and [Alpha Set](../masking/#alpha_set) for more information.
 
-### Writing JPEG Control Options
+### Writing JPEG Control Options {#jpg_write}
 
-##### [-quality](../option_link.cgi?quality) {percent}
+#### [-quality](../option_link.cgi?quality) {percent}
 
 Probably the more important option when saving JPEG images, as this controls just how much the image is compressed when save it to disk.
 The value is not a size percentage, just a quality value.
@@ -965,7 +911,7 @@ If it is too large, reduce the quality by 10%; if too small, increase.
 After you have a lower and upper bound on quality, do a binary search to find a quality that best matches your desired file size.
 A total of five or six trials should be sufficient.
 
-##### [-define](../option_link.cgi?define) jpeg:extent={size}
+#### [-define](../option_link.cgi?define) jpeg:extent={size}
 
 As of IM v6.5.8-2 you can specify a maximum output filesize for the JPEG image.
 The size is specified with a suffix.
@@ -980,7 +926,7 @@ Perhaps 4 to 8 times slower.
 
 Mail me your results if you actually do a timing comparison.
 
-##### [-compress](../option_link.cgi?compress) LossLess
+#### [-compress](../option_link.cgi?compress) LossLess
 
 While a "`-quality`" setting of '`100%`' can still produce slightly different colors (it is still 'lossy'), the "`-compress LossLess`" option will ask the JPEG library to save the image without any loss of data.
 As such re-reading the image will restore should be exactly as it was saved.
@@ -997,12 +943,12 @@ Also you will end up with a lossless compressed JPEG which you won't be able to 
 
 As such 'lossless JPEG' is *NOT recommended* and some other format (like PNG or JP2) should be used instead.
 
-##### [-interlace](../option_link.cgi?interlace) Line
+#### [-interlace](../option_link.cgi?interlace) Line
 
 Use a 'Progressive JPEG' style that allows you to see large jpeg images while it is still being loaded.
 Also see the non-IM solution for re-encoding a existing JPEG without further loss, below.
 
-##### [-sampling-factor](../option_link.cgi?sampling-factor) {*horizontal*}x{*vertical*}
+#### [-sampling-factor](../option_link.cgi?sampling-factor) {*horizontal*}x{*vertical*}
 
 Adjust the sampling factor used by JPEG library for chroma down sampling.
 This can be set to '`2x1`' for creating MPEG-2 animation files.
@@ -1011,7 +957,7 @@ This can be set to '`2x1`' for creating MPEG-2 animation files.
 However when "quality" is 90 or higher, the channels are not sub-sampled.
 Basically it will define whether the processing 'block' or 'cell' size is 8 pixels or 16 pixels.
 
-##### [-density](../option_link.cgi?density) {*Xdpi*}x{*Ydpi*}
+#### [-density](../option_link.cgi?density) {*Xdpi*}x{*Ydpi*}
 
 While density has no effect on the output pixel size of the the resulting image.
 The above setting however is stored in the JFIF header of the JPEG image file format.
@@ -1021,14 +967,14 @@ Density is really only important when an output device is being used, such as pr
 For example ensuring the photo or page you scanned is printed at the right size.
 For more information about density see and [Image Density Meta-data](../basics/#density) and [Resample Resizing](../resize/#resample).
 
-##### [-type](../option_link.cgi?type) TrueColor
+#### [-type](../option_link.cgi?type) TrueColor
 
 IM will automatically use a gray-scale internal format for images that only contain gray-scale values.
 This setting will override this behaviour and force IM to always produce a color JPEG image rather than gray-scale.
 
 See [Image Type when Reading and Writing](../basics/#type) for more information.
 
-##### [-define](../option_link.cgi?define) jpeg:preserve-settings
+#### [-define](../option_link.cgi?define) jpeg:preserve-settings
 
 Set the "`-quality`" setting to the same setting that was found when reading the JPEG image.
 This however may not produce the same file size on the disk, and you will still have a further loss of image quality due to reading and re-saving an JPEG image.
@@ -1037,13 +983,13 @@ Also preserves the "`-sampling-factor`", rather than use the internal default of
 
 This does NOT preverse the JPEG quantization tables.
 
-##### [-define](../option_link.cgi?define) jpeg:optimize-coding=false
+#### [-define](../option_link.cgi?define) jpeg:optimize-coding=false
 
 Turn off the calculation of optimal Huffman coding tables for this image.
 This is on by default.
 It doe require an extra pass over the image, to do the calculations needed, but this is minimal.
 
-##### [-define](../option_link.cgi?define) jpeg:q-table={path}
+#### [-define](../option_link.cgi?define) jpeg:q-table={path}
 
 Defines a file containing custom JPEG quantization tables, in XML.
 An example table is typically installed in "`/etc/ImageMagick/quantization-table.xml`" but is built-in to ImageMagick and thus not normally used.
@@ -1052,7 +998,7 @@ A number of discussions about generating tables are to be found in the [Digital 
 
 This option was added to IM v6.5.7-8.
 
-### JPEG Quality vs File Size
+### JPEG Quality vs File Size {#jpg_quality}
 
 The final file size of a JPEG file for a given quality is indeterminate.
 The whole process of compression is so complex with small changes producing wildly different changes to the compression.
@@ -1084,7 +1030,7 @@ Also see [JPEG Compression, Quality and File Size](http://www.impulseadventure.c
 If you do not want that information, use the 'Save for Web' function.
 This tip was found in a paper on JPEG compression by [Gernot Hoffmann](http://www.fho-emden.de/~hoffmann/howww41a.html).
   
-### Related JPEG Output Formats
+### Related JPEG Output Formats {#jpg_formats}
 
 PJEG: Write a Progressive load JPEG Image.
 
@@ -1108,7 +1054,7 @@ Particularly windows users as Microsoft will probably not include it unless enou
 
 **Quicktime Tip**: Quicktime uses jp2 format but it must be output at "`-depth 8`".
 
-### Non-ImageMagick JPEG Processing (A quick summary)
+### Non-ImageMagick JPEG Processing (A quick summary) {#jpg_non-im}
 
   
 jpegtran
@@ -1140,7 +1086,7 @@ Many JPEG to web photo-album programs also does this.
 As you can see most of these programs are designed to process JPEG image meta-data without re-processing the JPEG compressed image.
 (see next)
 
-### Lossless JPEG Processing
+### Lossless JPEG Processing {#jpg_lossless}
 
 As decoding and re-encoding a JPEG image results in a degrading of image quality (unless lossless compression is used) the JPEG image library provides a number of special programs that can manipulate the image, without loss of quality.
 
@@ -1229,13 +1175,13 @@ Basically it is very posible to do lossless JPEG, processing such as 'cropping' 
 
 ------------------------------------------------------------------------
 
-## PNG Image File Format
+## PNG Image File Format {#png}
 
 This is one of the newest and most modern image formats, supporting 32 bit colors including alpha channel transparency, but can also be optimised to a GIF like 8 bit index color scheme (256 color limit).
 
 As such it makes a excellent intermediate format for image processing without loss of image information.
 
-### PNG compression
+### PNG compression {#png_quality}
 
 When used with PNG output, quality is regarded as **two decimal figures**.
 The first digit (tens) is the zlib compression level, 1-9.
@@ -1258,7 +1204,7 @@ You can force this behavior by using the "`-type TruecolorMatte`" image reading 
 An external program "`pngcrush`" or the newer version "`OptiPNG`" will attempt to re-compress a specific PNG for the best possible compression available, and is recommended for images that you plan to place on a web site.
 Another program "`pngnq`" will color quantize it to a 256 color, 8bit PNG, though it is not known if this support semi-transparent colors in that format.
 
-### Better PNG Compression
+### Better PNG Compression {#png_compress}
 
 One point about PNG images is that PNG image will preserve the color of fully-transparent pixels.
 That is even though you can not see it transparency has color, and PNG preserves that data.
@@ -1298,7 +1244,7 @@ convert image.jpg -thumbnail 200x90 -colors 256 \
 
 This however is only recommended for small thumbnail images that do not involve transparency, and only as a final step as it is a very 'lossy' technique.
 
-### PNG, Web Browsers and Transparency
+### PNG, Web Browsers and Transparency {#png_www}
 
 The Microsoft Internet Explorer (IE version 6 and earlier) does not correctly display PNG when any sort of transparency is involved.
 Now while this is the most well known browser not to fully support PNG, it isn't the only one.
@@ -1360,7 +1306,7 @@ See the [Alpha Background](../masking/#alpha_background) operator for a list of 
 
 My preference is for PNG display problems, is for Microsoft to fix IE, and it seems that IE version 7 will finally have a fully working PNG transparency handling, in all situations.
 
-### PNG and the Virtual Canvas
+### PNG and the Virtual Canvas {#png_offsets}
 
 While normally PNG will NOT save virtual canvas size information, it does save virtual canvas offset information, and if present, IM will try to generate a 'canvas size' that is appropriate for that offset and image size.
 This can be important to remember for some image operators such as "`-crop`", "`-trim`" and "`-flatten`", etc., which make use of the images canvas or page size as part of its operation or results.
@@ -1397,7 +1343,7 @@ The other thing to note is that the 'offset' information can have a negative off
 > Some web browsers do not handle negative offsets very well, producing odd results (one version of firefox had this problem).
 > Best to avoid a negative offset in images that may be used by other programs like web browsers.
 
-### PNG Resolution, Density and Units
+### PNG Resolution, Density and Units {#png_density}
 
 After some testing it seems the PNG image file format does not support a "`-units`" setting of '`PixelsPerInch`', only '`undefined`' and '`PixelsPerCentimeter`'.
 
@@ -1405,17 +1351,17 @@ Because of this IM converts a given density/unit setting into the appropriate va
 
 *More to come on this subject*.
 
-### PNG Sub-Formats
+### PNG Sub-Formats {#png_formats}
 
-  |        |                                              |
-  |--------|----------------------------------------------|
-  | PNG:   | Default. Save image using economical format. |
-  | PNG8:  | The PNG equivalent to GIF, including Boolean transparency and a 256 color table. |
-  | PNG24: | 8 bit RGB channels without an alpha channel. Special case can include boolean transparency (see below) |
-  | PNG32: | Force a full RGBA image format with full semi-transparency. |
-  | PNG48: | 16 bit RGB channels without alpha channel |
-  | PNG64: | 16 bit RGBA image (including semi-transparency) |
-  | PNG00: | Inherit PNG color and bit depth from input image. |
+------  ----------------------------------------------
+PNG:    Default. Save image using economical format.
+PNG8:   The PNG equivalent to GIF, including Boolean transparency and a 256 color table.
+PNG24:  8 bit RGB channels without an alpha channel. Special case can include boolean transparency (see below)
+PNG32:  Force a full RGBA image format with full semi-transparency.
+PNG48:  16 bit RGB channels without alpha channel
+PNG64:  16 bit RGBA image (including semi-transparency)
+PNG00:  Inherit PNG color and bit depth from input image.
+------  ----------------------------------------------
 
 For more information see [Image Type I/O Setting](../basics/#type).
   
@@ -1468,7 +1414,7 @@ This image does not have a palette, but does have some on/off alpha.
 The [-threshold](../option_link.cgi?threshold) of the alpha channel ensures only boolean (on/off) transparency is present, while the [Alpha Background](../masking/#alpha_background) option ensures all fully transparent pixels is a specific color.
 The above does NOT ensure there is no opaque pixel with that color, so the above can still fail.
 
-### Writing PNG Image Controls
+### Writing PNG Image Controls {#png_write}
 
 To better control the writing of PNG images, Glenn Randers-Pehrson revised a number of coder "`Define Global Setting`" controls, for IM v6.5.2.
 These include...
@@ -1570,7 +1516,7 @@ The latter two programs is not guaranteed, but they are practically impossible t
 
 Thanks to some additions by GlennRP, the PNG developer you can now also use "`-define png:exclude-chunk=date`" to tell the PNG coder not to write date-related text chunks.
 
-### Non-ImageMagick PNG Processing
+### Non-ImageMagick PNG Processing {#png_non-im}
 
 There are quite a number of helper applications for PNG, that could be useful adjuncts for generating a final PNG image file.
 
@@ -1599,7 +1545,7 @@ Most of these are to improve the final size of the image file, either using a lo
 
 ------------------------------------------------------------------------
 
-## Image Profiles
+## Image Profiles {#profiles}
 
 Handling profiles photo quality images is important, However from what I can tell this is a very magical art, and not simple matter.
 
@@ -1618,14 +1564,14 @@ identify -verbose image.tif | grep 'Profile-.*bytes'
 
 Common Profiles (and pointer to info I have on them) include...
 
-  |      |                                             |
-  |------|---------------------------------------------|
-  | EXIF | [Digital Camera Meta-Data](../photos/#exif) |
-  | ICC  | [Image Color Space Profile](#color_profile) |
-  | ICM  | [Microsoft Color Management (like ICC)](#color_profile) |
-  | IPTC | [Image and Author Info](#profile_iptc) |
-  | 8BIM | Photoshop Meta-data profile. Including data on: Clip Paths... *What else?* |
-  | XMP  | Adobe's Extensible Metadata Platform (XMP) (See [adobe page](http://www.adobe.com/products/xmp/)) |
+------ --------------------------------------------
+ EXIF   [Digital Camera Meta-Data](../photos/#exif)
+ ICC    [Image Color Space Profile](#color_profile)
+ ICM    [Microsoft Color Management (like ICC)](#color_profile)
+ IPTC   [Image and Author Info](#profile_iptc)
+ 8BIM   Photoshop Meta-data profile. Including data on: Clip Paths... *What else?*
+ XMP    Adobe's Extensible Metadata Platform (XMP) (See [adobe page](http://www.adobe.com/products/xmp/))
+ ------ --------------------------------------------
 
 You can extract these common profiles using some special output formats that IM provides for this purpose.
 For example...
@@ -1643,6 +1589,7 @@ You can also insert or re-insert a arbitrary profile as a 'blob' or binary strin
 
 That is the file "`data_file`" is added 'as is' to the image as the profile *profile\_name*.
 IM or any other application will ignore such profiles, unless it specifically knows about it.
+
 #### Color Profile Basics
 
 First a quick word...
@@ -1671,7 +1618,7 @@ When converting from a subtractive into a additive color-space (or visa-versa) w
 
 You can download color profiles from [International Color Consortium](http://www.color.org/srgbprofiles.xalter).
 
-### Changing Colorspace via Profiles
+### Changing Colorspace via Profiles {#color_profile}
 
 While you can just simple convert color spaces directly like this...
 
@@ -1765,7 +1712,7 @@ You can download color profiles from [International Color Consortium](http://www
 On top of the above Color Profile handling, many Digital Cameras, save color profile information in the EXIF profile attribute '`InterColorProfile`'.
 This attribute is meant to be "*assumed in the event of no colour profile being embedded*", according to the document, "[Colour Management and Adobe PhotoShop 7](http://www.computer-darkroom.com/ps7_colour/ps7_1.htm)".
 
-### IPTC Profiles
+### IPTC Profiles {#profile_iptc}
 
 The IPTC profile is used in images to store identification attributes of the image, such as caption, credit, author, keywords, etc.
 
@@ -1815,7 +1762,7 @@ convert picture.tif metadata.xmp
 
 ------------------------------------------------------------------------
 
-## A word about Vector Image formats
+## A word about Vector Image formats {#vector}
 
 Their is more than one style of image storage in the world...
   
@@ -1883,7 +1830,7 @@ Though the "Uniconvertor" could be used too.
 
 ------------------------------------------------------------------------
 
-## Other Image File Formats
+## Other Image File Formats {#other}
 
 There are of course a huge number of other image file formats that IM can use and understand, however using many of these less 'common' formats are specialized for some specific purpose, and often require some tweaking or other options to get them to perform the way you want them to perform.
 
@@ -1894,7 +1841,7 @@ Many of the notes are in a raw, unprocessed form, and I am willing to accept fur
 
 ------------------------------------------------------------------------
 
-### Postscript (PS, EPS) and Adobe PDF
+### Postscript (PS, EPS) and Adobe PDF {#ps}
 
 For basic handling see [Postscript Text Handling](../text/#postscript) and the warning about [Vector Image formats](#vector).
 
@@ -2144,7 +2091,7 @@ Another user on [IM Discussion Forums](../forum_link.cgi?t=13126) also suggested
 
 ------------------------------------------------------------------------
 
-### PbmPlus / NetPBM Image File Format: PBM PGM PPM PNM PAM
+### PbmPlus / NetPBM Image File Format: PBM PGM PPM PNM PAM {#pbmplus}
 
 The PbmPlus or "[NetPBM](http://netpbm.sourceforge.net/)" image manipulation filters (unix command line).
 
@@ -2314,7 +2261,7 @@ The two packages work together well, and recommend both be installed and used fo
 
 ------------------------------------------------------------------------
 
-### TIFF
+### TIFF {#tiff}
 
       The TIFF format is the propriety format for PhotoShop.  However it is so
       bloated with features, and has been modified by just about every application
@@ -2496,7 +2443,7 @@ See [Write or Clip Masks](../masking/#clip-mask) for more details.
 
 ------------------------------------------------------------------------
 
-### BMP, Windows Bitmap
+### BMP, Windows Bitmap {#bmp}
 
       The Windows desktop icon image format BMP (short for bit-mapped) is a very
       unfriendly image format and should probably be avoided if possible.
@@ -2553,7 +2500,7 @@ See [Write or Clip Masks](../masking/#clip-mask) for more details.
 
 ------------------------------------------------------------------------
 
-### ICO
+### ICO {#ico}
 
       To create a multi-resolution ICO format image simply create all the image
       sizes you require and write them all to the same ICO file.
@@ -2565,7 +2512,7 @@ convert icon-16.bmp icon-32.bmp icon-64.bmp \
 
 ------------------------------------------------------------------------
 
-### RAW Camera Image Formats (CRW,CR2,NEF,X3F,etc.)
+### RAW Camera Image Formats (CRW,CR2,NEF,X3F,etc.) {#crw}
 .
 
 Most digital cameras, with the exception of the Sigma Foveon sensor and some Sony cameras, convert the image produced by the lens into digital data by using millions of sensors which detect the brightness of one specific colour, Red, Green or Blue.
@@ -2646,7 +2593,7 @@ The above notes were first extracted from a IM Forum Topic [Converting RAW image
 
 ------------------------------------------------------------------------
 
-### MPEG, M2V and AVI Movies
+### MPEG, M2V and AVI Movies {#mpeg}
 
       IM is not very efficient at creating movies.  It will do the job though
       requires the external program "mpeg2encode" to do much of the dirty work.
@@ -2767,7 +2714,7 @@ The above notes were first extracted from a IM Forum Topic [Converting RAW image
 
 ------------------------------------------------------------------------
 
-### MNG, Multiple-image Network Graphics
+### MNG, Multiple-image Network Graphics {#mng}
 
 *Contributed by [Barry Loo](../forum_link.cgi?u=20882) from the [Example Ming Animation](../forum_link.cgi?f=2&p=82783) discussion.*
 
@@ -2802,7 +2749,7 @@ For more information on the MNG format, visit [MNG Web Site](http://www.libpng.o
 
 ------------------------------------------------------------------------
 
-### DPX, Digital Picture Exchange Format
+### DPX, Digital Picture Exchange Format {#dpx}
 
 This format is used in Motion Picture and Effects industry that makes particular use of the extensive header information and the format's flexibility in being able to handle high dynamic range and logarithmic colour values at a variety of bit depths using RGB or YCbCr pixel descriptions.
 It is based on, but largely supersedes, Kodak's Cineon format that has more a more film specific header.
@@ -2828,7 +2775,7 @@ For example the television header can contain a SMPTE time code so that shots ex
 The film header holds information about the reel of film the frames originated from and various camera settings that were used while filming.
 All these details will then stay with the images as they are passed between post-production companies.
 
-### Adding a time code to DPX files
+#### Adding a time code to DPX files
 
 You can add a time code to any dpx file using the following:
 
@@ -2883,7 +2830,7 @@ He is currently developing DPX applications, so more DPX info is likely to be co
 
 ------------------------------------------------------------------------
 
-### PSD
+### PSD {#psd}
 
 A PSD image file is the Photoshop Working image file format, just as XCF is the GIMP working file format, and [MIFF](../files/#miff) is ImageMagick's own working file format.
 
@@ -2922,7 +2869,7 @@ If you can provide more information or like to submit a summary of using IM for 
 
 ------------------------------------------------------------------------
 
-### WMF
+### WMF {#wmf}
 
 Another vector format often used for scalable clipart used by the Microsoft Office set of programs.
 The input can be scaled changing the "`-density`" before reading the image.
@@ -2931,7 +2878,7 @@ See also [Vector Image Formats](#vector).
 
 ------------------------------------------------------------------------
 
-### Flash Animations (SWF)
+### Flash Animations (SWF) {#swf}
 
 Flash animations are currently not supported by IM.
 
@@ -2943,7 +2890,7 @@ Sounds like a good delegate candidate to me.
 
 ------------------------------------------------------------------------
 
-### Webpage Conversion to Image (HTML)
+### Webpage Conversion to Image (HTML) {#html}
 
 If IM loads a HTML it will look for a html2ps to convert the html to postscript which it can then render as an image.
 This does not work very well, but does work.
@@ -2967,7 +2914,7 @@ Basically it is NOT easy and the best solutions only use IM for the final image 
 
 ------------------------------------------------------------------------
 
-### PCL Printing Format
+### PCL Printing Format {#pcl}
 
 IM PCL is version 6 PCL by default.
 
@@ -2981,7 +2928,7 @@ convert image.png -monochrome image.pcl
 
 ------------------------------------------------------------------------
 
-### Kodak PhotoCD or ProPhotoCD (PCD)
+### Kodak PhotoCD or ProPhotoCD (PCD) {#pcd}
 
 The Kodak PhotoCD file is a multi resolution image file format.
 That is each file contains the same image at 6 different sizes forming something known as a 'pyramid image'.
@@ -3001,7 +2948,7 @@ Information courtesy of Wolfgang Hugemann &lt;ImageMagick\_AT\_Hugemann.de&gt; f
 
 ------------------------------------------------------------------------
 
-### Raw RGB, and Gray Data
+### Raw RGB, and Gray Data {#rgb}
 
 Imagemagick has a some file formats for dealing with raw image data, specifically "`RGB:`", and "`GRAY:`".
 As well as provide settings defining that data.
@@ -3083,10 +3030,10 @@ For more examples of using raw image data (grayscale) see the IM Discussion foru
     normalized 0.0 to 1.0 values to the in-memory 16bit Quality levels needed
     by my Q16 version of IM.
 
-------------------------------------------------------------------------
-
-Created: 9 December 2003  
- Updated: 13 February 2012  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/formats/`
+---
+created: 9 December 2003  
+updated: 13 February 2012  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-5
+url: http://www.imagemagick.org/Usage/formats/
+---
