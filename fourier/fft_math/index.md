@@ -1,21 +1,8 @@
 # Fourier Multiply/Divide
 
-**Index**
-
- * [![](../../img_www/granitesm_left.gif)ImageMagick Examples Preface and Index](../../)
-   * [![](../../img_www/granitesm_left.gif)Fourier Transforms](../)
-   * [![](../../img_www/granitesm_right.gif)DIY FFT Mathematics Introduction](#intro)
-   * [![](../../img_www/granitesm_right.gif)FFT Multiply](#multiply)
-     * [Magnitude/Phase Images, Using IM Q16 non-HDRI](#multiply_mp)
-     * [Real/Imaginary Images, Using IM Q16 HDRI](#multiply_ri)
-
-   * [![](../../img_www/granitesm_right.gif)FFT Division](#divide)
-     * [Magnitude/Phase Images, Using IM Q16 non-HDRI](#divide_mp)
-     * [Real/Imaginary Images, Using IM Q16 HDRI](#divide_ri)
-
 ------------------------------------------------------------------------
 
-## DIY FFT Mathematics Introduction
+## DIY FFT Mathematics Introduction {#intro}
 
 Below are examples of a number of techniques for doing multiplication and Division with the two different styles of Fast Fourier Transform images.
 
@@ -77,9 +64,9 @@ For HDRI version of IM you can do this at any time.
 
 ------------------------------------------------------------------------
 
-## FFT Multiplication   ( ![](../../img_www/fft_multiply.gif) )
+## FFT Multiplication   ( ![](../../img_www/fft_multiply.gif) ) {#multiply}
 
-### FFT multiply of Magnitude/Phase Images, Using IM Q16
+### FFT multiply of Magnitude/Phase Images, Using IM Q16 {#multiply_mp}
 
         R = A ⊗ B       ( FFT Multiply )
 
@@ -181,7 +168,7 @@ convert convolve_kernel.png -roll -64-64 -fft \
 ![==&gt;](../../img_www/right.gif)
 [![\[IM Output\]](cameraman_convolve_2c.png)](cameraman_convolve_2c.png)
 
-### FFT multiply of Real/Imaginary Images, Using IM HDRI
+### FFT multiply of Real/Imaginary Images, Using IM HDRI {#multiply_ri}
 
         R = A ⊗ B       ( FFT Multiply )
 
@@ -350,12 +337,13 @@ convert convolve_kernel.png -roll -64-64 +fft \
 
 ------------------------------------------------------------------------
 
-## FFT Division   ( ![](../../img_www/fft_divide.gif) )
+## FFT Division   ( ![](../../img_www/fft_divide.gif) ) {#divide}
 
 Here use use division to remove or de-convolve (for want of a better word) the blur that was added to the above image.
 It is basically exactly the same except that the 'normalized' convolution kernel is divided from the main image.
 Each Example uses the image generated, using the same technique as above.
-### FFT divide of Magnitude/Phase, Using IM Q16
+
+### FFT divide of Magnitude/Phase, Using IM Q16 {#divide_mp}
 
         R = B ø A       ( FFT Divide )
 
@@ -448,7 +436,7 @@ Using HDRI version of IM to do roundtrip MP convolved FFT (Composite Math)
   
 [![\[IM Text\]](roundtrip_cmp_2hdri.txt.gif)](roundtrip_cmp_2hdri.txt)
 
-### FFT divide of Real/Imaginary, Using HDRI version of IM
+### FFT divide of Real/Imaginary, Using HDRI version of IM {#divide_ri}
 
         R = B ø A       ( FFT Divide )
 
@@ -618,10 +606,12 @@ Also with the new colorspace handling, gray50 is in sRGB colorspace while gray(5
 
 The examples also needs to be checked with respect to the use a linear gray-scale colorspace.
 
-------------------------------------------------------------------------
-
-Created: 13 August 2009  
- Updated: 6 October 2009  
- Author: [Fred Wienhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink.net&gt; with editing and formating by [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/fourier/fft_math/`
+---
+created: 13 August 2009  
+updated: 6 October 2009  
+author:
+- "[Fred Wienhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink.net&gt;"
+- "with editing and formating by [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.2-3
+url: http://www.imagemagick.org/Usage/fourier/fft_math/
+---

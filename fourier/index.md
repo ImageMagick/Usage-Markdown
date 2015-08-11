@@ -1,39 +1,10 @@
 # Fourier Transforms
 
-**Index**
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-   * [![](../img_www/granitesm_right.gif) Introduction](#introduction)
-   * [![](../img_www/granitesm_right.gif) The Fourier Transform](#fourier_transform)
-     * [Images are Waves](#waves)
-     * [2 Dimensional Waves in Images](#waves_2d)
-   * [![](../img_www/granitesm_right.gif) FFT/IFT In ImageMagick](#im_fft)
-     * [Using FFT](#fft)
-     * [Magnitude or Phase Only Images](#fft_partial)
-     * [FFT Spectrum Image](#fft_spectrum)
-     * [HDRI FFT Images](#fft_hdri)
-     * [FFT as Real-Imaginary Components](#fft_ri)
-   * [![](../img_www/granitesm_right.gif) Properties Of The Fourier Transform](#ft_properties)
-     * [FFT of a Constant Image](#fft_constant)
-     * [Effects of the DC Color](#fft_dc_color)
-     * [Spectrum Of A Sine Wave Image](#sine_spectrum)
-     * [Generating FFT Images Directly](#generation)
-     * [Spectrum Of A Rectangle Pattern Image](#rectangle_spectrum)
-     * [Spectrum Of A Flat Circular Pattern Image](#circle_spectrum)
-     * [Spectrum Of A Gaussian Circular Pattern Image](#gaussian_spectrum)
-     * [Spectrum Of A Grid Pattern Image](#grid_spectrum)
-   * [![](../img_www/granitesm_right.gif) Practical Applications](#ft_applications)
-     * [Changing The Contrast Of An Image - Coefficient Rooting](#contrast)
-     * [Blurring An Image - Low Pass Filtering](#blurring)
-     * [Detecting Edges In An Image - High Pass Filtering](#edge_detection)
-     * [Sharpening An Image - High Boost Filtering](#sharpening)
-     * [Noise Removal - Notch Filtering](#noise_removal)
-   * [![](../img_www/granitesm_right.gif) Advanced Applications](#advanced)
-   * [![](../img_www/granitesm_right.gif) FFT Multiplication and Division](fft_math/) (low level examples - sub-page)
+[FFT Multiplication and Division](fft_math/) (low level examples - sub-page)
 
 ------------------------------------------------------------------------
 
-## Introduction
+## Introduction {#introduction}
 
 One of the hardest concepts to comprehend in image processing is Fourier Transforms.
 There are two reasons for this.
@@ -61,7 +32,7 @@ It is recommended that you compile a personal HDRI version if you want to make t
 
 ------------------------------------------------------------------------
 
-## The Fourier Transform
+## The Fourier Transform {#fourier_transform}
 
 An image normally consists of an array of 'pixels' each of which are defined by a set of values: red, green, blue and sometimes transparency as well.
 But for our purposes here we will ignore transparency.
@@ -81,7 +52,7 @@ In other words, the 'frequency domain' representation is just another way to sto
 
 But how can an image be represented as a 'wave'?
 
-### Images are Waves
+### Images are Waves {#waves}
 
 Well if we take a single row or column of pixel from *any* image, and graph it (generated using "gnuplot" using the script "`im_profile`"), you will find that it looks rather like a wave.
 
@@ -144,7 +115,7 @@ Therefore, the 'frequency domain' representation is just another way to store an
 
 The '*Fourier Transform*' is then the process of working out what 'waves' comprise an image, just as was done in the above example.
 
-### 2 Dimensional Waves in Images
+### 2 Dimensional Waves in Images {#waves_2d}
 
 The above shows one example of how you can approximate the profile of a single row of an image with multiple sine waves.
 However images are 2 dimensional, and as such the waves used to represent an image in the 'frequency domain' also needs to be two dimensional.
@@ -158,9 +129,9 @@ The wave has a number of components to it.
 
 ------------------------------------------------------------------------
 
-## Using FFT/IFT In ImageMagick
+## Using FFT/IFT In ImageMagick {#im_fft}
 
-### Implementation Notes
+### Implementation Notes {#fft_implementation}
 
 ImageMagick makes use of the [FFTW, Discrete Fourier Transform Library](http://www.fftw.org/) which requires images to be converted to and from floating point values (complex numbers), and was first implemented in IM version 6.5.4-3.
 
@@ -175,7 +146,7 @@ Therefore, the complex transform is separated into two component images in one o
 
 **Complex Number Real/Imaginary**
 
-#### Real and Imaginary
+#### Real and Imaginary {#complex_numbers}
 
 The normal mathematical and numerical representation of the "[Complex Numbers](http://en.wikipedia.org/wiki/Complex_number)", is a pair of floating point values consisting of 'Real' (a) and 'Imaginary' (b) components.
 Unfortunately these two numbers may contain negative values and thus do not form viewable images.
@@ -191,7 +162,7 @@ To generate this representation we use the 'plus' form of the operators, "`+fft`
 
 **Complex Polar Magnitude/Phase**
 
-#### Magnitude and Phase
+#### Magnitude and Phase {#complex_polar}
 
 Direct numerical representation of the "[Complex Numbers](http://en.wikipedia.org/wiki/Complex_number)" is not very useful for image work.
 But by plotting the values onto a 2-dimensional plane, you can then convert the value into a [Polar Representation](http://en.wikipedia.org/wiki/Complex_number#Polar_form) consisting of 'Magnitude' (r) and 'Phase' (θ) components.
@@ -217,7 +188,7 @@ Note that a pure-white ('`QuantumRange`') is almost but not quite the same thing
 A Magnitude and Phase FFT representation of an image is generated using the normal FFT operators, "`+fft`" and "`+ift`".
 This will be looked at first in [Generating FFT Images and its Inverse](#fft).
 
-### Generating FFT Images and its Inverse  
+### Generating FFT Images and its Inverse {#fft}
 
 (Magnitude and Phase)
 
@@ -323,7 +294,7 @@ As such it is important to never save them in any image format that could distor
 It important to remember that both images are needed when recovering the image from the frequency domain.
 So it is no good saving one image, and junking the other, if you plan on using them for image reconstruction.
   
-### Magnitude or Phase Only Images
+### Magnitude or Phase Only Images {#fft_partial}
 
 Finally, lets try reconstructing an image from just its magnitude component or just its phase component.
 
@@ -352,7 +323,7 @@ Even with this constant magnitude it still produces patches of very intense pixe
 
 You just need to remember that both images are needed to reconstruct the original image.
 
-### Frequency Spectrum Image
+### Frequency Spectrum Image {#fft_spectrum}
 
 You will have noted that the magnitude image (the first or zeroth image), as appears almost totally black.
 It isn't really, but to our eyes all the values are very very small.
@@ -398,7 +369,7 @@ Basically as you have enhanced the 'magnitude' image, you have also enhanced the
   
 [![\[IM Output\]](lena_roundtrip_fail.png)](lena_roundtrip_fail.png)
 
-### HDRI FFT Images
+### HDRI FFT Images {#fft_hdri}
 
 When we mapped the results of the Fourier Transform into a image representation we scaled and converted the values from floating point "[Complex Numbers](http://en.wikipedia.org/wiki/Complex_number)", into integer image values.
 This naturally produced [Rounding Errors, and other "Quantum" Effects](../basics/#quantum_effects), especially in the smaller lower frequence magnitudes.
@@ -442,7 +413,7 @@ However such images, while more exactly representing the frequency components of
 In later examples processing an FFT of an image, will need such accuracy to produce good results.
 As such as we proceed with using Fast Fourier Transforms, a [HDRI version ImageMagick](../basics/#hdri) will become a requirement.
 
-### FFT as Real-Imaginary Components
+### FFT as Real-Imaginary Components {#fft_ri}
 
 So far we have only look at the 'Magnitude' and a 'Phase' representation of Fourier Transformed images.
 But if you have compiled a [HDRI version of IM](../basics/#hdri), you can also process images using floating point 'Real' and 'Imaginary', components.
@@ -504,9 +475,9 @@ This information loss is equal between the two types of image.
 
 ------------------------------------------------------------------------
 
-## Properties Of The Fourier Transform
+## Properties Of The Fourier Transform {#ft_properties}
 
-### FFT of a Constant Image
+### FFT of a Constant Image {#fft_constant}
 
 Lets demonstrate some of these properties.
 
@@ -547,7 +518,7 @@ To a fourier transform a image is just an array of values, and that is all.
 > While the 'phase' of the DC value is not important, it should always be a 'zero' angle (a colour value of 50% gray).
 > If it is not set to 50% gray, the DC value will have a 'unreal' component, and its value modulated by the angle given.
 
-### Effects of the DC Color
+### Effects of the DC Color {#fft_dc_color}
 
 In a more typical non-constant image, the DC value is the average color of the image.
 The color you should generally get if you had completely blurred, averaged, or resized the image down to a single pixel or color.
@@ -588,7 +559,7 @@ As such the final pixel colors in the reconstructed image could also be clipped 
 As such this is not a recommended method of color tinting an image.
 This is simpler to apply than modifying every pixel in the whole image, though the FFT round trip will make it overall a much slower color tinting technique.
 
-### Spectrum Of A Sine Wave Image
+### Spectrum Of A Sine Wave Image {#sine_spectrum}
 
 Next, lets take a look at the spectrum from a single sine (or cosine) wave image with 4 cycles across the image
 
@@ -688,7 +659,7 @@ Together they produce a whole.
 > You can save yourself some work by also ignoring the right half.
 > However for clarity I will 'notch' both halves.
 
-### Generating FFT Images Directly
+### Generating FFT Images Directly {#generation}
 
 Now we can use the above information to actually generate a image of a sine wave.
 All you need to do is create a black and 50% gray image pair, and add 'dots' with the appropriate magnitude, and phase.
@@ -735,14 +706,14 @@ Unfortunately all the frequencies will also be a power of two in any horizontal 
 
     FUTURE: Perlin Noise Generator using FFT 
 
-### Spectrum of a Vertical Line
+### Spectrum of a Vertical Line {#line_spectrum}
 
 *Show the FFT spectrum of a thin and thick line*
 
 *Demonstrate how small features become 'big' and big features become 'small' in the FFT of the image.
 Link that back to the sine wave which could be regarded as a 'line' with a single harmonic.* *Rotate the line*
 
-### Spectrum of a Rectangle Pattern Image
+### Spectrum of a Rectangle Pattern Image {#rectangle_spectrum}
 
 Next, lets look at the spectrum of white rectangle of width 8 and height 16 inside a black background.
 
@@ -798,7 +769,7 @@ The frequency pattern (magnitude or its spectrum does not change because it move
 This position separation, is one of the key features of the Fourier Transform that makes it so very important.
 It will allow you to search for specific image pattern within a larger image, regardless of the location of the object that produced that fourier spectrum pattern.
 
-### Spectrum Of A Flat Circular Pattern Image
+### Spectrum Of A Flat Circular Pattern Image {#circle_spectrum}
 
 Next, lets look at the spectrum from an image with a white, flat circular pattern, in one case with diameters of 12 (radius 6) and in another case with diameter of 24 (radius 12).
 
@@ -832,7 +803,7 @@ According to the mathematical properties of a Fourier Transform, the distance fr
 When the diameter of the circle is d=12, we get a distance of 1.22\*128/12=13.
 Likewise when the diameter of the circle is d=24, we get a distance of 1.22\*128/24=6.5.
 
-### Spectrum Of A Gaussian Pattern Image
+### Spectrum Of A Gaussian Pattern Image {#gaussian_spectrum}
 
 Next, lets look at the spectrum from two images, each with a white Gaussian circular pattern having sigmas of 8 and 16, respectively
 
@@ -892,7 +863,7 @@ Similarly if the image's sigma is 16, then the sigma in the spectrum will be 128
 
 This is the mathematical relationship of the "big becomes small and visa-versa" rule, and it can be useful to know.
 
-### Spectrum Of A Grid Pattern Image
+### Spectrum Of A Grid Pattern Image {#grid_spectrum}
 
 Next, lets transform an image containing just a set of grid lines spaced 16x8 pixels apart.
 
@@ -917,7 +888,7 @@ Such a tiling patterns produces very strong non-central grid patterns in its Fou
 
 The key point here is that the shape information is in the center, but tiling information is in a grid like array away from the center of its fourier transform.
 
-### More Spectrum Information
+### More Spectrum Information {#more_spectrum}
 
 Here are some links if you like to know more about spectrum images and there properties.
 
@@ -927,13 +898,13 @@ Here are some links if you like to know more about spectrum images and there pro
 
 ------------------------------------------------------------------------
 
-## Practical Applications
+## Practical Applications {#ft_applications}
 
 OK, now that we have covered the basics, what are the practical applications of using the Fourier Transform?
 
 Some of the things that can be done include: 1) increasing or decreasing the contrast of an image, 2) blurring, 3) sharpening, 4) edge detection and 5) noise removal.
 
-### Changing The Contrast Of An Image - Coefficient Rooting
+### Changing The Contrast Of An Image - Coefficient Rooting {#contrast}
 
 One can adjust the contrast in an image by performing the forward Fourier transform, raising the magnitude image to a power and then using that with the phase in the inverse Fourier transform.
 To increase, the contrast, one uses an exponent slightly less than one and to decrease the contrast, one uses an exponent slightly greater than one.
@@ -959,7 +930,7 @@ convert lena.png -fft \
 However doing this to the original image would also have the same effect as doing this to the original image.
 That is a global modification of the magnitudes has the same effect as if you did a global modification of the original image.
 
-### Blurring An Image - Low Pass Filtering
+### Blurring An Image - Low Pass Filtering {#blurring}
 
 One of the most important properties of Fourier Transforms is that convolution in the spatial domain is equivalent to simple multiplication in the frequency domain.
 In the spatial domain, one uses small, square-sized, simple convolution filters (kernels) to blur an image with the [-convole](../option_link.cgi?convole) option.
@@ -1061,7 +1032,7 @@ The more important point is for large strong blurs, the frequency domain image i
 
 For small sized blurs you may be better with the more direct convolution blur.
 
-### Detecting Edges In An Image - High Pass Filtering
+### Detecting Edges In An Image - High Pass Filtering {#edge_detection}
 
 In the spatial domain, high pass filters that extract edges from an image are often implemented as convolutions with positive and negative weights such that they sum to zero.
 
@@ -1105,7 +1076,7 @@ convert lena.png -fft \
 
 Carefully examining these two results, we see that the simple circle is not quite as good as the gaussian, as it has 'ringing' artifacts and is not quite as sharp.
 
-### Sharpening An Image - High Boost Filtering
+### Sharpening An Image - High Boost Filtering {#sharpening}
 
 The simplest way to sharpen an image is to high pass filter it (without the normalization stretch) and then blend it with the original image.
 
@@ -1124,7 +1095,7 @@ convert lena.png -fft \
 
 Here a high pass filter, is done in the frequency domain and the result transformed back to the spatial domain where it is blended with the original image, to enhance the edges of the image.
 
-### Noise Removal - Notch Filtering
+### Noise Removal - Notch Filtering {#noise_removal}
 
 Many noisy images contain some kind of patterned noise.
 This kind of noise is easy to remove in the frequency domain as the patterns show up as either a pattern of a few dots or lines.
@@ -1278,16 +1249,18 @@ As a exercise, try removing the string from the image.
 As a hint remember how the effect of a line in a real image is rotated 90 degrees in the FFT.
 If you get this wrong, you'll probably remove the twig instead.
 
-## Advanced Applications
+## Advanced Applications {#advanced}
 
 Some of the other more advanced applications of using the Fourier Transform include: 1) deconvolution (deblurring) of motion blurred and defocused images and 2) normalized cross correlation to find where a small image best matches within a larger image.
 
 Examples of FFT Multiplication and Division (deconvolution) moved to a [sub-directory](fft_math/) as it is waiting a more formally defined image processing operators.
 
-------------------------------------------------------------------------
-
-Created: 22 July 2000  
- Updated: 27 October 2011  
- Author: [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink dot net&gt; with editing and formating by [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/fourier/`
+---
+created: 22 July 2000  
+updated: 27 October 2011  
+author:
+- "[Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink dot net&gt;"
+- "with editing and formating by [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.2-3
+url: http://www.imagemagick.org/Usage/fourier/
+---
