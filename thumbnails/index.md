@@ -1,64 +1,11 @@
 # Creating Thumbnails and Framing
 
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Thumbnail Storage](#storage)
--   [Image Format Choice](#formats)
--   [Profiles, and JPEG Images](#profiles)
-
-[![](../img_www/granitesm_right.gif) General Thumbnail Creation](#creation)
--   [**Thumbnails of Specific Height**](#height)
--   [Resize Thumbnail to Fit](#fit)
--   [Pad Out Thumbnail](#pad)
--   [Cut the Thumbnail to Fit](#cut)
--   [Area Fit Thumbnail Size](#areafit)
--   [**Fit to a Given Space Summary**](#fit_summary)
--   [Square Padding or Cropping](#square)
--   [Manual Cropping](#manual)
--   [HTML thumbnail pages](#html)
--   [FavIcon Web Page Link Thumbnail](#favicon)
-
-[![](../img_www/granitesm_right.gif) Other Non-IM Techniques](#non-im)
-[![](../img_www/granitesm_right.gif) Adding Fluff](#fluff)
--   [Adding Image Labels](#labels)
--   [Raised Button](#button)
--   [Bubble Button](#bubble)
--   [Adding Borders](#border)
--   [Simple Frame](#frame)
--   [Montage Framing](#montage)
--   [Soft and Blurred Edges](#soft_edges)
--   [Rounded and Shaped Corners](#rounded)
--   [Torn Paper Edge](#torn)
--   [Adding a Shadow](#shadow)
--   [Adding Some Thickness](#thickness)
--   [Polaroid-like Thumbnails](#polaroid)
-
-[![](../img_www/granitesm_right.gif) Framing Techniques](#framing)
--   [**Self Framing** (External)](#self_frame)
--   [Self Framing (Internal)](#self_frame_inside)
--   [**Simple Border Overlay**](#border_overlay)
--   [Badge using Overlay](#badge_overlay)
--   [**Mask 'n' Paint Technique**](#mask_paint)
--   [Rounded Border](#rounded_border)
--   [Badge using Mask 'n' Paint](#badge_mask_paint)
--   [**Paint 'n' Mask Technique**](#paint_mask)
--   [Page Curl Corners](#pagecurl)
--   [Fancy Corner Overlay](#fancy)
--   [Badge using Paint 'n' Mask](#badge_paint_mask)
--   [**Lighting Mask Technique**](#lighting_mask)
--   [Glass Bubble](#glass_bubble)
--   [Badge with Lighting Mask](#badge_lighting)
-
-[![](../img_www/granitesm_right.gif)Framing using Edge Images](#frame_edge)
--   [Over-simplistic Append](#frame_append)
--   [Extended Overlay Framing](#frame_extended)
--   [45 degree corner joints](#frame_joints)
-
 One of the biggest uses ImageMagick is put to is the creation of thumbnails for family photo albums, sports and hobby pages, catalogs, and so on. Typically for use on the world wide web or in photo CDs.
 This page provides examples and techniques used to generate thumbnails.
 
 ------------------------------------------------------------------------
 
-## Thumbnail Storage
+## Thumbnail Storage {#storage}
 
 I would like to first start with one very important point.
 The original image from video cameras and photo scanning should be kept in a safe place in the original format, preferably a non-lossy format (not the JPEG image format), without any modification resizing or other change, except possibly a file name change. Of course a scanned image can be re-scanned, but it is simpler to re-use your original scanning than to re-do it again later.
@@ -85,7 +32,8 @@ For example, this converts JPG images into GIF thumbnails in a "`thumbs`" sub-di
 
 The other methods will require you to either, first make a copy of the original image, before running "`mogrify`", create a special script to process the images, or some other DIY method. A number of the simpler non-IM techniques are detailed at the end of the example section for [Batch Processing - Without using "`mogrify`"](../basics/#mogrify_not).
 Whatever method you choose the important thing is to choose a scheme for thumbnail storage, and then stick with it. By using the same scheme for all your thumbnails you can then write shell or Perl scripts to make thumbnail generation and even generation of the HTML links easy. More on this later.
-### Selection of the Thumbnail format
+
+### Selection of the Thumbnail format {#formats}
 
 The format in which you save a thumbnail can make a big difference to its final size on disk and download speed for web pages. In this regard I recommend you study the summary of the various [Common File Formats](../formats/#summary).
 Specifically you should note...
@@ -110,7 +58,7 @@ This is important, so I repeat...
 **Do NOT use JPEG, PNG8, or GIF for intermediate working images!  
  Better to use PNG or MIFF.**
 
-### Profiles, Stripping, and JPEG Handling
+### Profiles, Stripping, and JPEG Handling {#profiles}
 
 Many images from digital cameras, scanning software, and some paint programs (photoshop is notorious for this), save extra information about the image in the form of **profiles**. This includes image formats such a JPEG, PNG, TIFF and as of IM v6.2.4-1 GIF. Of course the IM specific format, MIFF also does this. (See [Image Profiles](../formats/#profiles) for more detailed information).
 These profiles can be up to 60 Kb in size, so can make a big difference to your file size, and by default IM will preserve this profile information. Thumbnails have no need for this data and often not even the main image needs it.
@@ -153,9 +101,9 @@ Well on with the practical IM thumbnail examples...
 
 ------------------------------------------------------------------------
 
-## General Thumbnail Creation
+## General Thumbnail Creation {#creation}
 
-### Generate Thumbnails in General (specific height)
+### Generate Thumbnails in General (specific height) {#height}
 
 Lets convert a [large sample JPEG image](hatching_orig.jpg) to a GIF thumbnail 90 pixels high with the width automatically adjusted (within the 250 pixel width limit) preserve the aspect ratio of the image.
   
@@ -189,7 +137,8 @@ Backup copies are always recommended before doing any processing.
 *Instead of specifying a different format (using "`-format`") so as to prevent "`mogrify`" from overwriting the original source images, you can use a "`-path`" setting to define a separate thumbnail directory. You can use both output options.*
 While "`mogrify`" can output the new images with a different suffix ("`-format`") or directory ("`-path`"), they are your only options using this command.
 If you are also wanting to change the name of the image, such as adding a "`_tn`" or "`_sm`" to denote thumbnail or small versions of the image, then I recommend you create a shell script to do the job for you, processing them one at a time using "`convert`".     *I wrote such a script to do this, while simultaneously generating HTML indexes at the same time.*  
-### Resize Thumbnail to Fit
+
+### Resize Thumbnail to Fit {#fit}
 
 Another form of automatic thumbnail generation is shrink image to fit a fixed sized box, say "`100x100`" but keeping the images aspect ratio. Well that is the default meaning for a resize geometry setting.
   
@@ -201,7 +150,8 @@ However I prefer not to enlarge images which already fit such a box. For that yo
   
 [![\[IM Output\]](rectangle.gif)](rectangle.gif)
 As before the aspect ratio of the image is preserved, as such the thumbnail is unlikely to be exact 100 pixels square. However at least one of the images dimensions will be 100 pixels.
-### Pad Out the Thumbnail
+
+### Pad Out the Thumbnail {#pad}
 
 The next most common request is to generate thumbnails that fill out the image with borders of a specific color (usually '`black`', or '`transparent`' but for these examples I will use '`skyblue`') so the thumbnail is exactly the size you wanted.
 For example: An image which is 400x300 pixels shrunk to fit a 100x100 pixel box will normal (with the above) have a size of 100x75 pixels. We want to add some padding borders to the top and bottom of the image (and to the sides to be sure) to make the final thumbnail image always 100x100 pixels in size.
@@ -244,7 +194,8 @@ Another method to pad out an image is to overlay the thumbnail onto a background
   
 [![\[IM Output\]](pad_compose.gif)](pad_compose.gif)
 This method is probably the best method to use with older versions of IM (such as IM v5), though the "`-composite`" operation will need to be done by the separate "`composite`" command, rather than the above single command method.
-### Cut the Thumbnail to Fit
+
+### Cut the Thumbnail to Fit {#cut}
 
 An alternative, is rather than pad out the image to fit the specific thumbnail size we want, is to instead cut off the parts of the image that does not fit the final size.
 Of course this means you actually lose some parts of the original image, particularly the edges of the image, but the result is a enlarged thumbnail of the center part of the image. This is usually (but not always) the main subject of the image, so it is a practical method of thumbnail creation.
@@ -261,7 +212,8 @@ For more information on this option see [Resize to Fill Given Area](../resize/#f
 ![](../img_www/warning.gif)![](../img_www/space.gif)
   
 *Before IM v6.3.8-3 when this special flag was added, you would have needed some very complex trickiness to achieve the same result. See [Resizing to Fill a Given Space](../resize/#space_fill) for details.*
-### Area Fit Thumbnail Size
+
+### Area Fit Thumbnail Size {#areafit}
 
 The last two methods will often make an image very small with a lot of extra padding, or, it will cut off a lot of the image so as to completely fill the space. However by using a different resize flag, it is possible to get a thumbnail that is between these two extremes.
 For example a 100x100 pixel thumbnail has 10,000 pixels. Now if we ask resize to size out image to something around that many pixels in size (using the [resize '`@`' flag](../resize/#pixel)), you will have an image that will need both a little padding and a little cutting. This maximizes the size of the resulting thumbnail, while not cutting away too much.
@@ -273,7 +225,8 @@ For example...
   
 [![\[IM Output\]](area_fit.gif)](area_fit.gif)
 As you can see the thumbnail has some padding, and the image has some cropping, but the result is probably about the best fit of image to a given thumbnail space.
-### Fit to a Given Space Summary
+
+### Fit to a Given Space Summary {#fit_summary}
 
 In summary, here are the results of the three methods for thumbnailing an image to a specific sized area. All three methods use exactly the same code, with just with a slight change in the resize argument/flag used.
 [![\[IM Output\]](pad_extent.gif)](pad_extent.gif)  
@@ -286,7 +239,8 @@ resize, '@' flag
 Cut to Fit  
 resize, '^' flag
   
-### Square Padding and Cropping
+
+### Square Padding and Cropping {#square}
 
 The above padding and cropping methods assume you know the final size of the area in which you want the image to fit. But that is not always the case.
 Sometimes you want to simply 'square an image', either by 'padding' it out (external square), or 'shaving' the edges (internal square).
@@ -341,7 +295,8 @@ This is a simplier version, but will lose any meta-data (like comment strings or
 ![](../img_www/warning.gif)![](../img_www/space.gif)
   
 *IMv7 will allow you to do the above mathematics directly as part of a crop or extent argument, which will prevent loss of image meta-data.*
-### Manual Cropping
+
+### Manual Cropping {#manual}
 
 The normal way I generate thumbnail images for use on my web pages, is a mix of automatic and manual scripts. The final setup of my images are..
 -   I use a PNG or TIFF for the original ,VERY large, scan of the photo. OR the original JPEG image downloaded from a digital camera. Basically for the unmodified original source image, for archiving. I also now like to include the string "`_orig`" in this images filename.
@@ -365,14 +320,16 @@ Thumbnail
 **(Click on either image for original scanned photo)**
 This is of course more manually intensive, but only needs to be done once per image, and only on images that have a lot of space such as in the above example. Also I only do this for images I am putting the web.
 Of course as "`mogrify`" will overwrite any existing, possibly hand generated thumbnails, you cannot use it again after you perform any manual thumbnail generation. The "`mogrify`" command is useful, but also very dangerous as it overwrites lots of images. Always think before you run "`mogrify`" globally across all your images.
-### HTML Thumbnail Pages
+
+### HTML Thumbnail Pages {#html}
 
 Once I have all the thumbnail images sorted out in the directory I use a special perl script called "`thumblinks`" I wrote that look for the images (JPEG photos and GIF thumbnails), and generate HTML links, and even full HTML photo pages.
 The script will read and include size of the GIF thumbnail size in the HTML, and attach pre-prepared header and footer files around the thumbnail links. The script will also remove any thumbnail links from the list it generates, if it finds an existing link in the header or footer file itself.
 This may sound complex, but it makes my HTML page generation very fast and flexible, and ensures ALL image thumbnailed images in a directory have been added to that directories index page, while still letting me comment on specific images in the index header. It also makes the page independent of the users window size, automatically adjusting to suit.
 For a simple example of my "`thumblinks`" script output see [Tomb of Castle Artworks](http://www.ict.griffith.edu.au/anthony/art/).
 For a quick example and starting point for generating such links look at the examples of using the [identify command](../basics/#identify).
-### FavIcon Web Page Link Thumbnail
+
+### FavIcon Web Page Link Thumbnail {#favicon}
 
 The "`favion.ico`" icon often looked for by web browsers on the top level web page of a web site, for that whole site. That image is a special multi-resolution image format and can be created as follows.
   
@@ -399,7 +356,7 @@ The ICO image format is universally understood by all modern browsers. All excep
 
 ------------------------------------------------------------------------
 
-## Other Non-IM Techniques
+## Other Non-IM Techniques {#non-im}
 
 The "`XV`" program I use for manual image processing also generates thumbnail images, in a sub-directory called "`.xvpics`". The format of the images in this directory is the programs own special thumbnail format (ignoring the filename suffix in that directory). These thumbnails are limited to 80x60 pixels so are a little on the "small" size (unless you hack "`xv`" to use larger thumbnails -- see link below).
 IM understands the "`xv`" thumbnail format (which is based on the "`NetPBM`" image format), so you can generate all the thumbnails quickly using XV, then convert the XV thumbnails of the JPEG images, into GIF images for further processing...
@@ -412,12 +369,13 @@ If you are sick of the small size of XV thumbnails, particularly with larger mod
 
 ------------------------------------------------------------------------
 
-## Further Processing -- Adding Fluff
+## Further Processing -- Adding Fluff {#fluff}
 
 The above is only the beginning of what you can do to make your thumbnails more interesting. Beyond the basic thumbnail image you can add borders, rotations even with some random selection of style to make your thumbnail gallery that much more interesting.
 Additions to thumbnails like this, is what I term 'fluff', as in the extra lint you find covering your clothes after you wash your clothes. That is, it adds unnecessary extras to the thumbnail, but which can make web pages and index images that much more interesting.
 Be warned that many of the following methods and processing is very complex and my require a deeper knowledge of the various image processing options options of ImageMagick.
-### Adding image labels
+
+### Adding image labels {#labels}
 
 During your thumbnail creation you can also add labels either above, below or even on top of your thumbnail.
 This sort of image processing is however covered more thoroughly in [Annotating Images with Labels](../annotating/#labeling). Just remember to use the "`-thumbnail`" or "`-strip`" rather than a "`-resize`" in those examples.
@@ -447,7 +405,8 @@ Here for example I used a [Denser Soft Outline Font](../fonts/#denser_soft_outli
 Note how I do not use the pre-generated "`thumbnail.gif`" image, or use the [Thumbnail Resize Operator](../resize/#thumbnail) to strip the profiles and comments from the image.
 I then used "`+clone`", "`+sample`", and "`-alpha`", to generate a larger transparent working canvas, which also contains a copy of the original image's meta-data. This lets me use the images 'comment' string with the annotate "`-annotate`" operator, to supply the text to overlay on the image.
 Only at the end after I have composed the text overlay do I clean up and "`-strip`" that information.
-### Raised Button
+
+### Raised Button {#button}
 
   
 The "`-raise`" operator was basically created with the one purpose of highlighting the edges of rectangular images to form a raised button. It is a simple, fast, and effective thumbnail transformation.
@@ -463,7 +422,8 @@ The same operator has a 'plus' form that can be used to make a sunken highlighti
 
   
 [![\[IM Output\]](sunken_button.gif)](sunken_button.gif)
-### Bubble Button
+
+### Bubble Button {#bubble}
 
 With some trickiness the "`-raise`" operator can be used to produce a smooth 'bubble-like' raised button.
   
@@ -476,7 +436,8 @@ With some trickiness the "`-raise`" operator can be used to produce a smooth 'bu
 
 See [Light Composition Methods](../compose/#light) for more information about this type of technique.
 For more effects like this see [Self Framing (Internal)](#self_frame_inside) below, and to take it to the next level see [Lighting Effect Mask](#lighting_mask) below.
-### Adding Borders
+
+### Adding Borders {#border}
 
 The humble simple "`-border`" operator can be used to generate some a complex framework around an images.
   
@@ -491,7 +452,8 @@ The humble simple "`-border`" operator can be used to generate some a complex fr
 
   
 [![\[IM Output\]](border_framework.gif)](border_framework.gif)
-### Simple Frame
+
+### Simple Frame {#frame}
 
   
 In a similar way the "`-frame`" operator makes it easy to add a frame around the image
@@ -501,7 +463,8 @@ In a similar way the "`-frame`" operator makes it easy to add a frame around the
   
 [![\[IM Output\]](framed.gif)](framed.gif)
 This operator also has a lot more options to create a dozen or so different styles of frames. You can see examples of the possibilities in [Frame, adding a 3D-like border](../crop/#frame).
-### Montage Framing
+
+### Montage Framing {#montage}
 
 The montage command provides a much easier way of doing all the above, and much more. It cannot only generate thumbnails (or whole pages of thumbnails), but it can label the thumbnails to include information like filenames, disk size, and dimensions, or a user specified string.
   
@@ -526,7 +489,8 @@ Even with just "`montage`" you can get really fancy with your thumbnail generati
 [![\[IM Output\]](montage_fancy.gif)](montage_fancy.gif)
 See the "[Montage, Arrays of Images](../montage/)" for more details.
 You may be especially interesting in the [Montage HTML Thumbnail Image Maps](../montage/#html) example. This creates a HTML index page of thumbnails in which clicking on the thumbnail will bring up the original image, in the same directory.
-### Soft and Blurred Edges
+
+### Soft and Blurred Edges {#soft_edges}
 
 The [Vignette Operator](../transform/#vignette) provides a simple means to add a blurry edge around an image.
   
@@ -581,7 +545,8 @@ As the amount of angled blur becomes larger, you will eventually generate a circ
   
 [![\[IM Output\]](radial_blur_vignette.png)](radial_blur_vignette.png)
 The two step-like artifacts that can be seen is caused by the two image size dimensions. No 'step' will be seen for a square image. Adding a little extra normal blur to the last example can also improve the step problem.
-### Rounded and Shaped Corners
+
+### Rounded and Shaped Corners {#rounded}
 
 While thresholding a [Soft Blurred Edge](#soft_edges) (see above) will generate a rounded corner suitable for the Boolean transparency of GIF, it does not generate a smooth 'anti-aliased' corner.
 The proper way to generate an image with rounded corners, or of any other shape is to actually cut out each corner using a mask of the shape wanted.
@@ -642,7 +607,7 @@ convert thumbnail.gif -alpha set \
 We will take this style of image processing further in [Border with Rounded Corners](../thumbnails/#rounded_border) below.
 There we not only cutting out corners, but also overlay appropriate framing images.
 
-### Torn Paper Edge
+### Torn Paper Edge {#torn}
 
 Leif Åstrand &lt;leif@sitelogic.fi&gt;, contributed the following IM code to generate a edge that looks like it was torn from a fibrous paper (like newspaper)...
   
@@ -666,7 +631,8 @@ One improvement may be to make it look like you ripped it from a newspaper corne
 [![\[IM Output\]](torn_paper_corner.png)](torn_paper_corner.png)
 This could be improved by adding 'paper' colored borders and a curved shaped mask, so that it looks like the image was ripped roughly by hand. Adding a 'soft shadow' (see next) will also 'lift' the resulting image from the background, making it look like it was a separate piece.
 As always, suggestions and contributions are welcome.
-### Adding a Shadow
+
+### Adding a Shadow {#shadow}
 
 The "`-shadow`" operator makes the [Generation of Shadows](../blur/#shadow) of any shaped image easy.
 For example here a I add a semi-transparent colored shadow, to the thumbnail.
@@ -689,7 +655,8 @@ But you can just as easily create soft fuzzy shadows, too.
 Note that I again used a PNG format image for the thumbnails output. That is because the shadowed image will contain a lot of semi-transparent pixels, which GIF cannot handle. (Yes I am repeating myself but it is important).
 If you do plan to use GIF or JPG format you will need to use a more appropriate "`-background`" color for the web page or larger canvas on which you plan to display your thumbnail, as these formats do not handle semi-transparent colors.
 Warning, while the above works for individual thumbnails, it will generally fail when you want to layer multiple thumbnails over the top of each other. The reason is that shadows do not accumulate together, in the same way that normal images do. To see how to handle shadows from multiple layered images see [Layers of Shadows](../layers/#layer_shadow).
-### Adding Some Thickness
+
+### Adding Some Thickness {#thickness}
 
 Adding a thickness to a image or a shape look a bit like adding a hard shadow (see above), but isn't quite the same, and needs some extra work to get right.
 This is actually very tricky as we create a colored, mask of the image which is then replicated multiple times and layered under the original image (using '`DstOver`' composition) with increasing offsets to give the image thickness.
@@ -708,7 +675,8 @@ This is actually very tricky as we create a colored, mask of the image which is 
 You get the idea. Each '`\( +clone ... \)`' line adds one extra pixel to the image in a south by south-easterly direction.
 Also as no semi-transparent pixels are involved (at least for a rectangular image) you can use the GIF image format for the result.
 The major problem with this technique is that it is hard to specify a thickness as a variable argument or at different angles, unless you write a specific script to add thickness. Also the edge of the angled parts of the thickness is not anti-aliased, so there is lots of room for improvement.
-### Polaroid-like Thumbnails
+
+### Polaroid-like Thumbnails {#polaroid}
 
 You can make your thumbnail image look like a polaroid photo, give it a shadow, and even rotate it a little so as to appear to be just sitting on a table.
   
@@ -804,10 +772,11 @@ A more generalized method for creating some sort of ordered or programmed layout
 
 ------------------------------------------------------------------------
 
-## Framing Techniques
+## Framing Techniques {#framing}
 
 Here we will look at some advanced framing techniques that use some very advanced knowledge of how IM works to achieve the desired results.
-### Self Framing (External)
+
+### Self Framing (External) {#self_frame}
 
 **Self Framing** is a technique that can be used to frame an image, using the image itself to generate the framing colors and patterns. That is to say the added frame is not fixed, but varies so as to roughly match the image being framed.
 You can do this in two ways. Extend the original image so as to create, an *External Frame*, or use part of the actual image itself to create an *Internal Frame*.
@@ -877,7 +846,8 @@ Here is another example, this time using [Virtual Pixel, Mirror](../misc/#mirror
 [![\[IM Output\]](self_mirror.gif)](self_mirror.gif)
 In all the above cases the frames are generated from the same image, which is then combined together to produce a frame based on the colors coming from the original image. The framing border is thus unique and matches each thumbnail image that is framed.
 Fred Weinhaus has created a script "`imageborder`" to make self framing images easier, with borders being generated from blurred magnifications of the original image, or some form of [Virtual Pixel](../misc/#virtual-pixel) setting defining the contents.
-### Self Framing (Internal)
+
+### Self Framing (Internal) {#self_frame_inside}
 
 Rather than enlarging the image to add the new border, we can convert parts of the image itself into a border.
 We have already seen some techniques of adding a frame, inside the image itself. The [Raised Button](#button) and [Bubble Button](#bubble) techniques do this, using the "`-raise`" operator.
@@ -929,7 +899,8 @@ Like the [Bubble Button](#bubble) you can also blur the lighting mask before app
   
 *Some [Light Composition Methods](../compose/#light) may require you to [Swap the Images](../basics/#swap) before you compose them to get the correct lighting effect.*
 To take this type of effect even further, producing much more complex results see the advanced [Lighting Effect Mask](#lighting_mask).
-### Simple Border Overlay
+
+### Simple Border Overlay {#border_overlay}
 
 One simple type of framing is to create a fancy frame, or shaped image into which you can place your image, under the frame.
 For example here we generate a simple frame slightly larger than our image with a fancy shaped hole. The shape was extracted from the '`WebDings`' font (character '`Y`'), but there are a lot of possible sources for fancy shapes that could be used for picture framing.
@@ -968,7 +939,8 @@ Now you can generate a library of pre-prepared frames to use with your images, s
 
 Note that I swapped the order of the images and used '`DstOver`' to place the second, main image 'under' the frame. That way it is the frame that determines the final size of the image, and not the original image. However doing this would also loose any meta-data the main image has (for the same reason).
 If you really want to preserve the thumbnails meta-data (such as labels and comments, such as a copyright message), then the best idea is to [Pad Out the Thumbnail](#pad) to the same size as the frame, than this use the default '`Over`' composition to overlay the frame. That way the thumbnail is the 'destination' image and its image meta-data is preserved.
-### Badge Overlay Example
+
+### Badge Overlay Example {#badge_overlay}
 
 Here is another more complex pre-prepared overlay example this time using a correctly sized image (using extent as a crop method), from the IM Forum Discussion [Composite Overlay and Masking](../forum_link.cgi?f=1&t=19116).
   
@@ -980,7 +952,7 @@ Here is another more complex pre-prepared overlay example this time using a corr
 Note that the image itself is not distorted, just lightened and darkened slightly, a circle cut out and shadow added, all in the one overlay image. If this was a real badge, or 'glass bubble' then the image should also be distorted a little too (perhaps using a [Barrel Distortion](../distorts/#barrel)), but it works well without needing such distortion.
 For the next step in the 'badge' example, see [Badge using Mask and Paint](#badge_mask_paint), which adds background transparency around the outside of the badge.
   
-### Mask 'n' Paint Technique
+### Mask 'n' Paint Technique {#mask_paint}
 
 In many cases you don't just want to overlay a square border around an image, but also want to cut out the image edges, to transparency. For this you would typically use at least two images. One is the masked overlay containing the colors, shadows and highlights you want to add to the existing image. And a second image containing the parts you want to remove from the original image.
 The two images can be applied in two different ways. You can either 'mask' first to remove the unwanted parts from the image, then overlay the frame, *or* you can overlay a frame, and then mask the unwanted parts of both the original image and overlaid colors to transparency.
@@ -1047,7 +1019,8 @@ The point is with two images, a 'mask' and 'overlay' image, you have a lot more 
 Now for a important caveat. The edges of the masking image **must not** coincide with the edges of the overlay image.
 If they match up, you will not get the correct handling of colors along the coinciding edges, or generate other weird 'halo' effects. As such you need to make sure the mask edges fall somewhere within the fully-opaque region of the overlay image.
 Caution and fore-thought with the two masking operations is needed.
-### Border with Rounded Corners
+
+### Border with Rounded Corners {#rounded_border}
 
 As you saw above the [Mask 'n' Paint Technique](#mask_paint) can be used to both add extra colors or 'fluff' to an image, but also remove parts, so as to shape the final image. This presents us with an alternative way of adding rounded corners to an image.
 The IM "`-draw`" operator comes with a '`roundrectangle`' method that can be used to provide an interesting frame around the image. However you need to size the dimensions of this draw method to match the image. IM does provide methods to extract and even do mathematical calculations based on the image size.
@@ -1106,7 +1079,8 @@ The following is how you can do the above all in a single command with a little 
   
 [![\[IM Output\]](rounded_border_in_one.png)](rounded_border_in_one.png)
 A better way for doing rounded corners, especially with very large images will be to use a separate corner masking image technique, which we will look at below in [Fancy Corner Overlays](#fancy). In many ways this is an extension of the above method, but using separate masking for each corner of the image, so as to keep the working images small in size.
-### Badge using Mask 'n' Paint
+
+### Badge using Mask 'n' Paint {#badge_mask_paint}
 
 Here is a much more complex "mask 'n' paint" example, that was developed from the image used previously in the [Badge Overlay](#badge_overlay) example above. The generation of the two images was 'fudged', and was discussed IM forums [Composite Overlay and Masking](../forum_link.cgi?f=1&t=19116). Idealy the two images would have been developed together.
   
@@ -1119,8 +1093,8 @@ Here is a much more complex "mask 'n' paint" example, that was developed from th
 
 Note that above I said that the you should avoid trying to align transparency edges and the mask edges. In the above example I did just that, and the edges of the resulting image will not be quite correct. However as the coloring is really only a subtile shading rather that a strong edge, it seems to work okay in this example. Caution however should be exercised.
 For the next step in the 'badge' examples, see [Badge using Paint and Mask](#badge_paint_mask), which reverses the order of the two composition operations, requiring a different set of images.
-  
-### Paint 'n' Mask Technique
+
+### Paint 'n' Mask Technique {#paint_mask}
 
 Rather than '*Mask then Paint*' you can use a different set of images and overlay the additional colors first, before masking out the background. That is you can perform a '*Paint then Mask*'.
 That is you would take your image, and overlay the border which sets not only all of the final border colors, but also masks and colors some or all the parts outside parts the original image. You then use a separate 'outside' or 'clipping' mask to remove all the unwanted parts of the resulting image.
@@ -1145,7 +1119,8 @@ For example...
 
 Note how some parts of the overlaid colors are removed. This is the key feature of the *Paint 'n' Mask* technique, allowing you to use a simpler overlay, which is then adjusted by the mask.
 This method of image masking is what is used in the next [Page Curl Corners](#pagecurl) example set, and again later in [Fancy Corner Borders](#fancy) below.
-### Page Curl Corners
+
+### Page Curl Corners {#pagecurl}
 
 [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html) created a special shell script called [PageCurl](http://www.fmwconcepts.com/imagemagick/pagecurl/index.php) which will, add a simple page curl to an existing image, using some very complex mathematics (in shell). For example...
   
@@ -1181,7 +1156,7 @@ If you like to apply this to a lot of images you can use the "`mogrify`", using 
               -draw 'image DstIn 0,0 0,0 "/tmp/pagecurl_mask.png"' \
               {all images to be pagecurled}...
 
-### Fancy Corner Overlay
+### Fancy Corner Overlay {#fancy}
 
 Here we look a bit deeper into used this 'double masking' technique to modify an image in different ways in different areas, rather than applying a single large mask or frame to the whole image. In this case we will only double mask the corners. The rest of the border (to match) is added separatally.
 [![\[IM Output\]](fancy_orig.gif)](fancy_orig.gif) The corner images I will use was generated from the original source (shown right) which I found in the [DIY Frames Section](http://www.ict.griffith.edu.au/anthony/icons/prog/frames/Icons.html) of [Anthony's Icon Library](http://www.ict.griffith.edu.au/anthony/icons/). There are others in this section, so you may like to have a look. If you find something on the net, please let me know as I like to collect interesting corners, and edging techniques.
@@ -1219,7 +1194,8 @@ The complication with using corner masks, is that they only mask the corners of 
 The beauty of only using corner masks is that any size image can be framed using this technique, as long as it is large enough for the corner masks being added. That is you are not limited by the size of the framing images you have available.
 Of course each of the four corner images and the borders is the same all the way around the image, just rotated. That is the shadow or thickness effect is all 'inward'.
 To fix this you would need to generate a different corner peice for each and every corner, and the addition of the extra edges around the original image would need to be asymetrical. Basically it becomes much more complex, so as to produce true shadowing effects. A better solution may be to remove the shadow effect from the corner piece, apply it as before, but then add shadow effects globally. Caution is needed.
-### Badge using Paint 'n' Mask
+
+### Badge using Paint 'n' Mask {#badge_paint_mask}
 
 The same badge image processing seen previously in [Badge Overlay](#badge_overlay) and [Badge Mask 'n' Paint](#badge_mask_paint), can also be performed by painting then masking.
 Here we first paint all the colors an shades onto the then mask out the final transparency of the image.
@@ -1237,10 +1213,10 @@ This is why a paint and mask technique is typically not used when dealing with s
 If the image did not contain any transparency-effects, than the paint process does not look so horrible, and can in many case be simplier than other techniques, as you can 'cut off' the painted overalys with the mask when finished. The [Page Curl](#pagecurl) example was such a case, as we use the mask to trim the page curl overlay to make a seemless whole.
 Also note the gap between the hard black region and the shading effects in the paint image. This gap reflects warning I have mentioned before about ensuring that you do not overlap the results of any internal masking with the edges of any paint/overlay external mask. It is only in this specific case that this required gap becomes so obvious.
 For the next step in the 'badge' examples, see [Badge using Lighting Effects](#badge_lighting), which merges the two masking images into a single mask/shading image.
-  
-## Lighting Mask Technique
 
-### Glass Bubble Button
+## Lighting Mask Technique {#lighting_mask}
+
+### Glass Bubble Button {#glass_bubble}
 
 The next level of complexity in thumbnail processing is the application of very complex lighting effects. The trickiness here is not so much the application of a lighting effect to an image, but the generation of the appropriate shading effect.
 For example using a [Aqua Effect](../advanced/#aqua_effects) you can give an thumbnail a very complex shading effect that makes it look like it has been enclosed by a 'bubble' of glass. Also this works better with a thumbnail that has [Rounded Corners](#rounded).
@@ -1284,7 +1260,8 @@ For a discussion on extracting a lighting effect from images see the IM user for
 However this is actually how shadow effects are normally added to an image, as such you can just add shadows to the "lighting effect mask" directly, and all will be well!
 The same thing is true for adding lighting 'flares', but only using white pixels for the flare overlay.
 In essence a "lighting effect image" can again actually merge the two [Mask 'n' Paint](#mask_paint) images back into a single image. As you will see in the next example.
-### Badge using Lighting Effects
+
+### Badge using Lighting Effects {#badge_lighting}
 
 Using the images from [Badge using Mask 'n' Paint](#badge_mask_paint) technique, I applied them to a pure gray canvas image, so as to quickly generate a "masked lighting effect" image, Actually I could also have used the other style of masking ([Badge using Paint 'n' Mask](#badge_paint_mask)) just as easily.
 I then apply the single masking image to the thumbnail reproducing the desired result.
@@ -1312,7 +1289,8 @@ The answer is that the masking image is limited only to only adding either pure 
 As a result of this the alpha channel becomes free to hold the previously separate transparency mask for the final image.
 The limitation of this however is that you can only add white and black shades to the image. You can not add for example a gray color to the image being masked. Note however that it is posible to add some tints of primary and secondary colors of some color space, but only in a limited way, and I have never seen it used.
 In summary you can not add specific colors or fancy borders to the image, only shades and shadows, highlights and flares, or simple black or white text. However you should not attempt to mix or overlap added white and black effects, as the resulting gray anti-aliasing pixels between the two produces a shaded color from the underlying image, and not the expected gray color. That is the drawback with this technique!
-### Masking images with distortions...
+
+### Masking images with distortions {#masking_distortions}
 
 What is more incredible is that as as the shading colors is just a gray-scale image, you can compress the lighting effects to just one color channel and the alpha channel mask.
 This can then be used to free two color image channels for other image processing effects! That is you can store other things into the single 'masking image'.
@@ -1320,12 +1298,13 @@ Specifically you can add distortion effects into the same mask image! For more i
 
 ------------------------------------------------------------------------
 
-## Framing using Edge Images
+## Framing using Edge Images {#frame_edge}
 
 [![\[IM Image\]](oak_frame_sample.jpg)](oak_frame_sample.jpg) One common way to add a complex border to an image is to use a pre-prepared framing images, to produce a frame such as the example shown (right).
 However you also need to be careful with generating frames. If you look at the given example carefully you will notice that it is not quite right. The shading of the generated frame is actually incorrect. The left and bottom frame edges should be swapped to produce a correctly shaded frame for a typical top-left light source.
 As such before we even begin, I would like to stress the importance of using the correct image, or the correctly modified image for each edge while framing your thumbnail or photo. It is very easy to get wrong, so double check your results when you think you have it right.
-### The Frame Edge Images
+
+### The Frame Edge Images {#frame_edge_image}
 
 There are may types of images that can be used to frame a image.
 For example here is 'thin black with gold trim' frame that was modified from images provided by Michael Slate &lt;slatem\_AT\_posters2prints.com&gt;.
@@ -1343,7 +1322,8 @@ Finally a framing image may only consist of a single image that can be used to g
 The reason only one image is needed is that the frame has no specific 'inside' or 'outside' to it. Though the frame does have both overall and fine detail lighting effects that requires you to again be careful of how you rotate/flip/transpose the image for the other edges.
 The bigger problem with this frame is that if you just tile it simply, the macro detail becomes very regular, and as such you may need to randomise the tile offset, or even randomise the lengths of pieces being appended togther so as to give it a more natural look. More on this later.
 As you can see framing images can come in a variety of styles, and care must be taken to handle the chosen edging images in the correct way (with regard to lighting image), when generating the other missing edging images.
-### Lengthening Framing Pieces
+
+### Lengthening Framing Pieces {#frame_pieces}
 
 Now in any use of these framing images, we will need to create a longer pieces that will cover the length of the image dimensions. There are only two basic ways in which this can be done.
 You can simply stretch the frame image using resize (without aspect preservation) so as to get the right lengths. This works for the first set of pieces shown above, which have no internal detail, but is not appropriate for any of the other framing images presented. Basically it will distort the internal detail, and may become a distraction to the look of the final image.
@@ -1352,7 +1332,8 @@ If you are creating your own framing pieces, please be careful that the tiles do
 In the real world picture framers also have the same problem in joining pieces together to make longer pieces. Basically it is very easy to get two different shades of wood, or very different grain pattern, that when 'dove-tailed' together, makes the joint very obvious. So really your not alone in this problem.
 The 'bamboo' framing images, will need to be tiled. Though as the detail is restricted to a small area on the image, you can get some interesting random tiling effects, that may need some randomized lengthing and shortening of the peices to remove. I will not go into this however, and will leave it as a exercise for those that are.
 For our examples, and because it works for just about all framing images I will use a simple constant tiling method to generate the longer edge lengths needed.
-### Over-simplistic Append
+
+### Over-simplistic Append {#frame_append}
 
 We can just lengthen the simple 'bamboo' frame above, by tiling it to the right length, then [append](../layers/#append) the images together.
 The tiling is done simply by the special [Tiled Canvas](../canvas/#tile) image generator "`tile:`" to tile a image that is being read in.
@@ -1383,7 +1364,8 @@ To fix that you will need to also give such tiles a slightly different [Tile Off
 This method of framing isn't too bad for this specific type of edge image, though for other types of frames it can look very silly. Basically the corners are not correct, and for most frames you really want to have the edge images meet at a 45 degree angle joint, just as you would have in a real picture frame.
 One solution to this is to pre-generate by hand appropriate corner images that we can now overlay onto this image to make it correct. This works well for a simple stretchable framing image (like 'black thin' framing image), but it will fail rather badly for a tileable image like 'bamboo' as the corner image will probably not fit the tile image properly.
 The better way is to generate corner joints directly from the tiled edge images. And I'll be showing you methods of doing this later.
-### Extended Overlay Framing
+
+### Extended Overlay Framing {#frame_extended}
 
 Also you can make this type of edge framing look even better by extending the frames beyond the bounds of the original image. This is often seen for a 'Home-Sweet-Home' type picture.
 To do this you will need to first enlarge the original image with lots of extra space into which the longer frame pieces are overlaid.
@@ -1403,7 +1385,8 @@ To do this you will need to first enlarge the original image with lots of extra 
 
 Note the measurements and positioning for this type of framing is not simple, and could use some randomization such as I hardcoded into the above example. Also you can improve the look further by rounding of the ends of the lengths of frame, with some additional and appropriate shading.
 A much better way of framing images in this manner is to generate the framing image as a complete unit, and just overlay it on a fixed size image (see [Simple Border Overlay](#border_overlay)). However doing this means you can no longer slightly randomize the lengths and position of each framing piece.
-### 45 degree corner joints
+
+### 45 degree corner joints {#frame_joints}
 
 The better solution is to somehow add the framing images around the thumbnail in such a way as to actually create a 45 degree joint in each of the corners of the frame. This is not easy, and I went though a number of drawing and masking methods until I re-discovered a magical operator called [Frame, 3D like Borders](../crop/#frame).
   
@@ -1508,16 +1491,17 @@ The processed edging images are then tiled using an [In-Memory Tile Image](../ca
 And there we have a perfectly framed image with 45 degree corner joints, with randomized tiling offsets.
 Yes it is a complex example. But that is to allow the use of [In-Memory Tile Images](../canvas/#tile_memory) so we can pre-process the framing images, all in the one command. This makes it more complex but also more versatile.
 The above code has been built into a shell script, which you can download ("`frame_edges.tar.gz`" from the [IM Example Scripts](../scripts/) directory). This tar file includes the script and a set of framing images, that the script understands how to process and use. It also adds a 'cardboard' border between the frame and the image proper.
+
 #### Future example
 
 Using tiling edges with matching corner peices.
 The edge images will need to match up to pre-prepared corner pieces, but also tile neatly across the fixed length of the image. That means that the whole tiled edge may need some stretching or compression so as to align the edge tiles with its corner pieces. To work properly teh edge tiles must repeat at least 3 or 4 times across the smallest image edge.
 An example of this type of tiled edge/corner is the implementation of a border of 'leaves' or 'fleur' effects.
 
-------------------------------------------------------------------------
-
-Created: 8 February 2004  
- Updated: 18 July 2014  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/thumbnails/`
+---
+created: 8 February 2004  
+updated: 18 July 2014  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 7.0.0
+url: http://www.imagemagick.org/Usage/thumbnails/
+---
