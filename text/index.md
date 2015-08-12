@@ -1,68 +1,10 @@
 # Text to Image Handling
 
-**Index**  
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Text Operators in ImageMagick](#text_operators) ![](../img_www/space.gif)
-[![](../img_www/granitesm_right.gif)Label](#label) ![](../img_www/space.gif) - Simple Text Label
--   [Basic Labels](#label)
--   [Best Fit Labels](#label_bestfit)
--   [Labels over Multiple Lines](#label_lines)
--   [Vertical Labels](#label_vertical)
-
-[![](../img_www/granitesm_right.gif)Caption](#caption) ![](../img_www/space.gif) - Word Wrapped Labels
--   [Basic Caption](#caption)
--   [Best Fit Captions](#caption_bestfit)
--   [Captions with Paragraphs](#caption_paragraphs)
-
- 
-[![](../img_www/granitesm_right.gif)Text Attributes and Settings](#attributes)
--   [Text Attributes](#attributes)
--   [Pointsize and Density](#pointsize)
--   [Label Image Bounds](#bounds)
--   [Unicode labels](#unicode)
--   [Symbol Fonts](#symbol)
--   [Inter-Character Kerning](#kerning)
--   [Inter-Word Spacing](#interword-spacing)
--   [Inter-Line Spacing](#interline-spacing)
-
-[![](../img_www/granitesm_right.gif)Special Escape Characters in Text Arguments](#escape_chars)
--   [Handling Escape Characters](#escape_chars)
--   [User defined option escapes](#user_escapes)
--   [Escaping Escapes](#escaping_escapes)
-
-[![](../img_www/granitesm_right.gif)Pango](#pango) ![](../img_www/space.gif) - Basic Formatted Text
--   [Pango with Plain Text](#pango)
--   [Pango Markup Language](#pango_markup)
--   [Pango Notes and Problems](#pango_notes)
-
-[![](../img_www/granitesm_right.gif)Text](#text) ![](../img_www/space.gif) - Pages of Plain Text
--   [Plain Text](#text)
--   [Trimming Text Page](#text_trim)
-
-[![](../img_www/granitesm_right.gif)Postscript/PDF](#postscript) ![](../img_www/space.gif) - documents to images
--   [Using Ghostscript Directly](#ghostscript)
-
- 
-[![](../img_www/granitesm_right.gif)Draw](#draw) ![](../img_www/space.gif) - Draw Text on Existing Canvas
--   [Undercolor Box](#box),    
--   [Bounding Box Overflow](#overflow)
-
-[![](../img_www/granitesm_right.gif)Annotate](#annotate) ![](../img_www/space.gif) - Better Text Drawing
--   [Automatically Sized Annotated Text Canvas](#annotate_size)
--   [Autosizing using an Undercolor Box](#autosize_box)
--   [Coloring a Gray-scale Text Image](#coloring_text)
-
- 
-[![](../img_www/granitesm_right.gif)Fonts Paths](#font) (under development) ![](../img_www/space.gif)
-[![](../img_www/granitesm_right.gif)Determining Font Metrics](#font_info) ![](../img_www/space.gif)
-[![](../img_www/granitesm_right.gif)Creating Lines of Mixed Font Styles](#mixed_font_lines) ![](../img_www/space.gif)
-[![](../img_www/granitesm_right.gif)Form Filling](#form_filling) ![](../img_www/space.gif) - layered text fields on images
-[![](../img_www/granitesm_right.gif)Text Processing Alternatives](#tex) ![](../img_www/space.gif)
 Creating text labels, or adding text to images is probably one of the most basic and common operations for which ImageMagick is used. It is also one of the most simplest, but with scope for some very fancy results. As such this is a good place to start our exploration of IM's capabilities.
 
 ------------------------------------------------------------------------
 
-## Text Operators in ImageMagick
+## Text Operators in ImageMagick {#text_operators}
 
 ImageMagick has a lot of different ways in which you can draw text within an image, highlighting the versatility of the image processing library. This page details specific methods and styles of drawing text.
 What you have to keep in mind as you study these examples is that ImageMagick is primarily a image converter and modifier. As such each of methods provided are simple text drawing operators, such as adding labels and copyright messages to images. See [Annotating Images](../annotating/).
@@ -74,9 +16,9 @@ Now, lets now look at the basic ways you can convert text into images. Later in 
 
 ------------------------------------------------------------------------
 
-## Label - Simple Text Label
+## Label - Simple Text Label {#label}
 
-### Basic Labels
+### Basic Labels {#label_basic}
 
 Creating a font image using a "`label:`" image, is the more typical way of drawing a font quickly in ImageMagick. The biggest advantage is that generates its own canvas according the current "`-background`" and "`-fill`" color settings, which is sized to match the drawn text.
 For example here is a typical generated label.
@@ -120,7 +62,8 @@ The problem with using BOTH "`-size`" and "`-pointsize`" together is that the te
 ![](../img_www/warning.gif)![](../img_www/space.gif)
   
 *Before version 6.5.2-4, IM would completely ignore the "`-pointsize`" setting if a "`-size`" setting is also given. This causes the text in the above images to be auto-sized according to the 'best fit' handling (see next set of examples).*
-### Best Fit to Image
+
+### Best Fit to Image {#label_bestfit}
 
 The biggest trick to using labels to generate images of a specific "`-size`" is NOT to specify a "`-pointsize`" for the label. When this happens IM will have the freedom to try and select a font size that *best fits* the image size requested. That is the drawn text will be adjusted to fit the given size!
   
@@ -159,7 +102,8 @@ The same thing will be done if the height is specified but not the width.
 [![\[IM Output\]](label_size_height.gif)](label_size_height.gif)
 This label is 40 pixels high, the undefined pointsize of the text was adjusted to fit that height, and then the undefined width was set to fit the drawn text. Exacly as you would expect.
 Of course in this case there will again be little if no extra space for any "`-gravity`" setting to play with.
-### Labels over Multiple Lines
+
+### Labels over Multiple Lines {#label_lines}
 
 The "`label:`" generator can (as of IM version 6.2.5) generate multi-line labels.
   
@@ -199,7 +143,8 @@ Note also that in the above examples, an extra blank line was added to the label
 ![](../img_www/warning.gif)![](../img_www/space.gif)
   
 *Most older versions of IM (before v6.2.5), do not handle multiple line labels. In these versions the lines would have been appended together to form a single, very very long line.*
-### Vertical Labels
+
+### Vertical Labels {#label_vertical}
 
 Of course you can also add newlines to the input text too. For example here I take a simple word and add a newline between each and every letter, to create some centered vertical text.
   
@@ -216,7 +161,7 @@ See also the special attribute [Inter-Line Spacing](#interline-spacing) which ca
 
 ------------------------------------------------------------------------
 
-## Caption - Word Wrapped Label
+## Caption - Word Wrapped Label {#caption}
 
 The "`caption:`" image from text input generator, is in most respects exactly like "`label:`" except that instead of expanding the size of the text to fit a specified "`-size`" setting, it word wraps any long lines that do not fit into the specified "`-size`" width.
 The "`-size`" setting is not optional however and must at least specify a maximum width in pixels.
@@ -257,7 +202,7 @@ For example this is exactly the same as the previous example, but with an image 
 
 [![\[IM Output\]](caption_height_toosmall.gif)](caption_height_toosmall.gif)
 
-### Best Fit Caption
+### Best Fit Caption {#caption_bestfit}
 
 As of IM v6.3.2, if you provide both the width and the height of the final image, but do not define the "`-pointsize`" of the font (or turn off the pointsize with "`+pointsize`"), IM will attempt to automatically adjust the size of the font so as to best fill the "`-size`" of the image you requested.
 For example, here I ask ImageMagick to fill a fairly large area...
@@ -279,7 +224,8 @@ And now a much smaller thinner area, for the same font and text string.
 [![\[IM Output\]](caption_filled_sm.gif)](caption_filled_sm.gif)
 Note that the ONLY difference between the last two examples is the "`-size`" of the image generated. IM fited the text and word wrapping so as to try and best fill the image size specified.
 This is extremely useful for fitting a unknown bit of text into a given space, without it overflowing the area bounds. However internally it is equivalent to running caption multiple times as IM searches for the right point size to use to best fill the given space. In other words it can often be 10 times or more slower than if you supplied a specific "`-pointsize`" to use.
-### Captions with Paragraphs
+
+### Captions with Paragraphs {#caption_paragraphs}
 
 The "`caption:`" image operator (as of IM v6.2.5) understands the use of the '`\n`' shell escape (and thus you need to double backslash '`\\`' to escape backslashes), as meaning a new line or paragraph. Before this version separate paragraphs would have to be processed by separate "`caption:`" operations.
   
@@ -323,7 +269,7 @@ However often what you want is to treat a blank line as a paragraph break. That 
 
 ------------------------------------------------------------------------
 
-## Text Attributes
+## Text Attributes {#attributes}
 
 Orignal the settings that effect text handling included: "`-font`", "`-fill`", "`-pointsize`", "`-size`", and "`-gravity`". We have already introduced many of these attribute controls above. But there are other attribute controls that are not used as often, and originally did not effect "`label:`" or "`caption:`" text image generation.
 As of IM v6.3.2 you can also use the "`-stroke`", "`-strokewidth`", and "`-undercolor`". "`label:`" or "`caption:`". For example here I make use of a lot of different settings to control the attributes of the IM text image rendering...
@@ -339,7 +285,8 @@ For more details on these settings see [Undercolor Box](#box) below, and [Stroke
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
 *At this time, you can not use tiling images defined using "`-tile`", "`-fill`", "`-background`", and "`-origin`", with either "`label:`" or "`caption:`". Only solid colors can be used. Attempting to so will just produce a undefined (black) color.*
-### Pointsize, Density and the Actual Font Size
+
+### Pointsize, Density and the Actual Font Size {#pointsize}
 
 Pixels are dots on the display or in an image, and that is what IM works in.
 On the other hand, images are printed at a specific resolution (specified as 'dots per inch' (dpi) or pixels per inch (ppi)). As such an images resolution effects how other programs will size a image onto a specific media. EG: It effects the images physical size in the real world.
@@ -377,7 +324,8 @@ According to *[Lithium](../forum_link.cgi?u=11042)* from the [IM Forums](../foru
 `FUTURE Example: difference between font at same 'pixel' size, but different density and point size. `
 Basically increasing one of these factors while decreasing the other by the same amount may *not* produce the same result. Particularly with regard to line thickness and overall 'style' of the font. You are better off adjusting the right factor for what you are doing. Use "`-density`" when scaling a font for a output device, or later resizing of the font, and use "`-pointsize`" for normal font size changes.
 If you would like to know more about fonts, then have a look at the document [TrueType Fundamentals (PDF)](http://www.microsoft.com/typography/otspec/TTCH01.htm), which I found very interesting.
-### Label Image Bounds
+
+### Label Image Bounds {#bounds}
 
 When using some exotic fonts, the font may use extended characters, and in the past IM had lots of trouble creating labels for these fonts. That is the text overflows the provided canvas.
 For example here are two capital letters in a '`LokiCola`' font reminiscent of a certain famous softdrink.
@@ -394,7 +342,8 @@ As you can see IM manages to contain this font in a label without cutting of the
 *Before IM v6.3.2, "`label:`" would have chopped of the 'H' lead-in and parts of the tails from both characters, in the above example.*
 The reason this problem existed is because the fonts 'glyphs' or character description draw outside the fonts defined boundaries for specific letters, allowing them to overlap (generally either above or below) the other characters within the font.
 This is a problem with the way the font itself is designed and defined, and was not the fault of IM, though IM now handles these odd situations in the best interests of the users. In other situations it could still be a problem, and one that can not be solved simply due to multi-line text interactions. For more information see [Bounding Box Overflow](#overflow) examples below, for a more precise description.
-### Unicode or UTF8 Format Text
+
+### Unicode or UTF8 Format Text {#unicode}
 
 This method of supplying string arguments to IM is very important as it allows you to do things which ordinarily could be very difficult to do from the command line. Specifically handling 'unicode text', or selecting specific characters using character codes.
 Now if you can type unicode characters into commands or scripts you can use them directly..
@@ -459,7 +408,8 @@ Here is another example of unicode characters which the Microsoft 'Mincho' font 
 [![\[IM Output\]](label_misc.gif)](label_misc.gif)
 
 Using unicode within DOS scripts is must harder than under UNIX and LINUX. Special notes on using unicode from that environment has been provided by Wolfgang Hugemann, in [Windows Character Encoding](../windows/#character_encoding).
-### Symbol Fonts
+
+### Symbol Fonts {#symbol}
 
 More commonly used by people looking for special text images, are special 'symbol fonts'. These are much smaller than the full large Unicode font, as they replace only the normal standard ASCII characters (letters and numbers) with a different set of specific shapes and images, though sometimes (rarely) they also have more symbols in the Latin meta-characters area.
 The 'DingBat' font symbols started out in this way, but as mentioned above they are now part of the Unicode character set.
@@ -503,7 +453,8 @@ This is only a small sample of what is available. Huge libraries of just about e
 Many creators of symbol fonts generate the shapes using a simple scanner and bitmap to vector converter, without any proper design or cleaning of the image or shape. Caution is recommended when looking at such 'scanned' fonts.
   
 The last font shown above is one such example of a 'scanned' font, giving it a poor looking 'dotty' quality, when compared to the other more properly designed fonts.
-### Inter-character Kerning
+
+### Inter-character Kerning {#kerning}
 
 As of IM v6.4.7-8 you can use "`-kerning`" to insert extra inter-character space between each letter in text strings. For example
   
@@ -517,7 +468,8 @@ As of IM v6.4.7-8 you can use "`-kerning`" to insert extra inter-character space
 [![\[IM Output\]](label_kerning_0.gif)](label_kerning_0.gif) [![\[IM Output\]](label_kerning_1.gif)](label_kerning_1.gif) [![\[IM Output\]](label_kerning_2.gif)](label_kerning_2.gif) [![\[IM Output\]](label_kerning_5.gif)](label_kerning_5.gif) [![\[IM Output\]](label_kerning-1.gif)](label_kerning-1.gif)
 Note that the actual kerning value can be a floating point value, or even a negative value.
 For another example of using a negative "`-kerning`" value see the [Joined Compound Font](../fonts/#joined) example.
-### Inter-Word Spacing
+
+### Inter-Word Spacing {#interword-spacing}
 
 Also as of IM v 6.4.8-0 the option "`-interword-spacing`" can be used to modify the size of a space character used between words. For example
   
@@ -542,7 +494,8 @@ What is happening is that by setting the "`-interword-spacing`" the 'space' char
 A negative value can be used, and can in fact to make words overlap, or produce unusual effects using specific characters and fonts. But make it too negative and undefined behaviours can creep in. Caution is advised if you try this.
 While the above is not an example of text justification (though it looks like it), you can use these options as a starting point to providing proper text justification.
 If you really need that level of text formating and justification, then you may be better off looking at other methods of generating pre-formated text or [Postscript](#postscript), such as the command line basied "TeX" or "LaTeX" software. Better still you could use [SVG](../draw/#svg) (rsvg library version), or [Pango Markup Language](#pango) (see below), to generate justified text.
-### Inter-Line Spacing
+
+### Inter-Line Spacing {#interline-spacing}
 
 As of IM v6.5.5-8 a another option was added "`-interline-spacing`". This was heavilly requested by users in light of the previous settings, and in many ways is much more useful.
 Basically it will add or subtract this many pixels between the individual lines of text. That is you can use it to expand or squash together the individual lines of text.
@@ -584,7 +537,7 @@ Of course this will not work if you really want two lines, and not just bolding 
 
 ------------------------------------------------------------------------
 
-## Special Escape Characters in Text Arguments
+## Special Escape Characters in Text Arguments {#escape_chars}
 
 We have already introduced the special escape characters used in various text arguments, above. Specifically you can escape special characters like newlines using backslash '`\`', or you can insert extra information into the string using percent '`%`' escapes, as defined on the [Image Properties](http://www.imagemagick.org/script/escape.php) page. Also there is a special '`@`' escape that if used at the start of a line will use the rest of the text argument as a filename to read the data from the file specified (or STDIN in '`-`' is used).
 Not only do these escape characters effect "`-format`", for use by the "`identify`" (as well as "`-identify`" and the "`info:`"), but they also effect "`label:`", and "`caption:`" text to image generators, and control the image meta-data setting options "`-label`", "`-comment`", "`-caption`". And finally they are also used by "`-annotate`".
@@ -638,7 +591,8 @@ Or you can 'junk' that final newline using a tricky little perl one-liner...
   
 [![\[IM Output\]](label_stdin_4.gif)](label_stdin_4.gif)
 In other API's you can look for that final newline before feeding the text to a IM command via a 'piped open'.
-### User defined option escapes
+
+### User defined option escapes {#user_escapes}
 
 A major problem is trying to use escaped information from one image, in some other image, such as when generating a separate "`label:`", or "`caption:`" image.
 This is a very difficult problem, and the current solution, (for a single image) is to create a special 'user option', that is attached to an image being processed. This 'setting' can then be looked up by the "`label:`", "`caption:`", or "`-annotate`", as a percent escape sequence, when needed.
@@ -651,7 +605,8 @@ For example here I create a completely new label image using information from th
   
 [![\[IM Output\]](label_escape.gif)](label_escape.gif)
 Yes the above is tricky, but that due to some internal IM core library limitations that are involved. See [Accessing Data from other images](../transform/#fx_other) for more details.
-### Escaping Escapes
+
+### Escaping Escapes {#escaping_escapes}
 
 If you must feed a string as an argument to IM (especially as a API call), but don't want IM to expand escapes, you can simply 'escape' all three escapes using a extra backslash '`\`'. Note the '`@`' only needs to be 'escaped' if it is the first character, and for backward compatibility, percent escapes can also be escaped by doubling it. That is '`%%`' will produce a single percent. For example...
   
@@ -680,7 +635,8 @@ Of course as previously shown, reading the text from a file (using the '`@`' esc
   
 [![\[IM Output\]](annotate_escapes_file.gif)](annotate_escapes_file.gif)
 In other words when reading from a file you don't have to worry about escaping things, but can just write exactly the text you want IM to use.
-### Escapes on Older versions of IM
+
+### Escapes on Older versions of IM {#escaping_escapes_legacy}
 
 The above definitions were only finalised in IM version 6.3.3. Before this escapes were sometimes handled in some options, and sometimes not, according to any requests, problems, and complaints, sent by IM users.
 This was especially the case with regards to the percent escapes with "`label:`" and "`caption:`", which was for a period deemed as 'non-sensible'.
@@ -711,7 +667,7 @@ As the results of escape handling vary greatly from version to version, in IM's 
 
 ------------------------------------------------------------------------
 
-## Pango - Basic Formatted Text
+## Pango - Basic Formatted Text {#pango}
 
 The "`pango:`" text coder (fully working as of IM v6.7.6-3) works in much the same way as the [Label](#label) and [Caption](#caption) coders. It provides a limited text formatting language on systems in which "Pango" is installed. On Linux and MacOSX systems pango is standard, on Windows it is optional.
 Here is a simple example without using any special pango formatting...
@@ -750,7 +706,8 @@ Also pango understands the use of TAB's (unlike label and caption).
   
 *Note that while the "`printf`" command above can generate tab characters, using the '`\t`' escape, IM does not understand the use of such an escape. It does however understand the '`\n`' escape sequence in strings.*
 However generating columns using TAB's does not work very well as you can't easily define the 'tab-stops' outside the API. As such using TAB's in this way is *not recommended*, except as line and paragraph indentation .
-### Pango Markup language
+
+### Pango Markup language {#pango_markup}
 
 The real power of pango however is in the "Pango Markup" language, which is enabled by default. You can turn off pango markup using "`-define pango:markup=false`", but then you may as well be using [Caption](#caption) instead.
 The "Pango Markup" is much like HTML, in that you use a set of "`<...>`" markup tags hidden in the text, and which is used to control how the text is to be formatted.
@@ -785,7 +742,7 @@ As a final example of the power of pango formatting here I use it to format a pr
 
 [![\[IM Output\]](pango_test.png)](pango_test.png)
 
-### Pango Notes and Problems
+### Pango Notes and Problems {#pango_notes}
 
 **Gravity**
 I have not been able to get pango to selectively center just a single line of text. You can only center everything, or nothing via the "`-gravity`" setting.
@@ -800,7 +757,8 @@ These are the ones I have used...
 Turn off the markup language tags. Any tags are then included in the output. No pango formating within the text is possible.
 `-define pango:justify=true`
 Justify text across the width of the image size.
-### More Information on Pango
+
+### More Information on Pango {#pango_more}
 
 To see just what is posible see [Pango Script Gallery](http://www.pango.org/ScriptGallery)
 If you do something interesting with pango, please contribute. Either [Mail Me](%20http://www.ict.griffith.edu.au/anthony/mail.shtml), or post it on the [IM Discussion Forum](../forum_link.cgi?f=1).
@@ -811,7 +769,7 @@ If you do something interesting with pango, please contribute. Either [Mail Me](
 
 ------------------------------------------------------------------------
 
-## Text - Pages of Plain Text
+## Text - Pages of Plain Text {#text}
 
 The "`text:`" input format is designed to convert plain text into images consisting one image per page of text. It is the 'paged text' input operator of ImageMagick.
 In other words its purpose is to convert the larger preformatted text files into pages in much the same way that printers print plain text onto separate pieces of paper.
@@ -854,7 +812,7 @@ If you just want to know how big say a 'A5' page is at 100 dpi, then this comman
   
 [![\[IM Text\]](page_size.txt.gif)](page_size.txt)
 
-### Trimming Text Pages
+### Trimming Text Pages {#text_trim}
 
 Because the text is being 'drawn' onto a large canvas, you will likely want to remove all the unused space produced. This can be done by using the image operations "`-trim`", "`+repage`", then to make it look reasonable, re-adding some edge space using "`-border`". Of course you will also need to match the "`-background`" color you used as the "`-bordercolor`" you are re-adding.
 Sounds complex? It isn't really, for example...
@@ -906,7 +864,9 @@ This also is why I added a "`+repage`" operator to the above example otherwise t
 For more details of using this offset see [Page Image Attributes](../basics/#page).
 Note how in the last example, any text line that is too long to fit the width of the page will overflow the page, and not be 'wrapped'. This will effectively crop and junk the end of the lines. Also if there are too many lines, then "`text:`" will generate *multiple pages* and thus *multiple images*, one for each page generated by the postscript translation of the text file.
 If you are only interesting in the first page of text, or just want to avoid the possibility of multiple images, add a '`[0]`' to the "`text:`" filename, to tell IM to only read the first page generated *after* the text has been converted to images (see previous example).
-## Postscript/PDF - Pre-formatted Text and Graphics Input  
+
+## Postscript/PDF - Pre-formatted Text and Graphics Input {#postscript}
+
 (or other vector image formats)
 
 The following gives a standard vector image handling technique that can not only be used for "`PS:`" (postscript) images but all other images handled using vector graphics. This includes image formats such as: "`PDF:`" (portable document format), "`TEXT:`" (paged plain text), and even "`SVG:`" (scaled vector graphic) and "`WMF:`".
@@ -996,7 +956,8 @@ Most other image creation operators use the "`-page`" setting to set a 'virtual 
 For more details of using this offset see [Page Image Attributes](../basics/#page).
 As a final practical example, have a look at my [Ray Traced Tetrahedron](http://www.ict.griffith.edu.au/anthony/graphics/polyhedra/platonic/tetrahedron.jpg) image. Other similar images can be seen in [Studies into Polyhedra](http://www.ict.griffith.edu.au/anthony/graphics/polyhedra/).
 The background page was generated from the same data used to produce the displayed 3D mathematical object. The text data was converted using "`a2ps`", then IM was used to convert this to an image. Onto this image other pre-prepared line drawings of the same mathematical object was added to the page. This final image (saved in 'targa' or TGA format) was then passed to the "`PovRay`" ray-tracer for inclusion in the final image or ray traced scene.
-### Using GhostScript Directly
+
+### Using GhostScript Directly {#ghostscript}
 
 While this not strictly IM, *Richard Bollinger* has reported that running the "`ghostscript`" delegate directly is much more efficient, producing an order of magnitude faster processing due to less file handling, by IM.
 For example instead of running...
@@ -1012,7 +973,8 @@ This prevents the need for IM to generate a large temporary file (for security a
 However "`ghostscript`" can not resize images, (other than adjust the output density or resolution) and will probably not be able to output the image in the image file format you require, or at the quality you want. But you can always then feed the GhostScript output to ImageMagick to finish the task.
 That is especially the case if you want to super-sample the results (higher resolution input, to resized smaller output).
 GhostScript can be a difficult program to figure out how to use, or fix for specific types of postscript. Cristy constantly battles with these issues on behalf of IM users, and in this he has done a super effort. Unfortunately in dealing with the many things that can (and does) happen, IM can not provide a simplified method for postscript/PDF via GhostScript.
-## Draw - Draw Text on Existing Canvas
+
+## Draw - Draw Text on Existing Canvas {#draw}
 
 By using the low level "`-draw`" operator to draw the font we get a lot more control, especially as to the exact position of the font, and the size of the image it is drawn into.
   
@@ -1053,11 +1015,13 @@ For example here we draw underlined, and rotated text, overlaid on a couple of b
 [![\[IM Output\]](draw_mvg.gif)](draw_mvg.gif)
 
 If you really want to make maximum use of "`-draw`" for creating your image, I suggest you look at the [Drawing Examples Page](../draw/).
-### Undercolor Box
+
+### Undercolor Box {#box}
 
 The "`-undercolor`" color setting, as demonstrated above, and later below, will color the defined drawing area for that character and font. generally it just fits the drawn character. This is particularly the case the left and right edges of the drawn font, as the top and bottom edges are usually larger enough to accommodate all the characters. The drawing area basically represents the character 'cell' boundaries surrounding the area in which the font is drawn.
 The major use of using the "`-undercolor`" option, is as a simple and quick way to clear a 'noisy' background from around the text. For example look at [Annotating on Top Images](../annotating/#anno_on). However it is recommended you also add a extra space character at the start and end of the string being drawn in that case.
-### Bounding Box Overflow
+
+### Bounding Box Overflow {#overflow}
 
 One of the biggest problems you will probably come across when drawing text, or just generally handling fonts, is that not all fonts obey the normal rules.
 A font designer can 'draw' individual characters (or 'glyphs') anywhere relative to the current text position (known as the caret). The font position does not even have to move forward, and in some international fonts could even move backward!.
@@ -1078,7 +1042,8 @@ Also note how the '`H`' actually overflows on the left side as well as the right
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
 *Remember this problem is NOT a bug in IM, but caused by the interaction of the font library IM uses, and the settings within the font itself, usually on purpose by the font designer. IM just uses the results as they are programmed in the font, which does not always produce what the user intended. Caution is thus advised with unusual fonts.*
-## Annotate - Text Drawing Operator
+
+## Annotate - Text Drawing Operator {#annotate}
 
 With IM version 6, a new font drawing operator, "`-annotate`", was made available. This operator is in may ways much simpler that using a "`-draw` text" operation, but as it uses the '`annotate()`' API (Application Program Interface), it is also more powerful.
 While the operator does make use of the "`-draw`" primitives, it does so in a more complex way, such as expanding special [escape characters](#escape_chars) to add extra image information and even multiple lines, and applying a coordinate system transform to the drawn text to produce slants and rotations.
@@ -1135,7 +1100,8 @@ You can also add other information about the current image to the Annotated stri
 [![\[IM Output\]](annotate_rose.gif)](annotate_rose.gif)
 For more information see [Special Escape Characters in Text Arguments](#escape_chars) below.
 For other examples of annotating text onto a larger image in various ways (such as centered on the side, or rotated in the bottom-right corner) see [Practical Text Annotation Examples](../annotating/#practical).
-### Automatically Sized Annotated Text Canvases
+
+### Automatically Sized Annotated Text Canvases {#annotate_size}
 
 Often you need much more control than what "`label:`" can provide. For example you want to use a tile or gradient image, requiring you to [Annotate](#annotate) the text. Unfortunately you then need to know in advance the size of the canvas you need for your [Annotated Text](#annotate).
 Here is a typical example of the problem. When I first set up this command I set my size to the results I wanted, and at first it worked quite well. But then I got this...
@@ -1170,7 +1136,8 @@ The better solution is to create the canvas using "`label:`", to generate the ca
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
 *Note that position of the text in a centered "`label:`" image may not exactly match the position of a centered "`-annotate`" operation. The two methods follow completely different processing algorithms, and as such may not match. Especially when unusual fonts are involved.*
-### Auto Sized using 'Undercolor Box'
+
+### Auto Sized using 'Undercolor Box' {#autosize_box}
 
 Rather than using a "`label:`" image, you can draw the font on a large canvas using an [Undercolor Box](#undercolor) and a [large stroke width](../draw/#stroke), before trimming the canvas to fit.
 For example
@@ -1184,7 +1151,8 @@ For example
 
 The amount of space around the font can be adjusted using the "`-strokewidth`" setting. The only important requirement is that the initial canvas be a color different to the background color, ('`lightblue`' in this case) and is larger than the final result.
 Just a word of warning, some fonts draw characters well outside the individual character drawing area. (For example see [Undercolor Box](#undercolor) above). In this case the above result will work, but may require you to use a transparent canvas, and then overlay the result over white (using an operation like "`-background white -flatten`" for example), to convert the unused and still transparent areas to white. However that character will likely be touching an edge of the resulting image. Basically you can't really win, in all situations, just try your best.
-### Coloring a Gray-scale Text Image
+
+### Coloring a Gray-scale Text Image {#coloring_text}
 
 I purposefully generated the above image as a grey-scale black and white image, as this can be used as a masking template. From a pure image like this you can then color the background and the foreground of image either separately or both at the same time.
 Here for example I use the [Level by Colors Operator](../color_mods/#level-colors), "`+level-color`", to globally modify the image colors so as to assign the foreground and background colors with specific values.
@@ -1211,7 +1179,7 @@ For other methods of generating gradients for tiling see [Gradients of Color](..
 
 ------------------------------------------------------------------------
 
-## Fonts
+## Fonts {#font}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
@@ -1251,7 +1219,7 @@ For other methods of generating gradients for tiling see [Gradients of Color](..
               -annotate 0 'Test' null: 2>&1 |
         grep '^ *Font '
 
-## Determining Font Metrics, without using an API
+## Determining Font Metrics, without using an API {#font_info}
 
 ![\[diagram\]](../img_diagrams/glyph_metrics.gif) A particular font and its individual characters contain a lot of information. Such information can be very useful to have, especially if you are wanting to use IM for piecing together the text of many different fonts.
 It is also important to remember that most fonts are proportional fonts, meaning that each individual character will have a different width, and a different 'natural' advance of the caret (or origin). As such each specific 'string' of characters will be rendered (drawn) a different length without any real regard to the actual number of characters used in the string.
@@ -1272,7 +1240,7 @@ The full debug output (which is rather verbose, and not shown in the above) also
   
 *The "`-debug   annotate`" method was added to IM v6.3.9-2*
   
-### Older techniques
+### Older techniques {#font_info_legacy}
 
 This debug output however may not be convenient, or you may have to handle IM's that are older than this version. The following are older examples where the text is actually drawn in various ways and colors, and then information (as integers) extracted from the resulting image.
 For example lets find out the dimensions of the '`Ravie`' font relative to a fixed baseline, at 72 point.
@@ -1325,7 +1293,7 @@ Note the above examples will only return dimensions in whole pixels, where all t
 
 ------------------------------------------------------------------------
 
-## Creating Lines of Mixed Font Styles
+## Creating Lines of Mixed Font Styles {#mixed_font_lines}
 
 Creating a single line using multiple fonts, point sizes, and styles is not something IM is really designed to do. It gets even worse when you also start to consider things like text justification, word wrapping, and wrapping around images and other things.
 This is the sort of thing that programs like Word Processors, Web Browsers, Document Printers do very well, usually under user interaction, but few can do so well under program control.
@@ -1394,7 +1362,7 @@ You can also see that doing all this is a lot of work, work that is normally hid
 
 ------------------------------------------------------------------------
 
-## Form Filling
+## Form Filling {#form_filling}
 
 You have a image of some standard fill in form and you want to fill in the fields which are in well known positions. So you have a data file such as "`text_data.txt`" shown here...
   
@@ -1420,7 +1388,7 @@ See also [Pins in a Map](../layers/#layer_pins) for another example of this tech
 
 ------------------------------------------------------------------------
 
-## Text Processing Alternatives
+## Text Processing Alternatives {#tex}
 
 The ideal way of generating fully formatted text files and documents is to use ImageMagick as part of a larger image and text processing system.
   
@@ -1463,10 +1431,10 @@ They provides a way of generating any type of document, from a simple page, news
  Other solutions also include the many text to postscript conversion programs, such as "a2ps" which I demonstrate in generating a example postscript file in [Postscript Handling](#postscript) above. This converts and formats may different types of text files, with word wrapping, bolding and tab control, as well as a reasonably nice header, footer, border, and multi-page options. Of course this is indirect image processing via a [Postscript or PDF](../format/#ps) intermediate language.
 Another is to layout the text using SVG, or the ImageMagick [Drawing Command](../draw/#draw), though you will then need to deal with the layout. There are lots of tools out there to convert text into images, and most can be combined with ImageMagick to post-process the text image and merge it into your image. This lets ImageMagick get on with what it does best, image processing.
 
-------------------------------------------------------------------------
-
-Created: 25 October 2005 (separated from 'fonts' page)  
- Updated: 26 October 2011  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/text/`
+---
+created: "25 October 2005 (separated from 'fonts' page)"
+updated: 26 October 2011  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 7.0.0
+url: http://www.imagemagick.org/Usage/text/
+---
