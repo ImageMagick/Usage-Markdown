@@ -1,59 +1,12 @@
 # Color Quantization and Dithering
 
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Color Reduction Introduction](#intro) ![](../img_www/space.gif) (what is involved)
-[![](../img_www/granitesm_right.gif) The Colors in an Image](#handling) ![](../img_www/space.gif) (what colors are used by an image)
--   [Extracting Image Colors](#extract)
--   [Comparing Two Colors](#compare)
-
-[![](../img_www/granitesm_right.gif) Color Quantization](#colors) ![](../img_www/space.gif) (reducing the number of colors in an image)
--   [The Color Quantization Operator](#colors)
--   [Color Quantization and Colorspace](#quantize)
--   [Quantization does not Preserve Colors](#quantize_not_exact)
--   [Color Quantization and Transparency](#color_trans)
-
-[![](../img_www/granitesm_right.gif) Error Correction Dithering](#dither_error) ![](../img_www/space.gif) (Or Pseudo-Randomized Dithering)
--   [E-Dither Methods](#dither)
--   [How an E-Dither Works](#dither_how)
--   [E-Dither Change Sensitive](#dither_sensitive)
--   [E-Dither Pixel Speckling](#dither_speckle)
--   [Monochrome Dithered Bitmap Images](#monochrome)
--   [Two Color Quantization](#two_color)
--   [Dither using Pre-Defined Color Maps](#remap)
--   [Common or 'Best' Colormap](#remap_common)
--   [Using Web-Safe Colors](#web_safe)
--   [Uniform Color Maps](#remap_colormaps)
--   [Uniform 332 ColorMap](#332_colormap)
--   [TrueColor 16bit or 556 Colormap](#16bit_colormap)
--   [Gamma Corrected Uniform ColorMaps](#gamma_colormap)
--   [Posterize, Recolor Using a Uniform Color Map](#posterize)
-
-[![](../img_www/granitesm_right.gif)Threshold Dithering Methods](#threshold) ![](../img_www/space.gif)
--   [Threshold Images](#threshold)
--   [Random Dither with Thresholding](#random-threshold)
-
-[![](../img_www/granitesm_right.gif) Ordered Pattern Dithers](#ordered-dither) ![](../img_www/space.gif) (Using a tiled threshold map)
--   [Diffused Pixel Dithering](#diffused)
--   [Digital Halftone Dithers](#halftone)
--   [Halftone Offset Dithering](#halftone_offset)
--   [XML Threshold Maps](#thresholds_xml)
--   [Ordered Dither with Uniform Color Levels](#od_posterize)
--   [Better Ordered Dither Results](#od_levels)
-
-[![](../img_www/granitesm_right.gif) DIY Dither Patterns and Threshold Maps](#diy_dither) ![](../img_www/space.gif) (dither images in your own way)
--   [Multi-Image Bitmap Dither Patterns](#diy_multi)
--   [DIY Ordered Dither Threshold Maps](#diy_threshold)
--   [DIY Horizontal Line Dither](#diy_hlines)
--   [Dithering with Symbol Patterns](#diy_symbols)
-
 Reducing the number of colors or replacing specific colors is a very complex and difficult step in in Image Processing, and that is the topic covered in this example pages. This includes determining the what colors to use (color quantization), and how to place those colors on the image (dithering, and patterning). It also includes the generation of bitmap or two color images, and even handling Boolean (on/off) transparency.
 
 This is so important that color reduction or quantization often happens automatically and behind the scene, just so ImageMagick can perform its original primary task of converting images from one file format to another, less colorful format, such as GIF, XPixmap, and XBitmap formats. Knowing how this works can allow you greater control of the process, so as to improve the resulting image stored in a specific image file formats.
 
 ------------------------------------------------------------------------
 
-## Color Reduction Introduction
+## Color Reduction Introduction {#intro}
 
 Color reduction is a very important aspect of ImageMagick. For example to convert a JPEG or PNG image containing millions of colors, into a GIF image containing a maximum of 256 color, you really have to be able to reduce colors in a efficient and effective way. Often during an image format conversion, this happens automatically behind the scenes, but there are other times when you want to do this manually.
 
@@ -67,11 +20,11 @@ To further complicate matters, these steps are often interlinked, as one method 
 
 Basically while color reduction is often automatically handled behind the scenes, it is good to at least be aware just what it is happening, and what its effects will be.
 
-#### Color Survey
+#### Color Survey {#color_survey}
 
 This is probably the lest important, and while IM provides you with methods to perform a survey, it is rarely done by users for the purposes of color reduction. I will leave further discussion to the relevant section, [Extracting Image Colors](#extract).
 
-#### Color Selection (Quantization)
+#### Color Selection (Quantization) {#color_selection}
 
 For a good initial overview see [Wikipedia, Color Quantization](http://en.wikipedia.org/wiki/Color_quantization).
 
@@ -107,7 +60,7 @@ And finally can "`-threshold`" all or specific color channels of the image, esse
 
 Thresholding is also equivalent to a "`-posterize`" level '1' which picks 2 colors.
 
-#### Applying a Color Set
+#### Applying a Color Set {#apply_color_set}
 
 Once you have a set of colors, the next problem is to apply the color to an image so that the existing colors are replaced by the selected set of colors. This is known as 'Dithering', and is named as such because of its, "should I pick this, or should I pick that?", either-or nature.
 
@@ -145,13 +98,13 @@ All these aspects of color reduction are important techniques, and with understa
 
 ------------------------------------------------------------------------
 
-## The Colors in an Image
+## The Colors in an Image {#handling}
 
 Information about images, such as the number of colors used and the overall spread can be very important to programs and scripts that are trying to make decisions about the best techniques to use. Here I look at some of the methods you can use to determine this type of information, and not just for color reduction.
 
-### Extracting Image Colors
+### Extracting Image Colors {#extract}
 
-#### Extracting the color table
+#### Extracting the color table {#extract_colortable}
 
 You extract a color palatte from an image using a verbose "`identify`", using any of these methods which basically all does exactly the same thing.
   
@@ -220,7 +173,7 @@ This may not be the best general color histogram method, but it works well for t
   
 *The order of the colors for both "`histogram:`" and "`-unique-colors`" operator, is undefined, but appears to be sorted by red, then green, and finally blue channel value. This may not the best way for a specific image, but it is impossible to generally sort 3-dimensional colors into a 1-dimensional order.*
 
-#### Extracting the Average Color
+#### Extracting the Average Color {#extract_avg}
 
 The average color of an image can be found very quickly by using "`-scale`" to reduce an image to a single pixel. Here for example is the average color of the built-in "`rose:`" image. I output the color using the [FX Escape Format](../transform/#fx_escapes) which returns a color string that can be used directly IM without change.
   
@@ -248,7 +201,7 @@ For example you can get the average red channel colour by getting the '`%[mean]`
   
 [![\[IM Text\]](rose_red_mean.txt.gif)](rose_red_mean.txt)
 
-#### Extracting a Specific Color
+#### Extracting a Specific Color {#extract_color}
 
 From the command line there are two basic ways of extracting a specific pixel color from an image. Either use an [FX Escape](../transform/#fx_escapes) such as "`%[pixel:...]`" or "`%[fx:...]`" (see above) on a specific pixel location...
   
@@ -264,7 +217,7 @@ Alternativally you can simplify the image by using "`-crop`" to cut out a single
   
 [![\[IM Text\]](rose_pixel_crop.txt.gif)](rose_pixel_crop.txt)
 
-#### Counts of a Specific (or near) Color
+#### Counts of a Specific (or near) Color {#count_color}
 
 This can be used to get the pixel count or percentage of a specific color.
 
@@ -285,7 +238,7 @@ Note that while this will work fine for small images, with much larger images (l
 
 The above can also used a [Fuzz Factor](../color_basics/#fuzz) option "`-fuzz`" before the "`-opaque`" operator to specify 'near' colors as well.
 
-### Comparing Two Colors
+### Comparing Two Colors {#compare}
 
 So you have two specific colors and you want to compare them. You can use "**`compare`**" get the RMSE (on standard error)...
   
@@ -368,9 +321,9 @@ The special options "`-alpha set -channel RGBA`" are important to allow us to fo
 
 ------------------------------------------------------------------------
 
-## Color Quantization
+## Color Quantization {#colors}
 
-### Color Quantization Operator
+### Color Quantization Operator {#colors_operator}
 
 The primary work horse of color quantization, and what is used internally for all automatic color reduction, is the "`-colors`" operator.
 
@@ -418,7 +371,7 @@ Only one Color Quantization algorithm, "Adaptive Spatial Subdivision", is curren
   
 ASIDE: As a reference the "`Gifsicle`" program lists a number of other color quantization methods (using it "`--color-method`" option). I have no idea as to how well these color quantization methods compare to IM. If you find a good reference to different methods of color quantization, please mail me.
 
-### Color Quantization Internals
+### Color Quantization Internals {#color_internals}
 
 The process of selecting the limited number of colors to use in an image is called Color Quantization, and is a very complex process involving a number of factors. A full technical description of it is given on the ImageMagick web site [Color Reduction Algorithm](http://www.imagemagick.org/script/quantize.php). However I'll try to example some of the more important aspects of this here.
 
@@ -448,7 +401,7 @@ Note that the color quantization is uniform, within the current colorspace.
     FUTURE: Just what are the effects of the "-treedepth"  setting?
     Mail me if you know
 
-### Color Quantization and ColorSpace
+### Color Quantization and ColorSpace {#quantize}
 
 The other big influence on what colors are selected is defining exactly what we mean by colors that are 'close' or 'nearby'. This is defined by the colorspace used for the quantization (color selection), and is (as of IM v6.2.8-6) controlled by the "`-quantize`" colorspace setting.
 
@@ -508,7 +461,7 @@ For a complete list of the colorspaces available see the "`-colorspace`" operato
 
 You can see more effects of the colorspace on color selection by looking at the examples on [Random Spots of Solid Color](../misc/#spots). There color quantization is used to reduce the number of colors in a randomized image using various colorspaces.
 
-### Quantization does **NOT** Preserve Colors
+### Quantization does **NOT** Preserve Colors {#quantize_not_exact}
 
 Note that in all the above images a pure-black color is never actually picked by Color Quantization. Mind you their is only one pure black pixel, and not many near-black colors in the image in any case. As a result the only black that appears in the final image was added later as part of the labeling of the image.
 
@@ -544,7 +497,7 @@ If this works, you can then just [Crop](../crop/#crop) the image to remove the e
 
 Ideally, what I would like to see added to IM is a way to specify a small number of specific colors, that must be part of the final color map, and then somehow ask IM to pick the best colors for rest of the colors in the color map, for a specific image.
 
-### Color Quantization and Transparency
+### Color Quantization and Transparency {#color_trans}
 
 ImageMagick by default not only generates fully opaque colors, but also attempts to generate semi-transparent colors. In this way, images containing transparent shadows or other overlay effects will not loose those effects.
 
@@ -649,13 +602,13 @@ There are a number of ways of extracting and restoring the alpha channel from an
 
 ------------------------------------------------------------------------
 
-## Error Correction Dithering
+## Error Correction Dithering {#dither_error}
 
 As discussed in the introduction an error correction dither is generally regarded the best choice for producing the truest representation of the original image with a reduced color set. It also limits itself to any pre-defined palette of colors, whether it was user supplied, or as determined by the IM color quantization routines.
 
 Because of this it is the logical default choice for general color reduction as provided by the IM operators, "`-colors`", "`-remap`", "`-posterize`" and "`-monochrome`".
 
-### E-Dither Methods
+### E-Dither Methods {#dither}
 
 As of version 6.4.2-9, IM now provides more than one type of dithering style or method, which can be selected using the "`-dither`" setting. Before this IM was limited to a variation of the [Riemersma Dither](http://www.compuphase.com/riemer.htm), or [Hilbert Curve Dither](http://www.compuphase.com/hilbert.htm). which you can set using "`-dither Riemersma`".
 
@@ -674,7 +627,8 @@ For example here is the color wheel dithered using different dithering methods.
 [![\[IM Output\]](dither_riemersma.gif)](dither_riemersma.gif) [![\[IM Output\]](dither_floyd.gif)](dither_floyd.gif)
 
 As you can see the Floyd-Steinberg dither produces a much more uniform dither pattern than the default Riemersma dither. The biggest difference between them is how each of them distributes the 'color error' between neighbouring pixels. So lets have a look at just how a E-Dither works.
-### How an E-Dither Works
+
+### How an E-Dither Works {#dither_how}
 
 **![](../img_www/const_barrier.gif) Re-Write In Progress ![](../img_www/const_hole.gif)**
 
@@ -709,7 +663,7 @@ The "Floyd-Stienberg Dither" in particular I find produces a more 'hash' like pa
 
 Such a regular pattern can make a low level manual clean up of small color icon images, a lot easier. This was something I did a lot of in my past for [Anthony's Icon Library](http://www.ict.griffith.edu.au/anthony/icons/), but that type of thing is not often needed anymore, except posibly for small monochrome images.
 
-### E-Dither Problem - Change Sensitive
+### E-Dither Problem - Change Sensitive {#dither_sensitive}
 
 One of the biggest problems you face when you use an error correction dither is that you get an essentially random pattern of pixels, that is also highly sensitive to changes.
 
@@ -783,7 +737,7 @@ The change in pattern also cause problems in optimizing animations. That is a di
 
 Ordered dithers do not have any of these problems, containing changes to the immediate local area of the change. Unfortunatally are also generally limited to using a mathematically derived color set. (See [Ordered Dither using a Uniform Color Map](#od_posterize)).
 
-### E-Dither Pixel Speckling
+### E-Dither Pixel Speckling {#dither_speckle}
 
 Another problem with E-Dithers is that they can produce the occasional odd-colored pixels in areas which would otherwise be fairly uniform in color. For example the occasional green, pixel in a greyscale image. Or as in the examples below, a white pixel in a areas of otherwise plain flat blue color.
 
@@ -903,7 +857,7 @@ To me speckling is a very annoying problem, especially for desktop icon images u
 
 If you know of another better solution, please let me know.
 
-### Monochrome Dithered Bitmap Images
+### Monochrome Dithered Bitmap Images {#monochrome}
 
 The "`-monochrome`" operator is a specialized form of both the "`-colors`" operator to generate a bitmap image. It is as such an ideal operator to demonstrate not only 'Hilbert Curve Dithering', but also have a closer look at color selection.
 
@@ -953,7 +907,7 @@ What "`-monochrome`" actually does is to first convert the given image first int
   
 *The "`+dither`" setting currently has no effect on the result of "`-monochrome`". This however may change in the future, so make sure it is not turned off in your scripts when using this operator.*
 
-### Two Color Quantization
+### Two Color Quantization {#two_color}
 
   
 Rather than picking the two control colors yourself, you can use color quantization to pick the best two colors in the image by using the "`-colors`" operator.
@@ -1011,7 +965,7 @@ If you remove the "`-colorspace`" for the color quantization stage of the image 
   
 [![\[IM Output\]](threshold_two_color.gif)](threshold_two_color.gif)
 
-### Dither using Pre-Defined Color Maps
+### Dither using Pre-Defined Color Maps {#remap}
 
 As shown above "`-colors`" attempts to choose an optimal limited set of colors with which to represent an image. With "`-remap`" you provide IM with the final set of colors you want to use for the image, whether you plan to dither those colors, or just replace the ones with their nearest neighbours.
 
@@ -1046,7 +1000,7 @@ So if using a color map is such a bad idea, why would you want use it?
 
 There are a number common reasons, usually because you need more control of the specific palette of colors used in an image. *If you know of another reason to use the "`-remap`" operator which I have not presented below - Mail me.*
 
-#### Common or 'Best' Colormap
+#### Common or 'Best' Colormap {#remap_common}
 
 
 The other technique, when handling multiple images, is to generate a common color table for all the images involved.
@@ -1063,7 +1017,7 @@ Only the "`-remap`" operators can do this. So when handling GIF's and in particu
 
 For more details, and an example see [Gif Animations, Global Color Table](../anim_opt/#colortables).
 
-### Web Safe Coloring
+### Web Safe Coloring {#web_safe}
 
 When the WWW was first created, computer displays had a limited range of colors available, and web browsers usually used a simpler set of colors for images. As such it was common to recolor images to this color set, to make them both smaller, and to ensure they will look okay on users browsers. For more detail see [Web Style Guide, Dithering](http://www.webstyleguide.com/graphics/dither.html).
 
@@ -1086,13 +1040,13 @@ Of course today, thanks to the demands by game and web users, you can be pretty 
 
 For a discussion about the use of Web-safe colors in the modern world see [Death of the Web-safe Color Palette?](http://www.webmonkey.com/00/37/index2a.html), and probably a more important view from a graphic designer that first identified this color map, [Lynda Weinman](http://www.lynda.com/hex.asp).
 
-### Generating Color Maps
+### Generating Color Maps {#remap_colormaps}
 
 Determining a good color map for any image, or a a specific set of images, can be very important. This becomes especially important when you are dealing with a sequence of images that will be used for GIF animation. Basically you want to make it so they only need one color table, to use for all the frames of the animation, rather than a separate color table for each frame. In other words you want one single color map for all the image.
 
 You have really only two choices in this case. You can attempt to create a colormap that will work well for any image, or you try to optimize a color map for the specific set of images you are applying it to.
 
-#### Web-Safe Colormap
+### Web-Safe Colormap {#netscape}
 
 [![\[IM Output\]](netscape.gif)](netscape.gif)
 
@@ -1104,7 +1058,9 @@ As only 219 color are used it still has space (for GIF images) to add more color
 
 This is probably the most common 'uniform' (or mathematically derived) colormap in general use, thanks to its simplicity, and its general use on the the World Wide Web.
 
-#### Uniform 332 Colormap
+<a name="332_colormap"></a><!-- legacy -->
+
+### Uniform 332 Colormap {#uniform_332_colormap}
 
 Another uniform color mapping that is commonly used is the "332 RGB color map". The number refer to the number of bits used to represent each color within a 8 bit color index. That is 3 bits (or 8 levels) of red, 3 for green, and 2 bits (or 4 color levels) for blue, seeing as our eyes do not respond well to blue. This gives 3+3+2 bits or an 8 bit color index, or 256 colors. Perfect for the limited GIF color table. However it will not leave any space for a GIF transparency color, or other special use colors.
 
@@ -1126,13 +1082,15 @@ A simpler way of doing the same thing is to use [Ordered Dither using Uniform Co
 
 The only drawback with this map is that it does not actually provide any 'gray' colors at all. However this drawback can be a plus when dithering is used as the slight color differences reduce the effect of color boundary changes in a grey-scale gradient, making it just that little bit smother looking.
 
-#### TrueColor 16bit Colormap
+<a name="16bit_colormap"></a><!-- legacy -->
+
+### TrueColor 16bit Colormap {#truecolor_16bit_colormap}
 
 A similar uniform colormap to the '332 colormap' above is used by X windows in a rarely used 16 bit visual class. In this case, 16 bits are used for the color index which is divided into 5 bits for red, 5 for green, and 6 for blue.
 
 In other words, this color map is more like a "556 colormap", and is best achieved using a [Ordered Dither using Uniform Color Levels](#od_posterize) using a 'threshold' dithermap. Specifically the operation "`-ordered-dither threshold,32,32,64`". 16 bit colormaps are however rarely seen as images using colormaps typically need a 8 bit color table. As such I won't mention it further.
 
-#### Gamma Corrected Uniform Colormaps
+### Gamma Corrected Uniform Colormaps {#gamma_colormap}
 
 At this time IM does not do gamma corrected color maps directly.
 
@@ -1142,7 +1100,7 @@ This also goes for many other image processing operations, such as resize, bluri
 
 See [Resizing with Gamma Correction](../resize/#resize_gamma) for an example.
 
-### Posterize, Recolor using a Uniform Color Map
+### Posterize, Recolor using a Uniform Color Map {#posterize}
 
 The operators original purpose (using an argument of '2') is to re-color images using just 8 basic colors, as if the image was generated using a simple and cheap poster printing method using just the basic colors. Thus the operator gets its name.
 
@@ -1205,9 +1163,9 @@ Finally the [Ordered Dither](#ordered-dither) does allow you to specify a differ
 
 ------------------------------------------------------------------------
 
-## Threshold Dithering Methods
+## Threshold Dithering Methods {#threshold}
 
-### Threshold Images
+### Threshold Images {#threshold_images}
 
 The simplest method of converting an image into black and white bitmap (to color) image is to use "`-threshold`". This is actually a simple mathematical operator that just provides a cut-off value. Anything equal to or below that value becomes black, while anything larger becomes white.
   
@@ -1260,7 +1218,7 @@ For example, this will threshold the image based on the best two colors found in
   
 [![\[IM Output\]](threshold_two_color.gif)](threshold_two_color.gif)
 
-### Random Dither and Threshold
+### Random Dither and Threshold {#random-threshold}
 
 The "`-random-threshold`" operator is a special form of bitmap image converter. In this case it uses a very simple "random dither" to determine if a particular pixel is to become a white pixel or a black pixel.
 
@@ -1333,7 +1291,7 @@ One 'fix' for this dither, that has been suggested is to use a random 'blue nois
 
 ------------------------------------------------------------------------
 
-## Ordered Dithering
+## Ordered Dithering {#ordered-dither}
 
 While a random dither produces random clumps of pixels, and the various error correction dithers produce a essentially random pattern of dots, ordered dithering is basically the opposite. It is designed to be as mathematically deterministic as possible. So deterministic, that you actually need to specify the pattern for it to should use in dithering the image.
 
@@ -1349,7 +1307,7 @@ The important point about this is that the result for each pixel in an image is 
 
 This point is vital to consistent dithering of video images and optimized animations.
 
-### Diffused Pixel Dithering
+### Diffused Pixel Dithering {#diffused}
 
 The original purpose of ordered dithering, and what most graphic programmers expect to get when you use an ordered dither is sometime more correctly termed, "Diffused Pixel Ordered Dither".
 
@@ -1411,7 +1369,7 @@ Also shown above are two special minimal dither threshold maps:
 1.  a straight '50% threshold' non-dither, which does not produce any extra grey levels and
 2.  a 'checks' or checkerboard dither pattern, that only inserts a single pattern to add a extra 'pseudo-level' to the resulting gradient.
 
-### Digital Halftone Dithers
+### Digital Halftone Dithers {#halftone}
 
 The "`-ordered-dither`" was extended in IM v6.2.8-6 with a set of digital-halftone dither patterns (thanks Glenn Randers-Pehrson). All of which were set to produce a simple 45 degree dot pattern. With IM v6.3.0 this was further expanded with a similar set of larger un-angled halftones.
   
@@ -1476,7 +1434,7 @@ Up until ImageMagick version 6.2.9 all the above threshold ordered dither map we
 
 The 'Circle' halftone thresholds were added by Glenn Randers-Pehrson, IM v6.6.5-6.
 
-### Offset HalfTone Dither
+### Offset HalfTone Dither {#halftone_offset}
 
 The only problem with the above halftone dither is that it is that the exact same threshold map (tile) is applied to all the color channels in the same way. That means the same set of primary color is arranged in dots with the same 'center'.
 
@@ -1541,7 +1499,7 @@ The above was from a discussion in the IM forum discussion [CMYK Halftone Effect
 
 This discussion is also related to [B/W Halftone Dither](../forum_link.cgi?f=1&t=17389&p=67746) which takes a closer look at generating true halftone screens using actual dots of appropriate sized. That discussion however did not take it to the next step of using offset (rotated) screens. Such screens would probably require rotating the image to generate the dots, then rotating the dot pattern back again for that specific color channel.
 
-### XML Threshold Maps
+### XML Threshold Maps {#thresholds_xml}
 
 From IM version 6.3.0, rather than using a fixed set of map that were built into the source code of IM (shown previously), the maps are now read in from a set of XML data files external to the program itself.
 
@@ -1582,7 +1540,7 @@ And here is an example of using that threshold to dither the alpha channel of a 
 
 Pretty cool hey! More on dithering alpha channels later. First I need to also show how to use the coloring abilities of expanded "`-ordered-dither`" operator.
 
-### Ordered Dither using Uniform Color Levels
+### Ordered Dither using Uniform Color Levels {#od_posterize}
 
 With the release of IM v6.3.0, not only was the threshold maps used by "`-ordered-dither`" changed so as to be read from external files, but the internal operations was enhanced to allow it to use mathematically defined 'posterized' color maps.
 
@@ -1633,7 +1591,7 @@ The last pair uses the special '332 colormap' (See [Generating Color Maps](#rema
 
 It was to allow the production the '332 colormap' that the "`-ordered-dither`" operator, included the ability to specify separate levels for each color channel.
 
-#### Better Ordered Dither Results
+#### Better Ordered Dither Results {#od_levels}
 
 Lets take a closer look at the level 6 [O-Dither](#ordered-dither) we just generated.
   
@@ -1671,11 +1629,11 @@ Of course for an animation, you will need to "`-append`" all the images together
 
 ------------------------------------------------------------------------
 
-## DIY Dither Patterns and Threshold Maps
+## DIY Dither Patterns and Threshold Maps {#diy_dither}
 
 Previously I show you that the new "`-ordered-dither`" operator can accept a user defined dithering pattern. Here I am going to show you how you can create your own dither pattern. Specifically a special pattern I found useful for generating a shadows consisting of horizontal lines.
 
-### Multi-Image Dither Patterns
+### Multi-Image Dither Patterns {#diy_multi}
 
 The first thing you need to do is create a set of images defining the pattern you want to create. The pattern should start with a solid black image of the right size as the first image (all pixels off) and a solid white image at the other end (all pixels on).
 
@@ -1714,7 +1672,7 @@ Lets try this dither pattern set again but using a simple shadowed image...
 
 [![\[IM Output\]](shadow.png)](shadow.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shadow_dpat_hlines2x2.gif)](shadow_dpat_hlines2x2.gif)
 
-### DIY Ordered Dither Threshold Maps
+### DIY Ordered Dither Threshold Maps {#diy_threshold}
 
 The above DIY dither pattern is about as simple a dither pattern as you can get, and as such we can convert it directly into a XML threshold map, so that the fast built-in "`-ordered-dither`" operator can make use of it.
 
@@ -1756,7 +1714,7 @@ As you can see this widened the range of semi-transparent pixels that use pure h
 
 Note however that this type of change to a threshold is very uncommon. Though justified for the intended use in this case. Basically it does not properly define a gradient, or allow for lighter and darker shades of patterns. For that we need to make a much more complex threshold map, with more pixels, and more patterns.
 
-### DIY Horizontal Line Dither
+### DIY Horizontal Line Dither {#diy_hlines}
 
 Here I expanded the simple horizontal lines dither pattern I created above into a set of patterns, to produce a smoother gradient from 'off' to 'on'. This was the result.
   
@@ -1843,7 +1801,7 @@ And here is an example of using this threshold map.
 
 And that is how you can generate a complex threshold map from a progression of images.
 
-### Dithering with Symbol Patterns
+### Dithering with Symbol Patterns {#diy_symbols}
 
 Now while you can use a single threshold map or threshold image, instead of a multi-image pattern set for most dithering operations, that does not mean that multi-image maps don't have there own uses.
 
@@ -1891,17 +1849,17 @@ By replacing the tile with images of numbers you can also generate a sort of pai
 
 ------------------------------------------------------------------------
 
-## Ordered Dither Random notes and Future possibilities
+## Ordered Dither Random notes and Future possibilities {#ordered_dither_random}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-### Ordered Dither with small numbers of colors.
+### Ordered Dither with small numbers of colors. {#ordered_dither_small}
 
 When using a small number of colors for a small image a pseudo-random dither like IM's hilbert curve error correction dither, or even a simpler Floyd-Steinberg error correction dither (see [Error Correction Dither](#dither_error) above ) produces a horrible looking result.
 
 Ideally an [Ordered Dither](#ordered-dither) should be used with low color and small icon like images to produce a much better looking result. However at the moment ordered dither in IM can only used 'fixed' mathematically generated color tables, and not just a collection of 'best' colors.
 
-### Ordered Dither with a map of any colors
+### Ordered Dither with a map of any colors {#ordered_dther_map}
 
 There is some algorithm that will allow you to use a set of specific colors for ordered dithering.
 
@@ -1911,10 +1869,10 @@ From that initial mapping to a specific pseudo-color) the actual color can be pi
 
 Because of my background in icons, and now GIF animations, I definitely would like to see an any color ordered dither implemented, but I have yet to find a practical reference to how to do ordered dithers with a fixed set of colors.
 
-------------------------------------------------------------------------
-
-Created: 11 August 2006  
- Updated: 8 May 2010  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/quantize/`
+---
+created: 11 August 2006  
+updated: 8 May 2010  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-7
+url: http://www.imagemagick.org/Usage/quantize/
+---
