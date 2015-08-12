@@ -1,31 +1,5 @@
 # Digital Photo Handling
 
-<!-- Keep this only for reference. New ToC will be auto-generated...
-
-**Index**
-[![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-[![](../img_www/granitesm_right.gif) Digital Camera Meta-Data, the EXIF Profile](#exif)
-[![](../img_www/granitesm_right.gif) Digital Photo Orientation](#orient)
-[![](../img_www/granitesm_right.gif) Color Improvements](#color)
--   [Brightening Under-exposed Photos](#brightening)
--   [Binning - Reducing Digital Noise](#binning) (Under Construction)
-
-[![](../img_www/granitesm_right.gif) Photo Conversion Cookbook](#cookbook)
--   [Minor Rotation Correction](#rotation) - fix a photo that is not quite level
--   [Tilt-Shift Effect](#tilt_shift) - make scenery look like a artificial model
--   [PNG-JPEG Layered Images](#png_jpg) - compressing pages while keeping text sharp
--   [Overlapping Photos](#overlap) - blurred overlaps of appended photos
--   [Double Exposures](#double) - mixing multiple photos of the same scene
--   [Protect Someone's Anonymity](#anonymity) - fuzzing out some part of a photo
--   [Removing Text and Logos](#removing) - filling in erased 'holes' in a photo
--   [Add a Texture to an Image](#texture)
--   [Chroma Key Masking](#chroma_key) - Modifying by areas of specific color
--   [Children's Color-In Images](#color-in)
--   [Pencil Sketch](#pencil)
--   [Vignette Removal](#vignettation)
-
--->
-
 One of the prime uses of ImageMagick is the handling and modification of photographs that were taken with the new modern digital camera.
 
 These cameras generally take quite large, high resolution photos, and include in them meta-data about the time, scale, zoom, camera, orientation, and so on.
@@ -37,7 +11,7 @@ Special thanks goes to Walter Dnes, a digital camera user, for his help in the e
 
 ----
 
-## Digital Camera Meta-Data, the EXIF Profile
+## Digital Camera Meta-Data, the EXIF Profile {#exif}
 
 When a digital camera takes a photo, it also includes a lot of extra information in the JPEG save file.
 This meta-data is known as the EXIF profile, and is provided specifically for photographic labs and development.
@@ -104,7 +78,7 @@ Normally I would strip this information.
 
 ----
 
-## Digital Photo Orientation
+## Digital Photo Orientation {#orient}
 
 I have been told that Photoshop will automatically rotate digital images based on the EXIF '`Orientation`' setting, IM will also do this by including a "`-auto-orient`" operator, after reading in the image.
 
@@ -182,7 +156,7 @@ Your only choice for such photos is to do the rotates yourself using the lower l
 
 ----
 
-## Color Improvements
+## Color Improvements {#color}
 
 Before proceeding, it is recommended that you first look at [Color Modifications](../color_mods/) for an introduction to general color modification techniques that will be used.
 
@@ -192,7 +166,7 @@ The "`-contrast-stretch`" operator can limit the "boundaries" of the normalizati
 
 The above input is courtesy of "Tong" form the IM Mailing List.
 
-### Brightening Under-exposed Photos Contributed by Walter Dnes
+### Brightening Under-exposed Photos Contributed by Walter Dnes {#brightening}
 
 Sometimes there simply isn't enough available light to allow for a proper exposure.
 At other times, you may have to use shorter exposure times than optimal, in order to eliminate motion-blur.
@@ -243,7 +217,7 @@ This is a physical limitation of digital image enhancement.
 If there's no colour data present, IM won't generate it for you.
 In real life the bricks on the right-hand side of my balcony are reddish, and the trees below are green.
 
-### Binning -- Reducing Digital Noise (Contributed by Walter Dnes)
+### Binning -- Reducing Digital Noise (Contributed by Walter Dnes) {#binning}
 
 A lot of serious photographers are unhappy with the side-effects of the "megapixel race" by digital camera manufacturers.
 
@@ -286,9 +260,9 @@ Walter Dnes also provided the original script [binn](binning/binn) to perform th
 
 ----
 
-## Photo Conversion Cookbook
+## Photo Conversion Cookbook {#cookbook}
 
-### Minor Rotation Correction -- Make a photo more level
+### Minor Rotation Correction -- Make a photo more level {#rotation}
 
 Typical situation.
 You have taken a photo, but the image isn't level, and you want to correct it.
@@ -339,7 +313,7 @@ And remember in image rotations a left or anti-clockwise rotation is negative (d
 Also remember that if at all possible, always apply operations to the original image, avoiding the use intermediate images (and especially intermediate JPEG images).
 It is always better to apply any photo modification starting with the original source than any saved intermediate copy.
 
-### Tilt-Shift Effect -- make scenery look like a artificial model
+### Tilt-Shift Effect -- make scenery look like a artificial model {#tilt_shift}
 
 [![\[IM Output\]](beijing_tn.png)](beijing_md.jpg)
 
@@ -465,7 +439,7 @@ It is also unlikely to be easily automated.
 What can you do with this effect? Mail me your tilt-shift images! I'll reference them here.
 Or perhaps you can correct the tilt-shift faults in the above example.
 
-### PNG-JPEG Layered Images
+### PNG-JPEG Layered Images {#png_jpg}
 
 By separating a large newspaper or magazine page into a text layer that is saved as a PNG, and a image layer saved as JPG, both using just a white background, it is possible to use much less disk space than the two images combined!
 
@@ -497,7 +471,7 @@ Either as a boolean (pure on/off) mask, such as seen in the above.
 
 Example code for image separation welcome.
 
-### Overlapping Photos -- blurred overlaps of appended photos
+### Overlapping Photos -- blurred overlaps of appended photos {#overlap}
 
 Creating a series of overlapping photos (and I don't mean a panarama) is a common task, especially in web site creation.
 But is can be tricky to do unless you have the right knowledge of IM operators.
@@ -598,7 +572,7 @@ This problem can be improved either by fading the outside edge of those images i
 *`ASIDE: It may be that doing the composition in a different colorspace may work better.
 Anyone like to experiment and report on your results, good or bad?  `*
 
-### Double Exposures -- mixing multiple photos of the same scene
+### Double Exposures -- mixing multiple photos of the same scene {#double}
 
 With old time film based cameras, there was a technique where a picture was take two or more times without 'rolling' the film.
 This allowed you to create what was known as double exposures, where two images taken at slightly different times were merged together.
@@ -727,7 +701,7 @@ If you like to get into this further the research paper "[Interactive Digital Ph
 One example is if you have a number of photos of a large group of people, in each photo someone does not 'look good'.
 You can use this technique to select which person comes from which image so that you can get a perfect group photo where everyone is: facing front, with eyes open, and smiling!
 
-### Protect Someone's Anonymity -- fuzzing out some part of a photo
+### Protect Someone's Anonymity -- fuzzing out some part of a photo {#anonymity}
 
 The above technique of using a 3 image composite mask can also be used in other ways.
 For example you can 'pixelate' and image, then use a mask to limit the effect to just the face of a person, so as to "Protect their Identity".
@@ -765,7 +739,7 @@ convert zelda_tn.gif \( +clone -scale 25%  -scale 400% \) \
 Of course rather than pixelate the offending part, you can also blur the area instead.
 Just replace the two "`-scale`" operators with a single "`-blur`" to fuzz out the details.
 
-### Removing Text and Logos -- filling in 'holes' in a photo
+### Removing Text and Logos -- filling in 'holes' in a photo {#removing}
 
 Often you have an image with unwanted text or logo on it.
 If that text or logo is in a clean area of the image it is usually quite easy to just paint it out, but with photos that use very rarely the case.
@@ -886,7 +860,7 @@ One of the best publically available algorithms for this is part of [GrayCStatio
 
 *If you have any ideas on better 'hole-filling' methods, please let me know.*
 
-### Add a Texture to an Image
+### Add a Texture to an Image {#texture}
 
 The [Hardlight](../compose/#hardlight) alpha compositing method or even any of the various [Lighting Composition Methods](../compose/#light) provide ways to give an image a texture pattern.
 
@@ -944,7 +918,7 @@ There is also a lot of other [Shading Composition Methods](../compose/#shade) th
 
 [![\[IM Output\]](shirt.jpg)](shirt.jpg)
 
-### Chroma Key Masking -- Modifying by areas of specific color
+### Chroma Key Masking -- Modifying by areas of specific color {#chroma_key}
 
 The photo to the left was given by a user in a [IM Forum Discussion](../forum_link.cgi?t=18094).
 he wanted to change the color of the girls shirt, which was a nice 'pink' color.
@@ -1031,7 +1005,7 @@ The real problem with this specific example, is the 'key color' is so close to a
 Note that you are better off NOT using JPEG as your source or working images.
 Really JPEG should only be used for your final images only! This is part of the reason why so many 'mask defects' was generated in the first place.
 
-### Green Screen
+### Green Screen {#green_screen}
 
 *FUTURE: example, using Chroma Key Masking of a 'green screen background'. Expanded from the wikipedia artical, [Chroma Key](http://en.wikipedia.org/wiki/Chroma_key)*
 
@@ -1049,7 +1023,7 @@ Using values of 1.0 for all K coefficients is good initial guess.
 
 As the Background color is well known, and once the 'alpha' is known you can use techniques shown in [Background Removal using Two Backgrounds](../masking/#two_background) to remove any 'green screen halo' that may be present better that the first color formula.
 
-### Artist Charcoal Sketch of Image
+### Artist Charcoal Sketch of Image {#charcoal}
 
 The [Charcoal Sketch Transform](../transform/#charcoal), offers users a very simple way of generating a simplified gray-scale rendering of the image.
 
@@ -1063,7 +1037,7 @@ convert holocaust_sm.jpg -charcoal 5 charcoal.gif
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](charcoal.gif)](charcoal.gif)
 
-### Children's Color-In Outline Image
+### Children's Color-In Outline Image {#color-in}
 
 In a long discussion about [Generating Coloring-In Pages](../forum_link?t=6974) on the IM Users Forum, the following cookbook recipe was developed to convert a simple photo into something children can color in.
 Here is the best result we have so far, applied to a photo I took of the holocaust memorial, Berlin.
@@ -1121,7 +1095,7 @@ convert taj_mahal_sm.png -colorspace gray \
 
 The "`-linear-stretch`" operation in the above adjusts how black the dark areas of the images will be, while the "`-blur`" 'sigma' defines the shading sharpness.
 
-### Pencil Sketch
+### Pencil Sketch {#pencil}
 
 Using a [Photoshop (PSP) tutorial](http://www.state-of-entropy.com/) on converting images to [Pencil Sketches](http://www.state-of-entropy.com/sketching.htm), *[dognose](../forum_link.cgi?u=3441)* from the [IM Users Forum](../forum_link.cgi?f=1), managed to create the equivalent ImageMagick commands.
 Here is his conversion, simplified into a few IM commands, allowing you to batch process lots of images into a 'artists pencil sketch' form.
@@ -1174,7 +1148,7 @@ convert pagoda_sm.jpg -colorspace gray -sketch 0x20+120 sketch_new.gif
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](sketch_new.gif)](sketch_new.gif)
 
-### Vignette Removal
+### Vignette Removal {#vignettation}
 
 When taking photos (digital or otherwise, the camera lens generally darkens the edges and corners of the image.
 
@@ -1235,10 +1209,10 @@ Things that can effect vignettation include...
 -   Arrangement of camera material around the aperture.
     For example the lens holder or pinhole thickness.
 
-----
-
-Created: 21 July 2006\
- Updated: 16 June 2011\
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;\
- Examples Generated with: ![\[version image\]](version.gif)\
- URL: `http://www.imagemagick.org/Usage/photos/`
+---
+created: 21 July 2006
+updated: 16 June 2011
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html) &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9-8
+url: http://www.imagemagick.org/Usage/photos/
+---
