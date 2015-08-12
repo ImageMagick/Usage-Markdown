@@ -1,32 +1,11 @@
 # Warping Images
 
-**Index**  
-
- * [![](../img_www/granitesm_left.gif) ImageMagick Examples Preface and Index](../)
-   * [![](../img_www/granitesm_right.gif) Simple Distortions](#simple)
-     * [Flipping and Mirroring Images](#flip)
-     * [Transpose and Transverse, Diagonally](#transpose)
-     * [Rectangular Rotates](#rect_rotates)
-     * [Rolling Images](#roll) (like a bad TV)
-     * [Simple Rearrangements Summary](#simple_summary)
-   * [![](../img_www/granitesm_right.gif) Rotate and Shearing](#rot_n_shear)
-     * [Rotating Images](#rotate) (Simple Image Rotations)
-       * [Rotating a Thin Line](#rotate_line) (Rotation Blurring)
-     * [Shearing Images](#shear) (Linear Displacement)
-       * [Isometric Cube using Shears](#sheared_cube)
-     * [Waving Images](#wave) (Sine Wave Displacement)
-   * [![](../img_www/granitesm_right.gif) Circular Warping](#circular)
-     * [Imploding Images](#implode)
-     * [Exploding Images](#explode)
-     * [Swirling Image Whirlpools](#swirl)
-   * [![](../img_www/granitesm_right.gif) Animations](#animations) (fun examples)
-
 In this section we will look at general and simpler image warping and distortion operators that are provided by ImageMagick.
 This is as a way of wetting your appetite for the more advanced and complex distortions which we will look at in later sections.
 
 ------------------------------------------------------------------------
 
-## Simple Distortions
+## Simple Distortions {#simple}
 
 Simple distortions Operators just rearrange the pixels in the image.
 The number of pixels and even the size of the image remains the same.
@@ -36,7 +15,7 @@ Basically it just rearranges the pixels, without destroying, overwriting, copyin
 
 [![\[IM Output\]](koala.gif)](koala.gif)
 
-### Flipping, and Mirroring
+### Flipping, and Mirroring {#flip}
 
 For these examples lets use this cute looking koala image...
   
@@ -57,7 +36,7 @@ Or by using "[`-flop`](../option_link.cgi?flop)" you can generate a mirror image
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Before IM v6.6.6-5 both the "`-flip`" and the "`-flop`" operators did not modify the virtual canvas offset of the image, relative to a larger virtual canvas that may have been present
 
-### Transpose and Transverse, Diagonally
+### Transpose and Transverse, Diagonally {#transpose}
 
 The "[`-transpose`](../option_link.cgi?transpose)" and "[`-transverse`](../option_link.cgi?transverse)" image operations produce diagonal mirrors of the image.
   
@@ -78,7 +57,7 @@ While "[`-transverse`](../option_link.cgi?transverse)" mirrors the image along t
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > Before IM v6.6.6-5 both the "`-transpose`" and the "`-transverse`" operators did not modify the virtual canvas offset of the image, relative to a larger virtual canvas that may have been present
 
-### Rectangular Rotates
+### Rectangular Rotates {#rect_rotates}
 
 All four types of operations shown above, will essentially produce a mirror image of the original.
 The "[`-rotate`](../option_link.cgi?rotate)" operator provides the other non-mirrored versions of the image, including the original image itself.
@@ -105,7 +84,7 @@ See [Rotate](#rotate) below.
 > Digital photos can also be rotated to match the recorded [Camera Orientation](../photos/#orient) by using the "[`-auto-orient`](../option_link.cgi?auto-orient)" operator.
 > This was added in IM v6.2.7-8.
 
-### Rolling Images like a bad TV
+### Rolling Images like a bad TV {#roll}
 
   
 You can also "[`-roll`](../option_link.cgi?roll)" an image horizontally (like a TV that is out of sync).
@@ -132,7 +111,8 @@ Or by using a negative number of pixels, you can roll it in the opposite directi
 
 Rolls are particularly important for [Tiled Images](../canvas/#tile) as it repositions the tile origin, without destroying the images 'tilability'.
 In fact that is exactly what the "[`-tile-offset`](../option_link.cgi?tile-offset)" setting defines, how much roll to apply to a tiling image as it is read in by the "[`-tile`](../option_link.cgi?tile)" option.
-### Simple Rearrangements Summary
+
+### Simple Rearrangements Summary {#simple_summary}
 
 The most important aspect of all these operators is that you can add them all together in many different ways such that the result will be *exactly* as if no operation was performed at all.
   
@@ -144,11 +124,12 @@ The most important aspect of all these operators is that you can add them all to
 
 ------------------------------------------------------------------------
 
-## Rotating and Shearing
+## Rotating and Shearing {#rot_n_shear}
 
 While the [Simple Distortion Operators](#simple) (above) preserve the images size and color, the next set does not.
 The results of these operators do not fit in the original size, or even the original raster grid of the image.
-### Rotating Images -- Simple Image Rotation
+
+### Rotating Images -- Simple Image Rotation {#rotate}
 
 As you saw above the "[`-rotate`](../option_link.cgi?rotate)" operator can perform simple, image preserving distorts, when you rotate image in units of 90 degrees.
   
@@ -217,7 +198,7 @@ First areas added into the image corners are just directly filled in using the "
 You can not control this using [Virtual Pixel Setting](../misc/#virtual-pixel), as you normally would with more complex distortion techniques.
 (See the [SRT Distortion Method](../distorts/#srt))
   
-#### Rotating a Thin Line - rotation color blurring
+#### Rotating a Thin Line - rotation color blurring {#rotate_line}
 
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
@@ -267,7 +248,7 @@ The distort operator also provides an [Output Scaling](../distorts/#distort_scal
 For a more deeper understanding of the various image rotation algorithms, how they work, and the issues involved see [Leptonica Rotation](http://www.leptonica.com/rotation.html).
 And the examples used in [General Distortion Techniques](../distorts/#summary).
 
-### Shearing Images -- Linear displacement
+### Shearing Images -- Linear displacement {#shear}
 
 The "[`-shear`](../option_link.cgi?shear)" operator takes each row (or column) of pixels and slides them along so that each row (or column) is displaced by the same amount relative to the neighboring row (or column).
 Its two arguments are given in terms of angles.
@@ -321,7 +302,7 @@ For a alternative method that allows the use of image filters, interpolation, an
 For information on using Affine Matrices to implement shears, see [Affine Shearing](../distorts/affine/#affine_shear).
 Neither method however allow you to specify the shears using angles arguments.
 
-#### Isometric Cube using Shears
+#### Isometric Cube using Shears {#sheared_cube}
 
 While shears aren't the nicest or simplest of operators to use, that does not mean you can't do fancy things with them.
 The following is an example of using "[`-shear`](../option_link.cgi?shear)" to create a isometric cube.
@@ -371,7 +352,7 @@ After the images have been merged together, resizing the result down to its fina
 Another similar example but using [Affine Distorts](../distorts/#affine), and using correct alpha composition, is [3d Cubes, using Affine Layering](../distorts/#cube3d).
 A method that greatly simplifies the image processing needed to generate cubes like the above.
 
-### Waving Images - Sine Wave Displacement
+### Waving Images - Sine Wave Displacement {#wave}
 
   
 The "[`-wave`](../option_link.cgi?wave)" operator is like "[`-shear`](../option_link.cgi?shear)" in that it adds a 'linear displacement' to images.
@@ -440,7 +421,7 @@ This means wave will tend to blur pixels slightly in vertical bands across the i
 
 ------------------------------------------------------------------------
 
-## Circular Distortions
+## Circular Distortions {#circular}
 
 So far the image distortions have been rather mild, with very little stretching, expanding or compressing of the image data.
 That is the data remains pretty well unchanged.
@@ -453,7 +434,7 @@ That means, you can use these operators on a smaller area using the [Region Oper
 
 That is they the operators are known as a 'local' distortion, as they could be used to warp smaller areas of an image.
 
-### Imploding Images
+### Imploding Images {#implode}
 
   
 The "[`-implode`](../option_link.cgi?implode)" operator warps the image so as to pull all the pixels toward the center.
@@ -538,7 +519,7 @@ As of IM version 6.2.1 you can also use a transparent border, or image with tran
   
 [![\[IM Output\]](implode_border_trans.png)](implode_border_trans.png)
 
-### Exploding Images
+### Exploding Images {#explode}
 
   
 By using a negative value with the "[`-implode`](../option_link.cgi?implode)" operator, you can explode the image.
@@ -569,7 +550,7 @@ See [Animations](#animations) below, for an animated example of this color contr
 
 For another example of imploded images see user [hh](http://www.flickr.com/photos/ericosur/2708859259/) contributions on Flickr.
 
-### Swirling Image Whirlpools
+### Swirling Image Whirlpools {#swirl}
 
   
 The "[`-swirl`](../option_link.cgi?swirl)" operator acts like a cake mixer.
@@ -596,7 +577,7 @@ I have animated these swirling effects, which you can see below in [Animations](
 
 ------------------------------------------------------------------------
 
-## Animations (fun examples)
+## Animations (fun examples) {#animations}
 
 To finish off with lets generate some GIF animations of some of these distorts.
 For these I generated some simple shells scripts to generate the animated image, which you can also download and play with, using your own test images.
@@ -658,7 +639,7 @@ As a comparison here is a koala rotation generated using the default settings an
 The script use to generate it is "[`animate_distort_rot`](animate_distort_rot)".
 Note how much sharper the image is using this method of rotation, and the lack of rotational 'jitter' that is evident in the previous version.
 
-#### Bonus Animations and Movies
+### Bonus Animations and Movies {#animations_bonus}
 
 [![\[IM Output\]](swirl_video.gif)](swirl_video.mpg) As a bonus *Florent Monnier* from France created a neat video using the "`-swirl`" distortion operator, made using a IM OCaml API script.
 Select the GIF animation to the right to download the full version of the video.
@@ -666,10 +647,10 @@ You can also have a look at his [notes](swirl_video.txt) about the video.
 
 *Can you make a good video demonstrating a distortion map technique? Do you know of one elsewhere on the net? Mail me.*
 
-------------------------------------------------------------------------
-
-Created: 14 January 2009 (distorts sub-division)  
- Updated: 11 October 2010  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/warping/`
+---
+created: 14 January 2009 (distorts sub-division)  
+updated: 11 October 2010  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.6.9
+url: http://www.imagemagick.org/Usage/warping/
+---
