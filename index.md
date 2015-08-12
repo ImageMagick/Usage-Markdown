@@ -1,5 +1,22 @@
-# Examples of ImageMagick Usage  
-(Version 6)
+# Examples of ImageMagick Usage 
+## (Version 6)
+
+[![\[IM Logo\]](images/logo.gif)](http://www.imagemagick.org/Usage/)
+
+[![\[IM Version\]](version.gif)](http://www.imagemagick.org/)
+
+* Download
+    * [Download Page](http://www.imagemagick.org/script/download.php) 
+    * [Fedora RPM](ftp://ftp.imagemagick.org/pub/ImageMagick/linux/fedora/i386/)
+    * [Linux SRPM](ftp://ftp.imagemagick.org/pub/ImageMagick/linux/SRPMS/)
+    * [Beta Release](ftp://ftp.imagemagick.org/pub/ImageMagick/beta/)
+    * [Discourse Server](forum_link.cgi?f=1)
+* Mirrors of IM Examples...
+    * [Germany - Marcus Knappe](http://hoernle1.de/m/imagick6/)
+* Other related sites...
+    * [Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/)
+    * [RubbleWebs, PHP using IM CLI](http://www.rubblewebs.co.uk/imagemagick/)  
+    * [MagickWand Examples in C](http://members.shaw.ca/el.supremo/MagickWand/)
 
 These Web pages presents a set of examples using [ImageMagick](http://imagemagick.org/) ("IM," for short) from the command line.
 However, they also illustrate what can be done using the ImageMagick Application Programming Interface (API).
@@ -8,33 +25,9 @@ As such, these pages should be the first stop for IM users after reading the ter
 Often, the same questions of "*How do I...*" gets asked, over and over again on the network.
 The examples in these web pages, I hope, will answer most of the common "how-to" questions that arise.
 
- 
 
-[![\[IM Logo\]](images/logo.gif)](http://www.imagemagick.org/Usage/)
-
-[![\[IM Version\]](version.gif)](http://www.imagemagick.org/)
-
-[Download Page](http://www.imagemagick.org/script/download.php),  [Fedora RPM](ftp://ftp.imagemagick.org/pub/ImageMagick/linux/fedora/i386/),  
- [Linux SRPM](ftp://ftp.imagemagick.org/pub/ImageMagick/linux/SRPMS/),  [Beta Release](ftp://ftp.imagemagick.org/pub/ImageMagick/beta/)  
- [Discourse Server](forum_link.cgi?f=1)
-
-Mirrors of IM Examples...
-
- 
-
-  
-[Germany - Marcus Knappe](http://hoernle1.de/m/imagick6/)
-Other related sites...
-
- 
-
-  
-[Fred's ImageMagick Scripts](http://www.fmwconcepts.com/imagemagick/)  
- [RubbleWebs, PHP using IM CLI](http://www.rubblewebs.co.uk/imagemagick/)  
- [MagickWand Examples in C](http://members.shaw.ca/el.supremo/MagickWand/)
- 
-
-[![](img_www/granitesm_up.gif) Main ImageMagick Web Site](http://www.imagemagick.org/)                   [![](img_www/granitesm_up.gif) Anthony's Graphics Lab](http://www.ict.griffith.edu.au/anthony/graphics/)
+[![](img_www/granitesm_up.gif) Main ImageMagick Web Site](http://www.imagemagick.org/)
+[![](img_www/granitesm_up.gif) Anthony's Graphics Lab](http://www.ict.griffith.edu.au/anthony/graphics/)
 
 ## Practical Examples
 
@@ -345,10 +338,11 @@ You are all to be commended on your willingness and openness to share your findi
 
 Well enough "Yadda, yadda, yadda."   Go look at some of the examples.
 
-------------------------------------------------------------------------
-
-Created: 7 November 2003  
- Updated: 30 November 2012  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen\_AT\_griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- Licence: IM Examples follows the same [Licence as ImageMagick](http://www.imagemagick.org/script/license.php) URL: `http://www.imagemagick.org/Usage/`
+---
+created: 7 November 2003  
+updated: 30 November 2012  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen\_AT\_griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.7.6-3
+licence: "IM Examples follows the same [Licence as ImageMagick](http://www.imagemagick.org/script/license.php)"
+url: http://www.imagemagick.org/Usage/
+---
