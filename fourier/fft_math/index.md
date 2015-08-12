@@ -13,28 +13,29 @@ Using FX math, and using Composite Maths....
 
 Using [FX, DIY Operator](../../transforms/#fx) applies the formula directly.
 But as it is interpreted, it is very slow.
-However the formulas are applied all in a single expression, avoiding the need for intermediate images.
+However, the formulas are applied all in a single expression, avoiding the need for intermediate images.
 For non-HDRI versions of IM this will reduce Quantum Rounding effects.
 
 **Composite math**
 
 This uses Image Composition to perform mathematical operations, which is much faster than 'FX Math'.
-However you can only do one mathematical operation at a time, which means after every operation the image must be saved into another in-memory image.
+However, you can only do one mathematical operation at a time, which means after every operation the image must be saved into another in-memory image.
 For non-HDRI versions this will produce extra 'rounding effects' between operations.
 
 The other aspect touched on above is the use of HDRI.
 
 [HDRI versions of ImageMagick](../../basics/#hdri) saves the color values as floating point numbers instead of QuantumRange scaled integers (See [Quality](../../basics/#quality)).
-As such when generating the FFT images, or saving the intermediate results to a new image, does not cause 'rounding effects' especially when small values (typical in FFT images) are involved.
+As such, generating the FFT images, or saving the intermediate results to a new image, does not cause 'rounding effects' especially when small values (typical in FFT images) are involved.
 
-Also as Real/Imaginary FFT image pairs require the use of negative numbers you must use a HDRI version of image magick when processing these types of FFT images.
+Also, as Real/Imaginary FFT image pairs require the use of negative numbers, you must use a HDRI version of image magick when processing these types of FFT images.
 
 Negatives are however not a problem for Magnitude/Phase FFT images, so you can process such images without using HDRI, though you will still have strong 'rounding effects' between each and every image processing step.
 
-Because of this Fast Fourier transforms, are best used on [HDRI](../../basics/#hdri) versions of ImageMagick, regardless of the type of FFT images you are using.
-The exact same commands are used for both HDRI and non-HDRI version of ImageMagick.
+Because of this, Fast Fourier transforms are best used on [HDRI](../../basics/#hdri) versions of ImageMagick, regardless of the type of FFT images you are using.
+The exact same commands are used for both the HDRI and non-HDRI version of ImageMagick.
   
 > ![](../../img_www/reminder.gif)![](../../img_www/space.gif)
+> :REMINDER:
 > When saving intermediate [HDRI](../../basics/#hdri) images to a disk file, you will need to use one of the very few floating point image file formats.
 > These formats include [NetPBM PFM](../../formats/#netpbm) file format, [TIFF](../../formats/#tiff), or the [MIFF](../../files/#miff) file format with the special setting "`-define quantum:format=floating-point`".
 
@@ -42,7 +43,7 @@ Here is the convolution kernel image we will be using...
 
 ~~~
 # motion blur kernel
-#convert -size 128x128 xc:black -fill white -draw 'line 60,64 68,64' \
+# convert -size 128x128 xc:black -fill white -draw 'line 60,64 68,64' \
 #        -alpha off convolve_kernel.png
 
 # disk blur kernel (Fred Wienhaus's version)
@@ -339,7 +340,7 @@ convert convolve_kernel.png -roll -64-64 +fft \
 
 ## FFT Division   ( ![](../../img_www/fft_divide.gif) ) {#divide}
 
-Here use use division to remove or de-convolve (for want of a better word) the blur that was added to the above image.
+Here we use division to remove or de-convolve (for want of a better word) the blur that was added to the above image.
 It is basically exactly the same except that the 'normalized' convolution kernel is divided from the main image.
 Each Example uses the image generated, using the same technique as above.
 
@@ -599,12 +600,12 @@ compare -metric RMSE cameraman_sm.png cameraman_deconvolve_4b.png null:
 
 ------------------------------------------------------------------------
 
-**UPDATE:** the use of the color 'gray50' in the above should be change to 'gray(50%)' to generate a more accurite 50% gray value.
-The former 'named' color is actually only an 8-bit color, and as such not very accurite.
+**UPDATE:** the use of the color 'gray50' in the above should be changed to 'gray(50%)' to generate a more accurate 50% gray value.
+The former 'named' color is actually only an 8-bit color, and as such not very accurate.
 
-Also with the new colorspace handling, gray50 is in sRGB colorspace while gray(50%) is linear colorspace, which is what should be used in the above calculations.
+Also, with the new colorspace handling, gray50 is in sRGB colorspace while gray(50%) is linear colorspace, which is what should be used in the above calculations.
 
-The examples also needs to be checked with respect to the use a linear gray-scale colorspace.
+The examples also need to be checked with respect to the use of a linear gray-scale colorspace.
 
 ---
 created: 13 August 2009  
