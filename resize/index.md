@@ -117,11 +117,10 @@ convert terminal.gif  -resize 64x64\>  shrink_terminal.gif
 [![\[IM Output\]](shrink_terminal.gif)](shrink_terminal.gif)
 
 This option is often very important for saving disk space for images, or in thumbnail generation, when enlarging images generally may not desirable as it tends to produce 'fuzzy' enlargements.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The Only Shrink Flag ('`>`' flag) is a special character in both UNIX Shell and in Window batch scripts, and you will need to escape that character (using backslash '`\>`' in shell, and '`^>`' in windows batch).
-It is also special in and HTML web pages, so PHP scripts also may need some special handling.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The Only Shrink Flag ('`>`' flag) is a special character in both UNIX Shell and in Window batch scripts, and you will need to escape that character (using backslash '`\>`' in shell, and '`^>`' in windows batch).
+> It is also special in and HTML web pages, so PHP scripts also may need some special handling.
 
 ### Only Enlarge Smaller Images ('`<`' flag) {#enlarge}
 
@@ -134,11 +133,10 @@ Other than that you probably do not actually want to use this feature.
 
 One such example of using this 'short circuit' argument is for the "`-geometry`" setting of "`montage`".
 See [Montage and Geometry, caution needed](../montage/#zero_geometry) for more details.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The Only Enlarge Flag ('`<`' flag) is a special character in both UNIX Shell and in Window batch scripts, and you will need to escape that character (using backslash '`\<`' in shell, and '`^<`' in windows batch).
-It is also special in and HTML web pages, so PHP scripts also may need some special handling.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The Only Enlarge Flag ('`<`' flag) is a special character in both UNIX Shell and in Window batch scripts, and you will need to escape that character (using backslash '`\<`' in shell, and '`^<`' in windows batch).
+> It is also special in and HTML web pages, so PHP scripts also may need some special handling.
 
 ### Fill Area Flag ('`^`' flag) {#fill}
 
@@ -182,17 +180,15 @@ convert terminal.gif    -resize 64x64^ \
 
 Also "`-extent`" can be used to pad out images that use the normal resize (with a "`-background`" color setting).
 See [Thumbnails, Fit to a Given Space Summary](../thumbnails/#fit_summery), for more on this type of operation.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Remember this requires IM v6.3.8-3 or greater to make use of it.
-Otherwise use the older [Resizing to Fill a Given Space](#space_fill) technique below.*
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The Fill Area Flag ('`^`' flag) is a special character in Window batch scripts and you will need to escape that character by doubling it.
-For example '`^^`', or it will not work.
-See [Windows Batch Scripting](../windows/) for this and other windowing particularities.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Remember this requires IM v6.3.8-3 or greater to make use of it.
+> Otherwise use the older [Resizing to Fill a Given Space](#space_fill) technique below.
+>
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The Fill Area Flag ('`^`' flag) is a special character in Window batch scripts and you will need to escape that character by doubling it.
+> For example '`^^`', or it will not work.
+> See [Windows Batch Scripting](../windows/) for this and other windowing particularities.
 
 ### Percentage Resize ('`%`' flag) {#percent}
 
@@ -215,28 +211,25 @@ Be warned however that the final pixel size of the image will be rounded to the 
 That is, you will not generate partial pixels along the edge of the image!
 As a result the actual scale may not exactly match the scaling factor you provide, and may even be slightly different for X and Y directions, but it will be very close.
 (See [Resize using Distort](#distort) below).
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*If you really want to resize image such that the final size looks like it has a partial pixel size differences, you can use the [General Distortion Operator](../distorts/#distort) and specifically the [Scale-Rotation-Translate](../distorts/#srt) (see [Distort Resizing](#distort) below).*
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-*The Percentage Resize Flag ('`%`' flag) is a special character in Window batch scripts and you will need to escape that character by doubling it.
-For example '`%%`', or it will not work.
-See [Windows Batch Scripting](../windows/) for this and other windowing particularities.*
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-All these 'flag' options '`!`', '`<`', '`>`', '`^`', '`%`', and '`@`' are just on/off switches for the "`-resize`" operator.
-Just the character's presence (or absence) in the resize argument is what matters, not their position.
-They can appear at the start or end of the argument, or before or after individual numbers (though not in the middle of a number).
-  
-That is, '`%50`' has exactly the same effect as '`50%`' though the latter is preferred for readability.
-Also '`50%x30`' actually means '`50%x30%`' and NOT 50% width and 30 pixel high as you might think.
-  
-This is the case for all IM arguments using a 'geometry' style ('WxH' or '+X+Y') of argument.
-However offsets such as '+X+Y' are never treated as a percentage.
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> If you really want to resize image such that the final size looks like it has a partial pixel size differences, you can use the [General Distortion Operator](../distorts/#distort) and specifically the [Scale-Rotation-Translate](../distorts/#srt) (see [Distort Resizing](#distort) below).
+>
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> The Percentage Resize Flag ('`%`' flag) is a special character in Window batch scripts and you will need to escape that character by doubling it.
+> For example '`%%`', or it will not work.
+> See [Windows Batch Scripting](../windows/) for this and other windowing particularities.
+>
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> All these 'flag' options '`!`', '`<`', '`>`', '`^`', '`%`', and '`@`' are just on/off switches for the "`-resize`" operator.
+> Just the character's presence (or absence) in the resize argument is what matters, not their position.
+> They can appear at the start or end of the argument, or before or after individual numbers (though not in the middle of a number).
+>
+> That is, '`%50`' has exactly the same effect as '`50%`' though the latter is preferred for readability.
+> Also '`50%x30`' actually means '`50%x30%`' and NOT 50% width and 30 pixel high as you might think.
+>
+> This is the case for all IM arguments using a 'geometry' style ('WxH' or '+X+Y') of argument.
+> However offsets such as '+X+Y' are never treated as a percentage.
 
 ### Resize using a Pixel Area Count Limit ('`@`' flag) {#pixel}
 
@@ -265,10 +258,9 @@ In some ways this is a ideal compromise for thumbnailing images.
 See [Area Fit Thumbnail Size](../thumbnails/#areafit).
 
 You can also add the '&gt;' flag to only shrink images that have more than the calculated number of pixels, while leaving images that are already smaller than that size.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Unfortunatally the '&lt;', enlarge smaller images, flag is currently ignored when using 'Area Resize'.
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Unfortunately the '&lt;', enlarge smaller images, flag is currently ignored when using 'Area Resize'.
 
 ### Resize During Image Read {#read}
 
@@ -292,12 +284,11 @@ convert terminal.gif'[64x64]'  read_terminal.gif
 [![\[IM Output\]](pixel_terminal.gif)](pixel_terminal.gif)
 
 The only problem with this technique is that no special resize options can be used, during the image read process.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Resize and transparency posed a problem for ImageMagick before v6.2.4, producing a black halo effect around light colored objects on transparency.
-This was researched and finally fixed from that version onward.
-For more detail of this old bug see [Resize Halo Bug](../bugs/resize_halo/)*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Resize and transparency posed a problem for ImageMagick before v6.2.4, producing a black halo effect around light colored objects on transparency.
+> This was researched and finally fixed from that version onward.
+> For more detail of this old bug see [Resize Halo Bug](../bugs/resize_halo/)
 
 ------------------------------------------------------------------------
 
@@ -351,23 +342,21 @@ As such this speed improvment is rarely needed for JPEG in thumbnail generation,
 
 For other image formats, such as TIFF, both profile stripping and speed improvement is still vitally important.
 As such it is still the recommended way to resize images for thumbnail creation.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before IM v6.5.4-7 the "`-thumbnail`" would strip ALL profiles from the image, including the ICC color profiles.
-From this version onward the color profiles will be preserved.
-If the color profile is not wanted then "`-strip`" all profiles.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM v6.5.4-7 the "`-thumbnail`" would strip ALL profiles from the image, including the ICC color profiles.
+> From this version onward the color profiles will be preserved.
+> If the color profile is not wanted then "`-strip`" all profiles.
 
 ### Magnify - double image size {#magnify}
 
 The "`-magnify`" option just doubles the size of an image using the "`-resize`" operator.
 Plain and simple.
 It is rarely used.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*A "Minify()" function is also often available in API's that halve the size of images in the same way as the "Magnify()" function of those API's.
-However "`-minify`" is not available from the command line API, at least not at the time of writing.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> A "Minify()" function is also often available in API's that halve the size of images in the same way as the "Magnify()" function of those API's.
+> However "`-minify`" is not available from the command line API, at least not at the time of writing.
 
 ### Resample - Changing an image's resolution {#resample}
 
@@ -447,10 +436,9 @@ See the [Protect Someones Anonymity](../photos/#anonymity) example for a demonst
 
 The algorithm is also designed to loop over rows of pixels then columns, which is inverted to that of "`-resize`".
 This may allow "`-scale`" to handle a "[`mpc:`](../file/#mpc)" disk cached image better.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Up until IM v6.4.7 the "`-scale`" still contained the old [Resize Halo Bug](../bugs/resize_halo/).*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Up until IM v6.4.7 the "`-scale`" still contained the old [Resize Halo Bug](../bugs/resize_halo/).
 
 #### Scale Internals (pixel mixing)... {#pixel_mixing}
 
@@ -574,11 +562,10 @@ This type of information is especially useful for images that being reduced by a
 Such as when you are creating or sampling a pixelated image, or [De-interlacing a Video Frames](../video/#deinterlace).
 
 Also as of that version you can control exactly which pixel in each sub-region is selected using the [define](../basics/#define) "`sample:offset`, which takes one or two percentage value(s) ('`50`' by default for mid-point).
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before IM v6.8.4-7 the pixel selected was the top-left pixel of each region.
-However there are reports of some version where this may have been the bottom-right, or it may have even been slightly variable due to bugs.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM v6.8.4-7 the pixel selected was the top-left pixel of each region.
+> However there are reports of some version where this may have been the bottom-right, or it may have even been slightly variable due to bugs.
 
 Note a percentage is used as the in the general case the 'sampling sub-regions' may not align with pixel bounds.
 That is why it is a percentage is needed and not a 'pixel offset'.
@@ -632,11 +619,10 @@ You can also generate the exact equivalent result using a [Distort Resize](#dist
 
 The "`-interpolative-resize`" operator is practically identical to the previous [Adaptive Resize](#adaptive-resize) operator.
 However this operator will use the current "`-interpolate`" setting rather than a fixed '`Mesh`' interpolation method.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*This was only backported from IMv7 to IMv6 in version 6.7.7-6.
-The option name is likely to be different in IMv7 when it is finally released.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> This was only backported from IMv7 to IMv6 in version 6.7.7-6.
+> The option name is likely to be different in IMv7 when it is finally released.
 
 If a "`-interpolate`" setting of '`Nearest`, you will essentially get the equivalent of a [Sample Operator](#sample).
 Similarly many of the other [Simple Interpolation Methods](../misc/#interpolate_simple), will equate to using the equivalent [Interpolated Resize Filters](../filter/#interpolated).
@@ -731,18 +717,17 @@ However this side to side movement limited to 45 degree angles.
 
 For images with 'busy' backgrounds, and less 'busy' foreground objects such as photos containing peoples faces, the energy function can assume that the foreground object is less important that the background.
 This results in some serious detrimental side effects, that may require human intervention to resolve.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-Liquid Rescaling, is currently a highly experimental operation added for IM v6.3.8-4.
-It requires the "[liblqr](http://liblqr.wikidot.com/)" delegate library to be installed before it will work for you.
-  
-At this time no expert user controls have been provided.
-Controls such as to modify the content energy function used, or use a user provided preservation/removal filter (adjusting that energy function), or access to the intermediate seam carved images, and functions that the library also provides.
-It is assumed that such controls will be provided in sometime in the future, as users demand them, and we get more internal control of the library functions.
-  
-**WARNING** Do not expect this to remain, exactly as it is currently implemented.
-It is highly experimental, and is expected to change and expand in functionality.
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Liquid Rescaling, is currently a highly experimental operation added for IM v6.3.8-4.
+> It requires the "[liblqr](http://liblqr.wikidot.com/)" delegate library to be installed before it will work for you.
+>
+> At this time no expert user controls have been provided.
+> Controls such as to modify the content energy function used, or use a user provided preservation/removal filter (adjusting that energy function), or access to the intermediate seam carved images, and functions that the library also provides.
+> It is assumed that such controls will be provided in sometime in the future, as users demand them, and we get more internal control of the library functions.
+>
+> **WARNING** Do not expect this to remain, exactly as it is currently implemented.
+> It is highly experimental, and is expected to change and expand in functionality.
 
 ### Distort Resize - free-form resizing {#distort}
 
@@ -805,11 +790,10 @@ Not just a quantized fit of the resized image to an integer number of pixels.
 That is, the distort is an exact re-scaling and positioning of the image to fractions of a pixel, allow you to fit it precisely into other images.
 
 This can become especially important when doing video work, where an imprecise resize of embeded images can produce 'jarring' effects.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Technically, image resizing is a simplified form of [Image Distortion](../distorts), both of which are techniques of image resampling.
-It's very fast 2-pass filtering technique, is limited to orthogonally aligned pixel scaling, and a integer number of pixels in the final result.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Technically, image resizing is a simplified form of [Image Distortion](../distorts), both of which are techniques of image resampling.
+> It's very fast 2-pass filtering technique, is limited to orthogonally aligned pixel scaling, and a integer number of pixels in the final result.*
 
 **Affine, Transform**
 
@@ -848,16 +832,14 @@ With very little [Blocking Artefacts](../filter/#blocking) that is common when e
 Other than this bottom edge, the rest of the image is practically identical, even when compared using a "`flicker_cmp`" script.
 
 However remember that [Distort](../distorts/#distort) is much slower than [Resize](#resize), as it uses a more direct but much more complex [Area Resampling](../distort/#area_resample) technique, without the 2-pass speed optimizations that resize uses.
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-The real difference in the above two images is that the [Distort Operator](../distorts/#distort) uses a two dimensional [Elliptical Area Resampling](../distorts/#area_resample) filter method (also known as cylindrical filtering or resampling) for its image processing.
-This is slower than the one dimensional, two pass resampling method used by all the other resize methods shown in this section.
-It is also why it produced a better result along the diagonal bottom edge of the enlarged rose image above.
-It is not limited to just horizontal and vertical filtering.
-  
-You can see the effects this has on ringing in the examples on [Ringing Artefacts](../filter/#ringing).
-  
+
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> The real difference in the above two images is that the [Distort Operator](../distorts/#distort) uses a two dimensional [Elliptical Area Resampling](../distorts/#area_resample) filter method (also known as cylindrical filtering or resampling) for its image processing.
+> This is slower than the one dimensional, two pass resampling method used by all the other resize methods shown in this section.
+> It is also why it produced a better result along the diagonal bottom edge of the enlarged rose image above.
+> It is not limited to just horizontal and vertical filtering.
+>
+> You can see the effects this has on ringing in the examples on [Ringing Artefacts](../filter/#ringing).
 
 ------------------------------------------------------------------------
 
@@ -878,10 +860,9 @@ See [wikipedia, sRGB](http://en.wikipedia.org/wiki/SRGB) and [W3org, sRGB the De
 
 As of version 6.7.5 ImageMagick follows this convention and defines the default colorspace of images (at least for most image file formats) to be sRGB.
 This means we simply need to use the "`-colorspace`" to transform the image to a linear space before doing the resize.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Using color correction on a low-quality Q8 version of IM (see [Quality](../basics/#quality)) is not recommended due to the loss of precision such a low memory quality provides.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Using color correction on a low-quality Q8 version of IM (see [Quality](../basics/#quality)) is not recommended due to the loss of precision such a low memory quality provides.
 
 The NASA image "[Earth's City Lights](http://eoimages.gsfc.nasa.gov/ve//1438/earth_lights_4800.tif)" is a very extreme case where non-linear colorspace effects have a big impact on the results of resizing the image.
 
@@ -966,16 +947,15 @@ That means that if any one of the channels becomes non-linearly distorted, it do
 It also means that generally none of the channels are actually close to clip limits unless you specifically deal with pure black and white images, which is uncommon in real life images.
 
 As such by processing images using LAB colorspace, actually works better, and avoids clipping and color skew, that you may get when using a RGB or XYZ colorspace.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-Before IM v6.7.8-2 LAB values for A\* and B\* channels was stored using signed integers, stored in a unsigned integer memory space.
-This created a discontinuity between negative and positive values, that did not allow normal processing to work, only image format converstions.
-  
-This meant that in older versions of IM, image processing in LAB colorspace did not work, especially when a color involving both positive to negative values were involved.
-That when working with colors that change between blue-yellow and red-green.
-  
-After this release the values were stored using a 50% bias, which removed that discontinuity, and thus allowing linear operations to work as expected.
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM v6.7.8-2 LAB values for A\* and B\* channels was stored using signed integers, stored in a unsigned integer memory space.
+> This created a discontinuity between negative and positive values, that did not allow normal processing to work, only image format converstions.
+>
+> This meant that in older versions of IM, image processing in LAB colorspace did not work, especially when a color involving both positive to negative values were involved.
+> That when working with colors that change between blue-yellow and red-green.
+>
+> After this release the values were stored using a 50% bias, which removed that discontinuity, and thus allowing linear operations to work as expected.
 
 For resize involving 'sharpening' resampling filters (very commonly used), using Lab colorspace will also moderate extreme intensity changes, that can generate overly strong (and range clipped) [Ringing Artefacts](../filter/#ringing), in the primary RGB colors.
 
@@ -1105,16 +1085,15 @@ It has also been commented that that this sigmoidal variation may only work well
 Also try different values for the sigmoidal contrast intensity (6.5 in the above) for different images.
 
 Remember, just as with every resize technqiue, the results are highly subjective, and may not be good for all image types.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Sigmoidal transform essentially generates a special DIY non-linear colorspace, that builds on the previous results that was obtained when using a non-linear perceptual colorspace (sRGB).
-  
-Note that resizing (distorting) an image with non-linear color channels in RGB colorspace, can lead to slightly different results in each color channel.
-This results in a slight color shift (as opposed to a color being clipped as we saw earilier).
-  
-This is only a problem with non-linear colorspaces with mixed color-intensity channels, such as sRGB, or a sigmoidal colorspace.
-  
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Sigmoidal transform essentially generates a special DIY non-linear colorspace, that builds on the previous results that was obtained when using a non-linear perceptual colorspace (sRGB).
+>
+> Note that resizing (distorting) an image with non-linear color channels in RGB colorspace, can lead to slightly different results in each color channel.
+> This results in a slight color shift (as opposed to a color being clipped as we saw earilier).
+>
+> This is only a problem with non-linear colorspaces with mixed color-intensity channels, such as sRGB, or a sigmoidal colorspace.
+
 ### Unsharped Resizing (USM) -- Photoshop Resize Technique {#resize_unsharp}
 
 Often resizing images (either smaller or larger) adds some fuzziness ([Blurring Artefacts](../filter/#blurring) to the image.
@@ -1162,12 +1141,11 @@ While an Open Photography Forum discussion [Downsampling with ImageMagick](http:
 ### Resizing to Fill a Given Space {#space_fill}
 
 Basically: Resizing a large image to completely fill a specific image size but cropping any parts of the image that do not fit.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*As of IM v6.3.8-3 a new resize flag '`^`' will let you do this directly as a single resize step.
-These examples represents an alternative method that can be used for users with older versions of IM.
-See [Resize Fill Flag](#fill) above.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> As of IM v6.3.8-3 a new resize flag '`^`' will let you do this directly as a single resize step.
+> These examples represents an alternative method that can be used for users with older versions of IM.
+> See [Resize Fill Flag](#fill) above.
 
 The solution is rather tricky, as the normal user requirement when resizing images is to fit the whole of an image into a given size.
 As the aspect ratio of the image is preserved, that leaves extra, unused space in the area you are trying to fill.
