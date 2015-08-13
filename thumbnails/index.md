@@ -667,7 +667,11 @@ convert thumbnail.gif bubble_overlay.png \
         -compose hardlight -composite  bubble_button.png
 ~~~
 
-[![\[IM Output\]](thumbnail.gif)](thumbnail.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](bubble_overlay.png)](bubble_overlay.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](bubble_button.png)](bubble_button.png)
+[![\[IM Output\]](thumbnail.gif)](thumbnail.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](bubble_overlay.png)](bubble_overlay.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](bubble_button.png)](bubble_button.png)
 
 See [Light Composition Methods](../compose/#light) for more information about this type of technique.
 
@@ -834,15 +838,16 @@ While thresholding a [Soft Blurred Edge](#soft_edges) (see above) will generate 
 The proper way to generate an image with rounded corners, or of any other shape is to actually cut out each corner using a mask of the shape wanted.
 
 The following method from Leif Åstrand &lt;leif@sitelogic.fi&gt; that multiplys a full image mask to generate the appropriate result.
-  
-      convert thumbnail.gif \
-         \( +clone  -alpha extract \
-            -draw 'fill black polygon 0,0 0,15 15,0 fill white circle 15,15 15,0' \
-            \( +clone -flip \) -compose Multiply -composite \
-            \( +clone -flop \) -compose Multiply -composite \
-         \) -alpha off -compose CopyOpacity -composite  rounded_corners.png
 
-  
+~~~
+convert thumbnail.gif \
+   \( +clone  -alpha extract \
+      -draw 'fill black polygon 0,0 0,15 15,0 fill white circle 15,15 15,0' \
+      \( +clone -flip \) -compose Multiply -composite \
+      \( +clone -flop \) -compose Multiply -composite \
+   \) -alpha off -compose CopyOpacity -composite  rounded_corners.png
+~~~
+
 [![\[IM Output\]](rounded_corners.png)](rounded_corners.png)
 
 Basically extracts the white transparency mask from the original image, with just one black rounded corner.
@@ -854,17 +859,18 @@ That is more individual processing steps, but overall less processing of the act
 
 For example, here is the same thing but cutting a simple drawn triangular shape from each corner.
 This will work with much larger images.
-  
-      convert thumbnail.gif -alpha set  -compose DstOut \
-          \( -size 20x15 xc:none -draw "polygon 0,0  0,14 19,0" \
-             -write mpr:triangle  +delete \) \
-          \( mpr:triangle             \) -gravity northwest -composite \
-          \( mpr:triangle -flip       \) -gravity southwest -composite \
-          \( mpr:triangle -flop       \) -gravity northeast -composite \
-          \( mpr:triangle -rotate 180 \) -gravity southeast -composite \
-          corner_cutoff.png
 
-  
+~~~
+convert thumbnail.gif -alpha set  -compose DstOut \
+    \( -size 20x15 xc:none -draw "polygon 0,0  0,14 19,0" \
+       -write mpr:triangle  +delete \) \
+    \( mpr:triangle             \) -gravity northwest -composite \
+    \( mpr:triangle -flip       \) -gravity southwest -composite \
+    \( mpr:triangle -flop       \) -gravity northeast -composite \
+    \( mpr:triangle -rotate 180 \) -gravity southeast -composite \
+    corner_cutoff.png
+~~~
+
 [![\[IM Output\]](corner_cutoff.png)](corner_cutoff.png)
 
 If you don't want transparency, but some other color, you can still do the above and then [Remove Transparency](../masking/#remove).
@@ -872,15 +878,16 @@ This can be important for JPEG images.
 
 However a even simpler solution (in terms of complexity and memory usage) has been found in a [IM forum discussion](../forum_link.cgi?t=17626).
 This overlays colored corners ('`Red`' in this case) rather than making them transparent.
-  
-      convert thumbnail.gif \
-        \( +clone -crop 16x16+0+0  -fill white -colorize 100% \
-           -draw 'fill black circle 15,15 15,0' \
-           -background Red  -alpha shape \
-           \( +clone -flip \) \( +clone -flop \) \( +clone -flip \) \
-         \) -flatten  rounded_corners_red.png
 
-  
+~~~
+convert thumbnail.gif \
+  \( +clone -crop 16x16+0+0  -fill white -colorize 100% \
+     -draw 'fill black circle 15,15 15,0' \
+     -background Red  -alpha shape \
+     \( +clone -flip \) \( +clone -flop \) \( +clone -flip \) \
+   \) -flatten  rounded_corners_red.png
+~~~
+
 [![\[IM Output\]](rounded_corners_red.png)](rounded_corners_red.png)
 
 Unfortunately this method can not be used to simply 'erase' the image corners to transparency, due to an interaction with a 'background canvas' of the [Flatten Operation](../layers/#flatten), a future layering operator may solve this.
@@ -907,25 +914,27 @@ There we not only cutting out corners, but also overlay appropriate framing imag
 ### Torn Paper Edge {#torn}
 
 Leif Åstrand &lt;leif@sitelogic.fi&gt;, contributed the following IM code to generate a edge that looks like it was torn from a fibrous paper (like newspaper)...
-  
-      convert thumbnail.gif \
-              \( +clone -alpha extract -virtual-pixel black \
-                 -spread 10 -blur 0x3 -threshold 50% -spread 1 -blur 0x.7 \) \
-              -alpha off -compose Copy_Opacity -composite torn_paper.png
 
-  
+~~~
+convert thumbnail.gif \
+        \( +clone -alpha extract -virtual-pixel black \
+           -spread 10 -blur 0x3 -threshold 50% -spread 1 -blur 0x.7 \) \
+        -alpha off -compose Copy_Opacity -composite torn_paper.png
+~~~
+
 [![\[IM Output\]](torn_paper.png)](torn_paper.png)
 
 One improvement may be to make it look like you ripped it from a newspaper corner.
-  
-      convert thumbnail.gif -bordercolor linen -border 8x8 \
-              -background Linen  -gravity SouthEast -splice 10x10+0+0 \
-              \( +clone -alpha extract -virtual-pixel black \
-                 -spread 10 -blur 0x3 -threshold 50% -spread 1 -blur 0x.7 \) \
-              -alpha off -compose Copy_Opacity -composite \
-              -gravity SouthEast -chop 10x10   torn_paper_corner.png
 
-  
+~~~
+convert thumbnail.gif -bordercolor linen -border 8x8 \
+        -background Linen  -gravity SouthEast -splice 10x10+0+0 \
+        \( +clone -alpha extract -virtual-pixel black \
+           -spread 10 -blur 0x3 -threshold 50% -spread 1 -blur 0x.7 \) \
+        -alpha off -compose Copy_Opacity -composite \
+        -gravity SouthEast -chop 10x10   torn_paper_corner.png
+~~~
+
 [![\[IM Output\]](torn_paper_corner.png)](torn_paper_corner.png)
 
 This could be improved by adding 'paper' colored borders and a curved shaped mask, so that it looks like the image was ripped roughly by hand.
@@ -938,21 +947,23 @@ As always, suggestions and contributions are welcome.
 The "`-shadow`" operator makes the [Generation of Shadows](../blur/#shadow) of any shaped image easy.
 
 For example here a I add a semi-transparent colored shadow, to the thumbnail.
-  
-      convert thumbnail.gif -alpha set \
-              \( +clone -background navy -shadow 60x0+4+4 \) +swap \
-              -background none -mosaic   shadow_hard.gif
 
-  
+~~~
+convert thumbnail.gif -alpha set \
+        \( +clone -background navy -shadow 60x0+4+4 \) +swap \
+        -background none -mosaic   shadow_hard.gif
+~~~
+
 [![\[IM Output\]](shadow_hard.gif)](shadow_hard.gif)
   
 But you can just as easily create soft fuzzy shadows, too.
-  
-      convert -page +4+4 thumbnail.gif -alpha set \
-              \( +clone -background navy -shadow 60x4+4+4 \) +swap \
-              -background none -mosaic     shadow_soft.png
 
-  
+~~~
+convert -page +4+4 thumbnail.gif -alpha set \
+        \( +clone -background navy -shadow 60x4+4+4 \) +swap \
+        -background none -mosaic     shadow_soft.png
+~~~
+
 [![\[IM Output\]](shadow_soft.png)](shadow_soft.png)
 
 Note that I again used a PNG format image for the thumbnails output.
@@ -970,17 +981,18 @@ To see how to handle shadows from multiple layered images see [Layers of Shadows
 Adding a thickness to a image or a shape look a bit like adding a hard shadow (see above), but isn't quite the same, and needs some extra work to get right.
 
 This is actually very tricky as we create a colored, mask of the image which is then replicated multiple times and layered under the original image (using '`DstOver`' composition) with increasing offsets to give the image thickness.
-  
-      convert thumbnail.gif -alpha set \
-              \( +clone -fill DarkSlateGrey -colorize 100% -repage +0+1 \) \
-              \( +clone -repage +1+2 \) \
-              \( +clone -repage +1+3 \) \
-              \( +clone -repage +2+4 \) \
-              \( +clone -repage +2+5 \) \
-              \( +clone -repage +3+6 \) \
-              -background none -compose DstOver -mosaic  thickness.gif
 
-  
+~~~
+convert thumbnail.gif -alpha set \
+        \( +clone -fill DarkSlateGrey -colorize 100% -repage +0+1 \) \
+        \( +clone -repage +1+2 \) \
+        \( +clone -repage +1+3 \) \
+        \( +clone -repage +2+4 \) \
+        \( +clone -repage +2+5 \) \
+        \( +clone -repage +3+6 \) \
+        -background none -compose DstOver -mosaic  thickness.gif
+~~~
+
 [![\[IM Output\]](thickness.gif)](thickness.gif)
 
 You get the idea.
@@ -994,25 +1006,27 @@ Also the edge of the angled parts of the thickness is not anti-aliased, so there
 ### Polaroid-like Thumbnails {#polaroid}
 
 You can make your thumbnail image look like a polaroid photo, give it a shadow, and even rotate it a little so as to appear to be just sitting on a table.
-  
-      convert thumbnail.gif \
-              -bordercolor white  -border 6 \
-              -bordercolor grey60 -border 1 \
-              -background  none   -rotate 6 \
-              -background  black  \( +clone -shadow 60x4+4+4 \) +swap \
-              -background  none   -flatten \
-              poloroid.png
 
-  
+~~~
+convert thumbnail.gif \
+        -bordercolor white  -border 6 \
+        -bordercolor grey60 -border 1 \
+        -background  none   -rotate 6 \
+        -background  black  \( +clone -shadow 60x4+4+4 \) +swap \
+        -background  none   -flatten \
+        poloroid.png
+~~~
+
 [![\[IM Output\]](poloroid.png)](poloroid.png)
   
 A more complex version of the above was added to IM v6.3.1-6 as a "`-polaroid`" transformation operator.
 For example...
-  
-      convert thumbnail.gif -bordercolor snow -background black +polaroid \
-              poloroid_operator.png
 
-  
+~~~
+convert thumbnail.gif -bordercolor snow -background black +polaroid \
+        poloroid_operator.png
+~~~
+
 [![\[IM Output\]](poloroid_operator.png)](poloroid_operator.png)
 
 Note that the image not only has the polaroid frame, but the photo has also been given a bit of a 'curl' with appropriate shadow adjustments, giving the resulting image more depth.
@@ -1020,12 +1034,13 @@ The plus (+) form uses a randomized angle, while the normal minus (-) form lets 
 Special thanks to Timothy Hunter for the idea behind this technique.
   
 You can even add a "`-caption`", set your own shadow color, specify your own rotation (or none at all).
-  
-      convert -caption '%c' hatching_orig.jpg -thumbnail '120x120>' \
-              -font Ravie -gravity center -bordercolor Lavender \
-              -background navy  -polaroid -0     poloroid_caption.png
 
-  
+~~~
+convert -caption '%c' hatching_orig.jpg -thumbnail '120x120>' \
+        -font Ravie -gravity center -bordercolor Lavender \
+        -background navy  -polaroid -0     poloroid_caption.png
+~~~
+
 [![\[IM Output\]](poloroid_caption.png)](poloroid_caption.png)
 
 For more information on using this operator see [Complex Polaroid Transformation](../transform/#polaroid).
@@ -1034,22 +1049,23 @@ For these examples though, I'll continue to use a DIY creation method, as I need
 
 And here we go...
 By making multiple copies of the photograph, (or using other images), and adding polaroid borders, you can then randomly rotate and stack them up to produce a nice looking pile of photos.
-  
-      convert thumbnail.gif \
-         -bordercolor white  -border 6 \
-         -bordercolor grey60 -border 1 \
-         -bordercolor none  -background  none \
-         \( -clone 0 -rotate `convert null: -format '%[fx:rand()*30-15]' info:` \) \
-         \( -clone 0 -rotate `convert null: -format '%[fx:rand()*30-15]' info:` \) \
-         \( -clone 0 -rotate `convert null: -format '%[fx:rand()*30-15]' info:` \) \
-         \( -clone 0 -rotate `convert null: -format '%[fx:rand()*30-15]' info:` \) \
-         -delete 0  -border 100x80  -gravity center \
-         -crop 200x160+0+0  +repage  -flatten  -trim +repage \
-         -background black \( +clone -shadow 60x4+4+4 \) +swap \
-         -background none  -flatten \
-         poloroid_stack.png
 
-  
+~~~
+convert thumbnail.gif \
+   -bordercolor white  -border 6 \
+   -bordercolor grey60 -border 1 \
+   -bordercolor none  -background  none \
+   \( -clone 0 -rotate `convert null: -format '%[fx:rand()*30-15]' info:` \) \
+   \( -clone 0 -rotate `convert null: -format '%[fx:rand()*30-15]' info:` \) \
+   \( -clone 0 -rotate `convert null: -format '%[fx:rand()*30-15]' info:` \) \
+   \( -clone 0 -rotate `convert null: -format '%[fx:rand()*30-15]' info:` \) \
+   -delete 0  -border 100x80  -gravity center \
+   -crop 200x160+0+0  +repage  -flatten  -trim +repage \
+   -background black \( +clone -shadow 60x4+4+4 \) +swap \
+   -background none  -flatten \
+   poloroid_stack.png
+~~~
+
 [![\[IM Output\]](poloroid_stack.png)](poloroid_stack.png)
   
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -1066,15 +1082,16 @@ But you get the basic idea.
 If you really want to avoid the use of the PNG format, due to its current problems with *some* browsers, you can use the GIF image format.
 To do this you must be willing to accept some color limitations, and know the exact background color on which the image will be displayed.
 The '`LightSteelBlue`' color in the case of these pages.
-  
-      convert thumbnail.gif \
-              -bordercolor white  -border 6 \
-              -bordercolor grey60 -border 1 \
-              -background  none   -rotate -9 \
-              -background  black  \( +clone -shadow 60x4+4+4 \) +swap \
-              -background  LightSteelBlue  -flatten    poloroid.gif
 
-  
+~~~
+convert thumbnail.gif \
+        -bordercolor white  -border 6 \
+        -bordercolor grey60 -border 1 \
+        -background  none   -rotate -9 \
+        -background  black  \( +clone -shadow 60x4+4+4 \) +swap \
+        -background  LightSteelBlue  -flatten    poloroid.gif
+~~~
+
 [![\[IM Output\]](poloroid.gif)](poloroid.gif)
 
 For details about this technique (and more) see [GIF images on a solid color background](../formats/#bgnd).
@@ -1082,19 +1099,20 @@ For details about this technique (and more) see [GIF images on a solid color bac
 The above 'stacked polaroid' technique graciously provided by Ally of [Ally's Trip](http://www.allystrip.com/) and Stefan Nagtegaal for [Muziekvereniging Sempre Crescendo](http://sempre-crescendo.nl/), both of which use Polaroid-like thumbnails extensively on their web sites.
 
 In the [IM User Forum](../forum_link.cgi?t=7530), the user *[grazzman](../forum_link.cgi?u=7473)* went a little further by overlaying images onto a rotating canvas to create a photo spread.
-  
-      convert -size 150x150 xc:none -background none \
-              -fill white -stroke grey60 \
-              -draw "rectangle 0,0 130,100" thumbnail.gif \
-                    -geometry +5+5 -composite -rotate -10 \
-              -draw "rectangle 0,0 130,100" thumbnail.gif \
-                    -geometry +5+5 -composite -rotate -10 \
-              -draw "rectangle 0,0 130,100" thumbnail.gif \
-                    -geometry +5+5 -composite -rotate +10 \
-              -trim +repage -background LightSteelBlue -flatten \
-              poloroid_spread.gif
 
-  
+~~~
+convert -size 150x150 xc:none -background none \
+        -fill white -stroke grey60 \
+        -draw "rectangle 0,0 130,100" thumbnail.gif \
+              -geometry +5+5 -composite -rotate -10 \
+        -draw "rectangle 0,0 130,100" thumbnail.gif \
+              -geometry +5+5 -composite -rotate -10 \
+        -draw "rectangle 0,0 130,100" thumbnail.gif \
+              -geometry +5+5 -composite -rotate +10 \
+        -trim +repage -background LightSteelBlue -flatten \
+        poloroid_spread.gif
+~~~
+
 [![\[IM Output\]](poloroid_spread.gif)](poloroid_spread.gif)
 
 Of course for a photo spread like this you really need to use a set of different photos rather using the same image over and over as I did here.
@@ -1126,13 +1144,14 @@ You can do this in two ways.
 Extend the original image so as to create, an *External Frame*, or use part of the actual image itself to create an *Internal Frame*.
 
 For example, if we enlarge the image and dim it, before overlaying the original image on top, we get a very nice looking frame.
-  
-      convert thumbnail.gif \
-              \( -clone 0 -resize 130% +level 20%x100% \) \
-              \( -clone 0 -bordercolor black -border 1x1 \) \
-              -delete 0 -gravity center -composite  self_bordered.gif
 
-  
+~~~
+convert thumbnail.gif \
+        \( -clone 0 -resize 130% +level 20%x100% \) \
+        \( -clone 0 -bordercolor black -border 1x1 \) \
+        -delete 0 -gravity center -composite  self_bordered.gif
+~~~
+
 [![\[IM Output\]](self_bordered.gif)](self_bordered.gif)
   
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -1141,27 +1160,29 @@ For example, if we enlarge the image and dim it, before overlaying the original 
 
 Another way of color tinting the image to generate the frame, you can simply get IM to overlay a semi-transparent [Frame](../crop/#frame) on top of the enlarged image.
 However this requires you to know the size of the thumbnail so as to exactly resize it exactly the right amount to accommodate the generated frame.
-  
-      convert thumbnail.gif \
-              \( -clone 0 -resize 140x110\! \) \
-              \( -clone 0 -bordercolor black -border 1x1 \
-                          -mattecolor '#8884' -frame 9x9+0+9 \) \
-              -delete 0 -composite  self_framed.gif
 
-  
+~~~
+convert thumbnail.gif \
+        \( -clone 0 -resize 140x110\! \) \
+        \( -clone 0 -bordercolor black -border 1x1 \
+                    -mattecolor '#8884' -frame 9x9+0+9 \) \
+        -delete 0 -composite  self_framed.gif
+~~~
+
 [![\[IM Output\]](self_framed.gif)](self_framed.gif)
 
 A variation of the above uses the special [viewport](../distorts/#distort_viewport) control and the default [Virtual Pixel, Edge](../misc/#edge) setting to extend the edge of a blurred image to generate the extenal frame.
-  
-      convert thumbnail.gif \( +clone \
-                 -set option:distort:viewport 150x120-15-15 \
-                 -virtual-pixel Edge    -distort SRT 0  +repage \
-                 -blur 0x3 +level 20%,100% \) \
-              \( -clone 0 -bordercolor white -border 1 \) \
-              -delete 0 -gravity center -compose over -composite \
-              self_blurred_edge.gif
 
-  
+~~~
+convert thumbnail.gif \( +clone \
+           -set option:distort:viewport 150x120-15-15 \
+           -virtual-pixel Edge    -distort SRT 0  +repage \
+           -blur 0x3 +level 20%,100% \) \
+        \( -clone 0 -bordercolor white -border 1 \) \
+        -delete 0 -gravity center -compose over -composite \
+        self_blurred_edge.gif
+~~~
+
 [![\[IM Output\]](self_blurred_edge.gif)](self_blurred_edge.gif)
 
 Just a word of warning.
@@ -1173,32 +1194,34 @@ However you can use [FX Escape Expressions](../transform/#fx_escapes) to calcula
 An alternative is to use a blurred [Virtual Pixel, Dither](../misc/#dither) in the above example.
 This will spread the colors further and be not quite so 'edgy'.
 But if you add blurs before and after the expansion you use the dither to produce a cloth-like effect.
-  
-      convert thumbnail.gif \( +clone  -blur 0x3 \
-                 -set option:distort:viewport '%[fx:w+30]x%[fx:h+30]-15-15' \
-                 -virtual-pixel Dither  -distort SRT 0  +repage \
-                 -blur 0x0.8  +level 20%,100% \) \
-              \( -clone 0 -bordercolor white -border 1 \) \
-              -delete 0 -gravity center -compose over -composite \
-              self_blurred_dither.gif
 
-  
+~~~
+convert thumbnail.gif \( +clone  -blur 0x3 \
+           -set option:distort:viewport '%[fx:w+30]x%[fx:h+30]-15-15' \
+           -virtual-pixel Dither  -distort SRT 0  +repage \
+           -blur 0x0.8  +level 20%,100% \) \
+        \( -clone 0 -bordercolor white -border 1 \) \
+        -delete 0 -gravity center -compose over -composite \
+        self_blurred_dither.gif
+~~~
+
 [![\[IM Output\]](self_blurred_dither.gif)](self_blurred_dither.gif)
 
 The first blur modulates the average color, while the second adjusts how 'pixelated' or smooth the dither pattern is.
 
 Here is another example, this time using [Virtual Pixel, Mirror](../misc/#mirror), with a [Soft Edge](#soft_edges) (blackened) which turned out to work very well for this specific image.
-  
-      convert thumbnail.gif  \( +clone \
-                 -set option:distort:viewport '%[fx:w+30]x%[fx:h+30]-15-15' \
-                 -virtual-pixel Mirror -distort SRT 0 +repage \
-                 -alpha set -virtual-pixel transparent \
-                     -channel A -blur 0x8 +channel \
-                 -background Black -flatten \) \
-              +swap -gravity center -compose over -composite \
-              self_mirror.gif
 
-  
+~~~
+convert thumbnail.gif  \( +clone \
+           -set option:distort:viewport '%[fx:w+30]x%[fx:h+30]-15-15' \
+           -virtual-pixel Mirror -distort SRT 0 +repage \
+           -alpha set -virtual-pixel transparent \
+               -channel A -blur 0x8 +channel \
+           -background Black -flatten \) \
+        +swap -gravity center -compose over -composite \
+        self_mirror.gif
+~~~
+
 [![\[IM Output\]](self_mirror.gif)](self_mirror.gif)
 
 In all the above cases the frames are generated from the same image, which is then combined together to produce a frame based on the colors coming from the original image.
@@ -1215,30 +1238,32 @@ The [Raised Button](#button) and [Bubble Button](#bubble) techniques do this, us
 
 Here we generate a lighter blurred version of the original image which is then overlaid using a mask also generated from the original image.
 A white edge is then added to separate that lighter blured version from the center un-modified part of the image.
-  
-      convert thumbnail.gif \( +clone -blur 0x3 +level 20%,100% \) \
-              \( +clone -gamma 0 -shave 10x10 \
-                 -bordercolor white -border 10x10 \) \
-              -composite \
-              \( +clone -gamma 0 -shave 10x10 \
-                 -bordercolor white -border 1x1 \
-                 -bordercolor black -border 9x9 \) \
-              -compose screen -composite \
-              self_blurred_border.gif
 
-  
+~~~
+convert thumbnail.gif \( +clone -blur 0x3 +level 20%,100% \) \
+        \( +clone -gamma 0 -shave 10x10 \
+           -bordercolor white -border 10x10 \) \
+        -composite \
+        \( +clone -gamma 0 -shave 10x10 \
+           -bordercolor white -border 1x1 \
+           -bordercolor black -border 9x9 \) \
+        -compose screen -composite \
+        self_blurred_border.gif
+~~~
+
 [![\[IM Output\]](self_blurred_border.gif)](self_blurred_border.gif)
 
 You can also use the [Frame Operator](../crop/#frame) to achieve something a little different to the previously seen [Button](#button) effects.
 The trick is to first [Shave](../crop/#shave) the original image before applying.
 
 For example here I make a copy of the original image, shave and frame it using transparent frame, before overlaying that over the original image.
-  
-      convert thumbnail.gif \( +clone -shave 10x10 \
-                -alpha set -mattecolor '#AAA6' -frame 10x10+3+4 \
-              \) -composite  inside_frame_trans.gif
 
-  
+~~~
+convert thumbnail.gif \( +clone -shave 10x10 \
+          -alpha set -mattecolor '#AAA6' -frame 10x10+3+4 \
+        \) -composite  inside_frame_trans.gif
+~~~
+
 [![\[IM Output\]](inside_frame_trans.gif)](inside_frame_trans.gif)
 
 The problem with this is that you will always 'lighten' or 'darken' (de-contrast) the flat parts of frame around the original image.
@@ -1247,24 +1272,26 @@ To avoid this we can use the same technique as the [Bubble Button](#bubble) tech
 We generate a frame on a perfect grey canvas, and modiy it so as to generate a [Lighting Effects Composition Mask](../compose/#light), to adjust the colors of the original image.
 
 For example here I use a '`VividLight`' composition with the framed mask image to better preserve primary colors.
-  
-      convert thumbnail.gif \
-              \( +clone -shave 10x10 -fill gray50 -colorize 100% \
-                -mattecolor gray50 -frame 10x10+3+4 \
-              \) -compose VividLight -composite  inside_frame_light.gif
 
-  
+~~~
+convert thumbnail.gif \
+        \( +clone -shave 10x10 -fill gray50 -colorize 100% \
+          -mattecolor gray50 -frame 10x10+3+4 \
+        \) -compose VividLight -composite  inside_frame_light.gif
+~~~
+
 [![\[IM Output\]](inside_frame_light.gif)](inside_frame_light.gif)
 
 Like the [Bubble Button](#bubble) you can also blur the lighting mask before applying.
 Here I used more normal '`HardLight`' compose which does not enhance primary colors, with a blurred frame lighting mask.
-  
-      convert thumbnail.gif \
-              \( +clone -shave 10x10 -fill gray50 -colorize 100% \
-                -mattecolor gray50 -frame 10x10+3+4 -blur 0x2 \
-              \) -compose HardLight -composite  inside_frame_blur.gif
 
-  
+~~~
+convert thumbnail.gif \
+        \( +clone -shave 10x10 -fill gray50 -colorize 100% \
+          -mattecolor gray50 -frame 10x10+3+4 -blur 0x2 \
+        \) -compose HardLight -composite  inside_frame_blur.gif
+~~~
+
 [![\[IM Output\]](inside_frame_blur.gif)](inside_frame_blur.gif)
   
 ![](../img_www/warning.gif)![](../img_www/space.gif)
@@ -1279,40 +1306,49 @@ One simple type of framing is to create a fancy frame, or shaped image into whic
 
 For example here we generate a simple frame slightly larger than our image with a fancy shaped hole.
 The shape was extracted from the '`WebDings`' font (character '`Y`'), but there are a lot of possible sources for fancy shapes that could be used for picture framing.
-  
-      convert -size 120x140 -gravity center -font WebDings label:Y \
-              -negate -channel A -combine +channel -fill LightCoral -colorize 100% \
-              -background none -fill none -stroke firebrick -strokewidth 3 label:Y \
-              -flatten +gravity -chop 0x10+0+0 -shave 0x10 +repage border_heart.png
 
-  
+~~~
+convert -size 120x140 -gravity center -font WebDings label:Y \
+        -negate -channel A -combine +channel -fill LightCoral -colorize 100% \
+        -background none -fill none -stroke firebrick -strokewidth 3 label:Y \
+        -flatten +gravity -chop 0x10+0+0 -shave 0x10 +repage border_heart.png
+~~~
+
 [![\[IM Output\]](border_heart.png)](border_heart.png)
 
 For other ways of generating a edge on an existing shaped image see the [Edge Transform](../transform/#edge).
   
 You can also optionally give the frame a little depth by using a [Shadow Effect](../blur/#shadow).
-  
-      convert border_heart.png  \( +clone -background black -shadow 60x3+3+3 \) \
-              -background none -compose DstOver -flatten   border_overlay.png
 
-  
+~~~
+convert border_heart.png  \( +clone -background black -shadow 60x3+3+3 \) \
+        -background none -compose DstOver -flatten   border_overlay.png
+~~~
+
 [![\[IM Output\]](border_overlay.png)](border_overlay.png)
   
 Now that we have a simple overlay frame, we can underlay the image in the center, underneath the frame by using a '`DstOver`' composition.
-  
-      convert border_overlay.png  thumbnail.gif \
-              -gravity center -compose DstOver -composite   border_overlaid.jpg
 
-  
+~~~
+convert border_overlay.png  thumbnail.gif \
+        -gravity center -compose DstOver -composite   border_overlaid.jpg
+~~~
+
 [![\[IM Output\]](border_overlaid.jpg)](border_overlaid.jpg)
 
 Now you can generate a library of pre-prepared frames to use with your images, such as this [Autumn Leaves Image](autumn_leaves.png).
-  
-        convert thumbnail.gif  autumn_leaves.png +swap \
-                -gravity center -compose DstOver -composite \
-                border_leaves.gif
 
-[![\[IM Text\]](thumbnail.gif)](thumbnail.gif) ![ +](../img_www/plus.gif) [![\[IM Text\]](autumn_leaves.png)](autumn_leaves.png) ![==&gt;](../img_www/right.gif) [![\[IM Text\]](border_leaves.gif)](border_leaves.gif)
+~~~
+convert thumbnail.gif  autumn_leaves.png +swap \
+        -gravity center -compose DstOver -composite \
+        border_leaves.gif
+~~~
+
+[![\[IM Text\]](thumbnail.gif)](thumbnail.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Text\]](autumn_leaves.png)](autumn_leaves.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Text\]](border_leaves.gif)](border_leaves.gif)
 
 Note that I swapped the order of the images and used '`DstOver`' to place the second, main image 'under' the frame.
 That way it is the frame that determines the final size of the image, and not the original image.
@@ -1324,11 +1360,17 @@ That way the thumbnail is the 'destination' image and its image meta-data is pre
 ### Badge Overlay Example {#badge_overlay}
 
 Here is another more complex pre-prepared overlay example this time using a correctly sized image (using extent as a crop method), from the IM Forum Discussion [Composite Overlay and Masking](../forum_link.cgi?f=1&t=19116).
-  
-        convert thumbnail.gif  -gravity center -extent 90x90 \
-                badge_overlay.png -composite     badge.png
 
-[![\[IM Text\]](thumbnail.gif)](thumbnail.gif) ![ +](../img_www/plus.gif) [![\[IM Text\]](badge_overlay.png)](badge_overlay.png) ![==&gt;](../img_www/right.gif) [![\[IM Text\]](badge.png)](badge.png)
+~~~
+convert thumbnail.gif  -gravity center -extent 90x90 \
+        badge_overlay.png -composite     badge.png
+~~~
+
+[![\[IM Text\]](thumbnail.gif)](thumbnail.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Text\]](badge_overlay.png)](badge_overlay.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Text\]](badge.png)](badge.png)
 
 Note that the image itself is not distorted, just lightened and darkened slightly, a circle cut out and shadow added, all in the one overlay image.
 If this was a real badge, or 'glass bubble' then the image should also be distorted a little too (perhaps using a [Barrel Distortion](../distorts/#barrel)), but it works well without needing such distortion.
@@ -1349,13 +1391,14 @@ Which method you use is critical, and the images involved will be designed for a
 You can not use images for one method in the wrong order or things will not work properly.
 
 For example lets create more complex shaped border but this time don't worry about setting the background.
-  
-      convert -size 120x100 xc:none -fill none -stroke black -strokewidth 3 \
-              -draw 'ellipse 60,50 30,45 0,360  ellipse 60,50 55,30 0,360' \
-              -strokewidth 3  -draw 'ellipse 60,50 57,47 0,360' \
-              -channel RGBA  -blur 2x1    border_ellipse.png
 
-  
+~~~
+convert -size 120x100 xc:none -fill none -stroke black -strokewidth 3 \
+        -draw 'ellipse 60,50 30,45 0,360  ellipse 60,50 55,30 0,360' \
+        -strokewidth 3  -draw 'ellipse 60,50 57,47 0,360' \
+        -channel RGBA  -blur 2x1    border_ellipse.png
+~~~
+
 [![\[IM Output\]](border_ellipse.png)](border_ellipse.png)
 
 Now I purposely made this border blurry, to make the edge components much more semi-transparent.
@@ -1363,22 +1406,24 @@ Even without that extra fuzziness, a border also contains a lot of semi-transpar
 It is vital when image processing that you consider these semi-transparent pixels, so as to preserve and set them correctly.
 
 To make it more interesting give this 'fuzzy' border a random bit of coloring.
-  
-      convert border_ellipse.png \
-              \( -size 120x100 plasma:Tomato-FireBrick -alpha set -blur 0x1 \) \
-              -compose SrcIn -composite     border_ellipse_red.png
 
-  
+~~~
+convert border_ellipse.png \
+        \( -size 120x100 plasma:Tomato-FireBrick -alpha set -blur 0x1 \) \
+        -compose SrcIn -composite     border_ellipse_red.png
+~~~
+
 [![\[IM Output\]](border_ellipse_red.png)](border_ellipse_red.png)
 
 Okay we have a border, but we still need some way of defining what should represent the outside and inside of the border.
 Basically we need a mask to define these two areas.
-  
-      convert -size 120x100  xc:none -fill black \
-              -draw 'ellipse 60,50 30,45 0,360  ellipse 60,50 55,30 0,360' \
-              border_ellipse_mask.png
 
-  
+~~~
+convert -size 120x100  xc:none -fill black \
+        -draw 'ellipse 60,50 30,45 0,360  ellipse 60,50 55,30 0,360' \
+        border_ellipse_mask.png
+~~~
+
 [![\[IM Output\]](border_ellipse_mask.png)](border_ellipse_mask.png)
 
 The color of this 'mask' image is not important, just its shape, as it basically defined what parts will be classed as inside and what will be outside.
@@ -1388,13 +1433,21 @@ Though the later is typically more useful, and can even be a shape of the parts 
 In this case the images are designed as a "*mask 'n' paint*" technique, meaning you should first erase the unwanted parts, then overlay the additional border colors (which also has a transparency mask involved).
 
 For example...
-  
-      convert thumbnail.gif -alpha set  -gravity center -extent 120x100 \
-              border_ellipse_mask.png  -compose DstIn -composite \
-              border_ellipse_red.png   -compose Over  -composite \
-              border_mask_paint.png
 
-[![\[IM Output\]](thumbnail.gif)](thumbnail.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](border_ellipse_mask.png)](border_ellipse_mask.png) ![ +](../img_www/plus.gif) [![\[IM Output\]](border_ellipse_red.png)](border_ellipse_red.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](border_mask_paint.png)](border_mask_paint.png)
+~~~
+convert thumbnail.gif -alpha set  -gravity center -extent 120x100 \
+        border_ellipse_mask.png  -compose DstIn -composite \
+        border_ellipse_red.png   -compose Over  -composite \
+        border_mask_paint.png
+~~~
+
+[![\[IM Output\]](thumbnail.gif)](thumbnail.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](border_ellipse_mask.png)](border_ellipse_mask.png)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](border_ellipse_red.png)](border_ellipse_red.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](border_mask_paint.png)](border_mask_paint.png)
 
 Two [Duff-Porter Alpha Composition Operations](../compose/#duff-porter) are always is needed.
 One to make parts transparent, and another to overlay the additional colors to outline the border or frame.
@@ -1404,22 +1457,24 @@ Some formats like MIFF and GIF do allow you to save both images into the same fi
 Of course you can combine the two images to create a single simple overlay framing image, but only if you want to use a fixed non-transparency color for the outside parts of the result.
 
 For example pre-define the outside as a DodgerBlue color...
-  
-      convert border_ellipse_mask.png -alpha extract -negate \
-              -background DodgerBlue -alpha shape \
-              border_ellipse_red.png   -compose Over -composite \
-              border_ellipse_overlay.png
 
-  
+~~~
+convert border_ellipse_mask.png -alpha extract -negate \
+        -background DodgerBlue -alpha shape \
+        border_ellipse_red.png   -compose Over -composite \
+        border_ellipse_overlay.png
+~~~
+
 [![\[IM Output\]](border_ellipse_overlay.png)](border_ellipse_overlay.png)
 
 But in that case you could simply underlay a solid color or some other background image under the previously generated double masked image...
-  
-      convert border_double_masked.png \
-              \( -size 120x100 plasma:Green-Green -blur 0x1 \) \
-              +swap  -compose Over  -composite     border_background.png
 
-  
+~~~
+convert border_double_masked.png \
+        \( -size 120x100 plasma:Green-Green -blur 0x1 \) \
+        +swap  -compose Over  -composite     border_background.png
+~~~
+
 [![\[IM Output\]](border_background.png)](border_background.png)
 
 The point is with two images, a 'mask' and 'overlay' image, you have a lot more freedom in how you add the border to the image.
@@ -1451,12 +1506,13 @@ It then means the rectangle will be positioned `SW/2 - 0.5` or 1.0 pixels from t
 
 Here we use IM itself to do these calculations, generating the exact draw command that are need using fancy [FX escapes](../transform/#fx_escapes).
 This is saved as a [Magick Vector Graphics File](../draw/#mvg_file) that can be directly used by draw in later commands.
-  
-      convert thumbnail.gif \
-              -format 'roundrectangle 1,1 %[fx:w+4],%[fx:h+4] 15,15'\
-              info: > rounded_corner.mvg
 
-  
+~~~
+convert thumbnail.gif \
+        -format 'roundrectangle 1,1 %[fx:w+4],%[fx:h+4] 15,15'\
+        info: > rounded_corner.mvg
+~~~
+
 [![\[IM Text\]](rounded_corner.mvg.gif)](rounded_corner.mvg)
 
   
@@ -1468,15 +1524,18 @@ Any other way, including direct hard coding is also acceptable.*
 
 Now we can use this to generate overlay and a mask image.
 As part of this we create a [Transparent Canvas](../canvas/#transparent) using the original image (which is first enlarged by the stroke-width), to get the size right.
-  
-      convert thumbnail.gif -border 3 -alpha transparent \
-              -background none -fill white -stroke none -strokewidth 0 \
-              -draw "@rounded_corner.mvg"    rounded_corner_mask.png
-      convert thumbnail.gif -border 3 -alpha transparent \
-              -background none -fill none -stroke black -strokewidth 3 \
-              -draw "@rounded_corner.mvg"    rounded_corner_overlay.png
 
-[![\[IM Text\]](rounded_corner_mask.png)](rounded_corner_mask.png) [![\[IM Text\]](rounded_corner_overlay.png)](rounded_corner_overlay.png)
+~~~
+convert thumbnail.gif -border 3 -alpha transparent \
+        -background none -fill white -stroke none -strokewidth 0 \
+        -draw "@rounded_corner.mvg"    rounded_corner_mask.png
+convert thumbnail.gif -border 3 -alpha transparent \
+        -background none -fill none -stroke black -strokewidth 3 \
+        -draw "@rounded_corner.mvg"    rounded_corner_overlay.png
+~~~
+
+[![\[IM Text\]](rounded_corner_mask.png)](rounded_corner_mask.png)
+[![\[IM Text\]](rounded_corner_overlay.png)](rounded_corner_overlay.png)
 
 And there we have the overlay border image, and transparency mask image, we need for the double masking technique.
 Note that the masks are for a image that is stroke width larger than the original image, and that the erasing shape mask (in white) does not cover the whole of the enlarged area, as there is a 1 pixel gap all around it.
@@ -1495,21 +1554,22 @@ And there we have have a bordered our image with rounded corners.
 
 The following is how you can do the above all in a single command with a little extra fanciness.
 However this all-in-one command will still generate a temporary file holding the generated draw commands needed for an image of the size given.
-  
-      convert thumbnail.gif \
-          -format 'roundrectangle 1,1 %[fx:w+4],%[fx:h+4] 15,15' \
-          -write info:tmp.mvg \
-          -alpha set -bordercolor none -border 3 \
-          \( +clone -alpha transparent -background none \
-             -fill white -stroke none -strokewidth 0 -draw @tmp.mvg \) \
-          -compose DstIn -composite \
-          \( +clone -alpha transparent -background none \
-             -fill none -stroke black -strokewidth 3 -draw @tmp.mvg \
-             -fill none -stroke white -strokewidth 1 -draw @tmp.mvg \) \
-          -compose Over -composite               rounded_border_in_one.png
-      rm -f tmp.mvg      # Cleanup of temporary file
 
-  
+~~~
+convert thumbnail.gif \
+    -format 'roundrectangle 1,1 %[fx:w+4],%[fx:h+4] 15,15' \
+    -write info:tmp.mvg \
+    -alpha set -bordercolor none -border 3 \
+    \( +clone -alpha transparent -background none \
+       -fill white -stroke none -strokewidth 0 -draw @tmp.mvg \) \
+    -compose DstIn -composite \
+    \( +clone -alpha transparent -background none \
+       -fill none -stroke black -strokewidth 3 -draw @tmp.mvg \
+       -fill none -stroke white -strokewidth 1 -draw @tmp.mvg \) \
+    -compose Over -composite               rounded_border_in_one.png
+rm -f tmp.mvg      # Cleanup of temporary file
+~~~
+
 [![\[IM Output\]](rounded_border_in_one.png)](rounded_border_in_one.png)
 
 A better way for doing rounded corners, especially with very large images will be to use a separate corner masking image technique, which we will look at below in [Fancy Corner Overlays](#fancy).
@@ -1520,13 +1580,21 @@ In many ways this is an extension of the above method, but using separate maskin
 Here is a much more complex "mask 'n' paint" example, that was developed from the image used previously in the [Badge Overlay](#badge_overlay) example above.
 The generation of the two images was 'fudged', and was discussed IM forums [Composite Overlay and Masking](../forum_link.cgi?f=1&t=19116).
 Idealy the two images would have been developed together.
-  
-      convert thumbnail.gif -alpha set -gravity center -extent 90x90 \
-              badge_mask.png -compose DstIn -composite \
-              badge_shading.png -compose Over -composite \
-              badge_trans_bg.png
 
-[![\[IM Text\]](thumbnail.gif)](thumbnail.gif) ![ +](../img_www/plus.gif) [![\[IM Text\]](badge_mask.png)](badge_mask.png) ![ +](../img_www/plus.gif) [![\[IM Text\]](badge_shading.png)](badge_shading.png) ![==&gt;](../img_www/right.gif) [![\[IM Text\]](badge_trans_bg.png)](badge_trans_bg.png)
+~~~
+convert thumbnail.gif -alpha set -gravity center -extent 90x90 \
+        badge_mask.png -compose DstIn -composite \
+        badge_shading.png -compose Over -composite \
+        badge_trans_bg.png
+~~~
+
+[![\[IM Text\]](thumbnail.gif)](thumbnail.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Text\]](badge_mask.png)](badge_mask.png)
+![ +](../img_www/plus.gif)
+[![\[IM Text\]](badge_shading.png)](badge_shading.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Text\]](badge_trans_bg.png)](badge_trans_bg.png)
 
 Note that above I said that the you should avoid trying to align transparency edges and the mask edges.
 In the above example I did just that, and the edges of the resulting image will not be quite correct.
@@ -1548,22 +1616,30 @@ As a result one image does not completely define the whole border in a single im
 However it can be simpler to implement.
 
 For example...
-  
-      convert -size 120x90 xc:none -fill black -stroke black -strokewidth 0 \
-              -draw 'ellipse 45,45 55,37 0,360' \
-              -channel RGBA -negate -blur 0x3  +channel \
-              \( granite: -auto-level -blur 0,0.7 \) \
-              -compose ATop -composite border_paint.png
 
-      convert -size 120x90 xc:none -fill black -stroke black -strokewidth 5 \
-              -draw 'ellipse 59,45 56,40 0,360' border_mask.png
+~~~
+convert -size 120x90 xc:none -fill black -stroke black -strokewidth 0 \
+        -draw 'ellipse 45,45 55,37 0,360' \
+        -channel RGBA -negate -blur 0x3  +channel \
+        \( granite: -auto-level -blur 0,0.7 \) \
+        -compose ATop -composite border_paint.png
 
-      convert thumbnail.gif -alpha set \
-              border_paint.png -compose Over  -composite \
-              border_mask.png  -compose DstIn -composite \
-              border_paint_mask.png
+convert -size 120x90 xc:none -fill black -stroke black -strokewidth 5 \
+        -draw 'ellipse 59,45 56,40 0,360' border_mask.png
 
-[![\[IM Output\]](thumbnail.gif)](thumbnail.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](border_paint.png)](border_paint.png) ![ +](../img_www/plus.gif) [![\[IM Output\]](border_mask.png)](border_mask.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](border_paint_mask.png)](border_paint_mask.png)
+convert thumbnail.gif -alpha set \
+        border_paint.png -compose Over  -composite \
+        border_mask.png  -compose DstIn -composite \
+        border_paint_mask.png
+~~~
+
+[![\[IM Output\]](thumbnail.gif)](thumbnail.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](border_paint.png)](border_paint.png)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](border_mask.png)](border_mask.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](border_paint_mask.png)](border_paint_mask.png)
 
 Note how some parts of the overlaid colors are removed.
 This is the key feature of the *Paint 'n' Mask* technique, allowing you to use a simpler overlay, which is then adjusted by the mask.
@@ -1574,10 +1650,11 @@ This method of image masking is what is used in the next [Page Curl Corners](#pa
 
 [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html) created a special shell script called [PageCurl](http://www.fmwconcepts.com/imagemagick/pagecurl/index.php) which will, add a simple page curl to an existing image, using some very complex mathematics (in shell).
 For example...
-  
-      pagecurl thumbnail.gif  pagecurl.png
 
-  
+~~~
+pagecurl thumbnail.gif  pagecurl.png
+~~~
+
 [![\[IM Output\]](pagecurl.png)](pagecurl.png)
 
 Internally it is actually using the [Paint 'n' Mask](#paint_mask) technique.
@@ -1588,11 +1665,13 @@ It does after all do a huge amount of mathematical processing (using IM itself a
 
 To apply a pagecurl to a lot of images it is better to use the script once so as to generate the overlay and transparency mask image once only.
 So lets extract those two images for a smaller 64x64 pixel images (using a special '`-i "pagecurl"` option added to the script for this purpose).
-  
-      convert -size 64x64 xc: miff:- | pagecurl -e 0.3 -i "pagecurl" - null:
 
-  
-[![\[IM Output\]](pagecurl_overlay.png)](pagecurl_overlay.png) [![\[IM Output\]](pagecurl_mask.png)](pagecurl_mask.png)
+~~~
+convert -size 64x64 xc: miff:- | pagecurl -e 0.3 -i "pagecurl" - null:
+~~~
+
+[![\[IM Output\]](pagecurl_overlay.png)](pagecurl_overlay.png)
+[![\[IM Output\]](pagecurl_mask.png)](pagecurl_mask.png)
 
 The above command creates two image files: "`pagecurl_overlay.png`" and "`pagecurl_mask.png`" shown.
 The input image itself does not matter as it is the masking images that we want.
@@ -1600,14 +1679,15 @@ The 'page curled' result is just junked using the special "`null:`" image file f
 
 Of course these images are not the same size as our thumbnail or probably any image you are wanting to apply it to, but that does not matter.
 You just need to use a couple of extra options when using any masking technique with smaller images.
-  
-      convert thumbnail.gif -alpha set -gravity SouthEast \
-              -define compose:outside-overlay=false \
-              pagecurl_overlay.png -composite \
-              pagecurl_mask.png  -compose DstIn -composite \
-              pagecurl_thumbnail.png
 
-  
+~~~
+convert thumbnail.gif -alpha set -gravity SouthEast \
+        -define compose:outside-overlay=false \
+        pagecurl_overlay.png -composite \
+        pagecurl_mask.png  -compose DstIn -composite \
+        pagecurl_thumbnail.png
+~~~
+
 [![\[IM Output\]](pagecurl_thumbnail.png)](pagecurl_thumbnail.png)
 
 The "`-gravity`" setting ensures that the two overlay images are positioned in the lower right corner.
@@ -1615,12 +1695,14 @@ The other special [Define Setting](../basics/#define) '`compose:outside-overlay=
 
 If you like to apply this to a lot of images you can use the "`mogrify`", using a special technique involving using "`-draw`" to do the [Mogrify Alpha Composition](../basics/#mogrify_compose).
 However this method of composition does not understand the special define setting, so it will only work with images, overlays, and masks that are all the same size.
-  
-      pagecurl -e 0.5 -i /tmp/pagecurl  {one image} null:
-      mogrify {mogrify -format and -path options} -alpha set \
-              -draw 'image Over 0,0 0,0 "/tmp/pagecurl_overlay.png"' \
-              -draw 'image DstIn 0,0 0,0 "/tmp/pagecurl_mask.png"' \
-              {all images to be pagecurled}...
+
+~~~
+pagecurl -e 0.5 -i /tmp/pagecurl  {one image} null:
+mogrify {mogrify -format and -path options} -alpha set \
+        -draw 'image Over 0,0 0,0 "/tmp/pagecurl_overlay.png"' \
+        -draw 'image DstIn 0,0 0,0 "/tmp/pagecurl_mask.png"' \
+        {all images to be pagecurled}...
+~~~
 
 ### Fancy Corner Overlay {#fancy}
 
@@ -1628,11 +1710,16 @@ Here we look a bit deeper into used this 'double masking' technique to modify an
 In this case we will only double mask the corners.
 The rest of the border (to match) is added separatally.
 
-[![\[IM Output\]](fancy_orig.gif)](fancy_orig.gif) The corner images I will use was generated from the original source (shown right) which I found in the [DIY Frames Section](http://www.ict.griffith.edu.au/anthony/icons/prog/frames/Icons.html) of [Anthony's Icon Library](http://www.ict.griffith.edu.au/anthony/icons/).
+[![\[IM Output\]](fancy_orig.gif)](fancy_orig.gif)
+
+The corner images I will use was generated from the original source (shown right) which I found in the [DIY Frames Section](http://www.ict.griffith.edu.au/anthony/icons/prog/frames/Icons.html) of [Anthony's Icon Library](http://www.ict.griffith.edu.au/anthony/icons/).
 There are others in this section, so you may like to have a look.
 If you find something on the net, please let me know as I like to collect interesting corners, and edging techniques.
 
-[![\[IM Output\]](fancy_sub.gif)](fancy_sub.gif) [![\[IM Output\]](fancy_add.gif)](fancy_add.gif) A color overlay and masking image was generated, from that initial image, so that we could use a [Paint 'n' Mask](#paint_mask) technique, for overlaying the corner onto the image.
+[![\[IM Output\]](fancy_sub.gif)](fancy_sub.gif)
+[![\[IM Output\]](fancy_add.gif)](fancy_add.gif)
+
+A color overlay and masking image was generated, from that initial image, so that we could use a [Paint 'n' Mask](#paint_mask) technique, for overlaying the corner onto the image.
 
 Notice that these images, did not actually use any semi-transparent pixels, or even any shading of colors.
 As such this fancy border can be used to produce clean looking 'GIF' thumbnails for web pages.
@@ -1640,29 +1727,30 @@ As such this fancy border can be used to produce clean looking 'GIF' thumbnails 
 The complication with using corner masks, is that they only mask the corners of the original image.
 Because of this the original image first needs to be given the appropriate set of extra border colors.
 After that the two corner masks, must be composted onto each of the corners of the expanded image.
-  
-      convert thumbnail.gif   -alpha set  -compose Copy \
-              -bordercolor Black  -border 2 \
-              -bordercolor Sienna -border 3 \
-              -bordercolor Black  -border 1 \
-              -bordercolor None   -border 2 \
-              -bordercolor Black  -border 2 \
-              -bordercolor Peru   -border 3 \
-              -bordercolor Black  -border 1 \
-              \
-              -compose Over \
-              \( fancy_add.gif             \) -gravity NorthWest -composite \
-              \( fancy_add.gif -flip       \) -gravity SouthWest -composite \
-              \( fancy_add.gif       -flop \) -gravity NorthEast -composite \
-              \( fancy_add.gif -flip -flop \) -gravity SouthEast -composite \
-              -compose DstOut \
-              \( fancy_sub.gif             \) -gravity NorthWest -composite \
-              \( fancy_sub.gif -flip       \) -gravity SouthWest -composite \
-              \( fancy_sub.gif       -flop \) -gravity NorthEast -composite \
-              \( fancy_sub.gif -flip -flop \) -gravity SouthEast -composite \
-              fancy_border.gif
 
-  
+~~~
+convert thumbnail.gif   -alpha set  -compose Copy \
+        -bordercolor Black  -border 2 \
+        -bordercolor Sienna -border 3 \
+        -bordercolor Black  -border 1 \
+        -bordercolor None   -border 2 \
+        -bordercolor Black  -border 2 \
+        -bordercolor Peru   -border 3 \
+        -bordercolor Black  -border 1 \
+        \
+        -compose Over \
+        \( fancy_add.gif             \) -gravity NorthWest -composite \
+        \( fancy_add.gif -flip       \) -gravity SouthWest -composite \
+        \( fancy_add.gif       -flop \) -gravity NorthEast -composite \
+        \( fancy_add.gif -flip -flop \) -gravity SouthEast -composite \
+        -compose DstOut \
+        \( fancy_sub.gif             \) -gravity NorthWest -composite \
+        \( fancy_sub.gif -flip       \) -gravity SouthWest -composite \
+        \( fancy_sub.gif       -flop \) -gravity NorthEast -composite \
+        \( fancy_sub.gif -flip -flop \) -gravity SouthEast -composite \
+        fancy_border.gif
+~~~
+
 [![\[IM Output\]](fancy_border.gif)](fancy_border.gif)
   
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -1687,12 +1775,20 @@ Caution is needed.
 The same badge image processing seen previously in [Badge Overlay](#badge_overlay) and [Badge Mask 'n' Paint](#badge_mask_paint), can also be performed by painting then masking.
 
 Here we first paint all the colors an shades onto the then mask out the final transparency of the image.
-  
-      convert thumbnail.gif -alpha set -gravity center -extent 90x90 \
-              badge_paint.png -composite badge_shape.png -compose DstIn -composite \
-              badge_paint_mask.png
 
-[![\[IM Text\]](thumbnail.gif)](thumbnail.gif) ![ +](../img_www/plus.gif) [![\[IM Text\]](badge_paint.png)](badge_paint.png) ![ +](../img_www/plus.gif) [![\[IM Text\]](badge_shape.png)](badge_shape.png) ![==&gt;](../img_www/right.gif) [![\[IM Text\]](badge_paint_mask.png)](badge_paint_mask.png)
+~~~
+convert thumbnail.gif -alpha set -gravity center -extent 90x90 \
+        badge_paint.png -composite badge_shape.png -compose DstIn -composite \
+        badge_paint_mask.png
+~~~
+
+[![\[IM Text\]](thumbnail.gif)](thumbnail.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Text\]](badge_paint.png)](badge_paint.png)
+![ +](../img_www/plus.gif)
+[![\[IM Text\]](badge_shape.png)](badge_shape.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Text\]](badge_paint_mask.png)](badge_paint_mask.png)
 
 If this seems awkward for this specific image, you are right, it is.
 
@@ -1724,38 +1820,41 @@ For example using a [Aqua Effect](../advanced/#aqua_effects) you can give an thu
 Also this works better with a thumbnail that has [Rounded Corners](#rounded).
 
 For lets generate a rounded corners mask for our thumbnail image, using a pure gray color.
-  
-      convert thumbnail.gif -alpha off -fill white -colorize 100% \
-         -draw 'fill black polygon 0,0 0,15 15,0 fill white circle 15,15 15,0' \
-         \( +clone -flip \) -compose Multiply -composite \
-         \( +clone -flop \) -compose Multiply -composite \
-         -background Gray50 -alpha Shape    thumbnail_mask.png
 
-  
+~~~
+convert thumbnail.gif -alpha off -fill white -colorize 100% \
+   -draw 'fill black polygon 0,0 0,15 15,0 fill white circle 15,15 15,0' \
+   \( +clone -flip \) -compose Multiply -composite \
+   \( +clone -flop \) -compose Multiply -composite \
+   -background Gray50 -alpha Shape    thumbnail_mask.png
+~~~
+
 [![\[IM Output\]](thumbnail_mask.png)](thumbnail_mask.png)
 
 Now that we have a pure gray 'shape mask' we want to use, I can apply the [Aqua Effect](../advanced/#aqua_effects) effect to generate a lighting overlay, for this shape.
-  
-      convert thumbnail_mask.png -bordercolor None -border 1x1 \
-              -alpha Extract -blur 0x10  -shade 130x30 -alpha On \
-              -background gray50 -alpha background -auto-level \
-              -function polynomial  3.5,-5.05,2.05,0.3 \
-              \( +clone -alpha extract  -blur 0x2 \) \
-              -channel RGB -compose multiply -composite \
-              +channel +compose -chop 1x1 \
-              thumbnail_lighting.png
 
-  
+~~~
+convert thumbnail_mask.png -bordercolor None -border 1x1 \
+        -alpha Extract -blur 0x10  -shade 130x30 -alpha On \
+        -background gray50 -alpha background -auto-level \
+        -function polynomial  3.5,-5.05,2.05,0.3 \
+        \( +clone -alpha extract  -blur 0x2 \) \
+        -channel RGB -compose multiply -composite \
+        +channel +compose -chop 1x1 \
+        thumbnail_lighting.png
+~~~
+
 [![\[IM Output\]](thumbnail_lighting.png)](thumbnail_lighting.png)
 
 With a final light/shade overlay image such as the above we can easily apply it to any thumbnail image of the right size.
-  
-      convert thumbnail.gif -alpha Set thumbnail_lighting.png \
-              \( -clone 0,1 -alpha Opaque -compose Hardlight -composite \) \
-              -delete 0 -compose In -composite \
-              glass_bubble.png
 
-  
+~~~
+convert thumbnail.gif -alpha Set thumbnail_lighting.png \
+        \( -clone 0,1 -alpha Opaque -compose Hardlight -composite \) \
+        -delete 0 -compose In -composite \
+        glass_bubble.png
+~~~
+
 [![\[IM Output\]](glass_bubble.png)](glass_bubble.png)
 
 Not only does this add the appropriate shading effects to any thumbnail of this size, but the same lighting image masks the thumbnail into the proper shape.
@@ -1781,22 +1880,28 @@ As you will see in the next example.
 Using the images from [Badge using Mask 'n' Paint](#badge_mask_paint) technique, I applied them to a pure gray canvas image, so as to quickly generate a "masked lighting effect" image, Actually I could also have used the other style of masking ([Badge using Paint 'n' Mask](#badge_paint_mask)) just as easily.
 
 I then apply the single masking image to the thumbnail reproducing the desired result.
-  
-      # merge "mask 'n' paint" images with a gray image,
-      # to create a "lighting mask"
-      convert -size 90x90 xc:gray50 -alpha set \
-              badge_mask.png -compose DstIn -composite \
-              badge_shading.png -compose Over -composite \
-              badge_lighting.png
 
-      # Apply the single "lighting mask"
-      convert thumbnail.gif -alpha set -gravity center -extent 90x90 \
-              badge_lighting.png \
-              \( -clone 0,1 -alpha Opaque -compose Hardlight -composite \) \
-              -delete 0 -compose In -composite \
-              badge_final.png
+~~~
+# merge "mask 'n' paint" images with a gray image,
+# to create a "lighting mask"
+convert -size 90x90 xc:gray50 -alpha set \
+        badge_mask.png -compose DstIn -composite \
+        badge_shading.png -compose Over -composite \
+        badge_lighting.png
 
-[![\[IM Text\]](thumbnail.gif)](thumbnail.gif) ![ +](../img_www/plus.gif) [![\[IM Text\]](badge_lighting.png)](badge_lighting.png) ![==&gt;](../img_www/right.gif) [![\[IM Text\]](badge_final.png)](badge_final.png)
+# Apply the single "lighting mask"
+convert thumbnail.gif -alpha set -gravity center -extent 90x90 \
+        badge_lighting.png \
+        \( -clone 0,1 -alpha Opaque -compose Hardlight -composite \) \
+        -delete 0 -compose In -composite \
+        badge_final.png
+~~~
+
+[![\[IM Text\]](thumbnail.gif)](thumbnail.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Text\]](badge_lighting.png)](badge_lighting.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Text\]](badge_final.png)](badge_final.png)
 
 Actually I rather like this form of masking as the mask image itself looks almost identical to the image you are after, just the colors are missing.
 That is after all how a lighting mask is created, just apply the effects to a perfect gray image, and you get a "lighting mask" image.
@@ -1851,7 +1956,8 @@ There are may types of images that can be used to frame a image.
 
 For example here is 'thin black with gold trim' frame that was modified from images provided by Michael Slate &lt;slatem\_AT\_posters2prints.com&gt;.
 
-[![\[IM Image\]](blackthin_top.gif)](blackthin_top.gif) [![\[IM Image\]](blackthin_btm.gif)](blackthin_btm.gif)
+[![\[IM Image\]](blackthin_top.gif)](blackthin_top.gif)
+[![\[IM Image\]](blackthin_btm.gif)](blackthin_btm.gif)
 
 There are two images, to provide two different lighting effects, one for the top and left edges, the other for the bottom and right edges.
 However the colors along the length of the image does not vary.
@@ -1859,7 +1965,8 @@ As such you can either tile or stretch this frame to produce the length needed.
 
 A similar set of framing pieces are this 'thin ornate gold' tileable border images.
 
-[![\[IM Image\]](goldthin_top.png)](goldthin_top.png) [![\[IM Image\]](goldthin_btm.png)](goldthin_btm.png)
+[![\[IM Image\]](goldthin_top.png)](goldthin_top.png)
+[![\[IM Image\]](goldthin_btm.png)](goldthin_btm.png)
 
 As these images has some fine detail you cannot just simply stretch the image to the desired length.
 Nor can you just [Rectangular Rotate](../warping/#rect_rotate) these pieces to produce the other edge pieces, as doing so will get the shading of the fine detail wrong.
@@ -1908,15 +2015,16 @@ For our examples, and because it works for just about all framing images I will 
 We can just lengthen the simple 'bamboo' frame above, by tiling it to the right length, then [append](../layers/#append) the images together.
 
 The tiling is done simply by the special [Tiled Canvas](../canvas/#tile) image generator "`tile:`" to tile a image that is being read in.
-  
-      convert thumbnail.gif \
-              \( -size 90x14  tile:bamboo.gif -transpose \) \
-              \( -size 90x14  tile:bamboo.gif -transpose \) -swap 0,1 +append \
-              \( -size 148x14 tile:bamboo.gif \) \
-              \( -size 148x14 tile:bamboo.gif \) -swap 0,1 -append \
-              frame_append.gif
 
-  
+~~~
+convert thumbnail.gif \
+        \( -size 90x14  tile:bamboo.gif -transpose \) \
+        \( -size 90x14  tile:bamboo.gif -transpose \) -swap 0,1 +append \
+        \( -size 148x14 tile:bamboo.gif \) \
+        \( -size 148x14 tile:bamboo.gif \) -swap 0,1 -append \
+        frame_append.gif
+~~~
+
 [![\[IM Output\]](frame_append.gif)](frame_append.gif)
 
 Note that the sizes used in the above two examples were calculated based on the known width (10 pixels) of the framing image, and the size of the image being framed (120x100 pixels).
@@ -1927,16 +2035,17 @@ That is the framing looks artificial.
 In real life the frame will have been cut with pretty much random offsets, from longer pieces of real wood, or in this case bamboo.
 
 To fix that you will need to also give such tiles a slightly different [Tile Offset](../canvas/#tile-offset) for each edge of the image.
-  
-      convert thumbnail.gif \
-              \( -size 90x14  -tile-offset +50+0 tile:bamboo.gif -transpose \) \
-              \( -size 90x14  -tile-offset +0+0  tile:bamboo.gif -transpose \) \
-              -swap 0,1 +append \
-              \( -size 148x14 -tile-offset +70+0 tile:bamboo.gif \) \
-              \( -size 148x14 -tile-offset +25+0 tile:bamboo.gif \) \
-              -swap 0,1 -append       frame_tile_offset.gif
 
-  
+~~~
+convert thumbnail.gif \
+        \( -size 90x14  -tile-offset +50+0 tile:bamboo.gif -transpose \) \
+        \( -size 90x14  -tile-offset +0+0  tile:bamboo.gif -transpose \) \
+        -swap 0,1 +append \
+        \( -size 148x14 -tile-offset +70+0 tile:bamboo.gif \) \
+        \( -size 148x14 -tile-offset +25+0 tile:bamboo.gif \) \
+        -swap 0,1 -append       frame_tile_offset.gif
+~~~
+
 [![\[IM Output\]](frame_tile_offset.gif)](frame_tile_offset.gif)
 
 This method of framing isn't too bad for this specific type of edge image, though for other types of frames it can look very silly.
@@ -1954,17 +2063,19 @@ Also you can make this type of edge framing look even better by extending the fr
 This is often seen for a 'Home-Sweet-Home' type picture.
 
 To do this you will need to first enlarge the original image with lots of extra space into which the longer frame pieces are overlaid.
-  
-      convert thumbnail.gif -alpha set -bordercolor none -border 34 \
-              \( -size 144x14 -tile-offset +30+0 tile:bamboo.gif -transpose \) \
-              -geometry +20+10 -composite \
-              \( -size 144x14 -tile-offset +45+0 tile:bamboo.gif -transpose \) \
-              -geometry +154+0 -composite \
-              \( -size 178x14 -tile-offset +60+0 tile:bamboo.gif \) \
-              -geometry +0+20 -composite \
-              \( -size 178x14 -tile-offset +0+0  tile:bamboo.gif \) \
-              -geometry +10+124 -composite \
-              frame_overlaid.gif
+
+~~~
+convert thumbnail.gif -alpha set -bordercolor none -border 34 \
+        \( -size 144x14 -tile-offset +30+0 tile:bamboo.gif -transpose \) \
+        -geometry +20+10 -composite \
+        \( -size 144x14 -tile-offset +45+0 tile:bamboo.gif -transpose \) \
+        -geometry +154+0 -composite \
+        \( -size 178x14 -tile-offset +60+0 tile:bamboo.gif \) \
+        -geometry +0+20 -composite \
+        \( -size 178x14 -tile-offset +0+0  tile:bamboo.gif \) \
+        -geometry +10+124 -composite \
+        frame_overlaid.gif
+~~~
 
 [![\[IM Output\]](frame_overlaid.gif)](frame_overlaid.gif)
 
@@ -1981,11 +2092,12 @@ This is not easy, and I went though a number of drawing and masking methods unti
   
 The solution then was simple.
 Read in the image, and "`-frame`" it, to create a template which of the areas to be framed.
-  
-      convert thumbnail.gif -alpha set -bordercolor none \
-              -compose Dst -frame 15x15+15  frame_template.gif
 
-  
+~~~
+convert thumbnail.gif -alpha set -bordercolor none \
+        -compose Dst -frame 15x15+15  frame_template.gif
+~~~
+
 [![\[IM Output\]](frame_template.gif)](frame_template.gif)
 
 Now note that this template as some interesting features.
@@ -2000,49 +2112,52 @@ In fact few methods would would well in such a situation.
 This image is the framing template and by tiling each of our framing pieces into the four differently colored areas using [Color Fill Primitives](../draw/#color), we will get our 45 degree corner joints, very simply and easily.
   
 For example...
-  
-      convert frame_template.gif \
-              -tile blackthin_top.gif -draw 'color 1,0 floodfill' \
-              frame_top_filled.gif
 
-  
+~~~
+convert frame_template.gif \
+        -tile blackthin_top.gif -draw 'color 1,0 floodfill' \
+        frame_top_filled.gif
+~~~
+
 [![\[IM Output\]](frame_top_filled.gif)](frame_top_filled.gif)
 
 You can repeat this process for the other three edges.
 Using transposes to ensure that the highlights and shaodws of the internal detail remain correct.
-  
-      convert frame_template.gif \
-              -tile blackthin_top.gif   -draw 'color 1,0 floodfill' \
-              -tile-offset +0+105 -tile blackthin_btm.gif \
-                                           -draw 'color 15,105 floodfill' \
-              -transpose \
-              -tile blackthin_top.gif      -draw 'color 1,0 floodfill' \
-              -tile-offset +0+135 -tile blackthin_btm.gif \
-                                           -draw 'color 15,135 floodfill' \
-              -transpose \
-              -gravity center thumbnail.gif -composite frame_filled.gif
 
-  
+~~~
+convert frame_template.gif \
+        -tile blackthin_top.gif   -draw 'color 1,0 floodfill' \
+        -tile-offset +0+105 -tile blackthin_btm.gif \
+                                     -draw 'color 15,105 floodfill' \
+        -transpose \
+        -tile blackthin_top.gif      -draw 'color 1,0 floodfill' \
+        -tile-offset +0+135 -tile blackthin_btm.gif \
+                                     -draw 'color 15,135 floodfill' \
+        -transpose \
+        -gravity center thumbnail.gif -composite frame_filled.gif
+~~~
+
 [![\[IM Output\]](frame_filled.gif)](frame_filled.gif)
 
 From a IM forum discussion [45 degree frame joints](../forum_link.cgi?f=1&t=21867) a simplier solution, involving pre-rotating the bottom edge was found.
 Here is the full example using the [In Memory Register](../files/#mpr) to save intermediate images.
-  
-      convert thumbnail.gif                -write mpr:image    +delete \
-              goldthin_top.png             -write mpr:edge_top +delete \
-              goldthin_btm.png -rotate 180 -write mpr:edge_btm +delete \
-              \
-              mpr:image -alpha set -bordercolor none \
-              -compose Dst -frame 25x25+25  -compose over \
-              \
-              -transverse  -tile mpr:edge_btm \
-              -draw 'color 1,0 floodfill' -transpose -draw 'color 1,0 floodfill' \
-              -transverse  -tile mpr:edge_top \
-              -draw 'color 1,0 floodfill' -transpose -draw 'color 1,0 floodfill' \
-              \
-              mpr:image -gravity center -composite    frame_gold.png
 
-  
+~~~
+convert thumbnail.gif                -write mpr:image    +delete \
+        goldthin_top.png             -write mpr:edge_top +delete \
+        goldthin_btm.png -rotate 180 -write mpr:edge_btm +delete \
+        \
+        mpr:image -alpha set -bordercolor none \
+        -compose Dst -frame 25x25+25  -compose over \
+        \
+        -transverse  -tile mpr:edge_btm \
+        -draw 'color 1,0 floodfill' -transpose -draw 'color 1,0 floodfill' \
+        -transverse  -tile mpr:edge_top \
+        -draw 'color 1,0 floodfill' -transpose -draw 'color 1,0 floodfill' \
+        \
+        mpr:image -gravity center -composite    frame_gold.png
+~~~
+
 [![\[IM Output\]](frame_gold.png)](frame_gold.png)
 
 As you can see we still have a problem, it looks very artifical in the top left and bottom right corner, due to a diagonal mirror effect that results from the tiling.
@@ -2063,40 +2178,42 @@ This version uses some in-line code to generate appropriate edging images from t
 These can be adjusted depending on the type of edge framing image that was provided.
 
 The processed edging images are then tiled using an [In-Memory Tile Image](../canvas/#tile_memory) technique and the frame template (generated) is used to mask those images, as we did above.
-  
-      image=thumbnail.gif
-         image_w=`convert $image -format %w info:`
-         image_h=`convert $image -format %h info:`
 
-      top=goldthin_top.png
-      btm=goldthin_btm.png
+~~~
+image=thumbnail.gif
+   image_w=`convert $image -format %w info:`
+   image_h=`convert $image -format %h info:`
 
-         width=`convert $top -format %h info:`
-         length=`convert $top -format %w info:`
+top=goldthin_top.png
+btm=goldthin_btm.png
 
-      # Size of the new image ( using BASH integer maths)
-      new_size=$(($image_w+$width*2))x$(($image_h+$width*2))
+   width=`convert $top -format %h info:`
+   length=`convert $top -format %w info:`
 
-      # IM options to read a 'randomly rolled' version for the edge pieces
-      lft="( $top -roll +$(($RANDOM % $length))+0  -transpose )"
-      rht="( $btm -roll +$(($RANDOM % $length))+0  -transpose )"
+# Size of the new image ( using BASH integer maths)
+new_size=$(($image_w+$width*2))x$(($image_h+$width*2))
 
-      # IM options to 'randomly rolled' the top and bottom pieces
-      top="( $top -roll +$(($RANDOM % $length))+0 )"
-      btm="( $btm -roll +$(($RANDOM % $length))+0 )"
+# IM options to read a 'randomly rolled' version for the edge pieces
+lft="( $top -roll +$(($RANDOM % $length))+0  -transpose )"
+rht="( $btm -roll +$(($RANDOM % $length))+0  -transpose )"
 
-      # Frame the image in a single IM command....
-      convert -page +$width+$width  $image  +page -alpha set \
-        \( +clone -compose Dst -bordercolor none -frame ${width}x$width+$width \
-           -fill none -draw "matte 0,0 replace" \
-              -flip   -draw "matte 0,0 replace"   -flip \) \
-        \( $top $btm -append -background none -splice 0x${image_h}+0+$width \
-           -write mpr:horz +delete -size $new_size tile:mpr:horz +size \
-           -clone 1  -compose DstOut -composite \) \
-        \( $lft $rht +append -background none -splice ${image_w}x0+$width+0 \
-           -write mpr:vert +delete -size $new_size tile:mpr:vert +size \
-           -clone 1  -compose DstIn -composite \) \
-        -delete 1  -compose Over  -mosaic   framed_script.png
+# IM options to 'randomly rolled' the top and bottom pieces
+top="( $top -roll +$(($RANDOM % $length))+0 )"
+btm="( $btm -roll +$(($RANDOM % $length))+0 )"
+
+# Frame the image in a single IM command....
+convert -page +$width+$width  $image  +page -alpha set \
+  \( +clone -compose Dst -bordercolor none -frame ${width}x$width+$width \
+     -fill none -draw "matte 0,0 replace" \
+        -flip   -draw "matte 0,0 replace"   -flip \) \
+  \( $top $btm -append -background none -splice 0x${image_h}+0+$width \
+     -write mpr:horz +delete -size $new_size tile:mpr:horz +size \
+     -clone 1  -compose DstOut -composite \) \
+  \( $lft $rht +append -background none -splice ${image_w}x0+$width+0 \
+     -write mpr:vert +delete -size $new_size tile:mpr:vert +size \
+     -clone 1  -compose DstIn -composite \) \
+  -delete 1  -compose Over  -mosaic   framed_script.png
+~~~
 
 [![\[IM Output\]](framed_script.png)](framed_script.png)
 
