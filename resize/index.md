@@ -59,11 +59,19 @@ Aspect ratio is preserved basically so that any circles in the input image will 
 That is the image will not be squashed or squeezed, only resized, unless you tell it otherwise.
 
 For example here I attempt to fit two source images, one larger image and one smaller image into a square box 64x64 pixels in size.
-  
-      convert dragon.gif    -resize 64x64  resize_dragon.gif
-      convert terminal.gif  -resize 64x64  resize_terminal.gif
 
-[![\[IM Output\]](dragon.gif)](dragon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](resize_dragon.gif)](resize_dragon.gif) ![](../img_www/space.gif) [![\[IM Output\]](terminal.gif)](terminal.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](resize_terminal.gif)](resize_terminal.gif)
+~~~
+convert dragon.gif    -resize 64x64  resize_dragon.gif
+convert terminal.gif  -resize 64x64  resize_terminal.gif
+~~~
+
+[![\[IM Output\]](dragon.gif)](dragon.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](resize_dragon.gif)](resize_dragon.gif)
+![](../img_www/space.gif)
+[![\[IM Output\]](terminal.gif)](terminal.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](resize_terminal.gif)](resize_terminal.gif)
 
 As you can see a 64x64 square image was *NOT* produced by "`-resize`".
 In fact the images were only enlarged or reduced just enough so as to best fit into the given size.
@@ -74,11 +82,19 @@ If you want you can force "`-resize`" to ignore the aspect ratio and distort the
 This is done by adding the character '`!`' to the size.
 Unfortunately this character is also sometimes used for special purposes by various UNIX command line shells.
 So you may have to escape the character somehow to preserve it.
-  
-      convert dragon.gif    -resize 64x64\!  exact_dragon.gif
-      convert terminal.gif  -resize 64x64\!  exact_terminal.gif
 
-[![\[IM Output\]](dragon.gif)](dragon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](exact_dragon.gif)](exact_dragon.gif) ![](../img_www/space.gif) [![\[IM Output\]](terminal.gif)](terminal.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](exact_terminal.gif)](exact_terminal.gif)
+~~~
+convert dragon.gif    -resize 64x64\!  exact_dragon.gif
+convert terminal.gif  -resize 64x64\!  exact_terminal.gif
+~~~
+
+[![\[IM Output\]](dragon.gif)](dragon.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](exact_dragon.gif)](exact_dragon.gif)
+![](../img_www/space.gif)
+[![\[IM Output\]](terminal.gif)](terminal.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](exact_terminal.gif)](exact_terminal.gif)
 
 ### Only Shrink Larger Images ('`>`' flag) {#shrink}
 
@@ -86,11 +102,19 @@ Another commonly used option is to restrict IM so that it will only shrink image
 Never enlarge.
 This is the '`>`' resize option.
 Think of it only applying the resize to images 'greater than' the size given (its a little counter intuitive).
-  
-      convert dragon.gif    -resize 64x64\>  shrink_dragon.gif
-      convert terminal.gif  -resize 64x64\>  shrink_terminal.gif
 
-[![\[IM Output\]](dragon.gif)](dragon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shrink_dragon.gif)](shrink_dragon.gif) ![](../img_www/space.gif) [![\[IM Output\]](terminal.gif)](terminal.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shrink_terminal.gif)](shrink_terminal.gif)
+~~~
+convert dragon.gif    -resize 64x64\>  shrink_dragon.gif
+convert terminal.gif  -resize 64x64\>  shrink_terminal.gif
+~~~
+
+[![\[IM Output\]](dragon.gif)](dragon.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shrink_dragon.gif)](shrink_dragon.gif)
+![](../img_www/space.gif)
+[![\[IM Output\]](terminal.gif)](terminal.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shrink_terminal.gif)](shrink_terminal.gif)
 
 This option is often very important for saving disk space for images, or in thumbnail generation, when enlarging images generally may not desirable as it tends to produce 'fuzzy' enlargements.
   
@@ -120,11 +144,19 @@ It is also special in and HTML web pages, so PHP scripts also may need some spec
 
 As of IM v6.3.8-3 IM now has a new geometry option flag '`^`' which is used to resize the image based on the smallest fitting dimension.
 That is, the image is resized to completely fill (and even overflow) the pixel area given.
-  
-      convert dragon.gif    -resize 64x64^  fill_dragon.gif
-      convert terminal.gif  -resize 64x64^  fill_terminal.gif
 
-[![\[IM Output\]](dragon.gif)](dragon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](fill_dragon.gif)](fill_dragon.gif) ![](../img_www/space.gif) [![\[IM Output\]](terminal.gif)](terminal.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](fill_terminal.gif)](fill_terminal.gif)
+~~~
+convert dragon.gif    -resize 64x64^  fill_dragon.gif
+convert terminal.gif  -resize 64x64^  fill_terminal.gif
+~~~
+
+[![\[IM Output\]](dragon.gif)](dragon.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](fill_dragon.gif)](fill_dragon.gif)
+![](../img_www/space.gif)
+[![\[IM Output\]](terminal.gif)](terminal.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](fill_terminal.gif)](fill_terminal.gif)
 
 As it stands this option does not seem very useful, but when combined with either a centered (or uncentered) "`-crop`" or "`-extent`" to remove the excess parts of the image, you can fit the image so as to completely fill the area specified.
 Both the resize and the final image size arguments should be the same values.
@@ -132,13 +164,21 @@ Both the resize and the final image size arguments should be the same values.
 Though the "`-crop`" is most logical, it may require an extra "`+repage`" to remove virtual canvas layering information.
 The "`-extent`" does not require this cleanup, but still allows the use of "`-gravity`" for positioning.
 See [Cutting and Bordering](../crop/) for more information.
-  
-      convert dragon.gif      -resize 64x64^ \
-              -gravity center -extent 64x64  fill_crop_dragon.gif
-      convert terminal.gif    -resize 64x64^ \
-              -gravity center -extent 64x64  fill_crop_terminal.gif
 
-[![\[IM Output\]](dragon.gif)](dragon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](fill_crop_dragon.gif)](fill_crop_dragon.gif) ![](../img_www/space.gif) [![\[IM Output\]](terminal.gif)](terminal.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](fill_crop_terminal.gif)](fill_crop_terminal.gif)
+~~~
+convert dragon.gif      -resize 64x64^ \
+        -gravity center -extent 64x64  fill_crop_dragon.gif
+convert terminal.gif    -resize 64x64^ \
+        -gravity center -extent 64x64  fill_crop_terminal.gif
+~~~
+
+[![\[IM Output\]](dragon.gif)](dragon.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](fill_crop_dragon.gif)](fill_crop_dragon.gif)
+![](../img_www/space.gif)
+[![\[IM Output\]](terminal.gif)](terminal.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](fill_crop_terminal.gif)](fill_crop_terminal.gif)
 
 Also "`-extent`" can be used to pad out images that use the normal resize (with a "`-background`" color setting).
 See [Thumbnails, Fit to a Given Space Summary](../thumbnails/#fit_summery), for more on this type of operation.
@@ -157,11 +197,19 @@ See [Windows Batch Scripting](../windows/) for this and other windowing particul
 ### Percentage Resize ('`%`' flag) {#percent}
 
 Adding a percent sign, '%', to the "`-resize`" argument causes resize to scale the image by the amount specified.
-  
-      convert dragon.gif    -resize 50%  half_dragon.gif
-      convert terminal.gif  -resize 50%  half_terminal.gif
 
-[![\[IM Output\]](dragon.gif)](dragon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](half_dragon.gif)](half_dragon.gif) ![](../img_www/space.gif) [![\[IM Output\]](terminal.gif)](terminal.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](half_terminal.gif)](half_terminal.gif)
+~~~
+convert dragon.gif    -resize 50%  half_dragon.gif
+convert terminal.gif  -resize 50%  half_terminal.gif
+~~~
+
+[![\[IM Output\]](dragon.gif)](dragon.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](half_dragon.gif)](half_dragon.gif)
+![](../img_www/space.gif)
+[![\[IM Output\]](terminal.gif)](terminal.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](half_terminal.gif)](half_terminal.gif)
 
 Be warned however that the final pixel size of the image will be rounded to the nearest integer.
 That is, you will not generate partial pixels along the edge of the image!
@@ -196,11 +244,19 @@ There is one final "`-resize`" option flag.
 The "at" symbol '`@`', will resize an image to contain no more than the given number of pixels.
 This can be used for example to make a collection of images of all different sizes roughly the same size.
 For example here we resize both our images to a rough 64x64 size, or 4096 pixels in size.
-  
-      convert dragon.gif    -resize 4096@  pixel_dragon.gif
-      convert terminal.gif  -resize 4096@  pixel_terminal.gif
 
-[![\[IM Output\]](dragon.gif)](dragon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](pixel_dragon.gif)](pixel_dragon.gif) ![](../img_www/space.gif) [![\[IM Output\]](terminal.gif)](terminal.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](pixel_terminal.gif)](pixel_terminal.gif)
+~~~
+convert dragon.gif    -resize 4096@  pixel_dragon.gif
+convert terminal.gif  -resize 4096@  pixel_terminal.gif
+~~~
+
+[![\[IM Output\]](dragon.gif)](dragon.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](pixel_dragon.gif)](pixel_dragon.gif)
+![](../img_www/space.gif)
+[![\[IM Output\]](terminal.gif)](terminal.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](pixel_terminal.gif)](pixel_terminal.gif)
 
 Note that the final image size is not limited to 64 pixels in height or width, but will have an area that is as close to (but smaller than) this size as IM can manage.
 That means one dimension will generally be slightly larger than 64 pixels and one will be slightly smaller.
@@ -221,11 +277,19 @@ That way a minimal amount of memory is needed to read in a lot of images.
 See [Image Read Modifiers](../files/#read_mods) for more details.
 
 For example...
-  
-      convert dragon.gif'[64x64]'    read_dragon.gif
-      convert terminal.gif'[64x64]'  read_terminal.gif
 
-[![\[IM Output\]](dragon.gif)](dragon.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](pixel_dragon.gif)](pixel_dragon.gif) ![](../img_www/space.gif) [![\[IM Output\]](terminal.gif)](terminal.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](pixel_terminal.gif)](pixel_terminal.gif)
+~~~
+convert dragon.gif'[64x64]'    read_dragon.gif
+convert terminal.gif'[64x64]'  read_terminal.gif
+~~~
+
+[![\[IM Output\]](dragon.gif)](dragon.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](pixel_dragon.gif)](pixel_dragon.gif)
+![](../img_www/space.gif)
+[![\[IM Output\]](terminal.gif)](terminal.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](pixel_terminal.gif)](pixel_terminal.gif)
 
 The only problem with this technique is that no special resize options can be used, during the image read process.
   
@@ -340,20 +404,22 @@ When enlarging an image, the pixels in the image are replicated to form a large 
 Which is great for showing a clean unblurred magnification of an image.
 
 For example here is a magnified view of one of the built-in tile patterns...
-  
-      convert -size 8x8 pattern:CrossHatch30 -scale 1000% scale_crosshatch.gif
 
-  
+~~~
+convert -size 8x8 pattern:CrossHatch30 -scale 1000% scale_crosshatch.gif
+~~~
+
 [![\[IM Output\]](scale_crosshatch.gif)](scale_crosshatch.gif)
 
 Generally a single percentage value that is a multiple of 100% is used for the image enlargement so as to ensure all pixels are enlarged by the same amount, otherwise you can have different size pixel rows and columns producing large scale Moiré pattern.
   
 For example here I badly scaled a smooth looking '50% gray checks' pattern, using a size that was not a multiple of the original images size.
-  
-      convert pattern:gray50 scale_gray_norm.gif
-      convert pattern:gray50 -scale 36 scale_gray_mag.gif
 
-  
+~~~
+convert pattern:gray50 scale_gray_norm.gif
+convert pattern:gray50 -scale 36 scale_gray_mag.gif
+~~~
+
 [![\[IM Output\]](scale_gray_norm.gif)](scale_gray_norm.gif)  
 ![==&gt;](../img_www/down.gif)  
 [![\[IM Output\]](scale_gray_mag.gif)](scale_gray_mag.gif)
@@ -367,8 +433,10 @@ Also a real-world photograph that has been heavily minified using "`-scale`" ten
 
 The pixel averaging of "`-scale`" allows it to generate 'pixelated' images.
 You basically reduce the size of the image to average the pixels, then enlarge again back to the image's original size.
-  
-      convert rose:  -scale 25%  -scale 70x46\!  rose_pixelated.gif
+
+~~~
+convert rose:  -scale 25%  -scale 70x46\!  rose_pixelated.gif
+~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif)
 ![==&gt;](../img_www/right.gif)
@@ -396,13 +464,14 @@ The [Scale Operator](#scale) however uses a different algorithm that is known (f
 Rather than generate the colors based on a 'average of pixels', within the 'support window' it uses a more accurite 'area of pixels' within the support window.
 
 For example here I take 'checker board' pixel pattern, and shrink it by 2 pixels, comparing result of [Scale](#scale) against resizing using very simple [Box & Triangle Filters](../filter/#box).
-  
-      convert -size 10x10 pattern:gray50  checks.gif
-      convert checks.gif  -filter box      -resize 8x8  checks_box.gif
-      convert checks.gif                   -scale  8x8  checks_scale.gif
-      convert checks.gif  -filter triangle -resize 8x8  checks_triangle.gif
 
-  
+~~~
+convert -size 10x10 pattern:gray50  checks.gif
+convert checks.gif  -filter box      -resize 8x8  checks_box.gif
+convert checks.gif                   -scale  8x8  checks_scale.gif
+convert checks.gif  -filter triangle -resize 8x8  checks_triangle.gif
+~~~
+
 [![\[IM Output\]](checks_mag.gif)](checks.gif)  
 10 pixel 'hash'
   
@@ -429,13 +498,14 @@ In other cases (strong downsize, upsizing, or exact interger sizing) it will pro
 Basically it generates something that is more like a mix between Box and Triangle filters depending on exactly how much the image is reduced in size.
 
 You see similar effects when enlarging.
-  
-      convert -size 8x8 pattern:gray50  checks_sm.gif
-      convert checks_sm.gif -filter box      -resize 10x10 checks_sm_box.gif
-      convert checks_sm.gif                  -scale  10x10 checks_sm_scale.gif
-      convert checks_sm.gif -filter triangle -resize 10x10 checks_sm_triangle.gif
 
-  
+~~~
+convert -size 8x8 pattern:gray50  checks_sm.gif
+convert checks_sm.gif -filter box      -resize 10x10 checks_sm_box.gif
+convert checks_sm.gif                  -scale  10x10 checks_sm_scale.gif
+convert checks_sm.gif -filter triangle -resize 10x10 checks_sm_triangle.gif
+~~~
+
 [![\[IM Output\]](checks_mag.gif)](checks.gif)  
 10 pixel 'hash'
   
@@ -483,11 +553,15 @@ You can think of the image as being divided into an array of regions, and one pi
 However this 'sampling' of individual pixels (or wholesale row/column removal), can result in rather horrible results, especially for images containing thin lines (in terms of width in pixels).
 
 For example, here I draw a line but then reduce the image size resulting in only a line of dots.
-  
-      convert -size 150x60 xc: -draw 'line 0,59 149,0' line_orig.gif
-      convert line_orig.gif  -sample 50x20  line_sample.gif
 
-[![\[IM Output\]](line_orig.gif)](line_orig.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](line_sample.gif)](line_sample.gif)
+~~~
+convert -size 150x60 xc: -draw 'line 0,59 149,0' line_orig.gif
+convert line_orig.gif  -sample 50x20  line_sample.gif
+~~~
+
+[![\[IM Output\]](line_orig.gif)](line_orig.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](line_sample.gif)](line_sample.gif)
 
 This is a typical effect of image sampling, and is known as sever [Image Aliasing](../filter/#aliasing).
 
@@ -520,16 +594,22 @@ For more on sampling offsets see the IM Forum discussion [Sample Points](../foru
 The "`-adaptive-resize`" operator uses the special [Mesh Interpolation](../misc/#mesh) method to resize images.
 
 For example here I resize a simple line, using first a normal "`-resize`", then again using "`-adaptive-resize`".
-  
-      convert -size 50x50 xc: -draw 'line 0,49 49,0'  line_orig2.gif
-      convert line_orig2.gif           -resize 80x80  line_resize.gif
-      convert line_orig2.gif  -adaptive-resize 80x80  line_adaptive.gif
 
-[![\[IM Output\]](line_orig2.gif)](line_orig2.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](line_resize.gif)](line_resize.gif) [![\[IM Output\]](line_adaptive.gif)](line_adaptive.gif)
+~~~
+convert -size 50x50 xc: -draw 'line 0,49 49,0'  line_orig2.gif
+convert line_orig2.gif           -resize 80x80  line_resize.gif
+convert line_orig2.gif  -adaptive-resize 80x80  line_adaptive.gif
+~~~
+
+[![\[IM Output\]](line_orig2.gif)](line_orig2.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](line_resize.gif)](line_resize.gif)
+[![\[IM Output\]](line_adaptive.gif)](line_adaptive.gif)
 
 If you look at a magnification of the two results...
 
-[![\[IM Output\]](line_resize_mag.gif)](line_resize_mag.gif) [![\[IM Output\]](line_adaptive_mag.gif)](line_adaptive_mag.gif)
+[![\[IM Output\]](line_resize_mag.gif)](line_resize_mag.gif)
+[![\[IM Output\]](line_adaptive_mag.gif)](line_adaptive_mag.gif)
 
 You can see the [Adaptive Resized](#adaptive-resize) image on the right is a lot cleaner looking and less blurry than the image produced on the left using the normal "`-resize`" operator.
 
@@ -579,12 +659,13 @@ The 'seam' with the least amount of changes will be removed first, followed by h
 For more detailed information of liquid resizing and seam carving see, [Wikipedia: Seam Carving](http://en.wikipedia.org/wiki/Seam_carving), the [YouTube Video Demo](http://www.youtube.com/watch?v=vIFCV2spKtg), and the [PDF paper: Seam Carving for Content-Aware Image Resizing](http://www.faculty.idc.ac.il/arik/imret.pdf).
 
 Here for example is the IM logo as it is resized smaller using the IM "`-liquid-rescale`" operator.
-  
-      convert logo: -resize 50% -trim +repage  logo_trimmed.jpg
-      convert logo_trimmed.jpg  -liquid-rescale 75x100%\!  logo_lqr.jpg
-      convert logo_trimmed.jpg  -sample 75x100%\!  logo_sample.jpg
 
-  
+~~~
+convert logo: -resize 50% -trim +repage  logo_trimmed.jpg
+convert logo_trimmed.jpg  -liquid-rescale 75x100%\!  logo_lqr.jpg
+convert logo_trimmed.jpg  -sample 75x100%\!  logo_sample.jpg
+~~~
+
 [![\[IM Output\]](logo_trimmed.jpg)](logo_trimmed.jpg)  
 Original
   
@@ -606,10 +687,14 @@ Basically "`-liquid-rescale`" will produce a generally better looking 'squeezed'
 However you can get some slight but localized aliasing effects in one spot (the wizards wand in this case) rather than spreading that effect across the whole image.
 
 It will also expand images, by 'doubling' up the seams found within the image.
-  
-      convert logo_trimmed.jpg  -liquid-rescale 130x100%\!  logo_lqr_expand.jpg
 
-[![\[IM Output\]](logo_trimmed.jpg)](logo_trimmed.jpg) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](logo_lqr_expand.jpg)](logo_lqr_expand.jpg)
+~~~
+convert logo_trimmed.jpg  -liquid-rescale 130x100%\!  logo_lqr_expand.jpg
+~~~
+
+[![\[IM Output\]](logo_trimmed.jpg)](logo_trimmed.jpg)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](logo_lqr_expand.jpg)](logo_lqr_expand.jpg)
 
 As you can see tries to first double the amount of space between the various objects (where it can), spreading them out.
 Though in this case the left most star and the 'm' becomes distorted as the 'seams' going through these 'low energy' regions become grouped together.
@@ -678,11 +763,12 @@ Note however that because the edge of the image can contain partial pixels, the 
 The extra surrounding pixels will be mixed according to the current [Virtual Pixel](../misc/#virtual-pixel) setting, which you typically set to be transparent.
 
 For example here I resize the rose image to 90% (`.9`) of its original size, without rotation (`0`), shrinking it around the center of the image (the default control point if not specified)...
-  
-      convert rose: -matte -virtual-pixel transparent \
-              +distort SRT '.9,0' +repage  rose_distort_scale.png
 
-  
+~~~
+convert rose: -matte -virtual-pixel transparent \
+        +distort SRT '.9,0' +repage  rose_distort_scale.png
+~~~
+
 [![\[IM Output\]](rose_distort_scale.png)](rose_distort_scale.png)
 
 It may not look like an improvement, in fact it has fuzzy edges, but it is an exact resize without adjustments for a final integer image size, just as you requested.
@@ -693,20 +779,22 @@ If this offset is not desired it can be removed using "`+repage`" operator.
 But if left in place then the actual images location on the larger canvas will be preserved, allowing you to exactly position the image correctly with its 'fuzzy edges'.
 
 Here I resized it so the top left corner (`0,0`) was moved .5 pixels to the right (to `.5,0`) and the rest of the image scaled around that control point...
-  
-      convert rose: -matte -virtual-pixel transparent \
-              +distort SRT '0,0  .9  0  .5,0' +repage  rose_distort_shift.png
 
-  
+~~~
+convert rose: -matte -virtual-pixel transparent \
+        +distort SRT '0,0  .9  0  .5,0' +repage  rose_distort_shift.png
+~~~
+
 [![\[IM Output\]](rose_distort_shift.png)](rose_distort_shift.png)
 
 Note that as the top edge did not actually move, it remained relatively sharp, while all the other edges became fuzzy.
 Here is a pixel magnification of the top corner, showing the transparency that was added by distort to provide sub-pixel resizing...
-  
-      convert rose_distort_shift.png -crop 15x15+0+0 +repage \
-              -scale 600%   rose_distort_shift_mag.png
 
-  
+~~~
+convert rose_distort_shift.png -crop 15x15+0+0 +repage \
+        -scale 600%   rose_distort_shift_mag.png
+~~~
+
 [![\[IM Output\]](rose_distort_shift_mag.png)](rose_distort_shift_mag.png)
 
 You can see that the top edge remained sharp, while the left (and all other edges) are now semi-transparent.
@@ -741,12 +829,13 @@ This is not a simple task.
 To make this easier a special [Resize Distortion Method](../distorts/#resize) was added to IM v6.6.9-2.
 
 Here for example I greatly enlarge the built-in "`rose:`" using a fast [Resize](#resize), and then using [Distort](../distorts/#distort)...
-  
-      convert rose: -filter Lanczos -resize 300x rose_resize.png
 
-      convert rose: -filter Lanczos -distort Resize 300x rose_distort.png
+~~~
+convert rose: -filter Lanczos -resize 300x rose_resize.png
 
-  
+convert rose: -filter Lanczos -distort Resize 300x rose_distort.png
+~~~
+
 [![\[IM Text\]](rose_resize.png)](rose_resize.png)  
 Resize (Lanczos - Sinc)
   
@@ -797,15 +886,19 @@ This means we simply need to use the "`-colorspace`" to transform the image to a
 The NASA image "[Earth's City Lights](http://eoimages.gsfc.nasa.gov/ve//1438/earth_lights_4800.tif)" is a very extreme case where non-linear colorspace effects have a big impact on the results of resizing the image.
 
 Here we directly resize the image without colorspace correction...
-  
-      convert earth_lights_4800.tif -resize 500 earth_lights_direct.png
+
+~~~
+convert earth_lights_4800.tif -resize 500 earth_lights_direct.png
+~~~
 
 [![\[IM Text\]](earth_lights_direct.png)](earth_lights_direct.png)
 
 And here we convert from a non-linear sRGB, to linear RGB, then resize them, and convert it back again...
-  
-      convert earth_lights_4800.tif -colorspace RGB     -resize 500    \
-              -colorspace sRGB  earth_lights_colorspace.png
+
+~~~
+convert earth_lights_4800.tif -colorspace RGB     -resize 500    \
+        -colorspace sRGB  earth_lights_colorspace.png
+~~~
 
 [![\[IM Text\]](earth_lights_colorspace.png)](earth_lights_colorspace.png)
 
@@ -831,9 +924,11 @@ The result was the two labels were swapped!
 
 Because of this older versions of ImageMagick would need to do the above colorspace correction with those colorspace names swapped.
 Like this...
-  
-      convert earth_lights_4800.tif -colorspace sRGB \
-              -resize 500  -colorspace RGB  earth_lights_colorspace.png
+
+~~~
+convert earth_lights_4800.tif -colorspace sRGB \
+        -resize 500  -colorspace RGB  earth_lights_colorspace.png
+~~~
 
 **\*\*\* This example is deprecated \*\*\***
 
@@ -844,9 +939,11 @@ The above was developed from a IM Forum Discussion [Correct Resize](../forum_lin
 #### Resize with Gamma Correction {#resize_gamma}
 
 This is how to correctly resize images using gamma correction only.
-  
-      convert earth_lights_4800.tif   -gamma 0.454545 \
-              -resize 500    -gamma 2.2  earth_lights_gamma.png
+
+~~~
+convert earth_lights_4800.tif   -gamma 0.454545 \
+        -resize 500    -gamma 2.2  earth_lights_gamma.png
+~~~
 
 [![\[IM Text\]](earth_lights_gamma.png)](earth_lights_gamma.png)
 
@@ -883,13 +980,14 @@ After this release the values were stored using a 50% bias, which removed that d
 For resize involving 'sharpening' resampling filters (very commonly used), using Lab colorspace will also moderate extreme intensity changes, that can generate overly strong (and range clipped) [Ringing Artefacts](../filter/#ringing), in the primary RGB colors.
 
 For example...
-  
-      convert rose: -colorspace RGB  -filter Lanczos  -distort resize 300x \
-              -colorspace sRGB rose_distort_rgb.png
-      convert rose: -colorspace LAB  -filter Lanczos  -distort resize 300x \
-              -colorspace sRGB rose_distort_lab.png
 
-  
+~~~
+convert rose: -colorspace RGB  -filter Lanczos  -distort resize 300x \
+        -colorspace sRGB rose_distort_rgb.png
+convert rose: -colorspace LAB  -filter Lanczos  -distort resize 300x \
+        -colorspace sRGB rose_distort_lab.png
+~~~
+
 [![\[IM Output\]](rose.png)](rose.png)  
 Original
   
@@ -921,9 +1019,11 @@ The main difference is that LUV color axis were adjusted so as to have perceptua
 See [Adams chromatic valence color space](http://wikipedia.org/wiki/Adams_chromatic_valence_color_space).
 
 The results for resizes between LAB and LUV is practically identical.
-  
-      convert rose: -colorspace LUV  -filter Lanczos  -distort resize 300x \
-              -colorspace sRGB  rose_distort_luv.png
+
+~~~
+convert rose: -colorspace LUV  -filter Lanczos  -distort resize 300x \
+        -colorspace sRGB  rose_distort_luv.png
+~~~
 
 [![\[IM Output\]](rose_distort_luv.png)](rose_distort_luv.png)
 
@@ -937,9 +1037,11 @@ Well because like sRGB, LAB and LUV colorspace is a non-linear perceptual colors
 And the mathematics was only ment to be applied to linear values.
 
 For example here is the results of resizing the "[Earth's City Lights](http://eoimages.gsfc.nasa.gov/ve/1438/earth_lights_4800.tif)" image in '`Lab`' colorspace.
-  
-      convert earth_lights_4800.tif -colorspace Lab     -resize 500    \
-              -colorspace sRGB  earth_lights_lab.png
+
+~~~
+convert earth_lights_4800.tif -colorspace Lab     -resize 500    \
+        -colorspace sRGB  earth_lights_lab.png
+~~~
 
 [![\[IM Text\]](earth_lights_lab.png)](earth_lights_lab.png)
 
@@ -971,16 +1073,17 @@ A new technique has been developed in which rather than trying to resize images 
 This can reduce the clipping of extreme halo or [Ringing Artefacts](../filter/#ringing) that may develop along very sharp edges.
 
 For example, here is a sequence of 'improving' resize techniques, that have been discussed on the Digital Image Processing Forums...
-  
-      convert rose: -colorspace RGB  -filter Lanczos  -resize 200x \
-              -colorspace sRGB rose_resize_RGB.png
-      convert rose: -colorspace RGB  -filter Lanczos  -distort resize 200x \
-              -colorspace sRGB rose_distort_RGB.png
-      convert rose: -colorspace RGB   +sigmoidal-contrast 6.5,50% \
-              -filter Lanczos  -distort resize 200x \
-              -sigmoidal-contrast 6.5,50% -colorspace sRGB  rose_sigmoidal_RGB.png
 
-  
+~~~
+convert rose: -colorspace RGB  -filter Lanczos  -resize 200x \
+        -colorspace sRGB rose_resize_RGB.png
+convert rose: -colorspace RGB  -filter Lanczos  -distort resize 200x \
+        -colorspace sRGB rose_distort_RGB.png
+convert rose: -colorspace RGB   +sigmoidal-contrast 6.5,50% \
+        -filter Lanczos  -distort resize 200x \
+        -sigmoidal-contrast 6.5,50% -colorspace sRGB  rose_sigmoidal_RGB.png
+~~~
+
 [![\[IM Output\]](rose_resize_RGB.png)](rose_resize_RGB.png)  
 Resize (normal linear)
   
@@ -1022,12 +1125,13 @@ One method that is commonly used is to sharpen the image after resizing.
 Typically this is done using the special and weirdly named, [Unsharp Operation](../blur/#unsharp), which contains even more controls to control the quality of the results.
 
 For example, lets 'unsharp' the results of the very blurry '[Spline](../filter/#spline)' filtered image...
-  
-      convert logo: -filter spline -resize 150x logo_spline.png
-      convert logo: -filter spline -resize 150x \
-              -unsharp 0x1  logo_spline_unsharp.png
 
-  
+~~~
+convert logo: -filter spline -resize 150x logo_spline.png
+convert logo: -filter spline -resize 150x \
+        -unsharp 0x1  logo_spline_unsharp.png
+~~~
+
 [![\[IM Output\]](logo_spline.png)](logo_spline.png)  
 Spline
   
@@ -1069,22 +1173,24 @@ The solution is rather tricky, as the normal user requirement when resizing imag
 As the aspect ratio of the image is preserved, that leaves extra, unused space in the area you are trying to fill.
 
 Here we try to resize an image to fill a 80x80 box.
-  
-      convert logo: -resize 80x80\> \
-              -size 80x80 xc:blue +swap -gravity center  -composite \
-              space_resize.jpg
 
-  
+~~~
+convert logo: -resize 80x80\> \
+        -size 80x80 xc:blue +swap -gravity center  -composite \
+        space_resize.jpg
+~~~
+
 [![\[IM Output\]](space_resize.jpg)](space_resize.jpg)
 
 In the above we added a backdrop canvas to pad out the unused parts of the resize box to show the space we wanted the image to fill, but it wasn't filled, as it preserved the image's aspect ratio.
 
 Now if all your images are either landscape style (they are wider than they are high) then you can of course just resize the image to fit either the height or width of the area, then use "`-crop`" to cut the image to fit it exactly.
-  
-      convert logo:    -resize x80  \
-              -gravity center  -crop 80x80+0+0 +repage   space_crop.jpg
 
-  
+~~~
+convert logo:    -resize x80  \
+        -gravity center  -crop 80x80+0+0 +repage   space_crop.jpg
+~~~
+
 [![\[IM Output\]](space_fill.jpg)](space_fill.jpg)
 
 The problem is that, the above will only handle landscape style images.
@@ -1097,12 +1203,13 @@ Then picking the larger image of the two results.
 
 To make this easier, resize itself has a built-in test option which will only resize an image if that would make the image larger.
 This allows use a very nifty solution to our problem.
-  
-      convert logo: \
-              -resize x160 -resize '160x<'   -resize 50% \
-              -gravity center  -crop 80x80+0+0 +repage  space_fill.jpg
 
-  
+~~~
+convert logo: \
+        -resize x160 -resize '160x<'   -resize 50% \
+        -gravity center  -crop 80x80+0+0 +repage  space_fill.jpg
+~~~
+
 [![\[IM Output\]](space_fill.jpg)](space_fill.jpg)
 
 In the above, the second resize in the series will only resize if the width produced by the first resize was smaller than the area we are trying to fill.
@@ -1112,12 +1219,13 @@ With the above ordering, such a case will result in the second resize operation 
 
 If your images are more often portrait images (longer vertically) then change the arguments to resize the image by height first, then width.
 For example...
-  
-      convert logo: \
-              -resize 160x -resize 'x160<'   -resize 50% \
-              -gravity center  -crop 80x80+0+0 +repage   space_fill_2.jpg
 
-  
+~~~
+convert logo: \
+        -resize 160x -resize 'x160<'   -resize 50% \
+        -gravity center  -crop 80x80+0+0 +repage   space_fill_2.jpg
+~~~
+
 [![\[IM Output\]](space_fill_2.jpg)](space_fill_2.jpg)
 
 The result of both of these examples should be very similar, and the command will work for both landscape and portrait styles of image, though it works better for one sort.
