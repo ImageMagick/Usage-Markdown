@@ -120,6 +120,7 @@ See [Animation List Information](#list_info) below.
 DO NOT save the intermediate, animations which you are not finished processing, directly to GIF.
 You can use the IM internal format MIFF, as a temporary file format, if you want to work on an animation in series of separate processing steps.
 I repeat...
+
 **Do not use GIF as a intermediate file format, use MIFF instead**
 
 If you made the big mistake of saving to GIF you would have just made the resulting animation worse, as IM would have now performed an automatic [Color Quantization](../quantize/#colors), to reduce the number of colors present.

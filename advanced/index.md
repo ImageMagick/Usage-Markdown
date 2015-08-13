@@ -240,6 +240,7 @@ The thing to note in the above is that the reflection being perfect, does not re
 It's more like a 'mirror tile' of the original image, which is also true.
 Even a normal bathroom mirror does not reflect all the light hitting it, and it is about the best mirror you can get.
 So the first rule of reflections is...
+
 **Reflections are never ever perfect.**
 
 All reflections are never a 100% reflection, and as such are colored by the surface (or the surrounding environment).

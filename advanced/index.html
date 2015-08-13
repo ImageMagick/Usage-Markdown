@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Anthony Thyssen, &lt;A.Thyssen@griffith.edu.au&gt;">
+  <title>Advanced Techniques</title>
+<link rel="canonical" href="www.imagemagick.org/Usage/advanced/" />
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+      #TOC ul {padding-left: 1em;}
+      blockquote { font-size: 100%; font-style: italic;}
+      footer { padding: 20px 0; margin: 20px 0 0 0; border-width: 1px 0 0 0; border-color: #eee; border-style: solid;}
+      footer address, footer p { margin: 0; }
+      
+  </style>
+</head>
+<body>
+<div class="container">
+    
+            <header>
+            <h1 class="title">ImageMagick Examples -- Advanced Techniques</h1>
+                    </header>
+    
+    <div class="row">
+        <aside class="col-xs-12 col-md-3 pull-right">
+                        <nav id="TOC">
+                <strong>Index</strong>
+                <ul>
+                <li><a href="#advanced-techniques">Advanced Techniques</a><ul>
+                <li><a href="#bullets-3d">3-D Bullets from Shapes -- A Scripted Approach</a></li>
+                <li><a href="#making-logos-in-3d">Making Logos 3-D</a></li>
+                <li><a href="#reflections">Reflections</a><ul>
+                <li><a href="#surface-color-attenuation">Surface Color - General Attenuation</a></li>
+                <li><a href="#distorted-source">Distorted Source</a></li>
+                <li><a href="#gradient-attenuation">Gradient Attenuation</a></li>
+                <li><a href="#blurred-attenuation">Blurred Attenuation</a></li>
+                </ul></li>
+                <li><a href="#jigsaw">Jigsaw Pieces</a></li>
+                <li><a href="#gel_effect">&quot;Gel&quot; Effects</a></li>
+                <li><a href="#aqua_effects">&quot;Aqua&quot; or &quot;Bubble&quot; Effects</a></li>
+                <li><a href="#stars">Tilable Stars and Comets</a></li>
+                <li><a href="#radial_flares">Radial Flares</a></li>
+                </ul></li>
+                </ul>
+            </nav>
+                    </aside>
+        <article class="col-xs-12 col-md-9">
+<h2 id="advanced-techniques">Advanced Techniques</h2>
+<p>This page provides very large examples where we use multiple techniques to produce some compound image manipulation effects, beyond the basic image operations of IM. The major techniques are summarized in the index above.</p>
+<p>While many techniques are provided on other pages, such as creating font templates, fancy labeling images, and using masks, these pages show how you can combine those techniques together to produce a more complex effect.</p>
+<hr />
+<p><a name="3d-bullets"></a></p>
+<h3 id="bullets-3d">3-D Bullets from Shapes -- A Scripted Approach</h3>
+<p>There are a lot of 'bullet' images available on the web for your web listings. But you can generate your own 3d objects, and allowing you to make your whole web site conform to a particular style that ties it all together.</p>
+<p>One of the best ways to do that is to create a 'generate' script that lets you automatically generate a whole range of buttons and shapes of a particular style, but using any color you require. This is one such, very simple script.</p>
+<p>Here we use the &quot;<code>-shade</code>&quot; option to generate 3d looking objects from a plain shaped transparency. The shape has only straight on/off transparency, which is carefully preserved, allowing it to be used as transparent GIF images for general use on web pages.</p>
+<p>The resulting grayscale 'shaded' image is then coloured using the &quot;<code>-tint</code>&quot; operator, to set the mid-tone greys of the image, while leaving the more extreme black and white shadings alone.</p>
+<p>After that the original shape of the image provided is re-added to the colored result. As a bonus if the input image had only a Boolean transparency the result also has a Boolean transparency appropriate for a GIF format image.</p>
+<pre><code>convert {input_image} -matte \
+    \( +clone -channel A -separate +channel \
+       -bordercolor black -border 5  -blur 0x2 -shade 120x30 \
+       -normalize -blur 0x1 -fill {color} -tint 100 \) \
+    -gravity center -compose Atop -composite \
+    {output_image}</code></pre>
+<p>Note that the input image is only read in once by the above script. This allows you to also use the script in a pipeline of commands using '<code>-</code>' as the input and output filenames (with perhaps an IM image format setting). This can be important when writing your own IM scripts.</p>
+<p>The above command was written into a very simple shell script called &quot;<a href="create_bullet"><code>create_bullet</code></a>&quot;, and the following commands were executed, to generate a whole range of symbol images in many different colors.</p>
+<pre><code>convert +antialias -size 15x15 xc:none -draw &#39;circle 7,7 3,3&#39;  ball.gif
+create_bullet ball.gif  grey    ball_grey.gif
+create_bullet ball.gif  red     ball_red.gif
+create_bullet ball.gif  green   ball_green.gif
+create_bullet ball.gif  blue    ball_blue.gif
+create_bullet ball.gif  yellow  ball_yellow.gif
+create_bullet ball.gif  maroon  ball_maroon.gif
+create_bullet ball.gif  cyan    ball_cyan.gif
+
+convert -size 12x12 xc:black   square.gif
+create_bullet square.gif  grey    square_grey.gif
+create_bullet square.gif  red     square_red.gif
+create_bullet square.gif  green   square_green.gif
+create_bullet square.gif  blue    square_blue.gif
+create_bullet square.gif  yellow  square_yellow.gif
+create_bullet square.gif  maroon  square_maroon.gif
+create_bullet square.gif  cyan    square_cyan.gif
+
+# retrieve asterix symbol from
+# Anthony&#39;s Web Images, Symbols
+create_bullet asterix.gif  grey    asterix_grey.gif
+create_bullet asterix.gif  red     asterix_red.gif
+create_bullet asterix.gif  green   asterix_green.gif
+create_bullet asterix.gif  blue    asterix_blue.gif
+create_bullet asterix.gif  yellow  asterix_yellow.gif
+create_bullet asterix.gif  maroon  asterix_maroon.gif
+create_bullet asterix.gif  cyan    asterix_cyan.gif
+
+# Use a heart symbol from &quot;WebDings&quot; font (22 point =&gt; 16x16 pixel image)
+convert -font WebDings -pointsize 22 -background none \
+    label:Y -trim +repage    heart.png
+create_bullet heart.png  grey    heart_grey.png
+create_bullet heart.png  red     heart_red.png
+create_bullet heart.png  green   heart_green.png
+create_bullet heart.png  blue    heart_blue.png
+create_bullet heart.png  yellow  heart_yellow.png
+create_bullet heart.png  maroon  heart_maroon.png
+create_bullet heart.png  cyan    heart_cyan.png</code></pre>
+<p><a href="ball.gif"><img src="ball.gif" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="ball_grey.gif"><img src="ball_grey.gif" alt="[IM Output]" /></a> <a href="ball_red.gif"><img src="ball_red.gif" alt="[IM Output]" /></a> <a href="ball_green.gif"><img src="ball_green.gif" alt="[IM Output]" /></a> <a href="ball_blue.gif"><img src="ball_blue.gif" alt="[IM Output]" /></a> <a href="ball_yellow.gif"><img src="ball_yellow.gif" alt="[IM Output]" /></a> <a href="ball_maroon.gif"><img src="ball_maroon.gif" alt="[IM Output]" /></a> <a href="ball_cyan.gif"><img src="ball_cyan.gif" alt="[IM Output]" /></a></p>
+<p><a href="square.gif"><img src="square.gif" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="square_grey.gif"><img src="square_grey.gif" alt="[IM Output]" /></a> <a href="square_red.gif"><img src="square_red.gif" alt="[IM Output]" /></a> <a href="square_green.gif"><img src="square_green.gif" alt="[IM Output]" /></a> <a href="square_blue.gif"><img src="square_blue.gif" alt="[IM Output]" /></a> <a href="square_yellow.gif"><img src="square_yellow.gif" alt="[IM Output]" /></a> <a href="square_maroon.gif"><img src="square_maroon.gif" alt="[IM Output]" /></a> <a href="square_cyan.gif"><img src="square_cyan.gif" alt="[IM Output]" /></a></p>
+<p><a href="asterix.gif"><img src="asterix.gif" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="asterix_grey.gif"><img src="asterix_grey.gif" alt="[IM Output]" /></a> <a href="asterix_red.gif"><img src="asterix_red.gif" alt="[IM Output]" /></a> <a href="asterix_green.gif"><img src="asterix_green.gif" alt="[IM Output]" /></a> <a href="asterix_blue.gif"><img src="asterix_blue.gif" alt="[IM Output]" /></a> <a href="asterix_yellow.gif"><img src="asterix_yellow.gif" alt="[IM Output]" /></a> <a href="asterix_maroon.gif"><img src="asterix_maroon.gif" alt="[IM Output]" /></a> <a href="asterix_cyan.gif"><img src="asterix_cyan.gif" alt="[IM Output]" /></a></p>
+<p><a href="heart.png"><img src="heart.png" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="heart_grey.png"><img src="heart_grey.png" alt="[IM Output]" /></a> <a href="heart_red.png"><img src="heart_red.png" alt="[IM Output]" /></a> <a href="heart_green.png"><img src="heart_green.png" alt="[IM Output]" /></a> <a href="heart_blue.png"><img src="heart_blue.png" alt="[IM Output]" /></a> <a href="heart_yellow.png"><img src="heart_yellow.png" alt="[IM Output]" /></a> <a href="heart_maroon.png"><img src="heart_maroon.png" alt="[IM Output]" /></a> <a href="heart_cyan.png"><img src="heart_cyan.png" alt="[IM Output]" /></a></p>
+<p>Only the shape or transparency of the source image is used in generating the bullets, as such any shape can be used. Pick your own shape that is unique to your website. Also note that GIF or PNG can be used, with out without Boolean transparency, the command makes no distinction.</p>
+<p>If you do use a larger image than that shown here, you may also like to increase the amount of blurring that is applied before the shade operation. Otherwise you may find only the areas close to the edge of the images will be rounded. Also it may be better to blur multiple times rather than use a big blur value (to increase the speed of the blurring).</p>
+<p>Of course if you make some improvements or have other ideas, please let me know, so we can share them with others.</p>
+<hr />
+<p><a name="3d-logos"></a></p>
+<h3 id="making-logos-in-3d">Making Logos 3-D</h3>
+<p>In this example we have a flat colored logo, with a difficult shape, which we what to image process to give it a distinct 3-D look. To do this we use the logo to generate highlights and shadows, and convert them into transparencies to overlay on the original image. It uses a lot different techniques from all of the example pages to achieve this effect, step by step.</p>
+<p>This example makes heavy use of images generated by the <a href="../transform/#shade">Shade Operator</a> and various <a href="../compose/">Alpha Compositing</a> methods. I suggest you become familiar with these image operators before proceeding, or look them up when you wish to understand better what is going on.</p>
+<hr />
+<p>Before we can start however we will need a simple logo to apply our technique to, and its mask....</p>
+<p>Let's first create a shape for the color background of logo example...</p>
+<pre><code>convert -size 170x100 xc:black \
+      -fill white -draw &#39;circle    50,50  13,50&#39; \
+          -draw &#39;circle   120,50 157,50&#39; \
+          -draw &#39;rectangle 50,13 120,87&#39; \
+      -fill black -draw &#39;circle    50,50  25,50&#39; \
+          -draw &#39;circle   120,50 145,50&#39; \
+          -draw &#39;rectangle 50,25 120,75&#39; \
+      -fill white -draw &#39;circle    60,50  40,50&#39; \
+          -draw &#39;circle   110,50 130,50&#39; \
+          -draw &#39;rectangle 60,30 110,70&#39; \
+      -gaussian 1x1 +matte logo_mask.png</code></pre>
+<p><a href="logo_mask.png"><img src="logo_mask.png" alt="[IM Output]" /></a></p>
+<p>Now we use our mask to cut out the solid color of our logo, and add some text to generate a plain, solid color logo.</p>
+<pre><code>convert logo_mask.png -background red -alpha shape \
+      -font Candice  -pointsize 36  -fill white  -stroke black \
+      -gravity Center  -annotate 0 &quot;Ant&quot; \
+      logo.png</code></pre>
+<p><a href="logo.png"><img src="logo.png" alt="[IM Output]" /></a></p>
+<hr />
+<p>Now let's give it a 3D-look, by using <a href="../transform/#shade_overlay">Overlay Highlighting</a> techniques.</p>
+<pre><code>convert logo.png  -alpha extract -blur 0x6  -shade 110x30  -normalize \
+      logo.png  -compose Overlay -composite \
+      logo.png  -alpha on  -compose Dst_In  -composite \
+      logo_3D.png</code></pre>
+<p><a href="logo_3D.png"><img src="logo_3D.png" alt="[IM Output]" /></a></p>
+<p>Adding shadows is also easier thanks to the new <a href="../blur/#shadow">Shadow Generation</a> operator provided by IM.</p>
+<pre><code>convert logo_3D.png \( +clone -background navy -shadow 80x4+6+6 \) +swap \
+      -background none  -layers merge +repage logo_3D_shadowed.png</code></pre>
+<p><a href="logo_3D_shadowed.png"><img src="logo_3D_shadowed.png" alt="[IM Output]" /></a></p>
+<p>Just for fun, let's finish by overlay our logo on a 'rough paper' like background. A huge number of other background canvases can also be created, see <a href="../backgrounds/">Background Examples</a> for a collection of such examples.</p>
+<pre><code>convert logo_3D_shadowed.png \
+      \( +clone +repage -alpha off -fx &#39;rand()&#39; -shade 120x30 \
+     -fill grey70 -colorize 60 \
+     -fill lavender -tint 100 \) \
+      +swap -composite logo_3D_bg.jpg</code></pre>
+<p><a href="logo_3D_bg.jpg"><img src="logo_3D_bg.jpg" alt="[IM Output]" /></a></p>
+<hr />
+<h3 id="reflections">Reflections</h3>
+<p>Reflections are relatively easy to do, but often it does not seem like it. You have to deal with aspects such as surface color and texture, and also with how any such effect increases with the distance between the surface reflection and the object that is being reflected by that surface. Basically what should be a relatively simple matter, very quickly becomes quite a complex one.</p>
+<p><a href="pokemon.gif"><img src="pokemon.gif" alt="[IM Output]" /></a> So let's start with the reflection of a relatively simple image, in this case a image of a Pokemon character, Azumarill (See right). Substitute your own image if you like.</p>
+<p>Now doing a reflection of a perfect mirror you would simply copy and flip the source object, and add some background behind it to make it to give it some context. For example...</p>
+<pre><code>convert pokemon.gif \( +clone -flip \) -append \
+      -size 100x100 xc:black +swap \
+      -gravity North -geometry +0+5 -composite  reflect_perfect.png</code></pre>
+<p><a href="reflect_perfect.png"><img src="reflect_perfect.png" alt="[IM Output]" /></a></p>
+<h4 id="surface-color-attenuation">Surface Color - General Attenuation</h4>
+<p>The thing to note in the above is that the reflection being perfect, does not really look like a reflection in a black surface. It's more like a 'mirror tile' of the original image, which is also true. Even a normal bathroom mirror does not reflect all the light hitting it, and it is about the best mirror you can get. So the first rule of reflections is... <strong>Reflections are never ever perfect.</strong></p>
+<p>All reflections are never a 100% reflection, and as such are colored by the surface (or the surrounding environment). It is an imperfect world, and reflections enhance and demonstrate these imperfections very well.</p>
+<p>So let use try this again, but this time let's color the reflection by the color of the reflecting surface.</p>
+<p>You can do this in two ways. The simplest method is to simply <a href="../color_mods/#colorize">Colorize</a> the reflection the same color as the surface. The amount of coloring depends on how good the surface is at reflecting, for colored surfaces, that is usually pretty bad, so a large amount of color needs to be added, &quot;<code>65%</code>&quot; is quite good for a black surface.</p>
+<pre><code>convert pokemon.gif \
+  \( +clone -flip -fill black -colorize 65% \) -append \
+  -size 100x100 xc:black +swap \
+  -gravity North -geometry +0+5 -composite  reflect_colored.png</code></pre>
+<p><a href="reflect_colored.png"><img src="reflect_colored.png" alt="[IM Output]" /></a></p>
+<p>Much better... now it actually looks like a reflection!</p>
+<p>The other way to make a reflection weaker is to make the reflected image semi-transparent, or translucent. For example multiply the images alpha value, to make only about 35% of the source object visible.</p>
+<pre><code>convert pokemon.gif -alpha on \
+  \( +clone -flip -channel A -evaluate multiply .35 +channel \) -append \
+  -size 100x100 xc:black +swap \
+  -gravity North -geometry +0+5 -composite  reflect_alpha.png</code></pre>
+<p><a href="reflect_alpha.png"><img src="reflect_alpha.png" alt="[IM Output]" /></a></p>
+<p>This is actually preferred, as it means the color of the surface can be any color or even some type of color texture or pattern.</p>
+<p>For example, let's generate a horizontal wooden floor, using a infinite tiling technique from <a href="../distorts/#horizon">Viewing Distant Horizons</a>.</p>
+<pre><code>convert tile_wood.gif   -set option:distort:viewport 100x100 \
+      -virtual-pixel tile     -distort Perspective \
+        &#39;0,0 -20,65  96,0 60,40  96,96 120,55  0,96 50,99&#39; \
+      wooden_floor.png</code></pre>
+<p><a href="wooden_floor.png"><img src="wooden_floor.png" alt="[IM Output]" /></a></p>
+<p>And now overlay our image with its semi-transparent reflection onto this wooden floor.</p>
+<pre><code>convert pokemon.gif -alpha on \
+  \( +clone -flip -channel A -evaluate multiply .35 +channel \) -append \
+  wooden_floor.png +swap \
+  -gravity North -geometry +0+5 -composite  reflect_wood.png</code></pre>
+<p><a href="reflect_wood.png"><img src="reflect_wood.png" alt="[IM Output]" /></a></p>
+<p>Without the reflected object the wooden surface looks rather dull and lifeless, but with some object reflected in it, the floor suddenly has a very highly polished look to it!</p>
+<h4 id="distorted-source">Distorted Source</h4>
+<p>Okay. Let's try something a little more fancy, and give the image a bit of some 3D <a href="../distorts/#perspective">Perspective</a> depth to it.</p>
+<pre><code>convert pokemon.gif -alpha on   -virtual-pixel transparent \
+  +distort Perspective &#39;0,0 0,0  0,64 0,64  64,0 54,10  64,64 54,54&#39; \
+  \( +clone -flip -channel A -evaluate multiply .35 +channel \) -append \
+  +filter  -size 100x100 xc:black +swap \
+  -gravity North -geometry +0+5 -composite  reflect_distort_bad.png</code></pre>
+<p><a href="reflect_distort_bad.png"><img src="reflect_distort_bad.png" alt="[IM Output]" /></a></p>
+<p>Which is obviously wrong. It looks like the image is distorted, but remains flat on to the original user. Why because...</p>
+<p><strong>Object that is in contact the surface will also contact their reflection.</strong></p>
+<p>It seems pretty obvious but I have seen people get this wrong. Of course if the object is floating about the surface then they will not make contact.</p>
+<p>One way to fix this would be to distort the source image and the reflection of that image separately, before <a href="../layers/#merge">Layer Merge</a> the results together.</p>
+<pre><code>convert pokemon.gif -alpha on   -virtual-pixel transparent \
+  \( -clone 0 \
+     +distort Perspective &#39;0,0,0,0  0,64,0,64  64,0,54,10  64,64,54,54&#39; \) \
+  \( -clone 0  -channel A -evaluate multiply .35 +channel \
+     +distort Perspective &#39;0,0,0,128  0,64,0,64  64,0,54,98  64,64,54,54&#39; \
+  \) -delete 0 +swap -background none  -layers merge \
+  +filter  -size 100x100 xc:black +swap \
+  -gravity North -geometry +0+5 -composite  reflect_distort_sep.png</code></pre>
+<p><a href="reflect_distort_sep.png"><img src="reflect_distort_sep.png" alt="[IM Output]" /></a></p>
+<p>As you can see by the very different set of distortion parameters, distorting a reflection can get very difficult. It is even more difficult as a simple change to the first distortion requires a calculated change to the second distortion for the reflected image.</p>
+<p>There are two more rules that will tell you how the coordinates of the reflected distortion should be calculated.</p>
+<p><strong>Reflections in a horizontal surface are always directly downward.</strong></p>
+<p>That is a reflection is always toward the user, which as a user is directly in front of an image, will mean that any reflection in a horizontal surface will be downward, directly toward the user. This is a law of physics, and that is one thing you do not want to break, if you want your images to be at least semi-realistic. And finally one other rule that you should remember.</p>
+<p><strong>Vertical surfaces, reflected in horizontal surfaces have<br />
+ reflections that the same height as the reflected object</strong></p>
+<p>It does not matter how 'distant' the object appears to be in an image, the height of its reflection in the final image should be the same height as the object being reflected! It is not obvious, and very easy to get wrong.</p>
+<p>These three rules mean, that the X value of the reflected coordinate remains the same, by the Y value is flipped downward around the 'surface contact point' by the same amount it is above that point.</p>
+<p>As such with some care you can calculate the distortion coordinates for the reflection, based on the coordinates of the distorted source image.</p>
+<p>Now these rules also provide us with a method that can simplify reflections for distorted images. Just append the reflection to the source image first, then distort the source image as if it has no reflection attached, letting its reflection distort along with the main image...</p>
+<pre><code>convert pokemon.gif -alpha on   -virtual-pixel transparent \
+  \( +clone -flip -channel A -evaluate multiply .35 +channel \) -append \
+  +distort Perspective &#39;0,0,0,0  0,64,0,64  64,0,54,10  64,64,54,54&#39; \
+  -gravity North  -crop 100x100+0-5\! \
+  -background black -compose Over -flatten    reflect_distort.png</code></pre>
+<p><a href="reflect_distort.png"><img src="reflect_distort.png" alt="[IM Output]" /></a></p>
+<p>As you can see this works a lot easier, and you only have one set of distortions to deal with for the object, making changes a lot simpler too.</p>
+<p>It also allows you to use distortions that would be otherwise be impossible to repeat to create a separate reflection. For example, generating a 3D arc from the image...</p>
+<pre><code>convert pokemon.gif -alpha on   -virtual-pixel transparent \
+  \( +clone -flip -channel A -evaluate multiply .35 +channel \) -append \
+  +distort Barrel &#39;0,0,0,1  0,0,-.35,1.5  32,32&#39; \
+  -gravity North  -crop 100x100+0-5\! \
+  -background black -compose Over -flatten    reflect_3Darc.png</code></pre>
+<p><a href="reflect_3Darc.png"><img src="reflect_3Darc.png" alt="[IM Output]" /></a></p>
+<p>One final point before we proceed to the next section...</p>
+<p>Shadows will generally obey the same rules as reflections, except for the last two rules. They may not fall directly downward, but point away from the light source (parallel for distant light sources). Also they will not be a same distance from the 'surface contact point', but they will have the same ratio of distances, just not 1:1 ratio as you get for reflections.</p>
+<h4 id="gradient-attenuation">Gradient Attenuation</h4>
+<p>So far we have dealt with a perfectly smooth reflective surface, but most surfaces are not polished to a mirror shine. A seemingly smooth surface is actually not smooth at smaller scales and this in turn effects the light that is reflected off such a surface.</p>
+<p>That effect also grows stronger with the distance the reflected light has to travel between the object and the point of reflection. As such...</p>
+<p><strong>Reflections get weaker and more distorted, the further they are from the source image.</strong></p>
+<p>The simplest way to create a distance effect is to make the reflection weaker the further it is from the surface. For this is is usually acceptable to make the reflection a little brighter close to the image.</p>
+<pre><code>convert pokemon.gif -alpha on \
+  \( +clone -flip \
+     -size 64x28 gradient:gray40-black   \
+     -alpha off -compose CopyOpacity -composite \
+  \) -append \
+  -gravity North  -crop 100x100+0-5\! \
+  -background black -compose Over -flatten    reflect_attenuated.png</code></pre>
+<p><a href="reflect_attenuated.png"><img src="reflect_attenuated.png" alt="[IM Output]" /></a></p>
+<p>This works reasonably well, and is so easy to generate that it is a rather common method of generating reflections.</p>
+<p>The technique works as a good percentage of the light being reflected is not a perfect reflection, but more of the global environment. The more distant you are from the original image, less of the original image is reflected.</p>
+<h4 id="blurred-attenuation">Blurred Attenuation</h4>
+<p>The component that makes up the real reflection of the source object, does not simply get weaker with distance. In reality reflections get more blurry, fuzzy and distorted with distance, as the reflecting surface is generally not very smooth. This is not a macro distortion, but distortions at very small microscopic levels. The same effect that produces specular lighting reflections. That is close in to the source of the reflection they can be reasonably sharp, but the further you get from the source the more blurred the image becomes.</p>
+<p>Before IM version 6.5.5-0, this was something that was very difficult to achieve (it was possible, but not without a lot of trickiness). However now you can use <a href="../mapping/#blur">Variable Blur Map</a> to blur a reflection based on its distance from the source image quite easily.</p>
+<p>However for this to work, it is a good idea to add a transparent border around the object into which to blur. In these examples, I extended the final image so you can see the whole reflection, so you can appreciate its effect.</p>
+<pre><code>convert pokemon.gif -alpha on \
+  -background None -gravity South -extent 100x100 \
+  \( +clone -flip -channel A -evaluate multiply .35 +channel \
+     -size 100x100 gradient:gray5-white \
+     -compose Blur -set option:compose:args 10 -composite -compose Over \
+  \) -append -trim +repage \
+  -gravity North  -crop 100x140+0-5\! \
+  -background black -compose Over -flatten    reflect_blurred.png</code></pre>
+<p><a href="reflect_blurred.png"><img src="reflect_blurred.png" alt="[IM Output]" /></a></p>
+<p>The reflection blur can be enhanced further by using a vertically stretched blur ellipse. For example using elliptical blur arguments of '<code>10x30</code>' rather than a simple circular blur of '<code>20</code>'.</p>
+<p>If you then combine the &quot;Blurred Attenuation&quot; with a &quot;Gradient Attenuation&quot; you will start to get a very realistic reflection of a typical, not-so-polished, but smooth surface reflection.</p>
+<pre><code>convert pokemon.gif -alpha on \
+  -background None -gravity South -extent 100x100 \
+  \( +clone -flip \
+     \( -size 100x64 gradient:&#39;rgba(0,0,0,0.6)-none&#39; \
+    -size 100x36 xc:none  -append \
+     \) -compose Dst_In -composite \
+     \( -size 100x100 gradient:gray5-white \
+     \) -compose Blur -set option:compose:args 4x8 -composite \
+  \) -append -trim +repage \
+  -gravity North  -crop 100x140+0-5\! \
+  -background black -compose Over -flatten    reflect_blur_atten.png</code></pre>
+<p><a href="reflect_blur_atten.png"><img src="reflect_blur_atten.png" alt="[IM Output]" /></a></p>
+<p>You would be hard pressed to get a better reflection image for flat surfaces than this.</p>
+<pre><code>Future: To add examples of...
+  Surface Texture effects
+    frosted - or non smooth surfaces (small scale randomised distortions)
+    rippled - water reflections
+        (very little blur or attenuation, just stronger macro distortion)</code></pre>
+<hr />
+<h3 id="jigsaw">Jigsaw Pieces</h3>
+<p>One of the most interesting things I have been asked to help with was to cut out and enhance a odd shaped 'jigsaw' piece from a larger picture. Actually Theo van Hoesel, also known as &quot;<a href="http://virtual-jigsaw-puzzle.blogspot.com/">Mr Jigsaw</a>&quot;, wanted to generate a lot of separate pieces, at lots of different rotations. The following was developed from our discussion for just one piece, but with the right set of templates, any pattern of pieces can be generated.</p>
+<p>To the right is a thumbnail linked to a 800x600 image of a photo of the Holocaust Memorial, Berlin, Germany. I took this photo during on my European trip in April 2006. It looks like a great image to make a really hard jigsaw puzzle from.</p>
+<p>And below it is a template image of the jigsaw piece I will be extracting from the above image. It was part of a set of such images. The full set of jigsaw pieces contains 192 such masks, in a 16 by 12 array, including edges and corners.</p>
+<p>This specific jigsaw piece is a <strong>100x100 pixel mask</strong>, and designed to be used at a <strong>+365+96 offset</strong> on an <strong>800x600 pixel image</strong>. These figures are only important if you have a large set of different pieces that will fit together. If you don't plan to do this then of course you can use any offset you like.   <a href="holocaust_md.jpg"><img src="holocaust_tn.gif" alt="[photo]" /></a> <a href="jigsaw_tmpl.png"><img src="jigsaw_tmpl.png" alt="[IM Output]" /></a></p>
+<p>I myself have collected a number of such jigsaw sets, which can let me make a jigsaw of any image. And this is what Theo van Hoesel, is actually doing on his <a href="http://virtual-jigsaw-puzzle.blogspot.com/">website</a>.</p>
+<p>If you are making a actual jigsaw puzzle then the offset information is very important, as it identifies the location and placement of that piece from the original image. As such I will try to preserve this information. Note that offsets for masks could in some cases be negative, due to the extra padding around the shape, so you may need to test and adjust image commands to handle this situation.</p>
+<p>The extra padding itself will allow you to easily rotate, add thickness and shadow effects to the final image, without needing to change the size or offset of the cutout jigsaw piece.</p>
+<p>First however let's convert this template into an outline.</p>
+<pre><code>convert jigsaw_tmpl.png -edge .5 -blur 0x.5 jigsaw_edge.png</code></pre>
+<p><a href="jigsaw_edge.png"><img src="jigsaw_edge.png" alt="[IM Output]" /></a></p>
+<p>I can then overlay this onto the image to get a rough idea as to what is going to be cutout to form the jigsaw piece.</p>
+<pre><code>convert holocaust_md.jpg \
+    \( jigsaw_edge.png -negate \) -geometry +365+96 \
+    -compose multiply -composite \
+    -crop 100x100+365+96 +repage jigsaw_outline.png</code></pre>
+<p><a href="jigsaw_outline.png"><img src="jigsaw_outline.png" alt="[IM Output]" /></a></p>
+<p>Normally this is not done when generating a jigsaw, but is useful to do when the position of the piece is not important (as it isn't part of a larger puzzle). If so you can adjust the offset to select better content for that jigsaw piece.</p>
+<blockquote>
+<p><img src="../img_www/expert.gif" alt="" /><img src="../img_www/space.gif" alt="" /> :EXPERT: Due to the way &quot;<code>-edge</code>&quot; works the jigsaw outline generated above is inside the masked (white) area masking image. This can be important if you like to make use of this outline later.</p>
+</blockquote>
+<p>Okay we have a jigsaw shape, and a offset for the piece to cut out. so let's cut it out and rotate it too.</p>
+<pre><code>convert holocaust_md.jpg \
+    -crop 100x100+365+96\! -background none -flatten +repage \
+    \( jigsaw_tmpl.png +matte \) -compose CopyOpacity -composite \
+    -rotate -20 -gravity center -crop 100x100+0+0 +repage \
+    jigsaw_cutout.png</code></pre>
+<p><a href="jigsaw_cutout.png"><img src="jigsaw_cutout.png" alt="[IM Output]" /></a></p>
+<p>Note that we cropped the source image to the area covered by out template shape. We will not need the area outside the mask, and removing it early will speed up the image processing.</p>
+<p>Also note the special use of a <a href="../crop/#viewport">viewport crop</a>, followed by &quot;<code>-flatten</code>&quot;. This method of cropping will ensure that we will be guaranteed a 100x100 pixel image from which to 'cutout' the template, even when using masks of edge or corner pieces, and also handle a negative offset for pieces on or near the top, or left, edges of the image.</p>
+<p>The rotate is also performed at this point as most enhancements will add effects based on a specific direction. The result of that rotate is also center cropped as this operator, normally expands the resulting image size, depending on the rotation angle used, and we don't want it to do that.</p>
+<p>The first enhancement is to give the pieces a slightly beveled, or rounded, highlight around the edges. This is as per <a href="../transform/#shade_overlay">Shade Highlight Overlays</a>, which allows fine control (4 separate factors) of way the highlight is produced.</p>
+<pre><code>convert jigsaw_cutout.png \
+       \( +clone -channel A -separate +channel -negate \
+      -background black -virtual-pixel background \
+      -blur 0x2 -shade 120x21.78 -contrast-stretch 0% \
+      +sigmoidal-contrast 7x50%  -fill grey50 -colorize 10% \
+      +clone +swap -compose overlay -composite \) \
+      -compose In -composite jigsaw_bevel.png</code></pre>
+<p><a href="jigsaw_bevel.png"><img src="jigsaw_bevel.png" alt="[IM Output]" /></a></p>
+<p>In a real jigsaw this bevel is a result of machine press cutting the jigsaw pieces. It also gives the pieces a slight dent, so if the pieces are fitted back together you can still see the impression of the cuts.</p>
+<p>Now let's add some thickness to the piece. This is the best and quickest way I have found, though I don't consider it a very good technique. If you can find something better, then please let me know.</p>
+<pre><code>convert jigsaw_bevel.png \
+       \( +clone -fill DarkSlateGrey -colorize 100% -repage +0+1 \) \
+       \( +clone -repage +1+2 \)  \( +clone -repage +1+3 \) \
+       \( +clone -repage +2+4 \)  \( +clone -repage +2+5 \) \
+      -background none -compose DstOver -flatten \
+      jigsaw_thickness.png</code></pre>
+<p><a href="jigsaw_thickness.png"><img src="jigsaw_thickness.png" alt="[IM Output]" /></a></p>
+<p>And finally how about some shadow.</p>
+<pre><code>convert jigsaw_thickness.png \
+    \( +clone   -background Black -shadow 50x3+4+4 \) \
+    -background none -compose DstOver -flatten \
+    jigsaw_shadow.png</code></pre>
+<p><a href="jigsaw_shadow.png"><img src="jigsaw_shadow.png" alt="[IM Output]" /></a></p>
+<p>All the above commands can be easily saved into a single shell script, and I have done this for my own use.</p>
+<p>The script &quot;<strong><code>jigsaw</code></strong>&quot; will take three image parameters: source photo, template, and destination, as well as numerous options to enable the various enhancements shown above. It does not need to use a jigsaw shape either. Any mask template could be used to cut out parts of images, with appropriate added effects.</p>
+<p>The biggest difference between the above, and my script version, is that by default, the script keeps the final image as small as possible, while keeping track of offset of the cutout image. By preserving this offset position you can to use a simple &quot;<code>-mosaic</code>&quot; or &quot;<code>-flatten</code>&quot; to overlay multiple pieces back together to produce interesting effects (see last example below).</p>
+<p>Here are just a few examples of using this script, in a number of ways.</p>
+<pre><code>jigsaw -o +365+96 -m  null: jigsaw_tmpl.png  jigsaw_mask.png
+convert -size 800x600 xc:gray miff:- |\
+         jigsaw -r 30 -l -h -s miff:- jigsaw_mask.png jigsaw_grey.png
+jigsaw -r -60 -h -t 4 -s holocaust_md.jpg jigsaw_mask.png jigsaw_piece.png
+
+convert jigsaw_cnr.png -resize 50% -flip -flop -repage 120x90 \
+    -background black -flatten -flip -flop jigsaw_cnr_tmpl.png
+jigsaw -t 3 -s  -r 15  -d +15+7 \
+    holocaust_tn.gif jigsaw_cnr_tmpl.png   holocaust_piece_tn.png
+convert jigsaw_cnr_tmpl.png -negate png:- |\
+  jigsaw -t 3 -s holocaust_tn.gif png:-   holocaust_puzzle_tn.png
+convert holocaust_puzzle_tn.png  holocaust_piece_tn.png \
+    -background none  -mosaic    holocaust_jigsaw_tn.png</code></pre>
+<p><a href="jigsaw_mask.png"><img src="jigsaw_mask.png" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="jigsaw_grey.png"><img src="jigsaw_grey.png" alt="[IM Output]" /></a> <a href="jigsaw_piece.png"><img src="jigsaw_piece.png" alt="[IM Output]" /></a><br />
+ <a href="jigsaw_cnr.png"><img src="jigsaw_cnr.png" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="jigsaw_cnr_tmpl.png"><img src="jigsaw_cnr_tmpl.png" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="holocaust_piece_tn.png"><img src="holocaust_piece_tn.png" alt="[IM Output]" /></a> <a href="holocaust_puzzle_tn.png"><img src="holocaust_puzzle_tn.png" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="holocaust_jigsaw_tn.png"><img src="holocaust_jigsaw_tn.png" alt="[IM Output]" /></a></p>
+<p>The last image is the beginning of a possible jigsaw thumbnail style...</p>
+<p>It takes a corner jigsaw piece, and with some scaling and expansion converts the mask, into a full sized image template mask. This is then used to not only cut out the corner piece from an existing thumbnail, but also is negated to produce the rest of the image as well. Overlaying these two images then produces quite a fancy looking jigsaw thumbnail.</p>
+<p>Note the use of a '<code>-d +15+7</code>' in the options to the piece creation. This displaces the 'page offset' of the generated PNG image by a small amount relative to its original position in the image, producing the result shown, simply and easily. See the script itself for the other options available.</p>
+<blockquote>
+<p><img src="../img_www/warning.gif" alt="" /><img src="../img_www/space.gif" alt="" /> :WARNING: As page offsets generated can be negative, and could contain an optional soft shadow effect, it is recommended that only PNG images be used for extracted pieces. GIF images cannot handle negative page offsets, or shadow effects, nor does it produce a smooth looking anti-aliased edges when transparency is involved.</p>
+</blockquote>
+<p>Generally you should avoid GIF (and JPEG) images for all but your final image. For more information see <a href="../formats/">Common Image Formats</a> examples page.</p>
+<p>You are not limited to jigsaw puzzle templates, but any shaped mask can be used with any image. Let me know what you come up with.</p>
+<p>I am not quite finished with the development of the &quot;<code>jigsaw</code>&quot; script, as I would like some better controls for the highlighting, thickness and shadow effects, and possibly a 'negate mask' option. It is however basically a complete working program you are free to use. Give me a link back if you use it for a web page :-) For those with some PerlMagick API skill, try taking the above script and converting it to PerlMagick for speed, then submitting it to me so that everyone else can also use it, and know just how good you are at using IM. Further suggestions and ideas are always welcome.</p>
+<p>If you are just wanting to cut out all the pieces from an image using a collection of masks (with or without virtual pixel offsets), then the following command will let you do ALL of them very quickly.</p>
+<pre><code>convert mask_*.png -set filename:mask %t -alpha shape \
+      null: image.jpg -compose In -layers composite \
+      pieces_%[filename:mask].png</code></pre>
+<p>Each other resulting &quot;<code>pieces_mask_*.png</code>&quot; images, contains not only the appropriate image from the original image at the correct offset, but also preserves that offset in the final image. It does this using the <a href="../anim_mods/#composite">Multi-Layer Composition</a> to merge all the images to the left of the special &quot;<code>null:</code>&quot; marker image, with the single image on the right.</p>
+<p>As an added bonus it will incorporate the filename of the mask that was used into the piece image filename (including its final image file format), making identifying what piece is what much easier. (See <a href="../files/#save_escapes">Filename Percent Escapes</a> for details.</p>
+<p>Note that the masks do not have to completely cover the whole original image, but should not leave spaces or gaps between pieces. Of course for a proper jigsaw all the masks should <a href="../masking/#aligning">Align</a> properly, so as to produce a seamless whole, such as shown in the <a href="../compose/#dstout">Dst_Out Composition examples</a>.</p>
+<hr />
+<h3 id="gel_effect">&quot;Gel&quot; Effects</h3>
+<p>The 3-D shadings used above is only the start of what you can do with highlight and shaded effects. By doing various histogram adjustments to the output of &quot;<a href="../option_link.cgi?shade">-shade</a>&quot; an enormous range of possibilities is available.</p>
+<p>One such effect you can reproduce is known as a 'Gel' effect, such as often see in &quot;<code>Photoshop</code> how-to web sites (Google for &quot;Gel Effects Tutorial&quot;). First let's create the shape we need. This could be a pre-prepared image or extracted from a 'Dings' font, like we did with the 3D bullet shaped &quot;heart&quot; above. In this case let's use a simple oval shape for a button...</p>
+<pre><code>convert -size 100x60 xc:none \
+      -fill red -draw &#39;circle    25,30  10,30&#39; \
+        -draw &#39;circle    75,30  90,30&#39; \
+        -draw &#39;rectangle 25,15  75,45&#39; \
+      gel_shape.png</code></pre>
+<p><a href="gel_shape.png"><img src="gel_shape.png" alt="[IM Output]" /></a></p>
+<p>Now let's add the sharp 'Gel' highlight to the colored shape, using a highly modified blurred shade operation...</p>
+<pre><code>convert gel_shape.png \
+    \( +clone -alpha extract  -blur 0x12  -shade 110x0 -normalize \
+       -sigmoidal-contrast 16,60% -evaluate multiply .5 \
+       -roll +5+10 +clone -compose Screen -composite \) \
+    -compose In  -composite  gel_highlight.png</code></pre>
+<p><a href="gel_highlight.png"><img src="gel_highlight.png" alt="[IM Output]" /></a></p>
+<p>We applied &quot;<a href="../option_link.cgi?shade">-shade</a>&quot; to a copy of the transparency (matte) channel after blurring it to round it off. This shade used a light source without any 'height' or 'azimith' angle to it, which basically means wer get a grey colored highlight of just one side of the blurred shape, and black for everything else.</p>
+<p>This highlighting greyscale was then adjusted (sharpened) using the &quot;<a href="../option_link.cgi?sigmoidal-contrast">-sigmoidal-contrast</a>&quot; operator to reduce the size the highlighted area (the '<code>60%</code>' threshold level) and sharpen its edges (using a very high '<code>16</code>' exponential factor). With such a high exponential value, the operator is almost acting like a 'fuzzy' &quot;<a href="../option_link.cgi?threshold">-threshold</a>&quot; operator, to produce a flat region of color based on the shape of the original image. For more information on this smooth contrast/threshold function see <a href="../color_mods/#sigmoidal">Sigmoidal Non-linearity Contrast</a>.</p>
+<p>And finally the level of the highlight was adjusted using a &quot;<a href="../option_link.cgi?evaluate">-evaluate</a>&quot; to multiply all the colors by the desired highlight level, then a &quot;<a href="../option_link.cgi?roll">-roll</a>&quot; is used to shift its position into the shaped area.</p>
+<p>Now, as the highlight is grey on black (black to remain unchanged), a '<code>Screen</code>' alpha composition is used to lighten the non-black areas by the given grey level. Now all that is left is to darken the borders a little...</p>
+<pre><code>convert gel_highlight.png \
+      \( +clone -alpha extract  -blur 0x2 -shade 0x90 -normalize \
+     -blur 0x2  +level 60,100%  -alpha On \) \
+      -compose Multiply  -composite  gel_border.png</code></pre>
+<p><a href="gel_border.png"><img src="gel_border.png" alt="[IM Output]" /></a></p>
+<p>Note that this time I used a vertically lit &quot;<a href="../option_link.cgi?shade">-shade</a>&quot; for edge darkening, which makes the areas I want to preserve unchanged, a white color. As such after adjusting the greyscale using a <a href="../color_mods/#level_plus">Reversed Level Adjustment</a>, and restoring the transparency saved by the <a href="../basics/#alpha_extract">Alpha Extract Method</a>, I was then able to use a '<code>Multiply</code>' alpha composition to darken the effected borders.</p>
+<p>Let's finish of the oval 'Gel' button with some text and shadow effects...</p>
+<pre><code>convert gel_border.png \
+    -font Candice  -pointsize 24  -fill white  -stroke black \
+    -gravity Center  -annotate 0 &quot;Gel&quot;  -trim -repage 0x0+4+4 \
+    \( +clone -background navy -shadow 80x4+4+4 \) +swap \
+    -background none  -flatten    gel_button.png</code></pre>
+<p><a href="gel_button.png"><img src="gel_button.png" alt="[IM Output]" /></a></p>
+<hr />
+<h3 id="aqua_effects">&quot;Aqua&quot; or &quot;Bubble&quot; Effects</h3>
+<p>You can also adjust a full 3-D &quot;<a href="../option_link.cgi?shade">-shade</a>&quot; (with a 30 degree lighting) tint to produce a &quot;Aqua&quot; water effect. For this however we need to do a histogram adjustment in a way that is similar to what you do with GUI graphical programs like &quot;<code>Gimp</code>&quot; and &quot;<code>Photoshop</code>&quot;.</p>
+<p>I will first do this slowly step by set so you can see the steps I am following. First let's create a image to use, in this case a curvy letter A.</p>
+<pre><code>convert -background none -fill DodgerBlue \
+      -font Candice -pointsize 72  label:A  -trim +repage \
+      -bordercolor None -border 1x1 \
+      aqua_shape.png</code></pre>
+<p><a href="aqua_shape.png"><img src="aqua_shape.png" alt="[IM Output]" /></a> Note that I added a one pixel transparent border around the image. This makes the next processing steps just that little bit easier.</p>
+<p>Now we need to generate <a href="../transform/#shade_blur">Rounded Shade</a> of this shaped image.</p>
+<pre><code>convert aqua_shape.png \
+      -alpha Extract -blur 0x8  -shade 130x30 -alpha On \
+      -background gray50 -alpha background -auto-level \
+      aqua_shade.png</code></pre>
+<p><a href="aqua_shade.png"><img src="aqua_shade.png" alt="[IM Output]" /></a></p>
+<p>The funny line that deals with <a href="../basics/#alpha_background">Alpha Background</a> is to reset the hidden color of the transparent areas to a mid-tone grey, so that it does not have an effect on the color normalization. This can be very important.</p>
+<p>Now we convert that shade into a 'lighting effect' that looks vaguely like the way light is distorted by a bubble of water or glass.</p>
+<pre><code>convert aqua_shade.png \
+      -function polynomial  3.5,-5.05,2.05,0.3 \
+      aqua_lighting.png</code></pre>
+<p><a href="aqua_lighting.png"><img src="aqua_lighting.png" alt="[IM Output]" /></a></p>
+<p>The <a href="../transform/#function_polynomial">Polynomial Function</a> which is used for a <a href="../color_mods/#curves">Curves Adjustment</a> of the image. It is this function that gives the overall effect, and can be difficult to determine.</p>
+<p>To do I passed the control points needed for this 'curve' to the IM support shell script called &quot;<code>im_fx_curves</code>&quot;. This then returns the the 'coefficients' for the polynomial equation needed for the 'curve that fits these control points.</p>
+<pre><code>im_fx_curves -c -p  0,30  100,80  50,50  80,50  &gt; aqua_coeffs.txt</code></pre>
+<p><a href="aqua_plot.jpg"><img src="aqua_plot.gif" alt="[Gnuplot]" /></a></p>
+<figure>
+<img src="../img_www/right.gif" alt="==&gt;" /><figcaption>==&gt;</figcaption>
+</figure>
+<p><a href="aqua_coeffs.txt"><img src="aqua_coeffs.txt.gif" alt="[Coeffs]" /></a></p>
+<p>The final adjustment of this lighting effect is make the edges of the lighting effect darker.</p>
+<pre><code>convert aqua_lighting.png \
+      \( +clone -alpha extract  -blur 0x2 \) \
+      -channel RGB -compose multiply -composite \
+      aqua_light+edge.png</code></pre>
+<p><a href="aqua_light+edge.png"><img src="aqua_light+edge.png" alt="[IM Output]" /></a></p>
+<p>And the shading overlay is complete. All that is left is to apply this to the original image, using <a href="../compose/#hardlight">HardLight Composition</a>.</p>
+<pre><code>convert aqua_shape.png aqua_light+edge.png \
+      -compose Hardlight -composite   aqua_result.png</code></pre>
+<p><a href="aqua_result.png"><img src="aqua_result.png" alt="[IM Output]" /></a></p>
+<p>Notice that the final overall color of the resulting image is actually the original color of the original shape. In fact you could even apply this to a multi-colored image, without any problems at all.</p>
+<p>So let's repeat all the steps above, including the creation of the initial shape image, all in one command.</p>
+<pre><code>convert -background none -fill DodgerBlue \
+      -font Candice -pointsize 96  label:&#39;Aqua Text&#39; -trim +repage \
+      \
+      \( +clone -bordercolor None -border 1x1 \
+     -alpha Extract -blur 0x8  -shade 130x30 -alpha On \
+     -background gray50 -alpha background -auto-level \
+     -function polynomial  3.5,-5.05,2.05,0.3 \
+     \( +clone -alpha extract  -blur 0x2 \) \
+     -channel RGB -compose multiply -composite \
+     +channel +compose -chop 1x1 \
+      \) \
+      -compose Hardlight -composite  aqua_text.png</code></pre>
+<p><a href="aqua_text.png"><img src="aqua_text.png" alt="[IM Output]" /></a></p>
+<p>If you study the above you will see that all the steps previously outlined is applied to generate the lighting image which is then composited onto the original image.</p>
+<hr />
+<h3 id="stars">Tilable Stars and Comets</h3>
+<p>I wanted to make a tile of random star fields (with the stars of variable intensities) for various purposes. This was the result of my slowly improving attempts at this. A <a href="../canvas/#random">random noise</a> image is used to thin itself out generate a speckle pattern.</p>
+<pre><code>convert -size 100x100 xc: +noise Random -channel R -threshold 5% \
+      -negate -channel RG -separate +channel \
+      -compose multiply -composite   speckles.gif</code></pre>
+<p><a href="speckles.gif"><img src="speckles.gif" alt="[IM Output]" /></a></p>
+<p>This pattern is the basis for glitter animation effects, but also the start point for other effects. For example to make stars we need to modify its random 'speckle' pattern a bit more, so as to make things more realistic.</p>
+<pre><code>convert -size 100x100 xc: +noise Random -channel R -threshold 1% \
+      -negate -channel RG -separate +channel \
+      \( +clone \) -compose multiply -flatten \
+      -virtual-pixel tile -blur 0x.4 -contrast-stretch .8% \
+      stars.gif</code></pre>
+<p><a href="stars.gif"><img src="stars.gif" alt="[IM Output]" /></a></p>
+<p>Note that I multiply not only the speckle mask ('<code>R</code>' channel) but the star intensity image ('<code>G</code> channel) twice as well. This produces a squared fall-off in the pixel intensities so that more darker stars are present than bright ones, just as it is in the real night sky.</p>
+<p>After this we enlarge the size of the stars based on their intensity by <a href="../blur/#blur">Blurring</a>. This produces an effect similar to the stars burning onto a astronomers photographic plate, making it even more realistic. The larger the blur value the larger the effect. A final &quot;<code>-contrast-stretch</code>&quot; brings the results back to visibility.</p>
+<p>By using two <a href="../canvas/#random">random noise</a> images, (one for the mask, the other for the star color), we can generate randomly colored stars, instead of simple greyscale ones.</p>
+<pre><code>convert -size 100x100 xc: +noise Random -channel R -threshold 1% \
+      -negate -channel RG -separate +channel \
+      \( xc: +noise Random \) -compose multiply -flatten \
+      -virtual-pixel tile -blur 0x.4 -contrast-stretch .8% \
+      stars_colored.gif</code></pre>
+<p><a href="stars_colored.gif"><img src="stars_colored.gif" alt="[IM Output]" /></a></p>
+<p>This however may need more work, as we need to square the intensity of the colors directly instead of just simply multiplying them against a linear distribution. It does however work, and provides a starting point for further development.</p>
+<p>Note the color does not have to be random but could easily come from some other image for the stars. For example the star color itself could be sourced from the image that will be used as the final background.</p>
+<p>Now that I have a star-scape generator, I can simply use &quot;<code>-motion-blur</code>&quot; to create a field of falling stars!</p>
+<pre><code>convert -size 100x100 xc: +noise Random -channel R -threshold .4% \
+      -negate -channel RG -separate +channel \
+      \( +clone \) -compose multiply -flatten \
+      -virtual-pixel tile -blur 0x.4 -motion-blur 0x20+45 -normalize \
+      star_fall.gif</code></pre>
+<p><a href="star_fall.gif"><img src="star_fall.gif" alt="[IM Output]" /></a></p>
+<p>Of course we want less stars and less of a 'fall-off' in star intensities.</p>
+<p>By <a href="../distorts/#polar">Polar Distorting</a> the image we can make the comets flying or spiraling into a point!</p>
+<pre><code>convert -size 250x100 xc: +noise Random -channel R -threshold .4% \
+      -negate -channel RG -separate +channel \
+      \( +clone \) -compose multiply -flatten \
+      -virtual-pixel Tile -background Black \
+      -blur 0x.6 -motion-blur 0x15-90 -normalize \
+      +distort Polar 0 +repage  star_inward.gif
+convert -size 250x100 xc: +noise Random -channel R -threshold .4% \
+      -negate -channel RG -separate +channel \
+      \( +clone \) -compose multiply -flatten \
+      -virtual-pixel Tile -background Black \
+      -blur 0x.6 -motion-blur 0x15-60 -normalize \
+      +distort Polar 0 +repage   star_spiral.gif</code></pre>
+<p><a href="star_inward.gif"><img src="star_inward.gif" alt="[IM Output]" /></a></p>
+<p><a href="star_spiral.gif"><img src="star_spiral.gif" alt="[IM Output]" /></a></p>
+<p>Here we motion blur the stars in six directions (in pairs) then merge them together to create a field of 'star bursts', such as you get in a glass lens.</p>
+<pre><code>convert -size 100x100 xc: +noise Random -channel R -threshold .2% \
+      -negate -channel RG -separate +channel \
+      \( +clone \) -compose multiply -flatten \
+      -virtual-pixel tile  -blur 0x.3 \
+      \( -clone 0  -motion-blur 0x10+15  -motion-blur 0x10+195 \) \
+      \( -clone 0  -motion-blur 0x10+75  -motion-blur 0x10+255 \) \
+      \( -clone 0  -motion-blur 0x10-45  -motion-blur 0x10+135 \) \
+      -compose screen -background black -flatten  -normalize \
+      star_field.gif</code></pre>
+<p><a href="star_field.gif"><img src="star_field.gif" alt="[IM Output]" /></a></p>
+<p>Note how the darker stars only generate a small dot and very little in the way of a 'star burst', while the bigger bright stars generate a very large 'star burst'.</p>
+<p>Now if I can find a way to add a 'sinc()' type blurring so as to produce a flare 'ring' around the brightest stars as well, we will have a great star field generator. Add some plasma background and we can even generate fake astronomical photos of nebula and gas clouds.</p>
+<p>By combining the above with a <a href="../anim_mods/#glitter">plasma glitter animation</a> you can make set of stars that look like christmas decorations.</p>
+<pre><code>convert -size 100x100 xc: +noise Random -separate \
+      null: \
+    \( xc: +noise Random -separate -threshold 50% -negate \) \
+    -compose CopyOpacity -layers composite \
+      null: \
+    plasma:red-firebrick plasma:red-firebrick plasma:red-firebrick \
+    -compose Screen -layers composite \
+      null:  \
+    \( xc: +noise Random -channel R -threshold .08% \
+      -negate -channel RG -separate +channel \
+      \( +clone \) -compose multiply -flatten \
+      -virtual-pixel tile  -blur 0x.4 \
+      \( -clone 0  -motion-blur 0x15+90  -motion-blur 0x15-90 \) \
+      \( -clone 0  -motion-blur 0x15+30  -motion-blur 0x15-150 \) \
+      \( -clone 0  -motion-blur 0x15-30  -motion-blur 0x15+150 \) \
+      -compose screen -background black -flatten  -normalize \) \
+    -compose multiply -layers composite \
+      -set delay 30 -loop 0 -layers Optimize       stars_xmas.gif</code></pre>
+<p><a href="stars_xmas.gif"><img src="stars_xmas.gif" alt="[IM Output]" /></a></p>
+<p>The above technique is only the start of what can be achieved. Using some simple animations techniques, glitters and random flares can be created which can be added to images. One simple example of this was provided in <a href="../anim_basics/#gif_anim">GIF animation examples</a>, using a simple shell script &quot;<strong><code>star_field</code></strong>&quot; to generate the stars bursts. What can you to with this star generator?</p>
+<p><strong>Challenge:</strong></p>
+<ul>
+<li><p>Generate glitter rather than stars. The initial speckle field should be limited by a mask (say by multiplying). Both glitter and stars can then be overlaid onto an image using 'screen' composition.</p></li>
+<li><p>Use a masked 'speckle field' to generate star bursts for overlaying. By masking the seeds rather than the complete star burst, means that 'rays' of the bursts can leave the masked area to overlay other parts of the image. That is rays are not just 'cutoff'.</p></li>
+<li><p>Create an animation of a random star bursts. This may require you to animate a single field of star bursts (perhaps with the rays rotating).</p></li>
+<li><p>By generating a few star burst animations, you can merge them together to form a series of overlapping star bursts from different locations.</p></li>
+<li><p>Find a single 'seed' point on the brightest part of the image by histogram stretching a thresholding. Then picking single pixels until one hits the masked area.</p></li>
+<li><p>Creating stars on the edge a flat shaded shape.</p></li>
+</ul>
+<p>If you manage any of the above challenge or use the star generator for some other purpose, please let me and the rest of the IM community know.</p>
+<hr />
+<h3 id="radial_flares">Radial Flares</h3>
+<p>Experiments in generating radial flares. Note that the width of the initial image before polar distorting, basically sets the number of rays that will be produced.</p>
+<pre><code>convert -size 100x1 xc: +noise Random -channel G -separate +channel \
+      -scale 100x100\!                                +write flare_1a.png \
+      \( -size 100x100 gradient:&#39;gray(100%)&#39; -sigmoidal-contrast 10x50% \) \
+      -colorspace sRGB -compose hardlight -composite  +write flare_1b.png \
+      -virtual-pixel HorizontalTileEdge -distort Polar -1 \
+      flare_1_final.png</code></pre>
+<p><a href="flare_1a.png"><img src="flare_1a.png" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="flare_1b.png"><img src="flare_1b.png" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="flare_1_final.png"><img src="flare_1_final.png" alt="[IM Output]" /></a></p>
+<p>Note how I use &quot;<code>+write</code>&quot; to save intermediate images for display. This is a debugging technique which is detailed in <a href="../basics/#complex">Complex Image Processing and Debugging</a>.</p>
+<p>Here is another example using multiple overlays to achieve a different looking flare. Note the technique used to generating intermediate debugging and example images showing the steps involved.</p>
+<pre><code>convert -size 100x1 xc: +noise Random -channel G -separate +channel \
+      -size 100x99 xc:black -append -motion-blur 0x35-90 \
+      \( -size 100x50 gradient:&#39;gray(0)&#39; \
+     -evaluate cos .5 -sigmoidal-contrast 3,100% \
+     -size 100x50 xc:&#39;gray(0)&#39; -append \) \
+      \( -size 1x50 xc:&#39;gray(0)&#39; \
+     -size 1x1 xc:&#39;gray(50%)&#39; \
+     -size 1x49 xc:&#39;gray(0)&#39; \
+     -append -blur 0x2 -scale 100x100\! \) \
+      \
+      -scene 10 +write flare_2%x.png \
+      \
+      -background &#39;gray(0)&#39; -compose screen -flatten +write flare_2f.png \
+      \
+      -virtual-pixel HorizontalTileEdge -distort Polar -1 \
+      -colorspace sRGB flare_2_final.png</code></pre>
+<p><a href="flare_2a.png"><img src="flare_2a.png" alt="[IM Output]" /></a> <a href="flare_2b.png"><img src="flare_2b.png" alt="[IM Output]" /></a> <a href="flare_2c.png"><img src="flare_2c.png" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="flare_2f.png"><img src="flare_2f.png" alt="[IM Output]" /></a> <img src="../img_www/right.gif" alt="==&gt;" /> <a href="flare_2_final.png"><img src="flare_2_final.png" alt="[IM Output]" /></a></p>
+<p>The major problem with using polar distort for generating flare images is that the rays become wider with the radius, where really we want them to either remain a roughly constant width as they get dimmer, or at least thinner.</p>
+<p><em>Ideas and pointers welcome</em></p>
+<p>Color tinting can also be important in this type of image. For example here I <a href="../color_mods/#tint">Tint Mid-Tone Colors</a> Blue.</p>
+<pre><code>convert flare_2_final.png  -fill SkyBlue  -tint 100%  flare_2_color.png</code></pre>
+<p><a href="flare_2_color.png"><img src="flare_2_color.png" alt="[IM Output]" /></a></p>
+<p>The percentage used for the &quot;<code>-tint</code>&quot; operation can also be used to adjust the intensity of the rays and flare ring, though it will not change the white core of the image very much.</p>
+<p>These examples were taken further in the Im Forum discussion <a href="../forum_link.cgi?t=16004">Using Radial Flare for a Mask</a>.</p>
+        </article>
+    </div>
+
+    <footer>
+        <p>Created: <time>9 February 2004</time></p>
+        <p>Updated: <time>16 February 2010</time></p>
+                <address>
+            Author:  <a href="http://www.ict.griffith.edu.au/anthony/anthony.html">Anthony Thyssen</a>, &lt;<a href="http://www.ict.griffith.edu.au/anthony/mail.shtml">A.Thyssen@griffith.edu.au</a>&gt;, 
+        </address>
+                <p>Examples Generated with: <img src="version.gif" alt="6.6.9" /></p>
+        <p>URL: <a href="www.imagemagick.org/Usage/advanced/">www.imagemagick.org/Usage/advanced/</a></p>
+    </footer>
+    </div>
+</body>
+</html>
