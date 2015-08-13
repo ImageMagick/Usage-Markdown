@@ -53,12 +53,11 @@ convert -background lightblue -fill blue \
 
 The above is probably the most typical usage of label, with a font selection and "`-pointsize`" defining the results.
 But it by far the least interesting way of generating text labels.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*The '`label:`' image generated will also have the '`label`' [Image Property](../basics/#set) meta-data set to the same string.
-Some file formats, such as MIFF and PNG, will save that specific property and can be used in later image processing programs.
-For and example of using 'label' meta-data, see [Montage using Saved Meta-Data](../montage/#metadata) for examples.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The '`label:`' image generated will also have the '`label`' [Image Property](../basics/#set) meta-data set to the same string.
+> Some file formats, such as MIFF and PNG, will save that specific property and can be used in later image processing programs.
+> For and example of using 'label' meta-data, see [Montage using Saved Meta-Data](../montage/#metadata) for examples.
 
 If you also specify a "`-size`" then the generated label image will be created at that size.
 
@@ -90,11 +89,10 @@ convert -background lightblue -fill blue  -font Candice \
 ~~~
 
 [![\[IM Output\]](label_overflow.gif)](label_overflow.gif)
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before version 6.5.2-4, IM would completely ignore the "`-pointsize`" setting if a "`-size`" setting is also given.
-This causes the text in the above images to be auto-sized according to the 'best fit' handling (see next set of examples).*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before version 6.5.2-4, IM would completely ignore the "`-pointsize`" setting if a "`-size`" setting is also given.
+> This causes the text in the above images to be auto-sized according to the 'best fit' handling (see next set of examples).
 
 ### Best Fit to Image {#label_bestfit}
 
@@ -110,11 +108,10 @@ convert -background lightblue -fill blue  -font Candice \
 [![\[IM Output\]](label_size_fit.gif)](label_size_fit.gif)
 
 As you can see by setting a "`-size`" setting, you could end up with some extra space to the right or below the image.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*When IM creates a 'bestfit' label, the actual pointsize it used is also saved into the '`label:pointsize`' [Image Property](../basics/#set), allowing you you use that information later.
-This was added to IM v6.6.2-7, during the forum discussion [Pointsize Reporting](../forum_link.cgi?t=16449)*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> When IM creates a 'bestfit' label, the actual pointsize it used is also saved into the '`label:pointsize`' [Image Property](../basics/#set), allowing you you use that information later.
+> This was added to IM v6.6.2-7, during the forum discussion [Pointsize Reporting](../forum_link.cgi?t=16449)
 
 You can still adjust the position of the label in that extra space by adjusting the "`-gravity`" setting.
 
@@ -212,11 +209,10 @@ However it can only be used to replace the whole string argument, not a part of 
 Note also that in the above examples, an extra blank line was added to the label image.
 This blank line is caused by a final newline in the input text file.
 Unless you somehow strip the final newline from the input file (see [caption:](#caption) example below for method to fix this), "`label:`" will always have this blank line from input text files.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Most older versions of IM (before v6.2.5), do not handle multiple line labels.
-In these versions the lines would have been appended together to form a single, very very long line.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Most older versions of IM (before v6.2.5), do not handle multiple line labels.
+> In these versions the lines would have been appended together to form a single, very very long line.
 
 ### Vertical Labels {#label_vertical}
 
@@ -257,12 +253,11 @@ convert -background lightblue  -fill blue  -font Corsiva -pointsize 36 \
 
 [![\[IM Output\]](caption.gif)](caption.gif)
 
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*The '`caption:`' image generated will also have the "`caption`" [Image Property](../basics/#set) meta-data 'set' to the same string, allowing you to re-use that information later.
-All the common image file formats will save this information with the image.
-See [Montage using Saved Meta-Data](../montage/#metadata) for examples.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The '`caption:`' image generated will also have the "`caption`" [Image Property](../basics/#set) meta-data 'set' to the same string, allowing you to re-use that information later.
+> All the common image file formats will save this information with the image.
+> See [Montage using Saved Meta-Data](../montage/#metadata) for examples.
 
 By default the text is all left justified, however as of IM version 6.2.0, "`caption:`" respects "`-gravity`" for text justification purposes.
 
@@ -384,11 +379,9 @@ man convert | col -b | expand | \
 
 [![\[IM Output\]](caption_manual.gif)](caption_manual.gif)
 
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*There is no 'justified' text option to caption.
-But the [pango:](#pango) text formatter (using an external library), does have that feature, and a lot more.*
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> There is no 'justified' text option to caption.
+> But the [pango:](#pango) text formatter (using an external library), does have that feature, and a lot more.
 
 ------------------------------------------------------------------------
 
@@ -411,12 +404,11 @@ convert -background white -fill dodgerblue  -font Candice \
 [![\[IM Output\]](label_color.gif)](label_color.gif)
 
 For more details on these settings see [Undercolor Box](#box) below, and [Stroke, StrokeWidth](../draw/#stroke) in the drawing section.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*At this time, you can not use tiling images defined using "`-tile`", "`-fill`", "`-background`", and "`-origin`", with either "`label:`" or "`caption:`".
-Only solid colors can be used.
-Attempting to so will just produce a undefined (black) color.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> At this time, you can not use tiling images defined using "`-tile`", "`-fill`", "`-background`", and "`-origin`", with either "`label:`" or "`caption:`".
+> Only solid colors can be used.
+> Attempting to so will just produce a undefined (black) color.
 
 ### Pointsize, Density and the Actual Font Size {#pointsize}
 
@@ -463,11 +455,10 @@ As such one font can appear larger or smaller than another font, at the same poi
 Only the line spacing of the fonts will actually be the same, anything else is dependant on the font and the font's designer.
 
 As such with a default "`-density`" of 72dpi (at which 1 point = 1 pixel) a 12 point font should have 12 pixels separation between the baselines to two lines of text.
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-*Note that the height of a generated "`label:`" image is based on the images drawing area or bounding box, which is often, the fonts line spacing and pointsize.
-This is not always the case, as such just appending lines of text vertically is actually incorrect font handling!*
+
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> Note that the height of a generated "`label:`" image is based on the images drawing area or bounding box, which is often, the fonts line spacing and pointsize.
+> This is not always the case, as such just appending lines of text vertically is actually incorrect font handling!
 
 Some fonts may even extend well beyond the normal line separation boundaries, extending well above or more commonly below the line spacing.
 This is especially true of hand script fonts.
@@ -514,10 +505,9 @@ convert -background lightblue -fill blue -font LokiCola -pointsize 64 \
 [![\[IM Output\]](label_overflow_font.gif)](label_overflow_font.gif)
 
 As you can see IM manages to contain this font in a label without cutting of the fonts leader or trailing graphics.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before IM v6.3.2, "`label:`" would have chopped of the 'H' lead-in and parts of the tails from both characters, in the above example.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM v6.3.2, "`label:`" would have chopped of the 'H' lead-in and parts of the tails from both characters, in the above example.
 
 The reason this problem existed is because the fonts 'glyphs' or character description draw outside the fonts defined boundaries for specific letters, allowing them to overlap (generally either above or below) the other characters within the font.
 
@@ -553,15 +543,13 @@ convert -background lightblue -fill blue -pointsize 48 \
 
 [![\[IM Output\]](label_utf8.gif)](label_utf8.gif)
 
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-The font used in the above example is a special one, with the full set of Chinese Glyphs defined, such as the fedora linux fonts '`SimSun`' (or in the font file "`gkai00mp.ttf`"), "`ZenKaiUni`" (in the file "`ukai.ttf`") or "`ShanHeiSunUni`" (in any of the files "`uming.ttf`" or "`zysong.ttf`" or "`bsmi00lp.ttf`").
-  
-Note that the windows font '`Mincho`' (used in a later example) also defines many of the Chienese Glyphs but incompletely.
-If you use it with the above you will get some question marks for undefined glyphs.
-  
-The special script "`imagick_type_gen`" was used to find, extract the fonts proper name, and add the font into an ImageMagick "`type.xml`" configuration file.
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The font used in the above example is a special one, with the full set of Chinese Glyphs defined, such as the fedora linux fonts '`SimSun`' (or in the font file "`gkai00mp.ttf`"), "`ZenKaiUni`" (in the file "`ukai.ttf`") or "`ShanHeiSunUni`" (in any of the files "`uming.ttf`" or "`zysong.ttf`" or "`bsmi00lp.ttf`").
+>
+> Note that the windows font '`Mincho`' (used in a later example) also defines many of the Chienese Glyphs but incompletely.
+> If you use it with the above you will get some question marks for undefined glyphs.
+>
+> The special script "`imagick_type_gen`" was used to find, extract the fonts proper name, and add the font into an ImageMagick "`type.xml`" configuration file.
 
 We can also generate UTF-8 strings from unicode character codes using the 'GNU' "`printf`" program (on linux systems) to convert unicode numbers to the specific UTF-8 encoded string, in this case proper typeset opening and closing quotes (again no final newline in the UTF-8 input).
 
@@ -676,20 +664,18 @@ convert -pointsize 48 -font SoundFX  label:' V 3 t f 9 '  label_soundfx.gif
 
 This is only a small sample of what is available.
 Huge libraries of just about every symbol, shape, or image, imaginable is available on the WWW for you to browse and download.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Remember that each drawn character has two separate parts that can be drawn: the 'filled' area (which I showed above), and the 'stroke' or outline, which can look very different to the filled area.
-Each of these areas can be drawn separately, or in different colors, so it may be a good idea to examine a promising symbol or shape more closely, in a number of ways.
-You may get a very surprising result.
-See [Compound Fonts, Stroke](../fonts/#stroke) for some examples of doing this.*
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-Many creators of symbol fonts generate the shapes using a simple scanner and bitmap to vector converter, without any proper design or cleaning of the image or shape.
-Caution is recommended when looking at such 'scanned' fonts.
-  
-The last font shown above is one such example of a 'scanned' font, giving it a poor looking 'dotty' quality, when compared to the other more properly designed fonts.
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Remember that each drawn character has two separate parts that can be drawn: the 'filled' area (which I showed above), and the 'stroke' or outline, which can look very different to the filled area.
+> Each of these areas can be drawn separately, or in different colors, so it may be a good idea to examine a promising symbol or shape more closely, in a number of ways.
+> You may get a very surprising result.
+> See [Compound Fonts, Stroke](../fonts/#stroke) for some examples of doing this.
+>
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Many creators of symbol fonts generate the shapes using a simple scanner and bitmap to vector converter, without any proper design or cleaning of the image or shape.
+> Caution is recommended when looking at such 'scanned' fonts.
+>
+> The last font shown above is one such example of a 'scanned' font, giving it a poor looking 'dotty' quality, when compared to the other more properly designed fonts.
 
 ### Inter-character Kerning {#kerning}
 
@@ -821,20 +807,18 @@ Also there is a special '`@`' escape that if used at the start of a line will us
 
 Not only do these escape characters effect "`-format`", for use by the "`identify`" (as well as "`-identify`" and the "`info:`"), but they also effect "`label:`", and "`caption:`" text to image generators, and control the image meta-data setting options "`-label`", "`-comment`", "`-caption`".
 And finally they are also used by "`-annotate`".
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-While backslash '`\`' is used by the "`-draw`" '`text`' method, the percent '`%`' escapes are **not** as it interferes with ImageMagick's SVG image handling.
-This was one of the reasons the "`-annotate`" operator was created for IM version 6.
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> While backslash '`\`' is used by the "`-draw`" '`text`' method, the percent '`%`' escapes are **not** as it interferes with ImageMagick's SVG image handling.
+> This was one of the reasons the "`-annotate`" operator was created for IM version 6.
 
 The other important point about escape characters is that while they are used for command line text arguments.
 At no time do they apply within the data being read from a text file (usually read in using the '`@`' escape).
 
 This means you do not need to worry about escaping 'escapes' for text file data, but it also means you have to process file data yourself outside of IM if you need to insert information into the text.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Protecting input text file from escape handling was finalised in IM version 6.3.3.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Protecting input text file from escape handling was finalised in IM version 6.3.3.
 
 For example here I set and the report a images 'label' and 'comment' meta-data using the two methods to set that information from a source text file.
 The "`info.txt`" file contains the string [![\[IM Text\]](info.txt.gif)](info.txt), (no final newline).
@@ -930,12 +914,11 @@ convert -background lightblue -fill blue -font Candice -pointsize 48 \
 ~~~
 
 [![\[IM Output\]](label_escapes.gif)](label_escapes.gif)
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before IM version 6.3.2, you could not use a backslash to escape an initial '`@`' to turn off the 'read from a file' function.
-In that case the only way to escape an initial '`@`' was to read it from a file.
-This was not very practical in API's.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM version 6.3.2, you could not use a backslash to escape an initial '`@`' to turn off the 'read from a file' function.
+> In that case the only way to escape an initial '`@`' was to read it from a file.
+> This was not very practical in API's.
 
 Here is a similar 'escape the escapes' example for "`-annotate`"...
 
@@ -976,13 +959,12 @@ convert -background lightblue -fill blue -font Candice -pointsize 48 \
 [![\[IM Output\]](label_percent.gif)](label_percent.gif)
 
 If you see a '`abde`' (percent escape applied) or '`ab%cde`' (percent not applied) depends on exactly what version of IM you are using.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-IM v6.2.4, percent escapes were removed from "`label:`" and "`caption:`" as being non-sensible.
-  
-However they returned in IM v6.3.2, as a new '`%[fx:...]` construct, which can reference any image, made percent escapes in text to image generators useful again.
-See [FX Expression Escapes](../transform/#fx_escapes).
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> IM v6.2.4, percent escapes were removed from "`label:`" and "`caption:`" as being non-sensible.
+>
+> However they returned in IM v6.3.2, as a new '`%[fx:...]` construct, which can reference any image, made percent escapes in text to image generators useful again.
+> See [FX Expression Escapes](../transform/#fx_escapes).
 
 This 'what is escaped' was also a problem with regard to the handling of escapes from files.
 Before IM v6.3.3, the following would have produced two lines, rather than a single line.
@@ -1050,11 +1032,10 @@ printf "col1\tcol2\nabc\txyz\n123\t789" |\
 ~~~
 
 [![\[IM Output\]](pango_tabs.gif)](pango_tabs.gif)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Note that while the "`printf`" command above can generate tab characters, using the '`\t`' escape, IM does not understand the use of such an escape.
-It does however understand the '`\n`' escape sequence in strings.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Note that while the "`printf`" command above can generate tab characters, using the '`\t`' escape, IM does not understand the use of such an escape.
+> It does however understand the '`\n`' escape sequence in strings.
 
 However generating columns using TAB's does not work very well as you can't easily define the 'tab-stops' outside the API.
 As such using TAB's in this way is *not recommended*, except as line and paragraph indentation .
@@ -1151,11 +1132,10 @@ To see just what is posible see [Pango Script Gallery](http://www.pango.org/Scri
 
 If you do something interesting with pango, please contribute.
 Either [Mail Me](%20http://www.ict.griffith.edu.au/anthony/mail.shtml), or post it on the [IM Discussion Forum](../forum_link.cgi?f=1).
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-*On systems with pango installed you can also use the command "`pango-view`" for generate pango formated images.
-However its default 'density' or 'dpi' setting is your display (IM uses 72 dpi by default) and as such may vary from host to host.*
+
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> On systems with pango installed you can also use the command "`pango-view`" for generate pango formated images.
+> However its default 'density' or 'dpi' setting is your display (IM uses 72 dpi by default) and as such may vary from host to host.
 
 ------------------------------------------------------------------------
 
@@ -1165,14 +1145,13 @@ The "`text:`" input format is designed to convert plain text into images consist
 It is the 'paged text' input operator of ImageMagick.
 
 In other words its purpose is to convert the larger preformatted text files into pages in much the same way that printers print plain text onto separate pieces of paper.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Do **not** confuse the "`text:`" file input format with the similar "`txt:`" input format.
-The latter will first attempt to read the file as a '`IM pixel   enumeration`' image format.
-  
-That doesn't mean that a plain text file with a "`.txt`" will fail.
-In fact such a file will probably be converted as you would expect, as the "`txt:`" file format will automatically fall back to the "`text:`" format if a enumerated image is not recognised.
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Do **not** confuse the "`text:`" file input format with the similar "`txt:`" input format.
+> The latter will first attempt to read the file as a '`IM pixel   enumeration`' image format.
+>
+> That doesn't mean that a plain text file with a "`.txt`" will fail.
+> In fact such a file will probably be converted as you would expect, as the "`txt:`" file format will automatically fall back to the "`text:`" format if a enumerated image is not recognised.
 
 Handling text in this way however had a number of problems.
 First the text is drawn onto a large canvas, leaving you with the problem of removing the unused space, if such space is not wanted.
@@ -1184,14 +1163,13 @@ You also do not need to pre-process and special characters as you would if you u
 Finally and more importantly if a fixed width font (like Courier) is used, files with spaced out columns of data, will still have that data in spaced out columns.
 
 Basically "`text:`" will convert the input file 'AS IS'.
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-The input text data read from the file is essentially passed directly to the font library to draw the UTF text.
-As a consequence of this some control characters may be drawn using unusual 'glyphs'.
-This includes `TAB` and `FORMFEED` characters, which, at the time of writing, the 'freetype' library gets wrong.
-  
-If this is a concern, you may like to pre-process your text file using a filter program, such as "`expand`", to convert `TAB` characters into the appropriate number of spaces.
+
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> The input text data read from the file is essentially passed directly to the font library to draw the UTF text.
+> As a consequence of this some control characters may be drawn using unusual 'glyphs'.
+> This includes `TAB` and `FORMFEED` characters, which, at the time of writing, the 'freetype' library gets wrong.
+>
+> If this is a concern, you may like to pre-process your text file using a filter program, such as "`expand`", to convert `TAB` characters into the appropriate number of spaces.
 
 When drawing text, a large 'letter' sized page is created (or the page size or type specified with a "`-page`" )at the current resolution (set with "`-density`").
 By default (at 72 dpi) this will be '`612x792`' pixels in size, which for most purposes is very large.
@@ -1204,13 +1182,12 @@ man convert | col -b | expand | \
 ~~~
 
 [![\[IM Output\]](../img_www/doc_page.png)](text_manpage.gif)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-The above manual to image conversion however generates multiple pages (images), so I [Deleted](../basics/#delete) the second and later ones to leave me with just the first page, instead of a GIF animation of all the pages.
-  
-I could also have appended a [Read Modifier](../files/#read_mods), '`[0]`' input filename, such as "`text:-'[0]'`", to tell IM only to read the first image generated.
-Though at this time all the page selection is still handled by generating all pages and deleting the unwanted pages.
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The above manual to image conversion however generates multiple pages (images), so I [Deleted](../basics/#delete) the second and later ones to leave me with just the first page, instead of a GIF animation of all the pages.
+>
+> I could also have appended a [Read Modifier](../files/#read_mods), '`[0]`' input filename, such as "`text:-'[0]'`", to tell IM only to read the first image generated.
+> Though at this time all the page selection is still handled by generating all pages and deleting the unwanted pages.
 
 I purposely used the 'fixed-width' font '`CourierNew`' in the above so as to preserve the character spaced formatting that is present in the printed page.
 
@@ -1290,15 +1267,13 @@ echo "This is a long line that shows that 'text:' does not word wrap." |\
 
 [![\[IM Output\]](text_page.gif)](text_page.gif)
 
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Almost all other image creation operators use the "`-page`" setting to set a larger virtual 'canvas' and an 'offset' for the image on that canvas, generally for the purpose of layering images or generating animations.
-Because of this it is probably a good idea to reset your page setting using "`+page`" after any "`text:`" or "`ps:`" operation, or you may get unexpected results for any secondary images you may latter read in on the same command line.
-  
-This also is why I added a "`+repage`" operator to the above example otherwise the text is offset, and the image generated is also offset!
-  
-For more details of using this offset see [Page Image Attributes](../basics/#page).
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Almost all other image creation operators use the "`-page`" setting to set a larger virtual 'canvas' and an 'offset' for the image on that canvas, generally for the purpose of layering images or generating animations.
+> Because of this it is probably a good idea to reset your page setting using "`+page`" after any "`text:`" or "`ps:`" operation, or you may get unexpected results for any secondary images you may latter read in on the same command line.
+>
+> This also is why I added a "`+repage`" operator to the above example otherwise the text is offset, and the image generated is also offset!
+>
+> For more details of using this offset see [Page Image Attributes](../basics/#page).
 
 Note how in the last example, any text line that is too long to fit the width of the page will overflow the page, and not be 'wrapped'.
 This will effectively crop and junk the end of the lines.
@@ -1446,13 +1421,12 @@ convert ps_version.gif -negate -background black -alpha shape  ps_overhead.png
 Like the "`text:`" converter above, the "`ps:`" converter also makes use of the "`-page`" setting to set the canvas size of the image 'media' onto which the page is drawn.
 Though offset supplied will be ignored.
 However as most postscript files define the drawing media size internally, this is usually not necessary.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Most other image creation operators use the "`-page`" setting to set a 'virtual canvas' and a ofset on that virtual canvas (for example to generate GIF animations).
-As such it is probably a good idea to reset it using "`+page`" after using it for a "`text:`" or "`ps:`" image read operation, otherwise you may get unexpected results with the later images.
-  
-For more details of using this offset see [Page Image Attributes](../basics/#page).
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Most other image creation operators use the "`-page`" setting to set a 'virtual canvas' and a ofset on that virtual canvas (for example to generate GIF animations).
+> As such it is probably a good idea to reset it using "`+page`" after using it for a "`text:`" or "`ps:`" image read operation, otherwise you may get unexpected results with the later images.
+>
+> For more details of using this offset see [Page Image Attributes](../basics/#page).
 
 As a final practical example, have a look at my [Ray Traced Tetrahedron](http://www.ict.griffith.edu.au/anthony/graphics/polyhedra/platonic/tetrahedron.jpg) image.
 Other similar images can be seen in [Studies into Polyhedra](http://www.ict.griffith.edu.au/anthony/graphics/polyhedra/).
@@ -1521,14 +1495,12 @@ convert -size 320x100 xc:lightblue  -font Candice -pointsize 72 \
 
 [![\[IM Output\]](text_options.gif)](text_options.gif)
 
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-As of IM version 6.2.4, the "`-draw` text" operation no longer understands the use of '`\n`' as meaning newline, or the use of percent '`%`' image information escapes.
-(See [Drawing a Percent Bug](../bugs/draw_percent/)).
-  
-These abilities, and problems, however remain available in the new IM v6 operator "`-annotate`".
-See the [Annotate Text Drawing Operator](#annotate) below.
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> As of IM version 6.2.4, the "`-draw` text" operation no longer understands the use of '`\n`' as meaning newline, or the use of percent '`%`' image information escapes.
+> (See [Drawing a Percent Bug](../bugs/draw_percent/)).
+>
+> These abilities, and problems, however remain available in the new IM v6 operator "`-annotate`".
+> See the [Annotate Text Drawing Operator](#annotate) below.
 
 All the above options can also be used within the "`-draw`" (MVG - Magick Vector Graphic) string.
 However if you set the above option within the draw argument, that option will only apply to that specific draw MVG string.
@@ -1589,12 +1561,11 @@ convert -size 500x200  xc:lightblue \
 
 Also note how the '`H`' actually overflows on the left side as well as the right side of its drawing area.
 This can make it difficult to use at the beginning of lines.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Remember this problem is NOT a bug in IM, but caused by the interaction of the font library IM uses, and the settings within the font itself, usually on purpose by the font designer.
-IM just uses the results as they are programmed in the font, which does not always produce what the user intended.
-Caution is thus advised with unusual fonts.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Remember this problem is NOT a bug in IM, but caused by the interaction of the font library IM uses, and the settings within the font itself, usually on purpose by the font designer.
+> IM just uses the results as they are programmed in the font, which does not always produce what the user intended.
+> Caution is thus advised with unusual fonts.
 
 ## Annotate - Text Drawing Operator {#annotate}
 
@@ -1647,12 +1618,10 @@ convert -size 320x100 xc:lightblue -font Candice -pointsize 72 \
 
 [![\[IM Output\]](annotate_rotated.gif)](annotate_rotated.gif)
 
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Note that the angle given to "`-annotate`" must be positive for IM to understand it correctly).
-The exception to this is if a comma-separated 4 number form of [Geometry Argument](../basics/#arg_geometry) is used.
-For example "*`-annotate '-10,-10,20,90' 'Anthony'`*", could have been used in the last example.*
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Note that the angle given to "`-annotate`" must be positive for IM to understand it correctly).
+> The exception to this is if a comma-separated 4 number form of [Geometry Argument](../basics/#arg_geometry) is used.
+> For example "*`-annotate '-10,-10,20,90' 'Anthony'`*", could have been used in the last example.
 
 This can be used to generate angled condensed labeling.
 For example...
@@ -1731,12 +1700,10 @@ convert -font Ravie -pointsize 72  label:'Get Wet!' -border 10 \
 
 [![\[IM Output\]](autosize_wet.jpg)](autosize_wet.jpg)
 
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Note that position of the text in a centered "`label:`" image may not exactly match the position of a centered "`-annotate`" operation.
-The two methods follow completely different processing algorithms, and as such may not match.
-Especially when unusual fonts are involved.*
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Note that position of the text in a centered "`label:`" image may not exactly match the position of a centered "`-annotate`" operation.
+> The two methods follow completely different processing algorithms, and as such may not match.
+> Especially when unusual fonts are involved.
 
 ### Auto Sized using 'Undercolor Box' {#autosize_box}
 
@@ -1861,10 +1828,9 @@ convert -debug annotate  xc: -font Candice -pointsize 24 \
 As you can see you get a mixed bag of information you can use: from the declared bounds of the drawn string (which is not nessarilly the strings actual bounds), relative to the origin; to the amount the 'carat' (origin) should advance before drawing the next string.
 
 The full debug output (which is rather verbose, and not shown in the above) also reports the actual font file used (twice) so you can also use it to check that you have the right font too.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The "`-debug   annotate`" method was added to IM v6.3.9-2*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The "`-debug   annotate`" method was added to IM v6.3.9-2
   
 ### Older techniques {#font_info_legacy}
 
@@ -1897,13 +1863,12 @@ convert -size 100x150 xc:lightblue -font Ravie -pointsize 72 \
 From the results above we can see that a '`Ravie`' font at 72 points, will have a total bounding box height of 74 pixels.
 The top of the box is 42 pixels from the top of the image, as the baseline which was positioned at a 100 pixels y coordinate, the box starts is 100 - 42 or 58 pixels above the baseline.
 That leaves 74 - 58 or 16 pixels for the bounding box below the baseline for the descenders.
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-*Note that not all fonts limit their drawing to within their defined drawing bounding box!
-However some letters can extend far outside those boundaries.
-That is why the above example sets a "`-fill`" color of '`none`'.
-That way ill behaved fonts will not effect the above measurements.*
+
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> Note that not all fonts limit their drawing to within their defined drawing bounding box!
+> However some letters can extend far outside those boundaries.
+> That is why the above example sets a "`-fill`" color of '`none`'.
+> That way ill behaved fonts will not effect the above measurements.
 
 Also note that the distance separating lines (baselines actually) should be purely determined by the point size of the font, and has nothing to do with how the font is drawn.
 In out example, as the font has a point size of 72 points, and a point is defined as 1/72th of an inch, then the baselines should be 1 inch apart.
@@ -1936,16 +1901,14 @@ Note that while this gives you the actual drawn string length, this is different
 In other words text should be appended together using their bounding boxes, and not their actual drawn length size as we have do in other examples.
 
 Of course if you get a very ill-behaved font, you may like to check how far a specific string draws beyond its bounds so that you can still provide space for it, say at the end of a line.
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-*The dimensions extracted from a font will also vary with the current "`-strokewidth`" used for drawing the font.
-If you increase the size of the outline stroke, then the dimensions (and bounding box size) needed to draw the font is also expanded by the same amount to accommodate the thicker outline.*
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-*Dimensions also vary with the operating system, (type and version) and the version of the delegate font drawing library IM is using on that system, even when the exact same font library and IM version has not changed.
-Caution is recommended when different computers could be used for text drawing, as results can vary even for the same font.*
+
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> The dimensions extracted from a font will also vary with the current "`-strokewidth`" used for drawing the font.
+> If you increase the size of the outline stroke, then the dimensions (and bounding box size) needed to draw the font is also expanded by the same amount to accommodate the thicker outline.
+>
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> Dimensions also vary with the operating system, (type and version) and the version of the delegate font drawing library IM is using on that system, even when the exact same font library and IM version has not changed.
+> Caution is recommended when different computers could be used for text drawing, as results can vary even for the same font.
 
 For more information see the document [TrueType Fundamentals (PDF)](http://www.microsoft.com/typography/otspec/TTCH01.htm).
 This shows that even my generalizations above may not always hold true, though is generally the case.
