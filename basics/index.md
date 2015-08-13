@@ -311,45 +311,49 @@ This style of command line is for legacy support only, and as such is deprecated
 
 There is a couple of major differences between a command line IM, and using the Magick API's, such as PerlMagick, RMagick, PHP IMagick, and MagickWand.
 
-**Only one Active Image List**  
-The command line only ever has one Image List which can be worked on at any one moment.
+Only one Active Image List
 
-You can 'push' or save an image list temporary (see [Parenthesis](#parenthesis) and [MPR: Named Memory Registers](../files/#mpr)). You can even 'clone' (make a efficent copy) of images from the last 'pushed' list. But you can't really work on two such lists at the same time.
+:    The command line only ever has one Image List which can be worked on at any one moment.
 
-Other language API's on the other hand allow you to have as many separate image lists or 'wands' as you like. In fact you typically save each image as a separate wand (image list and settings) for better processing and only merge the image into a list as needed or as part of the final step. You can also work on them in any order, and store them into databases or other data structures, for sorting or later comparison.
+     You can 'push' or save an image list temporary (see [Parenthesis](#parenthesis) and [MPR: Named Memory Registers](../files/#mpr)). You can even 'clone' (make a efficent copy) of images from the last 'pushed' list. But you can't really work on two such lists at the same time.
 
-On the command line however one single image list means you can not do operations in just any order, but generally try to do things in a more logical sequence, completely finishing each image processing step as you go. Basically it means is much harder to 'go back' or to change something later, using results from one set of operations to select or modify what set of processing operations should be performed next.
+     Other language API's on the other hand allow you to have as many separate image lists or 'wands' as you like. In fact you typically save each image as a separate wand (image list and settings) for better processing and only merge the image into a list as needed or as part of the final step. You can also work on them in any order, and store them into databases or other data structures, for sorting or later comparison.
 
-It is especially more difficult to merge or interleave (shuffle) two completely separate lists of images into a logical whole. However some techniques have been worked out, to allow you to do this from the command line. For example see [Multi-Layer Alpha Composition of Image Lists](../anim_mods/#composite).
+     On the command line however one single image list means you can not do operations in just any order, but generally try to do things in a more logical sequence, completely finishing each image processing step as you go. Basically it means is much harder to 'go back' or to change something later, using results from one set of operations to select or modify what set of processing operations should be performed next.
 
-**Direct Access to Pixel Data**  
-Again you can do some math processing and merging of pixel data from the command line, but you can't easily look up attributes, or read and modify a specific pixel or area using the command line interface.
+     It is especially more difficult to merge or interleave (shuffle) two completely separate lists of images into a logical whole. However some techniques have been worked out, to allow you to do this from the command line. For example see [Multi-Layer Alpha Composition of Image Lists](../anim_mods/#composite).
 
-You can merge and mathematically modify pixel data of images using the special [FX Image Operator](../transform/#fx), but it is generally limited to transforming whole images, and very very slow.
+Direct Access to Pixel Data
 
-To make it easier many common operations developed by users using the FX operator, have now been built into IM, creating things like [Color Lookup Tables](../color_mods/#clut), [Evaluate Math Functions](../transform/#evaluate), and [Multi Argument Functions](../transform/#function). As well as the [General Image Distortion Operator](../distorts/#distort), and some special [Image Composition Methods](../compose/#composite).
+:    Again you can do some math processing and merging of pixel data from the command line, but you can't easily look up attributes, or read and modify a specific pixel or area using the command line interface.
 
-API's can manipulate images in a much more direct manner, alowing you to DIY a unique operation much more easilly, at the full speed provided by the API language.
+     You can merge and mathematically modify pixel data of images using the special [FX Image Operator](../transform/#fx), but it is generally limited to transforming whole images, and very very slow.
 
-**Conditional Processing**  
-While the IM command line interface can not easilly modify images based on some image derived attribute. For example it is very hard to process images differently depending on if the image uses a light background, or a dark background.
+     To make it easier many common operations developed by users using the FX operator, have now been built into IM, creating things like [Color Lookup Tables](../color_mods/#clut), [Evaluate Math Functions](../transform/#evaluate), and [Multi Argument Functions](../transform/#function). As well as the [General Image Distortion Operator](../distorts/#distort), and some special [Image Composition Methods](../compose/#composite).
 
-Yes you can do some limited and specific conditional actions using the [FX Image Operator](../transform/#fx), or ask IM to adjust (rotate) an image's [Orientation](../photos/#orient) based on certain conditions, or only shrink and never enlarge when [Resizing Images](../resize/#resize). But these are only handling special well known and common processing conditions.
+     API's can manipulate images in a much more direct manner, alowing you to DIY a unique operation much more easilly, at the full speed provided by the API language.
 
-The only truly practical way do conditional processing is to use separate commands and temporary files. For an example of this see the well commented [Jigsaw Script](../scripts/jigsaw).
+Conditional Processing
 
-API's on the other hand can do this type of conditional processing, while holding all the images involved in memory, ready to continue processing based on the specific conditions, as and when you need it.
+:    While the IM command line interface can not easilly modify images based on some image derived attribute. For example it is very hard to process images differently depending on if the image uses a light background, or a dark background.
 
-**Looped Processing**  
-You also cannot just simply loop over images in a controlled manner, or easily modify the process based on which image in the sequnece is being handled. that is you can not simply do something different to each image based on the image 'scene' number, or the results of previous images. For example draw text at different sizes, or gradually blur an image, or generate an animation list in the one single command.
+     Yes you can do some limited and specific conditional actions using the [FX Image Operator](../transform/#fx), or ask IM to adjust (rotate) an image's [Orientation](../photos/#orient) based on certain conditions, or only shrink and never enlarge when [Resizing Images](../resize/#resize). But these are only handling special well known and common processing conditions.
 
-Yes you can modify specific images in a image list. For example see [Frame by Frame Modification of an Animation](../anim_mods/#frame_mod). But you must know how many images are in the image list, and 'un-roll' the loop to process each image in the list separately.
+     The only truly practical way do conditional processing is to use separate commands and temporary files. For an example of this see the well commented [Jigsaw Script](../scripts/jigsaw).
 
-The only truly practical way to loop over images from the command line is to write out the individual images as separate image files (see [Writing a Multiple Images](files/#write_list)) and process them one at a time in an external scripted loop. For example see the shell script that is designed to [Divide an Image Vertically](../scripts/divide_vert).
+     API's on the other hand can do this type of conditional processing, while holding all the images involved in memory, ready to continue processing based on the specific conditions, as and when you need it.
 
-Alternatively, you can generate the images using a shell script loop, and pipe the result into a final command to merge them into the final image or image sequence. For example of this see [Layered Images Examples](../layers/#layer_examples), or the various [Warped Image Animations](../warping/#animations) shell script generators.
+Looped Processing
 
-API's however have no problem with looping over multiple images, either in a single image list, or even multiple image lists, or even with a whole array or data structure of image lists. It can also hold all the images in memory ready for the final combining step, without pipelining, or using temporary files.
+:    You also cannot just simply loop over images in a controlled manner, or easily modify the process based on which image in the sequnece is being handled. that is you can not simply do something different to each image based on the image 'scene' number, or the results of previous images. For example draw text at different sizes, or gradually blur an image, or generate an animation list in the one single command.
+
+     Yes you can modify specific images in a image list. For example see [Frame by Frame Modification of an Animation](../anim_mods/#frame_mod). But you must know how many images are in the image list, and 'un-roll' the loop to process each image in the list separately.
+
+     The only truly practical way to loop over images from the command line is to write out the individual images as separate image files (see [Writing a Multiple Images](files/#write_list)) and process them one at a time in an external scripted loop. For example see the shell script that is designed to [Divide an Image Vertically](../scripts/divide_vert).
+
+     Alternatively, you can generate the images using a shell script loop, and pipe the result into a final command to merge them into the final image or image sequence. For example of this see [Layered Images Examples](../layers/#layer_examples), or the various [Warped Image Animations](../warping/#animations) shell script generators.
+
+     API's however have no problem with looping over multiple images, either in a single image list, or even multiple image lists, or even with a whole array or data structure of image lists. It can also hold all the images in memory ready for the final combining step, without pipelining, or using temporary files.
 
 If your application needs to be able to do any of these things (though few applications actually need to go this far) then an API may be a better choice.
 
@@ -595,18 +599,21 @@ As we are only needing basic information we used the [Ping](#ping) control to pr
 
 #### Extra Cavats about Identify {#identify_cavats}
 
-**Specific Format Details**  
-Normally IM reads in the image into memory (which is essentially into own internal data format), using various image library APIs and delegate programs, before outputting the results it sees using identify. That is "`identify`" analyzes the image/data content it has read in and stored. It does not analyze how the specific file format stores or handles the image data.
+Specific Format Details
 
-This is important as there can be very specific aspects of specific file formats that "`identify`" will not report on. For example while it lists the contents of a GIF image color table for each image present (multiple images are possible), it will not tell you if all the images in the file share the same color table or not.
+:    Normally IM reads in the image into memory (which is essentially into own internal data format), using various image library APIs and delegate programs, before outputting the results it sees using identify. That is "`identify`" analyzes the image/data content it has read in and stored. It does not analyze how the specific file format stores or handles the image data.
 
-If you need specific info about specific image file format, it may be better to use a tool designed specifically for that format. For example "[giftrans](/~anthony/software/#giftrans)" for the GIF file format, and "jpegtrans" for the JPEG file format.
+     This is important as there can be very specific aspects of specific file formats that "`identify`" will not report on. For example while it lists the contents of a GIF image color table for each image present (multiple images are possible), it will not tell you if all the images in the file share the same color table or not.
 
-**Color Histogram Output**  
-Note that if image has more that 1024 color no histogram or color tables will be included in the verbose output. To force the generation of this information you can use the special '[`histogram:`](../files/#histogram)' file format which includes everything as a large image comment.
+     If you need specific info about specific image file format, it may be better to use a tool designed specifically for that format. For example "[giftrans](/~anthony/software/#giftrans)" for the GIF file format, and "jpegtrans" for the JPEG file format.
 
-**Exit Status**  
-The identify program returns a non-zero exit status if a corrupted image is encountered and you add a [Regard Warnings Control](#regard-warnings).
+Color Histogram Output
+
+:    Note that if image has more that 1024 color no histogram or color tables will be included in the verbose output. To force the generation of this information you can use the special '[`histogram:`](../files/#histogram)' file format which includes everything as a large image comment.
+
+Exit Status
+
+:    The identify program returns a non-zero exit status if a corrupted image is encountered and you add a [Regard Warnings Control](#regard-warnings).
 
 ~~~
 error=`identify -regard-warnings image 2>&1 >/dev/null;`
@@ -1624,22 +1631,25 @@ Yes I am being vague, because until you get to specifics it is very hard not to 
 
 All these values are stored with the in memory images in three different ways...
 
-**Attributes**  
-These are stored as special data structure items for each image, generally so as to allow fast and direct access by the various image processing operators. For example: image size, virtual canvas geometry, background, fill, stroke, matte colors, pointsize, density, font, compose, interpolate, virtual-pixel method, profile blocks, time delay and disposal settings; and many more things.
+Attributes
 
-Note that some of these are 'specific' to each image, while others are treated as a 'global' setting that is set to the same value across all images by the CLI interface, even though they are still stored as part of each individual image.
-Attributes are typically modified using the many options, as part of the normal image processing, or more generally using [Set](#set).
+:    These are stored as special data structure items for each image, generally so as to allow fast and direct access by the various image processing operators. For example: image size, virtual canvas geometry, background, fill, stroke, matte colors, pointsize, density, font, compose, interpolate, virtual-pixel method, profile blocks, time delay and disposal settings; and many more things.
 
-**Properties**  
-These are a freeform set of key-value strings that are attached to each image on an individual basis. Each image can have a completely different set of strings. Essentially they are meta-data items that do not need to be accessed or decoded regularly, or are used in some special way.
+     Note that some of these are 'specific' to each image, while others are treated as a 'global' setting that is set to the same value across all images by the CLI interface, even though they are still stored as part of each individual image.
+     Attributes are typically modified using the many options, as part of the normal image processing, or more generally using [Set](#set).
 
-Typical examples of this are: label, caption, and comment strings; creation and modified dates; user defined strings; results from some operators.
-Users can use [Set](#set) to set or change these, as long as the 'key' does not correspond to some known 'attribute'.
+Properties
 
-**Artifacts**  
-This is a global set of freeform strings that is common across all images.
-It is used to hold freeform global settings that define or modify the reading and image processing of all the images. An example of which is the "`verbose`" setting that causes some operations to output general information about there actions, including more verbose identify output.
-Users can modify these global values using [Define](#define) (see below), or with a special case of the [Set](#set), (see [Using Set "Option:" to Define and Artifact](#set_option)).
+:    These are a freeform set of key-value strings that are attached to each image on an individual basis. Each image can have a completely different set of strings. Essentially they are meta-data items that do not need to be accessed or decoded regularly, or are used in some special way.
+
+    Typical examples of this are: label, caption, and comment strings; creation and modified dates; user defined strings; results from some operators.
+    Users can use [Set](#set) to set or change these, as long as the 'key' does not correspond to some known 'attribute'.
+
+Artifacts
+
+:    This is a global set of freeform strings that is common across all images.
+     It is used to hold freeform global settings that define or modify the reading and image processing of all the images. An example of which is the "`verbose`" setting that causes some operations to output general information about there actions, including more verbose identify output.
+     Users can modify these global values using [Define](#define) (see below), or with a special case of the [Set](#set), (see [Using Set "Option:" to Define and Artifact](#set_option)).
 
 Understanding these three storage methods is the key to knowing how settings and meta-data handling works within ImageMagick. And allow you to do some very advanced and normally difficult to achieve image processing techniques.
 
