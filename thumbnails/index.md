@@ -144,11 +144,10 @@ convert -define jpeg:size=240x180 image.jpg -thumbnail 120x90 thumbs/image.gif
 mogrify -path thumbs -format gif -define jpeg:size=240x180 -thumbnail 120x90 '*.jpg'
 ~~~
 
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before IM v6.5.4-7 the "`-thumbnail`" would strip ALL profiles from the image, including the ICC color profiles.
-From this version onward the color profiles will be preserved.
-If the color profile is not wanted then "`-strip`" all profiles.*
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM v6.5.4-7 the "`-thumbnail`" would strip ALL profiles from the image, including the ICC color profiles.
+> From this version onward the color profiles will be preserved.
+> If the color profile is not wanted then "`-strip`" all profiles.
 
 The "`mogrify`" will of course generate thumbnails for a whole directory of JPEG images, but be careful it does not overwrite any thumbnails you want to keep.
 For a number of other non-IM methods for looping over a large number of images see the example section for [Batch Processing - Without using Mogrify](../basics/#mogrify_not).
@@ -160,14 +159,13 @@ However for thumbnailing JPEG images, a even better method of limiting the initi
 
 The "`-define jpeg:size=`" setting (as shown in the above example) is a special hint to the JPEG image library to reduce the amount data that is read in from VERY BIG JPEG images.
 See [Reading JPEG Files](../formats/#jpg_read).
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-Before IM v6.5.6-0 this coder setting was extracted from the "`-size`" setting.
-This caused problems when users used "`-size`" for image creation but then had JPEG reading produce unexpected results.
-As such this was changed to be a special coder setting instead.
-  
-In older versions of IM you may need to reset the setting using "`+size` before reading JPEG images, because of this 'dual' role.
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM v6.5.6-0 this coder setting was extracted from the "`-size`" setting.
+> This caused problems when users used "`-size`" for image creation but then had JPEG reading produce unexpected results.
+> As such this was changed to be a special coder setting instead.
+>
+> In older versions of IM you may need to reset the setting using "`+size` before reading JPEG images, because of this 'dual' role.
 
 From IM version 6.2.6-2, a new [Read Image Modifier](../files/#read_mods) was added, which lets you resize the input image immediately after it is read in.
 This option will work with ANY image format, not just JPEG image.
@@ -231,18 +229,16 @@ mogrify  -format gif -define jpeg:size=500x180 -auto-orient \
               -thumbnail 250x90 -unsharp 0x.5  '*.jpg'
 ~~~
 
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Note that "`mogrify`" will blindly create thumbnails, replacing any existing images of the same name.
-GIF images in this case.
-Extreme caution is always advised when using this command.
-  
-Backup copies are always recommended before doing any processing.
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-*Instead of specifying a different format (using "`-format`") so as to prevent "`mogrify`" from overwriting the original source images, you can use a "`-path`" setting to define a separate thumbnail directory.
-You can use both output options.*
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Note that "`mogrify`" will blindly create thumbnails, replacing any existing images of the same name.
+> GIF images in this case.
+> Extreme caution is always advised when using this command.
+>
+> Backup copies are always recommended before doing any processing.
+>
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> Instead of specifying a different format (using "`-format`") so as to prevent "`mogrify`" from overwriting the original source images, you can use a "`-path`" setting to define a separate thumbnail directory.
+> You can use both output options.
 
 While "`mogrify`" can output the new images with a different suffix ("`-format`") or directory ("`-path`"), they are your only options using this command.
 
@@ -293,11 +289,10 @@ convert -define jpeg:size=200x200 hatching_orig.jpg -thumbnail '100x100>' \
 ~~~
 
 [![\[IM Output\]](pad_crop.gif)](pad_crop.gif)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*The "`+repage`" operator is important to remove any 'virtual canvas' or 'page' information that crop preserves.
-IM v5 users need to use "`-page +0+0`" instead.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The "`+repage`" operator is important to remove any 'virtual canvas' or 'page' information that crop preserves.
+> IM v5 users need to use "`-page +0+0`" instead.
   
 As of IM version 6.2.5, you can also use a [Viewport Crop](../crop/#crop_viewport), and flatten the result onto a background color.
 
@@ -340,11 +335,10 @@ convert -define jpeg:size=200x200 hatching_orig.jpg  -thumbnail 100x100^ \
 As you can see the thumbnail of the image is much larger and more detailed, but at a cost of cutting off the sides off the original image.
 
 For more information on this option see [Resize to Fill Given Area](../resize/#fill).
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Before IM v6.3.8-3 when this special flag was added, you would have needed some very complex trickiness to achieve the same result.
-See [Resizing to Fill a Given Space](../resize/#space_fill) for details.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Before IM v6.3.8-3 when this special flag was added, you would have needed some very complex trickiness to achieve the same result.
+> See [Resizing to Fill a Given Space](../resize/#space_fill) for details.
 
 ### Area Fit Thumbnail Size {#areafit}
 
@@ -450,10 +444,9 @@ convert thumbnail.gif -set option:size '%[fx:min(w,h)]x%[fx:min(w,h)]' \
 ~~~
 
 [![\[IM Output\]](square_internal_2.gif)](square_internal_2.gif)
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*IMv7 will allow you to do the above mathematics directly as part of a crop or extent argument, which will prevent loss of image meta-data.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> IMv7 will allow you to do the above mathematics directly as part of a crop or extent argument, which will prevent loss of image meta-data.
 
 ### Manual Cropping {#manual}
 
@@ -891,10 +884,9 @@ convert thumbnail.gif \
 [![\[IM Output\]](rounded_corners_red.png)](rounded_corners_red.png)
 
 Unfortunately this method can not be used to simply 'erase' the image corners to transparency, due to an interaction with a 'background canvas' of the [Flatten Operation](../layers/#flatten), a future layering operator may solve this.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The last example will fail for versions of IM before v6.6.6-5 due to both the "`-flip`" and the "`-flop`" operators not handling the virtual canvas offset correctly.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The last example will fail for versions of IM before v6.6.6-5 due to both the "`-flip`" and the "`-flop`" operators not handling the virtual canvas offset correctly.
 
 Using a [Polar Cycle Trick](../distorts/#polar_tricks) we can generate a perfect anti-aliased circle mask for any thumbnail.
 
@@ -1067,12 +1059,11 @@ convert thumbnail.gif \
 ~~~
 
 [![\[IM Output\]](poloroid_stack.png)](poloroid_stack.png)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*The " `convert ...` " embedded command in the above example generates a random floating point number from -15 to +15.
-For more infomation on using IM as a mathematical calculator see [FX Expressions](../transform/#fx_escapes).
-An alternative is to assign random numbers to shell variables and substitute them into the above command instead.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The " `convert ...` " embedded command in the above example generates a random floating point number from -15 to +15.
+> For more infomation on using IM as a mathematical calculator see [FX Expressions](../transform/#fx_escapes).
+> An alternative is to assign random numbers to shell variables and substitute them into the above command instead.
 
 Of course you could substitute a set of different images rather than repeating the same image when creating the stack.
 Or select a set of rotates angles so they are all reasonably different, or are more pleasing to look at.
@@ -1153,10 +1144,9 @@ convert thumbnail.gif \
 ~~~
 
 [![\[IM Output\]](self_bordered.gif)](self_bordered.gif)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Instead of using [Level Adjustments](../color_mods/#level_plus) to brighten (or darken) the framing image, an alternative way of making the border a lighter or darker color is to [Color Tint](../color_mods/#colorize) the frame using something like... "`-fill white -colorize 30%`"*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Instead of using [Level Adjustments](../color_mods/#level_plus) to brighten (or darken) the framing image, an alternative way of making the border a lighter or darker color is to [Color Tint](../color_mods/#colorize) the frame using something like... "`-fill white -colorize 30%`"
 
 Another way of color tinting the image to generate the frame, you can simply get IM to overlay a semi-transparent [Frame](../crop/#frame) on top of the enlarged image.
 However this requires you to know the size of the thumbnail so as to exactly resize it exactly the right amount to accommodate the generated frame.
@@ -1293,10 +1283,9 @@ convert thumbnail.gif \
 ~~~
 
 [![\[IM Output\]](inside_frame_blur.gif)](inside_frame_blur.gif)
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*Some [Light Composition Methods](../compose/#light) may require you to [Swap the Images](../basics/#swap) before you compose them to get the correct lighting effect.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> Some [Light Composition Methods](../compose/#light) may require you to [Swap the Images](../basics/#swap) before you compose them to get the correct lighting effect.
 
 To take this type of effect even further, producing much more complex results see the advanced [Lighting Effect Mask](#lighting_mask).
 
@@ -1515,12 +1504,10 @@ convert thumbnail.gif \
 
 [![\[IM Text\]](rounded_corner.mvg.gif)](rounded_corner.mvg)
 
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*If you can figure out the image size in a different way (using the shell, or other API language wrapper) you can substitute the appropriate draw parameters directly into the next examples, rather then use an FX mathematical expression.
-Basically the above makes this whole process independent of the actual size of the thumbnail.
-Any other way, including direct hard coding is also acceptable.*
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> If you can figure out the image size in a different way (using the shell, or other API language wrapper) you can substitute the appropriate draw parameters directly into the next examples, rather then use an FX mathematical expression.
+> Basically the above makes this whole process independent of the actual size of the thumbnail.
+> Any other way, including direct hard coding is also acceptable.
 
 Now we can use this to generate overlay and a mask image.
 As part of this we create a [Transparent Canvas](../canvas/#transparent) using the original image (which is first enlarged by the stroke-width), to get the size right.
@@ -1752,12 +1739,11 @@ convert thumbnail.gif   -alpha set  -compose Copy \
 ~~~
 
 [![\[IM Output\]](fancy_border.gif)](fancy_border.gif)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Note that to preserve the transparent border that is being added, you must set "`-compose`" setting to '`Copy`' rather than the default of '`Over`'.
-If you don't then the transparency will be filled by the next border color added, in this case with 'Black'.
-See the [Border Operator](../crop/#border) for details.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Note that to preserve the transparent border that is being added, you must set "`-compose`" setting to '`Copy`' rather than the default of '`Over`'.
+> If you don't then the transparency will be filled by the next border color added, in this case with 'Black'.
+> See the [Border Operator](../crop/#border) for details.
 
 The beauty of only using corner masks is that any size image can be framed using this technique, as long as it is large enough for the corner masks being added.
 That is you are not limited by the size of the framing images you have available.
@@ -2162,11 +2148,10 @@ convert thumbnail.gif                -write mpr:image    +delete \
 
 As you can see we still have a problem, it looks very artifical in the top left and bottom right corner, due to a diagonal mirror effect that results from the tiling.
 To fix this we need to add a randomised "`-tile-offset`", so as to remove this mirror effect.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*[Tile Offset](../canvas/#tile-offset) setting was broken before IM version 6.3.9-9 in that the 'X' offset was being used for both 'X' and 'Y' offset values (the given 'Y' value was ignored).
-This means that the above example will probably incorrectly tile the bottom and right edges, in older releases of IM.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> [Tile Offset](../canvas/#tile-offset) setting was broken before IM version 6.3.9-9 in that the 'X' offset was being used for both 'X' and 'Y' offset values (the given 'Y' value was ignored).
+> This means that the above example will probably incorrectly tile the bottom and right edges, in older releases of IM.
 
 **Scripted Version**
 
