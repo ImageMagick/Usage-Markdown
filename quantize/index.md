@@ -40,7 +40,12 @@ Here is an example of each of these four methods...
       convert colorwheel.png \
                       -separate -threshold 50% -combine     color_threshold.gif
 
-[![\[IM Output\]](colorwheel.png)](colorwheel.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](color_quantize.gif)](color_quantize.gif) [![\[IM Output\]](color_predefined.gif)](color_predefined.gif) [![\[IM Output\]](color_uniform.gif)](color_uniform.gif) [![\[IM Output\]](color_threshold.gif)](color_threshold.gif)
+[![\[IM Output\]](colorwheel.png)](colorwheel.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](color_quantize.gif)](color_quantize.gif)
+[![\[IM Output\]](color_predefined.gif)](color_predefined.gif)
+[![\[IM Output\]](color_uniform.gif)](color_uniform.gif)
+[![\[IM Output\]](color_threshold.gif)](color_threshold.gif)
 
 The number of colors in each of the final images is only a representative set, but approximately 32 colors in each case (except for threshold which only has 8). From this you can get an idea of what you can expect from each of them.
 
@@ -161,7 +166,9 @@ If you like to get a image containing not just the colors in a image but the col
             convert - -alpha set -gravity south -background none +append \
                     unique_color_histogram.png
 
-[![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](unique_color_histogram.png)](unique_color_histogram.png)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](unique_color_histogram.png)](unique_color_histogram.png)
 
 Note that I had to [Color Reduce](#colors) the image, as the built-in "`rose:`" image contains 3020 unique colors, which would take a long time and generate a very long image. The GIF image of the rose shown above contains the same set of color reduction.
 
@@ -336,7 +343,11 @@ Here is a typical example, I have a image of a 'colorwheel' image containing a l
       convert colorwheel.png  -dither FloydSteinberg \
                                                  -colors 64  colors_64_fs.gif
 
-[![\[IM Output\]](colorwheel.png)](colorwheel.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](colors_64_no.gif)](colors_64_no.gif) [![\[IM Output\]](colors_64_rm.gif)](colors_64_rm.gif) [![\[IM Output\]](colors_64_fs.gif)](colors_64_fs.gif)
+[![\[IM Output\]](colorwheel.png)](colorwheel.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](colors_64_no.gif)](colors_64_no.gif)
+[![\[IM Output\]](colors_64_rm.gif)](colors_64_rm.gif)
+[![\[IM Output\]](colors_64_fs.gif)](colors_64_fs.gif)
 
 IM will by default use a 'dither' to shade the colors over the image. This prevents the sudden changes in color over smoothly changing gradients.
 
@@ -352,7 +363,11 @@ Here are example of color quantization for part of IM logo, using an extremely s
       convert logo.png  -dither FloydSteinberg \
                                             -colors 8  colors_8_fs.gif
 
-[![\[IM Output\]](logo.png)](logo.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](colors_8_no.gif)](colors_8_no.gif) [![\[IM Output\]](colors_8_rm.gif)](colors_8_rm.gif) [![\[IM Output\]](colors_8_fs.gif)](colors_8_fs.gif)
+[![\[IM Output\]](logo.png)](logo.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](colors_8_no.gif)](colors_8_no.gif)
+[![\[IM Output\]](colors_8_rm.gif)](colors_8_rm.gif)
+[![\[IM Output\]](colors_8_fs.gif)](colors_8_fs.gif)
 
 Compare that with some results for the built-in "`rose:`" photo image.
   
@@ -361,7 +376,11 @@ Compare that with some results for the built-in "`rose:`" photo image.
       convert rose:  -dither FloydSteinberg \
                                          -colors 16 colors_16_fs.gif
 
-[![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](colors_16_no.gif)](colors_16_no.gif) [![\[IM Output\]](colors_16_rm.gif)](colors_16_rm.gif) [![\[IM Output\]](colors_16_fs.gif)](colors_16_fs.gif)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](colors_16_no.gif)](colors_16_no.gif)
+[![\[IM Output\]](colors_16_rm.gif)](colors_16_rm.gif)
+[![\[IM Output\]](colors_16_fs.gif)](colors_16_fs.gif)
 
 As you can see cartoon-like images require far less colors than a real photograph to produce a reasonable result.
   
@@ -386,8 +405,12 @@ I can demonstrate this quite easily by trying to reduce two different two color 
       convert colors_rb.gif  -colors 1  colors_rb2.gif
       convert colors_br.gif  -colors 1  colors_br2.gif
 
-[![\[IM Output\]](colors_rb.gif)](colors_rb.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](colors_rb2.gif)](colors_rb2.gif)  
-[![\[IM Output\]](colors_br.gif)](colors_br.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](colors_br2.gif)](colors_br2.gif)
+[![\[IM Output\]](colors_rb.gif)](colors_rb.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](colors_rb2.gif)](colors_rb2.gif)  
+[![\[IM Output\]](colors_br.gif)](colors_br.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](colors_br2.gif)](colors_br2.gif)
 
 As you can see the single final color depends not only on the colors present, but the amount of each color in the image.
   
@@ -416,10 +439,19 @@ The "`-quantize`" setting becomes particularly important when a very small numbe
                  colors_space_$S.gif; \
       done
 
-[![\[IM Output\]](colors_space_sRGB.gif)](colors_space_sRGB.gif) [![\[IM Output\]](colors_space_CMY.gif)](colors_space_CMY.gif) [![\[IM Output\]](colors_space_RGB.gif)](colors_space_RGB.gif) [![\[IM Output\]](colors_space_GRAY.gif)](colors_space_GRAY.gif)  
- [![\[IM Output\]](colors_space_XYZ.gif)](colors_space_XYZ.gif) [![\[IM Output\]](colors_space_LAB.gif)](colors_space_LAB.gif) [![\[IM Output\]](colors_space_LUV.gif)](colors_space_LUV.gif)  
- [![\[IM Output\]](colors_space_HSL.gif)](colors_space_HSL.gif) [![\[IM Output\]](colors_space_HSB.gif)](colors_space_HSB.gif) [![\[IM Output\]](colors_space_HWB.gif)](colors_space_HWB.gif)  
- [![\[IM Output\]](colors_space_YIQ.gif)](colors_space_YIQ.gif) [![\[IM Output\]](colors_space_YUV.gif)](colors_space_YUV.gif) [![\[IM Output\]](colors_space_OHTA.gif)](colors_space_OHTA.gif)
+[![\[IM Output\]](colors_space_sRGB.gif)](colors_space_sRGB.gif)
+[![\[IM Output\]](colors_space_CMY.gif)](colors_space_CMY.gif)
+[![\[IM Output\]](colors_space_RGB.gif)](colors_space_RGB.gif)
+[![\[IM Output\]](colors_space_GRAY.gif)](colors_space_GRAY.gif)  
+ [![\[IM Output\]](colors_space_XYZ.gif)](colors_space_XYZ.gif)
+[![\[IM Output\]](colors_space_LAB.gif)](colors_space_LAB.gif)
+[![\[IM Output\]](colors_space_LUV.gif)](colors_space_LUV.gif)  
+ [![\[IM Output\]](colors_space_HSL.gif)](colors_space_HSL.gif)
+[![\[IM Output\]](colors_space_HSB.gif)](colors_space_HSB.gif)
+[![\[IM Output\]](colors_space_HWB.gif)](colors_space_HWB.gif)  
+ [![\[IM Output\]](colors_space_YIQ.gif)](colors_space_YIQ.gif)
+[![\[IM Output\]](colors_space_YUV.gif)](colors_space_YUV.gif)
+[![\[IM Output\]](colors_space_OHTA.gif)](colors_space_OHTA.gif)
 
 As you can see the colors chosen depend heavily on how the colorspace is organized. The sRGB (Red, Green, Blue) color cube will generally result in at least the colors close to the primary color being picked.
 
@@ -515,7 +547,11 @@ For example here I generate a [Rainbow Gradient](../canvas/#gradient_colorspace)
       convert alpha_gradient.png  +dither  -colors 15   alpha_colors_15.png
 
   
-[![\[IM Output\]](alpha_gradient.png)](alpha_gradient.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](alpha_colors_256.png)](alpha_colors_256.png) [![\[IM Output\]](alpha_colors_64.png)](alpha_colors_64.png) [![\[IM Output\]](alpha_colors_15.png)](alpha_colors_15.png)
+[![\[IM Output\]](alpha_gradient.png)](alpha_gradient.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](alpha_colors_256.png)](alpha_colors_256.png)
+[![\[IM Output\]](alpha_colors_64.png)](alpha_colors_64.png)
+[![\[IM Output\]](alpha_colors_15.png)](alpha_colors_15.png)
 
 As you can see, when we ask IM to reduce the number of colors needed by this image, it created a lot more opaque colors and used fewer highly transparent colors for the more translucent parts. The result is a very good spread of colors selected, especially when the number of colors is very small.
 
@@ -538,7 +574,11 @@ For example here I ensure the main color selects are made opaque by using "`-con
               -channel A -contrast-stretch 10%  alpha_colors_15n.png
 
   
-[![\[IM Output\]](alpha_gradient.png)](alpha_gradient.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](alpha_colors_15.png)](alpha_colors_15.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](alpha_colors_15n.png)](alpha_colors_15n.png)
+[![\[IM Output\]](alpha_gradient.png)](alpha_gradient.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](alpha_colors_15.png)](alpha_colors_15.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](alpha_colors_15n.png)](alpha_colors_15n.png)
 
 This is NOT a problem for GIF images which do not allow semi-transparent colors, or JPG which does not allow transparency, or even PNG which do not need quantization to save properly. It only becomes a problem in special cases where you may force a color reduction in an image when lots of semi-transparent colors are involved.
 
@@ -548,7 +588,9 @@ Remember for the GIF format saving semi-transparent colors is a useless endeavor
                                 +dither  -colors 15   alpha_colors_15qt.png
 
   
-[![\[IM Output\]](alpha_gradient.png)](alpha_gradient.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](alpha_colors_15qt.png)](alpha_colors_15qt.png)
+[![\[IM Output\]](alpha_gradient.png)](alpha_gradient.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](alpha_colors_15qt.png)](alpha_colors_15qt.png)
 
 Notice how the color quantization completely ignored the transparency of the colors, and did not touch the images alpha channel at all. This means you can process the alpha channel in a more appropriate way for your image, completely separately to the other colors. In fact you can do so either before or after using "`-colors`" without problems. It will make no difference in the result.
 
@@ -590,8 +632,14 @@ Here are some examples of dithering just the alpha channel to just a Boolean or 
               \( +clone -dither FloydSteinberg -remap pattern:gray50 \) \
               +swap +delete -combine  alpha_dither_map_fs.gif
 
-[![\[IM Output\]](alpha_dither_threshold.gif)](alpha_dither_threshold.gif) [![\[IM Output\]](alpha_dither_checks.gif)](alpha_dither_checks.gif) [![\[IM Output\]](alpha_dither_ordered.gif)](alpha_dither_ordered.gif) [![\[IM Output\]](alpha_dither_halftone.gif)](alpha_dither_halftone.gif)  
- [![\[IM Output\]](alpha_dither_monochrome.gif)](alpha_dither_monochrome.gif) [![\[IM Output\]](alpha_dither_monochrome_fs.gif)](alpha_dither_monochrome_fs.gif) [![\[IM Output\]](alpha_dither_map.gif)](alpha_dither_map.gif) [![\[IM Output\]](alpha_dither_map_fs.gif)](alpha_dither_map_fs.gif)
+[![\[IM Output\]](alpha_dither_threshold.gif)](alpha_dither_threshold.gif)
+[![\[IM Output\]](alpha_dither_checks.gif)](alpha_dither_checks.gif)
+[![\[IM Output\]](alpha_dither_ordered.gif)](alpha_dither_ordered.gif)
+[![\[IM Output\]](alpha_dither_halftone.gif)](alpha_dither_halftone.gif)  
+ [![\[IM Output\]](alpha_dither_monochrome.gif)](alpha_dither_monochrome.gif)
+[![\[IM Output\]](alpha_dither_monochrome_fs.gif)](alpha_dither_monochrome_fs.gif)
+[![\[IM Output\]](alpha_dither_map.gif)](alpha_dither_map.gif)
+[![\[IM Output\]](alpha_dither_map_fs.gif)](alpha_dither_map_fs.gif)
 
   
 ![](../img_www/expert.gif)![](../img_www/space.gif)
@@ -624,7 +672,8 @@ For example here is the color wheel dithered using different dithering methods.
       convert colorwheel.png -dither Riemersma      -colors 16 dither_riemersma.gif
       convert colorwheel.png -dither FloydSteinberg -colors 16 dither_floyd.gif
 
-[![\[IM Output\]](dither_riemersma.gif)](dither_riemersma.gif) [![\[IM Output\]](dither_floyd.gif)](dither_floyd.gif)
+[![\[IM Output\]](dither_riemersma.gif)](dither_riemersma.gif)
+[![\[IM Output\]](dither_floyd.gif)](dither_floyd.gif)
 
 As you can see the Floyd-Steinberg dither produces a much more uniform dither pattern than the default Riemersma dither. The biggest difference between them is how each of them distributes the 'color error' between neighbouring pixels. So lets have a look at just how a E-Dither works.
 
@@ -642,7 +691,9 @@ For example, here is a small grey image that I asked IM to dither using a set of
       convert -size 10x10 xc:'#999999' \
               -remap colortable.gif   -scale 80x80  dither.gif
 
-[![\[IM Output\]](dither_not.gif)](dither_not.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](dither.gif)](dither.gif)
+[![\[IM Output\]](dither_not.gif)](dither_not.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](dither.gif)](dither.gif)
 
 As you can see the as the original images color was not in the specified color map, the original color is approximated using a pattern of the three nearest colors that were in the given color table.
 
@@ -657,7 +708,9 @@ As of IM v6.4.3 it is also directly available in IM, and is implemented so as to
       convert -size 10x10 xc:'#999999'  -dither FloydSteinberg \
               -remap colortable.gif   -scale 80x80  dither_fs.gif
 
-[![\[IM Output\]](dither_not.gif)](dither_not.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](dither_fs.gif)](dither_fs.gif)
+[![\[IM Output\]](dither_not.gif)](dither_not.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](dither_fs.gif)](dither_fs.gif)
 
 The "Floyd-Stienberg Dither" in particular I find produces a more 'hash' like pattern of pixels than the "Hilbert Curve Dither", and was in fact designed to do so.
 
@@ -723,7 +776,9 @@ For example, here I generate a 3 image animation of the same dithered color but 
       convert dither_anim.gif -crop 10x10+40+40 +repage \
                                   -scale 80x80     dither_anim_magnify.gif
 
-[![\[IM Output\]](dither_anim.gif)](dither_anim.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](dither_anim_magnify.gif)](dither_anim_magnify.gif)
+[![\[IM Output\]](dither_anim.gif)](dither_anim.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](dither_anim_magnify.gif)](dither_anim_magnify.gif)
 
 As you can see you get a sort of churning background to the image, caused by the pseudo-randomness generate by the E-Dither. In most cases the colors used are close enough together so as not to make this 'dither noise' visible. But when the dithering colors are visibly different (in this case forced by the use of a colormap) it definitely becomes an issue.
 
@@ -929,7 +984,9 @@ Here for example we use "`-colors`", as well as a "`-monochrome`" bitmap ditheri
                                     -normalize        colors_threshold.gif
       convert gradient_rb.png       -monochrome       mono_threshold.gif
 
-[![\[IM Output\]](gradient_rb.png)](gradient_rb.png) [![\[IM Output\]](colors_threshold.gif)](colors_threshold.gif) [![\[IM Output\]](mono_threshold.gif)](mono_threshold.gif)
+[![\[IM Output\]](gradient_rb.png)](gradient_rb.png)
+[![\[IM Output\]](colors_threshold.gif)](colors_threshold.gif)
+[![\[IM Output\]](mono_threshold.gif)](mono_threshold.gif)
 
 The "`-monochrome`" operator in the above failed to find any differences to bitmap dither as both blue and red are very nearly the same intensity. Using a "`-colors`" quantization method however had no problem in finding acceptable colors to dither between.
 
@@ -984,7 +1041,13 @@ For example here I limit the colors used in the IM logo to a predefined map of n
       convert logo.png  -dither FloydSteinberg \
                                            -remap colortable.gif  remap_logo_fs.gif
 
-[![\[IM Output\]](logo.png)](logo.png) ![ +](../img_www/plus.gif) [![\[IM Output\]](colortable.gif)](colortable.gif) ![](../img_www/right.gif) [![\[IM Output\]](remap_logo_no.gif)](remap_logo_no.gif) [![\[IM Output\]](remap_logo_rm.gif)](remap_logo_rm.gif) [![\[IM Output\]](remap_logo_fs.gif)](remap_logo_fs.gif)
+[![\[IM Output\]](logo.png)](logo.png)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](colortable.gif)](colortable.gif)
+![](../img_www/right.gif)
+[![\[IM Output\]](remap_logo_no.gif)](remap_logo_no.gif)
+[![\[IM Output\]](remap_logo_rm.gif)](remap_logo_rm.gif)
+[![\[IM Output\]](remap_logo_fs.gif)](remap_logo_fs.gif)
 
 As you can see IM attempted to do a reasonable job of representing the image using just the given colors, though the results is nowhere near as good as the image you get if you allowed IM to select the color set to use.
 
@@ -1026,7 +1089,12 @@ To help with this IM provided a built-in colormap image of this special table of
       convert logo.png         -remap netscape:  remap_netscape.gif
       convert logo.png +dither -remap netscape:  remap_netscape_nd.gif
 
-[![\[IM Output\]](logo.png)](logo.png) ![ +](../img_www/plus.gif) [![\[IM Output\]](netscape.gif)](netscape.gif) ![](../img_www/right.gif) [![\[IM Output\]](remap_netscape.gif)](remap_netscape.gif) [![\[IM Output\]](remap_netscape_nd.gif)](remap_netscape_nd.gif)
+[![\[IM Output\]](logo.png)](logo.png)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](netscape.gif)](netscape.gif)
+![](../img_www/right.gif)
+[![\[IM Output\]](remap_netscape.gif)](remap_netscape.gif)
+[![\[IM Output\]](remap_netscape_nd.gif)](remap_netscape_nd.gif)
 
 This color set was a mathematically determined pallet, designed by engineers of displays and computers, not graphic artists, and while it is is general enough that it works reasonably well for real images such as photos, it is very bad for images containing large flat areas of color, such as logos, backgrounds, computer generated images such as graphs, and cartoon-like images.
 
@@ -1110,7 +1178,11 @@ The "`-posterize`" operator is actual fact is a special color reduction operator
       convert netscape: -scale 50%  +dither  -posterize 3   posterize_3_ns.gif
       convert netscape: -scale 50%  +dither  -posterize 6   posterize_6_ns.gif
 
-[![\[IM Output\]](netscape.gif)](netscape.gif) ![](../img_www/right.gif) [![\[IM Output\]](posterize_2_ns.gif)](posterize_2_ns.gif) [![\[IM Output\]](posterize_3_ns.gif)](posterize_3_ns.gif) [![\[IM Output\]](posterize_6_ns.gif)](posterize_6_ns.gif)
+[![\[IM Output\]](netscape.gif)](netscape.gif)
+![](../img_www/right.gif)
+[![\[IM Output\]](posterize_2_ns.gif)](posterize_2_ns.gif)
+[![\[IM Output\]](posterize_3_ns.gif)](posterize_3_ns.gif)
+[![\[IM Output\]](posterize_6_ns.gif)](posterize_6_ns.gif)
 
 As you can see a "`-posterize`" argument on '`2`' means to only provide 2 colors per color channel, producing a map of just 8 colors for a 3 channel RGB image, such as the above. Basically it will recolor images using the threshold set of 8 colors.
 
@@ -1133,7 +1205,11 @@ For example lets posterize the IM logo image at various levels...
       convert logo.png          -posterize 2  posterize_logo_dither.gif
       convert logo.png          -posterize 6  posterize_6_logo.gif
 
-[![\[IM Output\]](logo.png)](logo.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](posterize_logo.gif)](posterize_logo.gif) [![\[IM Output\]](posterize_logo_dither.gif)](posterize_logo_dither.gif) [![\[IM Output\]](posterize_6_logo.gif)](posterize_6_logo.gif)
+[![\[IM Output\]](logo.png)](logo.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](posterize_logo.gif)](posterize_logo.gif)
+[![\[IM Output\]](posterize_logo_dither.gif)](posterize_logo_dither.gif)
+[![\[IM Output\]](posterize_6_logo.gif)](posterize_6_logo.gif)
 
 As a better test lets poserize the shaded "[colorwheel](colorwheel.png)" image.
   
@@ -1141,11 +1217,19 @@ As a better test lets poserize the shaded "[colorwheel](colorwheel.png)" image.
       convert colorwheel.png  +dither  -posterize 3   posterize_3_cw.gif
       convert colorwheel.png  +dither  -posterize 6   posterize_6_cw.gif
 
-[![\[IM Output\]](colorwheel.png)](colorwheel.png) ![](../img_www/right.gif) [![\[IM Output\]](posterize_2_cw.gif)](posterize_2_cw.gif) [![\[IM Output\]](posterize_3_cw.gif)](posterize_3_cw.gif) [![\[IM Output\]](posterize_6_cw.gif)](posterize_6_cw.gif)
+[![\[IM Output\]](colorwheel.png)](colorwheel.png)
+![](../img_www/right.gif)
+[![\[IM Output\]](posterize_2_cw.gif)](posterize_2_cw.gif)
+[![\[IM Output\]](posterize_3_cw.gif)](posterize_3_cw.gif)
+[![\[IM Output\]](posterize_6_cw.gif)](posterize_6_cw.gif)
 
 And here is the same thing with dithering enabled...
 
-[![\[IM Output\]](colorwheel.png)](colorwheel.png) ![](../img_www/right.gif) [![\[IM Output\]](posterize_2_dither.gif)](posterize_2_dither.gif) [![\[IM Output\]](posterize_3_dither.gif)](posterize_3_dither.gif) [![\[IM Output\]](posterize_6_dither.gif)](posterize_6_dither.gif)
+[![\[IM Output\]](colorwheel.png)](colorwheel.png)
+![](../img_www/right.gif)
+[![\[IM Output\]](posterize_2_dither.gif)](posterize_2_dither.gif)
+[![\[IM Output\]](posterize_3_dither.gif)](posterize_3_dither.gif)
+[![\[IM Output\]](posterize_6_dither.gif)](posterize_6_dither.gif)
 
 Of course many of the bitmap dithers we look at in the next section can also generate level 2 ordered dithers, using various sorts of dither styles. However few can use a larger number of grey levels.
 
@@ -1155,7 +1239,11 @@ Of course many of the bitmap dithers we look at in the next section can also gen
       convert colorwheel.png  -ordered-dither o8x8,3   posterize_3_od.gif
       convert colorwheel.png  -ordered-dither o8x8,6   posterize_6_od.gif
 
-[![\[IM Output\]](colorwheel.png)](colorwheel.png) ![](../img_www/right.gif) [![\[IM Output\]](posterize_2_od.gif)](posterize_2_od.gif) [![\[IM Output\]](posterize_3_od.gif)](posterize_3_od.gif) [![\[IM Output\]](posterize_6_od.gif)](posterize_6_od.gif)
+[![\[IM Output\]](colorwheel.png)](colorwheel.png)
+![](../img_www/right.gif)
+[![\[IM Output\]](posterize_2_od.gif)](posterize_2_od.gif)
+[![\[IM Output\]](posterize_3_od.gif)](posterize_3_od.gif)
+[![\[IM Output\]](posterize_6_od.gif)](posterize_6_od.gif)
 
 The '`threshold`' dither map (instead of '`o8x8`' used above) effectively converts "`-ordered-dither`" into a un-dithered posterization method.
 
@@ -1175,7 +1263,11 @@ The simplest method of converting an image into black and white bitmap (to color
       convert logo.png     -threshold  75%   threshold_75.gif
       convert logo.png     -threshold 100%   threshold_100.gif
 
-[![\[IM Output\]](threshold_0.gif)](threshold_0.gif) [![\[IM Output\]](threshold_25.gif)](threshold_25.gif) [![\[IM Output\]](threshold_50.gif)](threshold_50.gif) [![\[IM Output\]](threshold_75.gif)](threshold_75.gif) [![\[IM Output\]](threshold_100.gif)](threshold_100.gif)
+[![\[IM Output\]](threshold_0.gif)](threshold_0.gif)
+[![\[IM Output\]](threshold_25.gif)](threshold_25.gif)
+[![\[IM Output\]](threshold_50.gif)](threshold_50.gif)
+[![\[IM Output\]](threshold_75.gif)](threshold_75.gif)
+[![\[IM Output\]](threshold_100.gif)](threshold_100.gif)
 
 As you can see a value of '`-1`' will convert all colors white, while '`100%`' converts all colors to black. A '`50%`' is of course the most common value used.
   
@@ -1270,7 +1362,10 @@ Now that you know how to use the operator to correctly generate bitmaps from a c
       convert gradient.png  -channel All \
                             -random-threshold 50x50%  random_grad_50x50.gif
 
-[![\[IM Output\]](random_grad_0x100.gif)](random_grad_0x100.gif) [![\[IM Output\]](random_grad_10x90.gif)](random_grad_10x90.gif) [![\[IM Output\]](random_grad_25x75.gif)](random_grad_25x75.gif) [![\[IM Output\]](random_grad_50x50.gif)](random_grad_50x50.gif)
+[![\[IM Output\]](random_grad_0x100.gif)](random_grad_0x100.gif)
+[![\[IM Output\]](random_grad_10x90.gif)](random_grad_10x90.gif)
+[![\[IM Output\]](random_grad_25x75.gif)](random_grad_25x75.gif)
+[![\[IM Output\]](random_grad_50x50.gif)](random_grad_50x50.gif)
 
 A "`-random-threshold`" setting of '`0x100%`' will produce a purely 'Random Dither' of the image. If the two bounds are set to the same value (or even past each other) it will just produce a pure "`-threshold`" image.
 
@@ -1322,7 +1417,10 @@ Here is the current set of built-in ordered dithers that IM currently provides. 
       convert logo.png    -ordered-dither o4x4    logo_o4x4.gif
       convert logo.png    -ordered-dither o8x8    logo_o8x8.gif
 
-[![\[IM Output\]](logo_o2x2.gif)](logo_o2x2.gif) [![\[IM Output\]](logo_o3x3.gif)](logo_o3x3.gif) [![\[IM Output\]](logo_o4x4.gif)](logo_o4x4.gif) [![\[IM Output\]](logo_o4x4.gif)](logo_o8x8.gif)
+[![\[IM Output\]](logo_o2x2.gif)](logo_o2x2.gif)
+[![\[IM Output\]](logo_o3x3.gif)](logo_o3x3.gif)
+[![\[IM Output\]](logo_o4x4.gif)](logo_o4x4.gif)
+[![\[IM Output\]](logo_o4x4.gif)](logo_o8x8.gif)
 
 Note how a larger tile size allows you to simulate more 'color levels', but also generates more noticeable defects or rectangular arrays of pixels at certain levels.
   
@@ -1343,7 +1441,10 @@ Of course you need to convert the image to grey-scale first to produce a proper 
       convert logo.png -colorspace Gray  -ordered-dither o4x4  logo_bw_o4x4.gif
       convert logo.png -colorspace Gray  -ordered-dither o8x8  logo_bw_o8x8.gif
 
-[![\[IM Output\]](logo_bw_o2x2.gif)](logo_bw_o2x2.gif) [![\[IM Output\]](logo_bw_o3x3.gif)](logo_bw_o3x3.gif) [![\[IM Output\]](logo_bw_o4x4.gif)](logo_bw_o4x4.gif) [![\[IM Output\]](logo_bw_o8x8.gif)](logo_bw_o8x8.gif)
+[![\[IM Output\]](logo_bw_o2x2.gif)](logo_bw_o2x2.gif)
+[![\[IM Output\]](logo_bw_o3x3.gif)](logo_bw_o3x3.gif)
+[![\[IM Output\]](logo_bw_o4x4.gif)](logo_bw_o4x4.gif)
+[![\[IM Output\]](logo_bw_o8x8.gif)](logo_bw_o8x8.gif)
 
 As a reference here are each of the "`-ordered-dither`" 'diffused pixel' patterns applied to a grey-scale gradient, so you can see clearly what they look like.
   
@@ -1356,11 +1457,15 @@ As a reference here are each of the "`-ordered-dither`" 'diffused pixel' pattern
       convert gradient.png   -ordered-dither o4x4       od_o4x4.gif
       convert gradient.png   -ordered-dither o8x8       od_o8x8.gif
 
-[![\[IM Output\]](od_threshold.gif)](od_threshold.gif) [![\[IM Output\]](od_checks.gif)](od_checks.gif)
+[![\[IM Output\]](od_threshold.gif)](od_threshold.gif)
+[![\[IM Output\]](od_checks.gif)](od_checks.gif)
 
 ------------------------------------------------------------------------
 
-[![\[IM Output\]](od_o2x2.gif)](od_o2x2.gif) [![\[IM Output\]](od_o3x3.gif)](od_o3x3.gif) [![\[IM Output\]](od_o4x4.gif)](od_o4x4.gif) [![\[IM Output\]](od_o8x8.gif)](od_o8x8.gif)
+[![\[IM Output\]](od_o2x2.gif)](od_o2x2.gif)
+[![\[IM Output\]](od_o3x3.gif)](od_o3x3.gif)
+[![\[IM Output\]](od_o4x4.gif)](od_o4x4.gif)
+[![\[IM Output\]](od_o8x8.gif)](od_o8x8.gif)
 
 The number of effective or pseudo-level patterns produced by a specific ordered dither, is typically (by not always) equal to the number of pixels in the pattern plus one. As such a '`o3x3`' ordered dither will produce 3×3+1 or 10 effective grey levels per channel (black, white, and 8 artificial gray patterns) in the resulting image.
 
@@ -1390,7 +1495,13 @@ That said the [Ordered Dither](#ordered-dither) digital halftone patterns do pro
       convert logo.png   -ordered-dither h6x6o    logo_h6x6o.gif
       convert logo.png   -ordered-dither h8x8o    logo_h8x8o.gif
 
-[![\[IM Output\]](logo_h4x4a.gif)](logo_h4x4a.gif) [![\[IM Output\]](logo_h6x6a.gif)](logo_h6x6a.gif) [![\[IM Output\]](logo_h8x8a.gif)](logo_h8x8a.gif)       [![\[IM Output\]](logo_h4x4o.gif)](logo_h4x4o.gif) [![\[IM Output\]](logo_h6x6o.gif)](logo_h6x6o.gif) [![\[IM Output\]](logo_h8x8o.gif)](logo_h8x8o.gif)
+[![\[IM Output\]](logo_h4x4a.gif)](logo_h4x4a.gif)
+[![\[IM Output\]](logo_h6x6a.gif)](logo_h6x6a.gif)
+[![\[IM Output\]](logo_h8x8a.gif)](logo_h8x8a.gif)
+
+[![\[IM Output\]](logo_h4x4o.gif)](logo_h4x4o.gif)
+[![\[IM Output\]](logo_h6x6o.gif)](logo_h6x6o.gif)
+[![\[IM Output\]](logo_h8x8o.gif)](logo_h8x8o.gif)
 
 Again to use the "`-colorspace`" operator to generate a true bitmap dither of an image.
   
@@ -1403,7 +1514,13 @@ Again to use the "`-colorspace`" operator to generate a true bitmap dither of an
       convert logo.png -colorspace Gray  -ordered-dither h6x6o logo_bw_h6x6o.gif
       convert logo.png -colorspace Gray  -ordered-dither h8x8o logo_bw_h8x8o.gif
 
-[![\[IM Output\]](logo_bw_h4x4a.gif)](logo_bw_h4x4a.gif) [![\[IM Output\]](logo_bw_h6x6a.gif)](logo_bw_h6x6a.gif) [![\[IM Output\]](logo_bw_h8x8a.gif)](logo_bw_h8x8a.gif)       [![\[IM Output\]](logo_bw_h4x4o.gif)](logo_bw_h4x4o.gif) [![\[IM Output\]](logo_bw_h6x6o.gif)](logo_bw_h6x6o.gif) [![\[IM Output\]](logo_bw_h8x8o.gif)](logo_bw_h8x8o.gif)
+[![\[IM Output\]](logo_bw_h4x4a.gif)](logo_bw_h4x4a.gif)
+[![\[IM Output\]](logo_bw_h6x6a.gif)](logo_bw_h6x6a.gif)
+[![\[IM Output\]](logo_bw_h8x8a.gif)](logo_bw_h8x8a.gif)
+
+[![\[IM Output\]](logo_bw_h4x4o.gif)](logo_bw_h4x4o.gif)
+[![\[IM Output\]](logo_bw_h6x6o.gif)](logo_bw_h6x6o.gif)
+[![\[IM Output\]](logo_bw_h8x8o.gif)](logo_bw_h8x8o.gif)
 
 And finally another gradient reference image to clearly show the halftone dither pattern, and how the pixel clumps within the dither pattern grow into each other as the grey-level changes.
   
@@ -1420,15 +1537,21 @@ And finally another gradient reference image to clearly show the halftone dither
       convert gradient.png   -ordered-dither c7x7b      od_c7x7b.gif
       convert gradient.png   -ordered-dither c7x7w      od_c7x7w.gif
 
-[![\[IM Output\]](od_h4x4a.gif)](od_h4x4a.gif) [![\[IM Output\]](od_h6x6a.gif)](od_h6x6a.gif) [![\[IM Output\]](od_h8x8a.gif)](od_h8x8a.gif)
+[![\[IM Output\]](od_h4x4a.gif)](od_h4x4a.gif)
+[![\[IM Output\]](od_h6x6a.gif)](od_h6x6a.gif)
+[![\[IM Output\]](od_h8x8a.gif)](od_h8x8a.gif)
 
 ------------------------------------------------------------------------
 
-[![\[IM Output\]](od_h4x4o.gif)](od_h4x4o.gif) [![\[IM Output\]](od_h6x6o.gif)](od_h6x6o.gif) [![\[IM Output\]](od_h8x8o.gif)](od_h8x8o.gif) [![\[IM Output\]](od_h16x16o.gif)](od_h16x16o.gif)
+[![\[IM Output\]](od_h4x4o.gif)](od_h4x4o.gif)
+[![\[IM Output\]](od_h6x6o.gif)](od_h6x6o.gif)
+[![\[IM Output\]](od_h8x8o.gif)](od_h8x8o.gif)
+[![\[IM Output\]](od_h16x16o.gif)](od_h16x16o.gif)
 
 ------------------------------------------------------------------------
 
-[![\[IM Output\]](od_c7x7b.gif)](od_c7x7b.gif) [![\[IM Output\]](od_c7x7w.gif)](od_c7x7w.gif)
+[![\[IM Output\]](od_c7x7b.gif)](od_c7x7b.gif)
+[![\[IM Output\]](od_c7x7w.gif)](od_c7x7w.gif)
 
 Up until ImageMagick version 6.2.9 all the above threshold ordered dither map were all that was possible with IM. This has now changed, allowing users to add their own patterns, add even contribute them to the IM community.
 
@@ -1536,7 +1659,9 @@ And here is an example of using that threshold to dither the alpha channel of a 
 
       convert shadow.png  -channel A  -ordered-dither diag   shadow_diag.gif
 
-[![\[IM Output\]](shadow.png)](shadow.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shadow_diag.gif)](shadow_diag.gif)
+[![\[IM Output\]](shadow.png)](shadow.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shadow_diag.gif)](shadow_diag.gif)
 
 Pretty cool hey! More on dithering alpha channels later. First I need to also show how to use the coloring abilities of expanded "`-ordered-dither`" operator.
 
@@ -1560,7 +1685,11 @@ For example, here is a gray scale gradient dithered using 6 grey levels and vari
       convert gradient.png   -ordered-dither o4x4,6       od_o4x4_6.gif
       convert gradient.png   -ordered-dither o8x8,6       od_o8x8_6.gif
 
-[![\[IM Output\]](od_threshold_6.gif)](od_threshold_6.gif) [![\[IM Output\]](od_checks_6.gif)](od_checks_6.gif) [![\[IM Output\]](od_o2x2_6.gif)](od_o2x2_6.gif) [![\[IM Output\]](od_o4x4_6.gif)](od_o4x4_6.gif) [![\[IM Output\]](od_o8x8_6.gif)](od_o8x8_6.gif)
+[![\[IM Output\]](od_threshold_6.gif)](od_threshold_6.gif)
+[![\[IM Output\]](od_checks_6.gif)](od_checks_6.gif)
+[![\[IM Output\]](od_o2x2_6.gif)](od_o2x2_6.gif)
+[![\[IM Output\]](od_o4x4_6.gif)](od_o4x4_6.gif)
+[![\[IM Output\]](od_o8x8_6.gif)](od_o8x8_6.gif)
 
 As you can see even though only 6 colors are used, with ordered dithering you increase the effective number of colors used to define the gradient, to a point where you can be hard pressed to notice just how few colors were actually used!
 
@@ -1583,7 +1712,10 @@ Now compare the [O-dithered](#ordered-dither) version against error correction d
       convert logo.png  -ordered-dither o8x8,8,8,4  logo_o8x8_332.gif
       convert logo.png  -remap colormap_332.png     logo_remap_332.gif
 
-[![\[IM Output\]](logo_o8x8_2.gif)](logo_o8x8_2.gif) [![\[IM Output\]](logo_posterize_2.gif)](logo_posterize_2.gif)     [![\[IM Output\]](logo_o8x8_6.gif)](logo_o8x8_6.gif) [![\[IM Output\]](logo_posterize_6.gif)](logo_posterize_6.gif)     [![\[IM Output\]](logo_o8x8_332.gif)](logo_o8x8_332.gif) [![\[IM Output\]](logo_remap_332.gif)](logo_remap_332.gif)
+[![\[IM Output\]](logo_o8x8_2.gif)](logo_o8x8_2.gif)
+[![\[IM Output\]](logo_posterize_2.gif)](logo_posterize_2.gif)     [![\[IM Output\]](logo_o8x8_6.gif)](logo_o8x8_6.gif)
+[![\[IM Output\]](logo_posterize_6.gif)](logo_posterize_6.gif)     [![\[IM Output\]](logo_o8x8_332.gif)](logo_o8x8_332.gif)
+[![\[IM Output\]](logo_remap_332.gif)](logo_remap_332.gif)
 
 The first image of each pair in the above is mathematically ordered dithered, while the second is pseudo-randomly 'error correction' dithered.
 
@@ -1670,7 +1802,9 @@ Lets try this dither pattern set again but using a simple shadowed image...
               -virtual-pixel tile  -fx 'u[floor((n-1)*u)+1].g' \
               shadow_dpat_hlines2x2.gif
 
-[![\[IM Output\]](shadow.png)](shadow.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shadow_dpat_hlines2x2.gif)](shadow_dpat_hlines2x2.gif)
+[![\[IM Output\]](shadow.png)](shadow.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shadow_dpat_hlines2x2.gif)](shadow_dpat_hlines2x2.gif)
 
 ### DIY Ordered Dither Threshold Maps {#diy_threshold}
 
@@ -1693,7 +1827,9 @@ So lets try it out...
               -ordered-dither hlines2x2   shadow_hlines2x2.gif
 
 [![\[IM Output\]](od_hlines2x2.gif)](od_hlines2x2.gif)  
- [![\[IM Output\]](shadow.png)](shadow.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shadow_hlines2x2.gif)](shadow_hlines2x2.gif)
+ [![\[IM Output\]](shadow.png)](shadow.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shadow_hlines2x2.gif)](shadow_hlines2x2.gif)
 
 As you can see the result is reasonably good, but we can do other things to improve the result.
 
@@ -1729,7 +1865,9 @@ Here I expanded the simple horizontal lines dither pattern I created above into 
 
 [![\[IM Output\]](dpat_hlines_images.gif)](dpat_hlines.gif)  
  [![\[IM Output\]](dgrad_dpat_hlines.gif)](dgrad_dpat_hlines.gif)  
- [![\[IM Output\]](shadow.png)](shadow.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shadow_dpat_hlines.gif)](shadow_dpat_hlines.gif)
+ [![\[IM Output\]](shadow.png)](shadow.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shadow_dpat_hlines.gif)](shadow_dpat_hlines.gif)
 
 As you can see it now consists of 9, 12x4 pixel images. It does not represent all the pixel patterns that you could have, but this enhances the effect of the lines. Also I doubled its height so as to jitter the gaps in the lines appropriately.
 
@@ -1743,7 +1881,11 @@ Here is another example of using this dither pattern...
       convert sphere_shadow_dither.gif   -fill red  -stroke firebrick \
               -draw 'circle 35,25 35,5'     sphere_shadow_hlines.gif
 
-[![\[IM Output\]](sphere_shadow.png)](sphere_shadow.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](sphere_shadow_dither.gif)](sphere_shadow_dither.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](sphere_shadow_hlines.gif)](sphere_shadow_hlines.gif)
+[![\[IM Output\]](sphere_shadow.png)](sphere_shadow.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](sphere_shadow_dither.gif)](sphere_shadow_dither.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](sphere_shadow_hlines.gif)](sphere_shadow_hlines.gif)
 
 The next step is to convert this set of dither patterns into single threshold map image, rather than a set of multiple images. This is achieved by using some fancy image manipulations to merge all the images together.
   
@@ -1768,7 +1910,9 @@ Now we can dither our images using, just a single image, and a much simpler thre
       convert gradient.png dmap_hlines.png \
               -virtual-pixel tile  -fx 'u>=v'   dgrad_dmap_hlines.gif
 
-[![\[IM Output\]](dmap_hlines_mag.png)](dmap_hlines.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](dgrad_dmap_hlines.gif)](dgrad_dmap_hlines.gif)
+[![\[IM Output\]](dmap_hlines_mag.png)](dmap_hlines.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](dgrad_dmap_hlines.gif)](dgrad_dmap_hlines.gif)
 
 See how much simpler a threshold map is. You have only one image, and one direct comparison to do per pixel, for each channel that is being dithered. This makes dithering using a threshold map very very fast. Much faster that full color quantization. This simplicity is the why ImageMagick and most graphics software use a threshold map to hold various dither patterns.
   
@@ -1797,7 +1941,9 @@ And here is an example of using this threshold map.
   
       convert shadow.png  -channel A  -ordered-dither hlines   shadow_hlines.gif
 
-[![\[IM Output\]](shadow.png)](shadow.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shadow_hlines.gif)](shadow_hlines.gif)
+[![\[IM Output\]](shadow.png)](shadow.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shadow_hlines.gif)](shadow_hlines.gif)
 
 And that is how you can generate a complex threshold map from a progression of images.
 
