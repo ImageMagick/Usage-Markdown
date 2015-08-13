@@ -993,10 +993,10 @@ FOR /F "tokens=1,2" %%i IN ('identify -format "%%[EXIF:DateTime]" %1') DO ^
               -annotate +0+0 "%%i %%j" "%~dpn1"_dated%~x1
 ~~~
 
-![](../img_www/reminder.gif)![](../img_www/space.gif)
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Photos are typically saved using JPEG format.
+> Reading and re-saving JPEG images causes slight degrading of the image due to [JPEG Lossy Compression](../formats/#jpeg) and as such saving back to JPEG is not recommended.
 
-*Photos are typically saved using JPEG format.
-Reading and re-saving JPEG images causes slight degrading of the image due to [JPEG Lossy Compression](../formats/#jpeg) and as such saving back to JPEG is not recommended.*
 In the above batch file, the filename of the photograph is supplied as the single command line parameter, which is referred to as "`%1`".
 The Identify command reads the date and time that the photograph was taken from the EXIF information within the JPEG file.
 The `FOR` command then passes this output to Convert which annotates the photograph correspondingly in the upper left corner.
