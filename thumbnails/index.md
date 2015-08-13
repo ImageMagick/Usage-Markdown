@@ -40,9 +40,11 @@ The first scheme can use "`mogrify`" to generate all your thumbnails, without de
 As of IM v3.2.0, the second scheme is now also possible to do with "`mogrify`" thanks to the addition of a special "`-path`" setting that specifies a different directory in which to save the modified images.
 
 For example, this converts JPG images into GIF thumbnails in a "`thumbs`" sub-directory that was just created.
-  
-      mkdir thumbs
-      mogrify  -format gif -path thumbs -thumbnail 100x100 *.jpg
+
+~~~
+mkdir thumbs
+mogrify  -format gif -path thumbs -thumbnail 100x100 *.jpg
+~~~
 
 The other methods will require you to either, first make a copy of the original image, before running "`mogrify`", create a special script to process the images, or some other DIY method.
 A number of the simpler non-IM techniques are detailed at the end of the example section for [Batch Processing - Without using "`mogrify`"](../basics/#mogrify_not).
@@ -89,9 +91,10 @@ Very few browsers seem to support that format however.
 For thumbnails you can reduce the size of the final image by reducing the depth and number of colors, as well as setting a higher "`bzip`" compression quality (first digit in "`-quality`") for your final thumbnail image.
 
 For example, the following is suggested for small PNG thumbnails that does not involve transparency.
-  
-            -strip  -quality 95  PNG8:thumbnail.png
-        
+
+~~~
+-strip  -quality 95  PNG8:thumbnail.png
+~~~
 
 Which uses a smaller, 8 bit, or 256 color limited, PNG format.
 
@@ -119,10 +122,12 @@ These profiles can be up to 60 Kb in size, so can make a big difference to your 
 Thumbnails have no need for this data and often not even the main image needs it.
 
 You can also remove the profiles from your images with the IM commands...
-  
-      convert input.jpg  -strip output.jpg
 
-      mogrify -strip  *.jpg
+~~~
+convert input.jpg  -strip output.jpg
+
+mogrify -strip  *.jpg
+~~~
 
 You can also use the option "`-profile '*' `" to remove the profiles.
 
@@ -132,12 +137,13 @@ Stripping profiles while resizing, particularly for generating smaller thumbnail
 Naturally enough this resize operation is called "`-thumbnail`".
 
 For example...
-  
-      convert -define jpeg:size=240x180 image.jpg -thumbnail 120x90 thumbs/image.gif
 
-      mogrify -path thumbs -format gif -define jpeg:size=240x180 -thumbnail 120x90 '*.jpg'
+~~~
+convert -define jpeg:size=240x180 image.jpg -thumbnail 120x90 thumbs/image.gif
 
-  
+mogrify -path thumbs -format gif -define jpeg:size=240x180 -thumbnail 120x90 '*.jpg'
+~~~
+
 ![](../img_www/warning.gif)![](../img_www/space.gif)
   
 *Before IM v6.5.4-7 the "`-thumbnail`" would strip ALL profiles from the image, including the ICC color profiles.
@@ -168,9 +174,11 @@ This option will work with ANY image format, not just JPEG image.
 It is however no substitute for using a "`-define jpeg:size=`" setting for JPEG images.
 
 As such the recommended way of resizing ANY input image format is now...
-  
-      convert -define jpeg:size=240x180 input.img'[120x90]' \
-              -strip  output_thumbnail.gif
+
+~~~
+convert -define jpeg:size=240x180 input.img'[120x90]' \
+        -strip  output_thumbnail.gif
+~~~
 
 Well on with the practical IM thumbnail examples...
 
@@ -181,11 +189,12 @@ Well on with the practical IM thumbnail examples...
 ### Generate Thumbnails in General (specific height) {#height}
 
 Lets convert a [large sample JPEG image](hatching_orig.jpg) to a GIF thumbnail 90 pixels high with the width automatically adjusted (within the 250 pixel width limit) preserve the aspect ratio of the image.
-  
-      convert -define jpeg:size=500x180  hatching_orig.jpg  -auto-orient \
-              -thumbnail 250x90   -unsharp 0x.5  thumbnail.gif
 
-  
+~~~
+convert -define jpeg:size=500x180  hatching_orig.jpg  -auto-orient \
+        -thumbnail 250x90   -unsharp 0x.5  thumbnail.gif
+~~~
+
 [![\[IM Output\]](thumbnail.gif)](thumbnail.gif)
 
 Note that I used the "`-thumbnail`" option above.
@@ -216,11 +225,12 @@ For more information see [Sharpen Resized Images -- Photoshop Resize Technique](
 The "`mogrify`" version is the same as the "`convert`" command (with no initial input images), but will but will generate automatic thumbnails of *every* JPEG image in the current directory.
 The image argument is quoted so that IM itself will scan the directory, and not the command line shell.
 This prevents 'line limit overflow errors' on directories containing a huge number of images.
-  
-      mogrify  -format gif -define jpeg:size=500x180 -auto-orient \
-                    -thumbnail 250x90 -unsharp 0x.5  '*.jpg'
 
-  
+~~~
+mogrify  -format gif -define jpeg:size=500x180 -auto-orient \
+              -thumbnail 250x90 -unsharp 0x.5  '*.jpg'
+~~~
+
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
   
 Note that "`mogrify`" will blindly create thumbnails, replacing any existing images of the same name.
@@ -237,7 +247,8 @@ You can use both output options.*
 While "`mogrify`" can output the new images with a different suffix ("`-format`") or directory ("`-path`"), they are your only options using this command.
 
 If you are also wanting to change the name of the image, such as adding a "`_tn`" or "`_sm`" to denote thumbnail or small versions of the image, then I recommend you create a shell script to do the job for you, processing them one at a time using "`convert`".
-    *I wrote such a script to do this, while simultaneously generating HTML indexes at the same time.*  
+
+*I wrote such a script to do this, while simultaneously generating HTML indexes at the same time.*  
 
 ### Resize Thumbnail to Fit {#fit}
 
@@ -246,11 +257,12 @@ Well that is the default meaning for a resize geometry setting.
   
 However I prefer not to enlarge images which already fit such a box.
 For that you need to add a "`>`" to the geometry string.
-  
-      convert -define jpeg:size=200x200 hatching_orig.jpg \
-              -thumbnail '100x100>' rectangle.gif
 
-  
+~~~
+convert -define jpeg:size=200x200 hatching_orig.jpg \
+        -thumbnail '100x100>' rectangle.gif
+~~~
+
 [![\[IM Output\]](rectangle.gif)](rectangle.gif)
 
 As before the aspect ratio of the image is preserved, as such the thumbnail is unlikely to be exact 100 pixels square.
@@ -264,20 +276,22 @@ For example: An image which is 400x300 pixels shrunk to fit a 100x100 pixel box 
 We want to add some padding borders to the top and bottom of the image (and to the sides to be sure) to make the final thumbnail image always 100x100 pixels in size.
   
 There are a number of ways to do this, and as of IM v6.3.2 the best way is using the "`-extent`" option.
-  
-      convert -define jpeg:size=200x200 hatching_orig.jpg -thumbnail '100x100>' \
-              -background skyblue -gravity center -extent 100x100 pad_extent.gif
 
-  
+~~~
+convert -define jpeg:size=200x200 hatching_orig.jpg -thumbnail '100x100>' \
+        -background skyblue -gravity center -extent 100x100 pad_extent.gif
+~~~
+
 [![\[IM Output\]](pad_extent.gif)](pad_extent.gif)
   
 Before IM v6.3.2 the best way was to add extra borders and do a centered "`-crop`" on the image after adding a large border around the image.
-  
-      convert -define jpeg:size=200x200 hatching_orig.jpg -thumbnail '100x100>' \
-              -bordercolor skyblue  -border 50 \
-              -gravity center  -crop 100x100+0+0 +repage pad_crop.gif
 
-  
+~~~
+convert -define jpeg:size=200x200 hatching_orig.jpg -thumbnail '100x100>' \
+        -bordercolor skyblue  -border 50 \
+        -gravity center  -crop 100x100+0+0 +repage pad_crop.gif
+~~~
+
 [![\[IM Output\]](pad_crop.gif)](pad_crop.gif)
   
 ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -286,20 +300,22 @@ Before IM v6.3.2 the best way was to add extra borders and do a centered "`-crop
 IM v5 users need to use "`-page +0+0`" instead.*
   
 As of IM version 6.2.5, you can also use a [Viewport Crop](../crop/#crop_viewport), and flatten the result onto a background color.
-  
-      convert -define jpeg:size=200x200 hatching_orig.jpg -thumbnail '100x100>' \
-              -gravity center  -crop 120x120+0+0\! \
-              -background skyblue  -flatten    pad_view.gif
 
-  
+~~~
+convert -define jpeg:size=200x200 hatching_orig.jpg -thumbnail '100x100>' \
+        -gravity center  -crop 120x120+0+0\! \
+        -background skyblue  -flatten    pad_view.gif
+~~~~
+
 [![\[IM Output\]](pad_view.gif)](pad_view.gif)
   
 Another method to pad out an image is to overlay the thumbnail onto a background image (actual image, solid color or tiled canvas) that is the right size, in this case the 128x128 "`granite:`" built-in image.
-  
-      convert -define jpeg:size=200x200 hatching_orig.jpg -thumbnail '100x100>' \
-              granite: +swap -gravity center -composite pad_compose.gif
 
-  
+~~~
+convert -define jpeg:size=200x200 hatching_orig.jpg -thumbnail '100x100>' \
+        granite: +swap -gravity center -composite pad_compose.gif
+~~~
+
 [![\[IM Output\]](pad_compose.gif)](pad_compose.gif)
 
 This method is probably the best method to use with older versions of IM (such as IM v5), though the "`-composite`" operation will need to be done by the separate "`composite`" command, rather than the above single command method.
@@ -313,11 +329,12 @@ This is usually (but not always) the main subject of the image, so it is a pract
 
 As of IM v6.3.8-3 the special resize option flag '`^`' was added to make this easier.
 We just resize using this flag then crop off the parts of the image that overflows the desired size.
-  
-      convert -define jpeg:size=200x200 hatching_orig.jpg  -thumbnail 100x100^ \
-              -gravity center -extent 100x100  cut_to_fit.gif
 
-  
+~~~
+convert -define jpeg:size=200x200 hatching_orig.jpg  -thumbnail 100x100^ \
+        -gravity center -extent 100x100  cut_to_fit.gif
+~~~
+
 [![\[IM Output\]](cut_to_fit.gif)](cut_to_fit.gif)
 
 As you can see the thumbnail of the image is much larger and more detailed, but at a cost of cutting off the sides off the original image.
@@ -339,11 +356,12 @@ Now if we ask resize to size out image to something around that many pixels in s
 This maximizes the size of the resulting thumbnail, while not cutting away too much.
 
 For example...
-  
-      convert -define jpeg:size=200x200 hatching_orig.jpg  -thumbnail 10000@ \
-              -gravity center -background skyblue -extent 100x100  area_fit.gif
 
-  
+~~~
+convert -define jpeg:size=200x200 hatching_orig.jpg  -thumbnail 10000@ \
+        -gravity center -background skyblue -extent 100x100  area_fit.gif
+~~~
+
 [![\[IM Output\]](area_fit.gif)](area_fit.gif)
 
 As you can see the thumbnail has some padding, and the image has some cropping, but the result is probably about the best fit of image to a given thumbnail space.
@@ -374,58 +392,63 @@ Sometimes you want to simply 'square an image', either by 'padding' it out (exte
 From the IM Discussion Forums on [Squaring Images](../forum_link.cgi?f=1&t=20601) a number of methods were developed.
 
 External Squaring can be done using [Mosaic](../layers/#mosaic) to create a larger background canvas using a rotated copy of the image.
-  
-      convert thumbnail.gif \
-              \( +clone -rotate 90 +clone -mosaic +level-colors white \) \
-              +swap -gravity center -composite    square_padded.gif
 
-  
+~~~
+convert thumbnail.gif \
+        \( +clone -rotate 90 +clone -mosaic +level-colors white \) \
+        +swap -gravity center -composite    square_padded.gif
+~~~
+
 [![\[IM Output\]](square_padded.gif)](square_padded.gif)
 
 Internal Squaring on the other hand is a little harder and requires more work to achieve.
 This one uses some heavy mask handling to generate a smaller canvas.
-  
-      convert thumbnail.gif \
-              \( +clone +level-colors white \
-                 \( +clone -rotate 90 +level-colors black \) \
-                 -composite -bordercolor white -border 1 -trim +repage \) \
-              +swap -compose Src -gravity center -composite \
-              square_cropped.gif
 
-  
+~~~
+convert thumbnail.gif \
+        \( +clone +level-colors white \
+           \( +clone -rotate 90 +level-colors black \) \
+           -composite -bordercolor white -border 1 -trim +repage \) \
+        +swap -compose Src -gravity center -composite \
+        square_cropped.gif
+~~~
+
 [![\[IM Output\]](square_cropped.gif)](square_cropped.gif)
 
 An alternative way is to use a no-op distort using a distort viewport crop/pad the image.
 Essentially it uses a 'percent escapes' to do the calculations needed for an [Extent](../crop/#extent) type of operation.
 
 External (padding) square...
-  
-      convert thumbnail.gif  -virtual-pixel white -set option:distort:viewport \
-         "%[fx:max(w,h)]x%[fx:max(w,h)]-%[fx:max((h-w)/2,0)]-%[fx:max((w-h)/2,0)]" \
-         -filter point -distort SRT 0  +repage  square_external.gif
 
-  
+~~~
+convert thumbnail.gif  -virtual-pixel white -set option:distort:viewport \
+   "%[fx:max(w,h)]x%[fx:max(w,h)]-%[fx:max((h-w)/2,0)]-%[fx:max((w-h)/2,0)]" \
+   -filter point -distort SRT 0  +repage  square_external.gif
+~~~
+
 [![\[IM Output\]](square_external.gif)](square_external.gif)
 
 The [Virtual Pixel](../misc/#virtual) setting is used to specify the padding color.
 
 Internal (cropped) square...
-  
-      convert thumbnail.gif   -set option:distort:viewport \
-         "%[fx:min(w,h)]x%[fx:min(w,h)]+%[fx:max((w-h)/2,0)]+%[fx:max((h-w)/2,0)]" \
-         -filter point -distort SRT 0  +repage  square_internal.gif
 
-  
+~~~
+convert thumbnail.gif   -set option:distort:viewport \
+   "%[fx:min(w,h)]x%[fx:min(w,h)]+%[fx:max((w-h)/2,0)]+%[fx:max((h-w)/2,0)]" \
+   -filter point -distort SRT 0  +repage  square_internal.gif
+~~~
+
 [![\[IM Output\]](square_internal.gif)](square_internal.gif)
 
 Curtisy of [Fred Weinhaus's Tidbits Page](http://www.fmwconcepts.com/imagemagick/tidbits/image.php#pad_crop_square).
 
 This is a simplier version, but will lose any meta-data (like comment strings or profiles) the image may have.
-  
-      convert thumbnail.gif -set option:size '%[fx:min(w,h)]x%[fx:min(w,h)]' \
-              xc:none +swap -gravity center -composite square_internal_2.gif
 
-  
+~~~
+convert thumbnail.gif -set option:size '%[fx:min(w,h)]x%[fx:min(w,h)]' \
+        xc:none +swap -gravity center -composite square_internal_2.gif
+~~~
+
 [![\[IM Output\]](square_internal_2.gif)](square_internal_2.gif)
   
 ![](../img_www/warning.gif)![](../img_www/space.gif)
@@ -499,13 +522,15 @@ For a quick example and starting point for generating such links look at the exa
 
 The "`favion.ico`" icon often looked for by web browsers on the top level web page of a web site, for that whole site.
 That image is a special multi-resolution image format and can be created as follows.
-  
-      convert image.png  -bordercolor white -border 0 \
-              \( -clone 0 -resize 16x16 \) \
-              \( -clone 0 -resize 32x32 \) \
-              \( -clone 0 -resize 48x48 \) \
-              \( -clone 0 -resize 64x64 \) \
-              -delete 0 -alpha off -colors 256 favicon.ico
+
+~~~
+convert image.png  -bordercolor white -border 0 \
+        \( -clone 0 -resize 16x16 \) \
+        \( -clone 0 -resize 32x32 \) \
+        \( -clone 0 -resize 48x48 \) \
+        \( -clone 0 -resize 64x64 \) \
+        -delete 0 -alpha off -colors 256 favicon.ico
+~~~
 
 The '`large_image.png`' can be anything you like, but should be square.
 If it isn't that should also be the first step in the above.
@@ -518,9 +543,11 @@ This brings us to one other point.
 As only the smallest of images are typically used, with further color reduction, it is recommented to keep the images as small and as well defined as posible.
 
 As mentioned only the "`favion.ico`" image found on the top level directory of a web site is generally used, however you can also specify the location of the link thumbnail image by adding the following HTML tag to the headers of your pages...
-  
-      <LINK REL="icon" HREF="/path/to/favicon.ico" type="image/x-icon">
-      <LINK REL="shortcut" HREF="/path/to/favicon.ico" type="image/x-icon">
+
+~~~
+<LINK REL="icon" HREF="/path/to/favicon.ico" type="image/x-icon">
+<LINK REL="shortcut" HREF="/path/to/favicon.ico" type="image/x-icon">
+~~~
 
 The "`/path/to/favicon.ico`" can be a absolute or partical URL/URI to the location from which the browser should pick up the web pages thumbnail image.
 The use of '`REL="shortcut"`' is specific to Internet Explorer (before IE9), and not offically part of the HTML specification.
@@ -544,10 +571,12 @@ These thumbnails are limited to 80x60 pixels so are a little on the "small" size
 
 IM understands the "`xv`" thumbnail format (which is based on the "`NetPBM`" image format), so you can generate all the thumbnails quickly using XV, then convert the XV thumbnails of the JPEG images, into GIF images for further processing...
 
-       xv -vsmap &               # generate thumbs with the "Update" button
-       rm .xvpics/*.gif          # delete XV thumbs of existing "gif" thumbnails
-       mogrify -format gif .xvpics/*.jpg
-       mv .xvpics/*.gif .        # move the new "gif" thumbnails to original dir
+~~~
+xv -vsmap &               # generate thumbs with the "Update" button
+rm .xvpics/*.gif          # delete XV thumbs of existing "gif" thumbnails
+mogrify -format gif .xvpics/*.jpg
+mv .xvpics/*.gif .        # move the new "gif" thumbnails to original dir
+~~~
 
 If you are sick of the small size of XV thumbnails, particularly with larger modern displays, you can hack the XV code.
 See my [XV modification notes](http://www.ict.griffith.edu.au/anthony/info/graphics/xv_mods.hints), which allows you to get XV to use a larger thumbnail size.
@@ -573,29 +602,31 @@ This sort of image processing is however covered more thoroughly in [Annotating 
 Just remember to use the "`-thumbnail`" or "`-strip`" rather than a "`-resize`" in those examples.
 
 For example...
-  
-      convert thumbnail.gif \
-              -background Lavender -fill navy -font Candice -pointsize 24 \
-              label:Hatching   -gravity South -append \
-              labeled.gif
 
-  
+~~~
+convert thumbnail.gif \
+        -background Lavender -fill navy -font Candice -pointsize 24 \
+        label:Hatching   -gravity South -append \
+        labeled.gif
+~~~
+
 [![\[IM Output\]](labeled.gif)](labeled.gif)
 
 With the use of [Compound Fonts](../fonts/) you can overlay some very fancy labels onto the image itself.
 
 Here for example I used a [Denser Soft Outline Font](../fonts/#denser_soft_outline) technique to annotate the thumbnail, darkening the area around the text to ensure it always remains readable.
-  
-      convert -define jpeg:size=400x400  hatching_orig.jpg  -resize '120x200>' \
-          \( +clone -sample 1x1\! -alpha transparent -sample 1000x200\! \
-             -font SheerBeauty -pointsize 72 -gravity Center \
-             -strokewidth 8 -stroke black  -fill black  -annotate 0,0 '%c' \
-             -channel RGBA -blur 0x8 \
-             -strokewidth 1 -stroke white  -fill white  -annotate 0,0 '%c' \
-             -fuzz 1% -trim +repage -resize 115x \
-          \) -gravity North -composite           -strip annotated.gif
 
-  
+~~~
+convert -define jpeg:size=400x400  hatching_orig.jpg  -resize '120x200>' \
+    \( +clone -sample 1x1\! -alpha transparent -sample 1000x200\! \
+       -font SheerBeauty -pointsize 72 -gravity Center \
+       -strokewidth 8 -stroke black  -fill black  -annotate 0,0 '%c' \
+       -channel RGBA -blur 0x8 \
+       -strokewidth 1 -stroke white  -fill white  -annotate 0,0 '%c' \
+       -fuzz 1% -trim +repage -resize 115x \
+    \) -gravity North -composite           -strip annotated.gif
+~~~
+
 [![\[IM Output\]](annotated.gif)](annotated.gif)
 
 Note how I do not use the pre-generated "`thumbnail.gif`" image, or use the [Thumbnail Resize Operator](../resize/#thumbnail) to strip the profiles and comments from the image.
@@ -610,27 +641,31 @@ Only at the end after I have composed the text overlay do I clean up and "`-stri
   
 The "`-raise`" operator was basically created with the one purpose of highlighting the edges of rectangular images to form a raised button.
 It is a simple, fast, and effective thumbnail transformation.
-  
-      convert thumbnail.gif  -raise 8   raised_button.gif
 
-  
+~~~
+convert thumbnail.gif  -raise 8   raised_button.gif
+~~~
+
 [![\[IM Output\]](raised_button.gif)](raised_button.gif)
   
 The same operator has a 'plus' form that can be used to make a sunken highlighting effect.
-  
-      convert thumbnail.gif  +raise 8   sunken_button.gif
 
-  
+~~~
+convert thumbnail.gif  +raise 8   sunken_button.gif
+~~~
+
 [![\[IM Output\]](sunken_button.gif)](sunken_button.gif)
 
 ### Bubble Button {#bubble}
 
 With some trickiness the "`-raise`" operator can be used to produce a smooth 'bubble-like' raised button.
-  
-      convert thumbnail.gif -fill gray50 -colorize 100% \
-              -raise 8 -normalize -blur 0x8  bubble_overlay.png
-      convert thumbnail.gif bubble_overlay.png \
-              -compose hardlight -composite  bubble_button.png
+
+~~~
+convert thumbnail.gif -fill gray50 -colorize 100% \
+        -raise 8 -normalize -blur 0x8  bubble_overlay.png
+convert thumbnail.gif bubble_overlay.png \
+        -compose hardlight -composite  bubble_button.png
+~~~
 
 [![\[IM Output\]](thumbnail.gif)](thumbnail.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](bubble_overlay.png)](bubble_overlay.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](bubble_button.png)](bubble_button.png)
 
@@ -641,27 +676,28 @@ For more effects like this see [Self Framing (Internal)](#self_frame_inside) bel
 ### Adding Borders {#border}
 
 The humble simple "`-border`" operator can be used to generate some a complex framework around an images.
-  
-      convert thumbnail.gif \
-              -bordercolor black -border 3   -bordercolor white -border 2 \
-              \( -background black -fill white -pointsize 24 \
-                 label:Hatching   -trim +repage \
-                 -bordercolor black -border 10 \
-              \) -gravity South -append \
-              -bordercolor black -border 10   -gravity South -chop 0x10 \
-              border_framework.gif
 
-  
+~~~
+convert thumbnail.gif \
+        -bordercolor black -border 3   -bordercolor white -border 2 \
+        \( -background black -fill white -pointsize 24 \
+           label:Hatching   -trim +repage \
+           -bordercolor black -border 10 \
+        \) -gravity South -append \
+        -bordercolor black -border 10   -gravity South -chop 0x10 \
+        border_framework.gif
+~~~
+
 [![\[IM Output\]](border_framework.gif)](border_framework.gif)
 
 ### Simple Frame {#frame}
 
-  
 In a similar way the "`-frame`" operator makes it easy to add a frame around the image
-  
-      convert thumbnail.gif   -mattecolor peru  -frame 9x9+3+3  framed.gif
 
-  
+~~~
+convert thumbnail.gif   -mattecolor peru  -frame 9x9+3+3  framed.gif
+~~~
+
 [![\[IM Output\]](framed.gif)](framed.gif)
 
 This operator also has a lot more options to create a dozen or so different styles of frames.
@@ -673,24 +709,26 @@ The montage command provides a much easier way of doing all the above, and much 
 It cannot only generate thumbnails (or whole pages of thumbnails), but it can label the thumbnails to include information like filenames, disk size, and dimensions, or a user specified string.
 
 Here is a simple use of "`montage`" to generate a framed thumbnail.
-  
-      montage -define jpeg:size=240x200  -label '%c'  hatching_orig.jpg \
-              -frame 6  -geometry '120x100>'  montage_simple.gif
 
-  
+~~~
+montage -define jpeg:size=240x200  -label '%c'  hatching_orig.jpg \
+        -frame 6  -geometry '120x100>'  montage_simple.gif
+~~~
+
 The label comes from JPEG image file comment, which was added long ago to the image using the Non-IM command "`wrjpgcom`".
 See [Non-IM JPEG Processing](../formats/#jpg_non-im) for more details.
   
 [![\[IM Output\]](montage_simple.gif)](montage_simple.gif)
   
 Even with just "`montage`" you can get really fancy with your thumbnail generation.
-  
-      montage -define jpeg:size=400x180  -label '%c' hatching_orig.jpg \
-              -thumbnail '200x90>' -geometry '130x100>'  -mattecolor peru \
-              -frame 6  -bordercolor skyblue  -font LokiCola  -pointsize 18 \
-              montage_fancy.gif
 
-  
+~~~
+montage -define jpeg:size=400x180  -label '%c' hatching_orig.jpg \
+        -thumbnail '200x90>' -geometry '130x100>'  -mattecolor peru \
+        -frame 6  -bordercolor skyblue  -font LokiCola  -pointsize 18 \
+        montage_fancy.gif
+~~~
+
 [![\[IM Output\]](montage_fancy.gif)](montage_fancy.gif)
 
 See the "[Montage, Arrays of Images](../montage/)" for more details.
@@ -701,21 +739,23 @@ This creates a HTML index page of thumbnails in which clicking on the thumbnail 
 ### Soft and Blurred Edges {#soft_edges}
 
 The [Vignette Operator](../transform/#vignette) provides a simple means to add a blurry edge around an image.
-  
-      convert thumbnail.gif -alpha set \
-              -background none  -vignette 0x4  vignette.png
 
-  
+~~~
+convert thumbnail.gif -alpha set \
+        -background none  -vignette 0x4  vignette.png
+~~~
+
 [![\[IM Output\]](vignette.png)](vignette.png)
 
 Of course as this thumbnail uses semi-transparent color so it needs to be saved in the PNG format.
 
 The [Morphology Distance](../morphology/#distance) method provides a true transparent 'Feathering' of an image's edges.
-  
-      convert thumbnail.gif -alpha set -virtual-pixel transparent -channel A \
-              -morphology Distance Euclidean:1,10\! +channel feathered.png
 
-  
+~~~
+convert thumbnail.gif -alpha set -virtual-pixel transparent -channel A \
+        -morphology Distance Euclidean:1,10\! +channel feathered.png
+~~~
+
 [![\[IM Output\]](feathered.png)](feathered.png)
 
 The maximum distance of the transparent area is controled by the special `10\!`' distance scaling flag.
@@ -728,11 +768,12 @@ The feathering here is a pure linear gradient, and can be further adjusted using
 
 You can also [Feather Images using Blur](../blur/#feathering), using the same method of adding a transparent [Virtual Pixels](../misc/#virtual-pixel) before bluring just the alpha channel.
 This generates a more softer feathering to the image, as well as noticeably rounded the corners of the image.
-  
-      convert thumbnail.gif -alpha set -virtual-pixel transparent \
-              -channel A -blur 0x8  -level 50%,100% +channel  soft_edge.png
 
-  
+~~~
+convert thumbnail.gif -alpha set -virtual-pixel transparent \
+        -channel A -blur 0x8  -level 50%,100% +channel  soft_edge.png
+~~~
+
 [![\[IM Output\]](soft_edge.png)](soft_edge.png)
 
 The extra "`-level`" operation (adjusting only the transparency channel) ensures the edge becomes fully transparent, rather than only half transparent.
@@ -745,11 +786,12 @@ For rectangular thumbnails however the result is satisfactory.
 You can see another example of using this type of feathering in [Layered Thumbnails](../layers/#layer_thumbnails).
 
 If instead of doing a level adjustment on the blurred feather, you can [Threshold](../quantize/#threshold) the blurred alpha channel at '`50%`', so as to add psuedo-rounded corners to the above thumbnail image.
-  
-      convert thumbnail.gif -alpha set -virtual-pixel transparent -channel A \
-              -blur 0x8  -threshold 50% +channel rounded_corner_blur.gif
 
-  
+~~~
+convert thumbnail.gif -alpha set -virtual-pixel transparent -channel A \
+        -blur 0x8  -threshold 50% +channel rounded_corner_blur.gif
+~~~
+
 [![\[IM Output\]](rounded_corner_blur.gif)](rounded_corner_blur.gif)
 
 While very simple, the result is not a really nice way to round off the corners of the image.
@@ -762,21 +804,23 @@ Also note that the "`-blur`" operation can become very slow when you work with a
 As such this method of rounding corners on a large scale is not recommended at all.
 
 For a more unusual blurred edge effect, you can use a [Radial Blur](../blur/#radial-blur) on just the alpha channel.
-  
-      convert thumbnail.gif -alpha set -virtual-pixel transparent \
-              -channel A -radial-blur 0x45 +channel  radial_blur_edge.png
 
-  
+~~~
+convert thumbnail.gif -alpha set -virtual-pixel transparent \
+        -channel A -radial-blur 0x45 +channel  radial_blur_edge.png
+~~~
+
 [![\[IM Output\]](radial_blur_edge.png)](radial_blur_edge.png)
 
 This works better for perfectly square images.
 
 As the amount of angled blur becomes larger, you will eventually generate a circular like Vignette edge.
-  
-      convert thumbnail.gif -alpha set -virtual-pixel transparent \
-              -channel A -radial-blur 0x100 +channel  radial_blur_vignette.png
 
-  
+~~~
+convert thumbnail.gif -alpha set -virtual-pixel transparent \
+        -channel A -radial-blur 0x100 +channel  radial_blur_vignette.png
+~~~
+
 [![\[IM Output\]](radial_blur_vignette.png)](radial_blur_vignette.png)
 
 The two step-like artifacts that can be seen is caused by the two image size dimensions.
