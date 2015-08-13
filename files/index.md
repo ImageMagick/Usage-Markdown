@@ -175,7 +175,8 @@ Here is the list of all the special read modifiers (and "`-extract`" settings ) 
 A '`#`' represent some number.
 
 '`[#]`' '`[#-#]`' '`[#,#,#]`' `[#,#-#,#]`'.
-**Read Frames**
+
+#### Read Frames
 
 Will select specific sub-frames from a multi-image file format from the image that has been read in.
 The given number '`#`' index specifies the frame number to read.
@@ -204,7 +205,7 @@ convert 'image_%03d.png[5-7]' ...
 will read in the files "`image_005.png`", "`image_006.png`", and "`image_007.png`".
 With this method you can not use a negative index.
 
-'`[#x#]`' **Read Resize**
+#### '`[#x#]`' Read Resize
 
 From IM version 6.2.6-2 a new modifier was added to help IM users to handle very very large images.
 
@@ -266,7 +267,7 @@ The result of the combination is a much faster reading and even lower memory usa
 Especially when generating lots of small thumbnails.
 See [General Thumbnail Creation](../thumbnails/#creation).
 
-'`[#x#+#+#]`' **Read Crop**
+#### '`[#x#+#+#]`' Read Crop
 
 From IM v6.3.1 if you also add a offset the above becomes a crop of the image being read in.
 
@@ -292,8 +293,8 @@ For large text based images this can result in enormous disk space savings.
 
 The above is only a short summary of the special input options available when reading images into ImageMagick.
 A full summary is given on the [The Anatomy of the Command Line](http://www.imagemagick.org/script/command-line-processing.php) page on the [ImageMagick Website](http://www.imagemagick.org/).
-  
- As shown previously the image input can be modified by some IM settings such as "`-size`" for image creation and "`-define jpeg:size=??`" for JPEG reading.
+
+As shown previously the image input can be modified by some IM settings such as "`-size`" for image creation and "`-define jpeg:size=??`" for JPEG reading.
 Other options also effect image input creation, including, "`-page`", "`-type`", "`-dispose`", "`-delay`".
 See [Setting/Changing Image Meta-Data](../basics/#meta-data).
 

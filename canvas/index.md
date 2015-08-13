@@ -2432,7 +2432,7 @@ Note however without the [Virtual Pixel Setting](../misc/#virtual-pixel) the "`-
 As a bonus by changing the "`-virtual-pixel`" setting to '`tile`', the randomised image remains tilable, with the colors wrapping across the image boundaries.
 This tiling ability is something that currently not possible with a random [Plasma Images](#plasma) and is a inherent result of pure random images being so random to start with.
 
-**Blurred Random Hues**
+#### Blurred Random Hues
   
 One particular conversion of a blurred random noise image that I found particularly pleasing is to map the values into HSB color hues.
 
@@ -2464,7 +2464,7 @@ convert random_10.png -separate -background white \
 
 For more methods of processing a random images, see [Plasma Images](#plasma) above, as well as [Generating Backgrounds](../backgrounds/).
 
-**Blurred Random Grays**
+#### Blurred Random Grays
 
 As you can see from the above you get a image with various blobs of primary colors.
 That is because each channel is being processed completely separately to each other as gray-scale images.

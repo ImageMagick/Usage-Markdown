@@ -1383,7 +1383,7 @@ This also allows you to bias the arc toward one end of the line segment, but at 
 
 You can of course 'mix-n-match' by using both.
 
-**Pie Chart Example**
+#### Pie Chart Example
 
 To finish off using arcs, lets give an example of using for them to generate circular wedges.
 Of course you may need to use some external trigonometric mathematics (how good was your senior high school math?) to determine the end path points that are required.

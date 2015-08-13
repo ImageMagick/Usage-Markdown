@@ -711,7 +711,7 @@ The new '`@`' flag crop operator will let you more easily crop out those tiles, 
 The main problem however is that while the 'tile' images have a fixed amount of space around them the amount of space around the edge is usually not so fixed.
 This produces three basic styles of edge characteristics to a set of 'spaced' images, and each type need to be handled slightly differently.
 
-**Montaged Tiles**
+#### Montaged Tiles
 
 Here the original images were simply given a fixed sized border before being appended together.
 The result is that you will always have an even number of pixel spacing between tiles.
@@ -738,7 +738,7 @@ convert montage_?.gif -shave 3x3 montage-3_%d.gif
   
 [![\[IM Output\]](montage-3_0.gif)](montage-3_0.gif) [![\[IM Output\]](montage-3_1.gif)](montage-3_1.gif) [![\[IM Output\]](montage-3_2.gif)](montage-3_2.gif) [![\[IM Output\]](montage-3_3.gif)](montage-3_3.gif) [![\[IM Output\]](montage-3_4.gif)](montage-3_4.gif)
 
-**Same Spacing around Edge**
+#### Same Spacing around Edge
 
 Here, the sub-images were not only 'spaced-out' by 6 pixels but also had a 6 pixel spacing around the edge, making it look rather neat and tidy.
 
@@ -794,7 +794,7 @@ convert edged+6_0.gif -crop 1x1-6-6@ +repage tile-shave.gif
   
 [![\[IM Output\]](tile-shave.gif)](tile-shave.gif)
 
-**Simply Spaced Tiles**
+#### Simply Spaced Tiles
 
 The simplest spaced-out tiled images has no edge spacing, or has had that edge spacing [Trimmed](#trim) from the image.
 However, for this to be handled you need to tell IM of this special situation, by including BOTH '`@`' and '`!`' flags.

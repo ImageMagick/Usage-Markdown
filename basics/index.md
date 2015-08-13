@@ -2138,7 +2138,8 @@ One important operator that should be kept in mind when using HDRI is "`-clamp`"
 
 #### Quantum Effects, HDRI vs non-HDRI {#quantum_effects}
 
-**Quantum Rounding...**  
+##### Quantum Rounding
+
 For example here I use the [Level](../color_mods/#level) and the [Reverse Level](../color_mods/level_plus) operators to compress the color range of a gradient image down so they only use the values from 0 to 15, then un-compress it again. The resulting gradient is also displayed as an image profile (using the script "`im_profile`") to make it easier to follow.
 
 ~~~
@@ -2157,7 +2158,8 @@ Note that this type of Quantum Rounding problem becomes very common in a IM Q8 v
 
 Quantum Rounding only becomes a problem for IM Q16 when you use really heavy image processing such as, [Fast Fourier Transforms (FFT)](../fourier/) or merging of images containing different exposure times (light intensity) to generate High Dynamic Range Images. This is after all why HDRI was added to ImageMagick in the first place.
 
-**Burning and Clipping...**  
+##### Burning and Clipping.
+
 And here I 'stretch' the gradient so that the original black and white color values go well beyond the "Quantum Range", before being restored again.
 
 ~~~
@@ -2172,7 +2174,7 @@ im_profile -s level_clipping.png  level_clipping_pf.gif
 
 You can see that a normal IM looses the information at both ends. The lower end values gets 'burned' as values become negative, while the upper values become 'clipped' as they go beyond the maximum 'Quantum Range' limits of the integers used to store the values.
 
-**HDRI version of ImageMagick** result...
+##### HDRI version of ImageMagick
 
 Repeating these two operations using a HDRI version of ImageMagick will not produce any of the above rounding, burning, or clipping of the results, but will have a extra cost in terms of memory (doubles need more space than integers).
 
@@ -2217,8 +2219,7 @@ Of course saving a image that contains very small, large or negative values into
 
 Some image formats that can handle floating point values (without clipping or rounding) include, [NetPBM PFM](../formats/#netpbm). This is the only image file format that does not require any extra special options.
 
-  
- Other image file formats can also be used, but require a special switch to specify that the file is to save floating point values.
+Other image file formats can also be used, but require a special switch to specify that the file is to save floating point values.
 
 Specifically you need to specify the coder option "`-define quantum:format=floating-point`" to request floating point values in these file formats.
 
@@ -2226,11 +2227,9 @@ The "`-depth`" setting can also be used to define what type of floating point va
 
 The image file formats that can use with this special flag to save floating point values include... [TIFF](../formats/#tiff), FITS, and [MIFF](../files/#miff). The raw data file format [RGB](../formats/#rgb) will also save (and read) floating point, though that format does not save image size, and you need to specify the the floating point settings for reading too.
 
-  
- Another special coder option is is "`-define quantum:scale=65535.0`". This will be multiplied with value read from the image file, so as to scale the value from a normalized floating point value of 0.0 to 1.0, into the internal value range of 0.0 to 65535.0. So if you get a near pure black image when reading a floating point image, try adding this option to scale the values being read into the appropriate range.
+Another special coder option is is "`-define quantum:scale=65535.0`". This will be multiplied with value read from the image file, so as to scale the value from a normalized floating point value of 0.0 to 1.0, into the internal value range of 0.0 to 65535.0. So if you get a near pure black image when reading a floating point image, try adding this option to scale the values being read into the appropriate range.
 
-  
- The direct memory-to-disk file format [MPC](../files/#mpc), will also save floating point values used by a HDRI version of IM, and will not need any special flags. But as with any [MPC](../files/#mpc) image file, only the exact same version (specific compilation) of IM on the same machine will correctly read such a file. As such it is only good for temporary 'quick read' files for scripted image processing, and not for long term storage.
+The direct memory-to-disk file format [MPC](../files/#mpc), will also save floating point values used by a HDRI version of IM, and will not need any special flags. But as with any [MPC](../files/#mpc) image file, only the exact same version (specific compilation) of IM on the same machine will correctly read such a file. As such it is only good for temporary 'quick read' files for scripted image processing, and not for long term storage.
 
 ### What Q-level should I use {#quality_best}
 
