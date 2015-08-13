@@ -44,9 +44,8 @@ convert hextile.png -virtual-pixel tile  {..transform..} \
 ~~~
 
 [![\[IM Output\]](hextile_noop.png)](hextile_noop.png)
- 
 
-**Basic Transforms**
+## Basic Transforms
 
 blur\_raw *(no post -auto-level)*
 
@@ -131,7 +130,7 @@ hues
 [![\[Noise\]](hextile_hues.png)](hextile_hues.png)
 
 
-**Shade Transforms**
+## Shade Transforms
 
 shade\_raw *(no post -auto-level)*
 
@@ -204,7 +203,7 @@ shade\_10
 [![\[Noise\]](hextile_shade_10.png)](hextile_shade_10.png)
 
 
-**Emboss Transforms**
+## Emboss Transforms
 
 emboss\_1
 
@@ -267,7 +266,7 @@ emboss\_5gs
 [![\[Noise\]](hextile_emboss_5gs.png)](hextile_emboss_5gs.png)
 
 
-**Edging Transforms**
+## Edging Transforms
 
 charcoal
 
@@ -330,7 +329,7 @@ mesas
 [![\[Noise\]](hextile_mesas.png)](hextile_mesas.png)
 
 
-**Line Generating Transforms**
+## Line Generating Transforms
 
 lines
 
@@ -393,7 +392,8 @@ contours
 [![\[Noise\]](hextile_contours.png)](hextile_contours.png)
 
 
-**Complex Textured Blob Transforms**
+## Complex Textured Blob Transforms
+
 *(using a strange '`-edge 1`' effect)*
 
 blobs
@@ -448,7 +448,7 @@ mottled
 [![\[Noise\]](hextile_mottled.png)](hextile_mottled.png)
 
 
-**Paint Transforms**
+## Paint Transforms
 
 paint\_raw10 *(no post -auto-level)*
 
@@ -532,7 +532,7 @@ paint\_3d
 [![\[Noise\]](hextile_paint_3d.png)](hextile_paint_3d.png)
 
 
-**Gradient Transforms**
+## Gradient Transforms
 
 levels *(no post -auto-level)*
 
@@ -611,7 +611,7 @@ layered\_levels *(no post -auto-level)*
 [![\[Noise\]](hextile_layered_levels.png)](hextile_layered_levels.png)
 
 
-**Miscellaneous**
+## Miscellaneous
 
 filaments
 
@@ -626,7 +626,7 @@ filaments
 
 If you have or come up with a nice background generator or image transform, please let me know so it can be added here to share with others.
 
-### Final Important Notes
+## Final Important Notes
 
 The two [Random Noise Images](../canvas/#random), being so 'random' are tilable, and we use "`-virtual-pixels`" to ensure that they remain tilable during the transformation.
 However the [Plasma Image](../canvas/#plasma) is not tilable to start with, so a enlarged version with the edges "`-shave`" off afterward is used to remove the unwanted edge effect of many operations.
