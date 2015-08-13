@@ -20,17 +20,19 @@ Basically it just rearranges the pixels, without destroying, overwriting, copyin
 For these examples lets use this cute looking koala image...
   
 The simplest image distortion is to rearrange the pixels in the image so as to "[`-flip`](../option_link.cgi?flip)" it upside-down.
-  
-      convert koala.gif  -flip  flip.gif
 
-  
+~~~
+convert koala.gif  -flip  flip.gif
+~~~
+
 [![\[IM Output\]](flip.gif)](flip.gif)
   
 Or by using "[`-flop`](../option_link.cgi?flop)" you can generate a mirror image.
-  
-      convert koala.gif  -flop  flop.gif
 
-  
+~~~
+convert koala.gif  -flop  flop.gif
+~~~
+
 [![\[IM Output\]](flop.gif)](flop.gif)
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
@@ -41,17 +43,19 @@ Or by using "[`-flop`](../option_link.cgi?flop)" you can generate a mirror image
 The "[`-transpose`](../option_link.cgi?transpose)" and "[`-transverse`](../option_link.cgi?transverse)" image operations produce diagonal mirrors of the image.
   
 The "[`-transpose`](../option_link.cgi?transpose)" mirrors the image along the image top-left to bottom-right diagonal.
-  
-      convert koala.gif  -transpose  transpose.gif
 
-  
+~~~
+convert koala.gif  -transpose  transpose.gif
+~~~
+
 [![\[IM Output\]](transpose.gif)](transpose.gif)
   
 While "[`-transverse`](../option_link.cgi?transverse)" mirrors the image along the image bottom-left to top-right diagonal.
-  
-      convert koala.gif  -transverse  transverse.gif
 
-  
+~~~
+convert koala.gif  -transverse  transverse.gif
+~~~
+
 [![\[IM Output\]](transverse.gif)](transverse.gif)
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
@@ -61,12 +65,14 @@ While "[`-transverse`](../option_link.cgi?transverse)" mirrors the image along t
 
 All four types of operations shown above, will essentially produce a mirror image of the original.
 The "[`-rotate`](../option_link.cgi?rotate)" operator provides the other non-mirrored versions of the image, including the original image itself.
-  
-      convert koala.gif  -rotate   0  rotate_0.gif
-      convert koala.gif  -rotate  90  rotate_90.gif
-      convert koala.gif  -rotate 180  rotate_180.gif
-      convert koala.gif  -rotate -90  rotate-90.gif
-      convert koala.gif  -rotate 360  rotate_360.gif
+
+~~~
+convert koala.gif  -rotate   0  rotate_0.gif
+convert koala.gif  -rotate  90  rotate_90.gif
+convert koala.gif  -rotate 180  rotate_180.gif
+convert koala.gif  -rotate -90  rotate-90.gif
+convert koala.gif  -rotate 360  rotate_360.gif
+~~~
 
 [![\[IM Output\]](rotate_0.gif)](rotate_0.gif) [![\[IM Output\]](rotate_90.gif)](rotate_90.gif) [![\[IM Output\]](rotate_180.gif)](rotate_180.gif) [![\[IM Output\]](rotate-90.gif)](rotate-90.gif) [![\[IM Output\]](rotate_360.gif)](rotate_360.gif)
 
@@ -89,24 +95,27 @@ See [Rotate](#rotate) below.
   
 You can also "[`-roll`](../option_link.cgi?roll)" an image horizontally (like a TV that is out of sync).
 The amount of the roll (displacement of the image) is given in pixels.
-  
-      convert koala.gif  -roll +0+20  roll_horiz.gif
 
-  
+~~~
+convert koala.gif  -roll +0+20  roll_horiz.gif
+~~~
+
 [![\[IM Output\]](roll_horiz.gif)](roll_horiz.gif)
   
 Of course you can also roll the image sideways...
-  
-      convert koala.gif  -roll +30+0  roll_vert.gif
 
-  
+~~~
+convert koala.gif  -roll +30+0  roll_vert.gif
+~~~
+
 [![\[IM Output\]](roll_vert.gif)](roll_vert.gif)
   
 Or by using a negative number of pixels, you can roll it in the opposite direction.
-  
-      convert koala.gif  -roll +0-20  roll-horiz.gif
 
-  
+~~~
+convert koala.gif  -roll +0-20  roll-horiz.gif
+~~~
+
 [![\[IM Output\]](roll-horiz.gif)](roll-horiz.gif)
 
 Rolls are particularly important for [Tiled Images](../canvas/#tile) as it repositions the tile origin, without destroying the images 'tilability'.
@@ -115,11 +124,12 @@ In fact that is exactly what the "[`-tile-offset`](../option_link.cgi?tile-offse
 ### Simple Rearrangements Summary {#simple_summary}
 
 The most important aspect of all these operators is that you can add them all together in many different ways such that the result will be *exactly* as if no operation was performed at all.
-  
-      convert koala.gif -roll +25+0 -rotate 90  -flop \
-              -roll +0-25  -flip  -rotate 90    original.gif
 
-  
+~~~
+convert koala.gif -roll +25+0 -rotate 90  -flop \
+        -roll +0-25  -flip  -rotate 90    original.gif
+~~~
+
 [![\[IM Output\]](original.gif)](original.gif)
 
 ------------------------------------------------------------------------
@@ -135,10 +145,11 @@ As you saw above the "[`-rotate`](../option_link.cgi?rotate)" operator can perfo
   
 With other angles however, the rotated image will not fit nicely into a rectangular image.
 Consequently to ensure that no image data is lost, the size of the final image is enlarged just enough to accommodate the rotated image.
-  
-      convert koala.gif -rotate 30 rotate.jpg
 
-  
+~~~
+convert koala.gif -rotate 30 rotate.jpg
+~~~
+
 [![\[IM Output\]](rotate.jpg)](rotate.jpg)
 
 Note that the direction of rotate is clock-wise.
@@ -148,17 +159,19 @@ This is important to keep in mind when dealing with any form of image rotation, 
   
 The extra space added by ImageMagick is colored with the current "[`-background`](../option_link.cgi?background)" color setting.
 Allowing you to specify the color to fill into the corners.
-  
-      convert koala.gif -background lightblue -rotate 30 rotate_color.png
 
-  
+~~~
+convert koala.gif -background lightblue -rotate 30 rotate_color.png
+~~~
+
 [![\[IM Output\]](rotate_color.png)](rotate_color.png)
   
 Of course if you want to fill with the transparent color, you will need to ensure the image can handle transparency (by enabling adding an [Alpha Channel](../basics/#alpha)), and is saved to an image format that can handle transparency.
-  
-      convert koala.gif -alpha set -background none -rotate 30 rotate_trans.png
 
-  
+~~~
+convert koala.gif -alpha set -background none -rotate 30 rotate_trans.png
+~~~
+
 [![\[IM Output\]](rotate_trans.png)](rotate_trans.png)
 
 If the extra space comes out black, then your output image output format does not allow the use of an alpha channel, (most likely the JPEG format), so the transparency defaults to black.
@@ -170,11 +183,12 @@ If the extra space comes out black, then your output image output format does no
 But what if you don't what that extra space, wanting to preserve the images original size? Well you can use a centered "[`-crop`](../option_link.cgi?crop)" to return the image to its original size.
 
 If you don't know what the original size was, you can use an alpha composition trick (see the '`Src`' compose method) to restore the image back to its original size.
-  
-        convert koala.gif -alpha set \( +clone -background none -rotate 30 \) \
-                -gravity center  -compose Src -composite   rotate_resized.png
 
-  
+~~~
+convert koala.gif -alpha set \( +clone -background none -rotate 30 \) \
+        -gravity center  -compose Src -composite   rotate_resized.png
+~~~
+
 [![\[IM Output\]](rotate_resized.png)](rotate_resized.png)
 
 The "[`-rotate`](../option_link.cgi?rotate)" operator also understands two extra flags.
@@ -212,11 +226,12 @@ Also you can not control the mixing of colors during the [Image Rotation](#rotat
 Which means you can not preserve the original colors of the image.
   
 For example here I rotated a simple vertical line of pixels by 17 degrees, which I then scaled so as to show the effect of the individual pixels in the resulting image.
-  
-      convert -size 10x30 xc: -draw 'line 5,0 5,30' \
-              -background white   -rotate 17  -scale 500%  rotate_magnify.gif
 
-  
+~~~
+convert -size 10x30 xc: -draw 'line 5,0 5,30' \
+        -background white   -rotate 17  -scale 500%  rotate_magnify.gif
+~~~
+
 [![\[IM Output\]](rotate_magnify.gif)](rotate_magnify.gif)
 
 Note how the line seems to phase in and out in the rotated image, as it crosses pixel boundaries.
@@ -227,12 +242,13 @@ This 'rotation blur' is especially noticeable when you rotate small text and lab
 Such lines contain lots of fine detail that 'disappears' in a regular and highly notice wave of blurring across the image.
   
 The only direct solution to this problem is to use a [Pixel Mapping](../distorts/#mapping) technique, such as used by the [Scale-Rotate-Translate (SRT) Distortion](../distorts/#srt).
-  
-      convert -size 10x30 xc: -draw 'line 5,0 5,30' \
-              -virtual-pixel white  +distort SRT 17 \
-              -scale 500% rotate_SRT_magnify.gif
 
-  
+~~~
+convert -size 10x30 xc: -draw 'line 5,0 5,30' \
+        -virtual-pixel white  +distort SRT 17 \
+        -scale 500% rotate_SRT_magnify.gif
+~~~
+
 There are many other controls provided by the [General Distort Operator](../distorts/#distort) for things like filter control, point interpolation, output image size, and controls for [Image Layering](../layers/), that the older [Rotate Operator](#rotate), does not provide.
   
 [![\[IM Output\]](rotate_SRT_magnify.gif)](rotate_SRT_magnify.gif)
@@ -256,13 +272,15 @@ Its two arguments are given in terms of angles.
 Just as with "[`-rotate`](../option_link.cgi?rotate)" the operation increases the size of the resulting image so as not to loose any information.
 
 However shear is more complex in that it is really a double operation.
-  
-      convert koala.gif -background Blue  -shear 20      shear_rot.gif
-      convert koala.gif -background Blue  -shear 20x0    shear_x.gif
-      convert koala.gif -background Blue  -shear 0x50    shear_y.gif
-      convert koala.gif -background Blue  -shear 20x50   shear_xy.gif
-      convert koala.gif -background Blue  -shear 20x0  -shear 0x50   shear_xy2.gif
-      convert koala.gif -background Blue  -shear 0x50  -shear 20x0   shear_yx.gif
+
+~~~
+convert koala.gif -background Blue  -shear 20      shear_rot.gif
+convert koala.gif -background Blue  -shear 20x0    shear_x.gif
+convert koala.gif -background Blue  -shear 0x50    shear_y.gif
+convert koala.gif -background Blue  -shear 20x50   shear_xy.gif
+convert koala.gif -background Blue  -shear 20x0  -shear 0x50   shear_xy2.gif
+convert koala.gif -background Blue  -shear 0x50  -shear 20x0   shear_yx.gif
+~~~
 
 [![\[IM Output\]](shear_rot.gif)](shear_rot.gif) [![\[IM Output\]](shear_x.gif)](shear_x.gif) [![\[IM Output\]](shear_y.gif)](shear_y.gif) [![\[IM Output\]](shear_xy.gif)](shear_xy.gif) [![\[IM Output\]](shear_xy2.gif)](shear_xy2.gif) [![\[IM Output\]](shear_yx.gif)](shear_yx.gif)
 
@@ -273,10 +291,11 @@ Note that the ordering of the shears produce different results.
 If only one number is provided (without any '`x`' in the argument, as in the first image) then "[`-shear`](../option_link.cgi?shear)" will apply it in both the X and Y directions as a sort of poor mans rotate.
   
 The "[`-background`](../option_link.cgi?background)" color setting is of course used as the color for the extra space added.
-  
-      convert koala.gif  -background none  -shear 30  shear_trans.png
 
-  
+~~~
+convert koala.gif  -background none  -shear 30  shear_trans.png
+~~~
+
 [![\[IM Output\]](shear_trans.png)](shear_trans.png)
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
@@ -306,36 +325,37 @@ Neither method however allow you to specify the shears using angles arguments.
 
 While shears aren't the nicest or simplest of operators to use, that does not mean you can't do fancy things with them.
 The following is an example of using "[`-shear`](../option_link.cgi?shear)" to create a isometric cube.
-  
-      # Create some square images for the cube
-      convert logo: -resize 256x256^ -gravity center -extent 256x256 top.jpg
-      convert ../img_photos/pagoda_sm.jpg           -resize 256x256 left.jpg
-      convert ../img_photos/mandrill_orig.png       -resize 256x256 right.jpg
 
-      # top image shear.
-      convert top.jpg -resize  260x301! -alpha set -background none \
-              -shear 0x30 -rotate -60 -gravity center -crop 520x301+0+0 \
-              top_shear.png
+~~~
+# Create some square images for the cube
+convert logo: -resize 256x256^ -gravity center -extent 256x256 top.jpg
+convert ../img_photos/pagoda_sm.jpg           -resize 256x256 left.jpg
+convert ../img_photos/mandrill_orig.png       -resize 256x256 right.jpg
 
-      # left image shear
-      convert left.jpg  -resize  260x301! -alpha set -background none \
-              -shear 0x30  left_shear.png
+# top image shear.
+convert top.jpg -resize  260x301! -alpha set -background none \
+        -shear 0x30 -rotate -60 -gravity center -crop 520x301+0+0 \
+        top_shear.png
 
-      # right image shear
-      convert right.jpg  -resize  260x301! -alpha set -background none \
-              -shear 0x-30  right_shear.png
+# left image shear
+convert left.jpg  -resize  260x301! -alpha set -background none \
+        -shear 0x30  left_shear.png
 
-      # combine them.
-      convert left_shear.png right_shear.png +append \
-              \( top_shear.png -repage +0-149 \) \
-              -background none -layers merge +repage \
-              -resize 30%  isometric_shears.png
+# right image shear
+convert right.jpg  -resize  260x301! -alpha set -background none \
+        -shear 0x-30  right_shear.png
 
-      # cleanup
-      rm -f top.jpg left.jpg right.jpg
-      rm -f top_shear.png left_shear.png right_shear.png
+# combine them.
+convert left_shear.png right_shear.png +append \
+        \( top_shear.png -repage +0-149 \) \
+        -background none -layers merge +repage \
+        -resize 30%  isometric_shears.png
 
-  
+# cleanup
+rm -f top.jpg left.jpg right.jpg
+rm -f top_shear.png left_shear.png right_shear.png
+~~~
+
 [![\[IM Output\]](isometric_shears.png)](isometric_shears.png)
 
 The above was developed from a similar [Windows Batch Example](../windows/#cube) by Wolfgang Hugemann &lt;ImageMagick@Hugemann.de&gt; in his [Using IM under Windows](../windows/) contribution to IM Examples.
@@ -360,45 +380,50 @@ However this operator will only displace columns of pixels vertically according 
   
 There are two arguments to the "[`-wave`](../option_link.cgi?wave)" operator.
 The first is the maximum height or *amplitude* the pixels will be displace either up or down, while the second is the *wavelength* of the sine function in pixels.
-  
-      convert koala.gif -background Blue  -wave 10x64  wave.jpg
 
-  
+~~~
+convert koala.gif -background Blue  -wave 10x64  wave.jpg
+~~~
+
 [![\[IM Output\]](wave.jpg)](wave.jpg)
   
 Note that because pixels can be displaced up to the given *amplitude*, that much extra space will always be added to both the top and bottom of the image, even if that space is not actually needed.
   
 For example by adjusting the arguments so that the *wavelength* is double the width of the image, you can make the image into a arc.
-  
-      convert koala.gif -background Blue  -wave 20x150  arched.jpg
 
-  
+~~~
+convert koala.gif -background Blue  -wave 20x150  arched.jpg
+~~~
+
 [![\[IM Output\]](arched.jpg)](arched.jpg)
   
 In this sort of case the unused space can be removed using either a "[`-chop`](../option_link.cgi?chop)", "[`-shave`](../option_link.cgi?shave)", or possibly even a "[`-trim`](../option_link.cgi?trim)" operation.
   
 Lets clean up the previous example by using a negative amplitude to flip the arc over, and use "[`-chop`](../option_link.cgi?chop)" to remove the unused space the "[`-wave`](../option_link.cgi?wave)" operator added.
-  
-      convert koala.gif -background Blue  -wave -20x150  \
-              -gravity South -chop 0x20 arched_2.jpg
 
-  
+~~~
+convert koala.gif -background Blue  -wave -20x150  \
+        -gravity South -chop 0x20 arched_2.jpg
+~~~
+
 [![\[IM Output\]](arched_2.jpg)](arched_2.jpg)
   
 Of course the "[`-background`](../option_link.cgi?background)" color setting can be used to define the extra space added to the image.
-  
-      convert koala.gif -alpha set -background none  -wave 10x75  wave_trans.png
 
-  
+~~~
+convert koala.gif -alpha set -background none  -wave 10x75  wave_trans.png
+~~~
+
 [![\[IM Output\]](wave_trans.png)](wave_trans.png)
   
 As you can see from the above examples "[`-wave`](../option_link.cgi?wave)" only applies in the vertical or 'Y' direction.
 If you want to add a wave in the X direction, you'll need to rotate the image before and after you apply the wave.
-  
-      convert koala.gif  -rotate -90 -background Blue  -wave -10x75 \
-                         -rotate +90  wave_y.jpg
 
-  
+~~~
+convert koala.gif  -rotate -90 -background Blue  -wave -10x75 \
+                   -rotate +90  wave_y.jpg
+~~~
+
 [![\[IM Output\]](wave_y.jpg)](wave_y.jpg)
 
 The technique can be used to add a wave pattern or vibration to an image at any angle.
@@ -409,11 +434,12 @@ That is the left most column is not displaced, while the next few rows are displ
   
 Basically the "[`-wave`](../option_link.cgi?wave)" operator does not (at this time) allow you to specify an offset for the start of the sine function.
 This can be rectified however by adding, then removing, an image offset using "[`-splice`](../option_link.cgi?splice)".
-  
-      convert koala.gif  -splice 19x0+0+0 -background Blue  -wave 10x75 \
-                         -chop   19x0+0+0     wave_offset.jpg
 
-  
+~~~
+convert koala.gif  -splice 19x0+0+0 -background Blue  -wave 10x75 \
+                   -chop   19x0+0+0     wave_offset.jpg
+~~~
+
 [![\[IM Output\]](wave_offset.jpg)](wave_offset.jpg)
 
 While "[`-wave`](../option_link.cgi?wave)" will not make use of the current [Virtual Pixel Setting](../misc/#virtual-pixel) to define the color of the added areas, it will look at the current [Interpolation Setting](..misc/#interpolation) to map the colors from the source to the image generated.
@@ -444,17 +470,19 @@ Caution however is advised to only use very small values, to start with, and slo
 Most novice users tend to use too large a value and get disappointed by the result.
   
 For example this is a typical image implosion...
-  
-      convert koala.gif -implode .6 implode.gif
 
-  
+~~~
+convert koala.gif -implode .6 implode.gif
+~~~
+
 [![\[IM Output\]](implode.gif)](implode.gif)
   
 Using increasingly larger values will essentially suck all the pixels in the circle, into oblivion.
-  
-      convert koala.gif -implode 5 implode_big.gif
 
-  
+~~~
+convert koala.gif -implode 5 implode_big.gif
+~~~
+
 [![\[IM Output\]](implode_big.gif)](implode_big.gif)
 
 However be warned that using any "[`-implode`](../option_link.cgi?implode)" value larger than '`1.0`' is also effected by the [Virtual Pixel Setting](../misc/#virtual-pixel), as the algorithm starts to make color references beyond the boundaries of actual image itself.
@@ -463,13 +491,14 @@ As the default the "[`-virtual-pixel`](../option_link.cgi?virtual-pixel)" settin
 For example these two images are the same except one had white border added to it.
 this basically shows the area which is using colors looked up from beyond the bounds of the image proper.
 The area normally defined by the "[`-virtual-pixel`](../option_link.cgi?virtual-pixel)" setting.
-  
-      convert rose: -gravity center -crop 46x46+0+0 +repage \
-                                                  -implode 3   implode_rose.gif
-      convert rose: -gravity center -crop 44x44+0+0 +repage \
-                    -bordercolor white -border 1  -implode 3   implode_rose_2.gif
 
-  
+~~~
+convert rose: -gravity center -crop 46x46+0+0 +repage \
+                                            -implode 3   implode_rose.gif
+convert rose: -gravity center -crop 44x44+0+0 +repage \
+              -bordercolor white -border 1  -implode 3   implode_rose_2.gif
+~~~
+
 [![\[IM Output\]](implode_rose.gif)](implode_rose.gif) [![\[IM Output\]](implode_rose_2.gif)](implode_rose_2.gif)
 
 Using different [Virtual Pixel](../misc/#virtual-pixel) settings such as '`Background`' will produce the same effect as adding "[`-border`](../option_link.cgi?border)", but without enlarging the image.
@@ -478,11 +507,12 @@ Other [Virtual Pixel](../misc/#virtual-pixel) settings can produce much more int
 For example using a '`Tile`' setting can add highly distorted copies of the image.
 
 For example here I implode simple box image using this setting...
-  
-      convert -size 94x94 xc:red -bordercolor white -border 3 \
-              -virtual-pixel tile     -implode 4   implode_tiled_box.gif
 
-  
+~~~
+convert -size 94x94 xc:red -bordercolor white -border 3 \
+        -virtual-pixel tile     -implode 4   implode_tiled_box.gif
+~~~
+
 [![\[IM Output\]](implode_tiled_box.gif)](implode_tiled_box.gif)
 
 More "[`-virtual-pixel`](../option_link.cgi?virtual-pixel)" effects are explored on [Implosion Effects of Virtual Pixels](../misc/#virtual_implode).
@@ -491,12 +521,13 @@ As the number of pixels being imploded into a small area increases, and the size
 To get a better more consistent result, you can increase the number of pixels implode works with, using a technique called [Super-Sampling](../distorts/#super_sample).
 
 Basically by using a larger image (enlarging the source image if necessary), doing the distortion, then shrinking the result to its final size you will produce a much better result.
-  
-      convert -size 94x94 xc:red -bordercolor white -border 3 \
-              -virtual-pixel tile  -resize 400%  -implode 4 -resize 25% \
-              implode_tiled_ss.gif
 
-  
+~~~
+convert -size 94x94 xc:red -bordercolor white -border 3 \
+        -virtual-pixel tile  -resize 400%  -implode 4 -resize 25% \
+        implode_tiled_ss.gif
+~~~
+
 [![\[IM Output\]](implode_tiled_ss.gif)](implode_tiled_ss.gif)
 
 As you can see you get a much smoother and more realistic result that shows the internal detail of the distortion much better.
@@ -504,19 +535,21 @@ However even super-sampling wil break down in extreme images like this, as it in
 If you look carefully you will see that a 'dotty' look returns, but only closer into the center.
   
 By using a larger "[`-border`](../option_link.cgi?border)" around the image being imploded, and later removing it again, you can also warp the edges of an image, inward toward the center.
-  
-      convert koala.gif -bordercolor blue -border 20x20 \
-              -implode .5   -shave 18x18  implode_border.jpg
 
-  
+~~~
+convert koala.gif -bordercolor blue -border 20x20 \
+        -implode .5   -shave 18x18  implode_border.jpg
+~~~
+
 [![\[IM Output\]](implode_border.jpg)](implode_border.jpg)
   
 As of IM version 6.2.1 you can also use a transparent border, or image with transparency...
-  
-      convert koala.gif -bordercolor none -border 20x20 \
-              -implode .5   -shave 18x18  implode_border_trans.png
 
-  
+~~~
+convert koala.gif -bordercolor none -border 20x20 \
+        -implode .5   -shave 18x18  implode_border_trans.png
+~~~
+
 [![\[IM Output\]](implode_border_trans.png)](implode_border_trans.png)
 
 ### Exploding Images {#explode}
@@ -524,24 +557,27 @@ As of IM version 6.2.1 you can also use a transparent border, or image with tran
   
 By using a negative value with the "[`-implode`](../option_link.cgi?implode)" operator, you can explode the image.
 This is however more like magnifying the center of the image pushing all the mid-radius pixels out toward the edge, rather than a true explosion.
-  
-      convert koala.gif -implode -2 explode.jpg
 
-  
+~~~
+convert koala.gif -implode -2 explode.jpg
+~~~
+
 [![\[IM Output\]](explode.jpg)](explode.jpg)
   
 Using larger value will essentially enlarge the center most pixels of the image into a circle two-thirds the size of the smallest image dimension.
-  
-      convert koala.gif -implode -30 explode_big.jpg
 
-  
+~~~
+convert koala.gif -implode -30 explode_big.jpg
+~~~
+
 [![\[IM Output\]](explode_big.jpg)](explode_big.jpg)
 And here is a '[Super-Sampled](..distorts/#super_sample)', version.
-  
-      convert koala.gif -resize 400% -implode -30 \
-              -resize 25% explode_big_ss.jpg
 
-  
+~~~
+convert koala.gif -resize 400% -implode -30 \
+        -resize 25% explode_big_ss.jpg
+~~~
+
 [![\[IM Output\]](explode_big_ss.jpg)](explode_big_ss.jpg)
 
 The central color of the internal 'explosion' is set by the color of the center of the image (or region).
@@ -555,21 +591,23 @@ For another example of imploded images see user [hh](http://www.flickr.com/photo
   
 The "[`-swirl`](../option_link.cgi?swirl)" operator acts like a cake mixer.
 It will warp the image around in a circle the number of degrees you give it as an argument.
-  
-      convert koala.gif -swirl 180 swirl.jpg
 
-  
+~~~
+convert koala.gif -swirl 180 swirl.jpg
+~~~
+
 [![\[IM Output\]](swirl.jpg)](swirl.jpg)
   
 By adding a border, and combining with "[`-implode`](../option_link.cgi?implode)" you can give the look of a whirlpool sucking the image up to oblivion.
-  
-      convert koala.gif -bordercolor white -border 20x20 \
-              -swirl 180 -implode .3  -shave 20x20   whirlpool.jpg
 
-  
+~~~
+convert koala.gif -bordercolor white -border 20x20 \
+        -swirl 180 -implode .3  -shave 20x20   whirlpool.jpg
+~~~
+
 [![\[IM Output\]](whirlpool.jpg)](whirlpool.jpg)
 
-The key nature o fthis distortion is that the image will become rotated in the center by the angle you specify, while the circlur edge (like the [Implode Operator](#implode) above) remains uneffected.
+The key nature of this distortion is that the image will become rotated in the center by the angle you specify, while the circlur edge (like the [Implode Operator](#implode) above) remains uneffected.
 
 At this time there is no parameter to specifiy an 'inner radius' to limit the swirl to a ring, rather than to a full disk.
 
