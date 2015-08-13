@@ -164,10 +164,9 @@ convert  image.png  -verbose -identify null:
 convert  image.png  -verbose info:
 ~~~
 
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*The output from any of the above verbose identification will not return the color tables or histogram if there are more than 1024 colors!
-As such for large colorful images this is a hit or miss affair, and not recommended, though it can still be useful.*
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The output from any of the above verbose identification will not return the color tables or histogram if there are more than 1024 colors!
+> As such for large colorful images this is a hit or miss affair, and not recommended, though it can still be useful.
 
 The better way however is to generate a "`histogram:`" of the image and extract the comment that is included in the result.
 
@@ -179,10 +178,9 @@ convert  tree.gif  -format %c  -depth 8  histogram:info:-
   
 [![\[IM Text\]](tree_histogram.txt.gif)](tree_histogram.txt)
   
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The "`info:`" output format was added to IM v6.2.4.
-For IM versions before this use..*
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The "`info:`" output format was added to IM v6.2.4.
+> For IM versions before this use..
 
 ~~~
 convert  tree.gif histogram:- | identify -depth 8 -format %c -
@@ -232,11 +230,10 @@ The GIF image of the rose shown above contains the same set of color reduction.
 The resulting image still contains the same number of pixels, though padded with extra transparent pixels, and as you can see shows a predominance of greenish greys, strong reds, as well as a very strong peak of pure white.
 
 This may not be the best general color histogram method, but it works well for this image.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*The order of the colors for both "`histogram:`" and "`-unique-colors`" operator, is undefined, but appears to be sorted by red, then green, and finally blue channel value.
-This may not the best way for a specific image, but it is impossible to generally sort 3-dimensional colors into a 1-dimensional order.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The order of the colors for both "`histogram:`" and "`-unique-colors`" operator, is undefined, but appears to be sorted by red, then green, and finally blue channel value.
+> This may not the best way for a specific image, but it is impossible to generally sort 3-dimensional colors into a 1-dimensional order.
 
 #### Extracting the Average Color {#extract_avg}
 
@@ -484,15 +481,14 @@ convert rose:  -dither FloydSteinberg \
 [![\[IM Output\]](colors_16_fs.gif)](colors_16_fs.gif)
 
 As you can see cartoon-like images require far less colors than a real photograph to produce a reasonable result.
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-Only one Color Quantization algorithm, "Adaptive Spatial Subdivision", is currently implemented in IM, and as it works very well, there has been little need to add others.
-However with feedback this algorithm is being steadily improved.
-  
-ASIDE: As a reference the "`Gifsicle`" program lists a number of other color quantization methods (using it "`--color-method`" option).
-I have no idea as to how well these color quantization methods compare to IM.
-If you find a good reference to different methods of color quantization, please mail me.
+
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> Only one Color Quantization algorithm, "Adaptive Spatial Subdivision", is currently implemented in IM, and as it works very well, there has been little need to add others.
+> However with feedback this algorithm is being steadily improved.
+>
+> ASIDE: As a reference the "`Gifsicle`" program lists a number of other color quantization methods (using it "`--color-method`" option).
+> I have no idea as to how well these color quantization methods compare to IM.
+> If you find a good reference to different methods of color quantization, please mail me.
 
 ### Color Quantization Internals {#color_internals}
 
@@ -576,11 +572,10 @@ The sRGB color space is particularly good at picking colors for cartoon like ima
 
 The CMY color space is exactly the same as sRGB color space as the color channels are simply negated to convert between sRGB and CMY colorspaces.
 As such the quantization colors end up with roughly the same solution.
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-The CMYK colorspace (not shown) also produces the same but for different reasons.
-Because internal the 'K' channel and a images 'colormap' use the same data pointer (See [Palette Channel](../basics/#palette)), IM converts it back to CMY before quantization.
+
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> The CMYK colorspace (not shown) also produces the same but for different reasons.
+> Because internal the 'K' channel and a images 'colormap' use the same data pointer (See [Palette Channel](../basics/#palette)), IM converts it back to CMY before quantization.
 
 The sRGB colorspace as expected produces a similar result as RGB, but is warped to remove the number of near-black colors in the colorspace.
 As such there is less colors for the center of the colorwheel to select from, producing a larger 'not quite so black' spot.
@@ -595,12 +590,11 @@ That results a different arrangement of color quantizations.
 The special color spaces involving a 'Hue' channel, such as HSL (Hue Saturation, Lightness), HSL (Hue, Saturation, Brightness), and HWB (Hue, White, Black), all have a cyclic color wheel representation of color as part of its color space.
 Actually it was using a HSL color space what was used to generate this color wheel.
 See [Generating a Colorwheel](../color_basics/#colorwheel).
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*At the time of writing, the color distance algorithm IM uses does not take into account the cyclic nature of the 'Hue' of the colorspace.
-The algorithm for this is very different.
-Because of this a strong discontinuity occurs along the 'red' path, where the 'Hue' wraps around, and results in very few red colors being selected in the color quantization process.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> At the time of writing, the color distance algorithm IM uses does not take into account the cyclic nature of the 'Hue' of the colorspace.
+> The algorithm for this is very different.
+> Because of this a strong discontinuity occurs along the 'red' path, where the 'Hue' wraps around, and results in very few red colors being selected in the color quantization process.
 
 The YIQ, YUV are designed to produce more natural 'pastel' and 'mid-tone' shades of colors that are much better suited for photographs and images of the real world involving subtle shades of colors.
 
@@ -610,15 +604,14 @@ Cristy, the ImageMagick Coordinator, notes that the best colorspace to use shoul
 I also agree with that recommendation.
 
 Helmut Dersch notes on [his web site](http://www.all-in-one.ee/~dersch/barrel/barrel.html) that you should consider using a LAB colorspace for distortions.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-In older versions of IM (specifically IM version 5) the color space that was used for quantization was set with the "`-colorspace`" option.
-However in IM version 6 this operator is used for modifying how images are stored in memory, and as such is not a setting for color quantization.
-  
-As such in IM v6.2.8-6, the "`-quantize`" setting was provided to do this job.
-However it is only as setting for the "`-colors`", Color Quantization process.
-It will not do anything for the replacement and dithering of colors using operators such as "`-remap`" and "`-posterize`", or the various dithering techniques.
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> In older versions of IM (specifically IM version 5) the color space that was used for quantization was set with the "`-colorspace`" option.
+> However in IM version 6 this operator is used for modifying how images are stored in memory, and as such is not a setting for color quantization.
+>
+> As such in IM v6.2.8-6, the "`-quantize`" setting was provided to do this job.
+> However it is only as setting for the "`-colors`", Color Quantization process.
+> It will not do anything for the replacement and dithering of colors using operators such as "`-remap`" and "`-posterize`", or the various dithering techniques.
 
 For a complete list of the colorspaces available see the "`-colorspace`" operator.
 
@@ -808,15 +801,13 @@ convert alpha_gradient.png -channel RGBA -separate \
 [![\[IM Output\]](alpha_dither_map.gif)](alpha_dither_map.gif)
 [![\[IM Output\]](alpha_dither_map_fs.gif)](alpha_dither_map_fs.gif)
 
-  
-![](../img_www/expert.gif)![](../img_www/space.gif)
-  
-When dithering a copy of the Alpha Channel, so you can dither it using either "`-monochrome`", or "`-remap`", make sure the image is a pure grayscale image, and not a shape mask containing transparency.
-If you don't you will probably end up with non-linear effects from the alpha channel still being present.
-  
-There are a number of ways of extracting and restoring the alpha channel from an image, as a gray-scale mask so you can dither it.
-The above uses the [Channel Separation](../channel/#separate) and [Combine](../channel/#combine) to do this.
-Other methods use [Alpha Extraction](../basics/#alpha_extract) with [CopyOpacity Composition](../compose/#copyopacity).
+> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> When dithering a copy of the Alpha Channel, so you can dither it using either "`-monochrome`", or "`-remap`", make sure the image is a pure grayscale image, and not a shape mask containing transparency.
+> If you don't you will probably end up with non-linear effects from the alpha channel still being present.
+>
+> There are a number of ways of extracting and restoring the alpha channel from an image, as a gray-scale mask so you can dither it.
+> The above uses the [Channel Separation](../channel/#separate) and [Combine](../channel/#combine) to do this.
+> Other methods use [Alpha Extraction](../basics/#alpha_extract) with [CopyOpacity Composition](../compose/#copyopacity).
 
 ------------------------------------------------------------------------
 
@@ -997,11 +988,10 @@ See [Video Color Optimization](../video/#gif) for a more practical example of an
 The change in pattern also cause problems in optimizing animations.
 That is a different pattern means that simple [frame optimization](../anim_opt/#frame_opt) fails to reduce the size of frame overlays.
 For one solution see [fuzzy color optimization](../anim_opt/#color_fuzz), though that only works when the churn is using very similar colors.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Unlike other dithering methods (such as [threshold](#threshold), and [ordered-dither](#ordered-dither)) the "`-channel`" setting does not effect color quantization, or error correction dithers.
-Basically has it has no place in how these image operation work.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Unlike other dithering methods (such as [threshold](#threshold), and [ordered-dither](#ordered-dither)) the "`-channel`" setting does not effect color quantization, or error correction dithers.
+> Basically has it has no place in how these image operation work.
 
 Ordered dithers do not have any of these problems, containing changes to the immediate local area of the change.
 Unfortunatally are also generally limited to using a mathematically derived color set.
@@ -1208,11 +1198,10 @@ convert -size 15x640 gradient: -rotate 90 \
 
 What "`-monochrome`" actually does is to first convert the given image first into a grey scale image, after that it performs a two color '[Color Quantization](#colors)', to decide the threshold colors to dither the image with.
 This is what the next section of examples will explore.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*The "`+dither`" setting currently has no effect on the result of "`-monochrome`".
-This however may change in the future, so make sure it is not turned off in your scripts when using this operator.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The "`+dither`" setting currently has no effect on the result of "`-monochrome`".
+> This however may change in the future, so make sure it is not turned off in your scripts when using this operator.
 
 ### Two Color Quantization {#two_color}
 
@@ -1272,11 +1261,10 @@ convert  logo.png  -colorspace gray  +dither  -colors 2  -normalize \
 ~~~
 
 [![\[IM Output\]](threshold_two_grays.gif)](threshold_two_grays.gif)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Remember "`-monochrome`" currently ignores the "`+dither`" setting, so you can't just use that operator to do a 'smart threshold'.*
-  
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Remember "`-monochrome`" currently ignores the "`+dither`" setting, so you can't just use that operator to do a 'smart threshold'.
+
 If you remove the "`-colorspace`" for the color quantization stage of the image processing, you can threshold an image based on the best color separation (rather than greyscale color separation) possible for that image.
 
 ~~~
@@ -1293,12 +1281,11 @@ With "`-remap`" you provide IM with the final set of colors you want to use for 
 
 The argument is given as a image containing all the colors you would like to use.
 If you what to reduce a large image of colors to just its list of colors, you can use "`-unique-colors`", before saving, it for later use by "`-remap`".
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-Note that while the "`-remap`" operator will accept any image to use, do not use a JPEG image for this image or you will get a lot of extra colors due to its 'lossy compression' generating extra colors.
-  
-On the other hand using JPEG to generate extra colors may help resolve the 'speckling' problem seen previously!
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Note that while the "`-remap`" operator will accept any image to use, do not use a JPEG image for this image or you will get a lot of extra colors due to its 'lossy compression' generating extra colors.
+>
+> On the other hand using JPEG to generate extra colors may help resolve the 'speckling' problem seen previously!
 
 For example here I limit the colors used in the IM logo to a predefined map of named X window colors.
 The default is the '`Riemersma`' dither, but as of IM v6.4.4 "`-dither`" was expanded to allow the selection of other dither methods such as '`FloydSteinberg`'.
@@ -1441,10 +1428,9 @@ convert -size 16x16 xc: -channel R -fx '(i%8)/7' \
 ~~~
 
 [![\[IM Output\]](colormap_332.png)](colormap_332.png)
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The bit-shifting operators '`>>`' and '`<<`' was missing from the "`-fx`" operator until IM version 6.2.9-2.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The bit-shifting operators '`>>`' and '`<<`' was missing from the "`-fx`" operator until IM version 6.2.9-2.
 
 A simpler way of doing the same thing is to use [Ordered Dither using Uniform Color Levels](#od_posterize) using the operation, "`-ordered-dither threshold,8,8,4`" (see that examples area).
 A far easier and faster technique than the above [DIY FX method](../transform/#fx), and even allows you to use other built-in dithering maps for better gradient handling.
@@ -1629,15 +1615,14 @@ convert  logo.png  -channel R -threshold 50% \
 ~~~
 
 [![\[IM Output\]](threshold_posterize.gif)](threshold_posterize.gif)
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Note that "`-threshold`" treats any transparency in an image as a matte channel, not an alpha channel (just as it is stored internally within IM).
-As such caution is needed if you plan to apply this operator to the alpha channel.
-See [Matte Channel](../masking/#matte) for more details.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Note that "`-threshold`" treats any transparency in an image as a matte channel, not an alpha channel (just as it is stored internally within IM).
+> As such caution is needed if you plan to apply this operator to the alpha channel.
+> See [Matte Channel](../masking/#matte) for more details.
 
 For a more automatic thresholding technique, you can use a [Two Color Quantization](#two_color) technique that we showed previously.
-  
+
 For example, this will threshold the image based on the best two colors found in the image.
 These colors may not necessarily be greyscale or even opposites, just the two colors that best represent the whole image.
 The two colors are then mapped (using "`-normalize`") to pure black and white.
@@ -1797,18 +1782,17 @@ convert logo.png    -ordered-dither o8x8    logo_o8x8.gif
 [![\[IM Output\]](logo_o4x4.gif)](logo_o8x8.gif)
 
 Note how a larger tile size allows you to simulate more 'color levels', but also generates more noticeable defects or rectangular arrays of pixels at certain levels.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-The '`o8x8`' ordered dither was part of the IM core code for a long time, but was not used.
-It was only added as an option to the "`-ordered-dither`" operator IM v6.2.9, when IM Examples started to detail the use of this operator.
-  
-At this time the maps were given more definitive names to allow further expansion of the "`-ordered-dither`" operator, though the older backward compatible 'tile size' names, were retained as aliases to the new names.
-  
-Also the 'maps' that produced the 'o3x3' and 'o4x4' were completely revised to produce a better 'diffused pixel' dither pattern.
-Before this the maps produced distinct 'clumps' of pixels.
-  
-See [Ordered Dither Upgrade](../bugs/ordered-dither/) notes page for examples of the old patterns before they were fixed, as well as other changes made during the development for the official release of the upgrades in IM v6.3.0.
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The '`o8x8`' ordered dither was part of the IM core code for a long time, but was not used.
+> It was only added as an option to the "`-ordered-dither`" operator IM v6.2.9, when IM Examples started to detail the use of this operator.
+>
+> At this time the maps were given more definitive names to allow further expansion of the "`-ordered-dither`" operator, though the older backward compatible 'tile size' names, were retained as aliases to the new names.
+>
+> Also the 'maps' that produced the 'o3x3' and 'o4x4' were completely revised to produce a better 'diffused pixel' dither pattern.
+> Before this the maps produced distinct 'clumps' of pixels.
+>
+> See [Ordered Dither Upgrade](../bugs/ordered-dither/) notes page for examples of the old patterns before they were fixed, as well as other changes made during the development for the official release of the upgrades in IM v6.3.0.
 
 Of course you need to convert the image to grey-scale first to produce a proper bitmap of all the channels in the image, however as the process is not random you don't need to post-process the image as you need to for the [-random-threshold](../option_link.cgi?random-threshold)" operator simplifying things enormously.
 
@@ -1860,11 +1844,10 @@ Also shown above are two special minimal dither threshold maps:
 The "`-ordered-dither`" was extended in IM v6.2.8-6 with a set of digital-halftone dither patterns (thanks Glenn Randers-Pehrson).
 All of which were set to produce a simple 45 degree dot pattern.
 With IM v6.3.0 this was further expanded with a similar set of larger un-angled halftones.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*Before the release of IM v6.3.0 halftone screens were selected by using an argument of the form '`{number}x1`'.
-With the [Re-Development of Ordered Dither](../bugs/ordered-dither/) this limitation was lifted, better naming selected, and extra halftone screens (orthogonal forms) was added (see example arguments below).*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> Before the release of IM v6.3.0 halftone screens were selected by using an argument of the form '`{number}x1`'.
+> With the [Re-Development of Ordered Dither](../bugs/ordered-dither/) this limitation was lifted, better naming selected, and extra halftone screens (orthogonal forms) was added (see example arguments below).
 
 Note that digital halftoning is not strictly a true halftone screen, which is designed to handle round dots of ink mechanically deposited onto a medium such as paper, cardboard or even metal.
 Such dots can overlap, and smear during the printing process, thus requiring some non-linear level adjustment.
@@ -2242,10 +2225,9 @@ convert gradient.png   dpat_hlines2x2.gif \
 As you can see the dither pattern is nothing fancy.
 The "`-fx`" function is a variation of the [Color Lookup Tables](../color_mods/#color_lut) function, namely, an IM Dither Lookup Patterns' type function.
 And with a "`-virtual-pixel`" setting of '`tile`', the function does not even need to know the size of the dither pattern image you are using.
-  
-![](../img_www/warning.gif)![](../img_www/space.gif)
-  
-*The use of "`-virtual-pixel`" by the "`-fx`" operator using calculated indexes like this was broken before IM version 6.2.9-2.*
+
+> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> The use of "`-virtual-pixel`" by the "`-fx`" operator using calculated indexes like this was broken before IM version 6.2.9-2.
 
 Lets try this dither pattern set again but using a simple shadowed image...
 
@@ -2403,11 +2385,10 @@ You have only one image, and one direct comparison to do per pixel, for each cha
 This makes dithering using a threshold map very very fast.
 Much faster that full color quantization.
 This simplicity is the why ImageMagick and most graphics software use a threshold map to hold various dither patterns.
-  
-![](../img_www/reminder.gif)![](../img_www/space.gif)
-  
-*The greater-then or equal ('`>=`') test was not added to the "`-fx`" operator, until IM version 6.2.9-2.
-If this is a problem, use the inverted test '`v<u`' in the above.*
+
+> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> The greater-then or equal ('`>=`') test was not added to the "`-fx`" operator, until IM version 6.2.9-2.
+> If this is a problem, use the inverted test '`v<u`' in the above.
 
 This simplicity however becomes a lot more complicated if the user wanted to dither using multiple color levels.
 The proof of concept of this was first worked out in the examples on the page [Posterized Ordered Dither](../bugs/ordered-dither/#posterize) before being incorporated into the IM core functions.
