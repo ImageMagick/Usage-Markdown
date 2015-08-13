@@ -70,23 +70,23 @@ This approach, however, has its shortcomings, as the batch file command set is r
 When running IM under Windows, you basically have the following alternatives:
 
 **The Windows command shell ("DOS window")**
-	This is run by `cmd.exe` (32-bit mode) on Windows NT 4.0, Windows XP and later versions and is present on any Windows computer.
-	See [Using the DOS Shell and Batch Files](#scripts), as well as the special note about the [The Convert Issue](#convert_issue).
+:    This is run by `cmd.exe` (32-bit mode) on Windows NT 4.0, Windows XP and later versions and is present on any Windows computer.
+     See [Using the DOS Shell and Batch Files](#scripts), as well as the special note about the [The Convert Issue](#convert_issue).
 
 **Cygwin**
-	A bash-like command shell (<http://www.cygwin.com/>).
-	When using this shell, the IM examples presented in the rest of this usage section can be run exactly as given, as you have access to a UNIX style command line shell.
-	See [Using Cygwin](#cygwin) below.
+:    A bash-like command shell (<http://www.cygwin.com/>).
+     When using this shell, the IM examples presented in the rest of this usage section can be run exactly as given, as you have access to a UNIX style command line shell.
+     See [Using Cygwin](#cygwin) below.
 
 **The Windows Script Host**
-	The Windows Script Host is based on the .COM technology.
-	It is present on any contemporary Windows computer and WSH scripts are much more powerful than simple DOS batch files.
-	The Windows Script Host offers several programming interfaces, with VBScript (Visual Basic Script) and JScript (Java Script) being the most common.
-	The IM command line tools can be invoked by using the DOS shell commands `Run` or `Exec` of the Shell object. See [Visual Basic Script (VBS)](#vb) below.
+:    The Windows Script Host is based on the .COM technology.
+     It is present on any contemporary Windows computer and WSH scripts are much more powerful than simple DOS batch files.
+     The Windows Script Host offers several programming interfaces, with VBScript (Visual Basic Script) and JScript (Java Script) being the most common.
+     The IM command line tools can be invoked by using the DOS shell commands `Run` or `Exec` of the Shell object. See [Visual Basic Script (VBS)](#vb) below.
 
 **The Windows Powershell**
-	The much more powerful successor of the ancient DOS shell, based on the .NET 2.0 technology.
-	The Powershell shipped with Windows 7 and is run by `powershell.exe`. It can be downloaded for Windows XP and Vista at Microsoft's website.
+:    The much more powerful successor of the ancient DOS shell, based on the .NET 2.0 technology.
+     The Powershell shipped with Windows 7 and is run by `powershell.exe`. It can be downloaded for Windows XP and Vista at Microsoft's website.
 
 ### Running scripts effectively {#scripts}
 

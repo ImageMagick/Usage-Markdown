@@ -702,7 +702,7 @@ Especially look at how the stars get pushed together before they are finally eff
 
 You can think of liquid rescaling as trying to compress an image, like a sponge, with the open areas being compressed first leaving the bulky and more structured parts for last.
 
-**Seam Carving Problems**
+#### Seam Carving Problems
 
 Liquid Resize, or Seam Carving, works purely by removing whole pixels from the image.
 As such, like [sampling](#sample), it will not generate or merge colors together, and straight lines and patterns within the image may become heavily distorted by the operation.
@@ -795,7 +795,7 @@ This can become especially important when doing video work, where an imprecise r
 > Technically, image resizing is a simplified form of [Image Distortion](../distorts), both of which are techniques of image resampling.
 > It's very fast 2-pass filtering technique, is limited to orthogonally aligned pixel scaling, and a integer number of pixels in the final result.*
 
-**Affine, Transform**
+#### Affine, Transform
 
 As of IM v6.4.2-8 the older "`-affine`" setting used with either "`-transform`" or "`-draw`" operators, provide a similar free-form resize capability.
 However in reality it is equivalent to a calling "`+distort`" with an '`AffineProjection`' distortion method.

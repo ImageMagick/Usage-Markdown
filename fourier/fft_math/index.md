@@ -9,14 +9,14 @@ Below are examples of a number of techniques for doing multiplication and Divisi
 Their are basically two ways of doing the mathematics.
 Using FX math, and using Composite Maths....
 
-**FX Math**
+### FX Math
 
 Using [FX, DIY Operator](../../transforms/#fx) applies the formula directly.
 But as it is interpreted, it is very slow.
 However, the formulas are applied all in a single expression, avoiding the need for intermediate images.
 For non-HDRI versions of IM this will reduce Quantum Rounding effects.
 
-**Composite math**
+### Composite math
 
 This uses Image Composition to perform mathematical operations, which is much faster than 'FX Math'.
 However, you can only do one mathematical operation at a time, which means after every operation the image must be saved into another in-memory image.
@@ -65,7 +65,7 @@ For HDRI version of IM you can do this at any time.
 
 ------------------------------------------------------------------------
 
-## FFT Multiplication   ( ![](../../img_www/fft_multiply.gif) ) {#multiply}
+## FFT Multiplication ( ![](../../img_www/fft_multiply.gif) ) {#multiply}
 
 ### FFT multiply of Magnitude/Phase Images, Using IM Q16 {#multiply_mp}
 

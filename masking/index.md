@@ -1624,7 +1624,7 @@ convert match_black.gif match_white.gif -alpha off \
 [![\[IM Input\]](match_black.gif)](match_black.gif) [![\[IM Input\]](match_white.gif)](match_white.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](match_recovered_3.png)](match_recovered_3.png)
 
   
-**Studio photos for background recovery**
+#### Studio photos for background recovery
 
 The ideal backgrounds are a matte (non-reflective) black, and simple pure (non-reflective) white.
 The background should also be as smooth and unvarying shade as possible.
@@ -1639,7 +1639,8 @@ On the other hand, reflections of a constant light source on the object will be 
 *If you try this please let us know, and give an example of your source photos and results for inclusion here.
 You will be named with a pointer to your site for people to look at.*
   
-**Video background recovery**
+#### Video background recovery
+
 If you have a large enough series of images with many different but complex backgrounds (such as a video), you can try taking a minimum and maximum value of all the images to generate a near pure black and white background image for use.
 The more images, the better this works.
 With those two images, any constant logo and its semi-transparency can be extracted, and the same technique can then be used to remove it from all the frames.
