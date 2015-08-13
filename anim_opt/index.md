@@ -1073,42 +1073,46 @@ Note that the site is mis-named as it is about compression optimization.
 
 There are a few other optimization techniques that you can use with GIF animations that are often so obvious that they are overlooked.
 
--   **Remove GIF comments.**
-    
-    Many GIF animations have a large text comment added.
-    Often these were added automatically by graphical editors as a form of advertising.
-    For example, "`Gimp`" by default adds "`Created with The GIMP`" to images.
-    If the comment is not needed, it is a waste of space.
-    Remove them by adding a "`+set comment`" operator to the IM "`convert`" command before the GIF is saved.
-    
-    Please note however that if the comment is a copyright notice, it may not be a good idea to remove it for legal reasons.
-    
--   **Reduce the number of colors.**  
-    If animation looks okay with fewer colors, use a smaller color table.
-    The color tables are always a power of two, so if you can use less than 32 colors, that is a lot smaller than using 256 colors.
-    This is especially important as color tables are not compressed by the LZW compression used for the GIF image data.
-    
-    Also using fewer colors will generally produce better LZW compression as more common pixel sequences are found.
-    This is not always the case however as color dithering (due to the color reduction) can also make the compression worse.
-    Turning of dithering or using an ordered dither can be important here.
-    
--   **Half the number of user visible frames.**  
-    If you can handle a less smooth animation, then halving the total number frames can produce a good improvement in the final file size.
-    Of course you don't get a file half the size, and the animation quality is reduced.
-    But it can produce a very large file size reduction.
-    
--   **Crop/Resize the animation.**  
-    A smaller image size means a smaller file size.
-    So if you don't need a big animation, don't use a big animation.
-    A small thumbnail to represent a larger animation or video, is often preferable in a listing that the real thing.
-    
--   **Alternative Compressions.**  
-    If you do not plan to use the animation as an animation, that is you just want to store it, turn off the LZW compression, and "gzip" or "bzip2" compress the WHOLE file for storage!
-    
-    The result is a lot smaller, though it requires web servers to give the right 'content' and 'compression' hints to browsers for it to be directly usable by client browsers.
-    The "`Apache`" web server, doesn't do this by default, but can be made to do so.
-    
-    Better still, archive the whole directory of uncompressed animations into a single file, for even better storage compression.
+**Remove GIF comments.**
+
+:    Many GIF animations have a large text comment added.
+     Often these were added automatically by graphical editors as a form of advertising.
+     For example, "`Gimp`" by default adds "`Created with The GIMP`" to images.
+     If the comment is not needed, it is a waste of space.
+     Remove them by adding a "`+set comment`" operator to the IM "`convert`" command before the GIF is saved.
+     
+     Please note however that if the comment is a copyright notice, it may not be a good idea to remove it for legal reasons.
+
+**Reduce the number of colors.**
+
+:    If animation looks okay with fewer colors, use a smaller color table.
+     The color tables are always a power of two, so if you can use less than 32 colors, that is a lot smaller than using 256 colors.
+     This is especially important as color tables are not compressed by the LZW compression used for the GIF image data.
+     
+     Also using fewer colors will generally produce better LZW compression as more common pixel sequences are found.
+     This is not always the case however as color dithering (due to the color reduction) can also make the compression worse.
+     Turning of dithering or using an ordered dither can be important here.
+
+**Half the number of user visible frames.**
+
+:    If you can handle a less smooth animation, then halving the total number frames can produce a good improvement in the final file size.
+     Of course you don't get a file half the size, and the animation quality is reduced.
+     But it can produce a very large file size reduction.
+
+**Crop/Resize the animation.**
+
+:    A smaller image size means a smaller file size.
+     So if you don't need a big animation, don't use a big animation.
+     A small thumbnail to represent a larger animation or video, is often preferable in a listing that the real thing.
+
+**Alternative Compressions.**
+
+:    If you do not plan to use the animation as an animation, that is you just want to store it, turn off the LZW compression, and "gzip" or "bzip2" compress the WHOLE file for storage!
+     
+     The result is a lot smaller, though it requires web servers to give the right 'content' and 'compression' hints to browsers for it to be directly usable by client browsers.
+     The "`Apache`" web server, doesn't do this by default, but can be made to do so.
+     
+     Better still, archive the whole directory of uncompressed animations into a single file, for even better storage compression.
 
 If you have any other optimization ideas, please let me know.
 
