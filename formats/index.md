@@ -568,39 +568,35 @@ Basically The more work you put into what you want to do, the better the result 
 
 ### Non-ImageMagick GIF Processing {#gif_non-im}
 
-  
+
 [giftrans](http://www.ict.griffith.edu.au/anthony/software/#giftrans)
-  
-Lists all the attributes and color table of GIF image.
-It can also set a specific color index as the transparent color without modifying the images color table ordering, or merging color indexes holding the same color (not a recommended situation).
-  
-The IM "`identify`" command I have found to do a better job of listing image attributes, including the 'loop repeat limit' in the "Mosaic Application Extension" used in image animations.
-  
-See also the "`gif2anim`" script (below), which previously used this program to extract the GIF image meta-data needed to re-create the GIF from the individual 'frames' extracted.
-It now only uses "`identify`", to extract this meta-data.
-  
+:    Lists all the attributes and color table of GIF image.
+     It can also set a specific color index as the transparent color without modifying the images color table ordering, or merging color indexes holding the same color (not a recommended situation).
+     
+     The IM "`identify`" command I have found to do a better job of listing image attributes, including the 'loop repeat limit' in the "Mosaic Application Extension" used in image animations.
+     
+     See also the "`gif2anim`" script (below), which previously used this program to extract the GIF image meta-data needed to re-create the GIF from the individual 'frames' extracted.
+     It now only uses "`identify`", to extract this meta-data.
+
 [GIFsicle](http://www.lcdf.org/gifsicle/)
-  
-This is a general-purpose image optimizer program, whose original purpose was to re-add compression to GIF images at a time when that algorithm was still under copyright.
-  
-The program can also be used to add comments, create GIF animations and also optimise such animations in the same way that the IM "`-deconstruct`" operator does, though with further transparency optimizations such as [LZW Compression Optimization](../anim_opt/#opt_lzw).
-  
+:    This is a general-purpose image optimizer program, whose original purpose was to re-add compression to GIF images at a time when that algorithm was still under copyright.
+     
+     The program can also be used to add comments, create GIF animations and also optimise such animations in the same way that the IM "`-deconstruct`" operator does, though with further transparency optimizations such as [LZW Compression Optimization](../anim_opt/#opt_lzw).
+
 [InterGIF](http://utter.chaos.org.uk/~pdh/software/intergif.htm)
-  
-A similar program to GIFsicle, designed for processing animated GIFs.
-However it only provides [Transparency Compression Optimization](../anim_opt/#opt_trans).
-Other features however may be useful however.
-*Mail me your views.*
-  
+:    A similar program to GIFsicle, designed for processing animated GIFs.
+     However it only provides [Transparency Compression Optimization](../anim_opt/#opt_trans).
+     Other features however may be useful however.
+     *Mail me your views.*
+
 [gif2anim](../scripts/gif2anim)
-  
-A shell script which takes a GIF animation file, and extracts all the individual frame images, as well as a "`.anim`" file containing all the IM "`convert` settings needed to rebuild the animation from the extracted frame images.
-  
+:    A shell script which takes a GIF animation file, and extracts all the individual frame images, as well as a "`.anim`" file containing all the IM "`convert` settings needed to rebuild the animation from the extracted frame images.
+
 [anim2gif](../scripts/anim2gif)
-  
-The reverse of the above script, which takes a "`.anim`" file containing all the IM "`convert` settings and rebuilding a GIF animation image.
-  
-This script is very useful for studying, editing, adjusting and merging GIF animation files.
+:    The reverse of the above script, which takes a "`.anim`" file containing all the IM "`convert` settings and rebuilding a GIF animation image.
+     
+     This script is very useful for studying, editing, adjusting and merging GIF animation files.
+
 For basic usage see [Animation List Information](../anim_basics/#list_info).
 Also see [Appending Animations (time synced)](../anim_mods/#append) for a practical example of its use.
 
@@ -1056,26 +1052,23 @@ Particularly windows users as Microsoft will probably not include it unless enou
 
 ### Non-ImageMagick JPEG Processing (A quick summary) {#jpg_non-im}
 
-  
 jpegtran
-  
-Standard tool that is installed with the JPEG library.
-This allows you to apply various transforms to JPEG format images without decoding and re-encoding the image data, thus avoiding the JPEG data to become degraded.
-(see below)
-  
+:    Standard tool that is installed with the JPEG library.
+     This allows you to apply various transforms to JPEG format images without decoding and re-encoding the image data, thus avoiding the JPEG data to become degraded.
+     (see below)
+
 [jpegtrans](http://www.jpegclub.org/)
-  
-A newer version of the previous "`jpegtran`" program, though many of the added features (such as lossless cropping) has now been built into the distributed library version (above).
-  
+:    A newer version of the previous "`jpegtran`" program, though many of the added features (such as lossless cropping) has now been built into the distributed library version (above).
+
 [jhead](http://www.sentex.net/~mwandel/jhead/)
-  
-A more user-friendly lossless JPEG handler, especially with regards to the EXIF digital camera profile.
-That the handling of comments, date adjustments, thumbnail extraction, deletion or replacement, profile stripping, etc.
-It also attempts to ensure that other profiles are not trashed, which is something that "`jpegtran`" tends to do.
-  
-There are also other similar programs such as "`ExifTool`", and "`Exifer`".
-Many JPEG to web photo-album programs also does this.
-  
+:    A more user-friendly lossless JPEG handler, especially with regards to the EXIF digital camera profile.
+     That the handling of comments, date adjustments, thumbnail extraction, deletion or replacement, profile stripping, etc.
+     It also attempts to ensure that other profiles are not trashed, which is something that "`jpegtran`" tends to do.
+     
+     There are also other similar programs such as "`ExifTool`", and "`Exifer`".
+     Many JPEG to web photo-album programs also does this.
+
+
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > The JPEG lossless rotation (which all the above provide) will only work correctly for images that have a size that is divisible by 8 or 16.
 > This is true with most (but not all) digital camera photos.
@@ -1424,8 +1417,8 @@ These include...
 The basic compression level and filter when saving a PNG image.
 
 [-define](../option_link.cgi?define) png:compression-strategy=*zs*  
- [-define](../option_link.cgi?define) png:compression-level=*zl*  
- [-define](../option_link.cgi?define) png:compression-filter=*fm*  
+[-define](../option_link.cgi?define) png:compression-level=*zl*  
+[-define](../option_link.cgi?define) png:compression-filter=*fm*  
   
 Completely define the compression system to be used for the PNG image being written.
 The [-quality](../option_link.cgi?quality) setting will normally set the *zl* and *fm* values, but not the *zs* setting.
@@ -1443,13 +1436,14 @@ In the case of color-mapped images, this is the depth of the color-map indices, 
 Precisely specify the type of the PNG file being written.
 Values can be either
 
-  |       |                                                                     |
-  |-------|---------------------------------------------------------------------|
-  | '`0`' | for Greyscale, which allows for '`bit-depths`' of 2, 3, 4, 8 or 16. |
-  | '`2`' | for RGB, which allows for '`bit-depths`' of 8 or 16.                |
-  | '`3`' | for Indexed, which allows for '`bit-depths`' of 1, 2, 4 or 8.       |
-  | '`4`' | for Gray-Matte.                                                     |
-  | '`6`' | for RGB-Matte.                                                      |
+
+------- ---------------------------------------------------------------------
+ '`0`'   for Greyscale, which allows for '`bit-depths`' of 2, 3, 4, 8 or 16.
+ '`2`'   for RGB, which allows for '`bit-depths`' of 8 or 16.
+ '`3`'   for Indexed, which allows for '`bit-depths`' of 1, 2, 4 or 8.
+ '`4`'   for Gray-Matte.
+ '`6`'   for RGB-Matte.
+ ------- ---------------------------------------------------------------------
 
 Note that "`-define png:color-type='2'`" is specifically useful to force the image data to be stored as RGB values rather than sRGB values.
 However a similar effect can be achieved using "`-set     colorspace sRGB`" on a linear RGB image.
@@ -1469,7 +1463,7 @@ For example..
       -profile PNG-chunk-b01:file01 -profile PNG-chunk-b02:file02
 
 [+set](../option_link.cgi?set) date:create  
- [+set](../option_link.cgi?set) date:modify  
+[+set](../option_link.cgi?set) date:modify  
   
 These are image 'properties' which are created by ImageMagick whenever it reads a file.
 They contain (respectively) the image files create time (actually permission/owner/move change time) and last file modification time.
@@ -1520,26 +1514,26 @@ Thanks to some additions by GlennRP, the PNG developer you can now also use "`-d
 
 There are quite a number of helper applications for PNG, that could be useful adjuncts for generating a final PNG image file.
 
-**pngtrans** :
-PNG information stored with an image.
+**pngtrans**
+:    PNG information stored with an image.
 
-**[pngcrush](http://pmt.sourceforge.net/pngcrush/)** : 
-Tries to find the best compression of a PNG by attempting to compress the image using all logical PNG compression available, before making a final choice, for each individual image.
-This of course can take some time on each image.
+**[pngcrush](http://pmt.sourceforge.net/pngcrush/)**
+:    Tries to find the best compression of a PNG by attempting to compress the image using all logical PNG compression available, before making a final choice, for each individual image.
+     This of course can take some time on each image.
 
-**[OptiPNG](http://optipng.sourceforge.net/)** :
-A newer PNG compression optimizer.
+**[OptiPNG](http://optipng.sourceforge.net/)**
+:    A newer PNG compression optimizer.
 
-**[pngquant](http://www.libpng.org/pub/png/apps/pngquant.html)** :
-Lossy PNG optimizer, reducing a PNG image down to an 8 bit color palette with dithering.
-It will build indexed-color PNG's with alpha transparency colors conveyed in the tRNS chunk.
+**[pngquant](http://www.libpng.org/pub/png/apps/pngquant.html)**
+:    Lossy PNG optimizer, reducing a PNG image down to an 8 bit color palette with dithering.
+     It will build indexed-color PNG's with alpha transparency colors conveyed in the tRNS chunk.
 
-**[pngnq](http://www.cybertherial.com/pngnq/pngnq.html)** :
-A newer lossy PNG quantizer, to generate 8 bit color table PNG images.
-Also forces the use of a color palette.
+**[pngnq](http://www.cybertherial.com/pngnq/pngnq.html)**
+:    A newer lossy PNG quantizer, to generate 8 bit color table PNG images.
+     Also forces the use of a color palette.
 
-**[pngout](http://www.advsys.net/ken/utils.htm)** :
-A Windows platform PNG optimizer (with optional GUI) that uses a ZIP compressor that is optimized for space rather than speed (also on the page linked above).
+**[pngout](http://www.advsys.net/ken/utils.htm)**
+:    A Windows platform PNG optimizer (with optional GUI) that uses a ZIP compressor that is optimized for space rather than speed (also on the page linked above).
 
 Most of these are to improve the final size of the image file, either using a lossy OR non-lossy techniques.
 
@@ -1767,24 +1761,24 @@ convert picture.tif metadata.xmp
 Their is more than one style of image storage in the world...
   
 **Raster**
-  
-Images which are stored and processed using arrays of colored pixels.
-Raster image formats include GIF, PNG, JPEG, TIFF, and so on.
-Images can consist of multiple arrays (channels) representing different colors, and can have multiple images, layers, or frames (depending on usage) in the one image file format file.
-  
+
+:    Images which are stored and processed using arrays of colored pixels.
+     Raster image formats include GIF, PNG, JPEG, TIFF, and so on.
+     Images can consist of multiple arrays (channels) representing different colors, and can have multiple images, layers, or frames (depending on usage) in the one image file format file.
+
 **Vector**
-  
-Images are defined in terms of lines, thicknesses, tiles, gradients, and larger compound objects.
-Formats include SVG, Postscript, PDF, FIG, DXF, WMF, and even TTF fonts.
-It allows images to be resized, and even greatly enlarged *without loss of quality*.
-Also while editing such formats, you can generally move whole objects around without destroying what is underneath (object layering).
-  
+
+:    Images are defined in terms of lines, thicknesses, tiles, gradients, and larger compound objects.
+     Formats include SVG, Postscript, PDF, FIG, DXF, WMF, and even TTF fonts.
+     It allows images to be resized, and even greatly enlarged *without loss of quality*.
+     Also while editing such formats, you can generally move whole objects around without destroying what is underneath (object layering).
+
 **Fractal**
-  
-Images are a special rare case, used to achieve extreme compression of complex images, such as old paintings.
-However the only usage I know about is in a very expensive commercial product.
-Outside that usage it is also used for complex mathematical objects such as Mandelbrot and Julia sets, and in generating randomized splashes of color in screen savers (IFS).
-It is very rarely seen.
+
+:    Images are a special rare case, used to achieve extreme compression of complex images, such as old paintings.
+     However the only usage I know about is in a very expensive commercial product.
+     Outside that usage it is also used for complex mathematical objects such as Mandelbrot and Julia sets, and in generating randomized splashes of color in screen savers (IFS).
+     It is very rarely seen.
 
 Why is this important?
 Because IM is a 'raster image processor', and while it can read or write images stored in one of the vector formats it does so by converting the image to and from a internal raster image.
@@ -1898,20 +1892,19 @@ Special options for PDF handling...
 
 `-units PixelsPerInch`
 
-Should be set when handling PDF documents (reading or creation of).
-I am not sure what this does but reports indicate it should be set for correct working.
+:    Should be set when handling PDF documents (reading or creation of).
+     I am not sure what this does but reports indicate it should be set for correct working.
 
 `-define pdf:use-cropbox=true`
 
-Use a 'cropbox rather than the default 'mediabox' as per Adobe generated PDF files.
-(Basically adds a "`-dUseCropBox`" to the ghostscript conversion from PDF images.
+:    Use a 'cropbox rather than the default 'mediabox' as per Adobe generated PDF files.
+     Basically adds a "`-dUseCropBox`" to the ghostscript conversion from PDF images.
 
-
-NOTE: This works if your PDF only has one page, but if it is a multiple paged PDF, it won't crop correctly.
+     NOTE: This works if your PDF only has one page, but if it is a multiple paged PDF, it won't crop correctly.
 
 `-define pdf:use-trimbox=true`
 
-Use a 'trimbox rather than the default 'mediabox' as per Adobe generated PDF files.
+:    Use a 'trimbox rather than the default 'mediabox' as per Adobe generated PDF files.
 
 ##### Modifying the Input Delegate
 
@@ -1978,23 +1971,17 @@ The following table equated the IM compression modes with the resulting Postscri
 
 **PS/PDF Compression Meanings**
 
-Compression
+| Compression        | image '`/Filter [ ... ]`' setting |
+|:-------------------|:---------------------|
+| "`-compress none`" | '`/ASCII85Decode`'   |
+| "`-compress zip`"  | '`/FlateDecode`'     |
+| "`-compress jpeg`" | '`/DCTDecode`'       |
+| "`-compress lzw`"  | '`/LZWDecode`'       |
+| "`-alpha off -monochrome -compress fax`"  | '`/CCITTFaxDecode`' |
+| "`+compress`"      | '`/RunLengthDecode`' |
+| "`-compress rle`"  | '`/RunLengthDecode`' |
+| any thing else     | '`/RunLengthDecode`' |
 
-image '`/Filter [ ... ]`' setting
-"`-compress none`"
-'`/ASCII85Decode`'
-"`-compress zip`"
-'`/FlateDecode`'
-"`-compress jpeg`"
-'`/DCTDecode`'
-"`-compress lzw`"
-'`/LZWDecode`'
-"`-alpha off -monochrome -compress fax`" 
-'`/CCITTFaxDecode`'
-"`+compress`"  
-"`-compress rle`"  
-    any thing else
-'`/RunLengthDecode`'
 
 Recommended compressions for PDF is Zip (Deflate Compression) or Group4 (Fax) compression.
 
