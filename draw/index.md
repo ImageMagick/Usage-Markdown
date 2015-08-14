@@ -1095,7 +1095,7 @@ This however is not a easy document to read as it is really for programmers, not
 -   Uppercase letters specify the final point absolute coordinates.
 -   Lowercase letters are relative to the end point of the previous component.
 
-    > For example: "` M 1,2 l 3,4 final 2,-4 `" is the same as "` M 1,2 L 4,6 L 6,2 `".
+    > For example: "` M 1,2 l 3,4 l 2,-4 `" is the same as "` M 1,2 L 4,6 L 6,2 `".
     >
     > That is 3,4 was added to 1,2, to draw a line to 4,6.
     >
