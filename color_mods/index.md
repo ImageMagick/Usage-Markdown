@@ -585,13 +585,10 @@ A threshold level for the contrast function to center on (typically centered at 
 > {\left ( \frac{1}{1 + \exp{\left( \beta * (\alpha - u ) \right )}} - \frac{1}{1 + \exp{\left ( \beta          \right ) }}\right ) }
 > {\left ( \frac{1}{1 + \exp{\left( \beta * (\alpha - 1 ) \right )}} - \frac{1}{1 + \exp{\left ( \beta * \alpha \right ) }}\right ) }
 > $$
->   
-><!-- ( 1/(1+exp(β*(α-u))) - 1/(1+exp(β))) / ( 1/(1+exp(β*(α-1))) - 1/(1+exp(β*α)) ) -->
 >
->  
->Where $\alpha$ is the threshold level, and $\beta$ the contrast factor to be applied.
+> Where $\alpha$ is the threshold level, and $\beta$ the contrast factor to be applied.
 >
->Here is a alternate version of the formula using intermediate variables.
+> Here is a alternate version of the formula using intermediate variables.
 >
 > $$
 > \begin{array}{l}
@@ -2823,10 +2820,10 @@ This will not just map the specified colors, but also re-map the colors between 
         -cycle     shift colormap (for animations of fractals???)
 
     Chromaticity Color Points???
-       –white-point x,y
-       –red-primary x,y
-       –green-primary x,y
-       –blue-primary x,y
+       -white-point x,y
+       -red-primary x,y
+       -green-primary x,y
+       -blue-primary x,y
 
 
     Thresholds  (after negation)
