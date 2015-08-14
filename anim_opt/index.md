@@ -628,7 +628,7 @@ But that is not always possible, so if you are optimizing a modified GIF animati
 However if you have a animation with to many colors, the first thing you need to remember is...
 
 **Do not save directly to GIF format,  
- use the MIFF file format,   OR   separate PNG images.**
+ use the MIFF file format, OR separate PNG images.**
 
 As soon as you save to GIF, you have lost control of your GIF color optimization efforts, and you probably have a very bad looking GIF animation that will not optimize very well using various [Frame Optimization](#frame_opt) techniques.
 

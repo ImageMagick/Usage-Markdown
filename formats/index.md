@@ -1686,7 +1686,7 @@ convert rgb_image.jpg -profile CMYK_PROFILE cmyk_image.jpg
 ~~~
 
 This will convert using perceptive intent, the default (see [Color Space Conversion](http://www.cambridgeincolour.com/tutorials/color-space-conversion.htm) for an detailed explanation on rendering intents).
-Because the results via perceptive intent can differ greatly depending on the software that was used to create the ICC profiles, you can use "`-black-point-compensation`" along with "`-intent relative`" to get a result that is somewhat nearer to what one might expect.
+Because the results via perceptive intent can differ greatly depending on the software that was used to create the ICC profiles, you can use "`-black-point-compensation`" along with "`-intent relative`" to get a result that is somewhat nearer to what one might expect.
 
 ~~~
 convert rgb_image.jpg  -intent relative -black-point-compensation \
@@ -2827,9 +2827,9 @@ That makes it useful for seeing the working image as it currently stands and is 
 All the other images in the multi-image file format are the images that are used to generate that first combined image.
 That is the individual working layer images, the user was working on at the time it was saved.
 
-So if you just want the 'final' image I suggest you append a " `'[0]'` " to the input filename to junk the working images, and just use the all-in-one first image.
+So if you just want the 'final' image I suggest you append a " `'[0]'` " to the input filename to junk the working images, and just use the all-in-one first image.
 
-However if you plan to work with the individual layer images then use " `'[1--1]'` " to skip the first image.
+However if you plan to work with the individual layer images then use " `'[1--1]'` " to skip the first image.
 If no extra layer images are found than the first image will be returned instead.
 I do NOT recommend using "`-delete 0`" as that will return no images at all if no layer images follow that first image.
 

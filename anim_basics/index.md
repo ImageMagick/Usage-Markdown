@@ -65,7 +65,7 @@ As such I recommend that you always set "`-loop`" when creating a GIF animation,
 
 For more information see [The End of the Loop](#loop) below.
 
-`-delay {time}  `
+`-delay {time}`
 
 Set the time delay (in 1/100th of a second) to pause after drawing the images that are read in or created after this setting has been defined.
 
@@ -285,7 +285,7 @@ But that relies on knowing the history of the animation sequence which makes it 
 > See [Animation Bugs](../bugs/animation_bgnd/) for examples and details.
   
 These functions however did work fine when no pixel clearing was applied or intended.
-This has now been fixed for "`-coalesce`" and the "`-layers OptimizeFrame`' method was created to replace the use of "`-deconstruct`" as a GIF animation frame optimizing function.
+This has now been fixed for "`-coalesce`" and the "`-layers OptimizeFrame`' method was created to replace the use of "`-deconstruct`" as a GIF animation frame optimizing function.
 
 ------------------------------------------------------------------------
 

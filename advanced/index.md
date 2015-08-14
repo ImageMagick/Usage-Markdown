@@ -499,7 +499,7 @@ The full set of jigsaw pieces contains 192 such masks, in a 16 by 12 array, incl
 This specific jigsaw piece is a **100x100 pixel mask**, and designed to be used at a **+365+96 offset** on an **800x600 pixel image**.
 These figures are only important if you have a large set of different pieces that will fit together.
 If you don't plan to do this then of course you can use any offset you like.
- 
+
 [![\[photo\]](holocaust_tn.gif)](holocaust_md.jpg)
 [![\[IM Output\]](jigsaw_tmpl.png)](jigsaw_tmpl.png)
 

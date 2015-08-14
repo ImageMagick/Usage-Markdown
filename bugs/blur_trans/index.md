@@ -140,14 +140,14 @@ composite -compose Atop -size 70x70 xc:yellow blur_black.png \
 You can do this in a single command, with the help of some IM v6 constructs.
 The one real difference here is we limited the blur to just the the alpha channel of the image.
 Yes that image will look horrible but it will not be seen in the output as we immediately replace the colors in the image, use some color canvas generation methods.
-  
-        convert -size 70x70 xc:none -draw 'circle 35,35 20,25' \
-                -channel A -blur 0x8 \
-                \( +clone  -fill green  -draw 'color 0,0 reset' \) \
-                -compose ATop -composite    blur_green.png
-     
 
-  
+~~~
+convert -size 70x70 xc:none -draw 'circle 35,35 20,25' \
+        -channel A -blur 0x8 \
+        \( +clone  -fill green  -draw 'color 0,0 reset' \) \
+        -compose ATop -composite    blur_green.png
+~~~
+
 [![\[IM Output\]](blur_green.png)](blur_green.png)
 
 Using "[`-compose ATop`](../../compose/#atop)" does not just limit you to a simple color.

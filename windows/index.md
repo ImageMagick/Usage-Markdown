@@ -105,9 +105,9 @@ The SendTo folder is named `SendTo`.
 Its location seems to move with each new Windows version.
 A bullet-proof way to find it is typing `shell:sendto` into the run box.
 
-A single command line under Windows XP or later can be 8192 (= 2<sup>13</sup>) characters long.
+A single command line under Windows XP or later can be 8192 (= 2<sup>13</sup>) characters long.
 So if you invoke an IM tool directly from the command line, either directly or via a batch file that names all the files needed directly, you will hardly run into this limitation.
-Drag & Drop however uses the ExecShell routine, which is limited to strings of "only" 2048 (= 2<sup>11</sup>) characters.
+Drag & Drop however uses the ExecShell routine, which is limited to strings of "only" 2048 (= 2<sup>11</sup>) characters.
 As all files are passed with fully qualified filenames (i.e. drive + path + name), this can become a problem for batch files and VBScripts run via WSH when the path names become too long.
 This error cannot be properly handled by the script once it occurs, as the error occurs **before** the script is actually run.
 The solution under Windows XP is usually to place the files in a location where the pathnames are shorter.
@@ -410,7 +410,7 @@ This is just good programming practice.
 
 -   When executing a DOS batch file, the individual commands are echoed by default; that is, commands are displayed in the output DOS box.
 Under UNIX you would instead need to add a special command or option to print commands being exected in this way.
-    You can turn off this 'echoed' output by starting your script with "`@ECHO OFF`".
+    You can turn off this 'echoed' output by starting your script with "`@ECHO OFF`".
 
     The special starting comment "`#!/path/to/shell`" in UNIX shell scripts is not needed for DOS batch files.
     So this line can be replaced by the "`@ECHO OFF`" command for DOS batch files.
@@ -517,7 +517,7 @@ PAUSE
 
 The above batch file manipulates the filename by use of the `~` operator:
   
-%~1  expands %1 removing any surrounding quotes (")
+%~1 expands %1 removing any surrounding quotes (")
   
 %~f1 expands %1 to a fully qualified path name
   
@@ -821,7 +821,7 @@ Therefore, we order the files in a second working step, dumping them in `fsorted
 
 Based on that file, we then construct the Montage command line in another For loop.
 The Montage output file uses the same extension as the first input file (`%~x1`) - assuming that all files share the same extension.
-Please note that the final Montage command is just called by evaluating the environment variable, i. e. `%MONTAGE%`.
+Please note that the final Montage command is just called by evaluating the environment variable, i. e. `%MONTAGE%`.
 
 As has been said in [](), handing over a large number of files with long (full) filename can get you into trouble under Windows XP, because the parameter list of ShellExecute is limited to 2048 characters.
 This error cannot be handled by the batch file, as it occurs **before** the control is handed over to the batch file.
@@ -1165,7 +1165,7 @@ ECHO ImageMagick (convert.exe) not found.
 PAUSE
 ~~~
 
-In the first line, we question the ImageMagick version, suppressing the standard output by `1>nul:` (or just `>nul:`) and any error message by `2>nul:`, i. e. we redirect `stdout` and `stderr` to `nul:`.
+In the first line, we question the ImageMagick version, suppressing the standard output by `1>nul:` (or just `>nul:`) and any error message by `2>nul:`, i. e. we redirect `stdout` and `stderr` to `nul:`.
 If the call to IM's Convert fails, the system program Convert will be called instead, which cannot handle the `-version` option and will set the ERRORLEVEL variable.
 
 You might try to determine why Convert is not found and attempt to fix the problem.
@@ -1337,7 +1337,7 @@ The correction parameter(s) depend on the focal length, which is looked up via `
 For the correction of the Nikon 995 lens, we only need the parameter *b* (i.e. *a, c* = 0), which can be calculcated from the focal length *f* by:
 
 ~~~
-*b* = 0.000005142 *f* ³ - 0.000380839 *f* ² + 0.009606325 *f* - 0.075316854
+*b* = 0.000005142 *f* ³ - 0.000380839 *f* ² + 0.009606325 *f* - 0.075316854
 ~~~
 
 This dependency was found by means of the [lensfun database](http://lensfun.berlios.de/) which lists the barrel distortion parameters for this lens.
@@ -1378,7 +1378,7 @@ When naming the output file, we append "\_pt" to the original filename, just as 
 The filename is stored in `strFileIn`, from which we derive the name of the output file `strFileOut`.
 We then run IM's Identify program.
 The result (i.e. the EXIF rational representing the focal length) is stored in `strf`.
-EXIF rationals are provided as nominator / denominator, e.g. 82 / 10 = 8.2 mm.
+EXIF rationals are provided as nominator / denominator, e.g. 82 / 10 = 8.2 mm.
 The rational thus has to be evaluated before using it in the formula which calculates the parameter *b*.
 
 In the last two lines, we construct the Convert command line and execute the statement via the Run method of the Shell object.
