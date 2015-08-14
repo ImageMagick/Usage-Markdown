@@ -95,7 +95,7 @@ For more advanced users
   
 Older version warnings
 
-**Test Image Storage Directories...**   [Small Images](images/) ([image display](images/INDEX.html)),     [Photographs](img_photos/) ([fancy index](img_photos/INDEX.html)).
+**Test Image Storage Directories...** [Small Images](images/) ([image display](images/INDEX.html)), [Photographs](img_photos/) ([fancy index](img_photos/INDEX.html)).
 
 ------------------------------------------------------------------------
 
@@ -336,7 +336,7 @@ Also to Nicolas Robidoux, an expert in digital image processing, for reworking t
 And finally to the many users of ImageMagick who, had allowed others to see the IM commands they use as part of some project, either on the forums, or on the web.
 You are all to be commended on your willingness and openness to share your findings.
 
-Well enough "Yadda, yadda, yadda."   Go look at some of the examples.
+Well enough "Yadda, yadda, yadda." Go look at some of the examples.
 
 ---
 created: 7 November 2003  

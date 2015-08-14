@@ -92,9 +92,9 @@ The file can be examined by the use of a text editor or an XML viewer:
 </lens>
 ~~~
 
-As can be taken from the camera's technical data sheet, the zoom range of the Nikon Coolpix 995 is 8.2 – 31.0 mm, corresponding to 38 – 152 mm for 35 mm film cameras.
+As can be taken from the camera's technical data sheet, the zoom range of the Nikon Coolpix 995 is 8.2 – 31.0 mm, corresponding to 38 – 152 mm for 35 mm film cameras.
 This gives a crop factor of 152 / 31 = 4.90, which roughly corresponds to the 4.843 given the XML file.
-The coefficients of the correction by barrel distortion are supplied for six focal lengths, namely 8.2 mm, 10.1 mm, 13.6 mm, 18.4 mm, 23.4 mm, 28.3 mm and 31.0 mm.
+The coefficients of the correction by barrel distortion are supplied for six focal lengths, namely 8.2 mm, 10.1 mm, 13.6 mm, 18.4 mm, 23.4 mm, 28.3 mm and 31.0 mm.
 The coefficients `a` and `c` are, for this lens, set to zero, i.e. the distortion is described only by the second-order term `b`.
 
 Note that many lenses will also have values for `a` and `c` parameters as well, and these should also be interpolated in a similar way.
@@ -199,7 +199,7 @@ $$
 {Hfov} = 2 × \arctan{ \left ( \frac{18 mm }{f} \right ) }
 $$
 
-with 18 mm being half of the width of a 35 mm negative (which measures 36 × 24 mm).
+with 18 mm being half of the width of a 35 mm negative (which measures 36 × 24 mm).
 
 Then press the button 'Optimize now!'.
 The resulting parameters 'a', 'b' and 'c' should fall below 0.01 for wide angle lenses and below 0.1 for fisheye lenses.
@@ -284,15 +284,15 @@ The white circle (indicating zero difference) results from the non-scaling restr
 ### GoPro flattening {#gopro}
 
 The GoPro camera lens produces a pronounced barrel distortion, which seems to be part of its branding.
-For instance, the GoPro Hero 3+ silver edition has a fisheye lens with a fixed focal length of 2.77 mm, corresponding to a focal length of 16 mm in 35 mm film, if the entire photosensitive area is used.
+For instance, the GoPro Hero 3+ silver edition has a fisheye lens with a fixed focal length of 2.77 mm, corresponding to a focal length of 16 mm in 35 mm film, if the entire photosensitive area is used.
 The GoPro Hero 3+ has three photo modes:
 
--   10 megapixel = 3680 × 2760 pixel wide angle (16 mm in 35 mm film)
--   7 megapixel = 3072 × 2304 pixel wide angle (16 mm in 35 mm film)
--   5 megapixel = 2624 × 1968 pixel medium angle (23 mm in 35 mm film)
+-   10 megapixel = 3680 × 2760 pixel wide angle (16 mm in 35 mm film)
+-   7 megapixel = 3072 × 2304 pixel wide angle (16 mm in 35 mm film)
+-   5 megapixel = 2624 × 1968 pixel medium angle (23 mm in 35 mm film)
 
 The GoPro Hero 3+ is equipped with a 1/2.3" sensor, which has a crop factor of [5.64](http://en.wikipedia.org/wiki/Image_sensor_format).
-(Which gives a focal length of only 15.62 mm in 35 mm film, the 16 mm provided by the EXIF information probably being due to rounding.) The first two modes seem to use the entire photosensitive area; the reduced resolution obviously being achieved by sub-sampling.
+(Which gives a focal length of only 15.62 mm in 35 mm film, the 16 mm provided by the EXIF information probably being due to rounding.) The first two modes seem to use the entire photosensitive area; the reduced resolution obviously being achieved by sub-sampling.
 The distortion parameters are therefore the same, as can be proven in practice.
 The 5-megapixel mode obviously uses only part of the photosensitive area, as 3680 / 2624 × 16 ≈ 23.
 The lens parameters can be determined to
@@ -338,7 +338,7 @@ As an alternative, they can be used to "flatten" the entire video by the [AVIsyn
 
 ### Two Keyboards by El\_Supremo {#keyboard}
 
-The photo that I took of my two keyboards has a very obvious barrel distortion in it, because it was taken at a focal length of 17 mm.
+The photo that I took of my two keyboards has a very obvious barrel distortion in it, because it was taken at a focal length of 17 mm.
 
   
 [![\[IM Output\]](keyboards.jpg)](keyboards.jpg)
@@ -380,12 +380,12 @@ The information for that lens looks like this:
 The calibration entries give distortion values for a range of focal lengths from 17mm up to 85mm.
 If the focal length I needed was between two of those values, I could either choose whichever was closest or I could interpolate the values.
 Since the photo I'm correcting was taken at 17mm I need the information from the first line of the calibration information.
-That gives me the values:  `a="0.021181"  b="-0.055581"  c="0"`
+That gives me the values: `a="0.021181"  b="-0.055581"  c="0"`
 
 These are the three parameters which are used to correct the lens distortion.
 
 However for some older versions of IM, The barrel distortion correction requires a fourth parameter d.
-Fortunately, it is easy to calculate the value of d from the other three using this simple formula:  `d = 1-a-b-c`  That means:  `d="1.0344"`.
+Fortunately, it is easy to calculate the value of d from the other three using this simple formula: `d = 1-a-b-c` That means: `d="1.0344"`.
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > IM will work out this value automatically, of it is not provided as a distortion argument, but some older versions of IM did not do this.

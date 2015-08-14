@@ -65,11 +65,11 @@ The newer operator "`-alpha`" methods are now the recommended method of control,
 An image can not only have alpha channel data, but it also has a 'switch' that defines if the channel data is viewable or valid.
 This means images can have three states with regards to the alpha channel.
   
-* alpha off  - no alpha data (no memory has been allocated)
+*alpha off - no alpha data (no memory has been allocated)
   
-* alpha off  - old alpha data present, but not in use
+*alpha off - old alpha data present, but not in use
   
-* alpha on   - alpha data that is currently in use
+*alpha on  - alpha data that is currently in use
 
 This needs to be remembered as how the various methods behave depends on which of the above three states the image was in.
 If the 'switch' is off, operators will not touch the alpha data, as it may not actually exist at all.

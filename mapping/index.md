@@ -115,11 +115,11 @@ Added to ImageMagick version 6.5.4-0, the "`-compose`" method '`Blur`' provides 
 ~~~
 composite -blur {Xscale}[x{Yscale}[+{angle}]] blur_map  image   result
 convert image  blur_map  -compose blur \
-    -define compose:args='{Xscale}[x{Yscale}[+{angle}]]' \
-    -composite   result
+    -define compose:args='{Xscale}[x{Yscale}[+{angle}]]' \
+    -composite   result
 convert image  blur_map  -compose blur \
-    -set option:compose:args '{Xscale}[x{Yscale}[+{angle}]]' \
-    -composite   result
+    -set option:compose:args '{Xscale}[x{Yscale}[+{angle}]]' \
+    -composite   result
 ~~~
 
 Note that this [Image Composition](../compose) requires the use of an operational argument, which can be set in a number of ways.
@@ -806,19 +806,16 @@ convert text_image.jpg   map_p_angle.png map_p_radius.png \
 Color Source
   
 ![ +](../img_www/plus.gif)  
- 
   
 [![\[IM Output\]](map_p_angle.png)](map_p_angle.png)  
 Angle - X Map
   
 ![ +](../img_www/plus.gif)  
- 
   
 [![\[IM Output\]](map_p_radius.png)](map_p_radius.png)  
 Radius - Y Map
   
 ![==&gt;](../img_www/right.gif)  
- 
   
 [![\[IM Output\]](distort_p_curved.jpg)](distort_p_curved.jpg)  
 Curved Text
@@ -850,19 +847,16 @@ convert map_p_angular.png map_p_radial.png text.jpg \
 Angular - X Map
   
 ![ +](../img_www/plus.gif)  
- 
   
 [![\[IM Output\]](map_p_radial.png)](map_p_radial.png)  
 Radial - Y Map
   
 ![ +](../img_www/plus.gif)  
- 
   
 [![\[IM Output\]](text.jpg)](text.jpg)  
 Color Source
   
 ![==&gt;](../img_www/right.gif)  
- 
   
 [![\[IM Output\]](distort_p_circle.jpg)](distort_p_circle.jpg)  
 Circled Text
@@ -1496,10 +1490,6 @@ composite mirror_displaced.gif  mirror_cracks.gif -compose multiply \
 [![\[IM Output\]](mirror_areas.gif)](mirror_areas.gif) ![==&gt;](../img_www/right.gif)
   
 [![\[IM Output\]](mirror_dismap_x.gif)](mirror_dismap_x.gif) [![\[IM Output\]](dragon_sm.gif)](dragon_sm.gif) [![\[IM Output\]](mirror_dismap_y.gif)](mirror_dismap_y.gif) ![==&gt;](../img_www/right.gif)
-  
- 
-  
- 
   
 [![\[IM Output\]](mirror_displaced.gif)](mirror_displaced.gif) [![\[IM Output\]](mirror_cracks.gif)](mirror_cracks.gif)
   

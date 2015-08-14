@@ -1095,7 +1095,7 @@ This however is not a easy document to read as it is really for programmers, not
 -   Uppercase letters specify the final point absolute coordinates.
 -   Lowercase letters are relative to the end point of the previous component.
 
-    > For example: "` M 1,2   l 3,4   l 2,-4 `" is the same as "` M 1,2   L 4,6   L 6,2 `".
+    > For example: "` M 1,2 l 3,4 final 2,-4 `" is the same as "` M 1,2 L 4,6 L 6,2 `".
     >
     > That is 3,4 was added to 1,2, to draw a line to 4,6.
     >
@@ -1105,9 +1105,9 @@ This however is not a easy document to read as it is really for programmers, not
     However for curves, I recommend you add the function letters anyway for ease of reading.
 -   Repeated arguments of "`M`" or "`m`" are treated as "`L`" or "`l`" respectively.
 
-    > For example: "` M 1,2   3,4   5,6 `" is the same as "` M 1,2   L 3,4   L 5,6 `"
+    > For example: "` M 1,2 3,4 5,6 `" is the same as "` M 1,2 L 3,4 L 5,6 `"
     >
-    > And : "` m 1,2   3,4   2,-4 `" is the same as "` m 1,2   l 3,4   l 2,-4 `"
+    > And : "` m 1,2 3,4 2,-4 `" is the same as "` m 1,2 l 3,4 l 2,-4 `"
 
 -   For cubic bezier all points (control and end knot points) are given relative to the end point of the previous path component.
 

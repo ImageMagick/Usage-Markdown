@@ -338,7 +338,7 @@ convert convolve_kernel.png -roll -64-64 +fft \
 
 ------------------------------------------------------------------------
 
-## FFT Division   ( ![](../../img_www/fft_divide.gif) ) {#divide}
+## FFT Division ( ![](../../img_www/fft_divide.gif) ) {#divide}
 
 Here we use division to remove or de-convolve (for want of a better word) the blur that was added to the above image.
 It is basically exactly the same except that the 'normalized' convolution kernel is divided from the main image.

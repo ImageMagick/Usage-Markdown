@@ -1611,8 +1611,7 @@ convert bag_wing.gif -delete 2--1 -set delay 33 \
 [![\[IM Output\]](bag_bear_opt.gif)](bag_bear_opt.gif)
   
 [![\[IM Output\]](bag_wing_opt.gif)](bag_wing_opt.gif)
-  
- 
+
 As a final summary: The two original (badly split) images totalled [![\[IM Text\]](bag_orig_size.txt.gif)](bag_orig_size.txt) bytes, which is about the same as the appended version.
 After correctly splitting the animation, which allows good optimization of the sub-animations, we get a total of [![\[IM Text\]](bag_opt_size.txt.gif)](bag_opt_size.txt) bytes over three image.
 Quite a good saving.

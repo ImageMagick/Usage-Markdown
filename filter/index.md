@@ -296,22 +296,15 @@ convert checks_10.gif -filter point -resize 5x5  checks_point-5.gif
 ~~~
 
 [![\[IM Output\]](checks_10_mag.gif)](checks_10.gif)  
- 
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](checks_point-1_mag.gif)](checks_point-1.gif)  
 Point-1
-  
 [![\[IM Output\]](checks_point-2_mag.gif)](checks_point-2.gif)  
 Point-2
-  
 [![\[IM Output\]](checks_point-3_mag.gif)](checks_point-3.gif)  
 Point-3
-  
 [![\[IM Output\]](checks_point-4_mag.gif)](checks_point-4.gif)  
 Point-4
-  
 [![\[IM Output\]](checks_point-5_mag.gif)](checks_point-5.gif)  
 Point 50%
 
@@ -346,22 +339,15 @@ convert checks_10.gif -filter box -resize 5x5  checks_box-5.gif
 ~~~
 
 [![\[IM Output\]](checks_10_mag.gif)](checks_10.gif)  
- 
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](checks_box-1_mag.gif)](checks_box-1.gif)  
 Box-1
-  
 [![\[IM Output\]](checks_box-2_mag.gif)](checks_box-2.gif)  
 Box-2
-  
 [![\[IM Output\]](checks_box-3_mag.gif)](checks_box-3.gif)  
 Box-3
-  
 [![\[IM Output\]](checks_box-4_mag.gif)](checks_box-4.gif)  
 Box-4
-  
 [![\[IM Output\]](checks_box-5_mag.gif)](checks_box-5.gif)  
 Box 50%
 
@@ -1035,7 +1021,7 @@ with minimal [blocking](#blocking) and [ringing](#ringing) effects and no [blurr
 > That is, the default 2.0 support Lagrange filter, generates a Lagrange filter of order 3 (order = support × 2 - 1, thus support=2.0 =&gt; Lagrange-3 filter).
 > This is why you can really only use a setting in half-integer sizes.
 >
-> As such, to get a Lagrange order 4 filter you would use the option   `-define filter:support=2.5`
+> As such, to get a Lagrange order 4 filter you would use the option `-define filter:support=2.5`
 
 [![\[IM Output\]](graph_lagrange_windowed.gif)](graph_lagrange_windowed.jpg) With larger [support](#support) settings, the '`Lagrange`' filter generates [Windowed Sinc Filters](#windowed) without needing a complex trigonometric function calculation, or even additional windowing functions.
 The larger the support setting the closer the filter emulates a *Sinc()* function, but also the slower the calculation - see graph of larger support Lagrange filters left.
