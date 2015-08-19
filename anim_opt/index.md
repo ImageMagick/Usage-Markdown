@@ -1016,7 +1016,7 @@ Of course Ordered Dither Compression Optimization only works for images that hav
 As such it only works for animations that have yet to be optimized for the GIF image format.
 
 Also currently IM Ordered dither only works for a uniform color palette.
-IM has yet to have a 'best color' or 'user supplied' palette implementation of ordered dither, though I have seen programs that use such an algorithm for very limited (and fixed) color pallets.
+IM has yet to have a 'best color' or 'user supplied' palette implementation of ordered dither, though I have seen programs that use such an algorithm for very limited (and fixed) color palettes.
 *Do you know of such an algorithm?*
 
 For a practical example of using ordered dither for improved LZW compression optimization, see [Ordered Dithered Video](../video/#gif_ordered_dither).

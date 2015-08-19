@@ -1377,7 +1377,7 @@ convert logo.png +dither -remap netscape:  remap_netscape_nd.gif
 [![\[IM Output\]](remap_netscape.gif)](remap_netscape.gif)
 [![\[IM Output\]](remap_netscape_nd.gif)](remap_netscape_nd.gif)
 
-This color set was a mathematically determined pallet, designed by engineers of displays and computers, not graphic artists, and while it is general enough that it works reasonably well for real images such as photos, it is very bad for images containing large flat areas of color, such as logos, backgrounds, computer generated images such as graphs, and cartoon-like images.
+This color set was a mathematically determined palette, designed by engineers of displays and computers, not graphic artists, and while it is general enough that it works reasonably well for real images such as photos, it is very bad for images containing large flat areas of color, such as logos, backgrounds, computer generated images such as graphs, and cartoon-like images.
 
 Basically, this works in areas of highly variable colors, but for the larger flat areas of constant colors a dithering of three colors (in general) is applied, such as the off-blue shirt of the IM logo test images (above).
 

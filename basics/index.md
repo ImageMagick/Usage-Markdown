@@ -2053,7 +2053,7 @@ Other settings include '`GrayScale`' and '`GrayScaleMatte`' which will ensure th
 
 During reading of image file formats, a "`-type`" setting of '`TrueColorMatte`' will force a [JPEG](../formats/#jpeg) image being read, to have a 'Matte' or 'Alpha' channel added to its in memory storage, even though the [JPEG](../formats/#jpeg) format itself can not handle transparency.
 
-When writing to a [PNG](../formats/#png_formats) file format setting a "`-type`" of '`Pallette`' will force it to use a color indexed "`PNG8`' internal image format. 
+When writing to a [PNG](../formats/#png_formats) file format setting a "`-type`" of '`Palette`' will force it to use a color indexed "`PNG8`' internal image format. 
 Similarly using "`BiLevel`" will force IM to dither color images to black and white for most image file formats.
 
 Unfortunately the exact meaning and capabilities of "`-type`" depend on the specific image format you are reading or writing. See the various [Image File Formats](../formats/) example areas. For specific PNG examples see [PNG output formats](../formats/#png_formats).
