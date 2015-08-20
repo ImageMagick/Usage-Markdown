@@ -613,7 +613,7 @@ It seems that adaptive-resize makes the new image much sharper than regular resi
 > For thumbnail generation, the sharpening is too strong, resulting in some aliasing effect being added to the resulting image.
 It is thus better suited to small scale resize adjustments such as generating a smaller image for display on web pages.
 
-You can also generate the exact equivalent result using a [Distort Resize](#distort) operation but with the options "`-filter point -interpolate mesh`".  That is, resizing the image using a simple [Mesh Interpolation](../misc/#mesh) lookup method, rather than a more complex resampling filter.
+You can also generate the exact equivalent result using a [Distort Resize](#distort) operation but with the options "`-filter point -interpolate mesh`". That is, resizing the image using a simple [Mesh Interpolation](../misc/#mesh) lookup method, rather than a more complex resampling filter.
 
 ### Interpolative Resize - Resize using an Interpolation Method {#interpolative-resize}
 

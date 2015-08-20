@@ -215,7 +215,7 @@ convert bag_frame1.gif bag_frame2.gif -compose difference -composite \
 
 [![\[IM Output\]](difference_vector_scaled.gif)](difference_vector_scaled.gif)
 
-This is actually very similar to what you would get for a "`-colorspace Gray`' difference image (as above), but it is a much more accurate representation of color difference.
+This is actually very similar to what you would get for a "`-colorspace Gray`' difference image (as above), but it is a much more accurate representation of color difference.
 
 You could leave off the second '`Pow 0.5`' modification, in which case you will get a Squared difference Image.
 
@@ -1523,9 +1523,9 @@ What has changed in fixed cameras
 
 Walter Perry &lt;gatorus13\_AT\_earthlink.net&gt; reports...
 
-The project I am working involves processing groups of 20 images sent from a surveillance camera in response to the camera sensing motion.  These cameras are at remote locations and once they detect motion the images are sent to a local server.  Once at the local server, I want to be able to "filter" out those images that do not contain what caused the event.
+The project I am working involves processing groups of 20 images sent from a surveillance camera in response to the camera sensing motion. These cameras are at remote locations and once they detect motion the images are sent to a local server. Once at the local server, I want to be able to "filter" out those images that do not contain what caused the event.
 
-I use PerlMagick to compare the first image in the series (which will always not contain anything other than the normal background) with the rest of the images.  I am getting an "average" difference for all the images and then if the individual difference is greater than the average difference I keep the image as it has something in it.
+I use PerlMagick to compare the first image in the series (which will always not contain anything other than the normal background) with the rest of the images. I am getting an "average" difference for all the images and then if the individual difference is greater than the average difference I keep the image as it has something in it.
 
 This approach works great no matter day or night or what the lighting conditions.
 I originally was trying to use just a percentage difference above the first image, but that was not too reliable and really depended on the lighting conditions.

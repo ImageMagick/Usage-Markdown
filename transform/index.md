@@ -2671,7 +2671,7 @@ Well, this is a little more complex as you can't just multiply them and expect i
 This requires some care to ensure you don't end up clipping the values and getting the right negation of the curve in the resulting image.
 
 The trick is to break up the multiplication into multiple steps.
-That is   **` A × B `**   can also be written as   **` A × abs(B) × sign(B)`**.
+That is **` A × B `** can also be written as **` A × abs(B) × sign(B)`**.
 By doing this, you avoid multiplying by a negative value, which can't be stored in a normal gradient image.
 So all we need to do is take one of the bias gradients and separate it into two parts so they can be applied to the other gradient appropriately.
 

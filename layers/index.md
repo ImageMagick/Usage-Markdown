@@ -709,7 +709,7 @@ convert {balloon,castle,eye,eyeguy,ghost,hand_point,medical}.gif \
 
 [![\[IM Output\]](image_circle.png)](image_circle.png)
 
-The key to the above example is the "`-set page`" operation that uses the normalized image index (the [FX Expression](http://www.imagemagick.org/script/fx.php) '`t/n`' ) to create a value from 0.0 to not quite 1.0 for each individual image.
+The key to the above example is the "`-set page`" operation that uses the normalized image index (the [FX Expression](http://www.imagemagick.org/script/fx.php) '`t/n`') to create a value from 0.0 to not quite 1.0 for each individual image.
 This value is then mapped to position the image (by angle) in a circle of 80 pixels radius, using [FX Expressions as a Percent Escape](../transform/#fx_escapes).
 
 The position calculated is of the top-left corner of the image (not its center, though that is a simple adjustment), which is then [Merged](#merge) to generate a new image.
@@ -951,7 +951,7 @@ The above program seems complex, but is actually quite straightforward.
 
 The first image is used to start a accumulating stack of images (image index \#0).
 
-Note we could have actually started with a single transparent pixel ("`-size 1x1 xc:none`"), if you don't want to use that first image to initialize the stack.
+Note we could have actually started with a single transparent pixel ("`-size 1x1 xc:none`"), if you don't want to use that first image to initialize the stack.
 
 Now to add a new image to the bottom of the image stack, we apply the same set of operations, each time...
 

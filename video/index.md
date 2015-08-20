@@ -31,7 +31,7 @@ Also, if you study the resulting animation further you will find that of the [![
 That is each and every frame in the GIF animation required its own color index table.
 That is while each frame has less than 256 colors (due to the GIF format limitations), the whole animation is using a total of [![\[IM Text\]](plane_ncolors.txt.gif)](plane_ncolors.txt) colors.
 
-Unfortunately the GIF format does not compress color tables, so all those extra color tables could be using up to:   256 colors \* 3 byte per color \* 106 frames;   or 81,408 bytes of file space.
+Unfortunately the GIF format does not compress color tables, so all those extra color tables could be using up to: 256 colors \* 3 byte per color \* 106 frames; or 81,408 bytes of file space.
 Not a lot for a 1Gbyte video but still an appreciable amount of space, especially as we optimize the video further.
 
 Added to this is that the animation will not GIF frame optimize very well.

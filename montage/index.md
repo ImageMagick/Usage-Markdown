@@ -125,7 +125,7 @@ Tile Setting
 3x2
 7 - 8
 4x2
-   
+
 Num Images
 Tile Setting
 9
@@ -140,7 +140,7 @@ Tile Setting
 6x4
 25
 5x5
-   
+
 Num Images
 Tile Setting
 26 - 30
@@ -404,9 +404,9 @@ For example, the montage array in [Annotate Angle Examples](../misc/#annotate) w
 If you do not want this automatic labeling, you must specifically tell "`montage`" to reset all the labels being read in or created to the empty string, using "`-label ''`" before reading the image.
 Or you can just delete the label meta-data using "`+set label`" after reading the images.
 
-This is where "`+label`" differs from using an empty label ("`-label ''`").
+This is where "`+label`" differs from using an empty label ("`-label ''`").
 The former will reset the default behavior back to automatically using any label meta-data that the image being read-in may have, while the latter replaces the label with an empty string, which effectively removes the label.
-You can also preserve the original label of the image using "`-label '%l'`", which can be useful as a NO-OP labeling option in image processing scripts.
+You can also preserve the original label of the image using "`-label '%l'`", which can be useful as a NO-OP labeling option in image processing scripts.
 
 Note that "`-set`" cannot restore the original label of an image, once it has been modified or removed, either by using "`-label`" or "`-set`":
 
@@ -542,7 +542,7 @@ The color outside the drawn frame.
 Often this is set to the '`none`' or '`transparent`', for use on web pages.
 The [-texture](../option_link.cgi?texture) setting will be used instead if given.
 
-- `-bordercolor`  
+- `-bordercolor`
 The fill color inside the frame for images, or any border padding.
 Any transparent areas in an image will become this color, unless no such decoration is added.
 

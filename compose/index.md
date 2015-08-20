@@ -625,11 +625,11 @@ Something that can be very useful.
 
 [![\[IM Output\]](gradient_op_multiply.png)](gradient_op_multiply.png)
 
-### Multiply   ( ![](../img_www/multiply.gif) ) (make white transparent for diagrams/text) {#multiply}
+### Multiply ( ![](../img_www/multiply.gif) ) (make white transparent for diagrams/text) {#multiply}
 
 Is one of the more useful, but under-rated, compose methods and is a simple multiply of the two images.
 
-Its formula is of course:   $Src*Dest$
+Its formula is of course:  $Src*Dest$
 
 This means that if one of the images is pure white, the result will be the other image.
 On the other hand if one image is black the result will be black.
@@ -675,7 +675,7 @@ Or it can be used on satellite cloud images before overlaying the result on a ge
 This is almost exactly like '`Multiply`' except both input images are negated before the compose, and the final result is also then negated again to return the image to normal.
 In technical terms the two methods are 'Duals' of each other.
 
-That makes its formula:   $1-(1-Src)*(1-Dest)$
+That makes its formula:  $1-(1-Src)*(1-Dest)$
 
 This means that if one of the images is pure black, the result will be the other image.
 On the other hand if one image is white the result will be white.
@@ -723,12 +723,12 @@ However as it can only darken images, it is not as useful as the '`HardLight`' m
 
 [![\[IM Output\]](gradient_op_divide.png)](gradient_op_divide.png)
 
-### Divide, Divide\_Dst, Divide\_Src   ( ![](../img_www/divide.gif) ) (removing shading effects) {#divide}
+### Divide, Divide\_Dst, Divide\_Src  ( ![](../img_www/divide.gif) ) (removing shading effects) {#divide}
 
 The two images are divided from each other.
 Which image divides which depends on if '`Divide_Src`' or '`Divide_Dst`' is applied.
 
-The formula for '`Divide_Dst`' is $\frac{Src} {Dest}$ and for '`Divide_Src`' is   $\frac{Dest} {Src}$
+The formula for '`Divide_Dst`' is $\frac{Src} {Dest}$ and for '`Divide_Src`' is  $\frac{Dest} {Src}$
 
 Due to the order of images normally defined in image composition, and the "`composite` command, the original method '`Divide` meant...
 
@@ -797,7 +797,7 @@ See '`Color_Dodge`' for equivalences.
 
 [![\[IM Output\]](gradient_op_plus.png)](gradient_op_plus.png)
 
-### Plus   ( ![](../img_www/plus.gif) ) (Add colors together to form a blend) {#plus}
+### Plus ( ![](../img_www/plus.gif) ) (Add colors together to form a blend) {#plus}
 
 Add the colors of the overlay to the background.
 In essence causing the two images to blend together equally.
@@ -2503,7 +2503,7 @@ convert gradient_dst.png gradient_src.png \
 
 Similarly you can generate other compose methods such as...
 
-| Compose Method | Mathematics Args |
+| Compose Method | Mathematics Args |
 |:---------------|:-----------------|
 | `Multiply`     | `1,0,0,0`        |
 | `Screen`       | `-1,1,1,0`       |
