@@ -10,7 +10,7 @@ Be sure to read the notes at the end, before attempting to create your own examp
 And please mail any interesting variations you may come across.
 
 Input Images :- Generator, Transform and Post-processing
- 
+
 *Images results shown here were generated with a "`-noop`" null transform operator*
 
 Plasma Fractal *(non-tiling canvas image)*

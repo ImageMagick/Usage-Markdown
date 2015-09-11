@@ -1691,7 +1691,7 @@ The result is a ground consisting of random noise that gets smoother and more bl
 It gives a natural feeling of depth, without any specific repeating pattern.
 
 Here I repeated the above but with a pure black and white source image.
-However I am not interested in the actual distorted image, only the [Virtual Pixel](../misc/#virtual-pixel) '`random`' pattern that was generated, so I changed what part of the 'distorted image space' I am looking at, by using a special '`-set option:distort:viewport`' setting.
+However I am not interested in the actual distorted image, only the [Virtual Pixel](../misc/#virtual-pixel) '`random`' pattern that was generated, so I changed what part of the 'distorted image space' I am looking at, by using a special '`-set option:distort:viewport`' setting.
 This setting overrides the normal size and location of the area of distorted space being viewed.
 In this case an area only containing virtual pixels, and not the distorted image.
 
@@ -2306,7 +2306,7 @@ By default it will curve the given image into a perfectly circular arc over the 
 
 To do this it takes up to four arguments.
 
-` arc_angle   rotate_angle   top_radius   bottom_radius`
+` arc_angle rotate_angle top_radius bottom_radius`
 
 However only the "`arc_angle`" is required, the other arguments are optional, and can be added as needed, in the sequence given.
 

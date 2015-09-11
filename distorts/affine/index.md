@@ -184,8 +184,8 @@ If you want to calculate the correct affine matrix to do proper unscaled rotatio
 
 $$
 \begin{array}{cc}
-sx =  cos(α) & rx = sin(α) \\
-ry = -sin(α) & sy = cos(α) \\
+{sx} =  \cos({\alpha}) & {rx} = \sin({\alpha}) \\
+{ry} = -\sin(\alpha) & {sy} = \cos(\alpha) \\
 \end{array}
 $$
 

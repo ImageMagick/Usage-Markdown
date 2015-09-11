@@ -927,7 +927,6 @@ original dither
 one pixel change
   
 ![==&gt;](../img_www/right.gif)  
- 
   
 [![\[IM Output\]](dither_difference.gif)](dither_difference.gif)  
 comparison of changes
@@ -956,7 +955,6 @@ FS Dither
 one pixel change
   
 ![==&gt;](../img_www/right.gif)  
- 
   
 [![\[IM Output\]](dither_fs_difference.gif)](dither_fs_difference.gif)  
 comparison of changes
@@ -2135,8 +2133,10 @@ convert logo.png  -remap colormap_332.png     logo_remap_332.gif
 ~~~
 
 [![\[IM Output\]](logo_o8x8_2.gif)](logo_o8x8_2.gif)
-[![\[IM Output\]](logo_posterize_2.gif)](logo_posterize_2.gif)     [![\[IM Output\]](logo_o8x8_6.gif)](logo_o8x8_6.gif)
-[![\[IM Output\]](logo_posterize_6.gif)](logo_posterize_6.gif)     [![\[IM Output\]](logo_o8x8_332.gif)](logo_o8x8_332.gif)
+[![\[IM Output\]](logo_posterize_2.gif)](logo_posterize_2.gif)
+[![\[IM Output\]](logo_o8x8_6.gif)](logo_o8x8_6.gif)
+[![\[IM Output\]](logo_posterize_6.gif)](logo_posterize_6.gif)
+[![\[IM Output\]](logo_o8x8_332.gif)](logo_o8x8_332.gif)
 [![\[IM Output\]](logo_remap_332.gif)](logo_remap_332.gif)
 
 The first image of each pair in the above is mathematically ordered dithered, while the second is pseudo-randomly 'error correction' dithered.

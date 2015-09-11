@@ -204,8 +204,8 @@ The lower gradient is thus the same as the upper gradient.
 
 The simplest and most basic global level adjustment you can make is to negate the image, using the "`-negate`" image operator.
 
-Essentially this makes   white, black,   and   black, white,  , adjusting all the colors to match.
-That is, it will make the color red, its complementary color of cyan,   and blue, yellow, etc.
+Essentially this makes white, black, and black, white, adjusting all the colors to match.
+That is, it will make the color red, its complementary color of cyan, and blue, yellow, etc.
 
 You can see this with the mapping graph shown below, as I use the "`-negate`" operator on both the 'test' image and the standard IM 'rose' built-in image.
 Note how the lower gradient in the mapping graph image is now reversed, so that black and white are swapped, and the same reversal appearing in the negated 'test' image.
@@ -317,7 +317,7 @@ convert  rose:  -level -25%  rose_decontrast.gif
 This method of de-contrasting an image however is very inaccurate and not recommended, unless you have a IM older than version 6.4.2 where you don't have access to the new [Reversed Level Operator](#level_plus).
 ![\[IM Graph\]](gp_level_neg.gif)
 
-You can use the "`-level`" operator to negate an image (as previously shown above, just by swapping the 'black' and 'white' point values given, using "`-level 100%,0`".
+You can use the "`-level`" operator to negate an image (as previously shown above, just by swapping the 'black' and 'white' point values given, using "`-level 100%,0`".
 
 ~~~
 convert  rose:  -level 100%,0  rose_level_neg.gif
@@ -327,7 +327,7 @@ convert  rose:  -level 100%,0  rose_level_neg.gif
   
 ![\[IM Graph\]](gp_level_thres.gif) Or by setting them to the same value, you can effectively call all the color values in the image to be thresholded.
 Using "`-level`" to threshold an image is exactly the same as if you used a [Threshold Operator](../quantize/#threshold) with that value.
-The mapping graph shown right, shows the results of a "`-level 50%,50%`" operation, and its effect on a grayscale gradient.
+The mapping graph shown right, shows the results of a "`-level 50%,50%`" operation, and its effect on a grayscale gradient.
 
 ~~~
 convert  rose:  -level 50%,50%  rose_level_thres.gif
@@ -373,7 +373,7 @@ convert  rose:      -level 25%\!  rose_level_plus.gif
 [![\[IM Output\]](test_level_plus.png)](test_level_plus.png)  
 [![\[IM Output\]](rose_level_plus.gif)](rose_level_plus.gif)
 
-If you compare the above "`+level 25%`" operation with the use of a a negative de-contrasting, "`-level -25%`" operator we showed previously, you will see that are not the same.
+If you compare the above "`+level 25%`" operation with the use of a a negative de-contrasting, "`-level -25%`" operator we showed previously, you will see that are not the same.
 The 'plus' version produces a much stronger de-contrasted image (it is greyer), but does so by mapping to the exact values you give the operator, and not the 'imaginary' values the 'minus' form used.
 This exact value usage is important, and one of the reasons why the 'plus' form of the operator was added.
 
@@ -585,13 +585,10 @@ A threshold level for the contrast function to center on (typically centered at 
 > {\left ( \frac{1}{1 + \exp{\left( \beta * (\alpha - u ) \right )}} - \frac{1}{1 + \exp{\left ( \beta          \right ) }}\right ) }
 > {\left ( \frac{1}{1 + \exp{\left( \beta * (\alpha - 1 ) \right )}} - \frac{1}{1 + \exp{\left ( \beta * \alpha \right ) }}\right ) }
 > $$
->   
-><!-- ( 1/(1+exp(β*(α-u))) - 1/(1+exp(β))) / ( 1/(1+exp(β*(α-1))) - 1/(1+exp(β*α)) ) -->
 >
->  
->Where $\alpha$ is the threshold level, and $\beta$ the contrast factor to be applied.
+> Where $\alpha$ is the threshold level, and $\beta$ the contrast factor to be applied.
 >
->Here is a alternate version of the formula using intermediate variables.
+> Here is a alternate version of the formula using intermediate variables.
 >
 > $$
 > \begin{array}{l}
@@ -2823,10 +2820,10 @@ This will not just map the specified colors, but also re-map the colors between 
         -cycle     shift colormap (for animations of fractals???)
 
     Chromaticity Color Points???
-       –white-point x,y
-       –red-primary x,y
-       –green-primary x,y
-       –blue-primary x,y
+       -white-point x,y
+       -red-primary x,y
+       -green-primary x,y
+       -blue-primary x,y
 
 
     Thresholds  (after negation)

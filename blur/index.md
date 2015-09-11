@@ -54,7 +54,7 @@ A very small *sigma* (less than '`1`' ) limits their contribution to a small amo
 The largest *sigma* of '`65355`' will produce a simple averaging of all the pixels in the square neighbourhood.
 
 Also notice that for smallish *radius* but a large *sigma* you see artifacts appear in the blurred result.
-This is especially visible in the output for "`-blur 5x8`".
+This is especially visible in the output for "`-blur 5x8`".
 This is caused by the small square neighbourhood 'cutting off' the area blurred, producing sudden stops in the smooth Gaussian curve of the blur, and thus producing [Ringing Artefacts](../filter/#ringing) along sharp edges.
 So...
 

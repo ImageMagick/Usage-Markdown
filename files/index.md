@@ -868,7 +868,7 @@ convert  rose:  -verbose  info:  | head
 > It also causes some operators like "`-colors`" to output additional information.
 > As such you may like to turn it off again after using it with either "`-identify`" or the "`info:`" format.
 >
-> For example    "`-verbose -write       info:image_info.txt +verbose`" *   or   * "`-verbose -identify +verbose`" *.*
+> For example "`-verbose -write       info:image_info.txt +verbose`" * or * "`-verbose -identify +verbose`" *.*
 >
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > :WARNING:
