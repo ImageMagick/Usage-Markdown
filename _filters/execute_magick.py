@@ -10,13 +10,14 @@ import hashlib
 from pandocfilters import toJSONFilter, Image, CodeBlock, Para
 from subprocess import Popen, PIPE
 
-DEBUG = True
+DEBUG = False
 
 IMAGEDIR = '_images'
 
 # List of imagemagick tools; only commands in this list will be allowed to be run by the filter
-IM_COMMANDS = ('animate', 'compare', 'composite', 'conjure', 'convert', 'display', 'identify', 'import', 'mogrify', 'montage', 'stream')
-IM_IMAGE_TYPES = ('png', 'jpg', 'gif')
+IM_COMMANDS = ('animate', 'compare', 'composite', 'conjure', 'convert', 'display', 'identify', 'import', 'mogrify', 'montage', 'stream', 'echo', 'printf')
+IM_IMAGE_TYPES = ('png', 'jpg', 'gif', 'tif')
+
 # Needed for writing unicode to stdout/stderr:
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -32,8 +33,6 @@ def execute(code):
 #    if DEBUG:
 #        sys.stderr.write('-'*100 + '\n')
     code = remove_slash(code)
-    prev_dir = os.getcwd()
-    os.chdir(IMAGEDIR)
     for line in code:
         if DEBUG:
             sys.stderr.write(line + u'\n')
@@ -43,6 +42,9 @@ def execute(code):
             return
         image_name = commandline[-1]
         image_type = os.path.splitext(image_name)[1][1:].lower()
+        if os.path.isfile(image_name):
+            sys.stderr.write("Image already exists: '%s'\n" % image_name)
+            return os.path.join('..', IMAGEDIR, image_name)
         if image_type not in IM_IMAGE_TYPES:
             sys.stderr.write("Not a ImageMagick Image Type: %s\n" % image_type)
             return
@@ -52,7 +54,6 @@ def execute(code):
             sys.stderr.write(out + '\n')
         if err:
             sys.stderr.write(err + '\n')
-    os.chdir(prev_dir)
     return os.path.join('..', IMAGEDIR, image_name)
 
 def remove_slash(text):
@@ -90,7 +91,7 @@ def magick(key, value, format, meta):
 
     Example CodeBlock:
         ~~~{generate_image=True include_image=False}
-        convert -size 80x80 example.png
+        convert -size 40x20 xc:red xc:blue -append -rotate 90 append_rotate.gif
         ~~~
     """
     if key == 'CodeBlock':
@@ -115,7 +116,10 @@ def magick(key, value, format, meta):
 #            sys.stderr.write(str(zip(keyvals)) + '\n')
 
 #        sys.stderr.write('Created image ' + src + '\n')
+            prev_dir = os.getcwd()
+            os.chdir(IMAGEDIR)
             image = execute(code)
+            os.chdir(prev_dir)
             if image:
                 if keyvals and keyvals.has_key('include_image') and keyvals['include_image']:
                     return [CodeBlock(("", [], []), code), Para([Image([], [image, "generated my ImageMagick"])])]
