@@ -17,6 +17,9 @@ IMAGEDIR = '_images'
 # List of imagemagick tools; only commands in this list will be allowed to be run by the filter
 IM_COMMANDS = ('animate', 'compare', 'composite', 'conjure', 'convert', 'display', 'identify', 'import', 'mogrify', 'montage', 'stream')
 IM_IMAGE_TYPES = ('png', 'jpg', 'gif')
+# Needed for writing unicode to stdout/stderr:
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def sha1(x):
     return hashlib.sha1(x.encode(sys.getfilesystemencoding())).hexdigest()
@@ -33,7 +36,7 @@ def execute(code):
     os.chdir(IMAGEDIR)
     for line in code:
         if DEBUG:
-            sys.stderr.write(line + '\n')
+            sys.stderr.write(line + u'\n')
         commandline = line.split()
         if commandline[0] not in IM_COMMANDS:
             sys.stderr.write("Not a ImageMagick command: %s\n" % commandline[0])
