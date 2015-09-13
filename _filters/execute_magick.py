@@ -50,7 +50,7 @@ def execute(code):
         if err:
             sys.stderr.write(err + '\n')
     os.chdir(prev_dir)
-    return
+    return os.path.join('..', IMAGEDIR, image_name)
 
 def remove_slash(text):
     """
@@ -72,15 +72,35 @@ def remove_slash(text):
     return retval
 
 def magick(key, value, format, meta):
+    """
+    Filter to scan CodeBlocks for ImageMagick code and execute it to generate images.
+    The following Keys control the behaviour:
+        generate_image [True|False]:
+            Code will be executed
+        include_image [True|False]:
+            HTML <img> code will be generated to include image.
+            Needs 'generate_image'.
+
+    Note: Using fenced code blocks
+          see http://pandoc.org/README.html#fenced-code-blocks
+          and https://github.com/jgm/pandoc/issues/673
+
+    Example CodeBlock:
+        ~~~{generate_image=True include_image=False}
+        convert -size 80x80 example.png
+        ~~~
+    """
     if key == 'CodeBlock':
         [[ident, classes, keyvals], code] = value
-        if 'magick' in classes:
-            outfile = os.path.join(IMAGEDIR, sha1(code))
-            if format == "latex":
-                filetype = "pdf"
-            else:
-                filetype = "png"
-            src = outfile + '.' + filetype
+        keyvals = dict(keyvals)
+        if keyvals and keyvals.has_key('generate_image') and keyvals['generate_image']:
+
+            # outfile = os.path.join(IMAGEDIR, sha1(code))
+            # if format == "latex":
+            #     filetype = "pdf"
+            # else:
+            #     filetype = "png"
+            # src = outfile + '.' + filetype
             if not os.path.isdir(IMAGEDIR):
                 try:
                     os.mkdir(IMAGEDIR)
@@ -92,8 +112,14 @@ def magick(key, value, format, meta):
 #            sys.stderr.write(str(zip(keyvals)) + '\n')
 
 #        sys.stderr.write('Created image ' + src + '\n')
-            execute(code)
-            return [CodeBlock(("", [], []), code), Para([Image([], [src, ""])])]
+            image = execute(code)
+            if image:
+                if keyvals and keyvals.has_key('include_image') and keyvals['include_image']:
+                    return [CodeBlock(("", [], []), code), Para([Image([], [image, "generated my ImageMagick"])])]
+                else:
+                    return [CodeBlock(("", [], []), code)]
+            else:
+                return
 
 
 if __name__ == "__main__":
