@@ -18,6 +18,8 @@ def sha1(x):
 def execute(code):
     sys.stderr.write('-'*100 + '\n')
     code = remove_slash(code)
+    prev_dir = os.getcwd()
+    os.chdir(imagedir)
     for line in code:
         sys.stderr.write(line + '\n')
         p = Popen(line, close_fds=True, stdout=PIPE, stderr=PIPE, shell=True)
@@ -26,6 +28,7 @@ def execute(code):
             sys.stderr.write(err + '\n')
         else:
             sys.stderr.write(out + '\n')
+    os.chdir(prev_dir)
 
 def remove_slash(text):
     """
@@ -49,7 +52,6 @@ def remove_slash(text):
 def magick(key, value, format, meta):
     if key == 'CodeBlock':
         [[ident, classes, keyvals], code] = value
-        sys.stderr.write('>>>' + str(ident) + '\n')
         if 'magick' in classes:
             outfile = os.path.join(imagedir, sha1(code))
             if format == "latex":
