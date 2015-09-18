@@ -8,7 +8,6 @@ all: $(HTML_USAGE_FILES)
 	printf "[PANDOC] %-28s > %s\n" "$<" $@
 	${PANDOC} -f markdown -t html5 --mathjax --toc \
 		--base-header-level=2 --toc-depth=4 \
-		--filter _filters/execute_magick.py \
 		--template=./_templates/page.html -o "$@" "$<"
 
 clean:
