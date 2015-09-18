@@ -78,21 +78,37 @@ def remove_slash(text):
 def magick(key, value, format, meta):
     """
     Filter to scan CodeBlocks for ImageMagick code and execute it to generate images.
-    The following Keys control the behaviour:
-        generate_image [True|False]:
-            Code will be executed
-        include_image [True|False]:
-            HTML <img> code will be generated to include image.
-            Needs 'generate_image'.
-
-    Note: Using fenced code blocks
-          see http://pandoc.org/README.html#fenced-code-blocks
-          and https://github.com/jgm/pandoc/issues/673
 
     Example CodeBlock:
         ~~~{generate_image=True include_image=False}
         convert -size 40x20 xc:red xc:blue -append -rotate 90 append_rotate.gif
         ~~~
+
+    All images are created in the '_images' directory (might need to be created first)
+    Existing images will not be overwritten - we might want to add a command to the makefile like clean_images
+
+    The filter will not blindly execute any codeblock, but expects a key/value pair:
+
+        generate_image [True|False]
+        Another switch enables the automatic generation of HTML code including the  tag for the generated image:
+
+        include_image [True|False]
+
+    Example CodeBlock:
+
+        ~~~{generate_image=True include_image=False}
+        convert -size 40x20 xc:red xc:blue -append -rotate 90 append_rotate.gif
+        ~~~
+
+    Note: Using fenced code blocks
+        see http://pandoc.org/README.html#fenced-code-blocks
+        and https://github.com/jgm/pandoc/issues/673
+
+    Current limitations:
+
+    - Image names need to be unique throughout the whole tree.
+    - Complex commands, such as using perl/grep/pipes etc.
+    - Will need to change image location for those examples which already explicitly include the image (ex. examples at the top of the antialising file)
     """
     if key == 'CodeBlock':
         [[ident, classes, keyvals], code] = value
