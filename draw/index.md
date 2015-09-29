@@ -2823,6 +2823,7 @@ ImageMagick is, and always will be, essentially a raster image or bitmap graphic
 For more information see [A word about Vector Image formats](../formats/#vector).
 
 ---
+title: Drawing
 created: 24 March 2004  
 updated: 14 March 2011  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

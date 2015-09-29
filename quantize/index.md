@@ -2518,6 +2518,7 @@ From that initial mapping to a specific pseudo-color) the actual color can be pi
 Because of my background in icons, and now GIF animations, I definitely would like to see an any color ordered dither implemented, but I have yet to find a practical reference to how to do ordered dithers with a fixed set of colors.
 
 ---
+title: Color Quantization and Dithering
 created: 11 August 2006  
 updated: 8 May 2010  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

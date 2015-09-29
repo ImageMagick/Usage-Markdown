@@ -1748,6 +1748,7 @@ The '\*' parts could be turned into a single new "`-layer`" method to time synch
         (full animation merge)
 
 ---
+title: Animation Modifications
 created: 24 July 2004 (sub-division of "animation")  
 updated: 3 April 2012  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

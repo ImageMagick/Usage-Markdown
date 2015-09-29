@@ -1262,6 +1262,7 @@ Some of the other more advanced applications of using the Fourier Transform incl
 Examples of FFT Multiplication and Division (deconvolution) moved to a [sub-directory](fft_math/) as it is waiting for more formally defined image processing operators.
 
 ---
+title: Fourier Transforms
 created: 22 July 2000  
 updated: 27 October 2011  
 author:

@@ -772,6 +772,7 @@ convert spaceship_diy_2.png \
 [![\[IM Text\]](spaceship_diy_2_port.png)](spaceship_diy_2_port.png)
 
 ---
+title: Affine Matrix Transforms
 created: 1 July 2007 (from distortion page above)  
 updated: 10 October 2009  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

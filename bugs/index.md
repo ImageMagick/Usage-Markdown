@@ -40,6 +40,7 @@ Basically this allows for older IM users to check their implementation, and appl
  [speech]: ../img_www/speech_start.gif
 
 ---
+title: Development and Bugs
 created: 15 August 2005  
 updated: 10 June 2011  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

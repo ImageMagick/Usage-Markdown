@@ -969,6 +969,7 @@ So any mathematics must be done before hand.
 This is something that will be looked at for IMv7, so that FX expresions use % escape variables.
 
 ---
+title: Annotating Images
 created: 16 December 2003  
 updated: 22 April 2012  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

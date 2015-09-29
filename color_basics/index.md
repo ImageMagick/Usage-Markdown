@@ -1730,6 +1730,7 @@ This example is essentially equivalent to a threshold of the alpha channel, befo
       image.
 
 ---
+title: Color Basics and Channels
 created: 1 December 2010  
 updated: 9 March 2011  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

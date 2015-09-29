@@ -411,6 +411,7 @@ A visual comparison of this result with that obtained from Canon's software show
 *El-Supremo*
 
 ---
+title: Lens Correction
 created: 10 January 2011  
 updated: 01 July 2014  
 author:

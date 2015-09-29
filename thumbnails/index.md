@@ -2218,11 +2218,12 @@ Using tiling edges with matching corner pieces.
 
 The edge images will need to match up to pre-prepared corner pieces, but also tile neatly across the fixed length of the image.
 That means that the whole tiled edge may need some stretching or compression so as to align the edge tiles with its corner pieces.
-To work properly teh edge tiles must repeat at least 3 or 4 times across the smallest image edge.
+To work properly the edge tiles must repeat at least 3 or 4 times across the smallest image edge.
 
 An example of this type of tiled edge/corner is the implementation of a border of 'leaves' or 'fleur' effects.
 
 ---
+title: Creating Thumbnails and Framing
 created: 8 February 2004  
 updated: 18 July 2014  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

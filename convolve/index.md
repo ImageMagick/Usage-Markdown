@@ -2062,6 +2062,7 @@ Of course their are many faster dedicated programs for 'Life' and 'Cellular Auto
 As the results are simple binary images, you can also use IM's [Morphology](../morphology/#morphology) methods such as [Hit and Miss Pattern Searching](../morphology/#hmt) or [Cross-Correlation](#correlate_search) to search for specific life patterns, making using IM for life reseach more practical, if slow.
 
 ---
+title: Convolution of Images
 created: 26 May 2010 (Separated from "morphology")  
 updated: 26 March 2013  
 author:

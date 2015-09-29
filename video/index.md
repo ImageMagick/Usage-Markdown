@@ -296,8 +296,11 @@ Before this version of IM you would need to "`-roll`" the image by one pixel, to
 
 ------------------------------------------------------------------------
 
-Created: 28 February 2007  
- Updated: 7 October 2010  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/video/`
+---
+title: Video Handling
+created: 28 February 2007  
+updated: 7 October 2010  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 6.8.9
+url: http://www.imagemagick.org/Usage/video/
+---

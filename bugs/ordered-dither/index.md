@@ -380,6 +380,7 @@ convert gradient:'[600x1]' -scale 600x20\! -negate \
 It is the mathematics developed for this final, posterization ordered dither from a single threshold map, that was encoded to produce the new `OrderedPosterizeImage()`, function defined above.
 
 ---
+title: Ordered Dither Upgrade
 created: 18 September 2006 (from 'quantize' example page)  
 updated: 24 September 2006  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

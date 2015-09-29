@@ -214,6 +214,7 @@ As long as you ensure the colors that will become semi-transparent are also set 
 Basically, be cautious, and think before you blur.
 
 ---
+title: Blur Transparency Bug
 created: 19 April 2004  
 updated: 6 May 2005  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

@@ -1526,6 +1526,7 @@ FUTURE: Other possible distort / displace mapping examples
     -   Pure Gray Image for color, highlights and shading
 
 ---
+title: Image Mapped Effects
 created: 14 January 2009 (distorts sub-division)  
 updated: 25 December 2009  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

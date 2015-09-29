@@ -450,6 +450,7 @@ I (Nicolas Robidoux) thank John Cupitt, Henry HO, Bryant Moore, Mathias Rauen, A
 Anthony and Cristy built quite a nice platform for image processing research.
 
 ---
+title: Resampling by Nicolas Robidoux
 created: 10 October 2012  
 updated: 21 October 2012  
 author:

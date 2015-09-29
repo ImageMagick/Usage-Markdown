@@ -2429,6 +2429,7 @@ Limiting image size (quick note)
 To prevent excess memory usage, set your memory limit to say 16GB. Now set the disk limit to 4GB. ImageMagick will exit if the disk limit is exceeded, with a "cache resource exhausted" exception.
 
 ---
+title: Basic Usage
 created: 30 January 2004  
 updated: 19 September 2012  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

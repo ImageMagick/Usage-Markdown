@@ -168,6 +168,7 @@ convert -size 180x80 xc: -font ArialBk -pointsize 72 \
 [![\[IM Output\]](font_dash_bug.gif)](font_dash_bug.gif)
 
 ---
+title: Testing for Minor Bugs
 created: 18 August 2005  
 updated: 7 May 2010  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

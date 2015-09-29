@@ -1,4 +1,4 @@
-#  Compose Tables
+# Compose Tables
 
 The following tables of most of the IM compose methods with various shapes and gradients.
 They form a summary of these important alpha compositing methods, and was vital in helping me figure out exactly what each composition method did and for what purpose they can be used.
@@ -52,6 +52,7 @@ Gradients make the best demonstration of the mathematical methods as well as "Ch
 [![\[IM Output\]](montage_gradient_5.jpg)](montage_gradient_5.jpg)
 
 ---
+title: Compose Tables
 created: 5 January 2004  
 updated: 11 July 2009  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

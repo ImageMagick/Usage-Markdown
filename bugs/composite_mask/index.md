@@ -156,6 +156,7 @@ I recommend the creation of an internal 'Mask blend' type operation as a faster 
 This would be the only 'three image' operation that should be needed for alpha composition, other that [2-Dimensional Displacement Mapping](../../compose/#displace_2d).
 
 ---
+title: Composite Mask Bug
 created: 26 September 2005  
 updated: 18 June 2007  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

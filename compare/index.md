@@ -1533,6 +1533,7 @@ Based on this comparison, I will then determine which images have "content" and 
 Once I obtain the only those images that contain "motion".
 
 ---
+title: Image Comparing
 created: 7 June 2005  
 updated: 17 April 2012  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

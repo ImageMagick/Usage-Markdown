@@ -86,6 +86,7 @@ Then we will not see the thin white border in the final result.
 [![\[IM Output\]](result_correct2.png)](result_correct2.png)
 
 ---
+title: Semi-Transparent Draw and Overlay Bug
 created: 15 December 2003  
 updated: 28 April 2005  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

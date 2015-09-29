@@ -2055,7 +2055,9 @@ In this way, IM could then process a stream of images, one image at a time.
 *UPDATE: IMv7 can read one image at a time from a stream.
 With a loop, or using the pipelined commands, it should be posible to generate streaming image filters.
 More experimentation needed.*
+
 ---
+title: Image File Handling
 created: 27 October 2005 (separated from 'basics' page)  
 updated: 10 May 2013  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

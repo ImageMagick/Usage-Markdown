@@ -643,8 +643,10 @@ This triple effect can be removed by either applying an initial gray-scaling ope
 Typically I extract the '`green`' or '`G`' channel as it is normally the strongest channel in a grey scale image anyway, though any of the three channels can be used.
 
 ---
+title: Background Examples
 created: 15 December 2004  
 updated: 20 December 2006  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
 version: 6.6.8-6
 url: http://www.imagemagick.org/Usage/backgrounds/
+---

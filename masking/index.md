@@ -1660,6 +1660,7 @@ And techniques for doing that is what we will look at here.
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
 ---
+title: Masks
 created: 10 December 2003 (originally 'channels')  
 updated: 10 March 2011  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
