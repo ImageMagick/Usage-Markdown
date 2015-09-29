@@ -1,0 +1,18 @@
+<svg version="1.1"
+     width="20" height="30"
+     xmlns="http://www.w3.org/2000/svg">
+  <g fill="transparent"
+     stroke="black"
+      stroke-width="2">
+    <circle cx="10" cy="10" r="8" />
+    <path d="M 6 6 l 8 8 m -8 0 l 8 -8"/>
+    <text
+      x="10"
+      y="27"
+      fill="black"
+      font-family="monospace"
+      font-size="10"
+      stroke-width="0"
+      text-anchor="middle">MPH</text>
+  </g>
+</svg>
