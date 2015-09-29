@@ -1,0 +1,110 @@
+#!/usr/bin/perl
+=head1 NAME
+
+process_ppm_pipeline - process a pipeline of multiple PPM images
+
+=head1 SYNOPSIS
+
+ process_ppm_pipeline  convert_args....
+
+ Extra non-Imagemagick options:
+    -help
+    -manual
+
+=head1 DESCRIPTION
+
+Read from standard input a pipline of PPM images (pnmnoraw) and run the
+specified imagemagick convert arguments on them. The resulting image is
+then feed to the output as pipeline of normal PPM images.
+
+For example, process a very long video sequence...
+
+ ffmpeg input.mpg -f image2pipe -vcodec ppm | pnmnoraw |
+   process_ppm_pipeline -flip |
+ ffmpeg -f image2pipe -vcodec jpeg output.mpg
+
+OR for GIF animations...
+
+ convert animation.gif  -coalesce  -compress none ppm:- |
+   process_ppm_pipeline  logo.gif -gravity SouthEast -composite   |
+ convert -   -layers Optimize -set delay 10 -loop 0 animation_new.gif
+
+The convert arguments should assume only one image has already been
+read into memory and should not provide a final output filename.
+
+=head1 WHY
+
+The reason this script is needed is that while "convert" and other
+ImageMagick commands can read a pipeline of PNM images, it will read ALL
+of the images into memory.  This is not good if you are processing
+a video stream, as you would end up with the whole (huge) video,
+uncompressed, fulling memory.
+
+This program splits up the ASCII-PPM images and processes each image
+as it is seen. At no time is more than one image being handled.
+
+This program was created after a discussion on the IM Users Forum
+http://www.imagemagick.org/discourse-server/viewtopic.php?f=2&t=18320&p=71150
+
+=head1 FUTURE
+
+This script could be made better, by feeding the image directly into the
+convert command while it is still looking for the end of image to be
+found.  That is without buffering the whole (single) image itself!
+
+Also with a little more savvy it could know exactly how many bytes needs
+to be read and passed on to the "convert" comamnd, using a binary (raw)
+PPM file format, without over-reading into the next image.
+
+In the same way, it could also be made handle a ImageMagick MIFF image
+format, allowing the complete image meta-data to be preserved with each
+individual image, and not just the basic image data.
+
+=head1 AUTHOR
+
+  Anthony Thyssen  8 April 2011  A.Thyssen_AT_griffith.edu.au
+
+=cut
+# -----------------------------------------------------------------
+use strict;
+use FindBin;
+my $PROGNAME = $FindBin::Script;
+
+# Perl Pod Usage Method
+sub Usage {
+  eval {
+    use Pod::Usage;
+    pod2usage ( @_ );
+  };
+}
+
+# provide help
+Usage("$PROGNAME: No Arguments Found") unless @ARGV;
+Usage(-verbose => 1) if grep( /-+(\?|help)/, @ARGV);
+Usage(-verbose => 2) if grep( /-+manual/, @ARGV);
+
+# -----------------------------------------------------------------
+my $image;
+
+sub run_convert {
+   open(CVT, "|-")
+       or exec( 'convert', '-', @ARGV, 'ppm:-');
+   print CVT $image;
+   undef $image;
+   close CVT;
+   exit $? if $?;
+}
+
+$image = <STDIN>;
+
+Usage "Input is not ASCII-PPM images! Did you forget to use 'pnmnoraw'?"
+     unless $image =~ /^P3\s/;
+
+while ( <STDIN> ) {
+  run_convert   if /^P/ && $image;
+  $image .= $_;
+}
+run_convert if $image;
+
+exit 0;
+# -----------------------------------------------------------------

@@ -1,0 +1,66 @@
+#!/bin/sh
+#
+# segment_image  [option] input_image  multi_output_image
+#
+# Image of solid color areas (segments) separate the image into a sequence
+# of images, with each image containing one unconnected color segment on a
+# transparent background.
+#
+# For more details see ImageMagcik Forum Discussions...
+#   http://imagemagick.org/discourse-server/viewtopic.php?f=1&t=11705
+#   http://imagemagick.org/discourse-server/viewtopic.php?f=1&t=18283
+#   http://imagemagick.org/discourse-server/viewtopic.php?f=1&t=18683
+#
+# Future option: limit extraction to a specific color, generally white or
+# black Or anything that is 'NOT' the background color (0,0 pixel color?).
+#
+# The 'fuzz factor' for floodfill removals may not work well, as the starting
+# point is on the edge of a segment.  A better way to select segments may be
+# to use a 'distance' morphological function, and then remove segments based
+# on a larger distance value so as to avoid the segment edges.
+#
+# Anthony Thyssen    18 July 2008
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+
+umask 77
+tmpdir=`mktemp -d "${TMPDIR:-/tmp}/$PROGNAME-XXXXXXXXXX"` ||
+  { echo >&2 "$PROGNAME: Unable to create temporary directory"; exit 10;}
+trap 'rm -rf "$tmpdir"' 0   # remove when finished (on end or exit)
+trap 'exit 2' 1 2 3 15
+
+fuzz='0%'    # fuzz factor for flood filling sepearte colored areas
+             # This may be needed for JPEG image input.
+
+# ----------------------
+
+# Read input image, once only as it may part of a pipeline of commands,
+# and save a MPC working image, for fast image reading.
+# Actually it may be better to just save as a IM TXT image file instead.
+convert "$1" -matte $tmpdir/working.mpc
+
+while true; do
+
+  # Find the first non-transparent pixel in inpit image.
+  coords=`convert $tmpdir/working.mpc txt:- | sed '1d; / 0)/d; s/:.*//; q'`
+
+  # If image is now only transparent, all segments found
+  [ -z "$coords" ]  && break
+
+  echo >&2 "Extracting segment at coord $coords..."
+  # Write the image to the output pipeline BEFORE the segment is removes
+  # Only THEN, remove that segment from working image (mask),
+  # Write the working image back so we can look for another segment.
+  convert $tmpdir/working.mpc   -write miff:-   \
+          -fuzz $fuzz -fill none -draw "matte $coords floodfill" \
+          $tmpdir/working.mpc
+
+done |
+  # Reverse image list so 'segments' are 'added' on each consecutive image,
+  # then use 'OptimizeTransparency' to make previously added pixels
+  # transparent, leaving just the newly added pixels. Reverse the list back to
+  # the order of discovery and output as a multi-image image sequence.
+  convert miff:- -reverse -layers OptimizeTransparency -reverse "$2"
+

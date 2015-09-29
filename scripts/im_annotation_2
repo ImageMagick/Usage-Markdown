@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+#  Shell equivelent of the perl version  (using -annotate option)
+#
+#font='-adobe-helvetica-medium-r-normal--25-180-100-100-p-130-iso8729-1';
+#font='Times';
+font='Arial';
+
+o=100  x=$o  y=$o
+o2=`expr $x \* 2`
+o3=`expr $x \* 3`
+o5=`expr $x \* 5`
+o6=`expr $x \* 6`
+
+for a in  0 30 60 90 120 150 180 210 240 270 300 330
+do
+  echo "angle $a"
+
+  convert -size ${o6}x${o6} xc:white \
+      -stroke '#600' -fill none \
+          -draw "line $o3,$o $o3,$o5" \
+          -draw "line $o,$o3 $o5,$o3" \
+          -draw "rectangle $o,$o $o5,$o5" \
+      -stroke none -fill black -box yellow -pointsize 24 -font $font \
+          -gravity None      -annotate "${a}x$a+$o2+$o2" 'Default' \
+          -gravity NorthWest -annotate "${a}x$a+$x+$y"   'North West' \
+          -gravity North     -annotate "${a}x$a+0+$y"    'North' \
+          -gravity NorthEast -annotate "${a}x$a+$x+$y"   'North East' \
+          -gravity West      -annotate "${a}x$a+$x+0"    'West' \
+          -gravity Center    -annotate "${a}x$a+0+0"     'Center' \
+          -gravity East      -annotate "${a}x$a+$x+0"    'East' \
+          -gravity SouthWest -annotate "${a}x$a+$x+$y"   'South West' \
+          -gravity South     -annotate "${a}x$a+0+$y"    'South' \
+          -gravity SouthEast -annotate "${a}x$a+$x+$y"   'South East' \
+      annotate_angle_`printf "%03d" $a`.miff
+done
+
+echo "Creating animation"
+convert -delay 20 annotate_angle_*.miff im_annotate_sh2.gif
+rm annotate_angle_*.miff
+
+echo "Animating"
+exec animate im_annotate_sh2.gif
+
+# Optimization Program
+gifsicle -b -O2 im_annotate_sh2.gif

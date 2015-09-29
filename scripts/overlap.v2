@@ -1,0 +1,148 @@
+#!/bin/sh
+#
+# overlap [-v] [WxH+X+Y] larger_image  images_to_overlay...
+#
+# Given some images, (and optionally a specific area of overlap), try to find
+# the appropriate composition offset so as to produce a larger merged image of
+# each matching overlap found.
+#
+# This works by croping out areas to do a sub-image search against
+# all the other provided images.  This means that given N imgs and
+# the default 9 crops, it will do  9*N*(N-1) sub-image searches.
+#
+# Alternativally you an specify a known areas of overlap to search for.
+#
+# NOTES:
+#   * The program will try to match each image against the other.  Whcih image
+#     is on top depends on the image order.
+#   * Any transparency is preserved, but this is replaced by 50% gray for
+#     sub-image matching to lessen its involvement. As such avoid transparency
+#     in the areas being used to find the overlap.
+#   * Transparency is preserved in the merged images.
+#   * You can add images to the previously found merged images.
+#
+# This program is raw and highly experimental. It will require tweeking to get
+# it to work with images other than the 'game maps' I have been using it for.
+#
+# Anthony Thyssen    3 October 2012
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+
+# Fully qualify directory path (remove relative components and symlinks)
+ORIGDIR=`pwd`                                 # original directory (builtin)
+PROGDIR=`cd $PROGDIR && pwd || echo $PROGDIR` # program directory
+
+Usage() {                              # Usage line (from above) only
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; 3s/^  */Usage: /p; 4q' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+# Use smaller sub-images?  Use corners first?  Find high entropy areas?
+size="20x20"
+locations="0 104 54"
+
+for i in $locations; do
+  for j in $locations; do
+    offsets="$offsets +$i+$j"
+  done
+done
+
+while [  $# -gt 0 ]; do
+  case "$1" in
+
+  # Standard help option.
+  -\?|-help|--help|--doc*) Usage ;;
+
+  -v) VERBOSE=true ;;
+
+  [0-9]*x[0-9]*)
+      size="$1" ;;
+  +*) offsets="$1" ;;
+
+  --) shift; break ;;    # forced end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # unforced  end of user options
+
+  esac
+  shift   # next option
+done
+
+# work out next number for the combined (overlapping) imgs
+prefix="merged_"
+suffix="png"
+num=`ls $prefix*.$suffix 2>/dev/null | tail -n1 | sed 's/[^0-9]//g'`
+[ ! "$num" ] && num=0     # set to zero if no previous file found
+
+img1="$1"; shift
+
+while [ $# -ne 0 ]; do
+  img2="$1"; shift
+  [ "$img1" = "$img2" ] && continue
+  echo "comparing parts of \"$img2\" against \"$img1\""
+
+  # Future search img2 for an area of high entropy, that does not
+  # include any transparency, but are close to edges.
+  # Only use areas that are well separated (not overlapping)
+  #
+  # Example.  Create an entroy map.  excluding areas of low entropy.
+  # Now select areas from top left, bottom right, top-right, and
+  # bottom-left for searching. Removing previously selected areas
+  # from the entropy map when selected.
+  #
+
+  for offset in $offsets; do
+    read -r ox oy <<< `echo $offset | tr + ' ' `
+    # break this pipeline up - unsing temporary image files.
+    # Check subimage and ignore if
+    #  * if it contains transparency
+    #  * if standard deviation is less than 1000/65535
+    #
+    # Basically ensure the crop areas has a high entropy.
+    #
+    coords=`
+      convert "$img1" "$img2" \
+              -background grey -alpha remove -alpha off \
+              \( +clone -crop "$size$offset" +repage \) \
+              +swap +delete miff:- |\
+      compare -subimage-search - miff:- | \
+      convert - +swap +delete +depth txt:- | \
+      tail -n+2 | tr -cs '0-9\n' ' ' | sort -rn -t\  -k3 | tail -n-1 `
+
+    read -r x y match junk <<< "$coords"
+    x=$(( $x - $ox ))
+    y=$(( $y - $oy ))
+
+    if [ $match -lt 10000 ]; then
+
+      echo "-> offset $offset -> results: +$x+$y ($match) GOOD"
+
+      # merge images and save into next numbered file.
+      num=`expr $num + 1`
+      num=`printf %03d $num`
+      output_image="$prefix$num.$suffix"
+
+      # Check if numbered file exists, touch it, else loop to next number!
+      echo "   $img1 -page +$x+$y $img2 -> \"$output_image\""
+
+      # Output a merged img
+      convert "$img1" -page "+$x+$y" "$img2" \
+              -background none -layers merge +repage "$output_image"
+      display "$output_image" & # display it when found
+
+      # Abort loop to next match if we are no longer getting bad
+      # area matching.
+    elif [ "$VERBOSE" ]; then
+      echo "-> offset $offset -> results: +$x+$y ($match) BAD"
+    fi
+
+  done
+
+  # if there is another image.  Switch $img1 to the best merged image
+  # then continue with next image
+
+done
+

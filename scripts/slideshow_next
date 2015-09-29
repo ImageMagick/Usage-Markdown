@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+#  slideshow_next  image
+#
+# This program will do a animated transition to the single image given.
+#
+# If no "animate" is running, one will be started.
+#
+# This program assumes an image is currently being displayed by the IM
+# "animate" command. The image currently displayed is stored in the
+# file "last_image" in the current directory.
+#
+# The point is that it does not need to know all future animation sequences
+# that will be displayed, to control a animation.
+#
+# Note that all images given should be all the same size!
+#
+####
+#
+# Anthony Thyssen   2008
+#
+
+#DEBUG=true
+last_image_file=last_image    # make this $HOME/.last_image  ???
+next_image=`realpath "$1"`
+
+prev_image="$next_image"
+if [ -s "$last_image_file" ]; then
+  prev_image=`cat last_image | tr -d '\012'`
+fi
+
+# I use a temporary file so that I can background the "animate" command
+umask 77
+temp=`mktemp "${TMPDIR:-/tmp}/slideshow.XXXXXXXXXX.miff"` ||
+  { echo >&2 "$PROGNAME: Unable to create temporary file"; exit 10;}
+trap 'rm -f "$temp"' 0
+trap "exit 2" 1 2 3 15
+
+[ "$DEBUG" ] &&
+ echo "morphing `basename $prev_image` to `basename $next_image`"
+
+# Do you complex image transition here
+# The last delay is minimum display time
+# The extra frame is to prevent a 'flash' of the first frame
+# just before the 'static' display is set.
+convert -delay 20 "$prev_image" "$next_image" -morph 10 \
+        \( +clone -set delay 300 \) +swap +delete \
+        \( +clone -set delay 0 \) -loop 0 $temp
+
+[ "$DEBUG" ] &&
+ echo "animating transition"
+
+# feed transition to the animation
+animate -remote ephemeral:$temp &
+
+# wait for 'ephemeral:' file to have been read
+while [ -f $temp ]; do sleep .1; done
+
+# Wait for transition time period to complete.
+# Must be longer than transition time shorter than overall time.
+# The transition animate must not reach the final frame or a flash
+# of the first (original image) frame will become visible!
+sleep 5
+
+[ "$DEBUG" ] &&
+ echo "setting static display"
+
+# replace the transition image with a loop of the new image
+animate -delay 100 -remote "$next_image" &
+
+echo -n $next_image > last_image
+
+

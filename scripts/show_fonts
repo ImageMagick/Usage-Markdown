@@ -1,0 +1,189 @@
+#!/bin/sh
+#
+#  show_fonts [options]  {font.ttf}...
+#
+# Given a list of True Type fonts (.ttf files), draw and display them in
+# a ImageMagick "display" window.   This allows you to quickly look at a
+# whole directory of fonts to pick which one you want to use.
+#
+# You can also specify IM known fonts instead of TTF font files
+# For example:   show_fonts -2 Candice Ravie Webdings
+# will displat the default X window fonts.
+#
+# OPTIONS:
+#     -l label   Use fonts on this string (%s = font name)
+#     -o image   Output file (default: on screen, %d = page num)
+#     -U set     font section to display from 'graphics_utf' EG "ascii+meta"
+#     -a         auto-level the font image before montaging
+#     -p psize   Pointsize for font
+#     -1         For TTF input show the IM font example image
+#     -2         Show the standard ascii glyphs of the font
+#     -3         Using 'graphics_utf' to show ALL 'latin' glyphs
+#     -4         'The quick brown fox jumps over the lazy dog'
+#     -5         'Grumpy wizards make toxic brew for the evil Queen and Jack'
+#
+# Examples
+#     show_fonts Arial ArialI ArialB ArialBk ArialN 
+#     show_fonts -p 48 -l Anthony Playdough Jolt Jokerman Caveman CandyCane
+#     show_fonts -2 SimpleFleur
+#     show_fonts -3 WingDings
+#     show_fonts -U math STIXGeneral
+#     show_fonts -U math Mincho
+#     show_fonts -U 2600-2700 Mincho
+#
+####
+#
+# WARNING: Input arguments are NOT tested for correctness.
+# This script represents a security risk if used ONLINE.
+# I accept no responsiblity for misuse. Use at own risk.
+#
+# Anthony Thyssen    2 September 2002
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10
+}
+
+n="
+"
+
+label_1="A Word. ABcd-123"
+
+label_2="1234567890  \`  '  \" .,:;!?"
+label_2="${label_2}${n}abcdefghijklmnopqrstuvwxyz"
+label_2="${label_2}${n}ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+label_2="${label_2}${n}@#\$%&*+-=~^_ ()[]{}<>\\/|"
+
+section='ascii+meta' # generated using "utf_graphics"
+
+label_4="The quick brown fox\njumps over the lazy dog"
+label_5="The quick onyx goblin jumps\nover the lazy dwarf"
+label_6="Grumpy wizards make\ntoxic brew for the evil\nQueen and Jack"
+
+
+style=0      # Default Style: Simple string, multiple columns
+output='show:'
+pt_font=24
+pt_label=10
+string="$label_1"
+
+while [  $# -gt 0 ]; do
+  case "$1" in
+  --help|--doc*) Usage ;;
+  -l)      string="$2";  shift ;;
+  -p)      pt_font="$2";  shift ;;
+  -a)      autolevel="-auto-level" ;;
+  -o)      output="-adjoin \"$2\""; shift ;;
+  -U)      section="$2"; style=3; shift ;;
+  -[0-9]*) style=`expr "$1" : '-\([0-9]*\)$'` ;;
+  --)      shift; break ;;    # end of user options
+  -*)      Usage "Unknown option \"$1\"" ;;
+  *)       break ;;           # end of user options
+   esac
+ shift   # next option
+done
+
+# read the string from a file to avoid any IM escape problems
+case "$style" in
+  0|1) ;;
+  2) echo "$label_2" > /tmp/utf_font_table.txt ;;
+  3) graphics_utf -n $section > /tmp/utf_font_table.txt ;;
+  #4) string="$label_4" ;;
+  #5) string="$label_5" ;;
+  #6) string="$label_6" ;;
+  *) eval string=\"\$label_$style\" ;;
+esac
+
+fontlist=
+count=0
+add_font() {
+  font="$1";
+  case "$font" in
+  *.ttf)  # a TTF file
+      label=`basename "$font" .ttf`
+      text=`printf "$string" "$label"`
+      count=`expr $count + 1`
+      case "$style" in
+      1) fontlist="$fontlist -label '$label' '$font'"; continue ;;
+      esac
+      ;;
+  *)  # a IM font name
+      label="$font"
+      text=`printf "$string" "$label"`
+      count=`expr $count + 1`
+      # style 1 is not posible with a direct IM font
+      ;;
+  *)  echo >&2 "$PROGNAME: Skipping non-ttf font \"$font\""
+      continue
+      ;;
+  esac
+
+  case "$style" in
+  2|3) # a pre-prepared 'text' file to output a larger set of characters
+       fontlist="$fontlist -label '$label' -font '$font'"
+       fontlist="$fontlist label:@/tmp/utf_font_table.txt"
+       ;;
+  *)   fontlist="$fontlist -label '$label' -font '$font' label:'$text'"
+       ;;
+  esac
+}
+
+for file in "$@"; do
+  if [ -d "$file" ]; then
+    find "$file" -name '*.ttf' > /tmp/show_fonts.$$
+    while read f; do
+      add_font "$f"
+    done < /tmp/show_fonts.$$
+    rm /tmp/show_fonts.$$
+  else
+    add_font "$file"
+  fi
+done
+
+if [ "$count" -eq 0 ]; then
+  echo >&2 "$PROGNAME:  No fonts to display -- ABORTING"
+  exit 1
+fi
+
+# if [ "$count" -eq  1 -a -z "$style" ]; then
+#   # one font, no style setting  -- use IM font examples page
+#   style=1
+#   fontlist="-label '$font' '$file'"
+# fi
+
+# try to fit to a screen
+tile=1x
+# case "$style" in
+# 0)  # rough calculations of the resulting size in one column
+#     h=`expr $count \* \( $pt_font + $pt_label + 12 \)`
+#     w=`expr $pt_font \* 16`   # this gets quite wrong at times !
+#     # currently assumes a  1600 x 1200 pixel  display screen
+#     [ "$w" -lt 700 -a $count -gt 1 ] && tile=2x
+#     [ "$w" -lt 600 -a $h -gt 2200 ] && tile=3x
+#     [ "$w" -lt 400 -a $h -gt 3300 ] && tile=4x
+#     ;;
+# esac
+
+#echo "one column image size is roughly: $w x $h pixels"
+#echo "tile = $tile"
+
+#echo "DEBUG: $fontlist"
+#set -x
+
+case "$style" in
+1)  eval "convert -pointsize $pt_font $fontlist miff:- |\
+            montage miff:- -tile 1x1 -geometry +2+2 \
+                    -font Arial -pointsize 12 $output"
+    ;;
+*)  eval "convert -pointsize $pt_font $fontlist \
+                  $autolevel -trim +repage miff:- |\
+            montage miff:- -tile $tile -geometry +2+2 \
+                    -font Arial -pointsize 12 $output"
+    ;;
+esac
+

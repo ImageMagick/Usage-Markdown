@@ -1,0 +1,76 @@
+#!/usr/bin/perl
+#
+# affine_distort  x,y  rotate
+# affine_distort  x,y  scale   rotate
+# affine_distort  x,y  scale_x,scale_y  rotate
+# affine_distort  x,y  scale   rotate  move_x,move_y
+# affine_distort  x,y  scale_x,scale_y  rotate  move_x,move_y
+#
+# Generate a affine matrix, that will distort an image around a centeral
+# 'handle' of an image.   That is the image is scaled, then rotated,
+# and translated around the given 'handle' which is than located at the
+# new position given.
+#
+# This script was designed to allow the generation of a animated image of a
+# moving object.
+#
+###
+#
+# WARNING: Input arguments are NOT tested for correctness.  This script
+# represents a security risk if used ONLINE.  I accept no responsiblity for
+# misuse. Use at own risk.
+#
+# by Anthony Thyssen  (December 2005)
+#
+use strict;
+use FindBin;
+my $prog = $FindBin::Script;
+
+# Output the program comments as the programs manual
+sub Usage {
+  print STDERR "$prog: ", @_, "\n";
+  @ARGV = ( "$FindBin::Bin/$prog" );
+  while( <> ) {
+    next if 1 .. 2;
+    last if /^###/;
+    s/^#$//; s/^# //;
+    print STDERR "Usage: " if 3 .. 3;
+    print STDERR;
+  }
+  exit 10;
+}
+
+# --------------
+@ARGV = map( /([^\s,]+)/g, @ARGV);   # Remove any commas in arguments
+
+if ( @ARGV < 2 || @ARGV == 6 || @ARGV > 7 ) {
+  Usage( "Incorrect number of arguments." );
+}
+
+my ($sx,$sy);
+my ($nx,$ny);
+my ($x,$y,$a) = (0,0,1,0);  # default values
+   ($x,$y,$a)         = @ARGV  if @ARGV == 3;
+   ($x,$y,$sx,$a)     = @ARGV  if @ARGV == 4;
+   ($x,$y,$sx,$sy,$a) = @ARGV  if @ARGV == 5;
+   ($x,$y,$sx,$a,$nx,$ny)     = @ARGV  if @ARGV == 6;
+   ($x,$y,$sx,$sy,$a,$nx,$ny) = @ARGV  if @ARGV == 7;
+$sx = 1   unless defined $sx;
+$sy = $sx unless defined $sy;
+($nx,$ny) = ($x,$y) unless defined $nx;
+
+# Do the trigonometry for the rotations.
+my $r = $a * atan2(1,1)/45; my $c = cos( $r ); my $s = sin( $r );
+
+my $SX=+$c*$sx;
+my $RX=+$s*$sx;
+my $RY=-$s*$sy;
+my $SY=+$c*$sy;   # standard affine rotation matrix
+
+# find the translation needed to do center transforms around 'handle'
+my $TX = $nx - $x*$SX - $y*$RY;
+my $TY = $ny - $x*$RX - $y*$SY;
+
+# Output the affine matrix needed
+printf "%f,%f,%f,%f,%f,%f\n", $SX, $RX, $RY, $SY, $TX, $TY;
+

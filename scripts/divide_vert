@@ -1,0 +1,212 @@
+#!/bin/bash
+#
+# divide_vert [options] image  multi_image
+#
+# Divide an image horizontally into rows of images consisting of alternating
+# images of variable colors (interesting parts) and images of a single solid
+# color (seperating gaps) that when appended together vertically will
+# re-produce the original image.
+#
+# Options...
+#    -i            Ignore the uninteresting 'gaps' between the rows.
+#    -b color      Use this color as background (for fuzz match)
+#    -f fuzz       percentage threshold for background match
+#
+# Examples...
+#
+# Expand the row spacing of some text by 4 pixels (must be a multiple of two)
+#
+#  convert -size 50x caption:'This is a word wrapped line of text' miff:- |\
+#    divide_vert - miff:- | convert - -splice 0x2 -append  gap_expansion.png
+#
+# This will remove all gaps between lines of text...
+#
+#  convert -size 50x caption:'This is a word wrapped line of text' miff:- |\
+#    divide_vert -i - miff:- | convert - -append  gaps-removed.png
+#
+# Replace all gaps by a fixed amount (5 pixels),
+# though this is not a good idea for normal text images.
+#
+#  convert -size 50x caption:'This is a word wrapped line of text' miff:- |\
+#    divide_vert -i - miff:- |\
+#      convert - -splice 0x5 -append \
+#              -gravity south -splice 0x5  gaps_replaced.png
+#
+#
+# You can also specify a specific color for the background 'gap'
+#
+#  convert -size 20x256 gradient: miff:- |\
+#    divide_vert -b grey30 - miff:- |\
+#      identify -format "%h " -
+#  178 1 77
+#
+# Note how only one row exactly matched the given background color
+#
+# Or with a fuzzy match of a specific background color
+#
+#  convert -size 20x256 gradient: miff:- |\
+#    divide_vert -b grey50 -f 25% - miff:- |\
+#      identify -format "%h " -
+#  115 127 14
+#
+# And now about 50% (both sides of 25%) matched the given background
+# to produce a 127 pixel divider gap.
+#
+# FUTURE:
+#   * Specify a minimum 'gap' size, to allow 'paragraph/word' seperation
+#   * Optionally divide the 'gap' equally bettween each 'interesting' row That
+#     is every image contains 'interesting' parts, surrounded by some 'blank'
+#     of 'gap' spacing.
+#   * Save images with 'virtual (page) offsets' to preserve their location.
+#     The result will be a collection of 'layer' images rather than 'simple'
+#     rows.  such 'layer' images will then allow you to separate an image
+#     first vertically by 'row', then horizontally by 'column' producing
+#     a exploded layed image of either individual characters or words.
+#     It will also let you do automated  "GIF animation splitting".
+#
+# SPEEDUP
+#   If your input image uses a white background one way of speeding up this
+#   process is to simply compress (-scale) the image directory down to a
+#   single column.  Any pixel that remains white will then represent a blank
+#   row of pixels.  That would be a major speed increase, but only for
+#   images with a pure-white (or pure-black) background.
+#
+###
+#
+# Anthony Thyssen    25 June 2007     A.Thyssen_AT_griffith.edu.au
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+while [  $# -gt 0 ]; do
+  case "$1" in
+  --help|--doc*) Usage ;;
+
+  -i) IGNORE_GAPS=true ;;           # ignore blank gap images.
+  -b) shift;  bg_color="$1" ;;      # gaps are only this color.
+  -f) shift;  fuzz="-fuzz $1" ;;    # fuzz factor for background
+
+  -)  break ;;                      # STDIN end of user options
+  --) shift; break ;;               # end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;                      # end of user options
+  esac
+  shift   # next option
+done
+
+[ $# -ne 2 ] && Usage "Invalid number of Arguments"
+
+input="$1"  # Read from this IM input file format, may be a pipe
+output="$2" # Write to this IM input file format, may be a pipe
+
+if [ "X$bg_color" != "X" ]; then
+  bg_color=`convert xc:"$bg_color" -depth 16 -alpha on \
+              -format '%[pixel:s]' info: `
+  [ "X$bg_color" = "X" ] && Usage "Invalid Background Color"
+fi
+
+tmpdir=`mktemp -d "${TMPDIR:-/tmp}/$PROGNAME-XXXXXXXXXX"` ||
+  { echo >&2 "$PROGNAME: Unable to create temporary directory"; exit 10;}
+trap 'rm -rf "$tmpdir"' 0   # remove when finished (on end or exit)
+trap 'exit 2' 1 2 3 15
+
+# -----------------------------------------------------------------
+
+# Read input image, once only as it may be pipelines, 
+# save a MPC copy of it.   Return the height of that image.
+height=`convert "$input" +gravity +repage \
+                -format '%[fx:u.h-1]' -identify \
+                $tmpdir/original.mpc`
+
+# Extract information on each row.
+# Then extract the number of colors, and first color from each row!
+if [ "X$bg_color" = "X" ]; then
+  convert $tmpdir/original.mpc -crop 0x1 \
+          -format '%k %[pixel:s]\n' info:$tmpdir/image_data
+else
+  # Same but first simplify any near background to the background color
+  convert $tmpdir/original.mpc -alpha set -channel RGBA \
+          $fuzz -fill "$bg_color" -opaque "$bg_color" \
+          -crop 0x1 -depth 16 -alpha on \
+          -format '%k %[pixel:s]\n' info:$tmpdir/image_data
+fi
+
+exec <$tmpdir/image_data     # read from this data as STDIN (for main loop)
+
+x=0  top=$x                  # read the values for row 0
+count=0                      # the number of divisions found in the file
+read top_cnum top_color      # get the color count, and first pixel color
+
+#echo "bg_color = $bg_color"
+#echo "Row: $x $top_cnum $top_color"
+
+# if the color of top row is NOT the given background color it is not a gap
+[ "X$bg_color" != "X" -a "$top_color" != "$bg_color" ] && top_cnum=2
+
+# Divide the image basied on the number of colors (or change in gap color)
+while x=`expr $x + 1`; read cnum color; do
+  #echo "Row: $x $cnum $color"
+
+  # If color is NOT the bg_color, this row is not a gap row!
+  [ "X$bg_color" != "X" -a "$color" != "$bg_color" ] && cnum=2
+  if [ $top_cnum -eq 1 -a \( $cnum -ne 1 -o "$top_color" != "$color" \) ] ||
+     [ $top_cnum -ne 1 -a $cnum -eq 1 ]; then
+    # We found the end of a variable image or single color 'blank' gap
+    if [ $top_cnum -ne 1 -o ! "$IGNORE_GAPS" ]; then
+      # Save this division from the original image
+      h=`expr $x - $top`   # height of region
+      file=`printf "$tmpdir/divisions_%06d.mpc" $count`  # save the division
+      convert $tmpdir/original.mpc -crop 0x$h+0+$top +repage $file
+      count=`expr $count + 1`  # we found this many divisions.
+
+      # debug
+      echo "division $count: top $top height $h"
+      #convert $file x:
+    fi
+    # set things up for the next area to be divided
+    top=$x  top_cnum=$cnum  top_color="$color"
+  fi
+done
+
+if [ $count -ne 0 ]; then
+  # Extract the final split (if wanted)
+  if [ $top_cnum -ne 1 -o ! "$IGNORE_GAPS" ]; then
+    # save the last division that is present in the original image
+    h=`expr $height + 1 - $top`   # height of region
+    file=`printf "$tmpdir/divisions_%06d.mpc" $count`
+    convert $tmpdir/original.mpc -crop 0x$h+0+$top +repage $file
+  fi
+  #count=`expr $count + 1`
+  #echo >&2 "split_horiz: Found $count divisions"
+
+  # Debug
+  #convert $tmpdir/divisions_*.mpc \
+  #        -background red -splice 0x1+0+0 -append x:
+
+  # output the parts that were saved, if any!
+  if  ls -d $tmpdir/divisions_*.mpc >/dev/null 2>/dev/null;  then
+    # Output all the divisions as a posible multi-image file
+    convert $tmpdir/divisions_*.mpc "$output"
+  else
+    # No divisions were found! presumably we are ignoring gaps!
+    # This should be imposible, so ouput the 'null' error image
+    convert null: "$output"
+  fi
+else
+  # No divisions were found, so just output image (via convert again)
+  if [ $top_cnum -ne 1 -o ! "$IGNORE_GAPS" ]; then
+    convert $tmpdir/original.mpc "$output"
+  else
+    # image is blank, BUT we were asked to not output blank images!
+    # This is imposible, so ouput the 'null' error image
+    convert null: "$output"
+  fi
+fi
+

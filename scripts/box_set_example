@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+#  box_set   output_image
+#
+# Generate a Perspective 'box' for the ImageMagick software
+#
+
+# Generate a Spine Image
+convert -size 200x40 xc:lightblue \
+  -pointsize 20 -gravity north -annotate +5+0 'IM Examples' \
+  -pointsize 10 -gravity south -annotate +0+0 'ImageMagick' \
+  -stroke blue -strokewidth 2 -draw 'line 30,0 30,40' \
+  -rotate -90 /tmp/spine.png
+
+# Generate the front cover (using a web downloaded logo)
+convert -size 150x200 xc:lightblue \
+  -fill black -pointsize 20 -gravity north -annotate +0+5 'IM Examples' \
+  -fill blue -pointsize 15 -gravity northeast -annotate +5+28 'Box Set' \
+  -fill black -pointsize 15 -gravity south -annotate +0+5 'ImageMagick' \
+  -stroke blue -strokewidth 2 -draw 'line 0,169 150,169' \
+  \( http://imagemagick.org/Usage/images/logo.gif -resize 100x100 \) \
+  -gravity center -compose multiply -composite /tmp/front.png
+
+# Distort both images and merge together to produce the final image.
+# The images are aligned along two common 'control points' at 0,0 and 0,199
+# Note that the spine is placed at a 'negative' x offset!
+convert \
+  \( /tmp/spine.png -virtual-pixel transparent \
+    \( box_spine.jpg -alpha Set -virtual-pixel transparent \
+       +distort Perspective \
+           '0,0 -30,20  0,200 -30,179  40,200 0,200  40,0 0,0' \) \
+    \( box_front.jpg -alpha Set -virtual-pixel transparent \
+       +distort Perspective \
+           '0,0 0,0  0,200  0,200  150,200 100,156  150,0 100,30' \) \
+  \
+  -background black -compose plus -layers merge  +repage \
+  -bordercolor black -compose over -border 15x2 "$1"
+
+# clean up the temporary images.
+rm -f /tmp/spine.png /tmp/front.png
+

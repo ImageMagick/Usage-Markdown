@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# show_colors color_regex
+#
+# Given a color name regular expression display those colors with there names.
+#
+# For example:   show_colors  green
+# will show all 'green' colors known to ImageMagick.
+#
+#
+IFS='
+'
+for color in `convert -list color | grep -i "$1" | sed 's/ *.rgb.*//'`
+do
+   convert -size 100x50 -label "$color" xc:"$color" miff:-
+done |
+   montage - -tile 6x -geometry +5+5 -frame 5 show:
+

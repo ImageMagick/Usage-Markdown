@@ -1,0 +1,165 @@
+#!/bin/sh
+#
+# im_fx_curves [option]  x1,y1 x2,y2 ...
+#
+# Given a set of control points figure out a mathematical histogram curve
+# that fits those points exactly.
+#
+# The points are given as pairs of numbers, which may be comma or space
+# seperared, on the command line. All the numbers must be between 0 and 1, as
+# floting point numbers or percentages (if -p option is given).
+#
+# Options:
+#    -p | --percent     Control points are percentage values
+#    -d | --display     Display the fitted graph for 5 seconds (DEBUGING)
+#    -t | --terms n     Limit number of terms to n, (default is given points)
+#    -c                 Return the coefficents of the fitted polynomial
+#
+# For example...
+#    im_fx_curves  -p  0,20   100,90   20,80   70,50
+# results in...
+#    7.560*u^3-11.946*u^2+5.087*u+0.200
+#
+# Adding a "-c" option to output just the polynomials coefficients
+# which can be used in a "-function polynomial" operation.
+# That is it will return...
+#      7.560,-11.946,5.087,0.200
+#
+# This implementation uses "gnuplot" with its output parsed by "awk" to
+# convert it into appropriate arguments for the ImageMagick "-fx" function or
+# "-function polynomal"
+#
+####
+#
+# NOTE: Input arguments are NOT tested for correctness.
+# This script represents a security risk if used ONLINE.
+# I accept no responsiblity for misuse. Use at own risk.
+#
+# Anthony Thyssen    November 2005
+# Updated for -c     January  2009
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+} 
+
+percent=
+terms=
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+  -h|--help|--doc)  Usage ;;       # Documentation
+  -p|--percent) percent=true ;;    # control points are percentage values
+  -d|--display) display=true ;;    # display the fitted gnuplot graph
+  -t|--terms)   terms=$2; shift ;; # limit number of terms to this number
+  -c)           coeff=true ;;      # return just the coefficents
+
+  --) shift; break ;;    # end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # end of user options
+
+  esac
+  shift   # next option
+done
+
+# convert the rest of the arguments into
+# space separated pairs of comma separated values.
+set - `echo $* | sed 's/[, ][, ]*/ /g; s/ /,/;
+                      s/ \([^ ]*\) \([^ ]*\)/ \1,\2/g'`
+
+# Number of control points = number of parameters
+points=$#
+#echo >&2 "DEBUG: $points control points"
+[ $points -lt 2 ] && Usage "At least two or more control points are needed"
+
+# generate the gnuplot function and parameter lists
+p=${terms:-$points}  # number of terms or parameters
+while [ $p -gt 0 ]; do
+  p=`expr $p - 1`
+  if [ "$f" ]; then
+    f="$f + "
+    v="$v, "
+  fi
+  v="${v}p${p}"
+  case $p in
+    0) f="${f}p${p}"
+       ;;
+    1) f="${f}p${p}*x" ;;
+    *) f="${f}p${p}*x**${p}" ;;
+  esac
+done
+function="$f"
+params="$v"
+#echo >&2 "DEBUG: function = $function"
+#echo >&2 "DEBUG: params = $params"
+
+# -----------------------------------------------
+
+# Prevent gnuplot logging the curve fit
+FIT_LOG=/dev/null
+export FIT_LOG
+
+# Generate gnuplot commands an parse the output into a IM -fx function
+{ echo "f(x) = $function";
+  echo "fit f(x) '-' via $params"
+
+  # Insert output control points directly into gnuplot input
+  m=1;  [ "$percent" ] && m=100
+  for i in "$@"; do
+    echo "$i" | awk -F, '{ print $1/'"$m"', $2/'"$m"' }'
+  done
+  echo "e"
+
+  if [ "$display" ]; then
+    echo "plot [0:1] [0:1] f(x)"
+    echo "pause 5"
+  fi
+} | gnuplot 2>&1 | sed '1,/^===/d' |
+if [ "$coeff" ]; then
+  awk '# Parse the gnuplot parameter list into a list of values
+    /^p/  { p = substr($1, 2)+0     # parameter number (as a number)
+            printf("%.3f", $3)     # Output the coefficents value
+            if ( p != 0 ) printf ","
+          }'
+else
+  awk '# Parse the gnuplot parameter list into a IM -fx function
+    #{ printf "\n%s\n", $0 }  # debugging
+    /^p/  { p = substr($1, 2)+0       # parameter number (as a number)
+            v = sprintf("%.3f", $3)   # format parameter value
+            #v = sprintf("%.3g", $3)   # has problems with "e"
+
+            # junk terms with a zero (or very small) parameter
+            if ( v == "0" || match(v, "e-") ) next
+
+            # sign of the parameter, and intra-term spacing
+            if ( substr(v,1,1) != "-" )
+              printf seen ? "+" : ""
+
+            # print parameter if not 1 or constant
+            if ( v != "1" &&  v != "-1" || p == 0 ) {
+              printf v
+              if ( p > 0 )  printf "*"
+            }
+
+            # the term of the parameter
+            if ( p == 1 ) printf "u"
+            if ( p >= 2 ) printf "u^%d", p
+
+            seen = 1  # we have seen the first parameter
+          }'
+fi
+echo
+
+exit 0;
+
+# ASIDE:
+#
+# Gabe Schaffer created a perl version using the Math::Polynomial library
+# (not a standard perl install) in   "im_fx_curve.pl"
+#
+

@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# Usage: display_virtual input [output]
+#
+# overlay image on a centered virtual canvas suronding actual image with a
+# blue box, and drawing a red cross at the 0,0 origin.
+#
+S=200  # output image size
+
+C=`expr $S / 2`
+C1=`expr $C - 10`
+C2=`expr $C + 10`
+
+convert "$1" \
+    -compose copy -bordercolor blue -border 1x1 -repage -1-1\! \
+    +compose -crop ${S}x${S}-${C}-${C}\! -background lightblue -flatten \
+    -draw "fill red  path 'M $C,$C1 $C,$C2  M $C1,$C $C2,$C'" \
+    "${2:-"x:"}"
+

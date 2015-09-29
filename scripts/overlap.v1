@@ -1,0 +1,119 @@
+#!/bin/sh
+#
+# overlap [-v] [WxH] [+X+Y] images...
+#
+# Given some images, (and optionally a specific area of overlap), try to find
+# the appropriate composition offset so as to produce a larger merged image of
+# each matching overlap found.
+#
+# This works by croping out areas to do a sub-image search against
+# all the other provided images.  This means that given N imgs and
+# the default 9 crops, it will do  9*N*(N-1) sub-image searches.
+#
+# It is thus better to limit the process to just two images  with known
+# overlaps, at a time.  However you can use a previous 'merged' image,
+# so as to 'merge' more images.
+#
+# If an image does overlap, and the default 'crop tiles' do not match
+# an overlap, you can specify a 'interesting' area that does overlap
+# in one of the images.
+#
+# NOTES:
+#   * The program will try to match each image against the other.  Whcih image
+#     is on top depends on the image order.
+#   * Any transparency is preserved, but this is replaced by 50% gray for
+#     sub-image matching to lessen its involvement. As such avoid transparency
+#     in the areas being used to find the overlap.
+#   * Transparency is preserved in the merged images.
+#   * You can add images to the previously found merged images.
+#
+# This program is raw and highly experimental. It will require tweeking to get
+# it to work with images other than the 'game maps' I have been using it for.
+#
+# Anthony Thyssen    3 October 2012
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+
+# Fully qualify directory path (remove relative components and symlinks)
+ORIGDIR=`pwd`                                 # original directory (builtin)
+PROGDIR=`cd $PROGDIR && pwd || echo $PROGDIR` # program directory
+
+Usage() {                              # Usage line (from above) only
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; 3s/^  */Usage: /p; 4q' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+size="20x20"
+locations="0 54 104"
+
+for i in $locations; do
+  for j in $locations; do
+    offsets="$offsets +$i+$j"
+  done
+done
+
+while [  $# -gt 0 ]; do
+  case "$1" in
+
+  # Standard help option.
+  -\?|-help|--help|--doc*) Usage ;;
+
+  -v) VERBOSE=true ;;
+
+  [0-9]*x[0-9]*)
+      size="$1" ;;
+  +*) offsets="$1" ;;
+
+  --) shift; break ;;    # forced end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # unforced  end of user options
+
+  esac
+  shift   # next option
+done
+
+# work out next number for the combined (overlapping) imgs
+prefix="merged_"
+suffix="png"
+num=`ls $prefix*.$suffix 2>/dev/null | tail -n1 | sed 's/[^0-9]//g'`
+[ ! "$num" ] && num=0     # set to zero if no previous file found
+
+for img1 in "$@"; do
+  for img2 in "$@"; do
+    [ "$img1" = "$img2" ] && continue
+    echo "comparing parts of \"$img2\" against \"$img1\""
+    for offset in $offsets; do
+      read -r ox oy <<< `echo $offset | tr + ' ' `
+      coords=`
+        convert "$img1" "$img2" \
+                -background grey -alpha remove -alpha off \
+                \( +clone -crop "$size$offset" +repage \) \
+                +swap +delete miff:- |\
+        compare -subimage-search - miff:- | \
+        convert - +swap +delete +depth txt:- | \
+        tail -n+2 | tr -cs '0-9\n' ' ' | sort -rn -t\  -k3 | tail -n-1 `
+
+      read -r x y match junk <<< "$coords"
+      x=$(( $x - $ox ))
+      y=$(( $y - $oy ))
+      [ "$VERBOSE" ] && echo "-> offset $offset -> results: +$x+$y ($match)"
+
+      if [ $match -lt 10000 ]; then
+        num=`expr $num + 1`    # next file number to be created
+        num=`printf %03d $num`
+        output_image="$prefix$num.$suffix"
+
+        echo "  ($match) : $img1 -page +$x+$y $img2 -> \"$output_image\""
+
+        # Output a merged img
+        convert "$img1" -page "+$x+$y" "$img2" \
+                -background none -layers merge +repage "$output_image"
+        display "$output_image" & # display it when found
+      fi
+    done
+  done
+done

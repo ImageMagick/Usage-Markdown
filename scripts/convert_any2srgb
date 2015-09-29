@@ -1,0 +1,94 @@
+#!/bin/bash
+#
+# convert any image (essentially from AdobeRGB or CMYK) to sRGB jpg
+# and optionally resize
+#
+#
+# From a IM Forum discussion...
+# http://www.imagemagick.org/discourse-server/viewtopic.php?f=1&t=16464&start=15
+#
+# Curtisy of  Albert25  -- 26 June 2010
+#
+###
+
+# paths to profile file locations
+srgb=/docs/photos/icc/sRGB.icm
+cmyk=/docs/photos/icc/USWebCoatedSWOP.icc
+
+# defaults
+outdir=.
+debug=
+
+# read options
+while getopts "dvho:s:a:" opt
+do
+  case $opt in
+    "d|v" ) debug=1;; # verbose is same as debug for now
+    "s"   ) size=$OPTARG;;
+    "o"   ) outdir=$OPTARG;;
+    "a"   ) add_options=$OPTARG;;
+    "h"   ) cat <<END_HELP;
+Usage: $0 [options] FILE [FILE...]
+Options:
+    -h                   Print this help
+    -d                   Print debugging info while processing
+    -v                   Be verbose (same as -d for now)
+    -s nnn[xhhh]    Specify new width in pixels or new size as widthxheight (ie -w 640x480)
+    -a "im options" Additional options for IM
+    -o dir              Output directory
+END_HELP
+            exit 0;;
+  esac
+done
+
+shift $(($OPTIND - 1))
+
+if [ -n "$size" ]; then
+   resize="-resize $size"
+else
+   resize=
+fi
+
+shopt -s nullglob
+for f in "$@"
+do
+   # skip if not jpeg or tiff
+   #[[ "$f" =~ '\.(jpe?g|tiff?)$' ]] || continue
+
+   dir=$(dirname "$f")
+   name=$(basename "$f")
+   base=${name%.*}
+
+   profile="/tmp/$base.icc"
+
+   out="$outdir/$base-x$size.jpg"
+
+   # extract possible color profile
+   [ -n "$debug" ] && echo "    extracting profile $f"
+   convert "$f" "$profile" 2>/dev/null
+
+   [ -n "$debug" ] && echo "    resize = $resize"
+
+   if [ -s "$profile" ]; then
+      # we have an embedded profile, so ImageMagick will use that anyway
+      [ -n "$debug" ] && echo "    convert with embedded profile $f"
+      convert "$f" -profile "$srgb" +profile '*' $resize $add_options "$out" \
+      && echo -e "\tOK $out"
+   else
+      # no embedded profile in source
+      if identify -format "%r" "$f" | grep CMYK >/dev/null ; then
+         # CMYK file without embedded profile
+         [ -n "$debug" ] && echo "    convert cmyk without embedded profile $f"
+         convert "$f" -profile "$cmyk" -profile "$srgb" +profile '*' $resize $add_options "$out" \
+         && echo -e "\tOK $out"
+         # alternative would be
+         #convert "$f" -colorspace RGB -resize $size "$out"
+      else
+         # No profile and not CMYK. Probably already in RGB. Just resize
+         [ -n "$debug" ] && echo "    resizing only $f"
+         convert "$f" $resize $add_options "$out" \
+         && echo -e "\tOK $out"
+      fi
+   fi
+   [ -f "$profile" ] && rm "$profile"
+done

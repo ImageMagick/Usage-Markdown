@@ -1,0 +1,105 @@
+#!/bin/bash
+#
+# im_graph 'im_function' image_file
+#
+# Plot a graph the grayscale modification function given on the command line,
+# using gnuplot outpuing a GIF image of the adjustment made to a linear
+# greyscale image.
+#
+# See Also
+#  im_histogram   draw a mathematical expression as two images
+#  im_profile     draw a horizontal profile of a gradient image
+#
+####
+#
+# WARNING: Input arguments are NOT tested for correctness.
+# This script represents a security risk if used ONLINE.
+# I accept no responsiblity for misuse. Use at own risk.
+#
+# Anthony Thyssen,  29 June 2008
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+[ $# -eq 0 ] && Usage "Missing im_function"
+[ $# -gt 2 ] && Usage "Too many arguments"
+
+im_func=$1
+output=$2
+[ $# -ne 2 ] && output="show:"  # if not given, display it direct
+shift; shift;
+
+#im_func='-sigmoidal-contrast 8x50%'
+
+# Test if gnuplot is new enough
+echo "set lmargin at screen 0" | gnuplot >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+  Error "Gnuplot is too old"
+fi
+
+# ---------------------------------------------
+
+# Get the background color to use...
+[ -f ./generate_options     ] && source ./generate_options
+[ -f ../generate_options    ] && source ../generate_options
+[ -f ../../generate_options ] && source ../../generate_options
+[ "$page_bg_color" ] || page_bg_color=LightSteelBlue
+
+# Gnuplot of a Level function
+#
+# See http://www.cit.griffith.edu.au/~anthony/info/apps/gnuplot.hints
+#
+size_w=120 size_h=120   # size of the desired gnuplot drawing area
+                        # this does not include any borders.
+                        # width is also the number of input values given
+
+# gnuplot terminal size (version dependant - Arrgghhhh)
+gsize="`expr $size_w + 1`,`expr $size_h + 1`"
+grange="`expr $size_w - 1`"    # 0 to $grange values input
+# note gnuplot output is +1 desired size and needs to be trimmed.
+
+#exec 2>/dev/null   # just ignore the SVG error output
+( echo "set terminal png size $gsize"
+  echo "set lmargin at screen 0"
+  echo "set bmargin at screen 0"
+  echo "set rmargin at screen 0.99999"
+  echo "set tmargin at screen 0.99999"
+  echo "set xtics ( 30, 60, 90 ) scale 4"
+  echo "set ytics ( 0.25, 0.5, 0.75 ) scale 4"
+  echo 'unset key'       # remove function/data plot key
+  echo 'unset border'    # remove the drawn border
+  echo 'set format ""'   # remove tic mark labeling
+  echo "set xrange [0:$grange]"
+  echo 'set yrange [0:1]'
+  echo -n 'plot "-" binary format="%ushort" endian=big'
+  echo    '  array=120 using ($1/65536) with lines'
+  eval convert -size 1x$size_w gradient: -rotate 90 $im_func \
+          -depth 16 -endian MSB gray:-
+) | gnuplot |
+  #convert - -write info:fd:2 miff:- | display -; exit  # DEBUGGING
+  convert -background $page_bg_color -bordercolor $page_bg_color \
+          label:"0                ½                1" \
+          -resize 120x -border 1x0 -unsharp 0x.5 \
+          -write mpr:label +delete \
+          \
+          -size 5x120 gradient: +size -rotate 90 -write mpr:gradient \
+          $im_func \
+          mpr:gradient +swap \
+          -bordercolor black -border 1x1 -chop 0x1+0+0 \
+          \( - -trim +repage  -bordercolor black -border 1x1 \) +insert \
+          mpr:label -append \
+          \( mpr:label -rotate -90 \) +swap \
+          -background $page_bg_color +append \
+          -gravity NorthEast -splice 2x2  "$output"
+          #-identify show: ; exit
+
+[ -f "$output" ] && chmod 644 "$output"
+
+

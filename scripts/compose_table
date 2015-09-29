@@ -1,0 +1,243 @@
+#!/bin/bash
+#
+# compose_table [options] [output_file]
+#
+# Generate images showing the results of compose methods with various
+# test images.  If no output filename "show:" the result in background.
+#
+# Options:
+#   -a     so all composition testing tables (both duff and math methods)
+#   -b      include gradient testing of duff-poster blending
+#   -m      output mathematical and shading compose methods
+#   -mb     include alpha blending tests of mathematical methods
+#
+#   -t      compose using my personal test build environment
+#   -s      Apply without the 'sync' flag to turn off over blending
+#
+####
+#
+#  Anthony Thyssen   !3 July 2009    <A.Thyssen_AT_griffith.edu.au>
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+#
+#  Generalized Otion handling.
+#
+while [  $# -gt 0 ]; do
+  case "$1" in
+  --help|--doc*) Usage ;;
+
+  -b)   DUFF_BLEND=true ;;     # testing duff-porter gradient blending
+  -m)   MATH=true ;;           # ouput math operator blending
+  -mb)  MATH_BLEND=true ;;     # testing math operator blending
+  -a)   MATH_BLEND=true DUFF_BLEND=true ;; # all modes
+
+  -t)   IM=im ;;                # test using the just test build version of IM
+  -s)   SYNC='-channel RGBA' ;; # turn off SVG over blending for math composes
+
+  --)  shift; break ;;    # end of user options
+  -*)  Usage "Unknown option \"$1\"" ;;
+  *)   break ;;           # end of user options
+  esac
+  shift   # next option
+done
+[ "$MATH_BLEND" ] && MATH=true
+[ "$DUFF_BLEND" ] && DUFF=true
+[ "$MATH" -a "$DUFF_BLEND" ] && MATH_BLEND=true
+
+# if no mode specified show just the standard 'duff-porter' table.
+[ -z "$MATH" ] && DUFF=true
+
+ops_duff='Src       Dst     Clear    Xor
+          Over      In      Out      Atop
+          Dst_Over  Dst_In  Dst_Out  Dst_Atop
+         '
+ops_math='Plus         Minus        ModulusAdd   ModulusSubtract
+          Screen       Multiply     Difference   Exclusion
+          Lighten      Darken       -none-       Divide
+          LinearDodge  LinearBurn   ColorBurn    ColorDodge
+          Overlay      SoftLight    PegtopLight  -none-
+          HardLight    PinLight     LinearLight  VividLight
+         '  # Bumpmap
+
+page_bg_color=LightSteelBlue
+
+# Make temporary directory for intermediate images
+umask 77
+tmpdir=`mktemp -d "${TMPDIR:-/tmp}/$PROGNAME-XXXXXXXXXX"` ||
+  { echo >&2 "$PROGNAME: Unable to create temporary directory"; exit 10;}
+trap 'cd; rm -rf "$tmpdir"' 0   # remove when finished (on end or exit)
+trap 'exit 2' 1 2 3 15
+
+pwd=`pwd`    # save current directory (for results)
+cd $tmpdir   # Change to the temporary working directory
+
+# Get the error image
+#convert http://www.imagemagick.org/Usage/images/image_error.gif \
+#        compose_error.png
+convert $HOME/im/images/image_error.gif  compose_error.png
+
+# Special Images
+convert -label ' ' -size 1x1 xc:$page_bg_color compose_none.png
+convert -background $page_bg_color -size 0x24 -gravity center \
+        -label ' ' label:OP  compose_method.png
+
+# ---------------------------------------------------------
+#
+# Do the montage given the images P, Q, and M (source, destination, mask)
+#
+do_montage() {
+
+  [ -f $P -a -f $Q ] || {
+    echo >&2 "$0: Images $P $Q failed to build"
+    exit 10
+  }
+
+  rm -f compose_op_*.png # precaution
+
+  convert -label 'Overlay (Src)' $P \
+          -bordercolor blue  -compose Copy  -border 1 \
+          compose_op_P.png
+  convert -label 'Backgnd (Dst)' $Q \
+          -bordercolor blue  -compose Copy  -border 1 \
+          compose_op_Q.png
+
+  list=""
+  list="$list compose_op_P.png"
+  list="$list compose_method.png"
+  list="$list compose_op_Q.png"
+  list="$list compose_none.png"
+
+  for op in  $methods
+  do
+    if [ X$op = X-none- ]; then
+      list="$list compose_none.png"
+    else
+      $IM convert -label $op  $Q  $P \
+              -gravity center $SYNC \
+              -compose $op  -composite -compose Over \
+              -bordercolor $page_bg_color -border 0 \
+              -bordercolor blue           -border 1 \
+              compose_op_$op.png
+      if [ ! -f compose_op_$op.png ]; then
+        convert -label $op  compose_error.png \
+              compose_op_$op.png
+      fi
+      list="$list compose_op_$op.png"
+    fi
+  done
+
+  eval "montage -background $page_bg_color $list \
+                -tile 4x -geometry +4+4 \"$1\""
+
+  # roll the top row to recenter it.
+  if [ -z "$M" ]; then
+    mogrify -region 0x90+0+0 -roll +35+0 "$1"
+  fi
+
+  rm -f compose_op_*.png
+}
+
+# ----------------------------------------------------------------------------
+#
+# Duff Porter compose methods
+#
+if [ "$DUFF" ]; then
+
+methods="$ops_duff"
+
+# Test blending operators using triangles
+P=compose_P.png
+Q=compose_Q.png
+convert -size 50x50 xc:none -fill gold -draw 'polyline 0,0 0,49 49,0' $P
+convert -size 64x64 xc:none -fill blue -draw 'polyline 0,0 63,63 63,0' $Q
+
+do_montage montage_triangle.png
+rm -f $P $Q
+montages="${montages:+$montages,}triangle"
+
+# Test blending operators using gradients
+if [ "$DUFF_BLEND" ]; then
+P=gradient_none_v.png
+Q=gradient_none_h.png
+convert -size 64x5 xc:black xc:none -size 64x54 gradient:black-none +swap \
+        -append -fill gold -colorize 100 -write $P \
+        -transverse -fill blue -colorize 100 $Q
+do_montage montage_gradient.png
+rm -f $P $Q
+montages="${montages:+$montages,}gradient"
+
+P=blend_black_v.png
+Q=blend_black_h.png
+convert -size 64x5 xc:black xc:none -size 64x54 gradient:black-none +swap \
+        -append -write $P -transverse $Q
+do_montage montage_blending.png
+rm -f $P $Q
+montages="${montages:+$montages,}blending"
+
+fi # if DUFF_BLEND
+fi # if DUFF
+
+# ------------------------------------
+#
+# Math Composite Methods
+#
+if [ "$MATH" ]; then
+
+methods="$ops_math"
+
+# gradient test
+P=gradient_grey_v.png
+Q=gradient_grey_h.png
+convert -size 64x64 gradient: -write $P -transverse  $Q
+do_montage montage_math.png
+montages="${montages:+$montages,}math"
+
+if [ "$MATH_BLEND" ]; then
+#
+# testing of the 'blend mode' of mathematical operators
+#
+P=gradient_rect_v.png
+Q=gradient_rect_h.png
+convert -size 64x64 xc:none -draw 'rectangle 20,0 43,63' \
+        gradient: -compose In -composite -write $P -transverse $Q
+do_montage montage_grad_rect.png
+montages="${montages:+$montages,}grad_rect"
+
+# Alternative..
+#convert -size 64x64  gradient: \
+#        -background black -alpha shape  gradient_trans_v.png
+P=gradient_trans_v.png
+Q=gradient_trans_h.png
+convert -size 64x64  gradient:black-none -write $P -transverse $Q
+do_montage montage_grad_trans.png
+montages="${montages:+$montages,}grad_trans"
+
+fi # if MATH_BLEND
+
+rm -f gradient_*
+
+fi # if MATH
+
+# ------------------------------------
+#
+# Finish up into final chart
+#
+cd $pwd   # do back to the original directory
+
+convert null: $tmpdir/montage_null.png
+tile=x1
+[ "$MATH" -a "$DUFF" ] && tile=3x
+eval "convert $tmpdir/montage_{$montages,null}.png"' +delete \
+        -frame 3x3+0+2 miff:- |
+  montage - -tile $tile -mode Concatenate miff:- |
+    convert - -frame 3x3+2+0 "${1:-show:}"'
+

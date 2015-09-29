@@ -1,0 +1,92 @@
+#!/bin/sh
+#
+# snapshot_webpages
+#
+# A ImageMagick script to take screenshots and thumbnails of webpages.
+# Input are three words per line,
+#    URL  snapshot_image  thumbnail_image
+#
+# It works by running a web browser in a vitural X server and framing a
+# snapshot image of that browser.
+#
+# Example usage:
+# snapshot_webpages << END
+# http://www.mozilla.org	mozilla.png	  mozilla_thmb.png
+# http://www.imagemagick.org    imagemagick.png   imagemagick_thmb.png
+# http://www.uk.research.att.com/archive/vnc/xvnc.html xvnc.png xvnc_thmb.png
+# END
+#
+# Requires:
+#  * ImageMagick
+#  * Mozilla
+#  * Xvnc (as Virtual X server)
+#
+# Henryk Gerlach (2005-01-01)
+#
+#BUGS:
+# Mozilla:
+#  * -geometry does not work with mozilla
+#  * if mozilla is already running by the user it might not start up.
+#  * if mozilla needs to be configured for the user running it,
+#    the script won't work
+#
+# ---------------------------------
+# I made a copy of this script when it was published on a IM mail list.
+# It has been re-published, AS IS, as a example and resource for IM users.
+# Unfortunatally it may require some tweeking to get it to work for your
+# system with your browser.  I do not make any gurantee, or accept any
+# responsibility for this script.  Use at your own risk.
+#
+# Anthony Thyssen   5 April 2007.
+#
+# ---------------------------------
+BROWSER=mozilla
+
+#The window title of the browser after startup, so we can grab it's window id.
+#If all fails, take root to grab the whole desktop
+BROWSERID="Mozilla"
+#BROWSERID="root"
+
+DISPLAY=":1"
+#Use virtual X server
+VIRTUAL_X="Xvnc -depth 16 -localhost -geometry 1024x768 $DISPLAY"
+
+#cut of browser decoration for 800x600 resolution
+CROP="800x490+0+90"
+THUMBSIZE="120x90"
+
+INITTIME=5 #time to wait for the Xserver and the browser to start up
+LOADTIME=4 #time to wait for a page to load, take shot after this time
+
+######################################################
+
+#init
+if test "$VIRTUAL_X" != ""; then
+  $VIRTUAL_X &
+fi
+export DISPLAY
+sleep $INITTIME
+$BROWSER &
+sleep $INITTIME
+if test "$BROWSERID" != "root"; then
+  BROWSERID=`xwininfo -name "$BROWSERID" | grep "Window id" | cut -d " " -f 4`
+fi
+
+# loop
+while read URL BIG THUMB; do
+  $BROWSER -remote "openurl($URL)"
+  sleep  $LOADTIME
+  import -window "$BROWSERID" $BIG
+  if test "$CROP" != ""; then
+    mogrify -crop $CROP "$BIG"
+  fi
+  convert -size "$THUMBSIZE" "$BIG" -resize "$THUMBSIZE" "$THUMB"
+done
+
+#cleanup
+#this is ugly
+if test "$VIRTUAL_X" != ""; then
+  killall Xvnc
+else
+  killall $BROWSER
+fi
