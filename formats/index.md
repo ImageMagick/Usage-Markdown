@@ -3018,6 +3018,7 @@ For more examples of using raw image data (grayscale) see the IM Discussion foru
     by my Q16 version of IM.
 
 ---
+title: Common Image Formats
 created: 9 December 2003  
 updated: 13 February 2012  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

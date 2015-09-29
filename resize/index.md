@@ -1241,6 +1241,7 @@ If this is problem there are a few techniques that can help...
 If you come up with some other way of effectively resizing line drawings, or tried some of the above technqiues, please let me (and other IM users) know about it.
 
 ---
+title: Resize or Scaling
 created: 15 March 2004  
 updated: 10 October 2012 (split resampling filters to separate section)  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

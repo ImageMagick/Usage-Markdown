@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# pngcrush_batch  png png png...
+#
+# Run pngcrush batch-wise over a list of png files,
+# to compress them by the maximum amount without dataloss.
+#
+
+umask 77
+tmp=`mktemp "${TMPDIR:-/tmp}/pngcrush_batch.XXXXXXXXXX"` ||
+  { echo >&2 "$PROGNAME: Unable to create temporary file"; exit 10;}
+trap 'rm -f "$tmp"' 0
+trap 'exit 2' 1 2 3 15
+
+for i in "$@"; do
+   echo "--------------------------------------"
+   echo "$i"
+   echo "--------------------------------------"
+   pngcrush "$i" $tmp
+   if [ $? -eq 0 -a -s $tmp ]; then
+     mv $tmp "$i"
+   else
+     echo >&2 "Pngcrush failed for file \"$i\" -- ABORTING"
+     exit 1
+   fi
+done

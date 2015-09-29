@@ -950,6 +950,7 @@ convert metallic_input.png -set colorspace RGB \
 [![\[IM Output\]](metallic.png)](metallic.png)
 
 ---
+title: Compound Font Effects
 created: 7 November 2003  
 updated: 30 September 2012  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

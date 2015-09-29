@@ -2830,6 +2830,7 @@ This will not just map the specified colors, but also re-map the colors between 
       Specifically  -white-threshold and -black-threshold
 
 ---
+title: Color Modifications
 created: 19 December 2003  
 updated: 6 October 2011  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

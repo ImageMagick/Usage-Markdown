@@ -3921,6 +3921,7 @@ However I have no looked at how it is generated.
 For other example of using "`AutoTrace`", see [SVG Output Handling](../draw/#svg_output), and [Raster to Vector Edging](../transform/#edge_vector).
 
 ---
+title: Morphology of Shapes
 created: 4 January 2010
 updated: 15 Feburary 2013
 author:

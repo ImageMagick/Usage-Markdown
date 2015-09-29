@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# txt2gif [-fmt] file
+#
+# Convert a plain text file into a GIF image for display on the IM Example
+# pages. The GIF image filename is exactly the same as the given input
+# filename but with a ".gif" suffix appended.
+#
+###
+#
+# Anthony Thyssen  <A.Thyssen@grffith.edu.au>
+
+if [ "X$1" = "X-fmt" ]; then
+  shift
+  fmt="fmt -s"
+else
+  fmt="cat"
+fi
+
+# IM Example settings common to all examples
+[ -f ./generate_options     ] && . ./generate_options
+[ -f ../generate_options    ] && . ../generate_options
+[ -f ../../generate_options ] && . ../../generate_options
+
+# TXT2GIF conversion
+
+FONT="-font CourierNew  -pointsize 12"
+#FONT="-font CourierNew  -pointsize 8"
+#FONT="-font LucidaSansTypewriter  -pointsize 10"
+#FONT="-font Crystal  -pointsize 12"
+#FONT="-font LiberationMono  -pointsize 12"
+[ "X$txt_bg_color" = "X" ] && txt_bg_color='#cccccc'
+
+expand "$1" | $fmt |           # Expand tabs (and posibly reformat text)
+  perl -0777 -pe 's/\n$//' |    # Remove last newline from txt input
+    #sed 's/\\/\\\\/g' |        # Escape escapes  -- removed IM v6.3.3
+      convert $FONT -background "$txt_bg_color" label:@- \
+              -bordercolor "$txt_bg_color" -border 1 \
+              "$1.gif"
+

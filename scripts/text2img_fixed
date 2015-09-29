@@ -1,0 +1,132 @@
+#!/bin/sh
+#
+# text2img_fixed [options] output_image  < textfile
+#
+# Given a text file of characters (utf-8) convert each character into
+# an image, and join them together into a table of 'fixed width' character
+# cells.  That is convert the text keeping the results tabular as if using a
+# 'monospace' font, even if the font used is proportional.
+#
+# Options:
+#    -font {im_font}      Font to use to 'draw the characters
+#    -pointsize {points}  Pointsize of characters
+#    -box {color}         Use this colored undercolor box
+#    -line                Characters per line (Max) (default = 70)
+#
+# Examples
+#   echo 'This is a \ @ # ? test! . ' | text2img_fixed x:
+#   graphics_utf -n | text2img_fixed -font Dingbats -line 16 x:
+#
+# Known Problem...
+#   As each character is trimmed, the character is centered in the final
+# string!  The trim was added to prevent very large proportional space
+# characters making the resulting line overly long.  A better method is
+# needed, prehaps just a 'horizontal trim'   Can you improve this script?
+#
+####
+#
+# WARNING: Input arguments are NOT tested for correctness.
+# This script represents a security risk if used ONLINE.
+# I accept no responsiblity for misuse. Use at own risk.
+#
+# Anthony Thyssen    December 2006
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+} 
+
+# defaults
+font=arial
+pointsize=18
+box=white      # undercolor box white will dissappear into background
+line=70        # default line length for output.
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+  --help|--doc*) Usage ;;
+  -font)      shift; font="$1" ;;        # font to use
+  -f)         shift; font="$1" ;;        # font to use
+  -pointsize) shift; pointsize="$1" ;;   # character size
+  -p)         shift; pointsize="$1" ;;   # character size
+  -box)       shift; box="$1" ;;         # undercolor box color
+  -line)      shift; line="$1" ;;
+  -l)         shift; line="$1" ;;
+
+  --) shift; break ;;    # end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # end of user options
+
+  esac
+  shift   # next option
+done
+
+[ $# -lt 1 ] && Usage "Missing output image Argument"
+[ $# -gt 1 ] && Usage "Too many arguments."
+
+output="$1"
+
+# use a locale
+LC_CTYPE=en_AU.utf8
+export LC_CTYPE
+
+#------------------------------------------------------------------------------
+
+# use perl to read in a line (as unicode), and convert each character
+# to the special 'fixed width' format, as a IM command.
+#
+perl -e '
+  $line='"'$line'"';
+  $quote=chr(0x27);
+  binmode(STDIN,  ":utf8");
+  binmode(STDOUT, ":utf8");
+
+  # Output a character string.
+  # I use a file input so as to avoid problems such as
+  #    * with handling a string starting with "@"
+  #    * backslashes
+  # This currently needs some method of horizontal only trim
+  sub output_string {
+    $s = shift;
+    print "convert -quiet -font '"'$font'"' -pointsize '"'$pointsize'"' ";
+    print "label:$s -set label \"\" -trim +repage miff:-;\n";
+  }
+
+  # Handle various characters special to Shell or IM
+  # character is wrapped into single quotes for the "echo" command above
+  sub output_char {
+    output_string $quote . pack("U", shift) . $quote;
+  }
+  sub blank  { print "convert xc: miff:-;\n"; }    # empty character
+  sub quote  { output_string "\"$quote\""; }       # quote the single quote
+  sub at     { output_string $quote."\\\@".$quote; }  # excape the at symbol
+  sub bslash { output_string $quote."\\\\".$quote; } # excape the backslash
+
+  while(<>) {
+    $i=0;
+    foreach $c ( unpack("U*", $_ ) ) {
+      $i++; last if $i > $line;
+      if( $c <  0x0020 ) { next; }         # skip control characters
+     #if( $c == 0x0020 ) { blank; next; }  # substitute space (doesnt trim)
+      if( $c == 0x0027 ) { quote; next; }  # substutite single quote
+      if( $c == 0x0040 ) { at; next; }     # escape the "@"
+      if( $c == 0x005C ) { bslash; next; } # escape the "\"
+     #if( $c == 0x00A0 ) { blank; next; }  # meta-space - substitute space
+      output_char($c);
+    }
+    for( ; $i <= $line ; $i++ ) {
+      blank;
+    }
+  }
+' |
+#cat; exit
+sh |
+#identify miff:-; exit 0
+montage miff:- -tile "$line"x -geometry +2+2 \
+        -bordercolor white "$output"
+

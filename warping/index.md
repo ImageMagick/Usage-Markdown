@@ -686,6 +686,7 @@ You can also have a look at his [notes](swirl_video.txt) about the video.
 *Can you make a good video demonstrating a distortion map technique? Do you know of one elsewhere on the net? Mail me.*
 
 ---
+title: Warping Images
 created: 14 January 2009 (distorts sub-division)  
 updated: 11 October 2010  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

@@ -1,0 +1,173 @@
+#!/bin/bash
+#
+# enlarge_image [option] image [output_file]
+#
+# Given a image (generally small) enlarge it by scaling the image by the
+# given amount with posible inter-pixel gaps.
+#
+# Other options include generating a montage (with or with shadow effects)
+# adding a label, modifying the default colors around the pixels, or marking
+# a pixel with a circle
+#
+# Options...
+#
+#   -{scale}         Enlarge the image by this much
+#   -{scale}.{gap}   Enlarge the image with inter-pixel gap (adds to size)
+#
+#   -c #             Clump pixels in groups of #
+#                     EG: 2 for slab & stair groupings
+#                     or  perhaps in groups of 4 or 5 for positioning
+#
+#   -o +x+y          Mark this pixel with a circle (as origin)
+#
+#   -m               Montage (with shadow) the image
+#   -ms              Montage with Shadow Effects
+#   -mn              Montage without Shadow Effects (for convolve kernels)
+#   -mt {tile}       Montage tiling option
+#   -ml {label}      Montage labeling string, you can use the following specials
+#
+#   -bc {color}      Color of Background Page  (default: "LightSteelBlue")
+#   -gc {color}      Color of Inter-Pixel Gaps (default: "None")
+#   -cc1 {color}     Color of Origin Mark #1    (default: "Black")
+#   -cc2 {color}     Color of Origin Mark #2    (default: "White")
+#
+#   -d               Turn on debugging output (to stderr)
+#
+###
+#
+#  Anthony Thyssen   May 2010
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+# Initialization
+scale=1               # scaled enlargment factor
+clump=1               # clump or group pixels in grid
+montage_tile='0x0'
+montage_label=''
+montage_shadow='-shadow'
+
+page_bg_color="LightSteelBlue"
+gap_color="None"
+circle_color1="Black"
+circle_color2="White"
+
+while [  $# -gt 0 ]; do
+  case "$1" in
+  --help|--doc*) Usage ;;
+
+  -[0-9]*.[0-9]*)
+     scale=`expr "$1" : '-\([0-9]*\).'`      || Usage "Bad Enlargement Option"
+     gap=`expr "$1" : '-[0-9]*.\([0-9]*\)$'` || Usage "Bad Enlargement Option"
+     ;;
+  -[0-9]*)
+     scale=`expr "$1" : '-\([0-9]*\)$'` || Usage "Bad Enlargement Option"
+     ;;
+
+  -c)  shift; clump=$1 ;;     # clump or group multiple pixels together
+
+  -o)  shift; center="$1" ;;
+
+  -m)  montage=true ;;
+  -ms) montage=true; montage_shadow='-shadow' ;;
+  -mn) montage=true; montage_shadow=''  ;;
+  -mg) montage=true; montage_geometry_add=true ;;
+  -mt) shift; montage=true; montage_tile="$1" ;;
+  -ml) shift; montage=true; montage_label="$1" ;;
+
+  -bc) shift; page_bg_color="$1" ;;
+  -gc) shift; gap_color="$1" ;;
+  -cc1) shift; circle_color1="$1" ;;
+  -cc2) shift; circle_color2="$1" ;;
+
+  -d) DEBUG=true; ;;
+
+  - ) break ;;           # image is from stdin (end of options)
+  --) shift; break ;;    # end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # end of user options
+  esac
+  shift   # next option
+done
+
+[ $# -eq 0 ] && Usage "Missing {kernel_string} Argument"
+[ $# -gt 2 ] && Usage "To many Arguments"
+
+image_input="$1";
+output_image="$2";
+[ $# -eq 1 ] && output_image="show:"
+
+if [ "$scale" -gt 3 -a "X$center" != 'X' ]; then
+
+  center_x=`expr "$center" : '([-+][0-9]*)'` \
+              || Usage "Bad Mark Location"
+  center_y=`expr "$center" : '[-+][0-9]*([-+][0-9])$'` \
+              || Usage "Bad Mark Location"
+
+fi
+
+# ----------- Scale the image ------------
+
+# Scale and label
+if [ "X$montage_label" != "X" ]; then
+  convert "$image_input" -set label "$montage_label" +repage \
+          -scale "${scale}00%" miff:-
+else
+  convert "$image_input" +repage -scale "${scale}00%" miff:-
+fi | #convert - show:; exit 0   # for debugging
+
+# mark pixel  and insert inter-pixel gaps
+if [ "$scale" -gt 3 ]; then
+
+  if [ "X$center" != 'X' ]; then
+    # add the origin marker
+    center_x=`convert xc: -format "%[fx: ($center_x+.5)*$scale-.5 ]" info:`
+    center_y=`convert xc: -format "%[fx: ($center_y+.5)*$scale-.5 ]" info:`
+    echo >&2 "center = $center_x $center_y"
+
+    radius1=`convert xc: -format "%[fx: int($scale*.29-.5) ]" info:`
+    radius2=`convert xc:  -format "%[fx: $radius1+1 ]" info:`
+    echo >&2 "radius = $radius1 $radius2"
+
+    convert miff:- -fill none -strokewidth 0.5 \
+            -draw "translate $center_x,$center_y \
+                  stroke $circle_color2  circle 0,0 $radius1,$radius1 \
+                  stroke $circle_color1  circle 0,0 $radius1,$radius2 " \
+            miff:-
+  else
+    cat
+  fi | #convert - show:; exit 0   # for debugging
+
+  # Add inter-pixel gaps and colors
+  if [ "$gap" ]; then
+    convert - -alpha set -background ${gap_color} \
+            -crop 0x$((scale*clump)) -splice 0x${gap} -append -chop 0x${gap} \
+            -crop $((scale*clump))x0 -splice ${gap}x0 +append -chop ${gap}x0 \
+            -bordercolor ${gap_color} -compose Copy -border ${gap} \
+            +compose miff:-
+  else
+    cat
+  fi
+
+else
+  cat
+fi | #convert - show:; exit 0   # for debugging
+
+# ----------  output all kernel images as requested -----------
+if [ "$montage" ]; then
+  montage miff:- -geometry +5+5  $montage_shadow \
+          -tile "$montage_tile" -background "$page_bg_color" \
+          "$output_image"
+else
+  convert miff:- "$output_image"
+fi
+
+exit 0
+

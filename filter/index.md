@@ -1803,6 +1803,7 @@ So much so he has his own section...
 [Resampling by Nicolas Robidoux](nicolas/).
 
 ---
+title: Resampling Filters
 created: 10 October 2012 (split from resize)  
 updated: 14 Feburary 2013  
 author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  

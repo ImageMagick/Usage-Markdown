@@ -1,0 +1,52 @@
+#!/bin/sh
+#
+#  Shell equivelent of the perl version
+#
+#font='-adobe-helvetica-medium-r-normal--25-180-100-100-p-130-iso8729-1';
+#font='Times';
+font='Arial';
+
+o=75  x=$o  y=$o
+o2=`expr $x \* 2`
+o3=`expr $x \* 3`
+o5=`expr $x \* 5`
+o6=`expr $x \* 6`
+
+for angle in  0 30 60 90 120 150 180 210 240 270 300 330
+do
+  echo "angle $angle"
+  a=`printf "%03d" $angle`
+
+  rot_text="rotate $angle text 0,0"
+
+  convert -size ${o6}x${o6} xc:white \
+    -stroke '#600' -fill none \
+      -draw "line $o3,$o $o3,$o5" \
+      -draw "line $o,$o3 $o5,$o3" \
+      -draw "rectangle $o,$o $o5,$o5" \
+    -stroke none -fill black -box yellow   -font $font  -pointsize 18 \
+      -draw "gravity None      translate $o2,$o2 $rot_text 'Default'" \
+    -box none \
+      -draw "gravity NorthWest translate $x,$y   $rot_text 'North West'" \
+      -draw "gravity North     translate  0,$y   $rot_text 'North'" \
+      -draw "gravity NorthEast translate $x,$y   $rot_text 'North East'" \
+      -draw "gravity West      translate $x,0    $rot_text 'West'" \
+      -draw "gravity Center    translate  0,0    $rot_text 'Center'" \
+      -draw "gravity East      translate $x,0    $rot_text 'East'" \
+      -draw "gravity SouthWest translate $x,$y   $rot_text 'South West'" \
+      -draw "gravity South     translate  0,$y   $rot_text 'South'" \
+      -draw "gravity SouthEast translate $x,$y   $rot_text 'South East'" \
+    annotate_angle_$a.gif
+done
+
+echo "Creating animation"
+convert -delay 20 -loop 0 annotate_angle_*.gif im_annotate_sh.gif
+rm annotate_angle_*.gif
+
+echo "Animating"
+exec animate im_annotate_sh.gif
+
+# Optimization Program
+#gifsicle -b -O2 im_annotate_sh.gif
+
+

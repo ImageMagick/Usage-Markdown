@@ -110,6 +110,7 @@ In other words only the first image in generating in the above is correct, as do
 And other three images are wrong!.
 
 ---
+title: Displacement Bugs
 created: 9 June 2006  
 updated: 10 June 2006  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

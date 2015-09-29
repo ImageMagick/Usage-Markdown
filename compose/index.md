@@ -2641,6 +2641,7 @@ The '**`Displace`**' method on the other hand provides both an absolute and rela
 See **[Distort and Displacement Mapping](../mapping#distort)** for details.
 
 ---
+title: Compositing Images
 created: 5 January 2004  
 updated: 1 December 2010  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

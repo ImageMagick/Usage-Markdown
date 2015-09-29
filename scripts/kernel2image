@@ -1,0 +1,354 @@
+#!/bin/sh
+#
+# kernel2image [option] {kernel_string} [output_file]
+#
+# Given a kernel definition, extract the kernel from IM and create an image or
+# montage of the kernels that IM generates.
+#
+# By default the raw images are generated from the kernel (with 'nan' values
+# being made transparent) are written to the file specified. If multiple
+# kernels are defined by the given {kernel_string} multiple images will be
+# output.  If no {output_file} is given the script uses "show:".
+#
+# The other options, expecially the first option listed will enlarge and
+# 'pretty' up the kernel image to make it easier to see, and to mark the
+# (usally central) "origin" of the kernel.  It also provides a montage of
+# single or multiple kernels (with or without shadow), on a background
+# appropriate for IM Examples.  See example commands below.
+#
+# Options...
+#
+#   -{scale}       Enlarge the kernel image by this much, mark origin
+#   -{scale}.{gap} Enlarge the kernel with inter-pixel gap
+#
+#   -s {opt}       Kernel Scaling/Normalization Kernel Options
+#   -n             Normalize/Bias the kernel values into a black/white range
+#   -k {num}       Limit a multi-kernel list to to just this kernel.
+#                    The first kernel = 0
+#   -g {gamma}     Gamma adjustment, (default=1.8  none=1)
+#
+#   -ms            Montage with Shadow Effects
+#   -mn            Montage without Shadow Effects (for convolve kernels)
+#   -mt {tile}     Montage tiling option
+#   -ml {label}    Montage labeling string, you can use the following specials
+#                    %[input]     given input kernel defintion
+#                    %[number]    kernel number of a multi-kernel list
+#                    %[name]      builtin kernel name + rotation
+#                    %[geometry]  kernels geometry (size and origin)
+#   -mg            Add Geometry to the montage label as a extra line
+#
+#   -bc {color}    Color of Background Page  (default: "LightSteelBlue")
+#   -gc {color}    Color of Inter-Pixel Gaps (default: "None")
+#   -nc {color}    Color of Nan Values       (default: "None")
+#   -kc  {color,color}  Color Range for kernel Values (default: "Black,White")
+#   -cc1 {color}   Color of Origin Mark #1    (default: "Black")
+#   -cc2 {color}   Color of Origin Mark #2    (default: "White")
+#
+#   -d             Turn on debugging output (to stderr)
+#
+# Example Commands...
+#
+#   Large Raw Diamond kernel (save the raw 101x101 pixel image to given file)
+#       kernel2image Diamond:50  diamond.gif
+#
+#   Disk Morphology Shape Kernel...
+#       kernel2image -10.1 -m  Disk
+#
+#   Peaks HitAndMiss Kernel
+#       kernel2image -10.1 -m  Peaks
+#
+#   Plus Kernel with all the colors redefined from defaults
+#       kernel2image -20.2 -m -kc Black,Gold -nc Grey \
+#                    -bc Wheat -gc Peru -cc1 Sienna -cc2 None  Plus
+#
+#   LineEnds Kernels (8) used for Pruning (Thinning) Skeletons
+#       kernel2image -20.2 -mt x1  LineEnds
+#
+#   Skeleton Kernel #4, a corner kernel used for "Thinning" shapes
+#       kernel2image -30.2 -k 4 -m Skeleton
+#
+#   ConvexHull Thickening Kernels (12), in an array, without labels
+#       kernel2image -20.2 -mt x2 -ml ''  ConvexHull
+#
+#   Gaussian Convolution Kernel (image result normalized, no montage shadow)
+#       kernel2image -10.1 -mn -mg -n  Gaussian:4x1
+#
+#   Gaussian Convolution Kernel again, but no gamma adjust
+#       kernel2image -10.1 -mn -mg -n -g 1  Gaussian:4x1
+#
+#   A Large Perfect Gaussian Image (values were provided as floats)
+#       kernel2image -n -g 1  Gaussian:0x30
+#
+#   All 9 FreiChen Kernels with normalization and biasing to prevent clipping.
+#   Results will vary on each individual kernel
+#       kernel2image -20.2 -ml '' -n FreiChen:10
+#
+#   Side-by-side Comparison of a LOG and DOG Convolution Kernels
+#   With user defined montage labeling to simplify things.
+#       kernel2image -10.1 -n -mn -ml '%[name]\n%[geometry]' \
+#                    'Log:5,2 ; Dog:5,1.8,2.4'
+#
+###
+#
+#  Anthony Thyssen   May 2010
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+# Initialization
+scale=1
+gamma_adjust=1.8
+montage_tile='0x0'
+montage_label='undef'
+montage_shadow='-shadow'
+
+page_bg_color="LightSteelBlue"
+kernel_colors="Black,White"
+gap_color="None"
+nan_color="None"
+circle_color1="Black"
+circle_color2="White"
+
+while [  $# -gt 0 ]; do
+  case "$1" in
+  --help|--doc*) Usage ;;
+
+  -[0-9]*.[0-9]*)
+     scale=`expr "$1" : '-\([0-9]*\).'`      || Usage "Bad Enlargement Option"
+     gap=`expr "$1" : '-[0-9]*.\([0-9]*\)$'` || Usage "Bad Enlargement Option"
+     scale=`expr $scale - $gap`              || Usage "Bad Enlargement Option"
+     ;;
+  -[0-9]*)
+     scale=`expr "$1" : '-\([0-9]*\)$'` || Usage "Bad Enlargement Option"
+     ;;
+
+  -s) shift; kernel_scale="$1" ;;
+  -n) normalize=true ;;
+  -k) shift; kernel_search="$1" ;;
+  -g) shift; gamma_adjust="$1" ;;
+
+  -m)  montage=true ;;
+  -ms) montage=true; montage_shadow='-shadow' ;;
+  -mn) montage=true; montage_shadow=''  ;;
+  -mg) montage=true; montage_geometry_add=true ;;
+  -mt) montage=true; shift; montage_tile="$1" ;;
+  -ml) montage=true; shift; montage_label="$1" ;;
+
+  -bc) shift; page_bg_color="$1" ;;
+  -gc) shift; gap_color="$1" ;;
+  -nc) shift; nan_color="$1" ;;
+  -kc) shift; kernel_colors="$1" ;;
+  -cc1) shift; circle_color1="$1" ;;
+  -cc2) shift; circle_color2="$1" ;;
+
+  -d) DEBUG=true; ;;
+
+  --) shift; break ;;    # end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # end of user options
+  esac
+  shift   # next option
+done
+
+[ $# -eq 0 ] && Usage "Missing {kernel_string} Argument"
+[ $# -gt 2 ] && Usage "To many Arguments" "$@"
+
+kernel_string="$1";
+output_image="$2";
+[ $# -eq 1 ] && output_image="show:"
+
+#---------------------------------------------------------
+# Quick test - mutilple kernels?
+
+kernel_output=`convert xc: -define showkernel=1 \
+               -define convolve:scale="$kernel_scale" \
+               -morphology Convolve:0 "$kernel_string" \
+               null: 2>&1 `
+#echo >&2 "$kernel_output"
+
+kernel_count=`echo "$kernel_output" | grep -c '^Kernel'`
+
+if [ "$kernel_count" -eq 0 ]; then
+  echo >&2 "$PROGNAME: Error no kernels found using \"$kernel_string\""
+  echo >&2 "$kernel_output"
+  exit 10;
+fi
+
+if [ "X$montage_label" = "Xundef" ]; then
+  if [ "$kernel_count" -eq 1 ]; then
+    montage_label='%[input]'    # one kernel
+  else
+    montage_label='%[input] #%[number]'  # multi-kernel
+  fi
+fi
+if [ "$montage_geometry_add" ]; then
+  montage_label="${montage_label}\n%[geometry]"
+fi
+
+#---------------------------------------------------------
+# Loop through the posibily  multi-kernel list specified
+
+# Pipe the kernel output into loop.
+# WARNING: variable changes inside a shell pipeline-loop is not preserved
+# Perhaps proper string parsing will be done to prevent this.
+echo "$kernel_output" |
+
+while true; do
+
+  # ------------ Read and Parse the Kernel Header ------------
+  # get the two header lines for this kernel
+
+  kernel1=''
+  read kernel1   # read the headers
+  read kernel2
+
+  if [ "$DEBUG" ]; then
+    echo >&2 "----"
+    echo >&2 "$kernel1"
+    echo >&2 "$kernel2"
+  fi
+
+  if [ "X$kernel1" = 'X' ]; then
+    break;  # end of kernel list
+  fi
+  if echo "$kernel1" | grep -qv 'Kernel'; then
+    echo >&2 "$PROGNAME: Invalid Kernel Header! Parse Failure."
+    echo >&2 "$kernel1"
+    break
+  fi
+
+  kernel_number=`echo "$kernel1" | sed 's/.* #\([0-9]*\) .*/\1/'`
+  [ "X$kernel_number" = "X" ] && kernel_number=0
+  #echo >&2 "kernel_number = \"$kernel_number\""
+
+
+  kernel_name=`echo "$kernel1" | sed 's/[^"]*"\([^"]*\)".*/\1/'`
+  #echo >&2 "kernel_name = \"$kernel_name\""
+
+  kernel_geometry=`echo "$kernel1"  | sed 's/.*size \([^ ]*\) .*/\1/'`
+  width=`echo "$kernel_geometry"    | sed 's/^\([0-9][0-9]*\)x.*/\1/'`
+  height=`echo "$kernel_geometry"   | sed 's/.*x\([0-9][0-9]*\).*/\1/'`
+  origin_x=`echo "$kernel_geometry" | sed 's/.*[+-]\([0-9][0-9]*\)[+-].*/\1/'`
+  origin_y=`echo "$kernel_geometry" | sed 's/.*[+-]\([0-9][0-9]*\)$/\1/'`
+  #echo >&2 "\"$kernel_geometry\" ==>  $width $height $origin_x $origin_y"
+
+  # skip kernels we are not interested in
+  if [ "X$kernel_search" != "X" ]; then
+    #echo >&2 " \"$kernel_number\" == \"$kernel_search\""
+    if [ "$kernel_number" -lt "$kernel_search" ]; then
+      i=1
+      while [ $i -le $height ]; do
+        i=`expr $i + 1`
+        read kernel_values
+      done
+      continue   # lets try the next kernel
+    fi
+    if [ "$kernel_number" -gt "$kernel_search" ]; then
+      break;  # we are finished
+    fi
+  fi
+  #echo >&2 "FOUND"
+
+  min_value=0
+  max_value=1
+  if [ "$normalize" ]; then
+    min_value=`echo "$kernel1" | sed 's/.*values from \([^ ]*\).*/\1/'`
+    max_value=`echo "$kernel1" | sed 's/.*to \([^ ]*\)$/\1/'`
+    [ "$min_value" = "$max_value" ] && min_value=0  # fix flat shape kernel
+    #echo >&2 "min,max = $min_value,$max_value"
+  fi
+
+  # ------ Read and convert Kernle values into an image ------
+
+  # Now convert the kernel values into a PPM image.
+  # As NetPBM images can not handle transparency, any 'Nan' values are used to
+  # create a transparency mask in the Green Channel, while the actual kernel
+  # values are stored in the red channel.  This will be fixed up later, once
+  # the initial image has been read into ImageMagick.
+  ( echo "P3 $width $height 65535"
+
+    # for i in `seq $height`; do   # WARNING: this fails for MacOSX
+    i=1
+    while [ $i -le $height ]; do
+
+      read kernel_values
+      #echo >&2 "line $i/$height => $kernel_values"
+
+      # sed 's/.*:  *//;  s/  */\n/g' |   # This fails on MacOSX
+      echo "$kernel_values" |
+        sed 's/.*:  *//;  s/  */@/g' |  tr '@A-Z' '\012a-z' |
+          awk '/nan/  { print 0, 0, 0; next; }
+               { value=($1 - '$min_value')/('$max_value' - '$min_value');
+                 if ( value > 1.0 ) value = 1.0;
+                 if ( value < 0.0 ) value = 0.0;
+                 print int(value*65535+0.5), 65535, 0; }' -
+      i=`expr $i + 1`
+    done
+  ) | #cat; exit 10
+
+  # Adjust red channel (kernel values) into a greyscale image
+  # and use the green channel as a alpha transparency Mask.
+  # Also set the special purpose meta-data strings for montage labeling.
+  convert ppm:- -channel RG -separate +channel \
+          -compose CopyOpacity -composite -compose Over \
+          -gamma "$gamma_adjust" \
+          +level-colors "$kernel_colors" \
+          -bordercolor  "$nan_color" -border 0 \
+          -set input    "$kernel_string" \
+          -set number   "$kernel_number" \
+          -set name     "$kernel_name" \
+          -set geometry "$kernel_geometry" \
+          -scale "${scale}00%" miff:- |
+
+  if [ "$scale" -gt 3 ]; then
+
+    # add the origin marker
+    center_x=`convert xc: -format "%[fx: ($origin_x+.5)*$scale-.5 ]" info:`
+    center_y=`convert xc: -format "%[fx: ($origin_y+.5)*$scale-.5 ]" info:`
+    #echo >&2 "center = $center_x $center_y"
+
+    radius1=`convert xc: -format "%[fx: int($scale*.29-.5) ]" info:`
+    radius2=`convert xc:  -format "%[fx: $radius1+1 ]" info:`
+    #echo >&2 "radius = $radius1 $radius2"
+
+    convert - -fill none -strokewidth 0.5 \
+            -draw "translate $center_x,$center_y \
+                  stroke $circle_color2  circle 0,0 $radius1,$radius1 \
+                  stroke $circle_color1  circle 0,0 $radius1,$radius2 " \
+            miff:- |
+
+    # Add inter-pixel gaps and colors   (crop-splice-append technique)
+    if [ "$gap" ]; then
+      convert - -background ${gap_color} \
+              -crop 0x${scale} -splice 0x${gap} -append -chop 0x${gap} \
+              -crop ${scale}x0 -splice ${gap}x0 +append -chop ${gap}x0 \
+              -bordercolor ${gap_color} -compose Copy -border ${gap} \
+              +compose miff:-
+    else
+      cat  # pipe the image on
+    fi
+
+  else
+    cat  # pipe the images on
+  fi
+
+done | #cat; exit 0
+
+# ----------  output all kernel images as requested -----------
+if [ "$montage" ]; then
+  montage -  -set label "$montage_label" \
+          -geometry +5+5  $montage_shadow \
+          -tile "$montage_tile" -background "$page_bg_color" \
+          "$output_image"
+else
+  convert - "$output_image"
+fi
+exit 0
+

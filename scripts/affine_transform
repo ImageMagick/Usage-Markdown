@@ -1,0 +1,132 @@
+#!/usr/bin/perl
+#
+# affine_transform [-fx]   x1,y1 .. x3,y3    u1,v1 .. u3,v3
+#
+# Given two sets of three coordinate pairs (a triangle), work out 6 constants
+# needed to map the first set of coordinates to the second set of coordinates,
+# using a affine transformation, or affine matrix.
+#
+# The twelve numbers given may be comma or space separated, as one single
+# argument or over a number of arguments.
+#
+# The Affine transformation using these 6 constants (note the order)
+# is given as...
+#
+#    u  =   c1*x + c3*y + c5
+#    v  =   c2*x + c4*y + c6
+#
+# By default the 6 constants needed are returned as a comma separated
+# list of numbers suitable for direct use by the IM -affine setting.
+#
+# However you can also specify an '-fx' option which will output the above
+# equations in the form of an ImageMagick "-fx" expression, to lookup colors
+# from first 'u' image.
+#
+# Note for -fx usage the input coordinates should be reversed, so as to
+# generate the inverse affine matrix, as you really want to map destination
+# image coordinates to the source image coordinates.
+#
+####
+#
+# Script by Anthony Thyssen  (June 2007)
+#
+# Requires the "Math::MatrixReal" perl module to be installed. No compilation
+# is needed to build this module. For the latest version of this module see
+# http://leto.net/code/Math-MatrixReal/
+#
+use strict;
+use Math::MatrixReal;
+use FindBin;
+my $prog = $FindBin::Script;
+
+# Output the program comments as the programs manual
+sub Usage {
+  print STDERR "$prog: ", @_, "\n";
+  @ARGV = ( "$FindBin::Bin/$prog" );
+  while( <> ) {
+    next if 1 .. 2;
+    last if /^###/;
+    s/^#$//; s/^# //;
+    print STDERR "Usage: " if 3 .. 3;
+    print STDERR;
+  }
+  exit 10;
+}
+
+@ARGV = map( /([^\s,]+)/g, @ARGV);   # Spilt arguments by spaces and commas
+
+my $FX = 0;     # output a ImageMagick -fx perspective transformation formula
+my $TEST = 0;   # Apply the constants to the input x,y points to test
+
+if ( $ARGV[0] eq '-fx' ) {
+  $FX = 1;  shift;
+}
+
+if ( @ARGV != 12 ) {
+  Usage "Incorrect number of arguments, ", scalar(@ARGV),
+        " given\n\t\t\t12 numbers (2 sets of 4 coordinate pairs) are needed.";
+}
+
+# Assign the coordinates of the two triangles (remove commas)
+my ( $x1, $y1, $x2, $y2, $x3, $y3,
+     $u1, $v1, $u2, $v2, $u3, $v3 ) = @ARGV;
+
+# Convert coordinates into a matrix of simultanious equation
+# Such that ...    A * c = r
+
+my $A = Math::MatrixReal->new_from_rows(
+  [  [ $x1, 0.0, $y1, 0.0, 1.0, 0.0 ],
+     [ 0.0, $x1, 0.0, $y1, 0.0, 1.0 ],
+     [ $x2, 0.0, $y2, 0.0, 1.0, 0.0 ],
+     [ 0.0, $x2, 0.0, $y2, 0.0, 1.0 ],
+     [ $x3, 0.0, $y3, 0.0, 1.0, 0.0 ],
+     [ 0.0, $x3, 0.0, $y3, 0.0, 1.0 ],
+  ] );
+
+my $r = Math::MatrixReal->new_from_cols(
+  [ [ $u1, $v1, $u2, $v2, $u3, $v3 ] ] );
+
+# Debuging:  output an inverse matrix
+#print $A->inverse();
+
+# Solve the matrix for the constants
+my ($dim, $c, $base) = $A->decompose_LR()->solve_LR($r);
+if ( $dim ) {
+  print STDERR
+    "$prog: Coordinates given do not form solvable triangles.";
+  exit 1;
+}
+
+# Extract resulting column vector as an array.
+my @c = map { $c->element($_,1) }  ( 1 .. 6 );
+
+# Test results with original coordinates
+if ( 0 ) {
+  print "Test Results against Original coordinates\n";
+  printf "%5.1f,%-5.1f -> %5.1f,%-5.1f (should be %5.1f,%-5.1f )\n",
+    $x1, $y1,
+    $c[0]*$x1 + $c[2]*$y1 + $c[4],
+    $c[1]*$x1 + $c[3]*$y1 + $c[5],
+    $u1, $v1;
+  printf "%5.1f,%-5.1f -> %5.1f,%-5.1f (should be %5.1f,%-5.1f )\n",
+    $x2, $y2,
+    $c[0]*$x2 + $c[2]*$y2 + $c[4],
+    $c[1]*$x2 + $c[3]*$y2 + $c[5],
+    $u2, $v2;
+  printf "%5.1f,%-5.1f -> %5.1f,%-5.1f (should be %5.1f,%-5.1f )\n",
+    $x3, $y3,
+    $c[0]*$x3 + $c[2]*$y3 + $c[4],
+    $c[1]*$x3 + $c[3]*$y3 + $c[5],
+    $u3, $v3;
+}
+
+if ( ! $FX ) {
+  # Output the constants
+  print join(',', map { sprintf "%9.6f", $_ } @c), "\n";
+}
+else {
+  # Output a IM -fx expression
+  printf "xx=%+.6f*i %+.6f*j %+.6f;\n".
+         "yy=%+.6f*i %+.6f*j %+.6f;\n", @c[0,2,4,1,3,5];
+}
+

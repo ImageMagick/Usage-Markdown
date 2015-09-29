@@ -1210,6 +1210,7 @@ Things that can effect vignettation include...
     For example the lens holder or pinhole thickness.
 
 ---
+title: Digital Photo Handling
 created: 21 July 2006
 updated: 16 June 2011
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html) &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

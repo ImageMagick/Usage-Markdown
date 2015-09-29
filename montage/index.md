@@ -1157,6 +1157,7 @@ There is also an effect of adding a shadow to the montage in this calculation, b
 It does not appear to affect the tile size used.
 
 ---
+title: Montage, Arrays of Images
 created: 3 January 2004
 updated: 27 December 2009
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

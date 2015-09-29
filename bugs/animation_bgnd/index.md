@@ -107,6 +107,7 @@ However as you can see from the animation of 'Deconstructed' images that were ge
 This problem was fixed in IM v6.2.6-3, by providing a new "`-layers OptimizeFrame`" method, that not only deconstructs the image but trys to find the best "`-dispose`" method to frame optimize the animation correctly.
 
 ---
+title: Animation Bugs involving Coalesce and Deconstruct
 created: 24 January 2006  
 updated: 10 March 2006  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

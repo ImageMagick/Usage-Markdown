@@ -1,0 +1,81 @@
+#!/bin/sh
+#
+# star_field [options] XxY output_image
+#
+# Generate a random 'hex' star field (tilable) of the size given.
+#
+# Options:
+#    -r   angle of rotation of the hex star (def=15)
+#    -b   how bright (percentage) should the stars be (def=100)
+#
+####
+#
+# WARNING: Input arguments are NOT tested for correctness.
+# This script represents a security risk if used ONLINE.
+# I accept no responsiblity for misuse. Use at own risk.
+#
+# Anthony Thyssen    March 2006
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+} 
+
+# defaults
+angle=15
+bright=100
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+  --help|--doc*) Usage ;;
+  -r) shift; angle=$1 ;;    # rotation angle
+  -b) shift; bright=$1 ;;   # How bright (percentage)
+
+  --) shift; break ;;    # end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # end of user options
+
+  esac
+  shift   # next option
+done
+
+[ $# -lt 2 ] && Usage "Too few arguments."
+[ $# -gt 2 ] && Usage "Too many arguments."
+
+size="$1"
+output="$2"
+
+# clean up the arguments
+while   expr "$angle" \< 0 >/dev/null;   do
+  angle=`expr $angle + 60`
+done
+while expr "$angle" \> 60 >/dev/null; do
+  angle=`expr $angle - 60`
+done
+
+a1=$angle
+a2=`expr $a1 + 60`
+a3=`expr $a1 + 120`
+
+b1=`expr $a1 + 180`
+b2=`expr $a2 + 180`
+b3=`expr $a3 + 180`
+
+bright=`( echo 'scale=2'; echo "$bright" / 100; ) | bc`
+
+
+# Do the task (slow)...
+
+convert -size "$size" xc: -fx 'rand()' -virtual-pixel tile \
+            -colorspace Gray -sigmoidal-contrast 120x0% -negate -blur 0x.3 \
+            \( -clone 0  -motion-blur 0x10+$a1  -motion-blur 0x10+$b1 \) \
+            \( -clone 0  -motion-blur 0x10+$a2  -motion-blur 0x10+$b2 \) \
+            \( -clone 0  -motion-blur 0x10+$a3  -motion-blur 0x10+$b3 \) \
+            -compose screen -background black -flatten  -normalize \
+            -evaluate multiply $bright  "$output"
+

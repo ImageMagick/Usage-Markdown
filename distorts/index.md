@@ -3425,6 +3425,7 @@ Fred Weinhaus script '[shapemorph2](http://www.fmwconcepts.com/imagemagick/shape
   
 
 ---
+title: Distorting Images
 created: 14 January 2009 (distorts/warping sub-division)  
 updated: 21 March 2012  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

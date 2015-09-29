@@ -1,0 +1,148 @@
+#!/bin/bash
+#
+# im_profile [option] input_image  output_profile_image
+#
+# Plot a profile of a horizontal grayscale image given. The center row
+# of pixels will be extracted if multiple rows are present.
+# Including a small copy of the input gradient image along the X axis
+# of the profile graph.
+#
+# Options
+#    -v      Generate a vertical profile through the image.
+#    -s      generate a 150x100 thummbnail image (default 300x200 pixels)
+#    -g      Draw the profile in green instead of red
+#    -b      Draw the profile in blue instead of red
+#
+#  Example
+#    convert -size 1x300 gradient: -rotate 90 -function ArcSin 1 miff:- |\
+#       im_profile -
+#
+# See Also
+#  im_histogram   draw methematical expression as two images
+#  im_graph       draw a histogram mapping function of the given IM options
+#
+####
+#
+# WARNING: Input arguments are NOT tested for correctness.
+# This script represents a security risk if used ONLINE.
+# I accept no responsiblity for misuse. Use at own risk.
+#
+# Anthony Thyssen,  5 July 2008
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+Error() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  exit 10;
+}
+
+COLOR=red
+while [  $# -gt 0 ]; do
+  case "$1" in
+  --help|--doc*)  Usage ;;   # Documentation
+
+  -v) VERTICAL=true ;;  # generate a vertical profile though the image.
+  -s) SMALLER=true ;;   # smaller 'thumbnail' profile
+  -g) COLOR=green ;;    # graph color green
+  -b) COLOR=blue ;;     # graph color blue
+
+
+  -)  break ;;    # STDIN, end of user options
+  --) shift; break ;;    # end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # end of user options
+  esac
+  shift   # next option
+done
+
+[ $# -eq 0 ] && Usage "Missing input_image"
+[ $# -gt 2 ] && Usage "Too many arguments"
+
+# Temporary working images (with auto-clean-up on exit)
+input="/tmp/im_profile_$$.miff"
+trap "rm -f $input; exit 0" 0
+trap "exit 2" 1 2 3 15
+
+# Read in and extract the row (column) to be profiled.
+#
+# Warning: as of IM v6.5.3-9 'gravity' meta-data is saved in MIFF: file format
+# As such we need to turn it off before saving.
+#
+[ "$VERTICAL" ] && VERTICAL="-transpose"
+convert -regard-warnings "$1" +repage $VERTICAL \
+        -gravity center -crop 0x1+0+0 +repage \
+        +gravity $input  2>/dev/null
+[ "$?" -eq 0 ] || Error "Invalid Input Image \"$1\""
+shift
+
+if [ $# -eq 1 ]; then
+  output="$1"                     # output image filename (or special format)
+  shift
+else
+  output="show:"  # if not given, display it direct
+fi
+
+# Test if gnuplot is new enough
+echo "set lmargin at screen 0" | gnuplot >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+  Error "Gnuplot is too old"
+fi
+
+# ---------------------------------------------
+
+# Work out and set the gnuplot image size....
+size_w=300  rsize_h=15      #  300x200 image with 15 pixel gradient height
+if [ "$SMALLER" ]; then
+  size_w=150 rsize_h=10     #  150x100 image with 10 pixel gradient height
+fi
+size_h=`expr $size_w \* 2 / 3`  # auto-calc, -2 pixels for border
+
+gsize_w=`expr $size_w - 2`            # gnuplot width, - 2 border
+gsize_h=`expr $size_h - $rsize_h - 3` # gnuplot height, - 3 borders
+
+# gnuplot terminal size (version dependant - Arrgghhhh)
+# note gnuplot output size is +1 and needs to be trimmed.
+gsize="`expr $gsize_w + 1`,`expr $gsize_h + 1`"
+grange="`expr $gsize_w - 1`"    # 0 to $grange values input
+
+# Gnuplot of a Level function
+{ echo "set terminal png size $gsize"
+  echo "set lmargin at screen 0"
+  echo "set bmargin at screen 0"
+  echo "set rmargin at screen 0.99999"  # include the range extremes
+  echo "set tmargin at screen 0.99999"
+  echo 'unset key'
+  echo 'unset border'
+  echo 'set format ""'
+  [ "$COLOR" = 'red'   ] && style=1
+  [ "$COLOR" = 'green' ] && style=2
+  [ "$COLOR" = 'blue'  ] && style=3
+  [ $size_w -eq 150 ] && echo 'set xtics ( 38, 74, 111 ) scale 4'
+  [ $size_w -eq 300 ] && echo 'set xtics ( 75, 149, 224 ) scale 4'
+  echo 'set ytics ( 0.25, 0.5, 0.75 ) scale 2'
+  echo "set xrange [0:$grange]"
+  echo "set yrange [0:1]"
+  #echo -n 'plot [0:119][0:1] "-" binary format="%ushort" endian=swap'
+  #echo    '  array=120 using ($1/65536) with lines'
+  #convert  -size 1x120 gradient: -rotate 90 $im_func -depth 16 gray:-
+  echo 'plot "-"  using 0:($3/65536) with lines ls '"$style"
+  convert "$input" -depth 16 -resize ${gsize_w}x1\! txt:- |\
+    tail -n+2 | tr -sc '0-9\n' ' '
+} | gnuplot |
+  #convert - -write info:fd:2 miff:- | display -; exit  # DEBUGGING
+  convert "$input"  -resize ${gsize_w}x1\! -scale ${gsize_w}x${rsize_h}\! \
+    \( - -trim +repage \) +swap -size ${gsize_w}x1 xc:black +size +swap \
+    -append  -bordercolor black -border 1x1 \
+    "$output"
+    #-identify show: ; exit
+
+[ -f "$output" ] && chmod 644 "$output"
+
+

@@ -1,0 +1,106 @@
+#!/bin/bash
+#
+# im_histogram [option] 'math_expression' 'basename'
+#
+# Plot a graph the mathematical expression (gnuplot format), generating a two
+# graphs of the expression, one as a small GIF thumbnail and a larger JPG
+# image.
+#
+# Options:
+#     -l         include a line from 0,0 to 1,1
+#     -d data    read and mark control points from file.
+#     -t title   A title string to use on the main JPEG plot image
+#
+# For example
+#    im_histogram -t "Tint Vector Function" \
+#               '1-(4.0*((x-0.5)*(x-0.5)))' tint_plot
+#
+# See Also
+#    im_graph    draw a histogram of the given IM options on a gradient
+#    im_profile  draw a horizontal profile of a gradient image
+#
+####
+#
+# WARNING: Input arguments are NOT tested for correctness.
+# This script represents a security risk if used ONLINE.
+# I accept no responsiblity for misuse. Use at own risk.
+#
+# Anthony Thyssen,  October 2004
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {                              # output the script comments as docs
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+} 
+
+while [  $# -gt 0 ]; do
+  case "$1" in
+  --help|--doc*)  Usage ;;   # Documentation
+  -l) line=true ;;
+  -d) shift; data=$1 ;;
+  -t) shift; title=$1 ;;
+  --) shift; break ;;    # end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # end of user options
+  esac
+  shift   # next option
+done
+
+[ $# -eq 0 ] && Usage "Missing function to plot"
+[ $# -eq 1 ] && Usage "Missing output filename"
+[ $# -gt 2 ] && Usage "Too many arguments"
+
+func=$1; shift;
+name=$1; shift;
+
+# ---------------------------------------------
+
+# Main plot image (JPG)
+( echo 'set terminal png'
+  echo 'set key left'
+  echo 'set xtics .5'
+  echo 'set ytics .5'
+  echo 'set mxtics .25'
+  echo 'set mytics .25'
+  [ "$title" ] && echo "set title \"$title\""
+  if [ "$line" ]; then
+    if [ "$data" ]; then
+      echo "plot [0:1][0:1] '$data', $func, x"
+    else
+      echo "plot [0:1][0:1] $func, x"
+    fi
+  elif [ "$data" ]; then
+    echo "plot [0:1][0:1] '$data', $func"
+  else
+    echo "plot [0:1][0:1] $func"
+  fi
+) | gnuplot | convert - $name.jpg
+chmod 644 $name.jpg
+
+# ------
+
+# Icon plot image (GIF)
+( echo 'set terminal png'
+  echo 'unset key'
+  echo 'set xtics .5'
+  echo 'set ytics .5'
+  echo "set size .3,.3"
+  if [ "$line" ]; then
+    if [ "$data" ]; then
+      echo "plot [0:1][0:1] '$data', $func, x"
+    else
+      echo "plot [0:1][0:1] $func, x"
+    fi
+  elif [ "$data" ]; then
+    echo "plot [0:1][0:1] '$data', $func"
+  else
+    echo "plot [0:1][0:1] $func"
+  fi
+) | gnuplot | \
+  convert - -trim +repage -bordercolor white -border 5 \
+          -resize '150x100!'  -colors 256  $name.gif
+

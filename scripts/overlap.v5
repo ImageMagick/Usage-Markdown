@@ -1,0 +1,471 @@
+#!/bin/bash
+#
+# overlap [--help] [-v] [[WxH]+X+Y] larger_image  images_to_overlay...
+#
+# Given some images, (and optionally a specific area of overlap), try to find
+# the appropriate composition offset so as the layer the second (and later)
+# image on top of the first image, where they share a common overlap. The
+# result is a larger merger of all the images.
+#
+#   --help   output this documentation
+#    -r #    radius of sections to use for searching (def=4, or a 9x9 size)
+#    -v      be verbose in points and offsets found and resulting 'difference'
+#    -e      show a flicker comparsion of overlay image and its entropy map
+#    -d      show the distribution of selected 'high entropy' points (no search)
+#    -t      time the speed of the sub-image search
+#   +X+Y     user defined 'high entropy' point in second image
+#   WxH+X+Y  user defined crop area in second image
+#
+# This works by cropping out small sections from the second image, and
+# searching (sub-image search) for them in the first (typically larger) image.
+# If a good match is found then the correct offset is calculated and the whole
+# second image is overlaid onto the first image to generate a 'merged
+# composite' of the two.
+#
+# The small sections are selected by studing the second image and looking for
+# places with large color changes (high entropy), which can be then be looked
+# for in the larger first image.  Sections are preferentually selected along
+# edges, where overlaps are more likely, but will not contain any
+# transparency.
+#
+# Alternativally you can override this 'high entropy' selection by specifying
+# a crop area that is within the overlapping area
+#
+####
+#
+# This program is raw and highly experimental. It will require tweeking to get
+# it to work with images other than the 'game maps' I have been using it for.
+#
+# A discussion about the program and suggestions on its development is in
+# Overlapped images (what can you do with it)
+# http://www.imagemagick.org/discourse-server/viewtopic.php?f=1&t=22526
+#
+# Anthony Thyssen    3 October 2012
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+
+# Fully qualify directory path (remove relative components and symlinks)
+ORIGDIR=`pwd`                                 # original directory (builtin)
+PROGDIR=`cd $PROGDIR && pwd || echo $PROGDIR` # program directory
+
+Usage() {  # Report error and Usage lines
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '1,2d; /^###/q; /^#/!q; /^#$/q; s/^#  */Usage: /p;' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+Help() {   # Full header comments as documentation
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '1d; /^###/q; /^#/!q; s/^#//; s/^ //; p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+# --------------------------------------------------------
+
+# Size of the cropped sections to do sub-image searches with.
+# Sub-images selected will be high entropy and no transparency.
+# Actual crop size = radius * 2 + 1
+
+radius="5"
+
+# Timing results against a large image
+#  radius   crop_size    time (seconds)     NOTES
+#    9       19x19      35             large crops, getting slower
+#    7       15x15     28.2
+#    5       11x11     22.9            DEFAULT
+#    4        9x9      21.5
+#    3        7x7      19.3            occasional bad matches
+#    2        5x5      18.1
+#    1        3x3       17             produces lots of bad matches
+#
+# r=5 selected as you don't get much in time savings using a smaller radius,
+# and rarely get bad matches in the sub-image search.  That is you get a good
+# match, or no match at all.  Larger than this starts to get slow to search.
+
+# ---------------------------------------------------------
+#
+# Option handling.
+#
+while [  $# -gt 0 ]; do
+  case "$1" in
+
+  # Standard help option.
+  -\?|-help|--help|--doc*) Help ;;
+
+  -v) VERBOSE=true ;;             # watch script actions
+  -e) ENTROPY=true ;;             # Entropy map debug
+  -d) DISTRIBUTE=true ;;          # Distributed points debug
+  -t) TIME=true ;;                # time sub-image searches
+  -r) radius="$2"; shift ;;       # radius size change
+
+  +[0-9]*+[0-9]*)                 # User provided 'point'
+      POINT="$1" ;;
+  [0-9]*x[0-9]*+[0-9]*+[0-9]*)    # User provided overlap area
+      CROP="$1" ;;
+
+  --) shift; break ;;    # forced end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # unforced  end of user options
+
+  esac
+  shift   # next option
+done
+
+[ $# -lt 2 ] && Usage "Too Few Arguments"
+
+# ----------
+
+# work out the actual crop size for the radius selected.
+size=`expr $radius \* 2 + 1`
+size=${size}x${size}
+
+# Create a temporary directory for working images.
+# With auto-cleanup
+tmpdir=`mktemp -d "${TMPDIR:-/tmp}/$PROGNAME.XXXXXXXXXX"` ||
+  { echo >&2 "$PROGNAME: Unable to create temporary directory"; exit 1;}
+trap 'rm -rf "$tmpdir"' 0   # remove when finished (on end or exit)
+trap 'exit 2' 1 2 3 15      # terminate script on signal (don't just die)
+
+# sub-search timing output
+if [ "$TIME" ]; then
+  TIME=time   # command prefix
+  TIMEFORMAT="     -> time to search %R sec\n"
+  export TIMEFORMAT
+fi
+# for debugging
+
+# Output file number for resulting overlaid images.
+prefix="merged_"
+suffix="png"
+num=`ls $prefix*.$suffix 2>/dev/null | tail -n1 | sed 's/[^0-9]//g'`
+[ ! "$num" ] && num=0     # set to zero if no previous file found
+
+# -----------------------------------------------------------
+
+img1="$1"; shift
+if [ ! -f "$img1" ]; then
+  echo "ERROR: no such image \"$img1\""
+  exit 1
+fi
+
+
+while [ $# -ne 0 ]; do
+  img2="$1"; shift
+  if [ "$img1" = "$img2" ]; then
+    echo "WARNING: skipping compare of same image \"$img1\""
+    continue
+  fi
+
+  if [ ! -f "$img2" ]; then
+    echo "ERROR: no such image \"$img2\""
+    exit 1
+  fi
+
+  echo "comparing parts of     \"$img2\""
+  echo "to try and merge into  \"$img1\""
+
+  # what offset matches have we found so far.
+  unset matches
+  fail=0
+
+  if [ "X$CROP$POINT" = "X" ]; then  # user provided crop area
+
+    # Try to determine a set of sub-image crops for searching using
+    # a widely separated list of locations with high entropy/energy
+    # in the second image (EG areas of large color changes).
+    #
+    # See discussion on forums...
+    #     f=1&t=22526&p=94864
+
+    threshold="-auto-level"     # have it prefer to select very high entropy
+    #threshold="-auto-level -gamma .3"
+    #threshold="-threshold 18%" # make all points equal (simple mask)
+    convert $img2  \
+            \( -clone 0 -blur 0x1.5 \
+              -morphology Edge Diamond \
+              -morphology thinning:2 Skeleton \
+              -channel RGB -separate +channel -auto-level \
+              -background black -compose screen -flatten -compose over \
+              $threshold \
+            \) \
+            \( -clone 0 -alpha extract -virtual-pixel black \
+              -morphology erode Square:$radius \
+            \) \
+            -delete 0 -compose multiply -composite -compose over \
+            $tmpdir/entropy.miff
+
+    # convert -size 200x200 radial-gradient: \
+    #         -gravity center -crop 128x128+0+0 +repage \
+    #         -auto-level -gamma 3  $tmpdir/entropy.miff \
+    #         -compose multiply -composite -compose over \
+    #         -auto-level $tmpdir/entropy.miff
+
+    if [ "$ENTROPY" ]; then
+      #display ephemeral:$tmpdir/entropy.miff $img2 &
+      flicker_cmp $img2 ephemeral:$tmpdir/entropy.miff &
+      # wait for flicker to finish reading image
+      while [ -f $tmpdir/entropy.miff ]; do usleep 100; done
+      exit 0
+    fi
+
+    # Extract the first high entropy point (ex,ey) from image.
+    #
+    # Each point selected is the center of the cropped area to be used for
+    # a sub-image search.
+    #
+    # But we want the first point to have a high entropy, but close to the
+    # edge or corner of the image. So multiply the entropy image against
+    # a distance from center image, and select the highest resulting value.
+    #
+    # ex,ey = a high entropy center coordinate
+    read -r ex ey dist < <(
+      convert $tmpdir/entropy.miff \
+              \( +clone -threshold -1 xc:black -gravity center -composite \
+                -virtual-pixel white -morphology Distance Euclidean:2 \
+                -auto-level \
+              \) -compose multiply -composite -compose over \
+              -depth 16 txt:- |
+      tr -sc '0-9\012' ' ' |
+      awk 'NR==1 { next; }
+           $3 > max { x=$1; y=$2; max=$3 }
+           END { print x,y,max; }'
+    )
+
+    # Okay we have the first valid point for a sub-image search.
+    # Mark that point in a distribution map, which will be used to find
+    # other high entropy points that are well separated from each other,
+    # using a similar 'distance from all other points' method (see below).
+    #
+    convert $tmpdir/entropy.miff -threshold -1 \
+            -fill black -draw "point $ex,$ey" \
+            $tmpdir/distribute.miff
+
+    if [ "$DISTRIBUTE" ]; then
+      convert $tmpdir/distribute.miff -morphology Distance Euclidean:2 \
+            -auto-level $tmpdir/distance.miff
+      display -remote ephemeral:$tmpdir/distance.miff 2>/dev/null &
+      while [ -f $tmpdir/distance.miff ]; do usleep 200; done
+    fi
+
+  fi
+
+  point=1         # number of high entropy points we have looked at
+  dist=infinite   # first point has no minimum distances to any neighbour
+
+  # ----- for each high entropy point -----
+  while true; do
+
+    # ----- sub-image search -----
+    if [ "X$CROP" != "X" ]; then
+      # user provided crop area
+      [ "$VERBOSE" ] &&
+        echo "  User provided sub-image at $CROP..."
+      crop="$CROP"
+      read -r cw ch cx cy j < <( echo $crop | tr -cs 0-9 ' ' )
+      #echo "Crop $cw x $ch + $cx + $cy   $j"
+      [ "$VERBOSE" ] &&
+        echo "  User Sub-image $crop ..."
+
+    elif [ "X$POINT" != "X" ]; then
+      # user provided center point for crop image
+      read -r cx cy j < <( echo $POINT | tr -cs 0-9 ' ' )
+      crop="$size$POINT"
+      [ "$VERBOSE" ] &&
+        echo "  User point $POINT  -> sub-image $crop ..."
+
+    else
+      # convert high entropy point into a crop area
+      cx=$((ex-radius))
+      cy=$((ey-radius))
+      crop="$size+$cx+$cy"
+      [ "$VERBOSE" ] &&
+        echo "  Point #$point $ex,$ey (sep=$dist) -> sub-image $crop ..."
+    fi
+
+    if [ "$j" -o ! "$cy" ]; then
+      echo >&2 "bad crop string: $crop"
+      exit 1
+    fi
+
+    if [ ! "$DISTRIBUTE" ]; then  # we are no only debugging distibution
+
+      # -------------------------------
+      #
+      # Extract a sub-image (no transparency) and do the search
+      #
+
+      # Warning hidden transparency data can be matched in a sub-image search
+      # so you must clear the transparency to something that will not match.
+      # Also as shown above the sub-image itself must not contain
+      # transparency.  In the images I use 'black', as it is not normally
+      # present.
+      #
+      # Using -metric RMSE, results output on stderr, and a inverting of the
+      # match map image (normally 1 is a perfect match).
+      #
+      convert "$img2" -crop "$crop" +repage   -write $tmpdir/subimage.miff \
+              "$img1" +swap   -background black -alpha remove -alpha off \
+              miff:- |
+        compare -subimage-search - miff:- |
+          convert - -write $tmpdir/results-%d.miff -depth 16 txt:- |
+            tr -cs '0-9\n' ' ' |
+              awk 'NR==1 { min=1e8; next; }
+                   $3 == 0  { print $1,$2,$3; min=-1; }
+                   $3 < min { x=$1; y=$2; min=$3; }
+                   END { if ( min >= 0 )  print x,y,min; }' \
+                > $tmpdir/result.txt
+
+      #cat $tmpdir/result.txt
+
+      # compare input and output images
+      # convert "$img1" $tmpdir/subimage.miff $tmpdir/results-?.miff \
+      #         -background none +append -scale 100% x:
+
+      lines=`wc -l < $tmpdir/result.txt`
+      [ $lines -gt 1 ] &&
+        echo "    -----------> found multiple ($lines) search results"
+
+      # ---------------------------------
+      # Loop through results
+
+      while read -r ox oy match; do
+
+        #[ "$VERBOSE" ] &&
+        #  echo "    -> sub-image search results +$ox+$oy ($match)"
+
+        # re-calculate the offset, for the whole overlay image,
+        # rather than just very small sub-image we searched with above
+        ox=$(( $ox - $cx ))
+        oy=$(( $oy - $cy ))
+        offset="+$ox+$oy"
+
+        # -----  Handle Match ----
+        if [ $match -ge 5000 ]; then
+
+          # most failures will be outside any posible overlap region
+          # so we don't need to count total offsets.
+
+          [ "$VERBOSE" ] &&
+            echo "    => offset +$ox+$oy ($match) bad"
+          best_count=0
+
+        else
+
+          # FUTURE: do a much larger scale sub-image search to verify match?
+
+          # append into an array of found acceptable matches
+          matches=( "${matches[@]}" "$offset" )
+
+          # If we get 3 different offsets  FAIL???
+          read offset_count < <(
+            echo "${matches[@]}" | tr ' ' '\012' | sort -u | wc -l
+          )
+
+          # if [ $offset_count -ge 3 ]; then
+          #   echo "found 3 different offsets!"
+          #   echo "-->  ${matches[*]}"
+          #   echo "FAILED to overlap merge \"$img2\""
+          #   break;
+          # fi
+
+          # Have we now found the same offset 3 times??
+          read best_offset best_count < <(
+            echo "${matches[@]}" | tr ' ' '\012' |
+                    awk '/./ {a[$1]++}
+                          END { for (i in a)
+                                  if (a[i] > a[m]) m=i
+                                print m, a[m]
+                          }'
+          )
+
+          [ "$VERBOSE" ] &&
+            echo "    ======> offset $offset ($match) GOOD" \
+                "( $best_count times of ${#matches[@]} good matches )"
+
+          [ $best_count -ge 3 ] && break;
+        fi
+
+      done < $tmpdir/result.txt
+
+      if [ $best_count -ge 3 ]; then
+        # ASSUME "X$best_offset" = "X$offset"
+        # Great we found offset with with a 3 separate point correspondance
+        #
+        # So lets merge the image and get continue with the next image
+
+        # merge images and save into next numbered file.
+        num=`expr $num + 1`
+        num=`printf %03d $num`
+        output_image="$prefix$num.$suffix"
+
+        echo "FOUND 3 identical matching offsets"
+        echo "--> merging -page $offset \"$img2\""
+        echo "--> \"$output_image\""
+
+        # Output a merged image
+        convert "$img1" -page $offset "$img2" \
+                -background none -layers merge +repage "$output_image"
+        display "$output_image" & # display it when found
+
+        img1="$output_image"  # WARNING: assuming its one 'perfect match'
+        break;
+
+      fi
+
+      if [ "X$CROP$POINT" != "X"  ]; then
+        break;  # only one user-supplied sub-image search, do next image pair
+      fi
+
+    fi # DISTRIBUTE DEBUG
+
+    # Find the next acceptable high entropy point for a sub-image search.
+    # This time we are looking for a high entropy point far away from all
+    # other points we have found and recorded in a 'distribution map'.
+    #
+    # that is we multiply a distance map of previous points with the high
+    # entropy map, and pick the highest point left.
+    #
+    read -r ex ey dist < <(
+      convert $tmpdir/distribute.miff -morphology Distance Euclidean:2 \
+              $tmpdir/entropy.miff -compose multiply -composite \
+              -depth 16 txt:- |
+      tr -sc '0-9\012' ' ' |
+        awk 'NR==1 { next; }
+             $3 > max { x=$1; y=$2; max=$3; }
+             END { print x,y,max; }'
+      )
+
+    if [ $dist -le $(( radius*100 )) ]; then
+      echo "Separation distance too small"
+      echo "FAILED to overlap merge \"$img2\""
+      break
+    fi
+
+    # convert distance to a fixed point - human readable value (for watching)
+    dist=$( echo $dist | sed 's/..$/\.&/' )
+    ((point++))   # point count increment
+
+    # Add this new point to the distribution map (for point determination)
+    convert $tmpdir/distribute.miff \
+            -fill black -draw "point $ex,$ey" \
+            $tmpdir/distribute.miff
+
+    if [ "$DISTRIBUTE" ]; then
+      convert $tmpdir/distribute.miff -morphology Distance Euclidean:2 \
+            -auto-level $tmpdir/distance.miff
+      display -remote ephemeral:$tmpdir/distance.miff &
+      while [ -f $tmpdir/distance.miff ]; do usleep 200; done
+    fi
+
+  done  # search the image for this high entropy point sub-image
+
+  # Okay lets continue merging the next image into the merged image
+  echo ""
+
+done
+
+

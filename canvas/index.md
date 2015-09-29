@@ -3524,6 +3524,7 @@ Though it does not hurt to do so, if you want to follow the same type of process
   
 
 ---
+title: Canvas Creation
 created: 19 December 2003  
 updated: 22 March 2011  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

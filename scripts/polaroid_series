@@ -1,0 +1,71 @@
+#!/bin/sh
+#
+# polaroid_series images...  > result.jpg
+#
+# Generate a sequence of overlaping random angle polaroid images,
+# from the given images.  The final JPEG image is output to stdout.
+#
+# This generates the polaroid thumbnails then uses a separate command to layer
+# them in a left to right sequence.
+#
+####
+# Program Notes...
+#
+#  The new -layers merge  is used so that I don't have to worry about kepping
+#  all the offsets positive.
+#
+
+tmpfile=/tmp/polariod_series.$$.png
+trap "rm -f $tmpfile; exit 0" 0
+trap "exit 2" 1 2 3 15
+
+
+center=0     # Current center location for the next image.
+             # This can be any number as I correctly handle the formating
+             # of images which may generate given a negative offset.
+
+offset=100   # Distance to the next images center. This can be negative!
+
+background=LightSteelBlue   # background canvas color
+
+for image in "$@"; do
+
+   # read, thumbnail, polaroid image to a temp file.
+   # I used super-sampled polariod to make the result better
+   # This could have been done in a previous step to this loop
+   convert -size 500x500 "$image" -thumbnail 240x240 \
+       -set caption '%t' -bordercolor Lavender -background black \
+       -pointsize 12  -density 96x96  +polaroid  -resize 50% \
+       "$tmpfile"
+
+   # Now gather image size, half it, and determine its virtual canvas
+   # location so as to place it's center at the current position.
+   xpos=`convert "$tmpfile" -format "%[fx: $center - w/2 ]" info:`
+   ypos=`convert "$tmpfile" -format "%[fx: - h/2 ]" info:`
+
+   # $xpos may be positive, in which case it needs to have a '+' sign
+   # $ypos is always negative (but check its formating anyway)
+   xpos=`echo "+$xpos" | sed 's/+-/-/'`
+   ypos=`echo "+$ypos" | sed 's/+-/-/'`
+   pos="$xpos$ypos"
+
+   # Output the image into the pipeline for placement on canvas positioning
+   # the images top-left corner on that canvas.
+   #
+   # It would be nice if gravity/justification could be used to position
+   # centers, then we would not need to read the image size ourselves!
+   #
+   convert -page $pos "$tmpfile" MIFF:-
+
+   # Increment position for next image  (lets use IM for the math ;-)
+   center=`convert xc: -format "%[fx: $center + $offset ]" info:`
+
+done |
+
+  # Now we read the pipeline of the images output from the above loop
+  # and create the canvas.  Repage the virtual canvas, add some extra
+  # border space and output it.
+  convert -background "$background"  MIFF:- \
+          -layers merge +repage \
+          -bordercolor "$background" -border 5x5  JPEG:-
+

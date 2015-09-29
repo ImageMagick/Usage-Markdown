@@ -1,0 +1,132 @@
+#!/bin/bash
+#
+#  slideshow_morph [-r] images
+#
+# This program attempts to use the -remote capabilities of "animate" to
+# generate a morphing slideshow on the fly.  That is while one picture is
+# being displayed, the program will select and prepare the next morph or
+# 'transition' to use.
+#
+# The point of this is that IM can take as much time as it likes to generate
+# the next 'transtion animation'. When it is ready it can then
+# animate the transition being displayed, leaving the display with the next
+# image.
+#
+# The next image can be any image, randomly selected or otherwise.  The script
+# does not need any fore-knowledge of the whole image sequence, only what the
+# next image to be displayed will be.
+#
+# Note that all images given should be all the same size!
+#
+# See also the 'slideshow_next' script, that only does the transition
+# to the next given image, then exits, until called again.
+#
+###
+#
+# FUTURE: some way of getting feedback from the "animate" or "display"
+# programs when it has reached the end of the current "animation" would
+# make determining when this wrapper script can proceed, a how lot easier.
+#
+###
+#
+# Anthony Thyssen     2008
+#
+
+
+#DEBUG=true
+if [ "X$1" = 'X-r' ]; then
+  randomize=true
+  shift
+fi
+
+files=( "$@" )    # just save all the image filenames into an array
+
+if [ ${#files} -le 1 ]; then
+  echo >&2 "$0: 2 or more images needed to form a slideshow!"
+fi
+
+# Pick a image from that list as a start point
+#
+if [ "$randomize" ]; then
+  prev_index=`expr $RANDOM \* ${#files} / 32768`
+else
+  prev_index=0
+fi
+prev_image="${files[$prev_index]}"
+
+
+# Launch the animation sub-process
+animate -loop 0 -delay 100 "$prev_image" &
+animate_pid=$!
+
+
+# Set up a temporary file for the transition animation with automatic
+# cleanup. A MIFF file format is used as it is simplier and more exact (more
+# colors) than the GIF file format.  GIF however could have been used.
+#
+umask 77
+temp=`mktemp "${TMPDIR:-/tmp}/slideshow.XXXXXXXXXX.miff"` ||
+  { echo >&2 "$PROGNAME: Unable to create temporary file"; exit 10;}
+trap 'rm -f "$temp"' 0
+trap "kill $animate_pid 2>/dev/null; exit 2" 1 2 3 15
+
+# Loop forever
+while :; do
+
+  # pick next image
+  if [ "$randomize" ]; then
+    next_index=`expr $RANDOM \* ${#files} / 32768`
+  else
+    next_index=`expr $prev_index + 1 % ${#files}`
+  fi
+  [ $next_index -eq $prev_index ] && continue   # try again
+  next_image="${files[$next_index]}"
+
+
+  [ "$DEBUG" ] &&
+    echo "morphing $prev_image ($prev_index) -> $next_image ($next_index)"
+
+  # Do you complex image transition here
+  # The final delay is minimum display time
+  # The extra frame is to prevent a 'flash' of the first frame
+  # just before the 'static' display is set.
+  convert -delay 20 "$prev_image" "$next_image" -morph 10 \
+          \( +clone -set delay 1000 \) +swap +delete \
+          -loop 0 $temp
+
+  #[ "$DEBUG" ] &&
+  #  echo "sleeping what is left of the required 'display' time."
+  #sleep 1
+
+  # Has the animation been killed! if so exit
+  kill -0 $animate_pid || exit 0
+
+  [ "$DEBUG" ] &&
+    echo "doing transition"
+  animate -loop 0 -remote ephemeral:$temp &
+  while [ -f $temp ]; do sleep .1; done  # wait for file to finish
+
+  # Wait for transition time period to complete.
+  # Must be longer than transition time, but shorter than overall time.
+  #
+  # The transition animate must not reach the final frame or a flash
+  # of the first (original image) frame will become visible! (a bug)
+  sleep 10
+
+  # Has the animation been killed! if so exit
+  kill -0 $animate_pid || exit 0
+
+  # replace the animation with the new image and long 1 sec delay
+  [ "$DEBUG" ] &&
+    echo "replacing transition with static image"
+  animate -loop 0 -delay 100 -remote "$next_image" &
+
+  # Has the animation been killed! if so exit
+  kill -0 $animate_pid || exit 0
+
+  # At this point we can now take as long as needed
+  # to generate a new transition!
+  prev_index=$next_index
+  prev_image="$next_image"
+
+done

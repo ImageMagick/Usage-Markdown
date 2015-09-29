@@ -1587,6 +1587,7 @@ The web site [DOS "For" Command Help](http://www.computerhope.com/forhlp.htm) we
 You may also like to look at *[Bonzo](forum_link.cgi?u=6256)'s* [Batch Script](http://www.rubblewebs.co.uk/imagemagick/batch.php) page.
 
 ---
+title: Usage under Windows
 created: 23 April 2009  
 updated: 21 March 2012  
 author:

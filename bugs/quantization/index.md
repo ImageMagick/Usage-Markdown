@@ -90,6 +90,7 @@ The major problem with dithering involving semi-transparency is that color selec
 Normal quantization however has a tendancy to generate almost-fully-transparent, and near-opaque colors, which is generally not acceptable in this type of image work.
 
 ---
+title: Quantization and Transparent Colors
 created: 3 May 2011  
 updated: 3 May 2011  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

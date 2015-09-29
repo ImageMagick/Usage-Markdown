@@ -1,0 +1,79 @@
+#
+# Setup Automatic Index
+#
+Options Indexes FollowSymLinks
+IndexOptions FancyIndexing IconWidth=12 NameWidth=* DescriptionWidth=*
+IndexOptions SuppressColumnSorting SuppressLastModified
+IndexIgnore .*
+
+DefaultIcon  ../img_www/scroll.gif
+AddIconByType (TXT,../img_www/scroll.gif) text/*
+AddIcon ../img_www/scroll.gif .pl
+AddType text/plain .pl
+
+HeaderName ".header.html"
+ReadmeName ".footer.html"
+#HeaderName ".htindex_head.html"
+#ReadmeName ".htindex_tail.html"
+
+AddType text/plain .pl
+
+AddDescription "Generate an affine matrix from SRT args"     affine_distort
+AddDescription "Generate an affine matrix for Rotatation"    affine_rotate
+AddDescription "Generate an affine matrix from 3 coords"     affine_transform
+AddDescription "Convert a GIF animation into IM Animation Options"  anim2gif
+AddDescription "Demo of using QueryFontMetrics() for text"   annotate_words.pl
+AddDescription "Remove backgrounds with anti-aliasing"       bg_removal
+AddDescription "Coordinates to Bilinear Coefficients"        bilinear_transform
+AddDescription "Generate a Perspective 'box'"                box_set_example
+AddDescription "Generate Tables of Composite Methods"        compose_table
+AddDescription "Convert any image to a SRGB jpeg image"      convert_any2srgb
+AddDescription "Convolve two images (a multi-point compose)" convolve_image
+AddDescription "Generate a cylinder percentage bar"          cylinder_bar
+AddDescription "Remove rows/columns of a pixelated image"    de-pixelate
+AddDescription "Deinterlace a video snapshot "               deinterlace
+AddDescription "Display Virtual Canvas around a distorted image" display_virtual
+AddDescription "Divide a image by row than column"           divide_chopper
+AddDescription "Divide a image into rows using blank gaps"   divide_vert
+AddDescription "    ditto (faster version)"                  divide_vert_bg
+AddDescription "DPX time code manipulation"                  dpx_timecode.pl
+AddDescription "Enlarge asmall image into pixel squares"     enlarge_image
+AddDescription "Compare two images by flicker animation"     flicker_cmp
+AddDescription "Image Framing Script and Images"             frame_edges.tar.gz
+AddDescription "Generate Image Index for Photo Store"        generate_index
+AddDescription "Generate IM Examples Logo"                   generate_logo
+AddDescription "Generate a Gradient Color Test Image"        generate_test
+AddDescription "Convert Animation Options file into GIF Animation"  gif2anim
+AddDescription "Generate a montage of GIF Animation Frames"  gif_anim_montage
+AddDescription "Output a block of UTF Characters"            graphics_utf
+AddDescription "Fill holes in images with its edge colors"   hole_fill_shepards
+AddDescription "Create Animation of Annotation Rotations"    im_annotation
+AddDescription "   ditto"                                    im_annotation.pl
+AddDescription "   ditto"                                    im_annotation_2
+AddDescription "Plot Named Colors in HSL Colorspace"         hsl_named_colors
+AddDescription "Color control points into a Function (gnuplot)"  im_fx_curves
+AddDescription "Color control points into a Function (perl)" im_fx_curves.pl
+AddDescription "Generate Graph of changes made by a IM Operator"  im_graph
+AddDescription "Generate Graph of a Math Expression"         im_histogram
+AddDescription "Plot the Profile of a Greyscale Image"       im_profile
+AddDescription "Convert small images into morpholgy kernels" image2kernel
+AddDescription "Generate a IM Font \"type.xml\" Config File" imagick_type_gen
+AddDescription "Extract 3-D Jigsaw Puzzle Pieaces form Image and mask"  jigsaw
+AddDescription "Generate a image (enlarged) of Morphology Kernels" kernel2image
+AddDescription "Crop sub-images from a larger image"         multi_crop
+AddDescription "Add a pagecurl effect to image corner"       pagecurl
+AddDescription "Coordinates to Perspective Coefficients"  perspective_transform
+AddDescription "Use \"pngcrush\" to process multiple PNGs images" pngcrush_batch
+AddDescription "Generate a Sequence of Polarid Images"          polaroid_series
+AddDescription "Process a pipeline of lots of PPM images"  process_ppm_pipeline
+AddDescription "Segment each Color area into separate images"   segment_image
+AddDescription "ditto using \"rsvg\" to do segmentation"        segment_via_svg
+AddDescription "Create a table of Color Names"                  show_colors
+AddDescription "Display Character Sets of a given Font"         show_fonts
+AddDescription "Random Slideshow animation (proof of concept)"  slideshow_morph
+AddDescription "Change to this photo n an existing 'slideshow'" slideshow_next
+AddDescription "Webpage snapshot using a Virtual X display"  snapshot_webpages
+AddDescription "Generate a random 'hex' star field"          star_field
+AddDescription "Display font in a montage (very slow)"       text2img_fixed
+AddDescription "Convert text file to GIF for IM Examples"    txt2gif
+

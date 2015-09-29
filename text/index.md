@@ -2133,6 +2133,7 @@ There are lots of tools out there to convert text into images, and most can be c
 This lets ImageMagick get on with what it does best, image processing.
 
 ---
+title: Text to Image Handling
 created: "25 October 2005 (separated from 'fonts' page)"
 updated: 26 October 2011  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

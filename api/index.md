@@ -1188,6 +1188,7 @@ hdri  some_im_script   image.png   image_result_hdri.png
 ~~~
 
 ---
+title: API & Scripting
 created: 26 October 2006  
 updated: 15 March 2011  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen\_AT\_griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

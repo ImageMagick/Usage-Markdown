@@ -1,0 +1,85 @@
+#!/bin/bash
+#
+# divide_chopper [options] input_image output_prefix
+#
+# Divide an image by row, and then each row by columns, saving as PNG.
+# This calls on "divide_vert" script, and takes the same options.
+#
+#    -i            Ignore the uninteresting 'gaps' between the rows.
+#    -b color      Use this color as background.
+#    -f fuzz       percentage threshold for background match
+#
+# Images are saved using a filename of   "prefix_###_###.png"
+# consisting of the given path/prefix followed by the three digit row
+# and column divisions where the piece was extracted from
+#
+# Example...
+#
+#   convert label:'Goodbye\nCruel World' +set label text.png
+#
+#   divide_chopper  -i -b white   text.png  parts
+#
+#   mogrify -bordercolor white -border 2  parts_*.png
+#   montage -label '%f' parts_*.png \
+#           -background grey -geometry +2+2 show:
+#
+# In the above example the use of the background option "-b white" was
+# vital so as to prevent the "divide_vert" script from considering letters
+# such as 'd' 'b' and 'l' as being 'black' dividers.
+#
+# To separate letters more fully add a '-f 10%" option, or higher.
+#
+###
+#
+# A total rewrite of script by  Joshua McGee <joshuamcgee AT gmail.com>
+#
+# Anthony Thyssen      3 December 2010
+#
+
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGNAME=`basename $PROGNAME`          # base name of program
+
+# Collect options to pass to "divide_vert" script
+
+while [  $# -gt 0 ]; do
+  case "$1" in
+  -i)         args="${args:+"$args "}-i" ;;
+  -b) shift;  args="${args:+"$args "}-b $1" ;;
+  -f) shift;  args="${args:+"$args "}-f $1" ;;
+  *)  break ;;                      # end of user options
+  esac
+  shift   # next option
+done
+
+infile="$1"
+prefix="$2"  # the start prefix (or path) to output PNG images
+
+tmpdir=`mktemp -d "${TMPDIR:-/tmp}/$PROGNAME-XXXXXXXXXX"` ||
+  { echo >&2 "$PROGNAME: Unable to create temporary directory"; exit 10;}
+trap 'rm -rf "$tmpdir"' 0   # remove when finished (on end or exit)
+trap 'exit 2' 1 2 3 15
+
+
+# Use the faster divide_vert_bg if background has been requested
+divider="divide_vert"
+if expr match "$args" '.*-b ' >/dev/null; then
+  divider="divide_vert_bg"
+fi
+
+echo "doing row division"
+$divider $args "$infile" "$tmpdir/%03d.mpc"
+
+#convert $tmpdir/*.mpc -background red -splice 0x1+0+0 -append show:
+
+for row in $tmpdir/*.mpc; do
+
+  num=$(echo $row | sed 's/^.*\/\([0-9][0-9]*\)\.mpc$/\1/')
+  echo "Column dividing row $num"
+
+  convert $row -rotate 90 miff:- |
+    $divider $args - miff:- |
+      convert - -rotate -90 "${prefix}_${num}_%03d.png"
+
+done
+exit 0
+

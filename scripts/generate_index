@@ -1,0 +1,90 @@
+#!/bin/sh
+#
+# generate_photo_index 'images'
+#
+# Generate the photo index thumbnail map "INDEX.html", for the
+# "photo_store" sub-directory of IM Examples.
+#
+# A 'polariod' style image thumbnail is used, and the index image is converted
+# to JPEG format.  The HTML file is also edited using the perl in-place
+# editing script to substite various strings, adding the more user friendly
+# text to the resulting index file.
+#
+# Anthony Thyssen   13 September 2007
+#
+. ../generate_options
+
+montage -size 500x500  "*_orig.*" \
+        -auto-orient -thumbnail 240x240 -set caption '%t' \
+        -bordercolor Lavender -background black \
+        -pointsize 12  -density 144x144  +polaroid  -resize 50% \
+        -gravity center -background none -extent 165x175 \
+        -set label ''  -background "$page_bg_color" \
+        -geometry '-10-10'  -tile 5x  INDEX.html
+
+convert INDEX.png  INDEX.jpg
+rm -f INDEX.png INDEX_map.shtml
+
+perl -i -ple '# inline editing of the HTML file
+next if /^<\?xml/ || /^<!DOCTYPE/;
+s@ src="INDEX.png" @ SRC="INDEX.jpg" @;  # switch PNG to JPEG image
+s@^<body.*@<BODY BGCOLOR="'"$page_bg_color"'">@i;
+s@^<title>.*@<TITLE>IM Examples, Photo Store</TITLE>@i;
+s@^<h1>.*@<H1 ALIGN=center>IM Examples, Photo Store</H1>@i;
+
+s@^<div>@<DIV ALIGN=justify>
+<DL><DT><A HREF="../"
+><IMG SRC="../img_www/granitesm_left.gif" BORDER=0 WIDTH=15 HEIGHT=15
+> ImageMagick Examples Preface and Index</A>
+<DD><A HREF="./"
+><IMG SRC="../img_www/granitesm_right.gif" BORDER=0 WIDTH=15 HEIGHT=15
+> Directory Index of Photo Store</A>
+<DD><A HREF="INDEX.html"
+><IMG SRC="../img_www/granitesm_right.gif" BORDER=0 WIDTH=15 HEIGHT=15
+> Fancy Polaroid Photo Index (of original images)</A>
+</DL>
+
+<P>These photographs are used as part of detailed examples of image processing
+using <A HREF="http://www.imagemagick.org/" >ImageMagick</A>. </P>
+
+<P>Many of the images are standard images used in research papers on image
+processing, including "lena", "mandrill", "tiffany", and "zelda".  Others are
+personal photos taken with a digital camera, including "holocaust",
+"chinese_chess", "pagoda", "spiral_stairs". Finally a couple of special
+situation images are present, including "rings" for image scaling aliasing
+tests, as well as "night_club" and "night_scape" of low light conditions. </P>
+
+<P>Details are to the source of the image and posible modifications made to
+non-original images are given in the "<A HREF="README" >README</A>" file
+in the directory. </P>
+
+The following are the photos marked as "original" in this directiory.
+There are many other photos, as well a duplicates of these at smaller
+sizes for more direct use in examples. See <A HREF="./" >Directory Index</A>
+for a full index of all images in this directory. </P>
+
+<P>Enjoy! -- <I>Anthony</I></P>
+
+<DIV ALIGN=center>
+Click on a photo below to see the full sized "original" image@;
+
+s@^</body>@<P>&nbsp;</P>
+</DIV>
+<HR><!-- ------------------------------------------------------------ -->
+<ADDRESS>
+Created: 13 September 2007 <BR>
+Author: <A HREF="http://www.ict.griffith.edu.au/~anthony/anthony.html"
+        >Anthony Thyssen</A>,
+        &lt;<A HREF="http://www.ict.griffith.edu.au/~anthony/mail.shtml"
+        >A.Thyssen&#64;griffith.edu.au</A>&gt;<BR>
+<BR>
+This Page was created using a shell script, "<CODE><A
+HREF="../scripts/generate_index" >generate_index</A></CODE>", applying methods
+discussed in <A HREF="../montage/#index" >Indexes of Images</A>.  More
+specifically <A HREF="../montage/#polaroid" >Polaroid Montages</A>, and <A
+HREF="../montage/#html_jpeg" >Index Maps using JPEG</A>.
+
+</ADDRESS></BODY>@;
+' INDEX.html
+
+chmod 644 INDEX.*

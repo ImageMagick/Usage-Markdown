@@ -1039,6 +1039,7 @@ For details of using this for feathering see [Feathering Shapes using Distance](
         Resize but attempt not to blur across sharp color changes
 
 ---
+title: Blurring and Sharpening Images
 created: 19 April 2004  
 updated: 6 October 2007  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

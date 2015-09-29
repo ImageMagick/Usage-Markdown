@@ -1,0 +1,83 @@
+#!/bin/sh
+#
+# de-pixelate [-limit N]  input_image  output_image
+#
+# Try to find and remove any row/columns in the image that are duplicates of
+# the previous row/column.  That is remove the extra pixelating rows and
+# columns so as to reduce enlarged 'pixel boxes' down to a single pixel.
+#
+# Option
+#   -limit N    Merge at most N rows/columns into a single row/column
+#               Can be used to prevent a naturally occuring duplicate
+#               row/columns from being merged into a single line/column
+#               For example using "-limit 1" will no-op this whole script!
+#               N should be equal to or slightly larger that the 'pixel'
+#               size that is present in the input image.
+#
+# NOTE: If the actual number of 'pixel boxes' is known, as faster solution
+# is to simply resize the image using "-sample".  However if the size is
+# unknown, then you are better off using this script.
+#
+####
+#
+#  Anthony Thyssen  2007
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+
+umask 77
+tmp=`mktemp "${TMPDIR:-/tmp}/$PROGNAME.XXXXXXXXXX"` ||
+  { echo >&2 "$PROGNAME: Unable to create temporary file"; exit 10;}
+trap 'rm -f "$tmp"' 0
+trap 'exit 2' 1 2 3 15
+
+# Get limit option
+limit=0   # limit will never be reached
+if [ "x$1" = "x-limit" ]; then
+  shift; limit=$1; shift
+fi
+
+# Read input image, once only as it may be pipelines, and save a MPC copy of
+# each individual row of pixels as temporary files.
+convert "$1" -crop 0x1 +repage "$tmp/rows_%06d.mpc"
+
+# remove duplicate rows (by removing its .mpc index file)
+last=""
+for pic in $tmp/rows_*.mpc; do
+  count=`expr $count + 1`
+  if [ "$last" ] && [ $count -ne $limit ] &&
+     [ `compare -dissimilarity-threshold 100% \
+           -metric AE $pic $last null: 2>&1` -eq 0 ]; then
+    rm $pic
+  else
+    last=$pic count=0
+  fi
+done
+
+# Rejoin and re-split image into columns
+convert $tmp/rows_*.mpc -append -crop 1x0 +repage $tmp/cols_%06d.mpc
+
+# lets save some disk space as we are finished with the row images
+rm -f $tmp/rows_*.mpc $tmp/rows_*.cache
+
+# remove duplicate columns
+last="" count=0
+for pic in $tmp/cols_*.mpc; do
+  count=`expr $count + 1`
+  if [ "$last" ] && [ $count -ne $limit ] &&
+     [ `compare -dissimilarity-threshold 100% \
+           -metric AE $pic $last null: 2>&1` -eq 0 ]; then
+    rm $pic
+  else
+    last=$pic count=0
+  fi
+done
+
+# Rejoin the columns and return the de-pixelated image...
+convert $tmp/cols_*.mpc +append "$2"
+
+# not realy needed, but lets clean up anyway
+rm -f $tmp/cols_*.mpc $tmp/cols_*.cache
+rm -rf $tmp
+

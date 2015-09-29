@@ -506,6 +506,7 @@ that way if you specific set stroke to 'none' areas will not become 'enlarged'.
 The problem is that at this time the stoke color can not be 'unset', or fall back to 'fill'.
 
 ---
+title: Future Development
 created: 1 November 2005  
 updated: 28 August 2012  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

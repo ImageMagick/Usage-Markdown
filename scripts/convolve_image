@@ -1,0 +1,71 @@
+#!/bin/sh
+#
+# convolve_image input_pixel_image  kernel_image  output_image
+#
+# Convert the kernel_image into convolution kernels (using the "image2kernel"
+# script) and apply them to the given input_pixel_image which generally
+# consists of multiple single white pixels on a black background.
+#
+# Effectivally this is a FAST multi-point composition technique.
+#
+# For example,
+#   wget http://www.imagemagick.org/Usage/images/hand_point.gif
+#   convert xc: -background black -gravity center -extend 60x60 pixel.gif
+#
+#   convolve_image pixel.gif hand_point.gif  convolved_pixel.gif
+#
+# Usally the convolution image is quite small.
+#
+
+input="$1"
+kernel="$2"
+output="$3"
+
+# set directory for temporary files
+tmp="${TMPDIR:-/tmp}"    # suggestions are dir="." or dir="/tmp"
+
+[ -z "$tmp" ] && Error "Invalid TMPDIR setting"
+
+# set up temp file
+tmp=$tmp/$PROGNAME-$$
+k=$tmp/kernel
+
+trap "rm -rf $tmp; exit 0" 0
+trap "rm -rf $tmp; exit 1" 1 2 3 15
+mkdir $tmp ||
+  Error "Unable to create tmp dir \"$tmp\""
+
+
+IM_VERSION=`convert -list configure | \
+     sed '/^LIB_VERSION_NUMBER /!d;
+          s//,/;  s/,/,0/g;
+          s/,0*\([0-9][0-9]\)/\1/g'`
+
+if [ "$IM_VERSION" -lt '06070609' ]; then
+  negate=-negate   # combine needs a negated alpha
+fi
+
+# Get kernel data from image
+image2kernel $kernel $k.dat
+
+# apply kernels to input image, and merge the results.
+convert "$input" -alpha off \
+        \( -clone 0 -morphology Convolve "`cat ${k}_R.dat`" \) \
+        \( -clone 0 -morphology Convolve "`cat ${k}_G.dat`" \) \
+        \( -clone 0 -morphology Convolve "`cat ${k}_B.dat`" \) \
+        \( -clone 0 -morphology Convolve "`cat ${k}_A.dat`" $negate \) \
+        -delete 0 -channel RGBA -combine "$output"
+
+exit 0
+
+# This should work and work faster, but fails mysteriously.
+# I think it is showing up some bug in Morphology Convolve for Alpha channel
+#
+
+convert "$input" -alpha shape \
+        -channel R -morphology Convolve "`cat ${k}_R.dat`"  \
+        -channel G -morphology Convolve "`cat ${k}_G.dat`"  \
+        -channel B -morphology Convolve "`cat ${k}_B.dat`"  \
+        -channel A -morphology Convolve "`cat ${k}_A.dat`"  \
+        "$output"
+

@@ -143,6 +143,7 @@ Other color spaces can also easily use this formula as the 'color space' distanc
     Perhaps as a "compare -metric Fuzz".
 
 ---
+title: Fuzz Distance and Transparent Colors
 created: 7 December 2010  
 updated: 8 December 2010  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

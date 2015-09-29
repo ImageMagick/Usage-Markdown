@@ -48,6 +48,7 @@ convert -size 250x50 xc:none  -box white  -pointsize 20 -gravity center \
 [![\[IM Output\]](draw_percent_fixed.gif)](draw_percent_fixed.gif)
 
 ---
+title: Drawing a Percent Bug
 created: 1 August 2005  
 updated: 9 August 2005  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

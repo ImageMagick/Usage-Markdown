@@ -322,6 +322,7 @@ convert tile_fill_5.gif -crop 10x10+35+4 +repage -scale 60x60 \
     e.g.:   convert image.xbm  -blur 0x.3  smoothed_image.png
 
 ---
+title: Anti-Aliasing
 created: 9 December 2003  
 updated: 27 February 2006  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

@@ -1266,6 +1266,7 @@ convert storm.gif news.gif eye.gif -reverse +append  list_test_27.gif
 [![\[IM Output\]](list_test_27.gif)](list_test_27.gif)
 
 ---
+title: Miscellaneous
 created: 6 November 2004  
 updated: 13 March 2008  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

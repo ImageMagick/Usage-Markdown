@@ -608,6 +608,7 @@ Also, with the new colorspace handling, gray50 is in sRGB colorspace while gray(
 The examples also need to be checked with respect to the use of a linear gray-scale colorspace.
 
 ---
+title: Fourier Multiply/Divide
 created: 13 August 2009  
 updated: 6 October 2009  
 author:

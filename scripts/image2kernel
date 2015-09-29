@@ -1,0 +1,135 @@
+#!/usr/bin/perl
+=head1 NAME
+
+image2kernels - convert a image into a kernel structure
+
+=head1 SYNOPSIS
+
+  image2kernels [-g] image_file  kernel_file
+
+  options:
+     -g   force image to be grayscale
+     -q   be quiet about the conversion
+
+=head1 DESCRIPTION
+
+Given an image, convert it to a floating point 'user defined' kernel
+structure.
+
+Typically a grayscale image is given, which will be used to generate
+the floating-point kernel data, saved into the "kernel_file" specified.
+
+However is a colorful image is given the given "kernel_file" name will be
+modified with a 'channel' letter, and a kernel data file will be
+created for each separate channel in the input image, including the Alpha
+Channel.
+
+=head1 AUTHOR
+
+  Anthony Thyssen  16 October 2010  A.Thyssen_AT_griffith.edu.au
+
+=cut
+use strict;
+use IO::File;
+use FindBin;
+my $PROGNAME = $FindBin::Script;
+
+sub Usage {
+  eval {
+      use Pod::Usage;
+          pod2usage ( @_ );
+  };
+}
+
+my( $do_grey ) = map 0, 1..20;
+my $QUIET;
+
+OPTION:  # Multi-switch option handling
+while( @ARGV && $ARGV[0] =~ s/^-(?=.)// ) {
+  $_ = shift; {
+    m/^$/  && do { next };       # Next option
+    m/^-$/ && do { last };       # End of options '--'
+    m/^\?/ && do { Usage };      # Usage Help     '-?'
+    m/^-help$/   && Usage( -verbose => 1);    # quick help (synopsis)
+    m/^-manual$/ && Usage( -verbose => 2);    # inline manual
+
+    s/^g// && do { $do_grey++;  redo };  # treat image as greyscale
+    s/^q// && do { $QUIET++;  redo };    # don't report image info
+
+    Usage( "$PROGNAME: Unknown Option \"-$_\"" );
+  } continue { next OPTION }; last OPTION;
+}
+
+Usage( "$PROGNAME: Missing Image filename" ) unless @ARGV;
+my $image = shift;
+Usage( "$PROGNAME: Missing Kernel filename" ) unless @ARGV;
+my $kernel = shift;
+Usage( "$PROGNAME: Too many arguments" ) if @ARGV;
+
+#------------------------------------------------------------
+
+# Read the input image as a text file
+my @grayscale_opts = $do_grey ? qw( -colorspace Gray ) : ();
+
+my @command = ( "convert", $image, @grayscale_opts, "txt:-" );
+
+open(IMAGE, "-|") or exec @command or exit(1);
+
+#
+# read the header line
+#
+$_=<IMAGE>;
+chomp;
+die("$PROGNAME: Invalid TXT image header\n")
+  unless /^# ImageMagick pixel enumeration: /;
+
+my ($width, $height, $depth, $type) = split(',', $');
+
+print STDERR "IMAGE: width=$width, height=$height, depth=$depth, type=$type\n"
+  unless $QUIET;
+
+
+#
+# Figure out number of channels and open kernel files.
+#
+my ($basename,$suffix) = split(/\.([^.]+)$/, $kernel);
+my %kernel;
+my @channels;
+
+if ( $type =~ /^gray/i  ) {
+  my $c = 'grey';
+  @channels = ($c);
+  $kernel{$c} = new IO::File $kernel, '>'
+    or die ("$PROGNAME: Failed to open output kernel file \"$kernel\" : $!\n");
+  $kernel{$c}->print( "${width}x${height}:\n" );
+}
+else {
+  @channels = grep(/[RGBA]/, split(//, uc($type)));
+  # The channel types to generate...
+  #print STDERR "\@channels = ('", join("','", @channels), "' )\n";
+
+  # Open all the kernel files
+  for my $c (@channels) {
+    my $file = "${basename}_$c.$suffix";
+    #print STDERR "Opening file \"$file\"\n";
+    $kernel{$c} = new IO::File $file, '>'
+      or die ("$PROGNAME: Failed to open output kernel file \"$file\" : $!\n");
+    $kernel{$c}->print( "${width}x${height}:\n" );
+  }
+}
+
+#
+# output the values of each pixel into the appropriate kernel files.
+#
+while(<IMAGE>) {
+  s/^[\d,]+: \(//;
+  s/\).*//s;
+  s/,/ /g;
+  my %values;
+  (@values{@channels}, undef) = split;
+  for my $c (@channels) {
+    $kernel{$c}->print( $values{$c}/$depth, "\n" );
+  }
+}
+
+# auto close of the image files on exit

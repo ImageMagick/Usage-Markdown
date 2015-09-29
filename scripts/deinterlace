@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# deinterlace image...
+#
+# Smoothly double up every second line so as to de-interlace video snapshots.
+#
+exec mogrify -filter point -resize 100%x50% +filter -resize 100%x200% "$@"

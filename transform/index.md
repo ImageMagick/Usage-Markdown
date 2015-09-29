@@ -2864,8 +2864,11 @@ This is actually how '*Frequency Modulation*' works, where a seemingly simple fu
 
 ------------------------------------------------------------------------
 
-Created: 15 March 2004  
- Updated: 18 June 2009  
- Author: [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;  
- Examples Generated with: ![\[version image\]](version.gif)  
- URL: `http://www.imagemagick.org/Usage/transform/`
+---
+title: Image Transformations
+created: 15 March 2004  
+updated: 18 June 2009  
+author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
+version: 7.0.0
+url: http://www.imagemagick.org/Usage/transform/
+---

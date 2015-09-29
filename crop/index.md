@@ -1659,6 +1659,7 @@ A user [HugoRune](../forum_link.cgi?u=14154) needed to trim an image down to a h
 See [Discussion on IM Forums](../forum_link.cgi?t=14247)
 
 ---
+title: Cutting and Bordering
 created: 15 March 2004  
 updated: 7 August 2009  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

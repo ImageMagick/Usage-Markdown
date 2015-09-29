@@ -1494,6 +1494,7 @@ It can for example be used to perform a weighted average of large numbers of ima
   
 
 ---
+title: Multi-Image Layers
 created: 3 January 2004  
 updated: 19 April 2012  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

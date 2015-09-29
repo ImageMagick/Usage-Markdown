@@ -1,0 +1,140 @@
+#!/usr/bin/perl
+#
+# bilinear_coords [-fx]   x1,y1 .. x4,y4    u1,v1 .. u4,v4
+#
+# Given two sets of four coordinate pairs, work out 8 constants needed
+# to map the first set of coordinates to the second set of coordinates,
+# using a bilinear transform.
+#
+# The sixteen numbers given may be comma or space separated, as one single
+# argument or over a number of arguments.
+#
+# To use the constants generated use the following formulas..
+#
+#    u  =   c1*x + c2*y + c3*x*y + c4
+#    v  =   c5*x + c6*y + c7*x*y + c8
+#
+# By default only the 8 constants needed for the above equation are returned
+# (in the order c1 to c8).
+#
+# However you can also specify an '-fx' option which will output the above
+# equations in the form of an ImageMagick "-fx" expression, to lookup colors
+# the first 'u' image.
+#
+####
+#
+# Techniqually the 8 constants can be worked out more simply by solving
+# two smaller 4x4 matrices, but the coding is a bit harder.
+#
+# Special thanks goes to  Ross Presser <rpresser@gmail.com> for finding
+# the code in the Leptonica C library.
+#
+# Script by Anthony Thyssen  (June 2007)
+#
+# Requires the "Math::MatrixReal" perl module to be installed. No compilation
+# is needed to build this module. For the latest version of this module see
+# http://leto.net/code/Math-MatrixReal/
+#
+use strict;
+use Math::MatrixReal;
+use FindBin;
+my $prog = $FindBin::Script;
+
+# Output the program comments as the programs manual
+sub Usage {
+  print STDERR "$prog: ", @_, "\n";
+  @ARGV = ( "$FindBin::Bin/$prog" );
+  while( <> ) {
+    next if 1 .. 2;
+    last if /^###/;
+    s/^#$//; s/^# //;
+    print STDERR "Usage: " if 3 .. 3;
+    print STDERR;
+  }
+  exit 10;
+}
+
+@ARGV = map( /([^\s,]+)/g, @ARGV);   # Spilt arguments by spaces and commas
+
+my $FX = 0;     # output a ImageMagick -fx perspective transformation formula
+my $TEST = 0;   # Apply the constants to the input x,y points to test
+
+if ( $ARGV[0] eq '-fx' ) {
+  $FX = 1;  shift;
+}
+
+if ( @ARGV != 16 ) {
+  Usage "Incorrect number of arguments, ", scalar(@ARGV),
+        " given\n\t\t\t16 numbers (2 sets of 4 coordinate pairs) are needed.";
+}
+
+# Assign the coordinates of the two triangles (remove commas)
+my ( $x1, $y1, $x2, $y2, $x3, $y3, $x4, $y4,
+     $u1, $v1, $u2, $v2, $u3, $v3, $u4, $v4 ) = @ARGV;
+
+# Convert coordinates into a matrix of simultanious equation
+# Such that ...    A * c = r
+
+my $A = Math::MatrixReal->new_from_rows(
+  [  [ $x1, $y1, $x1*$y1, 1.0, 0.0, 0.0,   0.0,   0.0 ],
+     [ 0.0, 0.0,   0.0,   0.0, $x1, $y1, $x1*$y1, 1.0 ],
+     [ $x2, $y2, $x2*$y2, 1.0, 0.0, 0.0,   0.0,   0.0 ],
+     [ 0.0, 0.0,   0.0,   0.0, $x2, $y2, $x2*$y2, 1.0 ],
+     [ $x3, $y3, $x3*$y3, 1.0, 0.0, 0.0,   0.0,   0.0 ],
+     [ 0.0, 0.0,   0.0,   0.0, $x3, $y3, $x3*$y3, 1.0 ],
+     [ $x4, $y4, $x4*$y4, 1.0, 0.0, 0.0,   0.0,   0.0 ],
+     [ 0.0, 0.0,   0.0,   0.0, $x4, $y4, $x4*$y4, 1.0 ],
+  ] );
+
+my $r = Math::MatrixReal->new_from_cols(
+  [ [ $u1, $v1, $u2, $v2, $u3, $v3, $u4, $v4 ] ] );
+
+# Debuging:  output an inverse matrix
+#print $A->inverse();
+
+# Solve the matrix for the constants
+my ($dim, $c, $base) = $A->decompose_LR()->solve_LR($r);
+if ( $dim ) {
+  print STDERR
+    "$prog: Coordinates given do not form solvable quadrangles.";
+  exit 1;
+}
+
+# Extract resulting column vector as an array.
+my @c = map { $c->element($_,1) }  ( 1 .. 8 );
+
+# Test results with original coordinates
+if ( 0 ) {
+  print "Test Results against Original coordinates\n";
+  printf "%5.1f,%-5.1f -> %5.1f,%-5.1f (should be %5.1f,%-5.1f )\n",
+    $x1, $y1,
+    $c[0]*$x1 + $c[1]*$y1 + $c[2]*$x1*$y1 + $c[3],
+    $c[4]*$x1 + $c[5]*$y1 + $c[6]*$x1*$y1 + $c[7],
+    $u1, $v1;
+  printf "%5.1f,%-5.1f -> %5.1f,%-5.1f (should be %5.1f,%-5.1f )\n",
+    $x2, $y2,
+    $c[0]*$x2 + $c[1]*$y2 + $c[2]*$x2*$y2 + $c[3],
+    $c[4]*$x2 + $c[5]*$y2 + $c[6]*$x2*$y2 + $c[7],
+    $u2, $v2;
+  printf "%5.1f,%-5.1f -> %5.1f,%-5.1f (should be %5.1f,%-5.1f )\n",
+    $x3, $y3,
+    $c[0]*$x3 + $c[1]*$y3 + $c[2]*$x3*$y3 + $c[3],
+    $c[4]*$x3 + $c[5]*$y3 + $c[6]*$x3*$y3 + $c[7],
+    $u3, $v3;
+  printf "%5.1f,%-5.1f -> %5.1f,%-5.1f (should be %5.1f,%-5.1f )\n",
+    $x4, $y4,
+    $c[0]*$x4 + $c[1]*$y4 + $c[2]*$x4*$y4 + $c[3],
+    $c[4]*$x4 + $c[5]*$y4 + $c[6]*$x4*$y4 + $c[7],
+    $u4, $v4;
+}
+
+if ( ! $FX ) {
+  # Output the constants
+  map { printf "%9.6f\n", $_ }  @c;
+}
+else {
+  # Output a IM -fx expression
+  printf "xx=%+.6f*i %+.6f*j %+.6f*i*j %+.6f;\n".
+         "yy=%+.6f*i %+.6f*j %+.6f*i*j %+.6f;\n", @c;
+}
+

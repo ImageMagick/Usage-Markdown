@@ -1136,6 +1136,7 @@ Mail me if you think you have a page I should list here.
 I will only add pages of useful content, so no guarantees about adding your link.
 
 ---
+title: Animation Optimization
 created: 22 March 2007 ((sub-division of "animation")  
 updated: 23 April 2007  
 author: "[Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"

@@ -1,0 +1,122 @@
+#!/bin/sh
+#
+# hole_fill_shepards [options]  image_in  image_out
+#
+# Using a fast shepards diffusion locate and fill a transparent hole, using
+# only the colors found around the very edge of a hole.  Existing non-opaque
+# colors in an image are not effected.
+#
+# For details see IM Examples,  "Sparse Color as a Fill Operator"
+#    http://www.imagemagick.org/Usage/canvas/#sparse_fill
+# and the following section "Shepard's, a Blur Alturnative"
+#
+# Options
+#
+#   -t pixels   Edge Thickness. Sometimes the edge colors are not uniform
+#               enough, in which case a thicker edge to select colors for
+#               filling works better.
+#
+#   -b          Background fill. Do not trim to just edge pixels.
+#               This is needed when the 'hole' is the surrounding background
+#               and you are filling outward, rather than inward.
+#
+# WARNING: This assumes that only a single, or set of closely related holes
+# are present in the image, as shepards method know no boundaries.  As such
+# the edge colors of one hole may cross a thin boundary to effect the fill
+# colors into a neaghbouring hole.
+#
+# I hope to be able to replace this with a proper 'Diffusion' color filling
+# technique, when such a function is added via Morphology methods.
+#
+###
+#
+# Anthony Thyssen,    September 2010
+#
+PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
+PROGDIR=`dirname $PROGNAME`            # extract directory of program
+PROGNAME=`basename $PROGNAME`          # base name of program
+Usage() {
+  echo >&2 "$PROGNAME:" "$@"
+  sed >&2 -n '/^###/q; /^#/!q; s/^#//; s/^ //; 3s/^/Usage: /; 2,$ p' \
+          "$PROGDIR/$PROGNAME"
+  exit 10;
+}
+
+thickness=1       # Thickness of the edge pixels (EG: Disk:1.4 )
+trim="-trim"      # Trim the image to just the edge pixels (inward fill)
+
+while [  $# -gt 0 ]; do
+  case "$1" in
+
+  # Standard help option.
+  --help|--doc*) Usage ;;
+
+  -b) trim=-noop ;;                             # outward background fill
+  -t) shift                                     # edge thickness
+      thickness=`expr + "$1" : '^\([1-9][0-9]*\)$'` ||
+         Usage "Invalid Thickness"
+      ;;
+
+  -)  break ;;           # STDIN,  end of user options
+
+  --) shift; break ;;    # end of user options
+  -*) Usage "Unknown option \"$1\"" ;;
+  *)  break ;;           # end of user options
+
+  esac
+  shift   # next option
+done
+
+# Two filename arguments are needed
+[ $# -ne 2 ] && Usage "No enough arguments"
+
+in="$1"
+out="$2"
+
+tmp="${TMPDIR:-/tmp}/$PROGNAME.$$"
+mkdir $tmp
+if [ $? -ne 0 ]; then
+  echo >&2 "$PROGNAME: Failed to create directory \"$tmp\" -- ABORTING"
+  exit 1
+fi
+trap "rm -rf $tmp" 0
+trap "exit 2" 1 2 3 15
+
+# ------------------------------
+
+# Read input image, once only as it may be pipeline
+convert "$in" -alpha on +repage "$tmp/in.mpc"
+
+# FUTURE: search for multiple holes and deal with each one hole at a time.
+
+# Extract the edge pixels around any transparent hole and trim smaller
+#
+# also get image page geometry and actual image size
+offset=`convert "$tmp/in.mpc" \
+          -channel A -morphology EdgeIn Disk:"$thickness.4" \
+          $trim -print '%X%Y' +repage "$tmp/edges.mpc"`
+
+size=`convert "$tmp/edges.mpc" -format '%wx%h' info:`
+
+#display "$tmp/edges.mpc"
+
+# Fast shepards Method to diffuse colors (good for image up to 256 pixels)
+convert "$tmp/edges.mpc" \
+        \( +clone -resize 50% \) \
+        \( +clone -resize 50% \) \
+        \( +clone -resize 50% \) \
+        \( +clone -resize 50% \) \
+        \( +clone -resize 50% \) \
+        \( +clone -resize 50% \) \
+        \( +clone -resize 50% \) \
+        -layers RemoveDups -filter Gaussian -resize "$size!" \
+        -background None -compose DstOver -layers merge \
+        -alpha opaque "$tmp/diffuse.mpc"
+
+#display "$tmp/diffuse.mpc"
+
+# Compose the fill colors under the hole and output the result
+convert "$tmp/in.mpc" "$tmp/diffuse.mpc" \
+        -compose DstOver -geometry "$offset" -composite \
+        -alpha off "$out"
+
