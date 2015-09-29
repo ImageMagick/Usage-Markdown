@@ -1,0 +1,3 @@
+# Exclude any generated HTML, or BASH files
+**/index.html
+**/index.sh
