@@ -62,7 +62,7 @@ local notes = {}
 
 -- Blocksep is used to separate block elements.
 function Blocksep()
-  return "\n"
+  return ""
 end
 
 -- This function is called once for the whole document. Parameters:
@@ -76,14 +76,20 @@ function Doc(body, metadata, variables)
   local function add(s)
     table.insert(buffer, s)
   end
+  bootstrap = [=[
+#!/bin/bash
+
+ORIGINAL_DIR=$(pwd)
+SCRIPT_DIR=$(dirname ${BASH_SOURCE[0]})
+cd $SCRIPT_DIR
+if [ -f bootstrap.sh ]
+then
+  . bootstrap.sh
+fi
+]=]
+  add(bootstrap)
   add(body)
-  if #notes > 0 then
-    add('<ol class="footnotes">')
-    for _,note in pairs(notes) do
-      add(note)
-    end
-    add('</ol>')
-  end
+  add("cd $ORIGINAL_DIR")
   return table.concat(buffer,'\n')
 end
 
@@ -101,7 +107,7 @@ function Space()
 end
 
 function LineBreak()
-  return "<br/>"
+  return "\n"
 end
 
 function Emph(s)
@@ -186,11 +192,17 @@ function RawBlock(s, attr)
 end
 
 function CodeBlock(s, attr)
-  -- If code block has class 'dot', pipe the contents through dot
-  -- and base64, and include the base64-encoded png as a data: URL.
+  -- If code block has class 'skip', then do not include
   if attr.class and string.match(' ' .. attr.class .. ' ',' skip ') then
-    return ': <<END_BLOCK\n' .. s .. '\nEND_BLOCK\n'
-  -- otherwise treat as code (one could pipe through a highlighter)
+    return "#" .. attributes(attr) .. "\n"
+  elseif attr['data-capture-out'] then
+      local f = attr['data-capture-out']
+      return "#" .. f .. "\n" .. s ..
+             " 1>" .. f .. " && convert " .. f .. " -trim " .. f .. ".gif\n"
+  elseif attr['data-capture-err'] then
+    local f = attr['data-capture-err']
+    return "#" .. f .. "\n" .. s ..
+           " 2>" .. f .. " && convert " .. f .. " -trim " .. f .. ".gif\n"
   else
     return "#" .. attributes(attr) .. "\n" .. s ..
            "\n"
@@ -216,20 +228,6 @@ end
 
 function RawInline(s)
     return ""
-end
-
--- Convert pandoc alignment to something HTML can use.
--- align is AlignLeft, AlignRight, AlignCenter, or AlignDefault.
-function html_align(align)
-  if align == 'AlignLeft' then
-    return 'left'
-  elseif align == 'AlignRight' then
-    return 'right'
-  elseif align == 'AlignCenter' then
-    return 'center'
-  else
-    return 'left'
-  end
 end
 
 -- Caption is a string, aligns is an array of strings,
