@@ -76,7 +76,7 @@ function Doc(body, metadata, variables)
   local function add(s)
     table.insert(buffer, s)
   end
-  bootstrap = [=[
+  local bootstrap = [=[
 #!/bin/bash
 
 ORIGINAL_DIR=$(pwd)
@@ -87,8 +87,17 @@ then
   . bootstrap.sh
 fi
 ]=]
+  local version = [=[
+gif=version.gif
+echo "Generating IM \"$gif\" image"
+convert -list configure | egrep 'LIB_VERSION_NUMBER|RELEASE_DATE' |\
+tr -d '\012' | sed 's/LIB[^ ]* /IM v/;s/REL.* / /;s/,/./;s/,/./;s/,/-/' |\
+  convert -background transparent -pointsize 18 label:@-  $gif
+chmod 644 $gif
+]=]
   add(bootstrap)
   add(body)
+  add(version)
   add("cd $ORIGINAL_DIR")
   return table.concat(buffer,'\n')
 end
