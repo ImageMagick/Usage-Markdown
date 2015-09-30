@@ -17,8 +17,8 @@ Plasma Fractal *(non-tiling canvas image)*
 
 ~~~
 convert -size 120x120  plasma:fractal fractal.png
-convert fractal.png   {..transform..} \
-         -shave 20x20 +repage  -auto_level  {result}
+convert fractal.png -noop \
+         -shave 20x20 +repage  -auto-level  fractal_noop.png
 ~~~
 
 [![\[IM Output\]](fractal_noop.png)](fractal_noop.png)
@@ -27,8 +27,8 @@ Random Noise *(tilable background image)*
 
 ~~~
 convert -size 80x80 xc: +noise Random noise.png
-convert noise.png -virtual-pixel tile  {..transform..} \
-        -auto_level  {result}
+convert noise.png -virtual-pixel tile  -noop \
+        -auto-level  noise_noop.png
 ~~~
 
 [![\[IM Output\]](noise_noop.png)](noise_noop.png)
@@ -37,10 +37,12 @@ Random Hex Tile *(hex tile background image)*
 
 ~~~
 convert -size 50x80 xc: +noise Random -write mpr:rand \
-         -extent 100x80   -page +50-40 mpr:rand \
-         -page +50+40 mpr:rand -flatten  hextile.png
-convert hextile.png -virtual-pixel tile  {..transform..} \
-        -auto_level    {result}
+        -extent 100x80 \
+        \( mpr:rand -repage +50-40 \) \
+        \( mpr:rand -repage +50+40 \) \
+        -flatten  hextile.png
+convert hextile.png -virtual-pixel tile  -noop \
+        -auto-level hextile_noop.png
 ~~~
 
 [![\[IM Output\]](hextile_noop.png)](hextile_noop.png)
@@ -50,7 +52,12 @@ convert hextile.png -virtual-pixel tile  {..transform..} \
 blur\_raw *(no post -auto-level)*
 
 ~~~
--blur 0x1
+convert fractal.png -blur 0x1 \
+        -shave 20x20 +repage  fractal_blur_raw.png
+convert noise.png -virtual-pixel tile  -blur 0x1 \
+        noise_blur_raw.png
+convert hextile.png -virtual-pixel tile  -blur 0x1 \
+        hextile_blur_raw.png
 ~~~
 
 [![\[Fractal\]](fractal_blur_raw.png)](fractal_blur_raw.png)
@@ -60,7 +67,12 @@ blur\_raw *(no post -auto-level)*
 blur\_1
 
 ~~~
--blur 0x1
+convert fractal.png -blur 0x1 \
+        -auto-level -shave 20x20 +repage  fractal_blur_1.png
+convert noise.png -virtual-pixel tile  -blur 0x1 \
+        -auto-level  noise_blur_1.png
+convert hextile.png -virtual-pixel tile  -blur 0x1 \
+        -auto-level hextile_blur_1.png
 ~~~
 
 [![\[Fractal\]](fractal_blur_1.png)](fractal_blur_1.png)
@@ -70,7 +82,12 @@ blur\_1
 blur\_3
 
 ~~~
--blur 0x3
+convert fractal.png -blur 0x3 \
+        -auto-level -shave 20x20 +repage  fractal_blur_3.png
+convert noise.png -virtual-pixel tile  -blur 0x3 \
+        -auto-level  noise_blur_3.png
+convert hextile.png -virtual-pixel tile  -blur 0x3 \
+        -auto-level hextile_blur_3.png
 ~~~
 
 [![\[Fractal\]](fractal_blur_3.png)](fractal_blur_3.png)
@@ -80,7 +97,12 @@ blur\_3
 blur\_5
 
 ~~~
--blur 0x5
+convert fractal.png -blur 0x5 \
+        -auto-level -shave 20x20 +repage  fractal_blur_5.png
+convert noise.png -virtual-pixel tile  -blur 0x5 \
+        -auto-level  noise_blur_5.png
+convert hextile.png -virtual-pixel tile  -blur 0x5 \
+        -auto-level hextile_blur_5.png
 ~~~
 
 [![\[Fractal\]](fractal_blur_5.png)](fractal_blur_5.png)
@@ -90,7 +112,12 @@ blur\_5
 blur\_10
 
 ~~~
--blur 0x10
+convert fractal.png -blur 0x10 \
+        -auto-level -shave 20x20 +repage  fractal_blur_10.png
+convert noise.png -virtual-pixel tile  -blur 0x10 \
+        -auto-level  noise_blur_10.png
+convert hextile.png -virtual-pixel tile  -blur 0x10 \
+        -auto-level hextile_blur_10.png
 ~~~
 
 [![\[Fractal\]](fractal_blur_10.png)](fractal_blur_10.png)
@@ -100,7 +127,12 @@ blur\_10
 intensity
 
 ~~~
--blur 0x10  -colorspace Gray
+convert fractal.png -blur 0x10 -colorspace Gray \
+        -auto-level -shave 20x20 +repage  fractal_intensity.png
+convert noise.png -virtual-pixel tile  -blur 0x10 -colorspace Gray \
+        -auto-level  noise_intensity.png
+convert hextile.png -virtual-pixel tile  -blur 0x10 -colorspace Gray \
+        -auto-level hextile_intensity.png
 ~~~
 
 [![\[Fractal\]](fractal_intensity.png)](fractal_intensity.png)
@@ -110,7 +142,12 @@ intensity
 channel
 
 ~~~
--blur 0x10  -fx G
+convert fractal.png -blur 0x10 -fx G \
+        -auto-level -shave 20x20 +repage  fractal_channel.png
+convert noise.png -virtual-pixel tile  -blur 0x10 -fx G \
+        -auto-level  noise_channel.png
+convert hextile.png -virtual-pixel tile  -blur 0x10 -fx G \
+        -auto-level hextile_channel.png
 ~~~
 
 [![\[Fractal\]](fractal_channel.png)](fractal_channel.png)
@@ -120,9 +157,18 @@ channel
 hues
 
 ~~~
--blur 0x10 -auto-level -separate -background white \
-   -compose ModulusAdd -flatten -channel R -combine +channel \
-   -set colorspace HSB -colorspace RGB
+convert fractal.png -blur 0x10 -auto-level -separate -background white \
+        -compose ModulusAdd -flatten -channel R -combine +channel \
+        -set colorspace HSB -colorspace RGB \
+        -auto-level -shave 20x20 +repage  fractal_hues.png
+convert noise.png -virtual-pixel tile  -blur 0x10 -auto-level -separate -background white \
+        -compose ModulusAdd -flatten -channel R -combine +channel \
+        -set colorspace HSB -colorspace RGB \
+        -auto-level  noise_hues.png
+convert hextile.png -virtual-pixel tile  -blur 0x10 -auto-level -separate -background white \
+        -compose ModulusAdd -flatten -channel R -combine +channel \
+        -set colorspace HSB -colorspace RGB \
+        -auto-level hextile_hues.png
 ~~~
 
 [![\[Fractal\]](fractal_hues.png)](fractal_hues.png)
@@ -135,7 +181,12 @@ hues
 shade\_raw *(no post -auto-level)*
 
 ~~~
--shade 120x45
+convert fractal.png -shade 120x45 \
+        -shave 20x20 +repage  fractal_shade_raw.png
+convert noise.png -virtual-pixel tile  -shade 120x45 \
+        noise_shade_raw.png
+convert hextile.png -virtual-pixel tile  -shade 120x45 \
+        hextile_shade_raw.png
 ~~~
 
 [![\[Fractal\]](fractal_shade_raw.png)](fractal_shade_raw.png)
@@ -145,7 +196,12 @@ shade\_raw *(no post -auto-level)*
 shade
 
 ~~~
--shade 120x45
+convert fractal.png -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_shade.png
+convert noise.png -virtual-pixel tile  -shade 120x45 \
+        -auto-level noise_shade.png
+convert hextile.png -virtual-pixel tile  -shade 120x45 \
+        -auto-level hextile_shade.png
 ~~~
 
 [![\[Fractal\]](fractal_shade.png)](fractal_shade.png)
@@ -155,7 +211,12 @@ shade
 shade\_dimmed *(no post -auto-level)*
 
 ~~~
--shade 120x45 -auto-level -fill grey -colorize 40%
+convert fractal.png -shade 120x45 -auto-level -fill grey -colorize 40% \
+        -shave 20x20 +repage  fractal_shade_dimmed.png
+convert noise.png -virtual-pixel tile  -shade 120x45 -auto-level -fill grey -colorize 40% \
+        noise_shade_dimmed.png
+convert hextile.png -virtual-pixel tile  -shade 120x45 -auto-level -fill grey -colorize 40% \
+        hextile_shade_dimmed.png
 ~~~
 
 [![\[Fractal\]](fractal_shade_dimmed.png)](fractal_shade_dimmed.png)
@@ -165,7 +226,12 @@ shade\_dimmed *(no post -auto-level)*
 shade\_1
 
 ~~~
--blur 0x1 -shade 120x45
+convert fractal.png -blur 0x1 -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_shade_1.png
+convert noise.png -virtual-pixel tile  -blur 0x1 -shade 120x45 \
+        -auto-level noise_shade_1.png
+convert hextile.png -virtual-pixel tile  -blur 0x1 -shade 120x45 \
+        -auto-level hextile_shade_1.png
 ~~~
 
 [![\[Fractal\]](fractal_shade_1.png)](fractal_shade_1.png)
@@ -175,7 +241,12 @@ shade\_1
 shade\_2
 
 ~~~
--blur 0x2 -shade 120x45
+convert fractal.png -blur 0x2 -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_shade_2.png
+convert noise.png -virtual-pixel tile  -blur 0x2 -shade 120x45 \
+        -auto-level noise_shade_2.png
+convert hextile.png -virtual-pixel tile  -blur 0x2 -shade 120x45 \
+        -auto-level hextile_shade_2.png
 ~~~
 
 [![\[Fractal\]](fractal_shade_2.png)](fractal_shade_2.png)
@@ -185,7 +256,12 @@ shade\_2
 shade\_5
 
 ~~~
--blur 0x5 -shade 120x45
+convert fractal.png -blur 0x5 -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_shade_5.png
+convert noise.png -virtual-pixel tile  -blur 0x5 -shade 120x45 \
+        -auto-level noise_shade_5.png
+convert hextile.png -virtual-pixel tile  -blur 0x5 -shade 120x45 \
+        -auto-level hextile_shade_5.png
 ~~~
 
 [![\[Fractal\]](fractal_shade_5.png)](fractal_shade_5.png)
@@ -195,7 +271,12 @@ shade\_5
 shade\_10
 
 ~~~
--blur 0x10 -fx G -shade 120x45
+convert fractal.png -blur 0x10 -fx G -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_shade_10.png
+convert noise.png -virtual-pixel tile -blur 0x10 -fx G -shade 120x45 \
+        -auto-level noise_shade_10.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -fx G -shade 120x45 \
+        -auto-level hextile_shade_10.png
 ~~~
 
 [![\[Fractal\]](fractal_shade_10.png)](fractal_shade_10.png)
@@ -208,7 +289,12 @@ shade\_10
 emboss\_1
 
 ~~~
--blur 0x5  -emboss 1
+convert fractal.png -blur 0x5  -emboss 1 \
+        -auto-level -shave 20x20 +repage  fractal_emboss_1.png
+convert noise.png -virtual-pixel tile -blur 0x5  -emboss 1 \
+        -auto-level noise_emboss_1.png
+convert hextile.png -virtual-pixel tile -blur 0x5  -emboss 1 \
+        -auto-level hextile_emboss_1.png
 ~~~
 
 [![\[Fractal\]](fractal_emboss_1.png)](fractal_emboss_1.png)
@@ -218,7 +304,12 @@ emboss\_1
 emboss\_1g
 
 ~~~
--blur 0x5  -emboss 1  -fx G
+convert fractal.png -blur 0x5  -emboss 1  -fx G \
+        -auto-level -shave 20x20 +repage  fractal_emboss_1g.png
+convert noise.png -virtual-pixel tile -blur 0x5  -emboss 1  -fx G \
+        -auto-level noise_emboss_1g.png
+convert hextile.png -virtual-pixel tile -blur 0x5  -emboss 1  -fx G \
+        -auto-level hextile_emboss_1g.png
 ~~~
 
 [![\[Fractal\]](fractal_emboss_1g.png)](fractal_emboss_1g.png)
@@ -228,7 +319,12 @@ emboss\_1g
 emboss\_0s
 
 ~~~
--blur 0x3  -emboss .5 -shade 120x45
+convert fractal.png -blur 0x3  -emboss .5 -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_emboss_0s.png
+convert noise.png -virtual-pixel tile -blur 0x3  -emboss .5 -shade 120x45 \
+        -auto-level noise_emboss_0s.png
+convert hextile.png -virtual-pixel tile -blur 0x3  -emboss .5 -shade 120x45 \
+        -auto-level hextile_emboss_0s.png
 ~~~
 
 [![\[Fractal\]](fractal_emboss_0s.png)](fractal_emboss_0s.png)
@@ -238,7 +334,12 @@ emboss\_0s
 emboss\_1s
 
 ~~~
--blur 0x5  -emboss 1  -shade 120x45
+convert fractal.png -blur 0x5  -emboss 1  -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_emboss_1s.png
+convert noise.png -virtual-pixel tile -blur 0x5  -emboss 1  -shade 120x45 \
+        -auto-level noise_emboss_1s.png
+convert hextile.png -virtual-pixel tile -blur 0x5  -emboss 1  -shade 120x45 \
+        -auto-level hextile_emboss_1s.png
 ~~~
 
 [![\[Fractal\]](fractal_emboss_1s.png)](fractal_emboss_1s.png)
@@ -248,7 +349,12 @@ emboss\_1s
 emboss\_1gs
 
 ~~~
--blur 0x5  -emboss 1  -fx G  -shade 120x45
+convert fractal.png -blur 0x5  -emboss 1 -fx G -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_emboss_1gs.png
+convert noise.png -virtual-pixel tile -blur 0x5  -emboss 1 -fx G -shade 120x45 \
+        -auto-level noise_emboss_1gs.png
+convert hextile.png -virtual-pixel tile -blur 0x5  -emboss 1 -fx G -shade 120x45 \
+        -auto-level hextile_emboss_1gs.png
 ~~~
 
 [![\[Fractal\]](fractal_emboss_1gs.png)](fractal_emboss_1gs.png)
@@ -258,7 +364,12 @@ emboss\_1gs
 emboss\_5gs
 
 ~~~
--blur 0x10 -emboss 5  -fx G  -shade 120x45
+convert fractal.png -blur 0x10 -emboss 5  -fx G  -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_emboss_5gs.png
+convert noise.png -virtual-pixel tile -blur 0x10 -emboss 5  -fx G  -shade 120x45 \
+        -auto-level noise_emboss_5gs.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -emboss 5  -fx G  -shade 120x45 \
+        -auto-level hextile_emboss_5gs.png
 ~~~
 
 [![\[Fractal\]](fractal_emboss_5gs.png)](fractal_emboss_5gs.png)
@@ -271,7 +382,12 @@ emboss\_5gs
 charcoal
 
 ~~~
--blur 0x2  -charcoal 10 -negate
+convert fractal.png -blur 0x2  -charcoal 10 -negate \
+        -auto-level -shave 20x20 +repage  fractal_charcoal.png
+convert noise.png -virtual-pixel tile -blur 0x2  -charcoal 10 -negate \
+        -auto-level noise_charcoal.png
+convert hextile.png -virtual-pixel tile -blur 0x2  -charcoal 10 -negate \
+        -auto-level hextile_charcoal.png
 ~~~
 
 [![\[Fractal\]](fractal_charcoal.png)](fractal_charcoal.png)
@@ -281,7 +397,12 @@ charcoal
 charcoal\_10s
 
 ~~~
--blur 0x2  -charcoal 10 -negate -shade 120x45
+convert fractal.png -blur 0x2  -charcoal 10 -negate -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_charcoal_10s.png
+convert noise.png -virtual-pixel tile -blur 0x2  -charcoal 10 -negate -shade 120x45 \
+        -auto-level noise_charcoal_10s.png
+convert hextile.png -virtual-pixel tile -blur 0x2  -charcoal 10 -negate -shade 120x45 \
+        -auto-level hextile_charcoal_10s.png
 ~~~
 
 [![\[Fractal\]](fractal_charcoal_10s.png)](fractal_charcoal_10s.png)
@@ -291,7 +412,12 @@ charcoal\_10s
 charcoal\_1s
 
 ~~~
--blur 0x2  -charcoal 1  -negate -shade 120x45
+convert fractal.png -blur 0x2  -charcoal 1  -negate -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_charcoal_1s.png
+convert noise.png -virtual-pixel tile -blur 0x2  -charcoal 1  -negate -shade 120x45 \
+        -auto-level noise_charcoal_1s.png
+convert hextile.png -virtual-pixel tile -blur 0x2  -charcoal 1  -negate -shade 120x45 \
+        -auto-level hextile_charcoal_1s.png
 ~~~
 
 [![\[Fractal\]](fractal_charcoal_1s.png)](fractal_charcoal_1s.png)
@@ -301,7 +427,12 @@ charcoal\_1s
 edges
 
 ~~~
--blur 0x2  -edge 10
+convert fractal.png -blur 0x2  -edge 10 \
+        -auto-level -shave 20x20 +repage  fractal_edges.png
+convert noise.png -virtual-pixel tile -blur 0x2  -edge 10 \
+        -auto-level noise_edges.png
+convert hextile.png -virtual-pixel tile -blur 0x2  -edge 10 \
+        -auto-level hextile_edges.png
 ~~~
 
 [![\[Fractal\]](fractal_edges.png)](fractal_edges.png)
@@ -311,7 +442,12 @@ edges
 edge\_grey
 
 ~~~
--blur 0x2  -edge 10 -fx G
+convert fractal.png -blur 0x2  -edge 10 -fx G \
+        -auto-level -shave 20x20 +repage  fractal_edge_grey.png
+convert noise.png -virtual-pixel tile -blur 0x2  -edge 10 -fx G \
+        -auto-level noise_edge_grey.png
+convert hextile.png -virtual-pixel tile -blur 0x2  -edge 10 -fx G \
+        -auto-level hextile_edge_grey.png
 ~~~
 
 [![\[Fractal\]](fractal_edge_grey.png)](fractal_edge_grey.png)
@@ -321,7 +457,12 @@ edge\_grey
 mesas
 
 ~~~
--blur 0x2  -edge 10 -fx G -shade 120x45
+convert fractal.png -blur 0x2  -edge 10 -fx G -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_mesas.png
+convert noise.png -virtual-pixel tile -blur 0x2  -edge 10 -fx G -shade 120x45 \
+        -auto-level noise_mesas.png
+convert hextile.png -virtual-pixel tile -blur 0x2  -edge 10 -fx G -shade 120x45 \
+        -auto-level hextile_mesas.png
 ~~~
 
 [![\[Fractal\]](fractal_mesas.png)](fractal_mesas.png)
@@ -334,7 +475,12 @@ mesas
 lines
 
 ~~~
--blur 0x10 -emboss 4 -edge 1
+convert fractal.png -blur 0x10 -emboss 4 -edge 1 \
+        -auto-level -shave 20x20 +repage  fractal_lines.png
+convert noise.png -virtual-pixel tile -blur 0x10 -emboss 4 -edge 1 \
+        -auto-level noise_lines.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -emboss 4 -edge 1 \
+        -auto-level hextile_lines.png
 ~~~
 
 [![\[Fractal\]](fractal_lines.png)](fractal_lines.png)
@@ -344,7 +490,12 @@ lines
 loops
 
 ~~~
--blur 0x10 -edge 15  -edge 1  -blur 0x1
+convert fractal.png -blur 0x10 -edge 15  -edge 1  -blur 0x1 \
+        -auto-level -shave 20x20 +repage  fractal_loops.png
+convert noise.png -virtual-pixel tile -blur 0x10 -edge 15  -edge 1  -blur 0x1 \
+        -auto-level noise_loops.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -edge 15  -edge 1  -blur 0x1 \
+        -auto-level hextile_loops.png
 ~~~
 
 [![\[Fractal\]](fractal_loops.png)](fractal_loops.png)
@@ -354,7 +505,12 @@ loops
 engrave\_loops
 
 ~~~
--blur 0x10 -edge 15  -edge 1  -blur 0x1 -fx R+B+G -shade 280x45
+convert fractal.png -blur 0x10 -edge 15  -edge 1  -blur 0x1 -fx R+B+G -shade 280x45 \
+        -auto-level -shave 20x20 +repage  fractal_engrave_loops.png
+convert noise.png -virtual-pixel tile -blur 0x10 -edge 15  -edge 1  -blur 0x1 -fx R+B+G -shade 280x45 \
+        -auto-level noise_engrave_loops.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -edge 15  -edge 1  -blur 0x1 -fx R+B+G -shade 280x45 \
+        -auto-level hextile_engrave_loops.png
 ~~~
 
 [![\[Fractal\]](fractal_engrave_loops.png)](fractal_engrave_loops.png)
@@ -364,7 +520,12 @@ engrave\_loops
 engrave\_loop
 
 ~~~
--blur 0x10 -edge 15  -edge 1  -blur 0x1 -fx G -shade 280x45
+convert fractal.png -blur 0x10 -edge 15  -edge 1  -blur 0x1 -fx G -shade 280x45 \
+        -auto-level -shave 20x20 +repage  fractal_engrave_loop.png
+convert noise.png -virtual-pixel tile -blur 0x10 -edge 15  -edge 1  -blur 0x1 -fx G -shade 280x45 \
+        -auto-level noise_engrave_loop.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -edge 15  -edge 1  -blur 0x1 -fx G -shade 280x45 \
+        -auto-level hextile_engrave_loop.png
 ~~~
 
 [![\[Fractal\]](fractal_engrave_loop.png)](fractal_engrave_loop.png)
@@ -374,17 +535,30 @@ engrave\_loop
 color\_contours
 
 ~~~
--blur 0x10 -normalize -fx 'sin(u*4*pi)*100' -edge 1 -blur 0x1
+convert fractal.png -blur 0x10 -normalize -fx 'sin(u*4*pi)*100' -edge 1 -blur 0x1 \
+        -auto-level -shave 20x20 +repage  fractal_color_contours.png
+convert noise.png -virtual-pixel tile -blur 0x10 -normalize -fx 'sin(u*4*pi)*100' -edge 1 -blur 0x1 \
+        -auto-level noise_color_contours.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -normalize -fx 'sin(u*4*pi)*100' -edge 1 -blur 0x1 \
+        -auto-level hextile_color_contours.png
 ~~~
 
 [![\[Fractal\]](fractal_color_contours.png)](fractal_color_contours.png)
 [![\[Noise\]](noise_color_contours.png)](noise_color_contours.png)
 [![\[Noise\]](hextile_color_contours.png)](hextile_color_contours.png)
+
 contours
 
 ~~~
--blur 0x10 -normalize -fx 'sin(g*4*pi)*100' \
-   -edge 1 -blur 0x1 -shade 280x45
+convert fractal.png -blur 0x10 -normalize -fx 'sin(g*4*pi)*100' \
+        -edge 1 -blur 0x1 -shade 280x45 \
+        -auto-level -shave 20x20 +repage  fractal_contours.png
+convert noise.png -virtual-pixel tile -blur 0x10 -normalize -fx 'sin(g*4*pi)*100' \
+        -edge 1 -blur 0x1 -shade 280x45 \
+        -auto-level noise_contours.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -normalize -fx 'sin(g*4*pi)*100' \
+        -edge 1 -blur 0x1 -shade 280x45 \
+        -auto-level hextile_contours.png
 ~~~
 
 [![\[Fractal\]](fractal_contours.png)](fractal_contours.png)
@@ -399,7 +573,12 @@ contours
 blobs
 
 ~~~
--blur 0x10 -edge 1
+convert fractal.png -blur 0x10 -edge 1 \
+        -auto-level -shave 20x20 +repage  fractal_blobs.png
+convert noise.png -virtual-pixel tile -blur 0x10 -edge 1 \
+        -auto-level noise_blobs.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -edge 1 \
+        -auto-level hextile_blobs.png
 ~~~
 
 [![\[Fractal\]](fractal_blobs.png)](fractal_blobs.png)
@@ -409,7 +588,12 @@ blobs
 blobs\_grey
 
 ~~~
--blur 0x10 -edge 1 -fx '(R+G+B)/3'
+convert fractal.png -blur 0x10 -edge 1 -fx '(R+G+B)/3' \
+        -auto-level -shave 20x20 +repage  fractal_blobs_grey.png
+convert noise.png -virtual-pixel tile -blur 0x10 -edge 1 -fx '(R+G+B)/3' \
+        -auto-level noise_blobs_grey.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -edge 1 -fx '(R+G+B)/3' \
+        -auto-level hextile_blobs_grey.png
 ~~~
 
 [![\[Fractal\]](fractal_blobs_grey.png)](fractal_blobs_grey.png)
@@ -419,7 +603,12 @@ blobs\_grey
 pits
 
 ~~~
--blur 0x10 -edge 1 -fx G -shade 280x45
+convert fractal.png -blur 0x10 -edge 1 -fx G -shade 280x45 \
+        -auto-level -shave 20x20 +repage  fractal_pits.png
+convert noise.png -virtual-pixel tile -blur 0x10 -edge 1 -fx G -shade 280x45 \
+        -auto-level noise_pits.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -edge 1 -fx G -shade 280x45 \
+        -auto-level hextile_pits.png
 ~~~
 
 [![\[Fractal\]](fractal_pits.png)](fractal_pits.png)
@@ -429,7 +618,12 @@ pits
 ridges
 
 ~~~
--blur 0x10 \( +clone -negate \) -edge 1 -fx u.G+v.G -shade 280x45
+convert fractal.png -blur 0x10 \( +clone -negate \) -edge 1 -fx u.G+v.G -shade 280x45 \
+        -auto-level -shave 20x20 +repage  fractal_ridges.png
+convert noise.png -virtual-pixel tile -blur 0x10 \( +clone -negate \) -edge 1 -fx u.G+v.G -shade 280x45 \
+        -auto-level noise_ridges.png
+convert hextile.png -virtual-pixel tile -blur 0x10 \( +clone -negate \) -edge 1 -fx u.G+v.G -shade 280x45 \
+        -auto-level hextile_ridges.png
 ~~~
 
 [![\[Fractal\]](fractal_ridges.png)](fractal_ridges.png)
@@ -439,8 +633,15 @@ ridges
 mottled
 
 ~~~
--blur 0x10 -write mpr:save -negate -edge 1 -negate -fx G \
-   \( mpr:save -edge 1 -fx G \) -shade 280x45 -average
+convert fractal.png -blur 0x10 -write mpr:save -negate -edge 1 -negate -fx G \
+        \( mpr:save -edge 1 -fx G \) -shade 280x45 -average \
+        -auto-level -shave 20x20 +repage  fractal_mottled.png
+convert noise.png -virtual-pixel tile -blur 0x10 -write mpr:save -negate -edge 1 -negate -fx G \
+        \( mpr:save -edge 1 -fx G \) -shade 280x45 -average \
+        -auto-level noise_mottled.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -write mpr:save -negate -edge 1 -negate -fx G \
+        \( mpr:save -edge 1 -fx G \) -shade 280x45 -average \
+        -auto-level hextile_mottled.png
 ~~~
 
 [![\[Fractal\]](fractal_mottled.png)](fractal_mottled.png)
@@ -453,7 +654,12 @@ mottled
 paint\_raw10 *(no post -auto-level)*
 
 ~~~
--paint 10
+convert fractal.png -paint 10 \
+        -shave 20x20 +repage  fractal_paint_raw10.png
+convert noise.png -virtual-pixel tile -paint 10 \
+        noise_paint_raw10.png
+convert hextile.png -virtual-pixel tile -paint 10 \
+        hextile_paint_raw10.png
 ~~~
 
 [![\[Fractal\]](fractal_paint_raw10.png)](fractal_paint_raw10.png)
@@ -463,7 +669,12 @@ paint\_raw10 *(no post -auto-level)*
 paint\_areas
 
 ~~~
--paint 10  -blur 0x5  -paint 10
+convert fractal.png -paint 10  -blur 0x5  -paint 10 \
+        -auto-level -shave 20x20 +repage  fractal_paint_areas.png
+convert noise.png -virtual-pixel tile -paint 10  -blur 0x5  -paint 10 \
+        -auto-level noise_paint_areas.png
+convert hextile.png -virtual-pixel tile -paint 10  -blur 0x5  -paint 10 \
+        -auto-level hextile_paint_areas.png
 ~~~
 
 [![\[Fractal\]](fractal_paint_areas.png)](fractal_paint_areas.png)
@@ -473,7 +684,12 @@ paint\_areas
 paint\_raw10s
 
 ~~~
--paint 10  -shade 120x45
+convert fractal.png -paint 10  -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_paint_raw10s.png
+convert noise.png -virtual-pixel tile -paint 10  -shade 120x45 \
+        -auto-level noise_paint_raw10s.png
+convert hextile.png -virtual-pixel tile -paint 10  -shade 120x45 \
+        -auto-level hextile_paint_raw10s.png
 ~~~
 
 [![\[Fractal\]](fractal_paint_raw10s.png)](fractal_paint_raw10s.png)
@@ -483,7 +699,12 @@ paint\_raw10s
 paint\_8
 
 ~~~
--blur 0x5  -paint 8
+convert fractal.png -blur 0x5  -paint 8 \
+        -auto-level -shave 20x20 +repage  fractal_paint_8.png
+convert noise.png -virtual-pixel tile -blur 0x5  -paint 8 \
+        -auto-level noise_paint_8.png
+convert hextile.png -virtual-pixel tile -blur 0x5  -paint 8 \
+        -auto-level hextile_paint_8.png
 ~~~
 
 [![\[Fractal\]](fractal_paint_8.png)](fractal_paint_8.png)
@@ -493,7 +714,12 @@ paint\_8
 paint\_8s
 
 ~~~
--blur 0x5  -paint 8  -shade 120x45
+convert fractal.png -blur 0x5  -paint 8  -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_paint_8s.png
+convert noise.png -virtual-pixel tile -blur 0x5  -paint 8  -shade 120x45 \
+        -auto-level noise_paint_8s.png
+convert hextile.png -virtual-pixel tile -blur 0x5  -paint 8  -shade 120x45 \
+        -auto-level hextile_paint_8s.png
 ~~~
 
 [![\[Fractal\]](fractal_paint_8s.png)](fractal_paint_8s.png)
@@ -503,7 +729,12 @@ paint\_8s
 paint\_3
 
 ~~~
--blur 0x10 -paint 3
+convert fractal.png -blur 0x10 -paint 3 \
+        -auto-level -shave 20x20 +repage  fractal_paint_3.png
+convert noise.png -virtual-pixel tile -blur 0x10 -paint 3 \
+        -auto-level noise_paint_3.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -paint 3 \
+        -auto-level hextile_paint_3.png
 ~~~
 
 [![\[Fractal\]](fractal_paint_3.png)](fractal_paint_3.png)
@@ -513,7 +744,12 @@ paint\_3
 paint\_3s
 
 ~~~
--blur 0x10 -paint 3  -shade 120x45
+convert fractal.png -blur 0x10 -paint 3  -shade 120x45 \
+        -auto-level -shave 20x20 +repage  fractal_paint_3s.png
+convert noise.png -virtual-pixel tile -blur 0x10 -paint 3  -shade 120x45 \
+        -auto-level noise_paint_3s.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -paint 3  -shade 120x45 \
+        -auto-level hextile_paint_3s.png
 ~~~~
 
 [![\[Fractal\]](fractal_paint_3s.png)](fractal_paint_3s.png)
@@ -523,8 +759,15 @@ paint\_3s
 paint\_3d
 
 ~~~
--blur 0x10 -paint 3 \( +clone -shade 120x45 \) \
-   +swap  -compose overlay -composite
+convert fractal.png -blur 0x10 -paint 3 \( +clone -shade 120x45 \) \
+        +swap  -compose overlay -composite \
+        -auto-level -shave 20x20 +repage  fractal_paint_3d.png
+convert noise.png -virtual-pixel tile -blur 0x10 -paint 3 \( +clone -shade 120x45 \) \
+        +swap  -compose overlay -composite \
+        -auto-level noise_paint_3d.png
+convert hextile.png -virtual-pixel tile -blur 0x10 -paint 3 \( +clone -shade 120x45 \) \
+        +swap  -compose overlay -composite \
+        -auto-level hextile_paint_3d.png
 ~~~
 
 [![\[Fractal\]](fractal_paint_3d.png)](fractal_paint_3d.png)
@@ -537,9 +780,18 @@ paint\_3d
 levels *(no post -auto-level)*
 
 ~~~
--blur 0x12 -fx intensity -normalize \
-   -size 1x9 gradient:navy-lavender \
-   -interpolate integer -fx 'v.p{0,G*(v.h-1)}'
+convert fractal.png -blur 0x12 -fx intensity -normalize \
+       -size 1x9 gradient:navy-lavender \
+       -interpolate integer -fx 'v.p{0,G*(v.h-1)}' \
+        -shave 20x20 +repage  fractal_levels.png
+convert noise.png -virtual-pixel tile -blur 0x12 -fx intensity -normalize \
+        -size 1x9 gradient:navy-lavender \
+        -interpolate integer -fx 'v.p{0,G*(v.h-1)}' \
+        noise_levels.png
+convert hextile.png -virtual-pixel tile -blur 0x12 -fx intensity -normalize \
+        -size 1x9 gradient:navy-lavender \
+        -interpolate integer -fx 'v.p{0,G*(v.h-1)}' \
+        hextile_levels.png
 ~~~
 
 [![\[Fractal\]](fractal_levels.png)](fractal_levels.png)
@@ -549,11 +801,24 @@ levels *(no post -auto-level)*
 levels\_3d *(no post -auto-level)*
 
 ~~~
--blur 0x12 -fx intensity -normalize \
-   -size 1x9 gradient:navy-lavender \
-   -interpolate integer -fx 'v.p{0,G*(v.h-1)}' \
-   \( +clone -shade 120x45 -normalize \) \
-   -compose overlay -composite
+convert fractal.png -blur 0x12 -fx intensity -normalize \
+        -size 1x9 gradient:navy-lavender \
+        -interpolate integer -fx 'v.p{0,G*(v.h-1)}' \
+        \( +clone -shade 120x45 -normalize \) \
+        -compose overlay -composite \
+        -shave 20x20 +repage  fractal_levels_3d.png
+convert noise.png -virtual-pixel tile -blur 0x12 -fx intensity -normalize \
+        -size 1x9 gradient:navy-lavender \
+        -interpolate integer -fx 'v.p{0,G*(v.h-1)}' \
+        \( +clone -shade 120x45 -normalize \) \
+        -compose overlay -composite \
+        noise_levels_3d.png
+convert hextile.png -virtual-pixel tile -blur 0x12 -fx intensity -normalize \
+        -size 1x9 gradient:navy-lavender \
+        -interpolate integer -fx 'v.p{0,G*(v.h-1)}' \
+        \( +clone -shade 120x45 -normalize \) \
+        -compose overlay -composite \
+        hextile_levels_3d.png
 ~~~
 
 [![\[Fractal\]](fractal_levels_3d.png)](fractal_levels_3d.png)
@@ -563,8 +828,15 @@ levels\_3d *(no post -auto-level)*
 zebra
 
 ~~~
--blur 0x12 -normalize \
-   -size 1x19   pattern:gray50   -fx 'v.p{0,G*(v.h-1)}'
+convert fractal.png -blur 0x12 -normalize \
+        -size 1x19   pattern:gray50   -fx 'v.p{0,G*(v.h-1)}' \
+        -auto-level -shave 20x20 +repage  fractal_zebra.png
+convert noise.png -virtual-pixel tile -blur 0x12 -normalize \
+        -size 1x19   pattern:gray50   -fx 'v.p{0,G*(v.h-1)}' \
+        -auto-level noise_zebra.png
+convert hextile.png -virtual-pixel tile -blur 0x12 -normalize \
+        -size 1x19   pattern:gray50   -fx 'v.p{0,G*(v.h-1)}' \
+        -auto-level hextile_zebra.png
 ~~~
 
 [![\[Fractal\]](fractal_zebra.png)](fractal_zebra.png)
@@ -574,9 +846,18 @@ zebra
 midlevel
 
 ~~~
--blur 0x12 -normalize \
-   \( -size 1x9 xc: -draw 'color 0,4 point' -negate \) \
-   -fx 'v.p{0,G*(v.h-1)}'
+convert fractal.png -blur 0x12 -normalize \
+        \( -size 1x9 xc: -draw 'color 0,4 point' -negate \) \
+        -fx 'v.p{0,G*(v.h-1)}' \
+        -auto-level -shave 20x20 +repage  fractal_midlevel.png
+convert noise.png -virtual-pixel tile -blur 0x12 -normalize \
+        \( -size 1x9 xc: -draw 'color 0,4 point' -negate \) \
+        -fx 'v.p{0,G*(v.h-1)}' \
+        -auto-level noise_midlevel.png
+convert hextile.png -virtual-pixel tile -blur 0x12 -normalize \
+        \( -size 1x9 xc: -draw 'color 0,4 point' -negate \) \
+        -fx 'v.p{0,G*(v.h-1)}' \
+        -auto-level hextile_midlevel.png
 ~~~
 
 [![\[Fractal\]](fractal_midlevel.png)](fractal_midlevel.png)
@@ -586,10 +867,21 @@ midlevel
 edged\_level *(no post -auto-level)*
 
 ~~~
--blur 0x12 -normalize \
-   \( -size 1x9 xc: -draw 'color 0,4 point' \) \
-   -fx '(.6+.2*v.p{0,G*(v.h-1)})' \
-   \( +clone -normalize -edge 1 \)  -fx 'u+v'
+convert fractal.png -blur 0x12 -normalize \
+        \( -size 1x9 xc: -draw 'color 0,4 point' \) \
+        -fx '(.6+.2*v.p{0,G*(v.h-1)})' \
+        \( +clone -normalize -edge 1 \)  -fx 'u+v' \
+        -shave 20x20 +repage  fractal_edged_level.png
+convert noise.png -virtual-pixel tile -blur 0x12 -normalize \
+        \( -size 1x9 xc: -draw 'color 0,4 point' \) \
+        -fx '(.6+.2*v.p{0,G*(v.h-1)})' \
+        \( +clone -normalize -edge 1 \)  -fx 'u+v' \
+        noise_edged_level.png
+convert hextile.png -virtual-pixel tile -blur 0x12 -normalize \
+        \( -size 1x9 xc: -draw 'color 0,4 point' \) \
+        -fx '(.6+.2*v.p{0,G*(v.h-1)})' \
+        \( +clone -normalize -edge 1 \)  -fx 'u+v' \
+        hextile_edged_level.png
 ~~~
 
 [![\[Fractal\]](fractal_edged_level.png)](fractal_edged_level.png)
@@ -599,11 +891,24 @@ edged\_level *(no post -auto-level)*
 layered\_levels *(no post -auto-level)*
 
 ~~~
--blur 0x12 -normalize \
-   \( -size 1x9 xc: -draw 'color 0,4 point' \) \
-   -fx '(.5+.3*v.p{0,u*(v.h-1)})' \
-   \( +clone -normalize -edge .3 -fx 'R+G+B' \) \
-   -fx 'intensity+v'  -fill skyblue -tint 100
+convert fractal.png -blur 0x12 -normalize \
+        \( -size 1x9 xc: -draw 'color 0,4 point' \) \
+        -fx '(.5+.3*v.p{0,u*(v.h-1)})' \
+        \( +clone -normalize -edge .3 -fx 'R+G+B' \) \
+        -fx 'intensity+v'  -fill skyblue -tint 100 \
+        -shave 20x20 +repage  fractal_layered_levels.png
+convert noise.png -virtual-pixel tile -blur 0x12 -normalize \
+        \( -size 1x9 xc: -draw 'color 0,4 point' \) \
+        -fx '(.5+.3*v.p{0,u*(v.h-1)})' \
+        \( +clone -normalize -edge .3 -fx 'R+G+B' \) \
+        -fx 'intensity+v'  -fill skyblue -tint 100 \
+        noise_layered_levels.png
+convert hextile.png -virtual-pixel tile -blur 0x12 -normalize \
+        \( -size 1x9 xc: -draw 'color 0,4 point' \) \
+        -fx '(.5+.3*v.p{0,u*(v.h-1)})' \
+        \( +clone -normalize -edge .3 -fx 'R+G+B' \) \
+        -fx 'intensity+v'  -fill skyblue -tint 100 \
+        hextile_layered_levels.png
 ~~~
 
 [![\[Fractal\]](fractal_layered_levels.png)](fractal_layered_levels.png)
@@ -616,8 +921,15 @@ layered\_levels *(no post -auto-level)*
 filaments
 
 ~~~
--blur 0x5 -normalize -fx g \
-   -sigmoidal-contrast 15x50% -solarize 50%
+convert fractal.png -blur 0x5 -normalize -fx g \
+        -sigmoidal-contrast 15x50% -solarize 50% \
+        -shave 20x20 +repage -auto-level fractal_filaments.png
+convert noise.png -virtual-pixel tile -blur 0x5 -normalize -fx g \
+        -sigmoidal-contrast 15x50% -solarize 50% \
+        -auto-level noise_filaments.png
+convert hextile.png -virtual-pixel tile -blur 0x5 -normalize -fx g \
+        -sigmoidal-contrast 15x50% -solarize 50% \
+        -auto-level hextile_filaments.png
 ~~~
 
 [![\[Fractal\]](fractal_filaments.png)](fractal_filaments.png)
