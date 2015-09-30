@@ -19,4 +19,8 @@ all: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
 clean:
 	rm -f $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
 
+backgrounds: backgrounds/index.html backgrounds/index.sh
+
+morphology: morphology/index.html morphology/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
