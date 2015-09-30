@@ -218,3 +218,6 @@ done | montage - $flags -geometry +15+0 miff:- |
   montage -label "General 4 & 8 Conection Preserving" - \
     -font ArialB $flags -geometry +25+0 kernel_thinse_48gen.gif
 
+#convert blur_1.gif -scale 800% blur_1_mag.gif
+#convert blur_2.gif -scale 800% blur_2_mag.gif
+#convert blur_union.gif -scale 800% blur_union_mag.gif
