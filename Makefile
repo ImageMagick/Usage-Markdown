@@ -1,8 +1,14 @@
 PANDOC := /usr/local/bin/pandoc
 MARKDOWN_USAGE_FILES = $(shell find . -name index.md)
 HTML_USAGE_FILES = $(MARKDOWN_USAGE_FILES:.md=.html)
+BASH_USAGE_FILES = $(MARKDOWN_USAGE_FILES:.md=.sh)
 
-all: $(HTML_USAGE_FILES)
+all: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
+
+%.sh: %.md
+	printf "[PANDOC] %-28s > %s\n" "$<" $@
+	${PANDOC} -f markdown -t _writers/script.lua \
+		--normalize -o "$@" "$<"
 
 %.html: %.md
 	printf "[PANDOC] %-28s > %s\n" "$<" $@
@@ -11,6 +17,6 @@ all: $(HTML_USAGE_FILES)
 		--template=./_templates/page.html -o "$@" "$<"
 
 clean:
-	rm -f $(HTML_USAGE_FILES)
+	rm -f $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
 
-.SILENT: $(HTML_USAGE_FILES)
+.SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
