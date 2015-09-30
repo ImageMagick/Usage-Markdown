@@ -16,7 +16,7 @@ In previous major version of ImageMagick (version 5.5.7 and earlier) the command
 
 The cause of the problem was that ImageMagick followed a fairly standard UNIX command line style...
 
-~~~
+~~~{.skip}
 command  [options]  input_image   output_image
 ~~~
 
@@ -24,7 +24,7 @@ As time went on this started to produce problems, as images are complex objects 
 
 As a consequence of this the above slowly expanded to become..
 
-~~~
+~~~{.skip}
 command  [options] image1 [options] image2 [options]  output_image
 ~~~
 
@@ -33,7 +33,7 @@ The various image operations such as "`-negate`", "`-resize`", and "`-crop`", et
 
 For example under version 5.5.7 the following two commands were equally valid and did the same thing.
 
-~~~
+~~~{.skip}
 convert  -negate  image.gif   output.gif
 
 convert   image.gif  -negate  output.gif
@@ -75,7 +75,7 @@ In essence command line usage in versions before version 6 was ill-defined and i
 Note that no 'operation' should be given, before at least one image is either read in or created. In fact you may like to consider a 'image read/create' also as an operation as well.
 This means the **IMv6 syntax** can now be simplified as being...
 
-~~~
+~~~{.skip}
 command { [-setting]... "image"|-operation }...  "output_image"
 ~~~
 
@@ -97,8 +97,10 @@ For example "`+gravity`" will return the gravity setting to the initial 'gravity
 
 Operator Settings which control how later operators function. They set the colors, and fonts that may be used by an operator, control placement of images and text, the lookup of color from source images, control the method of processing by some of the more complex operators, etc., etc., etc..
   
-~~~
--dither -gravity -fill -background     -bordercolor -stroke -font -pointsize     -strokewidth -box -virtual-pixel -interpolate
+~~~{.skip}
+     -dither -gravity -fill -background
+     -bordercolor -stroke -font -pointsize
+     -strokewidth -box -virtual-pixel -interpolate
 ~~~
 
   
@@ -110,8 +112,9 @@ Input Settings are specifically restricted to controlling the creation of images
   
 they are created or read in from an external file.
   
-~~~
--label -delay -dispose -page -comment     -size
+~~~{.skip}
+     -label -delay -dispose -page -comment
+     -size
 ~~~
 
   
@@ -125,8 +128,9 @@ Output Settings which are only used during the writing or saving of images back 
   
 While they can be given anywhere on the command line, they are only applied when the image is written, either as the default last image filename argument operation, or via a "`-write`", or "`-identify`" operation.
   
-~~~
--quality -loop -compression -format     -path -transparent-color
+~~~{.skip}
+     -quality -loop -compression -format
+     -path -transparent-color
 ~~~
 
   
@@ -138,8 +142,9 @@ A few 'operation settings' such as the current "`-background`" color, is also as
 
 Control & Debugging Settings which control how IM, in general, performs its tasks. These includes...
   
-~~~
--verbose -debug -warnings -quiet     -monitor -regard-warnings
+~~~{.skip}
+     -verbose -debug -warnings -quiet
+     -monitor -regard-warnings
 ~~~
 
   
@@ -155,8 +160,10 @@ These operators can be grouped into a few sub-categories...
 
 Image Creation Operators which will read images from a file or pipeline, or generate new images. These include...
 
-~~~
-image.png xc: canvas: logo: rose:        gradient: radial-gradient: plasma:        tile: pattern: label: caption: text:
+~~~{.skip}
+     image.png xc: canvas: logo: rose:
+     gradient: radial-gradient: plasma:
+     tile: pattern: label: caption: text:
 ~~~
 
   
@@ -168,8 +175,32 @@ Of course being operators, any previously defined 'settings' will be applied to 
 
 Simple Image Processing Operators will modify all images that have already been read into memory. Each image is modified separately to every other image. They include operations such as...
   
-~~~
--crop  -repage  -border -frame     -trim -chop -draw  -annotate     -resize -scale -sample -thumbnail     -magnify -adaptive-resize  -liquid-resize     -distort -morpohology -sparse-color     -rotate -swirl -implode  -wave     -flip  -flop  -transpose  -transverse     -blur -gaussian-blur -convolve -shadow     --radial-blur -motion-blur -sharpen -unsharp     -adaptive-sharpen  -adaptive-blur     -noise  -despeckle -median     -negate  -level  -level-color  -gamma     -auto-level -auto-gamma -sigmoidial-contrast     -normalize -linear-stretch  -contrast-stretch     -colorize  -tint  -modulate  -contrast     -equalize  -sepia-tone   -solarize     -recolor -opaque  -transparent     -colors  -map  -ordered-dither  -random-dither     -raise -paint -sketch -charcoal -edge     -vignette -emboss -shade -poloroid     -encipher  -decipher  -stegano     -evaluate -function     -alpha -colorspace -separate          And probably many other opertors I have forgotten! (or have been added)
+~~~{.skip}
+     -crop  -repage  -border -frame
+     -trim -chop -draw  -annotate
+     -resize -scale -sample -thumbnail
+     -magnify -adaptive-resize  -liquid-resize
+     -distort -morpohology -sparse-color
+     -rotate -swirl -implode  -wave
+     -flip  -flop  -transpose  -transverse
+     -blur -gaussian-blur -convolve -shadow
+     -radial-blur -motion-blur -sharpen -unsharp
+     -adaptive-sharpen  -adaptive-blur
+     -noise  -despeckle -median
+     -negate  -level  -level-color  -gamma
+     -auto-level -auto-gamma -sigmoidial-contrast
+     -normalize -linear-stretch  -contrast-stretch
+     -colorize  -tint  -modulate  -contrast
+     -equalize  -sepia-tone   -solarize
+     -recolor -opaque  -transparent
+     -colors  -map  -ordered-dither  -random-dither
+     -raise -paint -sketch -charcoal -edge
+     -vignette -emboss -shade -poloroid
+     -encipher  -decipher  -stegano
+     -evaluate -function
+     -alpha -colorspace -separate 
+
+    And probably many other opertors I have forgotten! (or have been added)
 ~~~
 
   
@@ -185,8 +216,10 @@ Note that many API's only apply the equivalent operation to just the first image
 
 Multi-Image List Operators are special in that they modify the whole current list of images as a single entity. They could replace the whole list with a single combined image, or modify each image depending on the other images found before or after it. They are used for alpha composition, animation handling, color channel handling, etc...
   
-~~~
--append -flatten  -mosaic -layers     -composite  -combine  -fx  -coalesce     -clut  -average  -evaluate-sequence
+~~~{.skip}
+     -append -flatten  -mosaic -layers
+     -composite  -combine  -fx  -coalesce
+     -clut  -average  -evaluate-sequence
 ~~~
 
   
@@ -200,8 +233,9 @@ None of these operators can be used in a "`mogrify`" command, as that command pr
 
 Image Stack Operators affects the ordering of the list of images currently in memory. Specifically they provide special 'on the side' processing of images. They are in many way similar to the previous [Image List Operator](#option_list), but they don't actual modify the images themselves, only how they are arranged in memory.
   
-~~~
-( ) -delete -insert -swap     -reverse -duplicate -clone
+~~~{.skip}
+     ( ) -delete -insert -swap
+     -reverse -duplicate -clone
 ~~~
 
   
@@ -213,8 +247,9 @@ None of these operators can be used in a "`mogrify`" command, as that command pr
 
 Miscelanious Special Operators are operators that do things in either an unusual or non-standard ways (compared to the above).
   
-~~~
--geometry -version -list -bench        -concurrent -preview
+~~~{.skip}
+     -geometry -version -list -bench
+     -concurrent -preview
 ~~~
 
   
@@ -268,7 +303,7 @@ As you can see the processing of the command line in ImageMagick version 6 is ve
 
 Due to the fact that a lot of IM scripts out there use a command with a single image operator of the form...
 
-~~~
+~~~{.skip}
 command  -operator  input_image   output_image
 ~~~
 
@@ -277,7 +312,7 @@ That is you specified an image operator before you actually read the image to wh
 To handle this legacy situation, IM will save up all the image operators it sees, and apply them to the first image when it is finally seen on the command line. 
 That is the above will work as if you wrote the wrote...
 
-~~~
+~~~{.skip}
 command  input_image   -operator  output_image
 ~~~
 
@@ -379,14 +414,14 @@ For example, the "`-gravity`" setting can take any of nine different settings. O
 
 You can get a list of all valid settings by using the [List Operational Option](#list) (see below). For example using the command...
 
-~~~
+~~~{.skip}
 convert -list gravity
 ~~~
 
 Only those specific settings are allowed and if you attempt to use some other setting you will get an error. For example...
 
 
-~~~
+~~~{data-capture-err=gravity_error.txt}
 convert xc: -gravity Invalid   null:
 ~~~
 
@@ -408,7 +443,7 @@ Some of the constant names are read from external configuration files. For examp
 
 This is a little used argument and is most commonly used in settings that need one or two colors, such as [Level Adjustment by Color](../color_mods/#level-colors). The "`-level-colors`" option can take any of the following argument styles.
 
-~~~
+~~~{.skip}
 color   color1,color2   color1-color2
 ~~~
 
@@ -426,7 +461,7 @@ This type of argument is so common that a special (and complex) parser has been 
 
 A geometry argument basically allows a user to specify a single string argument containing up to 5 floating point values (though most operators only use integers). All the following string forms are understood the geometry argument parser...
 
-~~~
+~~~{.skip}
 WxH+X+Y   WxH  +X+Y   A   A/B/C   A,B,C,D,E
 ~~~
 
@@ -525,7 +560,7 @@ As a result of this, "`convert`", is no longer so much about 'converting' images
 The "identify" command is designed to return information about an images in a simple and useful way. By default it outputs a simple compact summary, detailing the images name, file format, image size, virtual canvas size and offset, color depth, internal format type, and if known the original size of the image on disk in human terms.
 For example...
 
-~~~
+~~~{data-capture-out=identify.txt}
 identify  tree.gif
 ~~~
 
@@ -539,7 +574,7 @@ Specific information can be obtained and output in specific ways by using the "`
 
 For example you can just extract a count of the number of colors within an image.
 
-~~~
+~~~{data-capture-out=identify_colors.txt}
 identify -format '%k\n' tree.gif
 ~~~
 
@@ -556,7 +591,7 @@ This is a big advantage of "`identify`" has over "`convert`".
 
 However, most image meta-data will not be available. For example, image labels from a PNG image file. For example, here I create a image with a 'label', and attempt to use a simple format setting to print out that label.
 
-~~~
+~~~{data-capture-out=identify_ping.txt}
 convert rose: -set label "rose with a label" rose.png
 identify -format '"%l"\n' rose.png
 ~~~
@@ -567,7 +602,7 @@ identify -format '"%l"\n' rose.png
 
 However this only happens for very specific cases. Any "`-format`" that has more complex escapes will automatically disable the use of a minimal 'ping' read.
 
-~~~
+~~~{data-capture-out=identify_no_ping.txt}
 identify -format '"%[label]"\n' rose.png
 ~~~
 
@@ -575,7 +610,7 @@ identify -format '"%[label]"\n' rose.png
 
 Or you can specifically disable this minimal 'ping' read, and force identify to read in the image 'in total' so it gets the desired information.
 
-~~~
+~~~{data-capture-out=identify_ping_off.txt}
 identify +ping -format '"%l"\n' rose.png
 ~~~
 
@@ -587,7 +622,7 @@ Generally you do not need to worry about it too much. Unless you are dealing wit
 
 You can do some floating point mathematics using [FX Escape Expressions](../transform/#fx_escapes)...
 
-~~~
+~~~{data-capture-out=identify_maths.txt}
 identify -ping -format 'double_width=%[fx:w*2] PI=%[fx:atan(1)*4]\n' tree.gif
 ~~~
 
@@ -615,7 +650,7 @@ Exit Status
 
 :    The identify program returns a non-zero exit status if a corrupted image is encountered and you add a [Regard Warnings Control](#regard-warnings).
 
-~~~
+~~~{.skip}
 error=`identify -regard-warnings image 2>&1 >/dev/null;`
 if [ $? -eq 0 ]; then
   echo "The image is good"
@@ -629,7 +664,7 @@ fi
 
 As of IM v6.2.4 you can also produce identify output from the "`convert`" command using the special "`info:`" output file format.
 
-~~~
+~~~{data-capture-out=output_info.txt}
 convert ../images/k* \
         -format 'image \"%f\" is of size %G\n'  info:
 ~~~
@@ -640,7 +675,7 @@ You can use a [Write Operator](../file/#write) to write to "`info:`" in the midd
 
 A simpler method would be to use an "`-identify`" option to write to the normal 'standard output'.
 
-~~~
+~~~{data-capture-out=output_identify.txt}
 convert ../images/k* \
         -format 'Image #%p named \"%f\" is a %m\n' -identify \
         null:
@@ -650,7 +685,7 @@ convert ../images/k* \
 
 This can be also combined with another option, "`-print`" to output other information.
 
-~~~
+~~~{data-capture-out=output_print.txt}
 convert null: -print ' (50 + 25)/5  ==>  %[fx: (50+25)/5 ]\n' null:
 ~~~
 
@@ -662,7 +697,7 @@ That means we can generate just about any text file we want about the images in 
 
 For example, here I generate a HTML file of same set of images I have used in the previous example...
 
-~~~
+~~~{data-capture-out=output_html.txt}
 convert ../images/k* \
    -print "<HTML><BODY><CENTER>\n" \
    -print "<H1>  Display of %n Thumbnails  </H1>\n" \
@@ -697,7 +732,7 @@ The "`mogrify`" specific setting "`-format`", defines a different format and suf
 
 As such a command like...
 
-~~~
+~~~{.skip}
 mogrify    -format jpg   *.png
 ~~~
 
@@ -711,7 +746,7 @@ or you may find you just overwrote something you wanted to keep. As of IM v6.2.0
 
 As such you can have IM save the results (say image thumbnails) into a existing sub-directory, using something like this...
 
-~~~
+~~~{.skip}
 mogrify   -path thumbnail-directory   -thumbnail 100x100  *
 ~~~
 
@@ -759,10 +794,13 @@ Because "`mogrify`" can not use [Multi-Image List Operators](#option_list) it ca
 
 There is one exception to this, using "`-draw`" to perform image alpha composition. This allows you to specify the second image, as part of the operators arguments, outside of the current image list.
 
-For example, here I first make a copy of the original images I want to process using a special "`cp_perl`" script. I then create temporary circle 'mask' image, which I then use to cut out a circle shape from all those images, using "`mogrify`" with a '`Dst_In`' alpha composition method.
+For example, here I first make a copy of the original images. I then create temporary circle 'mask' image, which I then use to cut out a circle shape from all those images, using "`mogrify`" with a '`Dst_In`' alpha composition method.
 
 ~~~
-cp_perl  's/^/mogrify_/'  eye.gif news.gif storm.gif tree.gif
+for original in eye.gif news.gif storm.gif tree.gif
+do
+  cp "$original" "mogrify_$original"
+done
 convert  -size 32x32 xc:none -draw 'circle 15.5,15.5 15.5,0'  circle.gif
 mogrify  -alpha Set -draw 'image Dst_In 0,0 0,0 "circle.gif"'  mogrify_*.gif
 ~~~
@@ -781,7 +819,7 @@ Not only that but it will provide you with a more control of the final destinati
 
 For example here I create thumbnails of images in the current directory, inserting a "`_tn`" string into the input filename, to create the appropriate output image filename.
 
-~~~
+~~~{.skip}
 convert *.jpg   -thumbnail 120x90 \
         -set filename:fname '%t_tn' +adjoin '%[filename:fname].gif'
 ~~~
@@ -800,7 +838,7 @@ Of course just as with "`mogrify`" this method of using "`convert`" can be dange
 
 If batch processing images using "`mogrify`" is not practical, especially if you are copying the images rather than modifying them in place, then it may be better to use some other non-IM looping solutions. These include...
 
-~~~
+~~~{.skip}
 # Use a simple shell loop, to process each of the images.
 mkdir thumbnails
 for f in *.jpg
@@ -889,7 +927,7 @@ Images containing a full alpha channel (EG PNG and MIFF formats) will be overlai
 
 You can change that by selecting a different background with "`-texture`" such as...
 
-~~~
+~~~{.skip}
 display -texture granite: test.png
 
 display -texture xc:black test.png
@@ -899,13 +937,13 @@ Images with a palette (or boolean) transparency, such as GIF and PNG8 formats, i
 
 However if you like display to handle such images in the same way as other images containing transparency information, you can remove the palette meta-data before feeding the image to "`display`" using the following commands to change the internal style for the image output format.
 
-~~~
+~~~{.skip}
 convert image.gif -type truecolormatte miff:- | display -
 ~~~
 
 Alternatively, just about any operation that modifies the image being displayed will also remove the existing palette meta-data. As such some "`display`" options can be used to remove the palette. For example using "`-coalesce`".
 
-~~~
+~~~{.skip}
 display -coalesce image.gif
 ~~~
 
@@ -917,7 +955,7 @@ Yes these methods are clumsy, but they work.
 
 An alternative display method (other than using "`animate`", see next) is to use the simpler "`x:`" output image format (See [display output format](../files/#show)).
 
-~~~
+~~~{.skip}
 convert image.png x:
 ~~~
 
@@ -925,7 +963,7 @@ This method does not provide a backdrop window, menu options, or other controls.
 
 If you do want to just simple 'display' the resulting image the special '`show:`' or '`win:`' output [Spawning Delegate](../files/delegate_spawn) will do the same thing by running the "`display`" command on the output image, and exiting without waiting for that window to be closed.
 
-~~~
+~~~{.skip}
 convert image.png show:
 ~~~
 
@@ -939,13 +977,13 @@ This can be painful when viewing a modern high resolution digital photo.
 
 To limit display to say a 800x600 pixel area (only resize smaller, never larger), use...
 
-~~~
+~~~{.skip}
 display -resize 800x600\> photo.jpg
 ~~~
 
 For JPG images you can speed up the image read by using a special jpeg input size hint setting. See [Reading JPEG Control Options](../formats/#jpg_read).
 
-~~~
+~~~{.skip}
 display -define jpeg:size=1600x1200 -thumbnail 800x600\> photo.jpg
 ~~~
 
@@ -957,7 +995,7 @@ If you don't want menus, you can turn them off using the "`-immutable`" setting 
 
 With these options in mind, the following is my recommendation for using "`display`" to display results from a complex shell script...
 
-~~~
+~~~{.skip}
 display -delay 0 -loop 1 -coalesce -resize 800x600\>   some_random_image
 ~~~
 
@@ -967,7 +1005,7 @@ The option "`-window root`" can be used to display a image on the X window backg
 
 By default a image is tiled across the background. For example try this..
 
-~~~
+~~~{.skip}
 display -window root pattern:checkerboard
 ~~~
 
@@ -976,13 +1014,13 @@ For many other examples of image tiles, and generating them see [Tiled Canvases]
 If you want to use a single image for your X Windows background, you may need to know the size of your X window display. The "`xdpyinfo`" program while not part of 
 ImageMagick, can give you that information.
 
-~~~
+~~~{.skip}
 xdpyinfo | grep dimensions:
 ~~~
 
 And here we use the output of "`xdpyinfo`", to resize a image to fill the X window background completely.
 
-~~~
+~~~{.skip}
 screen_size=`xdpyinfo | sed '/dimensions:/!d;s/^[^0-9]*//;s/ pixels.*//'`
 display  -resize $screen_size! -window root photo.jpg
 ~~~
@@ -993,7 +1031,7 @@ Display does provide a special "`-remote`" option. This will look for a already 
 
 For example...
 
-~~~
+~~~{.skip}
 display wizard: &
 sleep 5
 display -remote logo: &
@@ -1007,7 +1045,7 @@ At this time you can not request a remote "`display`" to exit. As such the best 
 
 For example (using the non-IM command "`xdotool`")...
 
-~~~
+~~~{.skip}
 xdotool search -class "display" windowkill
 ~~~
 
@@ -1024,7 +1062,7 @@ Of course as the images are animated, you do have a fine control of the image di
 
 For example you can use "`animate`" to generate a [Flicker Comparison](../compare/#flicker) of two very similar images, using something like..
 
-~~~
+~~~{.skip}
 convert image1.png image2.png -scale 400% miff:- |\
    animate -delay 50 -loop 0 -
 ~~~
@@ -1058,7 +1096,7 @@ For more information and examples see [Really Massive Image Handling](../files/#
 
 The "`import`" command is a special program that can be used to grab and extract images from an X windows display. For example lets get it to grab and print a window you select from your display...
 
-~~~
+~~~{.skip}
 import -page A4 -gravity center ps:- | lpr
 ~~~
 
@@ -1077,9 +1115,11 @@ Other options allow you to avoid human interaction with the mouse by grabbing th
 
 See also the special input format, "`X:`" as an alternative to using "`import`".
 
-        Note to import from the Windows clipboard use
-          convert clipboard:myimage image.png
-        and not "import"
+~~~{.skip}
+Note to import from the Windows clipboard use
+    convert clipboard:myimage image.png
+and not "import"
+~~~
 
 ### conjure -- IM experimental scripting language {#conjure}
 
@@ -1271,7 +1311,7 @@ If a image index does not exist, or a number range is reversed, "`-delete`" will
 
 For example, the argument '`-25`' will attempt to delete the last 25th image in the image list, but will silently do nothing if less than 25 images are present. As such you can generate a rolling animation of 24 images using a sequence like...
 
-~~~
+~~~{.skip}
 convert animation.gif  new_frame.gif  -delete -25  animation_new.gif
 ~~~
 
@@ -1280,7 +1320,7 @@ However no image will be deleted if the number of images was 24 or less. As a re
 As of IM v6.3.4 "`-delete`" will not delete images that result in the numbered range being reversed.
 That means that last example could be re-written like this...
 
-~~~
+~~~{.skip}
 convert long_animation.gif  new_frame.gif  -delete 0--25  animation_new.gif
 ~~~
 
@@ -1548,39 +1588,39 @@ Note how it only uses the initial image's size and shape to generate the initial
 
 Of course you would normally [Delete](#delete) all the temporary working images. That is I would replace the last line in the above with something like this...
 
-~~~
+~~~{.skip}
 -delete 0--2  seq_process_result.gif
 ~~~
 
 Other ways of checking the results is to pipe the result into the display command, so as to view the results on screen, instead of save it to a image file. that is use something like this for the last line...
 
-~~~
+~~~{.skip}
 +append  miff:- | display -
 ~~~
 
 Alternatively instead of "`display`" you can use '`show:`' which will display the resulting image on screen, and then allow the original command to continue or exit. See [Show, Display Image Output](../files/#show) for more information.
 
-~~~
+~~~{.skip}
 +append  show:
 ~~~
 
 You actually don't even need the "`+append`", in which case IM will show each image in sequence, by pressing 'spacebar'.
 You can even get fancier by using "`montage`" command to view the results in a nicer way...
 
-~~~
+~~~{.skip}
 miff:- | montage - -bordercolor blue -border 1 -geometry +2+2 show:
 ~~~
 
 This type of image processing also allows for easy viewing of intermedaite images, immedatally the image has been created. Basically you can insert lines this in between "`\( ...  \)`" statements.
 
-~~~
+~~~{.skip}
 \( +clone -write show: +delete \)\
 ~~~
 
 IM will automatically continue processing once that intermediate image has been output for display purposes. See [Show, Display Image Output](../files/#show).
 Alternatively, by inserting this line instead, you can display all the current images generated so far at that point in the processing...
 
-~~~
+~~~{.skip}
 \( -clone 0--1 -append -write show: +delete \)\
 ~~~
 
@@ -1664,14 +1704,14 @@ For example, "`-label 'string'`" will set the comment in every image that is rea
 The reason for the two methods is due to historical backward compatibility and convenience. Basically "`-label`" has traditionally been set BEFORE the image it is applied to has been read in. Also it only affects images that are read in while it is set.
 For example....
 
-~~~
+~~~{.skip}
 convert -label one  image_one.png \
         -label two  image_two.png     output_image_list
 ~~~
 
 The "`-set`" operator changes ALL the images that are in the current image list, including ones previously read in. Thus you must generally use parenthesis to limit what image you are applying the option to.
 
-~~~
+~~~{.skip}
 convert \( image_one.png -set label one \) \
         \( image_two.png -set label two \)  output_image_list
 ~~~
@@ -1713,7 +1753,7 @@ For a more extreme example of extracting and modifying individual images in a im
 
 Here is another example using "`-set`" to specify a comment on all the images, and then modify one specific image.
 
-~~~
+~~~{data-capture-out=comments.txt}
 convert xc: -duplicate 9 \
             -set comment 'T minus %[fx:n-t]' \
             \( -clone 7 -set comment 'We have ignition!' \) -swap 7 +delete \
@@ -1725,7 +1765,7 @@ convert xc: -duplicate 9 \
 
 You can use "`mpr:`", as an alternative way of setting attributes to in memory images. For example here we take an image with a 'Bad' comment, that is in memory, and replace the comment with a 'Good' one...
 
-~~~
+~~~{data-capture-out=comment_change.txt}
 convert -comment 'Bad Comment' rose: \
         \
         -write mpr:register +delete \
@@ -1742,46 +1782,48 @@ This works, but is extremely awkward and painful to use, especially when dealing
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    Most of these attributes are generally set globally either before or after
-    reading images into memory (it makes no difference).  They are typically used
-    as a general control of the later image processing operations.
+~~~{.skip}
+Most of these attributes are generally set globally either before or after
+reading images into memory (it makes no difference).  They are typically used
+as a general control of the later image processing operations.
 
-     * Many settings are simpley globally saved for use as needed
-         -fill  -background  -bordercolor  -strokecolor  -mattecolor  -quantize
-         +dither  -channels  -size  -gravity  -units  -density  -font  -pointsize
-         -tile
+ * Many settings are simpley globally saved for use as needed
+     -fill  -background  -bordercolor  -strokecolor  -mattecolor  -quantize
+     +dither  -channels  -size  -gravity  -units  -density  -font  -pointsize
+     -tile
 
-     * Some settings affect the way an image is saved to disk, or the meta-data
-       saved with the image.  This includes
-         -loop  -compression  -quality  -depth
-         -density  -background
+ * Some settings affect the way an image is saved to disk, or the meta-data
+   saved with the image.  This includes
+     -loop  -compression  -quality  -depth
+     -density  -background
 
-     * -compose is awkward, as it can only be set globally. But if unset
-       then individual images can have a different setting (for layering).
+ * -compose is awkward, as it can only be set globally. But if unset
+   then individual images can have a different setting (for layering).
 
-       Most of these however can be turned off, (using a + version) which
-       causes the operator to retrieve the setting from image meta-data
-       (eg: +background falls back to the original images meta-data if present)
-       but more generally it falls back to some default value. For example
-       +gravity falls back to 'None' or no gravity).
+   Most of these however can be turned off, (using a + version) which
+   causes the operator to retrieve the setting from image meta-data
+   (eg: +background falls back to the original images meta-data if present)
+   but more generally it falls back to some default value. For example
+   +gravity falls back to 'None' or no gravity).
 
-       A few of these also get saved with images when written. Specifically
-       the GIF format will save an the -background and -bordercolor as part of the
-       images attributes, however these are normally ignored by programs which
-       read these images.
+   A few of these also get saved with images when written. Specifically
+   the GIF format will save an the -background and -bordercolor as part of the
+   images attributes, however these are normally ignored by programs which
+   read these images.
 
-    You may have noticed that some settings are used in multiple places.
-    for example  -density
+You may have noticed that some settings are used in multiple places.
+for example  -density
 
-      * used in reading in many vector format images like
-        Postscript, PDF, and WMF image formats.
-      * also in special image generators such as label: caption: and text:
-      * used as part of font drawing in -annotate -draw and -polaroid  operators.
-      * And finally some formats save the density or resolution as part
-        of the the image file format. For example postscript wrapped raster
-        images, JPEG, and TIFF.
+  * used in reading in many vector format images like
+    Postscript, PDF, and WMF image formats.
+  * also in special image generators such as label: caption: and text:
+  * used as part of font drawing in -annotate -draw and -polaroid  operators.
+  * And finally some formats save the density or resolution as part
+    of the the image file format. For example postscript wrapped raster
+    images, JPEG, and TIFF.
 
-    Is it any wonder then why settings can be so confusing.
+Is it any wonder then why settings can be so confusing.
+~~~
 
 ### Page, Repage, and the Virtual Canvas {#page}
 
@@ -1866,7 +1908,7 @@ Because of this the "`-set`" option can actually define ANY setting with ANY val
 If the value is not specifically known to ImageMagick, it is saved into the image as a '**Property**', and will be listed near the bottom of a verbose "`identify`" output, or retrieved and expanded using [Percent Escapes](http://imagemagick.org/script/escape.php).
 The built in rose image for example automatically generates three 'properties': two date strings, and a 'signature hash'. To this I have also added my own user defined 'property' setting.
 
-~~~
+~~~{data-capture-out=properties.txt}
 convert rose:   -set my_property my_value   -verbose info: |\
   sed -n '/Artifacts/q; /Properties/,$ p'
 ~~~
@@ -1875,7 +1917,7 @@ convert rose:   -set my_property my_value   -verbose info: |\
 
 Some image processing operators even return values of special interest as image 'properties'. For example the final pointsize selected by a [Best Fit Label](../text/#label_bestfit), will be saved as a special image property.
 
-~~~
+~~~{data-capture-out=property_label.txt}
 convert -size 100x label:Anthony  -verbose -identify  property_label.gif |\
   sed -n '/Artifacts/q; /Properties/,$ p'
 ~~~
@@ -1894,7 +1936,7 @@ convert -size 100x label:Anthony  -verbose -identify  property_label.gif |\
 
 Here I use a identify "`-format`" setting to get IM to output the pointsize of the label it created (and discarded) internally.
 
-~~~
+~~~{data-capture-out=property_pointsize.txt}
 convert -size 100x label:Anthony \
         -format 'pointsize = %[label:pointsize]pts' info:
 ~~~
@@ -1926,7 +1968,7 @@ Also being globally set, they are not attached to specific images, but to all im
 
 In other words 'defined artifacts' provide a way for expert users to modify the normal or standard operation of specific operators, beyond normal argument usage. For example, [JPEG Coder Settings](../formats/#jpg_read), for both Reading and Writing such images...
 
-~~~
+~~~{.skip}
 -define jpeg:size=300x200
 -define jpeg:preserve-settings=1
 -define jpeg:optimize-coding=true
@@ -1934,14 +1976,14 @@ In other words 'defined artifacts' provide a way for expert users to modify the 
 
 [Image Distortion Options](../distorts/#distort_options), such as...
 
-~~~
+~~~{.skip}
 -define distort:scale=2
 -define distort:viewport=44x44+15+0
 ~~~
 
 [Resize Filter Controls](../filter/#options), such as
 
-~~~
+~~~{.skip}
 -define filter:blur=0.75
 -define filter:support=1.25
 ~~~
@@ -1949,7 +1991,7 @@ In other words 'defined artifacts' provide a way for expert users to modify the 
 Some artifact defines have shortcuts because they are used very regularly by users.
 For example the "`-verbose`" operational control (see below), is really equivalent to using "`-define verbose`", and thus creating a '`verbose`' artifact. For example...
 
-~~~
+~~~{data-capture-out=artifact_verbose.txt}
 convert xc: -verbose info: |\
   sed -n '/Tainted:/q; /Artifacts:/,$ p'
 ~~~
@@ -1966,7 +2008,7 @@ The "`-label`" setting also just sets a artifact with the argument provided by t
 
 For example creating a "`rose:`" image with a label set
 
-~~~
+~~~{data-capture-out=rose_properties.txt}
 convert -label "%wx%h"  rose:  -verbose info:  |\
     sed -n '/Tainted:/q; /Properties:/,$ p'
 ~~~
@@ -2038,7 +2080,7 @@ Note the placement of the "`-set option:...`" in the above. If you were to place
 
 The reason is that only the last image is used to define the artifact.
 
-Actually what realy happens is that "`-set`" is applied to every image in the current image list, even though it is generating a globel artifact. As such each image will assign its own properties into the global artifact, replacing the previously assigned values. When finished, only the last image will have 'defined' the artifact.
+Actually what really happens is that "`-set`" is applied to every image in the current image list, even though it is generating a globel artifact. As such each image will assign its own properties into the global artifact, replacing the previously assigned values. When finished, only the last image will have 'defined' the artifact.
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > At this time the 'FX escape' has no way of reading properties or artifacts. And as such you current can not do arithmetic on such values.
@@ -2089,9 +2131,11 @@ Transparency in such images are usually handled either by specifying a specific 
 
 In general...
 
+~~~{.skip}
     24 bit images are : 3 x 8 bit values - 3 color channels only
     32 bit images are : 4 x 8 bit values - 3 colors + Alpha channel
      8 bit images are : 8 bit color indexed image, with a 256 color limit
+~~~
 
 Because most image formats only save color values at an 8 bit/value depth, a lot of people install IM using a 'Q' or Quality level of depth 8, which requires far less memory and processes images faster than a more normal Q16 version of IM. Often 3 or more times faster. These Q8 versions work well for general image processing and converting, and can be used for generating simple images, annotating, or overlaying images.
 
@@ -2269,7 +2313,7 @@ From a [IM Forum Discussion](../forum_link.cgi?f=1&t=14257&p=49222), Jesper Nils
 
 For example
 
-~~~
+~~~{.skip}
 exiftool -g -Photoshop:XResolution=300 -Photoshop:YResolution=300 file.tif
 ~~~
 
@@ -2420,7 +2464,7 @@ if "`-debug`" is used the location of the logging output is controlled by the "`
   
 For command line and API usage you can also define an environment variable to set the debug level using actions by IM.
 
-~~~
+~~~{.skip}
 export MAGICK_DEBUG=all
 ~~~
 

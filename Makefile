@@ -23,4 +23,6 @@ backgrounds: backgrounds/index.html backgrounds/index.sh
 
 morphology: morphology/index.html morphology/index.sh
 
+basics: basics/index.html basics/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
