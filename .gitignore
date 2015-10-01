@@ -10,6 +10,9 @@ basics/*.txt
 blur/*.gif
 blur/*.jpg
 blur/*.png
+canvas/*.gif
+canvas/*.png
+canvas/*.jpg
 morphology/*.gif
 morphology/*.txt
 morphology/*.png
