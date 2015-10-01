@@ -340,7 +340,7 @@ convert  test.png  -evaluate set 100%  -alpha off  white_evaluate.png
   
 You can also mis-use the "`-gamma`" operator to make an image all white, by using a negative argument.
 
-~~~
+~~~{.ignore-err}
 convert  test.png  -gamma -1  -alpha off  white_gamma.png
 ~~~
 
@@ -1292,7 +1292,9 @@ This is also probably why very few operations actually work with hue directly.
 The "**`-sparse-color`**" operator was added to IM v6.4.3-0 will take an image and set the color given at each of the given floating point '`x,y`' coordinates.
 That is of the form...
 
-    -sparse-color {method}  'x,y color   x,y color   x,y color ...' 
+~~~{.skip}
+-sparse-color {method}  'x,y color   x,y color   x,y color ...'
+~~~
 
 The rest of the pixels (limited according to the "`-channel`" setting) will then be mapped according to there relation to these isolated points of color, so as to smooth out the colors between those points.
 The *method* defines what that relationship will be.
@@ -1747,31 +1749,31 @@ For example
      -fill white -stroke black \
      -draw 'circle 30,10 30,12  circle 10,80 10,82' \
      -draw 'circle 70,60 70,62  circle 80,20 80,22' \
-     sparse_shepards_0.5.png
+     sparse_shepards_pow0.5.png
   convert -size 100x100 xc: -define shepards:power=1 \
      -sparse-color Shepards '30,10 red  10,80 blue  70,60 lime  80,20 yellow' \
      -fill white -stroke black \
      -draw 'circle 30,10 30,12  circle 10,80 10,82' \
      -draw 'circle 70,60 70,62  circle 80,20 80,22' \
-     sparse_shepards_1.png
+     sparse_shepards_pow1.png
   convert -size 100x100 xc: -define shepards:power=2 \
      -sparse-color Shepards '30,10 red  10,80 blue  70,60 lime  80,20 yellow' \
      -fill white -stroke black \
      -draw 'circle 30,10 30,12  circle 10,80 10,82' \
      -draw 'circle 70,60 70,62  circle 80,20 80,22' \
-     sparse_shepards_2.png
+     sparse_shepards_pow2.png
   convert -size 100x100 xc: -define shepards:power=3 \
      -sparse-color Shepards '30,10 red  10,80 blue  70,60 lime  80,20 yellow' \
      -fill white -stroke black \
      -draw 'circle 30,10 30,12  circle 10,80 10,82' \
      -draw 'circle 70,60 70,62  circle 80,20 80,22' \
-     sparse_shepards_3.png
+     sparse_shepards_pow3.png
 convert -size 100x100 xc: -define shepards:power=8 \
      -sparse-color Shepards '30,10 red  10,80 blue  70,60 lime  80,20 yellow' \
      -fill white -stroke black \
      -draw 'circle 30,10 30,12  circle 10,80 10,82' \
      -draw 'circle 70,60 70,62  circle 80,20 80,22' \
-     sparse_shepards_8.png
+     sparse_shepards_pow8.png
 ~~~
 
 [![\[IM Output\]](sparse_shepards_pow0.5.png)](sparse_shepards_pow0.5.png)  
@@ -1885,8 +1887,10 @@ The easiest way is to limited the processing to a single channel.
 Also note that when using raw numbers, rather than color names, transparency values are 'matte' values (0=opaque) and not 'alpha' values (1=opaque) (for IMv6).
 
 As such in the above I could have used numbers instead of color names...
-  
-      -channel A  -sparse-color Bilinear '0,0 1.0   -%w,%h 1.0    %w,%h 0.0'
+
+~~~{.skip}
+-channel A  -sparse-color Bilinear '0,0 1.0   -%w,%h 1.0    %w,%h 0.0'
+~~~
 
 This may be easier to handle in programmed scripts, and in API's, which may not have access to the 'colorname' translator.
 
@@ -2602,7 +2606,7 @@ This sounds complicated, but in reality it isn't.
 We just use the [Random Image](#random) as a source image for a [Sinusoid Function](../transform/#function_sinusoid).
 Now for each image in the time sequence we set the time '*phase*' for that particular point in the time cycle.
 
-~~~
+~~~{.skip}
 convert random.png   -function Sinusoid 1,{time} \
         ... do granular blurring,  and other processing ...
 ~~~
@@ -2624,6 +2628,7 @@ for i in `seq 0 30 359`; do
           -virtual-pixel tile -blur 0x8 -auto-level \
           -separate flux_${i}.png
 done
+convert flux_{?,??,???}.png -set delay 20 -loop 0 flux_anim.gif
 ~~~
 
 [![\[IM Output\]](flux_0.png)](flux_0.png)
@@ -2692,7 +2697,9 @@ It really needs a lot more frames to remove some of very fast changes that is ta
 
 To make the motion less predictable for a longer cyclic sequence, you can also use some [Gradient Math](../transform/#gradient_math) to combine multiple Sinusoidal Cycles, from multiple random images, or even just using the other color channels of the same random image.
 
-    FUTURE: Create even less predictable, long time 'harmonic' cycles.
+~~~{.skip}
+FUTURE: Create even less predictable, long time 'harmonic' cycles.
+~~~
 
 ### Random Ripples {#random_ripples}
 
@@ -2823,7 +2830,7 @@ done |
 Note in the second image how ripples seem to first come out from one point, then later they start back going into the same point, though they never just simply reverse direction.
 A better multi-cycled flux cycle generator should remove this slight weirdness by removing the 'negative' effect in the flux underlying flux animation.
 
-    *FUTURE: Use of Rippled Random Images for Dispersion Mapped Distortions*.
+> *FUTURE: Use of Rippled Random Images for Dispersion Mapped Distortions.*
 
 ------------------------------------------------------------------------
 
@@ -3295,16 +3302,18 @@ The other major problem is trying to make the tile not look like it is repeating
 The only true solution to this is to make your tile images large enough to contain enough very similar, but still different elements that it becomes difficult to see a repeated pattern.
 For this reason, generating small tiles that do not seem to repeat is especially difficult.
 
-    FUTURE:  Ideas and suggestions for generating tile patterns?  Anyone?
+~~~{.skip}
+FUTURE:  Ideas and suggestions for generating tile patterns?  Anyone?
 
-    Or roll, add element, roll, add element, etc...
+Or roll, add element, roll, add element, etc...
 
-    Any and all suggestions and examples accepted.
+Any and all suggestions and examples accepted.
 
-    Suggestions for generating tile from real photos of repeating patterns,
-    such as water, fallen leaves, clouds, stucco, brickwork, etc...
+Suggestions for generating tile from real photos of repeating patterns,
+such as water, fallen leaves, clouds, stucco, brickwork, etc...
 
-    Generating Escher-like tile patterns.
+Generating Escher-like tile patterns.
+~~~
 
 ### Random Noise Tile {#tile_random}
 
