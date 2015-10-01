@@ -53,19 +53,11 @@ Each of the three arrays of values are known as a channel, which is simply a gra
 
 For example here are the red, green, and blue components of a rose image.
   
-[![\[IM Output\]](rose.gif)](rose.gif)  
-Rose
-  
+![Rose](rose.gif)
 ![==&gt;](../img_www/right.gif)
-  
-[![\[IM Output\]](separate_RGB_0.gif)](separate_RGB_0.gif)  
-Red
-  
-[![\[IM Output\]](separate_RGB_1.gif)](separate_RGB_1.gif)  
-Green
-  
-[![\[IM Output\]](separate_RGB_2.gif)](separate_RGB_2.gif)  
-Blue
+![Red](separate_RGB_0.gif)
+![Green](separate_RGB_1.gif)
+![Blue](separate_RGB_2.gif)
 
 Note how the 'Red' image is much brighter to display a rose, than the other two color components.
 But all three images are bright for the white patch near the bottom.
@@ -102,8 +94,8 @@ Here I generate a ink masks is needed to generate a rose image using just cyan, 
 ![Rose](rose.gif)
 ![](../img_www/right.gif "==&gt;")
 ![Cyan](separate_CMY_0.gif)
-![Magenta](separate_CMY_1.gif)]
-![Yellow](separate_CMY_2.gif)]
+![Magenta](separate_CMY_1.gif)
+![Yellow](separate_CMY_2.gif)
 
 
 That is the brighter the cyan mask values, the more cyan ink will be needed to remove more of the red.
@@ -903,7 +895,7 @@ convert rose: -colorspace HSL \
 
 However there are many not so obvious ways you can do this...
   
-
+~~~{.skip}
       # Evaluate (fast and direct)
         -channel G -evaluate set 0 +channel
 
@@ -932,6 +924,7 @@ However there are many not so obvious ways you can do this...
       # Colorize specific channels to black
       # (0 = leave alone;   100% set from fill (black) )
         -fill black -colorize 0,100%,0
+~~~
 
 *Can you think of another ways or zeroing (or maximizing) a color channel which I have not listed above? -- mail me*
 
@@ -1086,12 +1079,12 @@ convert -size 100x100 xc:black \
         -fill white  -draw 'circle 49.5,49.5 40,4' \
         -fill black  -draw 'circle 49.5,49.5 40,30' \
         -alpha copy -channel A -morphology dilate diamond anulus.png
-convert hue_angular.png -size 100x100 xc:white xc:gray50 \
+convert angular.png -size 100x100 xc:white xc:gray50 \
         -combine -set colorspace HSL -colorspace RGB \
         anulus.png -alpha off -compose Multiply -composite \
         anulus.png -alpha on  -compose DstIn -composite \
         -colorspace sRGB hues_HSL.png
-convert hue_angular.png -size 100x100 xc:white xc:gray50 \
+convert angular.png -size 100x100 xc:white xc:gray50 \
         -combine -set colorspace HCL -colorspace RGB \
         anulus.png -alpha off -compose Multiply -composite \
         anulus.png -alpha on  -compose DstIn -composite \
@@ -1187,24 +1180,25 @@ Normal conversions of images will not generate these colors.
 
 ### scRGB High-DynamicRange Colorspace
 
+~~~{.skip}
+Wikiepedia:  http://en.wikipedia.org/wiki/ScRGB
 
-    Wikiepedia:  http://en.wikipedia.org/wiki/ScRGB
+This is essentially a method of storing a High dynamic range color
+(with negatives and up to 10 times linear RGB range) in a 16 bit integer,
+with only 1/2 the color resolution of a normal 16-bit sRGB image.
 
-    This is essentially a method of storing a High dynamic range color
-    (with negatives and up to 10 times linear RGB range) in a 16 bit integer,
-    with only 1/2 the color resolution of a normal 16-bit sRGB image.
+As it is using 16bit integers it can be stored in image files formats that can
+save such images (PNG, PPM, MIFF), though a color profile, or some other
+method should be used to mark those images as holding scRGB colorspace data.
 
-    As it is using 16bit integers it can be stored in image files formats that can
-    save such images (PNG, PPM, MIFF), though a color profile, or some other
-    method should be used to mark those images as holding scRGB colorspace data.
+You would have to be very careful, with many image processing operators in
+this colorspace as it has an 'offset' to allow it to handle negative numbers.
+And while some operators like resize and distort can be used directly on this
+colorspace, it is probably a better idea to use a HDRI version of ImageMagick,
+and convert to linear RGB (with negatives), for more general image processing.
 
-    You would have to be very careful, with many image processing operators in
-    this colorspace as it has an 'offset' to allow it to handle negative numbers.
-    And while some operators like resize and distort can be used directly on this
-    colorspace, it is probably a better idea to use a HDRI version of ImageMagick,
-    and convert to linear RGB (with negatives), for more general image processing.
-
-    Examples and more information on using this colorspace would be good
+Examples and more information on using this colorspace would be good
+~~~
 
 ------------------------------------------------------------------------
 
@@ -1699,35 +1693,37 @@ This example is essentially equivalent to a threshold of the alpha channel, befo
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    Color maths (get the average of two or more colors)....
+~~~{.skip}
+Color maths (get the average of two or more colors)....
 
-      Example Averaging two colors... Say '#000000'  and  '#DDDDDD'
+  Example Averaging two colors... Say '#000000'  and  '#DDDDDD'
 
-      Generally the colors are added to images, and the result output as a
-      single pixel 'txt:-' image, which which the color can be extracted.
+  Generally the colors are added to images, and the result output as a
+  single pixel 'txt:-' image, which which the color can be extracted.
 
-      * use -resize to merge the colors
+  * use -resize to merge the colors
 
-          convert -size 2x1 xc:'#000000' -fill '#DDDDDD' \
-                  -draw 'point 0,0'  -resize 1x1  txt:-
+      convert -size 2x1 xc:'#000000' -fill '#DDDDDD' \
+              -draw 'point 0,0'  -resize 1x1  txt:-
 
-      * Use -average on them!
+  * Use -average on them!
 
-          convert -size 1x1 xc:'#000000' xc:'#DDDDDD' \
-                  -average  txt:-
+      convert -size 1x1 xc:'#000000' xc:'#DDDDDD' \
+              -average  txt:-
 
-        Or for a lot of colors you can use the 'Box' resize filter
-          convert rose: -filter Box -resize 1x1\! txt:
-          # ImageMagick pixel enumeration: 1,1,255,RGB
-          0,0: (145, 89, 80) #915950
+    Or for a lot of colors you can use the 'Box' resize filter
+      convert rose: -filter Box -resize 1x1\! txt:
+      # ImageMagick pixel enumeration: 1,1,255,RGB
+      0,0: (145, 89, 80) #915950
 
-      * Use -fx to apply whatever formula you want
+  * Use -fx to apply whatever formula you want
 
-          convert -size 1x1 xc:'#000000' xc:'#DDDDDD' \
-                  -fx '(u+v)/2'  txt:-
+      convert -size 1x1 xc:'#000000' xc:'#DDDDDD' \
+              -fx '(u+v)/2'  txt:-
 
-      With a ImageMagick API the results can be more directly retrieved from the
-      image.
+  With a ImageMagick API the results can be more directly retrieved from the
+  image.
+~~~
 
 ---
 title: Color Basics and Channels

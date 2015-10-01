@@ -13,6 +13,9 @@ blur/*.png
 canvas/*.gif
 canvas/*.png
 canvas/*.jpg
+color_basics/*.gif
+color_basics/*.png
+color_basics/*.jpg
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

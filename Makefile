@@ -29,4 +29,6 @@ blur: blur/index.html blur/index.sh
 
 canvas: canvas/index.html canvas/index.sh
 
+color_basics: color_basics/index.html color_basics/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
