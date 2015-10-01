@@ -7,6 +7,9 @@ backgrounds/*.txt
 basics/*.gif
 basics/*.png
 basics/*.txt
+blur/*.gif
+blur/*.jpg
+blur/*.png
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

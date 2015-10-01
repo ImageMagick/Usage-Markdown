@@ -21,7 +21,9 @@ The results of the two as very close, but as "`-blur`" is a faster algorithm, it
 
 The arguments for "`-blur`" and "`-gaussian-blur`" are the same, but to someone new to image processing, the argument values can be confusing.
 
-	-blur  {radius}x{sigma} 
+~~~{.skip}
+-blur  {radius}x{sigma}
+~~~
 
 The important setting in the above is the second *sigma* value.
 It can be thought of as an approximation of just how much your want the image to 'spread' or blur, in pixels.
@@ -36,12 +38,12 @@ I also purposely used a font that contains both thick and thin lines to see the 
 
 ~~~
 convert -font Gecko -pointsize 48  label:A \
-	-bordercolor white -border 20x10  blur_source.png
+  -bordercolor white -border 20x10  blur_source.png
 ~~~
   
 [![\[IM Output\]](blur_source.png)](blur_source.png)
   
-[![\[IM Output\]](blur_montage.jpg)](blur_montage.jpg)
+[![\[IM Output\]](blur_montage.png)](blur_montage.png)
 
 A small *radius* limits any effect of the blur to pixels that are within that many pixels of the one being blurred (a square radius).
 As such, using a very small *radius* such as '`1`' effectively limited the blurring to within the immediate neighbours of each pixel.
@@ -84,7 +86,7 @@ To demonstrate blur, let's start simply by generating a fuzzy black circle on a 
 
 ~~~
 convert -size 70x70 xc:lightblue \
-	-fill black -draw 'circle 35,35 20,25'  circle_on_blue.png
+  -fill black -draw 'circle 35,35 20,25'  circle_on_blue.png
 convert circle_on_blue.png    -blur 0x8         circle_on_blue_blur.png
 ~~~
 
@@ -97,7 +99,7 @@ But if we try this again with an image containing a transparent background...
 
 ~~~
 convert -size 70x70 xc:none \
-	-fill black -draw 'circle 35,35 20,25'  black_circle.png
+  -fill black -draw 'circle 35,35 20,25'  black_circle.png
 convert black_circle.png       -blur 0x8        black_blurred.png
 ~~~
 
@@ -150,7 +152,7 @@ For example, let's try that last 'forgot the "`-channel`" setting' example again
 
 ~~~
 convert -size 70x70 xc:none \
-	-fill yellow   -draw 'circle 35,35 20,25'   yellow_circle.png
+    -fill yellow   -draw 'circle 35,35 20,25'   yellow_circle.png
 convert yellow_circle.png       -blur 0x8           yellow_blurred.png
 ~~~
 
@@ -182,7 +184,7 @@ This will let us see the effect a transparent color has when blurring images.
 
 ~~~
 convert -size 70x70 xc:'#F000' \
-	-fill yellow   -draw 'circle 35,35 20,25'   yellow_on_red.png
+    -fill yellow   -draw 'circle 35,35 20,25'   yellow_on_red.png
 ~~~
 
 [![\[IM Output\]](yellow_on_red.png)](yellow_on_red.png)
@@ -230,7 +232,7 @@ The result is more like a sun shining through a dirty brown haze.
 
 ~~~
 convert yellow_on_red.png  -channel  A  -blur 0x8 \
-	-channel RGB -blur 0x8  yellow_on_red_GS.png
+  -channel RGB -blur 0x8  yellow_on_red_GS.png
 ~~~
 
 [![\[IM Output\]](yellow_on_red_GS.png)](yellow_on_red_GS.png)
@@ -251,7 +253,9 @@ You didn't always have this choice however...
 > This was classed as a major long term bug within the IM distribution, and one that was very hard to workaround.
 > For more details of this problem, see the [Blur with Transparency Bug](../bugs/blur_trans/) page.
 
-    FUTURE: Blur and Trimming Images. 
+~~~{.skip}
+FUTURE: Blur and Trimming Images.
+~~~
 
 ### Blur vs Gaussian Blur Operators {#blur_gaussian}
 
@@ -290,7 +294,7 @@ For example, here I blue the small rose image by a sigma value of 5 using the tw
 ~~~
 convert  rose: -blur 0x5   rose_blur_5.png
 convert rose: -filter Gaussian -resize 50% \
-	-define filter:sigma=2.5 -resize 200%  rose_resize_5.png
+  -define filter:sigma=2.5 -resize 200%  rose_resize_5.png
 ~~~
 
 [![\[IM Output\]](rose.png)](rose.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_blur_5.png)](rose_blur_5.png) [![\[IM Output\]](rose_resize_5.png)](rose_resize_5.png)
@@ -319,6 +323,7 @@ Basically what they are doing is attempting to recover the fine detail of an ima
 
 Sharpen Arguments? (expand)
 
+~~~{.skip}
     The most important factor is the sigma.
 As it is the real control of the
     sharpening operation.
@@ -334,6 +339,7 @@ As it is the real control of the
     larger it is the slower it is.
  But it should be at a minimum 1 or better
     still 2 times the sigma.
+~~~
 
 First forget the first number, just use 0 which will then use the best number for the 'sigma' factor you give.
 The larger the sigma the more it sharpens.
@@ -376,36 +382,40 @@ Both the "`-sharpen`", and "`-unsharp`" operators, work using the exact same tec
 
 For the internal details of how both "`-sharpen`", and "`-unsharp`" actually work see [Unsharpen Convolution](../convolve/#unsharpen).
   
-      convert  A_blur.jpg       -unsharp 0x5        A_blur_unsharp.jpg
+~~~
+convert  A_blur.jpg       -unsharp 0x5        A_blur_unsharp.jpg
+~~~
 
 [![\[IM Output\]](A_blur.jpg)](A_blur.jpg) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](A_blur_unsharp.jpg)](A_blur_unsharp.jpg)
 
-    From comments on  Sharpening with ImageMagick from Alex Beels
+~~~{.skip}
+From comments on  Sharpening with ImageMagick from Alex Beels
 
-      Matching GIMP unsharp
-        Take gimp radius and add 1 => IM sigma
-        Threshold divide by 255    => IM Threshold
+  Matching GIMP unsharp
+    Take gimp radius and add 1 => IM sigma
+    Threshold divide by 255    => IM Threshold
 
-      So  GIMP  radius=2  amount=1.5  threshold=5  results in
-        -unsharp 0×3+1.5+0.0196
+  So  GIMP  radius=2  amount=1.5  threshold=5  results in
+    -unsharp 0×3+1.5+0.0196
 
-      Another suggested that   im_sigma = sqrt(gimp_radius)
+  Another suggested that   im_sigma = sqrt(gimp_radius)
 
-    Raw notes from Fred Weinhaus
+Raw notes from Fred Weinhaus
 
-    Blur Image for test.
+Blur Image for test.
 
-    A_original.jpg
+A_original.jpg
 
-    convert A_original.jpg -blur 0x3 A_original_blur3.jpg
+convert A_original.jpg -blur 0x3 A_original_blur3.jpg
 
-    sharpen is just a gaussian type blurred image subtracted from the image to
-    make an edge image (high pass filter), then equally blends that back with the
-    original, so one has a high pass enhanced image.
+sharpen is just a gaussian type blurred image subtracted from the image to
+make an edge image (high pass filter), then equally blends that back with the
+original, so one has a high pass enhanced image.
 
-    convert A_original_blur3.jpg -sharpen 0x3 A_original_blur3_sharp3.jpg
+convert A_original_blur3.jpg -sharpen 0x3 A_original_blur3_sharp3.jpg
 
-    unsharp is more complex.
+unsharp is more complex.
+
 It is similar.
 It takes the difference (edge result)
     as above, i.e. like sharpen BUT only blends some fraction or multiple of that
@@ -456,6 +466,8 @@ The thresholding in my
     and a number of such methods are demonstrated (trialed) in the sub-section
     Fourier Multiply/Divide.
 
+~~~
+
 ------------------------------------------------------------------------
 
 ## Generating Shadows {#shadow}
@@ -470,7 +482,7 @@ Here for example is a standard method of shadowing an existing image, using a na
 
 ~~~
 convert rose: \( +clone  -background navy  -shadow 80x3+5+5 \) +swap \
-	-background none   -layers merge  +repage   shadow.png
+    -background none   -layers merge  +repage   shadow.png
 ~~~
 
 [![\[IM Output\]](shadow.png)](shadow.png)
@@ -480,7 +492,7 @@ You can even zero the blur '*sigma*' value and create a hard shadow, but semi-tr
 
 ~~~
 convert rose: \( +clone  -background navy  -shadow 60x0+4+4 \) +swap \
-	-background none   -layers merge +repage  shadow_hard.png
+    -background none   -layers merge +repage  shadow_hard.png
 ~~~
 
 [![\[IM Output\]](shadow_hard.png)](shadow_hard.png)
@@ -489,7 +501,7 @@ The use of "`-layers merge`" to layer shadow images with the original image make
 
 ~~~
 convert rose: \( +clone -background navy -shadow 80x3-5+5 \) +swap \
-	-background none  -layers merge +repage  shadow_other.png
+    -background none  -layers merge +repage  shadow_other.png
 ~~~
 
 [![\[IM Output\]](shadow_other.png)](shadow_other.png)
@@ -511,9 +523,9 @@ For example, here is a typical shadowed font.
 
 ~~~
 convert -background none -stroke black -fill white \
-	-font Candice -pointsize 48 label:A -trim \
-	\( +clone   -background navy   -shadow 80x3+3+3 \) +swap \
-	-background none   -layers merge +repage  shadow_a.png
+      -font Candice -pointsize 48 label:A -trim \
+      \( +clone   -background navy   -shadow 80x3+3+3 \) +swap \
+      -background none   -layers merge +repage  shadow_a.png
 ~~~
 
 [![\[IM Output\]](shadow_a.png)](shadow_a.png)
@@ -546,7 +558,7 @@ For example, here we try to add a shadow on the left side, of the image as if a 
 
 ~~~
 convert rose: \( +clone  -background navy  -shadow 60x3-5+5 \) +swap \
-	-background none   -mosaic   shadow_left_clipped.png
+      -background none   -mosaic   shadow_left_clipped.png
 ~~~
 
 [![\[IM Output\]](shadow_left_clipped.png)](shadow_left_clipped.png)
@@ -558,8 +570,8 @@ One solution is to add an initial offset to the original image so the resulting 
 
 ~~~
 convert rose:  -repage +11+0\
-	\( +clone   -background navy   -shadow 80x3-5+5 \) +swap \
-	-background none   -mosaic   shadow_left.png
+      \( +clone   -background navy   -shadow 80x3-5+5 \) +swap \
+      -background none   -mosaic   shadow_left.png
 ~~~
 
 [![\[IM Output\]](shadow_left.png)](shadow_left.png)
@@ -570,7 +582,7 @@ Note the use of a '`!`' flag with "`-repage`" to add the given offset to both im
 
 ~~~
 convert rose: \( +clone -background navy -shadow 80x3-5-5 \) +swap \
-	-repage +11+11\! -background none  -mosaic  shadow_tl.png
+      -repage +11+11\! -background none  -mosaic  shadow_tl.png
 ~~~
 
 [![\[IM Output\]](shadow_tl.png)](shadow_tl.png)
@@ -608,7 +620,7 @@ For example, directly overlay the original image onto a generated (larger) shado
 
 ~~~
 convert rose: \( +clone  -background navy  -shadow 60x3 \) \
-	+swap -composite  +repage shadow_composite.png
+    +swap -composite  +repage shadow_composite.png
 ~~~
 
 [![\[IM Output\]](shadow_composite.png)](shadow_composite.png)
@@ -626,7 +638,7 @@ Of course, you can calculate and set the appropriate [Composite Geometry/Gravity
 
 ~~~
 convert rose: \( +clone  -background navy  -shadow 60x3 \) +repage \
-	+swap -gravity center -geometry -3-5 -composite shadow_geometry.png
+    +swap -gravity center -geometry -3-5 -composite shadow_geometry.png
 ~~~
 
 [![\[IM Output\]](shadow_geometry.png)](shadow_geometry.png)
@@ -640,9 +652,9 @@ By using [Layers Merge](../layers/#merge) IM will automatically add the extra sp
 
 ~~~
 convert -background none -fill white \
-	-font Candice -pointsize 48 label:A -trim \
-	\( +clone -background black  -shadow 100x3+0+0 \) +swap \
-	-background none   -layers merge +repage  shadow_outline.png
+      -font Candice -pointsize 48 label:A -trim \
+      \( +clone -background black  -shadow 100x3+0+0 \) +swap \
+      -background none   -layers merge +repage  shadow_outline.png
 ~~~
 
 [![\[IM Output\]](shadow_outline.png)](shadow_outline.png)
@@ -656,10 +668,10 @@ Better still, you can adjust the transparency of the shadow image, using a [Leve
 
 ~~~
 convert -background none -fill white \
-	-font Candice -pointsize 48  label:A -trim \
-	\( +clone -background black  -shadow 100x3+0+0 \
- 	-channel A -level 0,50% +channel \) +swap \
-	+repage -gravity center -composite   shadow_outline_darker.png
+      -font Candice -pointsize 48  label:A -trim \
+      \( +clone -background black  -shadow 100x3+0+0 \
+      -channel A -level 0,50% +channel \) +swap \
+      +repage -gravity center -composite   shadow_outline_darker.png
 ~~~
 
 [![\[IM Output\]](shadow_outline_darker.png)](shadow_outline_darker.png)
@@ -670,10 +682,10 @@ By adding a "`-geometry`" composition offset you can then offset the shadow as a
 
 ~~~
 convert -background none -fill white -stroke black \
-	-font Candice -pointsize 48  label:A -trim \
-	\( +clone -background navy  -shadow 80x3 \) +swap \
-	+repage -gravity center -geometry -3-3 -composite \
-	shadow_geometry_offset.png
+      -font Candice -pointsize 48  label:A -trim \
+      \( +clone -background navy  -shadow 80x3 \) +swap \
+      +repage -gravity center -geometry -3-3 -composite \
+      shadow_geometry_offset.png
 ~~~
 
 [![\[IM Output\]](shadow_geometry_offset.png)](shadow_geometry_offset.png)
@@ -693,7 +705,7 @@ As of IM v6.3.1 the "`montage`" "`-shadow`" setting, started to make use of the 
 
 ~~~
 montage -label Rose  rose: \
-	-background none -geometry +5+5 -shadow  shadow_montage.png
+      -background none -geometry +5+5 -shadow  shadow_montage.png
 ~~~
 
 [![\[IM Output\]](shadow_montage.png)](shadow_montage.png)
@@ -706,19 +718,19 @@ Internally "`-shadow`" is extremely complex.
 Basically, not only does it need to enlarge an image to accommodate a 'soft blurry shadow', but it also needs to blur the existing shape of the image, set its color appropriately, and finally adjust virtual page/canvas offsets; all to the user's specifications.
 For example, given the following "`-shadow`" command...
 
-~~~
+~~~{.skip}
 convert image_clone.png -shadow 60x4+5+5   image_shadow.png
 ~~~
 
 The equivalent IM operation would be...
 
-~~~
+~~~{.skip}
 convert image_clone.png -matte \
-	-bordercolor none  -border 8  -repage -8-8\!  \
-	-channel A -virtual-pixel transparent \
-	-blur 8x4 -evaluate multiply .60 +channel
-	-fill {background_color} -colorize 100% \
-	-repage +5+5\!     image_shadow.png
+      -bordercolor none  -border 8  -repage -8-8\!  \
+      -channel A -virtual-pixel transparent \
+      -blur 8x4 -evaluate multiply .60 +channel \
+      -fill {background_color} -colorize 100% \
+      -repage +5+5\!     image_shadow.png
 ~~~
 
 Note that the value 8 in the above is two times the blur sigma, so as to provide enough space for the blurred shadow.
@@ -741,6 +753,7 @@ Of course while the above example is close to what "`-shadow`" does internally, 
 The actual "`-shadow`" operator, does not change any of the global settings, such as border/background/fill colors, or the current virtual-pixel setting.
 Also it will short circuit the use of the "`-blur`" operator if the blur sigma is set to 0, to prevent the blur function from giving a warning for a zero sigma or radius.
 
+~~~{.skip}
     FUTURE: overlaying multiple shadows
 
     Overlaying two images with shadows, produces a unrealistic darkening of the
@@ -762,6 +775,7 @@ That is the
     be separate.
  To generate that level of complexity, probably a 3-d ray-tracing
     program should be used instead (sigh).
+~~~
 
 ------------------------------------------------------------------------
 
@@ -783,9 +797,9 @@ Note however that like a normal "`-blur`" operator, "`-radial-blur`" is affected
 
 ~~~
 convert -size 70x70 xc:none \
-	-stroke red    -strokewidth 15 -draw 'line 35,5 35,65' \
-	-stroke yellow -strokewidth  9 -draw 'line 35,5 35,65' \
-	-channel RGBA  -radial-blur 30   radial_blur.png
+    -stroke red    -strokewidth 15 -draw 'line 35,5 35,65' \
+    -stroke yellow -strokewidth  9 -draw 'line 35,5 35,65' \
+    -channel RGBA  -radial-blur 30   radial_blur.png
 ~~~
 
 [![\[IM Output\]](radial_blur.png)](radial_blur.png)
@@ -794,9 +808,9 @@ You can place the object off center (by adding some space to an image) for more 
 
 ~~~
 convert -size 70x70 xc:none \
-	-stroke red    -strokewidth 15 -draw 'line 5,50 65,50' \
-	-stroke yellow -strokewidth  9 -draw 'line 5,50 65,50' \
-	-channel RGBA  -radial-blur 90   radial_blur_90.png
+    -stroke red    -strokewidth 15 -draw 'line 5,50 65,50' \
+    -stroke yellow -strokewidth  9 -draw 'line 5,50 65,50' \
+    -channel RGBA  -radial-blur 90   radial_blur_90.png
 ~~~
 
 [![\[IM Output\]](radial_blur_90.png)](radial_blur_90.png)
@@ -807,18 +821,18 @@ So an angle of 180 is over a half circle, while 360 degrees will blur the image 
 
 ~~~
 convert -size 70x70 xc:none \
-	-stroke red    -strokewidth 15 -draw 'line 5,50 65,50' \
-	-stroke yellow -strokewidth  9 -draw 'line 5,50 65,50' \
-	-channel RGBA  -radial-blur 180   radial_blur_180.png
+    -stroke red    -strokewidth 15 -draw 'line 5,50 65,50' \
+    -stroke yellow -strokewidth  9 -draw 'line 5,50 65,50' \
+    -channel RGBA  -radial-blur 180   radial_blur_180.png
 ~~~
 
 [![\[IM Output\]](radial_blur_180.png)](radial_blur_180.png)
 
 ~~~
 convert -size 70x70 xc:none \
-	-stroke red    -strokewidth 15 -draw 'line 5,50 65,50' \
-	-stroke yellow -strokewidth  9 -draw 'line 5,50 65,50' \
-	-channel RGBA  -radial-blur 360   radial_blur_360.png
+    -stroke red    -strokewidth 15 -draw 'line 5,50 65,50' \
+    -stroke yellow -strokewidth  9 -draw 'line 5,50 65,50' \
+    -channel RGBA  -radial-blur 360   radial_blur_360.png
 ~~~
 
 [![\[IM Output\]](radial_blur_360.png)](radial_blur_360.png)
@@ -827,9 +841,9 @@ You can even add a little [Image Warping](../warping/) to make the effect more i
 
 ~~~
 convert -size 70x70 xc:none \
-	-stroke red    -strokewidth 15 -draw 'line 5,50 65,50' \
-	-stroke yellow -strokewidth  9 -draw 'line 5,50 65,50' \
-	-channel RGBA  -radial-blur 180 -swirl 180 radial_swirl.png
+    -stroke red    -strokewidth 15 -draw 'line 5,50 65,50' \
+    -stroke yellow -strokewidth  9 -draw 'line 5,50 65,50' \
+    -channel RGBA  -radial-blur 180 -swirl 180 radial_swirl.png
 ~~~
 
 [![\[IM Output\]](radial_swirl.png)](radial_swirl.png)
@@ -840,9 +854,9 @@ However, formulating the correct shape to generate the correct gradient can be e
 
 ~~~
 convert -size 80x80 xc:lightblue -fill red \
-	-draw "path 'M 40,40   C 43,43 47,47 50,40 \
-	S 52,23 40,20   S 14,22 10,40   S 15,75 40,79 Z'" \
-	radial_gradient_pre.gif
+    -draw "path 'M 40,40   C 43,43 47,47 50,40 \
+    S 52,23 40,20   S 14,22 10,40   S 15,75 40,79 Z'" \
+    radial_gradient_pre.gif
 convert radial_gradient_pre.gif  -radial-blur 360  radial_gradient.gif
 ~~~
 
@@ -856,8 +870,8 @@ This gives your image a look as if it (or the camera) was moving very very fast.
 
 ~~~
 convert -size 70x70 xc:none  -channel RGBA \
-	-fill yellow  -stroke red  -strokewidth 3 \
-	-draw 'circle 45,45 35,35'  -motion-blur 0x12+45  motion_blur.png
+    -fill yellow  -stroke red  -strokewidth 3 \
+    -draw 'circle 45,45 35,35'  -motion-blur 0x12+45  motion_blur.png
 ~~~
 
 [![\[IM Output\]](motion_blur.png)](motion_blur.png)
@@ -868,11 +882,11 @@ This leading edge blurring can be improved by re-drawing or overlaying the origi
 
 ~~~
 convert -size 70x70 xc:none -channel RGBA \
-	-fill yellow  -stroke red -strokewidth 3 \
-	-draw 'circle 45,45 35,35'  -motion-blur 0x8+45 \
-	-draw 'circle 45,45 35,35'  -motion-blur 0x6+45 \
-	-draw 'circle 45,45 35,35'  -motion-blur 0x2+45 \
-	motion_blur_redraw.png
+    -fill yellow  -stroke red -strokewidth 3 \
+    -draw 'circle 45,45 35,35'  -motion-blur 0x8+45 \
+    -draw 'circle 45,45 35,35'  -motion-blur 0x6+45 \
+    -draw 'circle 45,45 35,35'  -motion-blur 0x2+45 \
+    motion_blur_redraw.png
 ~~~
 
 [![\[IM Output\]](motion_blur_redraw.png)](motion_blur_redraw.png)
@@ -882,11 +896,11 @@ Sort of like dissipating smoke or flames.
 
 ~~~
 convert -size 70x70 xc:none -channel RGBA \
-	-fill yellow  -stroke red -strokewidth 3 \
-	-draw 'circle 45,45 35,35'  -motion-blur 0x12+25 \
-	-draw 'circle 45,45 35,35'  -motion-blur 0x12+55 \
-	-draw 'circle 45,45 35,35'  -motion-blur 0x12+40 \
-	motion_blur_spread.png
+    -fill yellow  -stroke red -strokewidth 3 \
+    -draw 'circle 45,45 35,35'  -motion-blur 0x12+25 \
+    -draw 'circle 45,45 35,35'  -motion-blur 0x12+55 \
+    -draw 'circle 45,45 35,35'  -motion-blur 0x12+40 \
+    motion_blur_spread.png
 ~~~
 
 [![\[IM Output\]](motion_blur_spread.png)](motion_blur_spread.png)
@@ -897,12 +911,12 @@ You can also add some extra [Image Warping](../warping/) to make things even mor
 
 ~~~
 convert -size 70x100 xc:none -channel RGBA \
-	-fill yellow  -stroke red -strokewidth 3 \
-	-draw 'circle 35,80 45,70'  -motion-blur 0x20+90 \
-	-background none  -rotate 50  -wave 5x25  -rotate -50 \
-	-gravity center   -crop 70x100+0+0  +repage \
-	-draw 'circle 35,80 45,70'  -blur 0x2 \
-	motion_wave.png
+    -fill yellow  -stroke red -strokewidth 3 \
+    -draw 'circle 35,80 45,70'  -motion-blur 0x20+90 \
+    -background none  -rotate 50  -wave 5x25  -rotate -50 \
+    -gravity center   -crop 70x100+0+0  +repage \
+    -draw 'circle 35,80 45,70'  -blur 0x2 \
+    motion_wave.png
 ~~~
 
 [![\[IM Output\]](motion_wave.png)](motion_wave.png)
@@ -942,8 +956,8 @@ But by blurring the image transparency a little, I can make the overlay fit onto
 
 ~~~
 convert shape.gif -alpha set -virtual-pixel transparent \
-	-channel A -blur 0x0.7  -level 50,100% +channel \
-	-background wheat -flatten  edge_blured.png
+    -channel A -blur 0x0.7  -level 50,100% +channel \
+    -background wheat -flatten  edge_blured.png
 ~~~
 
 [![\[IM Output\]](edge_blured.png)](edge_blured.png)
@@ -966,7 +980,7 @@ For example...
 
 ~~~
 convert -size 100x60 xc: -draw 'polygon 5,5 50,30 5,55 95,30' \
-	sharp_angles.gif
+    sharp_angles.gif
 ~~~
 
 [![\[IM Output\]](sharp_angles.gif)](sharp_angles.gif)
@@ -1006,6 +1020,7 @@ For details of using this for feathering see [Feathering Shapes using Distance](
 
 ## Related Operators {#related}
 
+~~~{.skip}
     Basic image modifications
       -despeckle -enhance
       -noise  -spread -displace
@@ -1037,6 +1052,7 @@ For details of using this for feathering see [Feathering Shapes using Distance](
 
       -adaptive-resize
         Resize but attempt not to blur across sharp color changes
+~~~
 
 ---
 title: Blurring and Sharpening Images

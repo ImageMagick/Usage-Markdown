@@ -25,4 +25,6 @@ morphology: morphology/index.html morphology/index.sh
 
 basics: basics/index.html basics/index.sh
 
+blur: blur/index.html blur/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
