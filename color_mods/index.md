@@ -192,9 +192,11 @@ This function will do exactly the same operation regardless of the actual conten
 It does not matter if the image is bright, or dark, or has a blue, or yellow tint.
 The operations are blind to the actual image content.
 
-![\[IM Graph\]](gp_noop.gif) In demonstrating these operations I will be using a modified "`gnuplot`" graph such as shown to the right, which I generate using a special script "`im_graph`".
+In demonstrating these operations I will be using a modified "`gnuplot`" graph such as shown to the right, which I generate using a special script "`im_graph`".
 The graph has a red line which maps the given original 'x' value (representing the gray-scale value of the top most gradient) to the 'y' value shown.
 The resulting color gradient is also shown underneath the input linear gradient.
+
+![\[IM Graph\]](gp_noop.gif)
 
 The graph shown to right is of the IM "`-noop`" operator which actually does nothing to an image.
 As such each of the image's color values are just mapped to exactly the same value without change.
@@ -215,12 +217,12 @@ convert  test.png  -negate  test_negate.png
 convert  rose:     -negate  rose_negate.gif
 ~~~
 
-[![\[IM Output\]](test.png)](test.png)  
+[![\[IM Output\]](test.png)](test.png)
 [![\[IM Output\]](rose.png)](rose.png)
-  
-![==&gt;](../img_www/right.gif) ![\[IM Graph\]](gp_negate.gif) ![==&gt;](../img_www/right.gif)
-  
-[![\[IM Output\]](test_negate.png)](test_negate.png)  
+![==&gt;](../img_www/right.gif)
+![\[IM Graph\]](gp_negate.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](test_negate.png)](test_negate.png)
 [![\[IM Output\]](rose_negate.gif)](rose_negate.gif)
 
 Internally negate is actually rather stupid.
@@ -279,12 +281,12 @@ convert  test.png  -level 25%,75%  test_level.png
 convert  rose:     -level 25%      rose_level.gif
 ~~~
 
-[![\[IM Output\]](test.png)](test.png)  
+[![\[IM Output\]](test.png)](test.png)
 [![\[IM Output\]](rose.png)](rose.png)
-  
-![==&gt;](../img_www/right.gif) ![\[IM Graph\]](gp_level.gif) ![==&gt;](../img_www/right.gif)
-  
-[![\[IM Output\]](test_level.png)](test_level.png)  
+![==&gt;](../img_www/right.gif)
+![\[IM Graph\]](gp_level.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](test_level.png)](test_level.png)
 [![\[IM Output\]](rose_level.gif)](rose_level.gif)
 
 Note that `25%` is a huge contrast enhancement for any image, but it clearly shows what it does.
@@ -365,12 +367,11 @@ convert  test.png   +level 25%    test_level_plus.png
 convert  rose:      -level 25%\!  rose_level_plus.gif
 ~~~
 
-[![\[IM Output\]](test.png)](test.png)  
+[![\[IM Output\]](test.png)](test.png)
 [![\[IM Output\]](rose.png)](rose.png)
-  
-![==&gt;](../img_www/right.gif) ![\[IM Graph\]](gp_level+.gif) ![==&gt;](../img_www/right.gif)
-  
-[![\[IM Output\]](test_level_plus.png)](test_level_plus.png)  
+![==&gt;](../img_www/right.gif)
+![\[IM Graph\]](gp_level+.gif) ![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](test_level_plus.png)](test_level_plus.png)
 [![\[IM Output\]](rose_level_plus.gif)](rose_level_plus.gif)
 
 If you compare the above "`+level 25%`" operation with the use of a a negative de-contrasting, "`-level -25%`" operator we showed previously, you will see that are not the same.
@@ -646,36 +647,38 @@ For a practical example of using this operator see the advanced ["Gel" Effects E
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-       -contrast  and   +contrast
-             Rather useless minor contrast adjustment operator
+~~~{.skip}
+-contrast  and   +contrast
+   Rather useless minor contrast adjustment operator
 
-    -threshold
-       Threshold the image, any value less than or equal to the given value is
-       set to 0 and anything greater is set to the maximum value.
+-threshold
+   Threshold the image, any value less than or equal to the given value is
+   set to 0 and anything greater is set to the maximum value.
 
-       Note that like level, this is a channel operator, but if the default
-       'channel setting' is used only the gray-scale intensity of the image is
-       thresholded producing a black and white image.
+   Note that like level, this is a channel operator, but if the default
+   'channel setting' is used only the gray-scale intensity of the image is
+   thresholded producing a black and white image.
 
-       convert rose: -threshold 45%  x:
+   convert rose: -threshold 45%  x:
 
-       You can force normal channel behaviour, where each channel is thresholded
-       individually buy using "-channel All"
+   You can force normal channel behaviour, where each channel is thresholded
+   individually buy using "-channel All"
 
-       convert rose: -channel All -threshold 45%  x:
+   convert rose: -channel All -threshold 45%  x:
 
-    -black-threshold
-    -white-threshold
-       This is like -threshold except that only one side of the threshold value is
-       actually modified.
+-black-threshold
+-white-threshold
+   This is like -threshold except that only one side of the threshold value is
+   actually modified.
 
-       For example, here anything that is darker than 30% is set to black.
+   For example, here anything that is darker than 30% is set to black.
 
-       convert rose: -black-threshold 30%  x:
-       convert rose: -white-threshold 50%  x:
+   convert rose: -black-threshold 30%  x:
+   convert rose: -white-threshold 50%  x:
 
-       These operators however do not seem to be channel effected, so may only be
-       suitable for gray-scale images!
+   These operators however do not seem to be channel effected, so may only be
+   suitable for gray-scale images!
+~~~
 
 ------------------------------------------------------------------------
 
@@ -803,10 +806,12 @@ The "`-channel`" setting will determine if all channels are stretch equally 'in 
 At this time the hidden color of fully-transparent pixels, are also used in determining the levels, which can cause some problems when transparency is involved.
 This is regarded as a bug.
 
-    FUTURE: We actually need three modes of operation...
-      synced color channels with 'alpha' (and 'read') masking.
-      synced channels (as defined by channel)       (current default)
-      individual separate channels   (currently if -channel is set by user)
+~~~{.skip}
+FUTURE: We actually need three modes of operation...
+  synced color channels with 'alpha' (and 'read') masking.
+  synced channels (as defined by channel)       (current default)
+  individual separate channels   (currently if -channel is set by user)
+~~~
 
 It is a pure-mathematical histogram stretch just as the manual [Level Operator](#level) is.
 That is the minimum will be adjusted to zero and maximum to Quantum range, and a linear equation is used to adjust all other values in the image.
@@ -951,7 +956,7 @@ Thus the amount burned-in at the dark side will always be the black-point value 
 
 As an example, lets take a gradient of 100 pixels and look at its histogram.
 
-~~~
+~~~{data-capture-out=grad_hist_mod.txt}
 convert -size 1x100 gradient: \
         -depth 8 -format "%c" histogram:info:
 ~~~
@@ -963,21 +968,21 @@ As expected every bin is equally populated with a single pixel, producing a coun
 
 Now lets do the same after using "`-contrast-stretch 10x10%`"
 
-~~~
+~~~{data-capture-out=grad_cs_hist.txt}
 convert -size 1x100 gradient:   -contrast-stretch 10x10%  \
         -depth 8 -format "%c" histogram:info:
 ~~~
 
-[![\[IM Text\]](grad_cs_hist_mod.txt.gif)](grad_cs_hist.txt)
+[![\[IM Text\]](grad_cs_hist.txt.gif)](grad_cs_hist.txt)
 
 And now "`-linear-stretch 10x10%`".
 
-~~~
+~~~{data-capture-out=grad_ls_hist.txt}
 convert -size 1x100 gradient:   -linear-stretch 10x10%  \
         -depth 8 -format "%c" histogram:info:
 ~~~
 
-[![\[IM Text\]](grad_ls_hist_mod.txt.gif)](grad_ls_hist.txt)
+[![\[IM Text\]](grad_ls_hist.txt.gif)](grad_ls_hist.txt)
 
 So we confirm that for "`-contrast-stretch 10x10%`" we get 11 pixels at each end.
 That is equivalent to the count in the end bins plus 10% of the image pixels, which is equal to 10 pixels.
@@ -991,30 +996,30 @@ On the other hand, "`-linear-stretch 0x0`" will never change the image.
 For example, lets take the gradient and compress its graylevels by 10% on each end.
 That is, we will move black-point up 10% to graylevel 26 and white-point down 10% to graylevel 230.
 
-~~~
+~~~{data-capture-out=grad_lv_hist.txt}
 convert -size 1x100 gradient:   +level 10x90%  \
         -depth 8 -format "%c" histogram:info:
 ~~~
 
-[![\[IM Text\]](grad_lv_hist_mod.txt.gif)](grad_lv_hist.txt)
+[![\[IM Text\]](grad_lv_hist.txt.gif)](grad_lv_hist.txt)
 
 Now, lets apply "`-contrast-stretch 0x0`" to the above de-contrasted gradient
 
-~~~
+~~~{data-capture-out=grad_cs0_hist.txt}
 convert -size 1x100 gradient: -level 10x90%  -contrast-stretch 0x0  \
         -depth 8 -format "%c" histogram:info:
 ~~~
 
-[![\[IM Text\]](grad_cs0_hist_mod.txt.gif)](grad_cs0_hist.txt)
+[![\[IM Text\]](grad_cs0_hist.txt.gif)](grad_cs0_hist.txt)
 
 And now "`-linear-stretch 0x0`"
 
-~~~
+~~~{data-capture-out=grad_ls0_hist.txt}
 convert -size 1x100 gradient: -level 10x90%  -linear-stretch 10x10% \
         -depth 8 -format "%c" histogram:info:
 ~~~
 
-[![\[IM Text\]](grad_ls0_hist_mod.txt.gif)](grad_ls0_hist.txt)
+[![\[IM Text\]](grad_ls0_hist.txt.gif)](grad_ls0_hist.txt)
 
 So we see that the original image had a histogram that did not span the full dynamic range of 0 to 255.
 It only went between graylevels 26 and 230.
@@ -1033,11 +1038,11 @@ With "`-linear-stretch`", all the channels will be processed in a common way, th
 
 So lets get a verbose identify and the histogram of a real image.
 
-~~~
+~~~{data-capture-out=info_port.txt}
 convert port.png  -verbose -identify +verbose  histogram:port_hist.gif
 ~~~
 
-[![\[IM Text\]](info_port_mod.txt.gif)](info_port.txt)
+[![\[IM Text\]](info_port.txt.gif)](info_port.txt)
   
 [![\[IM Output\]](port.png)](port.png)  
 [![\[IM Output\]](port_hist.gif)](port_hist.gif)
@@ -1572,8 +1577,8 @@ Either script can be used.
 
 For example here is a different curve with 5 control points...
 
-~~~
-im_fx_curves  0,0.2  0.3,0.7  0.6,0.5  0.8,0.8  1,0.6  > fx_curve.txt
+~~~{data-capture-out=fx_curve.txt}
+im_fx_curves  0,0.2  0.3,0.7  0.6,0.5  0.8,0.8  1,0.6
 ~~~
 
 [![\[Gnuplot\]](fx_curve_plot.gif)](fx_curve_plot.jpg)
@@ -1589,6 +1594,10 @@ You can generate the comma separated list of coefficients using "`im_fx_curves`"
 
 ~~~
 im_fx_curves -c  0,0.2  0.3,0.7  0.6,0.5  0.8,0.8  1,0.6  > coefficients.txt
+~~~
+
+~~~
+convert label:@coefficients.txt coefficients.txt.gif
 ~~~
 
 [![\[Gnuplot\]](fx_curve_plot.gif)](fx_curve_plot.jpg)
@@ -1993,8 +2002,10 @@ This may seem weird but "`-modulate`" has always been that way.
 
 Conversion formulas between angle and the modulate argument is...
 
-    hue_angle = ( modulate_arg - 100 ) * 180/100
-    modulate_arg = ( hue_angle * 100/180 ) + 100
+~~~{.skip}
+hue_angle = ( modulate_arg - 100 ) * 180/100
+modulate_arg = ( hue_angle * 100/180 ) + 100
+~~~
 
 That means '`100`' (for all three arguments) produces no change.
 While a value of '`0`' or '`200`' will effectivally negate the colors in the image (but not the intensity).
@@ -2252,7 +2263,7 @@ convert rose: -color-matrix ' 1 0 0
 
 Is equivalent to applying the equations...
 
-~~~
+~~~{.skip}
 red' =  1 * red  +  0 * green + 0 * blue
 green' =  0 * red  +  1 * green + 0 * blue
 blue' =  0 * red  +  0 * green + 1 * blue
@@ -2616,8 +2627,10 @@ convert -size 1x512 gradient: -rotate 90 +matte \
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > The polynomial "`-fx`" in the above can now be generated more directly and faster using a [Polynomial Function](../transform/#function_polynomial).
 > For example
-  
-    "-function Polynomial 3.5,-5.05,2.05,0.3"
+
+~~~{.skip}
+"-function Polynomial 3.5,-5.05,2.05,0.3"
+~~~
 
 This pre-generated LUT can now be applied to the shaded shape much more quickly at the minimal cost of storing a very small image.
 
@@ -2811,23 +2824,25 @@ This will not just map the specified colors, but also re-map the colors between 
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    More color options yet to be looked at in detail...
+~~~{.skip}
+More color options yet to be looked at in detail...
 
-      -contrast
-      -brightness-contrast
+  -contrast
+  -brightness-contrast
 
-    Color Cycling?
-        -cycle     shift colormap (for animations of fractals???)
+Color Cycling?
+    -cycle     shift colormap (for animations of fractals???)
 
-    Chromaticity Color Points???
-       -white-point x,y
-       -red-primary x,y
-       -green-primary x,y
-       -blue-primary x,y
+Chromaticity Color Points???
+   -white-point x,y
+   -red-primary x,y
+   -green-primary x,y
+   -blue-primary x,y
 
 
-    Thresholds  (after negation)
-      Specifically  -white-threshold and -black-threshold
+Thresholds  (after negation)
+  Specifically  -white-threshold and -black-threshold
+~~~
 
 ---
 title: Color Modifications

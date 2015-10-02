@@ -16,6 +16,10 @@ canvas/*.jpg
 color_basics/*.gif
 color_basics/*.png
 color_basics/*.jpg
+color_mods/*.gif
+color_mods/*.jpg
+color_mods/*.txt
+color_mods/*.png
 morphology/*.gif
 morphology/*.txt
 morphology/*.png
