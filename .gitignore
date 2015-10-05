@@ -20,6 +20,10 @@ color_mods/*.gif
 color_mods/*.jpg
 color_mods/*.txt
 color_mods/*.png
+compare/*.gif
+compare/*.jpg
+compare/*.png
+compare/*.txt
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

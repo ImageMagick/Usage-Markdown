@@ -36,7 +36,7 @@ It clearly shows the three areas that changed between the two images.
 Rather than saving the 'compare' image, you can, of course, view it directly, which I find more convenient, by output to the special "`x:`" output format, or using the "`display`" program.
 For example...
 
-~~~
+~~~{.skip}
 compare bag_frame1.gif bag_frame2.gif  x:
 compare bag_frame1.gif bag_frame2.gif  miff:- | display
 ~~~
@@ -93,7 +93,7 @@ As you can see, even though you can't really perceive any difference between the
 
 By using a small [Fuzz Factor](../color_basics/#fuzz) you can ask IM to ignore these minor differences between the two images.
 
-~~~
+~~~{data-capture-err=compare_fuzz.txt}
 compare -metric AE -fuzz 5% \
         bag_frame1.gif bag_frame1.jpg   compare_fuzz.gif
 ~~~
@@ -145,7 +145,7 @@ For example, you can threshold and merge each of the color channels to generate 
 
 ~~~
 convert bag_frame1.gif bag_frame2.gif -compose difference -composite \
-        -threhold 0 -separate -evaluate-sequence Add \
+        -threshold 0 -separate -evaluate-sequence Add \
         difference_mask.gif
 ~~~
 
@@ -248,7 +248,7 @@ Basically, we append all the animation frames together to form one large, and lo
 The two images are then compared and a new animation is created by splitting up the animation into separate frames again.
 For example...
 
-~~~
+~~~{.skip}
 convert \( anim1.gif -coalesce -append \) \
         \( anim2.gif -coalesce -append \) miff:- | \
   compare - miff:- |\
@@ -272,155 +272,156 @@ Just how different are two images?
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
+~~~{.skip}
+Statistics from difference image...
 
-    Statistics from difference image...
+  The following outputs verbose information and extracts just the
+  section containing the channel statistics of the image....
 
-      The following outputs verbose information and extracts just the
-      section containing the channel statistics of the image....
+    convert image1 image2 -compose Difference -composite \
+            -colorspace gray -verbose  info: |\
+       sed -n '/statistics:/,/^  [^ ]/ p'
 
-        convert image1 image2 -compose Difference -composite \
-                -colorspace gray -verbose  info: |\
-           sed -n '/statistics:/,/^  [^ ]/ p'
+  The numbers in parenthesis (if present) are normalized values between
+  zero and one, so that it is independent of the Q level of your IM.
+  If you don't have these numbers, you should think of upgrading your IM.
 
-      The numbers in parenthesis (if present) are normalized values between
-      zero and one, so that it is independent of the Q level of your IM.
-      If you don't have these numbers, you should think of upgrading your IM.
+  To get the average (mean) grey level as a percentage you can use this
+  command...
 
-      To get the average (mean) grey level as a percentage you can use this
-      command...
+     convert image1 image2 -compose Difference -composite \
+           -colorspace gray -format '%[fx:mean*100]' info:
 
-         convert image1 image2 -compose Difference -composite \
-               -colorspace gray -format '%[fx:mean*100]' info:
+  For non-percentage you can use the even simplier..
 
-      For non-percentage you can use the even simplier..
-
-         convert image1 image2 -compose Difference -composite \
-               -colorspace gray -format '%[mean]' info:
-
-
-    Compare  Program  Statistics...
-
-       You can get an actual average difference value using the -metric
-
-         compare -metric MAE image1 image2 null: 2>&1
-
-       Adding -verbose will provide more specific information about each separate
-       channel.
-
-          compare -verbose -metric MAE rose.jpg reconstruct.jpg null: 2>&1
-
-          Image: rose.jpg
-          Channel distortion: MAE
-            red: 2282.91 (0.034835)
-            green: 1853.99 (0.0282901)
-            blue: 2008.67 (0.0306503)
-            all: 1536.39 (0.0234439)
-
-       There are a number of different metrics to chose from.
-       With the same set of test images (mostly the same)
-
-       Number of pixels
-          AE ...... Absolute Error count of the number of different pixels (0=equal)
-
-                    This value can be thresholded using a -fuzz setting to
-                    only count pixels that have a value larger than the threshold.
-
-                    As of IM v6.4.3  the  -metric AE  count is -fuzz affected.
-                    so you can remove 'minor' differences from this count.
-
-                    convert -metric AE -fuzz 10% image1.png image2.png null:
-
-                    Which pixels are different can be seen using the output
-                    image (ignored in the above command).
-
-                    This is the ONLY metric which is 'fuzz' affected.
-
-       Maximum Error (of any one pixel)
-          PAE ..... Peak Absolute Error   (within a channel, for 3D color space)
-          PSNR .... Peak Signal to noise ratio (used in image compression papers)
-                    The ratio of mean square difference to the maximum mean square
-                    that can exist between any two images, expressed as a decibel
-                    value.
-
-                    The higher the PSNR, the closer the images are, with
-                    a maximum difference occurring at 1.  A PSNR of 20 means
-                    differences are 1/100 of maximum.
-
-       Average Error (over all pixels)
-          MAE ..... Mean absolute error    (average channel error distance)
-          MSE ..... Mean squared error     (averaged squared error distance)
-          RMSE .... (sq)root mean squared error -- i.e.:  sqrt(MSE)
+     convert image1 image2 -compose Difference -composite \
+           -colorspace gray -format '%[mean]' info:
 
 
-       Specialized metrics
-          MEPP .... Normalized Mean Error AND Normalized Maximum Error
-                    These should be directly related to the '-fuzz' factor,
-                    for images without transparency.
+Compare  Program  Statistics...
 
-                    With transparency, makes this difficult the mask should
-                    affect the number of pixels compared, and thus the 'mean'
-                    but this is currently not done.
+   You can get an actual average difference value using the -metric
 
-          FUZZ      fuzz factor difference taking transparency into account
+     compare -metric MAE image1 image2 null: 2>&1
 
-          NCC       normalized cross correlation (1 = similar)
+   Adding -verbose will provide more specific information about each separate
+   channel.
 
-       I produced the following results on my test images...
+      compare -verbose -metric MAE rose.jpg reconstruct.jpg null: 2>&1
 
-        _metric_|__low_Q_jpeg__|__black_vs_white__
-         PSNR   | 29.6504      | 0
-         PAE    | 63479        | 65535
-         MAE    | 137.478      | 65535
-         MSE    | 4.65489e+06  | 4.29484e+09
-         RMSE   | 2157.52      | 65535
+      Image: rose.jpg
+      Channel distortion: MAE
+        red: 2282.91 (0.034835)
+        green: 1853.99 (0.0282901)
+        blue: 2008.67 (0.0306503)
+        all: 1536.39 (0.0234439)
+
+   There are a number of different metrics to chose from.
+   With the same set of test images (mostly the same)
+
+   Number of pixels
+      AE ...... Absolute Error count of the number of different pixels (0=equal)
+
+                This value can be thresholded using a -fuzz setting to
+                only count pixels that have a value larger than the threshold.
+
+                As of IM v6.4.3  the  -metric AE  count is -fuzz affected.
+                so you can remove 'minor' differences from this count.
+
+                convert -metric AE -fuzz 10% image1.png image2.png null:
+
+                Which pixels are different can be seen using the output
+                image (ignored in the above command).
+
+                This is the ONLY metric which is 'fuzz' affected.
+
+   Maximum Error (of any one pixel)
+      PAE ..... Peak Absolute Error   (within a channel, for 3D color space)
+      PSNR .... Peak Signal to noise ratio (used in image compression papers)
+                The ratio of mean square difference to the maximum mean square
+                that can exist between any two images, expressed as a decibel
+                value.
+
+                The higher the PSNR, the closer the images are, with
+                a maximum difference occurring at 1.  A PSNR of 20 means
+                differences are 1/100 of maximum.
+
+   Average Error (over all pixels)
+      MAE ..... Mean absolute error    (average channel error distance)
+      MSE ..... Mean squared error     (averaged squared error distance)
+      RMSE .... (sq)root mean squared error -- i.e.:  sqrt(MSE)
 
 
-       The first column of numbers is a compare of images with low-quality JPEG
-       differences, where the test image was read in and saved with a very low
-       -quality setting.
+   Specialized metrics
+      MEPP .... Normalized Mean Error AND Normalized Maximum Error
+                These should be directly related to the '-fuzz' factor,
+                for images without transparency.
 
-       The second "black vs white", is a compare of a solid black image versus
-       a solid white image.  If the 'average color' of the image is ignored
-       by the comparision then the resulting value will be very small.  This
-       seems only to be the case with the PSNR metric, as all others produced
-       a maximum difference value.
+                With transparency, makes this difficult the mask should
+                affect the number of pixels compared, and thus the 'mean'
+                but this is currently not done.
 
-       The e+06 is scientific notation, on how many places to shift the
-       decimal point.  e.g.:   4.65489e+06  -->  4,654,890.0
-       Thus is equal to about 4 million, and is the square of 2157.52
+      FUZZ      fuzz factor difference taking transparency into account
 
-       WARNING: numbers are dependant on the IM Quality (Q) levels set at compile
-       time. The higher the quality, the larger the numbers. Only PSNR should be
-       unaffected by this.  For this reason, IM also gives you a 'normalized'
-       result that is unaffected by the compile time quality setting, though may
-       still have minor 'quantum' or 'integer rounding' effects.
+      NCC       normalized cross correlation (1 = similar)
 
-       I have NOT figured out if any of the existing "-define" options are 
-       usable by the "compare" function.
+   I produced the following results on my test images...
+
+    _metric_|__low_Q_jpeg__|__black_vs_white__
+     PSNR   | 29.6504      | 0
+     PAE    | 63479        | 65535
+     MAE    | 137.478      | 65535
+     MSE    | 4.65489e+06  | 4.29484e+09
+     RMSE   | 2157.52      | 65535
 
 
-       NOTE for opaque colors, "AE", "-fuzz"  and "RMSE" distances are equivalent.
-       HOWEVER,  when transparent colors are involved AE fuzz factor testing
-       will treat two different fully-transparent colors as being the same
-       while RMSE will treat them as being different!
+   The first column of numbers is a compare of images with low-quality JPEG
+   differences, where the test image was read in and saved with a very low
+   -quality setting.
 
-       For example...
-       To the "AE" metric, fully-transparent white and fully-transparent black are the same.
+   The second "black vs white", is a compare of a solid black image versus
+   a solid white image.  If the 'average color' of the image is ignored
+   by the comparision then the resulting value will be very small.  This
+   seems only to be the case with the PSNR metric, as all others produced
+   a maximum difference value.
 
-         compare -metric AE xc:#0000 xc:#FFF0 null:
-         0
+   The e+06 is scientific notation, on how many places to shift the
+   decimal point.  e.g.:   4.65489e+06  -->  4,654,890.0
+   Thus is equal to about 4 million, and is the square of 2157.52
 
-       But to the "RMSE" metric, they are VERY different
+   WARNING: numbers are dependant on the IM Quality (Q) levels set at compile
+   time. The higher the quality, the larger the numbers. Only PSNR should be
+   unaffected by this.  For this reason, IM also gives you a 'normalized'
+   result that is unaffected by the compile time quality setting, though may
+   still have minor 'quantum' or 'integer rounding' effects.
 
-         compare -metric RMSE xc:#0000 xc:#FFF0 null:
-         56755 (0.866025)
+   I have NOT figured out if any of the existing "-define" options are 
+   usable by the "compare" function.
 
-    Dissimilarity-threshold
 
-      If you get a 'too different' error,  you can disable that using...
-          -dissimilarity-threshold 1.0
+   NOTE for opaque colors, "AE", "-fuzz"  and "RMSE" distances are equivalent.
+   HOWEVER,  when transparent colors are involved AE fuzz factor testing
+   will treat two different fully-transparent colors as being the same
+   while RMSE will treat them as being different!
 
-      But what is this threshold?
+   For example...
+   To the "AE" metric, fully-transparent white and fully-transparent black are the same.
+
+     compare -metric AE xc:#0000 xc:#FFF0 null:
+     0
+
+   But to the "RMSE" metric, they are VERY different
+
+     compare -metric RMSE xc:#0000 xc:#FFF0 null:
+     56755 (0.866025)
+
+Dissimilarity-threshold
+
+  If you get a 'too different' error,  you can disable that using...
+      -dissimilarity-threshold 1.0
+
+  But what is this threshold?
+~~~
 
 For more info, see my very old raw text notes...
 [Image Comparing, Tower of Computational Sorcery](http://www.ict.griffith.edu.au/anthony/info/graphics/image_comparing)
@@ -431,321 +432,322 @@ For more info, see my very old raw text notes...
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    Using "compare -subimage-search" option...
+~~~{.skip}
+Using "compare -subimage-search" option...
 
-      compare -subimage-search  large_image.png  sub-image.png  results-%d.png
+  compare -subimage-search  large_image.png  sub-image.png  results-%d.png
 
-      This produces two images
-        results-0.png
-            which displays the matching location
-        results-1.png
-            which is a map of possible top-left corner locations showing how well
-            the sub-image matches at that location.
+  This produces two images
+    results-0.png
+        which displays the matching location
+    results-1.png
+        which is a map of possible top-left corner locations showing how well
+        the sub-image matches at that location.
 
-      Note the second image is smaller, as it is only top-left corner locations.
-      As such its size is   large_image - small_image + 1
+  Note the second image is smaller, as it is only top-left corner locations.
+  As such its size is   large_image - small_image + 1
 
-      The search however is based on a difference of color vectors, so produces
-      a very accurate color comparison.
+  The search however is based on a difference of color vectors, so produces
+  a very accurate color comparison.
 
-      The search basically does a compare of the small image at EVERY possible
-      location in the larger image.  As such it is slow - very, very slow.
+  The search basically does a compare of the small image at EVERY possible
+  location in the larger image.  As such it is slow - very, very slow.
 
-      The best idea is to compare a very, very SMALL sub-image to find possible
-      locations, then use that to do a difference compare at each possible
-      location for a more accurate match.
+  The best idea is to compare a very, very SMALL sub-image to find possible
+  locations, then use that to do a difference compare at each possible
+  location for a more accurate match.
 
-      Have a look at the script
-        http://www.imagemagick.org/Usage/scripts/overlap
-      and associated discussion
-        Overlapped Images
-      Which looks at locating 'high entropy' sub-images of one image to search
-      for posible matches in a second image so the overlap offset between the
-      two images can be discovered, and the images merged into a larger image.
+  Have a look at the script
+    http://www.imagemagick.org/Usage/scripts/overlap
+  and associated discussion
+    Overlapped Images
+  Which looks at locating 'high entropy' sub-images of one image to search
+  for posible matches in a second image so the overlap offset between the
+  two images can be discovered, and the images merged into a larger image.
 
-      Another discussion uses sub-image searches to find tiling patterns in
-      larger images, with the goal of generating tilable images
-        Stitching image over a canvas
+  Another discussion uses sub-image searches to find tiling patterns in
+  larger images, with the goal of generating tilable images
+    Stitching image over a canvas
 
 
-      Example using RMSE and the new -grayscale function to merge the
-      separate color difference channel results into a final image
+  Example using RMSE and the new -grayscale function to merge the
+  separate color difference channel results into a final image
 
-        convert large_image.png small_image.png miff:- |
-          compare -metric RMSE -subimage-search - miff:- |
-            convert - -delete 0 -grayscale MS show:
+    convert large_image.png small_image.png miff:- |
+      compare -metric RMSE -subimage-search - miff:- |
+        convert - -delete 0 -grayscale MS show:
 
 
-    Similarity Threshold
+Similarity Threshold
 
-      As, many times, people are only interested in the first match, as soon at this is found, there is no need to continue
-      searching.  The -similarity-metric defines what you
-      would regard as a good match.
+  As, many times, people are only interested in the first match, as soon at this is found, there is no need to continue
+  searching.  The -similarity-metric defines what you
+  would regard as a good match.
 
-      A "-similarity-threshold 0.0" will abort on the very first 'perfect' match
-      found, while "-similarity-threshold 1.0"  (the default) will never match and
-      will search every posible point.  A value in between will set a "color only"
-      'fuzz' factor on what you would consider an acceptable match.
+  A "-similarity-threshold 0.0" will abort on the very first 'perfect' match
+  found, while "-similarity-threshold 1.0"  (the default) will never match and
+  will search every posible point.  A value in between will set a "color only"
+  'fuzz' factor on what you would consider an acceptable match.
 
-      Note that if the sub-image search is aborted, the second 'map' image will
-      contain a partial result, only showing the results up until the compare
-      aborted its search.
+  Note that if the sub-image search is aborted, the second 'map' image will
+  contain a partial result, only showing the results up until the compare
+  aborted its search.
 
 
-    Some Basic Sub-Image Search Examples....
+Some Basic Sub-Image Search Examples....
 
-      Grab a screen shot of a terminal window ("screen.png"),
-      and crop out an image of a single letter or word ("letter.png").
+  Grab a screen shot of a terminal window ("screen.png"),
+  and crop out an image of a single letter or word ("letter.png").
 
-      Just report first match.... for speed,
-      immediately abort after finding that first match.
-      Don't bother outputing the incomplete image results.
+  Just report first match.... for speed,
+  immediately abort after finding that first match.
+  Don't bother outputing the incomplete image results.
 
-         compare -subimage-search -metric AE -similarity-threshold 1.0 \
-                       screen.png letter.png null: 2>&1
+     compare -subimage-search -metric AE -similarity-threshold 1.0 \
+                   screen.png letter.png null: 2>&1
 
-      NOTE speed will be highly dependant on where in the image that first
-      match is found.
+  NOTE speed will be highly dependant on where in the image that first
+  match is found.
 
-      Find all occurences of exactly that image,
-      as an image (white dots on matches, black elsewhere)
+  Find all occurences of exactly that image,
+  as an image (white dots on matches, black elsewhere)
 
-         compare -subimage-search -metric AE \
-                       screen.png letter.png miff:- 2>/dev/null |
-           convert - -delete 0 show:
+     compare -subimage-search -metric AE \
+                   screen.png letter.png miff:- 2>/dev/null |
+       convert - -delete 0 show:
 
-      Extract a list of the coordinates of all matching letters (white dots)
-      (as an enumerated pixel list, ignoring anything black)
+  Extract a list of the coordinates of all matching letters (white dots)
+  (as an enumerated pixel list, ignoring anything black)
 
-         compare -subimage-search -metric AE \
-                       screen.png letter.png miff:-  2>/dev/null |
-           convert - -delete 0 txt:- | grep -v '#000000'
+     compare -subimage-search -metric AE \
+                   screen.png letter.png miff:-  2>/dev/null |
+       convert - -delete 0 txt:- | grep -v '#000000'
 
-      Just the coordinate list
+  Just the coordinate list
 
-         compare -subimage-search -metric AE \
-                       screen.png letter.png miff:-  2>/dev/null |
-           convert - -delete 0 txt:- | sed -n '/#FFFFFF/s/:.*//p'
+     compare -subimage-search -metric AE \
+                   screen.png letter.png miff:-  2>/dev/null |
+       convert - -delete 0 txt:- | sed -n '/#FFFFFF/s/:.*//p'
 
 
 
-    NON-ImageMagick sub-image search solutions...
+NON-ImageMagick sub-image search solutions...
 
-      "visgrep" from the "xautomation" package.
+  "visgrep" from the "xautomation" package.
 
-        This is much simpler sub-image search program, that only outputs a
-        list of coordinates for the matches (or even multiple sub-image matches).
-        Because it is so much simpler (for near exact matching) and not trying
-        to generate 'result images' for further study, it is also a LOT FASTER.
+    This is much simpler sub-image search program, that only outputs a
+    list of coordinates for the matches (or even multiple sub-image matches).
+    Because it is so much simpler (for near exact matching) and not trying
+    to generate 'result images' for further study, it is also a LOT FASTER.
 
-        For example...
-      
-          visgrep screen.png letter.png
+    For example...
+  
+      visgrep screen.png letter.png
 
-        Timed results
-          using "compare" to get just the first match        0.21 seconds
-          using "compare" to get a 'results image'           1.56 seconds
-            ditto, but extracting the coordinate list        1.76 seconds
-          using "visgrep" to get all matching coordinates    0.09 seconds
+    Timed results
+      using "compare" to get just the first match        0.21 seconds
+      using "compare" to get a 'results image'           1.56 seconds
+        ditto, but extracting the coordinate list        1.76 seconds
+      using "visgrep" to get all matching coordinates    0.09 seconds
 
 
 
-    Other Methods of sub-image searching....
+Other Methods of sub-image searching....
 
-    HitAndMiss Morphology
+HitAndMiss Morphology
 
-      This is essentially a binary match, where you define what pixels must be
-      'background' and what must be 'foreground'.  However, it also allows you to
-      define areas where you don't care if the pixel is foreground or
-      background.
+  This is essentially a binary match, where you define what pixels must be
+  'background' and what must be 'foreground'.  However, it also allows you to
+  define areas where you don't care if the pixel is foreground or
+  background.
 
-      Basically a binary pattern search method.
+  Basically a binary pattern search method.
 
-    Correlate (a Convolve variant)
+Correlate (a Convolve variant)
 
-      This is similar to Hit and Miss but using greyscale values.  Positive values
-      for foreground and negative values for background, and zero for don't care.
-      It is however limited to grayscale images.
+  This is similar to Hit and Miss but using greyscale values.  Positive values
+  for foreground and negative values for background, and zero for don't care.
+  It is however limited to grayscale images.
 
-      See Correlation and Shape Searching.
+  See Correlation and Shape Searching.
 
-      Both of these are basically just as slow as the previous sub-image compare,
-      but less accurate with regards to colors.  However, the ability to 
-      specify a shape (don't care areas) to the sub-image makes them useful as
-      search methods.
+  Both of these are basically just as slow as the previous sub-image compare,
+  but less accurate with regards to colors.  However, the ability to 
+  specify a shape (don't care areas) to the sub-image makes them useful as
+  search methods.
 
-      However you need to convert the sub-image into a 'kernel', or array of
-      floating point values, rather than use an actual image.
+  However you need to convert the sub-image into a 'kernel', or array of
+  floating point values, rather than use an actual image.
 
 
-    FFT Convolve (NCC)
+FFT Convolve (NCC)
 
-      Fast Fourier Transforms is a slow operator, but usually many orders of
-      magnitude faster than the previous two methods.  The reason is that
-      a convolution in the frequency domain is just a direct pixel by pixel
-      multiplication.
+  Fast Fourier Transforms is a slow operator, but usually many orders of
+  magnitude faster than the previous two methods.  The reason is that
+  a convolution in the frequency domain is just a direct pixel by pixel
+  multiplication.
 
-      The 'Convolve' method, can be converted into a 'Correlate', simply by
-      rotating the sub-image being searched for by 180 degrees.
-      See Correlate.
+  The 'Convolve' method, can be converted into a 'Correlate', simply by
+  rotating the sub-image being searched for by 180 degrees.
+  See Correlate.
 
-      Basically by converting images into the 'frequency' domain, you can do
-      a sub-image search, very very quickly, compared to the previous, especially
-      with larger sub-images that can be the same size as the original image!
+  Basically by converting images into the 'frequency' domain, you can do
+  a sub-image search, very very quickly, compared to the previous, especially
+  with larger sub-images that can be the same size as the original image!
 
-      This I believe has been added as a "NCC" compare metric.
+  This I believe has been added as a "NCC" compare metric.
 
 
 
-    Peak Finding and extracting (for near partial matches)...
+Peak Finding and extracting (for near partial matches)...
 
-      Once you have compared the image you will typically have a 'probability map'
-      of some kind which defines how 'perfect' the match was.
+  Once you have compared the image you will typically have a 'probability map'
+  of some kind which defines how 'perfect' the match was.
 
-      What you want to do now is to find the best match, or perhaps multiple
-      matches in the image.  That is you want to locate the major 'peaks'
-      in the resulting map, and extract actual locations.
+  What you want to do now is to find the best match, or perhaps multiple
+  matches in the image.  That is you want to locate the major 'peaks'
+  in the resulting map, and extract actual locations.
 
-      * Using a Laplacian Convolution Kernel
+  * Using a Laplacian Convolution Kernel
 
-        To get results you need to find the 'peaks' in the image, not
-        necessarily the brightest points either. You can get this by convolving
-        the image so as to subtract the average of the surrounding pixels from
-        the central pixel.  As we only want positive results, a bias removes the
-        negative results.
+    To get results you need to find the 'peaks' in the image, not
+    necessarily the brightest points either. You can get this by convolving
+    the image so as to subtract the average of the surrounding pixels from
+    the central pixel.  As we only want positive results, a bias removes the
+    negative results.
 
-          convert mandril3_ncc1.png \
-                  -bias -100% -convolve Laplacian:0 result.png
+      convert mandril3_ncc1.png \
+              -bias -100% -convolve Laplacian:0 result.png
 
-        Thresholding and using it as a mask, and we can extract just those pixels.
+    Thresholding and using it as a mask, and we can extract just those pixels.
 
-          convert mandril3_ncc1.png \
-                  \( +clone -bias -100% -convolve Laplacian:0 -threshold 50% \) \
-                  -compose multiply -composite \
-                  txt:- | grep -v black
+      convert mandril3_ncc1.png \
+              \( +clone -bias -100% -convolve Laplacian:0 -threshold 50% \) \
+              -compose multiply -composite \
+              txt:- | grep -v black
 
-        The problem is you can get a cluster of points at a peak, rather than
-        a definitive pixel, especially for two peak pixels surrounded by very low
-        values.
+    The problem is you can get a cluster of points at a peak, rather than
+    a definitive pixel, especially for two peak pixels surrounded by very low
+    values.
 
-      * Using a Peaks Hit and Miss Morphology Kernel
+  * Using a Peaks Hit and Miss Morphology Kernel
 
-          convert mandril3_ncc1.png \
-                  -morphology HMT Peaks:1.5 result.png
+      convert mandril3_ncc1.png \
+              -morphology HMT Peaks:1.5 result.png
 
-        The problem is that this may produce no result if you get two peak pixels
-        with exactly the same value (no gap between foreground and background)
+    The problem is that this may produce no result if you get two peak pixels
+    with exactly the same value (no gap between foreground and background)
 
-        However there are other 'peak' kernels that will still locate such a peak
-        cluster.
+    However there are other 'peak' kernels that will still locate such a peak
+    cluster.
 
-      * Dilate and compare
+  * Dilate and compare
 
-        Dilate (expand maximum values) the image 3 times then compare it to the
-        original image.  Any peak within the area of dilated kernel size (7 pixel
-        square) will remain the same value. Set all pixels that show a
-        difference to pixels to zero.
+    Dilate (expand maximum values) the image 3 times then compare it to the
+    original image.  Any peak within the area of dilated kernel size (7 pixel
+    square) will remain the same value. Set all pixels that show a
+    difference to pixels to zero.
 
-        Method by HugoRune  (IM discussion topic 14491)
+    Method by HugoRune  (IM discussion topic 14491)
 
-      * Looped match and remove.
+  * Looped match and remove.
 
-        Basically find the highest pixel value, note it. Then mask all pixels in
-        an area around that peak, and repeat until some limit (number points or
-        threshold) is reached.
+    Basically find the highest pixel value, note it. Then mask all pixels in
+    an area around that peak, and repeat until some limit (number points or
+    threshold) is reached.
 
-        See a shell script implementation of this in  Fred Weinhaus's script
-        "maxima"
+    See a shell script implementation of this in  Fred Weinhaus's script
+    "maxima"
 
-        This does not look at finding the center of large 'cluster' of near equal
-        valued pixels, though this would be very rare in real images.
+    This does not look at finding the center of large 'cluster' of near equal
+    valued pixels, though this would be very rare in real images.
 
-      * Sub-pixel locating
+  * Sub-pixel locating
 
-        If the peak is not an exact pixel location, but could conceivably be a sub-pixel
-        location (between pixels) then some form of pattern match (gaussian curve
-        fit) in the area of the peak may let you locate the peak to a sub-pixel
-        coordinate.
+    If the peak is not an exact pixel location, but could conceivably be a sub-pixel
+    location (between pixels) then some form of pattern match (gaussian curve
+    fit) in the area of the peak may let you locate the peak to a sub-pixel
+    coordinate.
 
-        This may be more important in image registration for panorama stitching,
-        especially when you are not using a large number points to get a best-fit
-        average of the perspective overlay.
+    This may be more important in image registration for panorama stitching,
+    especially when you are not using a large number points to get a best-fit
+    average of the perspective overlay.
 
-      * Finding a tile pattern in an image
+  * Finding a tile pattern in an image
 
-        When you have all the points, a search for a repeating pattern (similar
-        vector distances between multiple peaks) should point out some form of
-        tiling structure.
+    When you have all the points, a search for a repeating pattern (similar
+    vector distances between multiple peaks) should point out some form of
+    tiling structure.
 
 
-    Improving the Sub-Image Matching...
+Improving the Sub-Image Matching...
 
-      The major problem with Correlate, (or the fast  FFT correlate, which is the
-      same thing) is that it has absolutely no understanding of color.
+  The major problem with Correlate, (or the fast  FFT correlate, which is the
+  same thing) is that it has absolutely no understanding of color.
 
-      Correlation (or convolve) is purely a mathematical technique that is used
-      against a set of values.  With images that means it is only applied
-      against the individual channels of an image, and NOT with vector color
-      distances.
+  Correlation (or convolve) is purely a mathematical technique that is used
+  against a set of values.  With images that means it is only applied
+  against the individual channels of an image, and NOT with vector color
+  distances.
 
 
-      While "`compare`" actually does real comparing of color vectors.  This will find
-      shapes better than "`correlate`" but is much much slower.
+  While "`compare`" actually does real comparing of color vectors.  This will find
+  shapes better than "`correlate`" but is much much slower.
 
-      As such, to make proper use of "`correlate`" you should convert your images
-      (beforehand for speed, or afterward against results) to try and highlight
-      the color differences in the image as a greyscale 'correlation' image.
+  As such, to make proper use of "`correlate`" you should convert your images
+  (beforehand for speed, or afterward against results) to try and highlight
+  the color differences in the image as a greyscale 'correlation' image.
 
-      ASIDE: Using "-channel" to limit operations to one greyscale channel will
-      improve speed.  In IMv7 greyscaling will reduce images to one channel so
-      will gain speed improvements automatically.
+  ASIDE: Using "-channel" to limit operations to one greyscale channel will
+  improve speed.  In IMv7 greyscaling will reduce images to one channel so
+  will gain speed improvements automatically.
 
-      For example, instead of intensity, you may get a better foreground
-      /background differentiation, by extracting the Hue of an image.
-      Though you may need to color rotate the hues if there is a lot of red
-      in the sub-image being searched for.
+  For example, instead of intensity, you may get a better foreground
+  /background differentiation, by extracting the Hue of an image.
+  Though you may need to color rotate the hues if there is a lot of red
+  in the sub-image being searched for.
 
-      See the examples of HSL and HSB, channel separation, to see this problem.
-        http://www.imagemagick.org/Usage/color_basics/#separate
+  See the examples of HSL and HSB, channel separation, to see this problem.
+    http://www.imagemagick.org/Usage/color_basics/#separate
 
-      Another greyscaling method that should work very well is to do edge
-      detection on the two images.  This will highlight the boundaries and shape,
-      which is typically much more important than any smooth gradient or color
-      changes in the image.
+  Another greyscaling method that should work very well is to do edge
+  detection on the two images.  This will highlight the boundaries and shape,
+  which is typically much more important than any smooth gradient or color
+  changes in the image.
 
-      For examples of Edge detection methods see
-        http://www.imagemagick.org/Usage/convolve/#edgedet
+  For examples of Edge detection methods see
+    http://www.imagemagick.org/Usage/convolve/#edgedet
 
-      You may like to also look at directional or compass type edge detection.
+  You may like to also look at directional or compass type edge detection.
 
-      Basically, anything that will enhance the shape for your specific case is
-      a good idea.  Just apply it to BOTH images before correlating them.
+  Basically, anything that will enhance the shape for your specific case is
+  a good idea.  Just apply it to BOTH images before correlating them.
 
 
-    Scale and Rotation Invariant Matching...
+Scale and Rotation Invariant Matching...
 
-      * position independence...
-      * matching rotated sub-image (angle independent)
-      * matching resized sub-images  (size independent)
-      * Both size and angle independence
+  * position independence...
+  * matching rotated sub-image (angle independent)
+  * matching resized sub-images  (size independent)
+  * Both size and angle independence
 
 
-    --------------
+--------------
 
-    Other more specific image matching..
+Other more specific image matching..
 
-    Matching Lines...
+Matching Lines...
 
-      Hough Algorithm
+  Hough Algorithm
 
-    Matching Circles...
+Matching Circles...
 
-      Hough Algorithm Variant
+  Hough Algorithm Variant
 
-    Matching Faces
+Matching Faces
 
-      A combination of the above.
-
+  A combination of the above.
+~~~
 
 ------------------------------------------------------------------------
 
@@ -761,7 +763,7 @@ Don't discount this.
 You can compare lots of files very, very quickly in this way.
 The best method I've found is by using MD5 checksums.
 
-~~~
+~~~{.skip}
 md5sum * | sort | awk {'print $2 " " $1'}  | uniq -Df 1
 ~~~
 
@@ -776,7 +778,7 @@ It only takes a date change or other minor meta-data difference in the file to m
 
 You can have IM generate a 'signature' for each image...
 
-~~~
+~~~{.skip}
 identify -quiet -format "%#" images...
 ~~~
 
@@ -935,11 +937,13 @@ Finding the right metric in this is the key, as humans can make the 'similarity'
 
 In summary, my current procedure of finding and handling duplicate images is a pipeline of programs to find and sort out 'similar' images.
 
-       Generate/Cache  Image Types and Metrics
-         -> Compare metrics and cluster images.
-           -> compare images in cluster for matches
-             -> group into sets of matching images (by source directory)
-               -> human verification
+~~~{.skip}
+Generate/Cache  Image Types and Metrics
+ -> Compare metrics and cluster images.
+   -> compare images in cluster for matches
+     -> group into sets of matching images (by source directory)
+       -> human verification
+~~~
 
 As you can see I am looking a highly staged approach.
 
@@ -981,48 +985,52 @@ A discussion on sorting images by type is on the IM Users Forum...
 
 Basically, if you do a comparison difference of the image, against a gray-scaled version of itself, it should produce very little difference if it is gray-scale, and quite a lot of differences if it is colorful.
 
-    Saturation Test
+~~~{.skip}
+Saturation Test
 
-          convert rose:  granite: -colorspace HSL \
-                  -format '%M  avg=%[fx:mean.g] peak=%[fx:maxima.g]\n' info:
+      convert rose:  granite: -colorspace HSL \
+              -format '%M  avg=%[fx:mean.g] peak=%[fx:maxima.g]\n' info:
 
-        rose:  avg=0.413046 peak=1
-        granite:  avg=0.0343691 peak=0.062501
+    rose:  avg=0.413046 peak=1
+    granite:  avg=0.0343691 peak=0.062501
 
-      The numbers are normalized to a 0 to 1 range.  As you can see the "rose" is
-      very colorful, with a strong peak, and an average of roughly half the
-      staturation range.  The "granite" image however has very low saturation and
-      low peak value. Though it is not pure greyscale, it is close to it.
+  The numbers are normalized to a 0 to 1 range.  As you can see the "rose" is
+  very colorful, with a strong peak, and an average of roughly half the
+  staturation range.  The "granite" image however has very low saturation and
+  low peak value. Though it is not pure greyscale, it is close to it.
 
-      A low average and high peak will indicate small patches of strong color.
-      Thresholding the saturation channel can generate a mask of the color area.
+  A low average and high peak will indicate small patches of strong color.
+  Thresholding the saturation channel can generate a mask of the color area.
 
-      PROBLEM:  The above does not find images that are linear in color.
-      That is images which only contain colors that form a linear
-      color gradient, such as a yellowed (sepiatone) photos, or blue prints.
-      These are essentially colorful greyscale images.  See next.
+  PROBLEM:  The above does not find images that are linear in color.
+  That is images which only contain colors that form a linear
+  color gradient, such as a yellowed (sepiatone) photos, or blue prints.
+  These are essentially colorful greyscale images.  See next.
+~~~
 
 ### Is Image Linear Color {#type_linear}
 
-      Another technique is to do a direct 'best fit' of a 3 dimensional line to
-      all the colors (or a simplified Color Matrix of metrics) in the image.  The
-      error of the fit (generally average of the squares of the errors) gives you
-      a very good indication about how well the image fits to that line.
+~~~{.skip}
+Another technique is to do a direct 'best fit' of a 3 dimensional line to
+all the colors (or a simplified Color Matrix of metrics) in the image.  The
+error of the fit (generally average of the squares of the errors) gives you
+a very good indication about how well the image fits to that line.
 
-      The fitting of a line to the 3 dimensional image generally involves some
-      vector mathematics.  The result will not only tell you if the image uses a
-      near 'linear' set of colors, but works for ANY scale of colors, not just
-      light to dark, but also off-grey lines on yellow paper.
+The fitting of a line to the 3 dimensional image generally involves some
+vector mathematics.  The result will not only tell you if the image uses a
+near 'linear' set of colors, but works for ANY scale of colors, not just
+light to dark, but also off-grey lines on yellow paper.
 
-      The result can also be used to convert the image into a simpler 'grey
-      scale' image, (or just convert a set of color metrics to grey-scale metrics)
-      for simpler comparisons, and better match finding.
+The result can also be used to convert the image into a simpler 'grey
+scale' image, (or just convert a set of color metrics to grey-scale metrics)
+for simpler comparisons, and better match finding.
 
-      My trial test program does not even use the full image to do this
-      determination, but works using a simple Color
-      Matrix Metric below of 9 colors (27 values) to represent the image).
+My trial test program does not even use the full image to do this
+determination, but works using a simple Color
+Matrix Metric below of 9 colors (27 values) to represent the image).
 
-      Mail me if interested, and let me know what you have tried.
+Mail me if interested, and let me know what you have tried.
+~~~
 
 ### Pure Black and White images {#type_bw}
 
@@ -1034,7 +1042,7 @@ From such an image a simple statistical analysis of the image will determine if 
 
 For example...
 
-~~~
+~~~{data-postamble="convert wmark_stats.txt wmark_stats.txt.gif"}
 convert wmark_dragon.jpg  -solarize 50% -colorspace Gray  wmark_bw_test.png
 identify -verbose -alpha off wmark_bw_test.png | \
     sed -n '/Histogram/q; /Colormap/q; /statistics:/,$ p'  > wmark_stats.txt
@@ -1054,7 +1062,7 @@ When that happens it means the solarized image has very little near pure black i
 That is very few pure black or white colors are present.
 Let's repeat this test using the built-in granite image.
 
-~~~
+~~~{data-postamble="convert granite_stats.txt granite_stats.txt.gif"}
 convert granite: granite.jpg
 convert granite.jpg -solarize 50% -colorspace Gray  granite_bw_test.png
 identify -verbose -alpha off granite_bw_test.png | \
@@ -1139,13 +1147,15 @@ Determining if an image has these vertical lines is, however, fairly easy.
 The idea is to average the pixels of all the rows in an image together.
 Any 'fault' will appear as a sharp blip in the final pixel row the number of which you can count using a 'threshold histogram' of the pixel row.
 
-    FUTURE -- image example needed for testing
-        convert bad_printout.png -crop 0x1+0+0 -average \
-                -threshold 50% -format %c histogram:info:-
+~~~{.skip}
+FUTURE -- image example needed for testing
+    convert bad_printout.png -crop 0x1+0+0 -average \
+            -threshold 50% -format %c histogram:info:-
 
-    faster method but needs image height (assumed to be 1024)
-        convert bad_printout.png -scale 1024x1 \
-                -threshold 50% -format %c histogram:info:-
+faster method but needs image height (assumed to be 1024)
+    convert bad_printout.png -scale 1024x1 \
+            -threshold 50% -format %c histogram:info:-
+~~~
 
 When you have determined and removed such 'bad lines' from a fax, printout, or scan, you can then continue with your other tests without needing to worry about this sort of real world fault.
 
@@ -1154,12 +1164,16 @@ When you have determined and removed such 'bad lines' from a fax, printout, or s
 First you will need to "`-shave`" off any headers and footers that a fax may have added to a page.
 You can then either make a 'threshold histogram' (see previous) to see how many individual black pixels there are.
 
-    FUTURE -- image example needed for testing
-        convert blank_fax.png -threshold 50% -format %c histogram:info:-
+~~~{.skip}
+FUTURE -- image example needed for testing
+    convert blank_fax.png -threshold 50% -format %c histogram:info:-
+~~~
 
 Or you can do a [Noisy Trim](../crop/#trim_blur) to see if the image actually contains any more solid area or objects worthy of your attention.
 
-    FUTURE -- image example needed for testing
+~~~{.skip}
+FUTURE -- image example needed for testing
+~~~
 
 ### Spammed Images
 
@@ -1190,15 +1204,18 @@ That is, a good metric will let you disregard most images from further compariso
 
 You can use "-scale" to get an average color of an image, however I also suggest you remove the outside borders of the image  to reduce the effect of any 'fluff' that may have been added around the image.
 
-~~~
+~~~{.skip}
 convert image.png  -gravity center -crop 70x70%+0+0 \
-	-scale 1x1\! -depth 8 txt:-
+    -scale 1x1\! -depth 8 txt:-
 ~~~
 
 Alternatively, to get 'weighted centroid' color, based on color clustering, rather than an average, you can use "-colors"
 
 ~~~
 convert rose: -colors 1 -crop 1x1+0+0 -depth 8 -format '%[pixel:s]' info:-
+~~~
+
+~~~{.skip}
 rgb(146,89,80)
 ~~~
 
@@ -1221,7 +1238,9 @@ As such, you cannot just take a histogram of an image, as the image may use a lo
 This can be done by using the low level quantization function "-segment", then taking a histogram.
 This has an advantage over direct use of "-colors" as it does not attempt to merge distant (color-wise) clusters of colors, though the results may be harder to determine.
 
-     FUTURE example 
+~~~{.skip}
+FUTURE example 
+~~~
 
 After which a histogram will give you the amount of each of the predominant colors.
 
@@ -1328,9 +1347,11 @@ convert logo: -scale 3x3\! -compress none -depth 8 ppm:- |\
   sed '/^#/d' | tail -n +4
 ~~~
 
-      251 241 240 245 234 231 229 233 236 254 254 254
-      192 196 204 231 231 231 255 255 255 211 221 231
-      188 196 210
+~~~{.skip}
+251 241 240 245 234 231 229 233 236 254 254 254
+192 196 204 231 231 231 255 255 255 211 221 231
+188 196 210
+~~~
 
 The above can be improved by using 16 bit values, and possibly cropping 10% of the borders to remove logo and framing junk that may have been added...
 
@@ -1339,9 +1360,11 @@ convert logo: -gravity center -crop 80% -scale 3x3\! \
         -compress none -depth 16 ppm:- |   sed '/^#/d' | tail -n +4
 ~~~
 
-      63999 59442 58776 62326 58785 58178 51740 54203 54965 65277 65262 65166
-      45674 47023 49782 56375 55648 55601 65535 65535 65535 52406 55842 58941
-      44635 48423 52881
+~~~{.skip}
+63999 59442 58776 62326 58785 58178 51740 54203 54965 65277 65262 65166
+45674 47023 49782 56375 55648 55601 65535 65535 65535 52406 55842 58941
+44635 48423 52881
+~~~
 
 Of course like the previous average color metric, this will also have problems matching up images that have been color modified, such as hue, or brightness changes.
 (See next section)
@@ -1363,9 +1386,11 @@ convert logo: -gravity center -crop 80% -scale 3x3\! -fx '.5+u-p{1,1}' \
         -compress none -depth 16 ppm:- | sed '/^#/d' | tail -n +4
 ~~~
 
-      51093 45187 41761 49419 44529 41163 38834 39947 37950 52371 51007 48152
-      32767 32767 32767 43469 41393 38587 52629 51279 48521 39500 41587 41926
-      31729 34168 35867
+~~~{.skip}
+51093 45187 41761 49419 44529 41163 38834 39947 37950 52371 51007 48152
+32767 32767 32767 43469 41393 38587 52629 51279 48521 39500 41587 41926
+31729 34168 35867
+~~~
 
 Note that I add 0.5 to the difference as you cannot save a negative color value in an image.
 Also the use of the slow "`-fx`" operator is acceptable as only 9 pixels are processed.
@@ -1379,9 +1404,11 @@ convert logo: -scale 3x3\! \( +clone -scale 1x1 \) -fx '.5+u-v.p{0,0}' \
         -compress none ppm:- | sed '/^#/d' | tail -n +4
 ~~~
 
-      38604 35917 34642 37011 33949 32441 32839 33841 33649 39447 39259 38369
-      23358 24377 25436 33538 33174 32426 39612 39434 38605 28225 30576 32319
-      22271 24381 27021
+~~~{.skip}
+38604 35917 34642 37011 33949 32441 32839 33841 33649 39447 39259 38369
+23358 24377 25436 33538 33174 32426 39612 39434 38605 28225 30576 32319
+22271 24381 27021
+~~~
 
 This also could be done by the metric comparator, rather than the metric generator.
 

@@ -33,4 +33,6 @@ color_basics: color_basics/index.html color_basics/index.sh
 
 color_mods: color_mods/index.html color_mods/index.sh
 
+compare: compare/index.html compare/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

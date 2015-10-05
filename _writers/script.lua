@@ -212,6 +212,12 @@ function CodeBlock(s, attr)
     local f = attr['data-capture-err']
     return "#" .. f .. "\n" .. s ..
            " 2>" .. f .. " || : && convert label:@" .. f .. " " .. f .. ".gif\n"
+  elseif attr['data-postamble'] then
+      local f = attr['data-postamble']
+      return "# " .. attributes(attr) .. "\n" .. s .. "\n" .. f .. "\n"
+  elseif attr['data-preamble'] then
+      local f = attr['data-preamble']
+      return "# " .. attributes(attr) .. "\n" .. f .. "\n" .. s .. "\n"
   else
     return "#" .. attributes(attr) .. "\n" .. s ..
            "\n"
