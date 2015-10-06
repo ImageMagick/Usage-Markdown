@@ -93,6 +93,13 @@ convert wave_1.png wave_2.png wave_3.png \
         -evaluate-sequence add added_waves.png
 ~~~
 
+~~~{.hide}
+im_profile -s wave_1.png wave_1_pf.gif
+im_profile -s wave_2.png wave_2_pf.gif
+im_profile -s wave_3.png wave_3_pf.gif
+im_profile -s added_waves.png added_waves_pf.gif
+~~~
+
 [![\[IM Output\]](wave_1_pf.gif)](wave_1_pf.gif)
 ![ +](../img_www/plus.gif)
 [![\[IM Output\]](wave_2_pf.gif)](wave_2_pf.gif)
@@ -196,7 +203,7 @@ Now, let's simply try a Fourier Transform round trip on the Lena image.
 That is, we simply do the forward transform and immediately apply the inverse transform to get back the original image.
 Then we will compare the results to see the level of quality produced.
 
-~~~
+~~~{data-capture-out="lena_roundtrip_cmp.txt"}
 time convert lena.png -fft -ift lena_roundtrip.png
 
 echo -n "RMSE = "
@@ -384,7 +391,7 @@ In other words, the magnitude and phase representation in HDRI is exactly the sa
 
 For example here I use a [HDRI version ImageMagick](../basics/#hdri) to generate another 'round trip' conversion of an image.
 
-~~~
+~~~{data-capture-out="lena_roundtrip_hdri_cmp.txt"}
 # HDRI version of IM used
 time convert lena.png -fft -ift lena_roundtrip_hdri.png
 
@@ -421,7 +428,7 @@ But if you have compiled a [HDRI version of IM](../basics/#hdri), you can also p
 
 For example here I used a [HDRI version of IM](../basics/#hdri) to also perform a 'round trip' FFT of an image, but this time generating Real/Imaginary images.
 
-~~~
+~~~{data-capture-out=lena_roundtrip_ri_cmp.txt}
 # HDRI version of IM used
 time convert lena.png   +fft +ift   lena_roundtrip_ri.png
 
@@ -710,7 +717,9 @@ Unfortunately, all the frequencies will also be a power of two in any horizontal
 > The right hand side is completely ignored.
 > Just ensure the center DC phase pixel remains 50% grey.
 
-    FUTURE: Perlin Noise Generator using FFT 
+~~~{.skip}
+FUTURE: Perlin Noise Generator using FFT
+~~~
 
 ### Spectrum of a Vertical Line {#line_spectrum}
 
@@ -1142,10 +1151,16 @@ This is so I can now loaded the image into an editor, and using any non-gray col
 When finished editing I can extract the areas I colored, by extracting a difference image against the unedited version.
 Like this...
 
-~~~
+~~~{.skip}
 convert clown_spectrum_edited.png clown_spectrum.png \
         -compose difference -composite \
         -threshold 0 -negate clown_spectrum_mask.png
+~~~
+
+~~~{.hide}
+# This is the inverse of the above -- That is I am cheating :-)
+convert clown_spectrum_mask.png -negate -background red -alpha shape \
+        clown_spectrum.png +swap -composite  clown_spectrum_edited.png
 ~~~
 
 [![\[IM Output\]](clown_spectrum_edited.png)](clown_spectrum_edited.png)
@@ -1218,10 +1233,16 @@ In this case, as the noise in the image is horizontally and vertically oriented,
 
 Again we mask out the parts using an image editor, this time using a 'blue' color (it really doesn't matter which color is used)...
 
-~~~
+~~~{.skip}
 convert twigs_spectrum_edited.png twigs_spectrum.png \
         -compose difference -composite \
         -threshold 0 -negate twigs_spectrum_mask.png
+~~~
+
+~~~{.hide}
+# This is the inverse of the above -- That is I am cheating :-)
+convert twigs_spectrum_mask.png -negate -background blue -alpha shape \
+        twigs_spectrum.png +swap -composite  twigs_spectrum_edited.png
 ~~~
 
 [![\[IM Output\]](twigs_spectrum_edited.png)](twigs_spectrum_edited.png)

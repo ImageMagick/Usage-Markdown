@@ -39,4 +39,6 @@ compose: compose/index.html compose/index.sh
 
 compose/tables: compose/tables/index.html compose/tables/index.sh
 
+fourier: fourier/index.html fourier/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

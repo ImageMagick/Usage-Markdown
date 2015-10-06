@@ -30,6 +30,10 @@ compose/*.png
 compose/*.txt
 compose/tables/*.jpg
 compose/tables/*.gif
+fourier/*.gif
+fourier/*.jpg
+fourier/*.png
+fourier/*.txt
 morphology/*.gif
 morphology/*.txt
 morphology/*.png
