@@ -21,6 +21,9 @@ The "`-crop`" image operator will simply cut out the part of all the images in t
       convert rose: -crop 40x30+40+30  crop_br.gif
       convert rose: -crop 40x30-10-10  crop_tl.gif
       convert rose: -crop 90x60-10-10  crop_all.gif
+~~~
+
+~~~{data-capture-err="crop_error.txt"}
       convert rose: -crop 40x30+90+60  crop_miss.gif
 ~~~
 
@@ -29,7 +32,7 @@ The "`-crop`" image operator will simply cut out the part of all the images in t
 
 Just so you can check on exactly what happened here is output from "`identify`" on the results of the crop above.
 
-~~~
+~~~{data-capture-out="crop_indent.txt"}
 identify rose: crop.gif crop_br.gif crop_tl.gif \
                crop_all.gif crop_miss.gif
 ~~~
@@ -79,13 +82,13 @@ Here it represents the 'empty' or 'zero sized' image that should have been retur
 
 Just so you can see more clearly, here is the "`identify`" output of the missed image, as well as a 'IM pixel enumeration' of that single pixel image, showing that it only contains one single transparent pixel.
 
-~~~
+~~~{data-capture-out="crop_miss_ident.txt"}
 identify crop_miss.gif
 ~~~
 
 [![\[IM Text\]](crop_miss_ident.txt.gif)](crop_miss_ident.txt)
 
-~~~
+~~~{data-postamble="convert crop_miss_data.txt crop_miss_data.txt.gif"}
 convert  crop_miss.gif  crop_miss_data.txt
 ~~~
 
@@ -122,6 +125,9 @@ convert paged.gif -crop 32x32+0+0    crop_page_tl.gif
 convert paged.gif -crop 32x32+32+32  crop_page_br.gif
 convert paged.gif -crop 60x60+2+2    crop_page_all.gif
 convert paged.gif -quiet -crop 32x32+56+56  crop_page_miss.gif
+~~~
+
+~~~{data-capture-out="crop_page_ident.txt"}
 identify paged.gif crop_page.gif crop_page_tl.gif crop_page_br.gif \
          crop_page_all.gif crop_page_miss.gif
 ~~~
@@ -199,7 +205,9 @@ convert rose: -crop 40x30+40+30\!  crop_vp_br.gif
 convert rose: -crop 40x30-10-10\!  crop_vp_tl.gif
 convert rose: -crop 90x60-10-10\!  crop_vp_all.gif
 convert rose: -quiet -crop 40x30+90+60\!  crop_vp_miss.gif
+~~~
 
+~~~{data-capture-out="crop_vp_ident.txt"}
 identify rose.gif  crop_vp.gif crop_vp_br.gif crop_vp_tl.gif \
             crop_vp_all.gif  crop_vp_miss.gif
 ~~~
@@ -291,8 +299,9 @@ convert rose:   -crop 50%x+0+0      crop_half.gif
 Note that while the size can be a percentage the offset will always be in pixels.
 You can not provide an offset as a percentage of the image size.
 
+~~~
 convert rose:   -crop 50%x+30+20      crop_percent.gif
-
+~~~
 
 [![\[IM Output\]](crop_percent.gif)](crop_percent.gif)
 
@@ -341,6 +350,9 @@ In this case instead of generating just one image, crop generates a whole series
 ~~~
 convert rose: -shave 12x0 -repage 64x64+9+9  paged.gif
 convert paged.gif  +gravity -crop 32x32  tiles_%d.gif
+~~~
+
+~~~{data-capture-out="tiles_ident.txt"}
 identify paged.gif tiles_?.gif
 ~~~
 
@@ -371,6 +383,9 @@ That is, the virtual canvas is not filled in, as "`-mosaic`" or "`-flatten`" lay
 
 ~~~
 convert tiles_[0-3].gif -background none -layers merge  tiles_layered.gif
+~~~
+
+~~~{data-capture-out="tiles_layered.txt"}
 identify tiles_layered.gif
 ~~~
 
@@ -386,15 +401,11 @@ montage -mode concatenate -tile 4x  rose_tiles_*.gif   rose_rejoined.gif
 ~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](rose_tiles_00.gif)](rose_tiles_00.gif) [![\[IM Output\]](rose_tiles_01.gif)](rose_tiles_01.gif) [![\[IM Output\]](rose_tiles_02.gif)](rose_tiles_02.gif) [![\[IM Output\]](rose_tiles_03.gif)](rose_tiles_03.gif)  
 [![\[IM Output\]](rose_tiles_04.gif)](rose_tiles_04.gif) [![\[IM Output\]](rose_tiles_05.gif)](rose_tiles_05.gif) [![\[IM Output\]](rose_tiles_06.gif)](rose_tiles_06.gif) [![\[IM Output\]](rose_tiles_07.gif)](rose_tiles_07.gif)  
 [![\[IM Output\]](rose_tiles_08.gif)](rose_tiles_08.gif) [![\[IM Output\]](rose_tiles_09.gif)](rose_tiles_09.gif) [![\[IM Output\]](rose_tiles_10.gif)](rose_tiles_10.gif) [![\[IM Output\]](rose_tiles_11.gif)](rose_tiles_11.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](rose_rejoined.gif)](rose_rejoined.gif)
 
 Note that the names of the individual images are from "`rose_tiles_00.gif`" to "`rose_tiles_11.gif`", which simply reflects the sequence number of the tiles in memory.
@@ -411,11 +422,8 @@ convert rose: -crop 20x20 \
 ~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 ![==&gt;](../img_www/space.gif)
-  
 [![\[IM Output\]](rose_tile_1_1.gif)](rose_tile_1_1.gif) [![\[IM Output\]](rose_tile_2_1.gif)](rose_tile_2_1.gif) [![\[IM Output\]](rose_tile_3_1.gif)](rose_tile_3_1.gif) [![\[IM Output\]](rose_tile_4_1.gif)](rose_tile_4_1.gif)  
 [![\[IM Output\]](rose_tile_1_2.gif)](rose_tile_1_2.gif) [![\[IM Output\]](rose_tile_2_2.gif)](rose_tile_2_2.gif) [![\[IM Output\]](rose_tile_3_2.gif)](rose_tile_3_2.gif) [![\[IM Output\]](rose_tile_4_2.gif)](rose_tile_4_2.gif)  
 [![\[IM Output\]](rose_tile_1_3.gif)](rose_tile_1_3.gif) [![\[IM Output\]](rose_tile_2_3.gif)](rose_tile_2_3.gif) [![\[IM Output\]](rose_tile_3_3.gif)](rose_tile_3_3.gif) [![\[IM Output\]](rose_tile_4_3.gif)](rose_tile_4_3.gif)
@@ -461,11 +469,8 @@ convert rose: -repage 120x80+25+17 -crop 30x20 +repage rose_30x20_%02d.gif
 ~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 ![==&gt;](../img_www/space.gif)
-  
 [![\[IM Output\]](rose_30x20_00.gif)](rose_30x20_00.gif) [![\[IM Output\]](rose_30x20_01.gif)](rose_30x20_01.gif) [![\[IM Output\]](rose_30x20_02.gif)](rose_30x20_02.gif) [![\[IM Output\]](rose_30x20_03.gif)](rose_30x20_03.gif)  
 [![\[IM Output\]](rose_30x20_04.gif)](rose_30x20_04.gif) [![\[IM Output\]](rose_30x20_05.gif)](rose_30x20_05.gif) [![\[IM Output\]](rose_30x20_06.gif)](rose_30x20_06.gif) [![\[IM Output\]](rose_30x20_07.gif)](rose_30x20_07.gif)  
 [![\[IM Output\]](rose_30x20_08.gif)](rose_30x20_08.gif) [![\[IM Output\]](rose_30x20_09.gif)](rose_30x20_09.gif) [![\[IM Output\]](rose_30x20_10.gif)](rose_30x20_10.gif) [![\[IM Output\]](rose_30x20_11.gif)](rose_30x20_11.gif)  
@@ -480,11 +485,8 @@ convert rose: -repage 60x40-5-3 -crop 30x20 +repage rose_ctiles_%d.gif
 ~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 ![==&gt;](../img_www/space.gif)
-  
 [![\[IM Output\]](rose_ctiles_0.gif)](rose_ctiles_0.gif) [![\[IM Output\]](rose_ctiles_1.gif)](rose_ctiles_1.gif)  
 [![\[IM Output\]](rose_ctiles_2.gif)](rose_ctiles_2.gif) [![\[IM Output\]](rose_ctiles_3.gif)](rose_ctiles_2.gif)
 
@@ -501,11 +503,8 @@ convert rose: -gravity center -crop 60x40+0+0 +gravity +repage \
 ~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 ![==&gt;](../img_www/space.gif)
-  
 [![\[IM Output\]](rose_ctiles2_0.gif)](rose_ctiles2_0.gif) [![\[IM Output\]](rose_ctiles2_1.gif)](rose_ctiles2_1.gif)  
 [![\[IM Output\]](rose_ctiles2_2.gif)](rose_ctiles2_2.gif) [![\[IM Output\]](rose_ctiles2_3.gif)](rose_ctiles2_2.gif)
 
@@ -527,20 +526,34 @@ For example, here we extract a simple row and column from our 'paged' rose image
 convert rose: -shave 12x0 -repage 64x64+9+9  paged.gif
 convert paged.gif  -crop 20x0+30+0  strip_column.gif
 convert paged.gif  -crop 0x20+0+30  strip_row.gif
+~~~
+
+~~~{data-capture-out="strip_row.txt"}
 identify paged.gif strip_column.gif strip_row.gif
 ~~~
 
-[![\[IM Output\]](paged.gif)](paged.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](strip_column.gif)](strip_column.gif) [![\[IM Output\]](strip_row.gif)](strip_row.gif)
+[![\[IM Output\]](paged.gif)](paged.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](strip_column.gif)](strip_column.gif)
+[![\[IM Output\]](strip_row.gif)](strip_row.gif)
 
 If you remove both offsets as well as one size argument, you can divide the image into a series of strips or columns, instead of tiles.
 
 ~~~
 convert rose: -crop 40x30+10+10  crop.gif
 convert crop.gif -quiet -crop  20x  strips_%d.gif
+~~~
+
+~~~{data-capture-out="strips_all.txt"}
 identify crop.gif strips_?.gif
 ~~~
 
-[![\[IM Output\]](crop.gif)](crop.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](strips_0.gif)](strips_0.gif) [![\[IM Output\]](strips_1.gif)](strips_1.gif) [![\[IM Output\]](strips_2.gif)](strips_2.gif) [![\[IM Output\]](strips_3.gif)](strips_3.gif)
+[![\[IM Output\]](crop.gif)](crop.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](strips_0.gif)](strips_0.gif)
+[![\[IM Output\]](strips_1.gif)](strips_1.gif)
+[![\[IM Output\]](strips_2.gif)](strips_2.gif)
+[![\[IM Output\]](strips_3.gif)](strips_3.gif)
 
 Notice that tile cropping, strip or otherwise, is across the whole page canvas of the image, and as such is aligned to that canvas, and NOT just the actual image.
 This is why the first and last actual image generated in the above example is only 10 pixels wide.
@@ -625,9 +638,7 @@ convert rose: -crop 23x15  +repage  +adjoin  rose_23x15_%02d.gif
 ~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](rose_23x15_00.gif)](rose_23x15_00.gif) [![\[IM Output\]](rose_23x15_01.gif)](rose_23x15_01.gif) [![\[IM Output\]](rose_23x15_02.gif)](rose_23x15_02.gif) [![\[IM Output\]](rose_23x15_03.gif)](rose_23x15_03.gif)  
 [![\[IM Output\]](rose_23x15_04.gif)](rose_23x15_04.gif) [![\[IM Output\]](rose_23x15_05.gif)](rose_23x15_05.gif) [![\[IM Output\]](rose_23x15_06.gif)](rose_23x15_06.gif) [![\[IM Output\]](rose_23x15_07.gif)](rose_23x15_07.gif)  
 [![\[IM Output\]](rose_23x15_08.gif)](rose_23x15_08.gif) [![\[IM Output\]](rose_23x15_09.gif)](rose_23x15_09.gif) [![\[IM Output\]](rose_23x15_10.gif)](rose_23x15_10.gif) [![\[IM Output\]](rose_23x15_11.gif)](rose_23x15_11.gif)  
@@ -652,9 +663,7 @@ convert rose: -crop 3x3@  +repage  +adjoin  rose_3x3@_%d.gif
 ~~~
 
 [![\[IM Output\]](rose.gif)](rose.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](rose_3x3@_0.gif)](rose_3x3@_0.gif) [![\[IM Output\]](rose_3x3@_1.gif)](rose_3x3@_1.gif) [![\[IM Output\]](rose_3x3@_2.gif)](rose_3x3@_2.gif)  
 [![\[IM Output\]](rose_3x3@_3.gif)](rose_3x3@_3.gif) [![\[IM Output\]](rose_3x3@_4.gif)](rose_3x3@_4.gif) [![\[IM Output\]](rose_3x3@_5.gif)](rose_3x3@_5.gif)  
 [![\[IM Output\]](rose_3x3@_6.gif)](rose_3x3@_6.gif) [![\[IM Output\]](rose_3x3@_7.gif)](rose_3x3@_7.gif) [![\[IM Output\]](rose_3x3@_8.gif)](rose_3x3@_8.gif)
@@ -713,6 +722,13 @@ This produces three basic styles of edge characteristics to a set of 'spaced' im
 
 #### Montaged Tiles
 
+~~~{.hide}
+convert font_[1-5].gif -bordercolor white -border 0 miff:- |\
+  montage - -tile x1  -geometry +3+3 -background Lime  montage.gif
+convert montage.gif -trim +repage spaced.gif
+convert montage.gif -bordercolor Lime -border 3x3 edged.gif
+~~~
+
 Here the original images were simply given a fixed sized border before being appended together.
 The result is that you will always have an even number of pixel spacing between tiles.
 More importantly the 'edge spacing' is exactly half the spacing that was placed between the tiles.
@@ -729,14 +745,18 @@ convert montage_?.gif -shave 3x3 montage-3_%d.gif
 ~~~
 
 [![\[IM Output\]](montage.gif)](montage.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
-[![\[IM Output\]](montage_0.gif)](montage_0.gif) [![\[IM Output\]](montage_1.gif)](montage_1.gif) [![\[IM Output\]](montage_2.gif)](montage_2.gif) [![\[IM Output\]](montage_3.gif)](montage_3.gif) [![\[IM Output\]](montage_4.gif)](montage_4.gif)
-  
+[![\[IM Output\]](montage_0.gif)](montage_0.gif)
+[![\[IM Output\]](montage_1.gif)](montage_1.gif)
+[![\[IM Output\]](montage_2.gif)](montage_2.gif)
+[![\[IM Output\]](montage_3.gif)](montage_3.gif)
+[![\[IM Output\]](montage_4.gif)](montage_4.gif)
 ![==&gt;](../img_www/right.gif)
-  
-[![\[IM Output\]](montage-3_0.gif)](montage-3_0.gif) [![\[IM Output\]](montage-3_1.gif)](montage-3_1.gif) [![\[IM Output\]](montage-3_2.gif)](montage-3_2.gif) [![\[IM Output\]](montage-3_3.gif)](montage-3_3.gif) [![\[IM Output\]](montage-3_4.gif)](montage-3_4.gif)
+[![\[IM Output\]](montage-3_0.gif)](montage-3_0.gif)
+[![\[IM Output\]](montage-3_1.gif)](montage-3_1.gif)
+[![\[IM Output\]](montage-3_2.gif)](montage-3_2.gif)
+[![\[IM Output\]](montage-3_3.gif)](montage-3_3.gif)
+[![\[IM Output\]](montage-3_4.gif)](montage-3_4.gif)
 
 #### Same Spacing around Edge
 
@@ -789,9 +809,7 @@ convert edged+6_0.gif -crop 1x1-6-6@ +repage tile-shave.gif
 ~~~
 
 [![\[IM Output\]](edged+6_0.gif)](edged+6_0.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](tile-shave.gif)](tile-shave.gif)
 
 #### Simply Spaced Tiles
@@ -821,9 +839,7 @@ convert spaced.gif -crop 5x1-6-6@\! +repage +adjoin spaced-6_%d.gif
 ~~~
 
 [![\[IM Output\]](spaced.gif)](spaced.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](spaced-6_0.gif)](spaced-6_0.gif) [![\[IM Output\]](spaced-6_1.gif)](spaced-6_1.gif) [![\[IM Output\]](spaced-6_2.gif)](spaced-6_2.gif) [![\[IM Output\]](spaced-6_3.gif)](spaced-6_3.gif) [![\[IM Output\]](spaced-6_4.gif)](spaced-6_4.gif)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -902,7 +918,7 @@ If it is set to come other setting, the "`-border`" operation may produce unexpe
 
 For example, here are some of the more interesting uses of "`-compose`" with the "`-border`" image operator, when applied to an image containing some transparent areas.
 
-~~~
+~~~{.skip}
 convert star.gif -bordercolor LimeGreen \
                  -compose {operation} -border 5  {result}
 ~~~
@@ -1077,7 +1093,7 @@ convert star.gif -compose Copy  -frame 6x6+2+2  star_framed_copy.gif
 
 As you can see the "`-frame`" operator, like "`-border`", also uses the "`-compose`" setting to define how the source image is overlaid onto the background frame.
 
-~~~
+~~~{.skip}
 convert star.gif -bordercolor LimeGreen \
         -compose {operation} -frame 6x6+2+2  {result}
 ~~~
@@ -1364,11 +1380,11 @@ This means that the numerical arguments of the trim can be extracted, to allow f
 
 Here we trim the image, but only to list the result on what part of the image was trimmed, not the actual trimmed image.
 
-~~~
+~~~{data-capture-out="blur_trim_info.txt"}
 convert  logo: -resize 30%   -trim  info:-
 ~~~
 
-[![\[IM Text\]](trim_info.txt.gif)](trim_info.txt)
+[![\[IM Text\]](blur_trim_info.txt.gif)](trim_info.txt)
 
 However, if you don't care about this information, just junk it by resetting the page information of the image either using a "`+repage`" operator, or saving to a format that does not save canvas information (such as the JPEG format).
 Here we do both, to make it clear, that we are junking the canvas information.
@@ -1510,7 +1526,7 @@ Because of this "`-trim`" will often fail for JPEG or real world images.
 As such you need to tell ImageMagick that colors that are not-exactly the same, but are reasonably close should be treated as being the same.
 Adding a very small "`-fuzz`" setting will do this.
 
-~~~
+~~~{.skip}
 convert image.jpg  -fuzz 1% -trim +repage  image_fuzzy_trim.jpg
 ~~~
 
@@ -1559,7 +1575,7 @@ The stars in the above are about 5 pixels across, so we want to use a value of a
 Here is the result.
 Note in this case we do not want an image, just the canvas information from the image.
 
-~~~
+~~~{data-capture-out="blur_trim_info.txt"}
 convert noisy.jpg  -virtual-pixel edge -blur 0x15 -fuzz 15% -trim  info:
 ~~~
 
@@ -1626,34 +1642,36 @@ As such, it may be better to do in a shell script, or an API.
 
 Other methods of fuzzy trimming is using various [Morphological Methods](../morphology/#basic) to remove the unwanted parts of the image, before triming to find the bounds of the area wanted in the original image.
 
-    FUTURE:
-    Trimming images containing a background pattern tile image.
+~~~{.skip}
+FUTURE:
+Trimming images containing a background pattern tile image.
 
-    The simplest technique is to generate the tile pattern (with the right offset)
-    and generate a difference image.  Trim that image to get bounds and repeat the
-    trim on the original image.
+The simplest technique is to generate the tile pattern (with the right offset)
+and generate a difference image.  Trim that image to get bounds and repeat the
+trim on the original image.
 
-    Other than that this problem becomes the more difficult problem of background
-    removal, or at least a rough background removal.  See the section on
-    Background Removal for more information.
+Other than that this problem becomes the more difficult problem of background
+removal, or at least a rough background removal.  See the section on
+Background Removal for more information.
 
-    --
+--
 
-    Is there is a way to grab the color that was (or will be) trimmed from an
-    image?
+Is there is a way to grab the color that was (or will be) trimmed from an
+image?
 
-    The typical reason for wanting to know the trim color, is so you can use that
-    specific color to re-add a border of some fixed width.
+The typical reason for wanting to know the trim color, is so you can use that
+specific color to re-add a border of some fixed width.
 
-    Better still have trim just determine the bounds of the object, and expand the
-    trim bounds using the given user width, before doing a single 'crop' of the
-    image.  That would also be useful in the previous 'blurred' trim example!
+Better still have trim just determine the bounds of the object, and expand the
+trim bounds using the given user width, before doing a single 'crop' of the
+image.  That would also be useful in the previous 'blurred' trim example!
 
-    --
+--
 
-    Note that trim could trim two or even three different colors.  It would be
-    nice is that was 'restricted', or controled better to only trim one color
-    per operation, or allow a 'trim until stop' (multi-trim) type of operation.
+Note that trim could trim two or even three different colors.  It would be
+nice is that was 'restricted', or controled better to only trim one color
+per operation, or allow a 'trim until stop' (multi-trim) type of operation.
+~~~
 
 A user [HugoRune](../forum_link.cgi?u=14154) needed to trim an image down to a highly different contrast regaion for scanning purposes.
 See [Discussion on IM Forums](../forum_link.cgi?t=14247)

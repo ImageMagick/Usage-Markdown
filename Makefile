@@ -43,4 +43,6 @@ convolve: convolve/index.html convolve/index.sh
 
 fourier: fourier/index.html fourier/index.sh
 
+crop: crop/index.html crop/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

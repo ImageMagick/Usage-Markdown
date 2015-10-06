@@ -34,6 +34,10 @@ convolve/*.gif
 convolve/*.jpg
 convolve/*.png
 convolve/*.txt
+crop/*.gif
+crop/*.jpg
+crop/*.png
+crop/*.txt
 fourier/*.gif
 fourier/*.jpg
 fourier/*.png
