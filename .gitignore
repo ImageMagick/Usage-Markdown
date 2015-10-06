@@ -38,6 +38,10 @@ crop/*.gif
 crop/*.jpg
 crop/*.png
 crop/*.txt
+distorts/*.gif
+distorts/*.jpg
+distorts/*.png
+distorts/*.txt
 fourier/*.gif
 fourier/*.jpg
 fourier/*.png

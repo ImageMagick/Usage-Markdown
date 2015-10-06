@@ -49,7 +49,7 @@ cos=`convert xc: -format "%[fx:cos( 17 *pi/180)]" info:`
 
 # For each Pixel, rotate that pixels coordinates
 convert koala.gif  txt:- |  sed '2,$ s/,/:/' |\
-  gawk -F: 'NR == 1 { print }
+  awk -F: 'NR == 1 { print }
             NR > 1 {  x = $1-32;    y = $2-32;
                       nx = int( c*x - s*y + 32 );
                       ny = int( s*x + c*y + 32 );
@@ -88,13 +88,15 @@ So as long as we can figure out the 'source' location for each destination pixel
 ![\[Diagram\]](../img_diagrams/mapping.gif)
 
 In Summary, a distortion mapping (reverse mapping) does the following.
-  
-    For each pixel (I,J) in the destination or output image
-       Map the I,J pixel position to a X,Y pixel position in the original image
-       Look up the Color of the original image at position X,Y
-           Using color interpolation, work out the appropriate color.
-           Or the virtual-pixel setting, if it misses the actual source image.
-       Set the destination images color for pixel I,J
+
+~~~{.skip}
+For each pixel (I,J) in the destination or output image
+   Map the I,J pixel position to a X,Y pixel position in the original image
+   Look up the Color of the original image at position X,Y
+       Using color interpolation, work out the appropriate color.
+       Or the virtual-pixel setting, if it misses the actual source image.
+   Set the destination images color for pixel I,J
+~~~
 
 Note that I used the variable names '`I,J`' and '`X,Y`' in the above as these variables map into the variables name that you would typically use in the [FX DIY Operator](../transform/#fx).
 
@@ -437,13 +439,13 @@ With the generation of these examples, the ensuing discussions in the [IM Forums
 
 This *Generalized Distortion Operator* is called "`-distort`", and you can see what distortion methods it has available on your IM version using "`-list Distort`".
 
-~~~
+~~~{.skip}
 convert -list distort
 ~~~
 
 The "`-distort`" operator takes two arguments, one of the distortion *methods* as given by the above, and a second string argument consisting of comma or space separated list of floating point values, that is used to control the specific distortion method.
 
-~~~
+~~~{.skip}
 convert ... -distort  {method}  "{list_of_floating_point_values}" ...
 ~~~
 
@@ -630,7 +632,7 @@ By setting "`-verbose`" before running "`-distort`" (use "`+verbose`" to turn of
 You can use this information to look at and understand how the distortion works and is applied.
 It is also a debugging tool we can use to figure out what is going wrong, and as part of the implementation process for new distortions.
 
-~~~
+~~~{data-capture-err="distort_verbose.txt"}
 convert koala.gif -verbose -distort SRT 0 +verbose  koala_noop.gif
 ~~~
 
@@ -699,7 +701,7 @@ Another way to think of it is that the destination image is a 'window' looking a
 
 The "`distort:viewport`" setting overrides both of these defaults, and allow you directly specify what part of the distorted space you want to see...
 
-~~~
+~~~{.skip}
 -define distort:viewport=WxH+X+Y
 -set option:distort:viewport WxH+X+Y
 ~~~
@@ -810,7 +812,7 @@ Also see [Methods of Rotating Images](#rotate_methods) below for other examples 
 
 ### Output Scaling, and Super-Sampling {#distort_scale}
 
-~~~
+~~~{.skip}
 -define distort:scale=N
 -set option:distort:scale N
 ~~~
@@ -882,14 +884,15 @@ convert koala.gif    -distort SRT 0    koala_noop.gif
 The '`SRT` distortion is actually three separate, distortions in a single distortion method, which is why it is called a '`Scale-Rotate-Translate`' distortion.
 All arguments, except the *angle* rotation, are optional and this makes the arguments highly variable, depending on exactly how many comma or space separated arguments you give, up to the maximum of 7 floating point numbers.
 
-                                    Angle            -> centered rotate
-                          Scale     Angle            -> centered scale and rotate
-                  X,Y               Angle            -> rotate about given coordinate
-    -distort SRT  X,Y     Scale     Angle            -> scale and rotate about coordinate
-                  X,Y ScaleX,ScaleY Angle            -> ditto
-                  X,Y     Scale     Angle  NewX,NewY -> scale, rotate and translate coord
-                  X,Y ScaleX,ScaleY Angle  NewX,NewY -> ditto
-
+~~~{.skip}
+                                Angle            -> centered rotate
+                      Scale     Angle            -> centered scale and rotate
+              X,Y               Angle            -> rotate about given coordinate
+-distort SRT  X,Y     Scale     Angle            -> scale and rotate about coordinate
+              X,Y ScaleX,ScaleY Angle            -> ditto
+              X,Y     Scale     Angle  NewX,NewY -> scale, rotate and translate coord
+              X,Y ScaleX,ScaleY Angle  NewX,NewY -> ditto
+~~~
 
 What this does is take an image in which you have selected, and an optional control point.
 If no control point is given, the exact center of the input source image is used.
@@ -1086,6 +1089,12 @@ In actual fact '`SRT`' is simply a two or one point sub-set of a '`Affine`' dist
 
 For example here we move the 'nose' of our koala image at '`28,24`' to the new position '`45,40`' (as indicated by the red arrow), which results in a simple 'translation' of the image location.
 
+~~~{.hide}
+convert koala.gif -fill none -stroke red \
+          -draw 'path "M 28,24 45,40  M 41,32 45,40 36,37 ' \
+        koala_arrow.png
+~~~
+
 ~~~
 convert koala.gif  -virtual-pixel white \
         -distort Affine '28,24 45,40'   koala_one_point.png
@@ -1096,6 +1105,13 @@ convert koala.gif  -virtual-pixel white \
 With two points, the '`Affine`' distortion can not only translate a image but scale and rotate it as well (the full range of a '`SRT`' distortion.
 
 For example here I map the 'ears' to the koala (the red line from '`30,11`' and '`48,29`'), to a larger horizontal position (a blue line from '`15,15`' to '`60,15`'), requiring the image to be scaled, rotated and translated so the control points are moved to this new position.
+
+~~~{.hide}
+convert koala.gif -fill none \
+          -draw 'stroke red  line 30,11  48,29' \
+          -draw 'stroke blue line 15,15  60,15' \
+        koala_lines.png
+~~~
 
 ~~~
 convert koala.gif  -virtual-pixel white \
@@ -1171,7 +1187,7 @@ The list of numbers (arguments) to a distortion can also be read from a file by 
 
 For example you can specify a distortion like this...
 
-~~~
+~~~{.skip}
 convert input.png  -distort Perspective '@file_of_coords.txt' output.png
 ~~~
 
@@ -1377,6 +1393,12 @@ For more information see [Aligning Two Masked Images](../masking/#aligning).
 
 Afterwards I added a extra border, and removed all transparency.
 It is not required, and you could easily use any background (or "`none`") but doing so will highlight any 'gap' probaly you may have in your images.
+
+~~~{.hide}
+convert isometric_cube.png -crop 20x20+150+55\! -scale 500% \
+        isometric_cube_zoom.png
+~~~
+
 [![\[IM Output\]](isometric_cube_zoom.png)](isometric_cube_zoom.png)
 
 Shown to the right is an enlargement of one such join in the image, showing the lack of any 'black-filled' gap along the join.
@@ -1860,7 +1882,7 @@ The other will be the Forward mapping Perspective\_Projection matrix.
 
 For example...
 
-~~~
+~~~{data-capture-err="perspective_verbose.txt"}
 convert rose: -matte -virtual-pixel transparent -verbose \
         -distort Perspective "0,0,3,0 0,46,10,46 70,0,70,7 70,46,60,40" \
         +verbose perspective_rose.png
@@ -2129,7 +2151,7 @@ A complex process that requires the solving of a quadratic equation, square root
 If you ask IM to [Verbosely](#distort_verbose) output the FX equivalent, you will see this complexity.
 For example using the checks image we created previously...
 
-~~~
+~~~{data-capture-err="bilinear_verbose.txt"}
 convert checks.png -matte -virtual-pixel transparent -mattecolor none \
     -interpolate Spline -verbose -distort BilinearForward \
                  '0,0,0,0  0,90,0,90  90,0,60,30  90,90,90,90' \
@@ -2145,7 +2167,7 @@ This is the check that creates the 'sky' effect that was shown in the previous e
 
 On the other hand, as the [Reversed Bilineaer Distortion](#bilinear_reverse) is much simpler, as you can directly apply the simpler polynomial equation, to reverse the previous distortion...
 
-~~~
+~~~{data-capture-err="bilinear_rev_verbose.txt"}
 convert bilinear_checks.png  -virtual-pixel transparent \
     -verbose -distort BilinearReverse \
                  '0,0,0,0  0,90,0,90  60,30,90,0  90,90,90,90' \
@@ -2214,13 +2236,17 @@ Just like '`BilinearReverse`' distortion, it needs a minimum of 4 coordinates.
 For example...
 Basically this is exactly the same as the order '`1`' equations but with 1 extra term added to the polynomial equations.
 That is as each equation now has 4 terms per axis, with 4 constants, so you now need at least 4 coordinate pairs, to allow IM to determine those constants.
-  
-      convert mandrill_grid.jpg -matte -virtual-pixel black \
-           -distort Polynomial \
-                  '1.5   0,0 26,0   128,0 114,23   128,128 128,100   0,128 0,123' \
-           mandrill_poly_1.5.jpg
 
-[![\[IM Output\]](mandrill_grid.jpg)](mandrill_grid.jpg) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](mandrill_poly_1.5.jpg)](mandrill_poly_1.5.jpg)
+~~~
+convert mandrill_grid.jpg -matte -virtual-pixel black \
+     -distort Polynomial \
+            '1.5   0,0 26,0   128,0 114,23   128,128 128,100   0,128 0,123' \
+     mandrill_poly_1.5.jpg
+~~~
+
+[![\[IM Output\]](mandrill_grid.jpg)](mandrill_grid.jpg)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](mandrill_poly_1.5.jpg)](mandrill_poly_1.5.jpg)
 
 With an order '`2`' the polynomial equations is expanded further to become a full quadratic fit, requiring a minimum of least 6 coordinate pairs.
 
@@ -2260,7 +2286,11 @@ convert grid16_polynomial.png -virtual-pixel gray \
         grid16_restored.png
 ~~~
 
-[![\[IM Output\]](grid16.png)](grid16.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](grid16_polynomial.png)](grid16_polynomial.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](grid16_restored.png)](grid16_restored.png)
+[![\[IM Output\]](grid16.png)](grid16.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](grid16_polynomial.png)](grid16_polynomial.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](grid16_restored.png)](grid16_restored.png)
 
 The small "`awk`" script takes the original set of X,Y control point pairs and reverses the order, so that we can then use the new file to try to 'undo' the distortion.
   
@@ -2306,7 +2336,9 @@ By default it will curve the given image into a perfectly circular arc over the 
 
 To do this it takes up to four arguments.
 
-` arc_angle rotate_angle top_radius bottom_radius`
+~~~{.skip}
+arc_angle rotate_angle top_radius bottom_radius
+~~~
 
 However only the "`arc_angle`" is required, the other arguments are optional, and can be added as needed, in the sequence given.
 
@@ -2575,7 +2607,9 @@ But it will not automatically do 'bestfit', nor does it try to preserve the aspe
 
 The 6 optional floating point arguments are...
 
-    Radius_Max   Radius_Min   Center_X,Center_Y   Start_Angle,End_Angle
+~~~{.skip}
+Radius_Max   Radius_Min   Center_X,Center_Y   Start_Angle,End_Angle
+~~~
 
 All the arguments are optional at the spaced positions.
 
@@ -2601,7 +2635,8 @@ Of course this distorts the southern hemisphere severely, wrapping the Antarctic
 By rotating the source image, and cropping it so to just show the polar cap, we can generate a nice map of the Antarctic Continent.
 I also specified a larger output radius, to make more visible, and asked IM to 'fit' the output image to this size by using the 'plus' form of the [Distort Operator](#distort).
 
-~~~convert worldmap_md.jpg -rotate 180 -crop 100%x25%+0+0 +repage \
+~~~
+convert worldmap_md.jpg -rotate 180 -crop 100%x25%+0+0 +repage \
         -virtual-pixel HorizontalTile -background Black \
         +distort Polar 80 +repage  polar_antarctica.jpg
 ~~~
@@ -2658,8 +2693,9 @@ This is essentially the inverse of a '`Polar`' distortion, and has exactly the s
 
 The 6 optional floating point arguments are...
 
-
-    Radius_Max   Radius_Min   Center_X,Center_Y   Start_Angle,End_Angle
+~~~{.skip}
+Radius_Max   Radius_Min   Center_X,Center_Y   Start_Angle,End_Angle
+~~~
 
 Again if '*Radius\_Max*' is set to '`0`' the distance the '*CenterX,Y*' to the nearest edge is used which means anything in the largest whole circle, will be mapped to fit into an image the same size as the input image.
 
@@ -3060,7 +3096,9 @@ Note that normal pin hole camera does not have this problem as you are projectin
 The '`Cylinder2Plane`' distort fixes this by projecting the image from its cylindrical arrangement onto a flat plane.
 It takes the parameters...
 
-    fov_angle   center_x,y   fov_output   dest_center_x,y
+~~~{.skip}
+fov_angle   center_x,y   fov_output   dest_center_x,y
+~~~
 
 Only the first parameter the angle of the cameras field of view is required.
 For a P.90 camera it used a 90mm (radial) focal length and standard 57mm wide film, which in turn produces produces a 'field of view' of ` 90 / 57 * 180/pi ` or 90.467 degrees.
@@ -3095,7 +3133,9 @@ For example extracting a small 90-degree view from a larger 360 degree panorama 
 
 The '`Plane2Cylinder`' distort is the reverse of the above projection, and takes the parameters...
 
-    fov_angle   center_x,y
+~~~{.skip}
+fov_angle   center_x,y
+~~~
 
 For example, this un-does the previous P.90 camera example.
 
@@ -3155,6 +3195,13 @@ Not very interesting.
 
 So lets try moving two control points.
 For example lets torture the 'koala' by pulling on his ears (at '`30,11`' and '`48,29`')...
+
+~~~{.hide}
+convert koala.gif -fill none \
+        -draw "stroke red  path 'M 30,11 15,11 M 20,8  15,11 20,14'" \
+        -draw "stroke lime path 'M 48,29 63,29 M 58,26 63,29 58,32'" \
+        koala_ears.png
+~~~
 
 ~~~
 convert koala.gif -virtual-pixel Black \
@@ -3218,6 +3265,13 @@ This script was actually where the original idea for [Shepards Distortion](#shep
 You can even move a whole sections of the image by moving a set of points around that section all together.
 For example lets move the koala's head sideways by using points around the head (red line), but also pinning the parts of the image we don't want to move (green line).
 
+~~~{.hide}
+convert koala.gif -fill none \
+   -draw "stroke red  path 'M 19,8  19,27 26,34 36,37 53,37 58,25'" \
+   -draw "stroke lime path 'M 13,20 17,28 25,36 35,39 46,40 50,43'" \
+   koala_head.png
+~~~
+
 ~~~
 convert koala.gif -virtual-pixel Black -distort Shepards \
           '19,8, 29,8   19,27 29,27   26,34 36,34
@@ -3252,6 +3306,16 @@ You can also duplicate or double up control points (list them twice) to give spe
 
 Here is another version of the 'move head sideways', however this time I gave some extra separation between the moving (red) and fixed (green) points.
 I also added a lot more fixed points to reduce the average general movement of the distorted image.
+
+~~~{.hide}
+convert koala.gif -fill none \
+   -draw "stroke red  path
+             'M 15,15  19,27  26,34  36,37  53,37'" \
+   -draw "stroke lime path 'M 10,2  2,10
+              M  4,55   14,47  25,47  45,51  55,45
+              M  5,70  15,60  55,60  70,70 '" \
+   koala_head_2.png
+~~~
 
 ~~~
 convert koala.gif -virtual-pixel Black -distort Shepards \
@@ -3314,6 +3378,13 @@ For example, if we take two points in the image and push them past each other.
 The image will swirl, not rotate.
 
 For example lets try to push the koala's ears toward each other rather than apart.
+
+~~~{.hide}
+convert koala.gif -fill none \
+        -draw "stroke red  path 'M 30,11 45,11 M 40,8  45,11 40,14'" \
+        -draw "stroke lime path 'M 48,29 33,29 M 38,26 33,29 38,32'" \
+        koala_push.png
+~~~
 
 ~~~
 convert koala.gif -virtual-pixel Black \

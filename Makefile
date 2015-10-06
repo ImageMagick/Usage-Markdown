@@ -41,8 +41,10 @@ compose/tables: compose/tables/index.html compose/tables/index.sh
 
 convolve: convolve/index.html convolve/index.sh
 
-fourier: fourier/index.html fourier/index.sh
-
 crop: crop/index.html crop/index.sh
+
+distorts: distorts/index.html distorts/index.sh
+
+fourier: fourier/index.html fourier/index.sh
 
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
