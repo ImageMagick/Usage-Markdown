@@ -5,7 +5,7 @@ They form a summary of these important alpha compositing methods, and was vital 
 
 The command that is being run is generally...
 
-~~~
+~~~{.skip}
 convert {Dst} {Src} \
         -gravity center -compose {method} -composite \
         {result}

@@ -24,6 +24,12 @@ compare/*.gif
 compare/*.jpg
 compare/*.png
 compare/*.txt
+compose/*.gif
+compose/*.jpg
+compose/*.png
+compose/*.txt
+compose/tables/*.jpg
+compose/tables/*.gif
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

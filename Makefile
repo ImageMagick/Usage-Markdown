@@ -35,4 +35,8 @@ color_mods: color_mods/index.html color_mods/index.sh
 
 compare: compare/index.html compare/index.sh
 
+compose: compose/index.html compose/index.sh
+
+compose/tables: compose/tables/index.html compose/tables/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

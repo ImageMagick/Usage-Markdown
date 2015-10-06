@@ -18,7 +18,7 @@ Or you can discover precise mathematical details by reading the [SVG Alpha Compo
 
 The following commands are the two direct image 'composite' methods available in ImageMagick...
 
-~~~
+~~~{.skip}
 composite {overlay} {background} [{mask}] [-compose {method}]   {result}
 
 convert  {background} {overlay} [{mask}] [-compose {method}] -composite   {result}
@@ -187,7 +187,7 @@ The default compose method (when completely undefined) is '[`Over`](#over)', and
 
 To understand, and remember what each of the above compose methods do, the resulting image would be the same as if you said...
 
-~~~
+~~~{.skip}
 {Source} --{compose_method}--> {background}
 ~~~
 
@@ -394,7 +394,7 @@ In other words, we only use the rose to set the size of the internal frame of th
 The frame, and only the frame, is the result.
 
 ~~~
-convert rose:   -alpha set  -mattecolor Gold  -bordercolor none \
+convert rose:   -alpha set  -mattecolor '#FFD700'  -bordercolor none \
         -compose Dst   -frame 7x7+3+2   compose_frame_dst.gif
 ~~~
 
@@ -732,7 +732,7 @@ The formula for '`Divide_Dst`' is $\frac{Src} {Dest}$ and for '`Divide_Src`' is 
 
 Due to the order of images normally defined in image composition, and the "`composite` command, the original method '`Divide` meant...
 
-~~~
+~~~{.skip}
 {Source} Divide {background}
 ~~~
 
@@ -877,7 +877,7 @@ The formula for.. '`Minus_Dst`' is $Src - Dest$ and for '`Minus_Src`' is $Dest -
 
 Due to the order of images normally defined in image composition, and the "`composite` command, the original method '`Minus` meant...
 
-~~~
+~~~{.skip}
 {Source} Minus {background}
 ~~~
 
@@ -1680,7 +1680,7 @@ Its formula is of course: $Src + Dest$
 
 That is, for images with no transparency, these two commands with images '`A`' and '`B` produce the same resulting image '`R`'...
 
-~~~
+~~~{.skip}
 convert  A  B   -compose    Plus     -composite   R
 convert  A  B   -compose LinearDodge -composite   R
 ~~~
@@ -1712,7 +1712,7 @@ $$
 
 That is, with no transparency, you can take image '`A`' and subtract image '`B` produce the same resulting image '`R`'...
 
-~~~
+~~~{.skip}
 convert  A  B               -compose  minus_src  -composite  R
 convert  B  A               -compose  minus_dst  -composite  R
 convert  A \( B -negate \)  -compose linear_burn -composite  R
@@ -1731,7 +1731,7 @@ convert circle_left.gif \( circle_right.gif -negate \) \
 ~~~
 
 [![\[IM Output\]](circle_left.gif)](circle_left.gif)
-![-](../img_www/bar.gif)
+![-](../img_www/minus.gif)
 [![\[IM Output\]](circle_right.gif)](circle_right.gif)
 ![=&gt;](../img_www/right.gif)
 [![\[IM Output\]](circle_subtract.gif)](circle_subtract.gif)
@@ -1766,7 +1766,7 @@ In actual fact '`ColorDodge`' and the two '`Divide`' operators can produce the s
 
 For example all these commands operating on images '`N`' (numerator) divided by the '`D`' (denominator) produce the same resulting image '`R`', if all the images are the same size.
 
-~~~
+~~~{.skip}
 convert  N    D             -compose DivideSrc  -composite  R
 convert  D    N             -compose DivideDst  -composite  R
 convert  N \( D -negate \)  -compose ColorDodge -composite  R
@@ -1791,7 +1791,7 @@ Its formula is: $1 - ( (1-Dest) / Src)$
 This command is equivalent to the previous set of formulas to implement a division of images.
 Note the final negation in the command.
 
-~~~
+~~~{.skip}
 convert  N -negate D   -compose ColorBurn -composite  -negate  R
 ~~~
 
@@ -1926,7 +1926,7 @@ I have not tested this with a non-RGB colorspace image.
 What the "`-dissolve`" operator does is provide a controlled '`Over`' compose method.
 It adjusts the transparency of the overlay image, before it is overlaid on top of the the background, according to the percentages given.
 
-~~~
+~~~{.skip}
 composite -dissolve {percent} overlay  bgnd  result
 composite -dissolve {src_percent}x{dst_percent} overlay  bgnd  result
 convert bgnd  overlay   -compose dissolve \
@@ -1943,7 +1943,7 @@ In other words, in the 0 to 100 percent range, the background image is not disso
 
 Here is a table of results with various dissolve arguments...
 
-~~~
+~~~{.skip}
 composite -dissolve {argument}  -gravity South \
           star.gif   dragon_sm.gif -alpha Set   {result}
 ~~~
@@ -2012,7 +2012,7 @@ This is not the case with "`-dissolve`" method.
 
 In otherwords, "`-blend`" is associative (arguments are swappable), while "`-dissolve`" is not.
 
-~~~
+~~~{.skip}
 composite -blend {percent} overlay  bgnd  result
 composite -blend {src_percent}x{dst_percent} overlay  bgnd  result
 convert bgnd  overlay   -compose blend \
@@ -2029,7 +2029,7 @@ By giving two percentages you can control exactly how much of the two images are
 
 Here is a table of results with various dissolve arguments...
 
-~~~
+~~~{.skip}
 composite -blend {argument}  -gravity South \
           compose_R.png compose_plus_GB.png  -alpha Set  {result}
 ~~~
@@ -2230,7 +2230,7 @@ composite  -blend 200  rose: rose_blurred.png -alpha Set blend_blur_200.jpg
 
 The "`-watermark`" composite option or the "`modulate`" compose method, is meant to *dis-color* images in HSB space for copyright purposes.
 
-~~~
+~~~{.skip}
 composite -watermark {brightness}[x{saturation}] overlay  bgnd  result
 convert bgnd  overlay   -compose modulate \
         -define compose:args={brigthness}[,{saturation}] \
@@ -2246,7 +2246,7 @@ If set to '`0`' the masked area will be de-saturated to black and white.
 
 Here is a table of results with various arguments...
 
-~~~
+~~~{.skip}
 composite -watermark {argument}  -gravity South \
           sphinx.gif  cyclops.gif   {result}
 ~~~
@@ -2378,9 +2378,11 @@ composite  m_src.png  m_bgnd.png  m_mask.png  -compose Src  m_src_masked.png
 As you can see only the area with the defined mask is actually replaced by the result of the alpha composition.
 If the mask was only used to modify the transparency of the source image the above would only show the source image and nothing from the background image.
 
-    FUTURE:  Using masked composition to overlay an object in front of a
-    backdrop, but behind some foreground object.  Also develop a animated example,
-    of something being obscured by foreground objects in the destination. 
+~~~{.skip}
+FUTURE:  Using masked composition to overlay an object in front of a
+backdrop, but behind some foreground object.  Also develop a animated example,
+of something being obscured by foreground objects in the destination.
+~~~
 
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > The above was a major long term bug involving composite masking when you involved source or overlay images with transparency, and or attempted to use other alpha compositions other than the '`Over`' compose method.
