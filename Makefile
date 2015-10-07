@@ -47,6 +47,8 @@ distorts: distorts/index.html distorts/index.sh
 
 distorts/affine: distorts/affine/index.html distorts/affine/index.sh
 
+draw: draw/index.html draw/index.sh
+
 fourier: fourier/index.html fourier/index.sh
 
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

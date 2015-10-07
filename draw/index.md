@@ -838,6 +838,12 @@ convert -size 10x10 xc: -draw 'polygon 2,-1 7,10 -1,10 -1,-1' bound_right.gif
 convert bound_left.gif bound_right.gif -compose Plus -composite bound_add.gif
 ~~~
 
+~~~{.hide}
+for i in left right add; do
+  enlarge_image -8 bound_${i}.gif bound_${i}_mag.gif
+done
+~~~
+
 [![\[IM Output\]](bound_left_mag.gif)](bound_left_mag.gif) ![==&gt;](../img_www/plus.gif) [![\[IM Output\]](bound_right_mag.gif)](bound_right_mag.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](bound_add_mag.gif)](bound_add_mag.gif)
 
 The two black parts (which was what is actually drawn) actually overlap each other!
@@ -886,32 +892,34 @@ First of all, almost all the settings you set via the command line options that 
 
 The main difference between setting the via a command line option, (such as "[-strokewidth](../option_link.cgi?strokewidth)") or using a setting within a MVG drawing string (for example '`stroke-width`), is that the MVG setting only lasts for the duration of the MVG command string.
 
-    Summary of the General Drawing Settings
-      __cmd_option__   __draw_MVG__        __Argument__
-        -fill            fill                color/tile for inside shapes
-        -tile            fill                image tile, replaces fill color
+~~~{.skip}
+Summary of the General Drawing Settings
+  __cmd_option__   __draw_MVG__        __Argument__
+    -fill            fill                color/tile for inside shapes
+    -tile            fill                image tile, replaces fill color
 
-        -stroke          stroke              line color/tile around the shapes
-        -strokewidth     stroke-width        pixel width
-        +antialias       stroke-antialias    0/1 aliasing line edges
+    -stroke          stroke              line color/tile around the shapes
+    -strokewidth     stroke-width        pixel width
+    +antialias       stroke-antialias    0/1 aliasing line edges
 
-        -font            font                font_name / font_file
-        -family          font-family            ?
-        -weight            ?                    ?
-        -stretch           ?                    ?
-        -pointsize       font-size           height in points
-        -kerning           -                 extra inter-character spacing
+    -font            font                font_name / font_file
+    -family          font-family            ?
+    -weight            ?                    ?
+    -stretch           ?                    ?
+    -pointsize       font-size           height in points
+    -kerning           -                 extra inter-character spacing
 
-        +antialias       text-antialias      0/1 aliasing drawing text
-        -box             text-undercolor     fill color for font bounding box
-          -              decorate        (None, Underline, LineThrough or Overline)
+    +antialias       text-antialias      0/1 aliasing drawing text
+    -box             text-undercolor     fill color for font bounding box
+      -              decorate        (None, Underline, LineThrough or Overline)
 
-        -gravity         gravity             (None, North, South-East,...)
-        -fuzz              -                 color delta / percentage
-        -bordercolor       -                 color
+    -gravity         gravity             (None, North, South-East,...)
+    -fuzz              -                 color delta / percentage
+    -bordercolor       -                 color
 
-    Notes:
-      - no such option      ? unknown
+Notes:
+  - no such option      ? unknown
+~~~
 
 These settings are usually well understood as they are regularly used and demonstrated above.
   
@@ -975,16 +983,18 @@ convert -size 100x60 xc:skyblue  \
 Other MVG settings that control the way lines and objects are drawn are also useful to know even when using the primitive operations.
 These include..
 
-       __draw_MVG__       __Description/Argument__
-      fill-opacity        fill transparency, from 0.0 to 1.0
-      clip-rule           fill style for crossed lines (evenodd, nonzero)
+~~~{.skip}
+ __draw_MVG__       __Description/Argument__
+fill-opacity        fill transparency, from 0.0 to 1.0
+clip-rule           fill style for crossed lines (evenodd, nonzero)
 
-      stroke-opacity      line transparency, number from 0.0 to 1.0
-      stroke-dasharray    list of 'on' and 'off' lengths for lines
-      stroke-dash
-      stroke-linecap      End of line look: butt round square
-      stroke-linejoin     Lines joins:  butt  miter round square
-      stroke-miterlimit   Angle when 'miter' joins become 'bevel' (or 'butt')
+stroke-opacity      line transparency, number from 0.0 to 1.0
+stroke-dasharray    list of 'on' and 'off' lengths for lines
+stroke-dash
+stroke-linecap      End of line look: butt round square
+stroke-linejoin     Lines joins:  butt  miter round square
+stroke-miterlimit   Angle when 'miter' joins become 'bevel' (or 'butt')
+~~~
 
 Remember a fill list of all MVG settings and drawing operators can be seen at [Summary of MVG Primitives and Syntax](http://www.imagemagick.org/script/magick-vector-graphics.php) in the IM website.
 
@@ -1088,6 +1098,7 @@ It is used to draw lines shapes, circles, curves, arcs and so on.
 The full specification of the SVG Paths can be found in the [SVG Path Specification](http://www.w3.org/TR/SVG/paths.html#PathDataGeneralInformation) document.
 
 This however is not a easy document to read as it is really for programmers, not users, so I'll simplify and summarize the path specification...
+
 
 -   Letters are commands, while all numbers (floating point) are arguments.
 -   Commas or spaces may be used as argument separators, otherwise they are completely ignored.
@@ -1216,7 +1227,9 @@ convert -size 100x60 xc:skyblue -fill white -stroke black \
 
 [![\[IM Output\]](path_separate.gif)](path_separate.gif)
 
-    FUTURE: coordinate aligned paths  "H" and "V" 
+~~~{.skip}
+FUTURE: coordinate aligned paths  "H" and "V" 
+~~~
 
 ### Elliptical Arcs {#arcs}
 
@@ -1420,6 +1433,15 @@ For continuing Cubic Bezier curves that use a mirror image of the last control p
 Here is an example.
 Because of the complexity of this function, I pre-prepared a canvas showing the location of the control points, as well as the 'assumed mirror' of the last control point.
 
+~~~{.hide}
+convert -size 100x60 xc:skyblue -fill none  -stroke dodgerblue \
+        -draw "line 10,30 10,4 line 50,4 50,56 line 90,30 90,56" \
+        -fill dodgerblue -stroke dodgerblue \
+        -draw "circle 10,4 10,1  circle 50,4 50,1  circle 90,56 90,59" \
+        -fill none -draw "circle 50,56 50,59" \
+        path_cubic_canvas.gif
+~~~
+
 ~~~
 # Cubic Bezier:    C  control_1_x,y control_2_x,y  x,y
 # Smooth " :       S  control_2_x,y  x,y
@@ -1500,6 +1522,14 @@ For example *Luis Guerra* reports that "[Inkscape](http://www.inkscape.org/)" ge
 
 **Quadratic Bezier** is a simplification of the Cubic Bezier function, when the two control points are merged into a single control point.
 Again you can start the curve with a '`Q`' function, and then use a '`T`' function to continue the curve, mirroring the last control point.
+
+~~~{.hide}
+convert -size 100x60 xc:skyblue -fill none  -stroke dodgerblue \
+        -draw "path 'M 10,30 20,4 80,56 90,30'" \
+        -fill dodgerblue  -draw "circle 20,4  20,1" \
+        -fill none        -draw "circle 80,56 80,59" \
+        path_quad_canvas.gif
+~~~
 
 ~~~
 #  Quadratic Bezier:  Q  control_x,y  x,y
@@ -1718,38 +1748,40 @@ You can see a more practical demonstration of this in [Drawing Arrows](#arrows) 
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    More settings used specifically for MVG handling of SVG format.
+~~~{.skip}
+More settings used specifically for MVG handling of SVG format.
 
-        font-family   font-stretch   font-style   font-weight
-        encoding 'UTF-8'
+    font-family   font-stretch   font-style   font-weight
+    encoding 'UTF-8'
 
-        push defs
+    push defs
 
-          push gradient 'def_name' linear X1,Y1 X2,Y2
-            stop-color 'color' where
-            stop-color 'color' where
-              # where is a point between the two pixels given (0 = X1,Y1  1= X2,Y2)
-            gradient-units 'objectBoundingBox|userSpaceOnUse'
-            affine ....
-          pop gradient
+      push gradient 'def_name' linear X1,Y1 X2,Y2
+        stop-color 'color' where
+        stop-color 'color' where
+          # where is a point between the two pixels given (0 = X1,Y1  1= X2,Y2)
+        gradient-units 'objectBoundingBox|userSpaceOnUse'
+        affine ....
+      pop gradient
 
-          push gradient 'def_name' radial CX,CY FX,FY R
-            # Here CX,CY is the center of the radial gradient of radius R
-            # the FX,FY is the focal, and is usually the same a CX,CY
-            # unless you are trying to warp the gradient in a specific direction
-            stop-color 'color' where
-            ...
-          pop gradient
+      push gradient 'def_name' radial CX,CY FX,FY R
+        # Here CX,CY is the center of the radial gradient of radius R
+        # the FX,FY is the focal, and is usually the same a CX,CY
+        # unless you are trying to warp the gradient in a specific direction
+        stop-color 'color' where
+        ...
+      pop gradient
 
-        pop defs
+    pop defs
 
-        push graphic-context
-          fill 'url(#def_name)'
-          ... draw things here ...
-        pop graphic-context
+    push graphic-context
+      fill 'url(#def_name)'
+      ... draw things here ...
+    pop graphic-context
 
-    For examples see Florent Monnier's development site...
-      http://www.linux-nantes.fr.eu.org/~fmonnier/OCaml/MVG/
+For examples see Florent Monnier's development site...
+  http://www.linux-nantes.fr.eu.org/~fmonnier/OCaml/MVG/
+~~~
 
 ### Reading MVG Files {#reading}
 
@@ -1760,6 +1792,13 @@ However the general command line interface of IM allows you to read any string a
 This is handy as it means you can read in your very long and complex MVG drawing commands from a separate file.
 
 For example, If I put MVG operations into a file called "`draw_circles.mvg`", I can then draw it like this...
+
+~~~{.hide data-postamble="convert label:@mvg_circles.mvg mvg_circles.mvg.gif"}
+( echo "fill green   circle 41,39 44,57"
+  echo "fill blue    circle 59,39 56,57"
+  echo "fill red     circle 50,21 50,3"
+) > mvg_circles.mvg
+~~~
 
 ~~~
 convert -size 100x60 xc:skyblue  -draw @mvg_circles.mvg  mvg_draw.gif
@@ -1781,6 +1820,13 @@ convert -size 100x60  -background limegreen  mvg_circles.mvg  mvg_file.gif
 You can move the initial canvas settings into the MVG image by adding a '`viewbox`' to the MVG file, with appropriate background color fill draws.
 That completes the MVG image file as a complete image definition.
 
+~~~{.hide data-postamble="convert label:@mvg_circles2.mvg mvg_circles2.mvg.gif"}
+( echo "viewbox 0 0 100 60"
+  echo "fill khaki   rectangle 0,0 100 60"
+  cat mvg_circles.mvg
+) > mvg_circles2.mvg
+~~~
+
 ~~~
 convert    mvg_circles2.mvg    mvg_image.gif
 ~~~
@@ -1796,39 +1842,43 @@ convert    mvg_circles2.mvg    mvg_image.gif
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    You can generate the low level draw operations of IM, using the "+render" to record them.
+~~~{.skip}
+You can generate the low level draw operations of IM, using the "+render" to record them.
 
-    When you then give a "-render" setting/operator, IM will immediately draw those saved
-    operations.
+When you then give a "-render" setting/operator, IM will immediately draw those saved
+operations.
 
-    Strangely just outputting to a "MVG" file also seems to do this...
+Strangely just outputting to a "MVG" file also seems to do this...
 
-         convert  ...   -draw '....'  draw_commands.mvg
+     convert  ...   -draw '....'  draw_commands.mvg
 
-    NOTE: if you draw a curve while outputting a MVG format file, the file lists
-    the curve as a series of short line segments, rather than the original curve.
+NOTE: if you draw a curve while outputting a MVG format file, the file lists
+the curve as a series of short line segments, rather than the original curve.
 
-    You can of course go the whole way and use the more universal SVG format.
-    See "SVG format handling" below.
+You can of course go the whole way and use the more universal SVG format.
+See "SVG format handling" below.
+~~~
 
 ### MVG Alpha Composition {#alpha_composition}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    I have not seen any use of Alpha composition (other than 'painters' algorithm
-    which is basically a 'over' alpha composition) for the drawing of objects.
+~~~{.skip}
+I have not seen any use of Alpha composition (other than 'painters' algorithm
+which is basically a 'over' alpha composition) for the drawing of objects.
 
-    However that is not to say it can not be done.
+However that is not to say it can not be done.
 
-    If you like to compose your rectangle, ellipse, circle, or whatever with a
-    different alpha composition (such as 'DstOver' which is an Under-like
-    composition),  then draw your figure on a blank transparent canvas the same
-    size as the original and compose it onto your image.
+If you like to compose your rectangle, ellipse, circle, or whatever with a
+different alpha composition (such as 'DstOver' which is an Under-like
+composition),  then draw your figure on a blank transparent canvas the same
+size as the original and compose it onto your image.
 
-    However as SVG allows you to use alpha composition to draw text and other
-    items onto images, I would imagine that it will be a future addition.
+However as SVG allows you to use alpha composition to draw text and other
+items onto images, I would imagine that it will be a future addition.
 
-    Stay Tuned!
+Stay Tuned!
+~~~
 
 ------------------------------------------------------------------------
 
@@ -2452,13 +2502,17 @@ Basically as the MVG argument to "`-draw`" needs to be quoted, *and* the '`text`
 
 To solve this, users typically use two different quote characters, one for the shell and a different one for the MVG text string.
 
-       -draw '... text 0,0 "string" ...'
+~~~{.skip}
+-draw '... text 0,0 "string" ...'
+~~~
 
 Aside is the only real option for windows users, which has its own quoting problems and methods.
 
 Alternatively they would swap the quotes, and use...
 
-      -draw "... text 0,0 'string' ..."
+~~~{.skip}
+-draw "... text 0,0 'string' ..."
+~~~
 
 Which allows you to include shell variable substitutions (using '`$`' without escaping.
 
@@ -2518,7 +2572,7 @@ Here are the four cases of quoting, and special character handling...
     Lets finish this off with a summary of the final two quoting combinations.
     I'll leave you to figure out how they are decoded by the shell and MVG.
     
-    ~~~
+    ~~~{#text_special_ss}
     convert -size 250x50 xc:none  -box white  -pointsize 20 -gravity center \
             -draw 'text 0,0 '\''  \'\''  "  $  \\  '\'' ' \
             -trim +repage  text_special_ss.gif
@@ -2545,7 +2599,9 @@ Just remember that the shell treats the two types of quotes differently, while t
 Of course in complex scripts, the better way may be to avoid the shell and any scripting problems entirely.
 You can do this by reading the "`-draw`" arguments from a MVG draw file.
 
-    -draw @drawfile.mvg
+~~~{.skip}
+-draw @drawfile.mvg
+~~~
 
 Of course you will still need to backslash whatever quote character you are using, as well as for any backslashes within the text.
 However this is lot simpler than trying to dealing with a shell own quoting and escaping system at the same time as IM's.
@@ -2665,7 +2721,7 @@ But if the RSVG library is present most ImageMagick's will use it instead to do 
 
 To find out what your IM will do use...
 
-~~~
+~~~{data-capture-out="svg_handling.txt"}
 convert -list format | grep SVG
 ~~~
 

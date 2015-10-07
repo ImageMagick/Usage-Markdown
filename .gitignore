@@ -46,6 +46,10 @@ distorts/affine/*.gif
 distorts/affine/*.png
 distorts/affine/*.jpg
 distorts/affine/*.txt
+draw/*.gif
+draw/*.jpg
+draw/*.png
+draw/*.txt
 fourier/*.gif
 fourier/*.jpg
 fourier/*.png
