@@ -53,4 +53,6 @@ fourier: fourier/index.html fourier/index.sh
 
 files: files/index.html files/index.sh
 
+filter: filter/index.html filter/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

@@ -29,7 +29,11 @@ convert storm.gif  -resize 300%  storm_resized.gif
 convert storm.gif -filter Gaussian -resize 300%  storm_resized_gas.gif
 ~~~
 
-[![\[IM Output\]](storm.gif)](storm.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](storm_scaled.gif)](storm_scaled.gif) [![\[IM Output\]](storm_resized.gif)](storm_resized.gif) [![\[IM Output\]](storm_resized_gas.gif)](storm_resized_gas.gif)
+[![\[IM Output\]](storm.gif)](storm.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](storm_scaled.gif)](storm_scaled.gif)
+[![\[IM Output\]](storm_resized.gif)](storm_resized.gif)
+[![\[IM Output\]](storm_resized_gas.gif)](storm_resized_gas.gif)
 
 The primary cause of 'blocking' is either badly anti-aliased source image (as in the above example), or not enough smoothing (color mixing or blurring) between pixels to improve the overall look of an image.
 
@@ -60,7 +64,10 @@ convert gray_edge.gif -filter Sinc \
 convert gray_edge.gif  -resize 100x100\!  gray_edge_resize.gif
 ~~~
 
-[![\[IM Output\]](gray_edge.gif)](gray_edge.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](gray_edge_ringing.gif)](gray_edge_ringing.gif) [![\[IM Output\]](gray_edge_resize.gif)](gray_edge_resize.gif)
+[![\[IM Output\]](gray_edge.gif)](gray_edge.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](gray_edge_ringing.gif)](gray_edge_ringing.gif)
+[![\[IM Output\]](gray_edge_resize.gif)](gray_edge_resize.gif)
 
 The above shows quite clearly the over compensation produced by the use of a raw resize filter, without any of the optimization IM provides.
 The second image, produced by the default IM enlargement filter also shows a very slight ringing effect, but it is barely noticeable, and actually desirable in that it perceptually sharpens the border.
@@ -100,7 +107,9 @@ A staircasing effect is most noticeable in strong magnification of images, thoug
 However, aliasing also has other effects, in particular large scale Moiré patterns appearing in images containing some type of pixel level pattern.
 These low level patterns often produce large scale Moiré patterns, including: patterns of parallel lines, cloth weaves (silk exhibits this effect in real life!), as well as brick and tile patterns in photos of brick buildings, fences, and paving.
 
-[![\[IM Output\]](rings_sm_orig.gif)](rings_sm_orig.gif) For some examples of resized images producing strong Moiré effects see the [Wikipedia, Moiré Pattern](http://en.wikipedia.org/wiki/Moir%C3%A9_pattern) Page.
+[![\[IM Output\]](rings_sm_orig.gif)](rings_sm_orig.gif)
+
+For some examples of resized images producing strong Moiré effects see the [Wikipedia, Moiré Pattern](http://en.wikipedia.org/wiki/Moir%C3%A9_pattern) Page.
 
 The classic way of checking if a resize will produce aliasing problems, is by minifying a [Rings Image](rings_sm_orig.gif) (see right).
 This image will often show Moiré effects when any form of resize is applied at any scale.
@@ -244,7 +253,9 @@ This is the '*filter*' that you can select using the "`-filter`" setting.
 That filter, in turn, generally has an ideal neighbourhood size, which is known as the filter's '*support*', though it is also known as its '*window*'.
 A pre-defined two dimensional '*filter*' is also known as a '*convolution kernel*'.
 
-    FUTURE: some diagrams may be helpful here
+~~~{.skip}
+FUTURE: some diagrams may be helpful here
+~~~
 
 The design of these weighting functions, or 'filters' is a very complex business involving some complex mathematics, frequency analysis, and even Fourier Transforms.
 A good starting point if you are interested in this is [Wikipedia: Nyquist–Shannon sampling theorem](http://en.wikipedia.org/wiki/Nyquist-Shannon_sampling_theorem#Application_to_multivariable_signals_and_images).
@@ -308,6 +319,15 @@ Point-4
 [![\[IM Output\]](checks_point-5_mag.gif)](checks_point-5.gif)  
 Point 50%
 
+~~~{.hide}
+convert checks_10.gif -scale 1000% checks_10_mag.gif
+convert checks_point-1.gif -scale 1000% checks_point-1_mag.gif
+convert checks_point-2.gif -scale 1000% checks_point-2_mag.gif
+convert checks_point-3.gif -scale 1000% checks_point-3_mag.gif
+convert checks_point-4.gif -scale 1000% checks_point-4_mag.gif
+convert checks_point-5.gif -scale 1000% checks_point-5_mag.gif
+~~~
+
 All that is really happening is that single rows and columns of pixels are removed across the image.
 Even at this level, you will get extreme [blocking](#blocking) and [aliasing](#aliasing) in the resulting image, and can in specific cases like the above produce a completely unrealistic result.
 
@@ -350,6 +370,14 @@ Box-3
 Box-4
 [![\[IM Output\]](checks_box-5_mag.gif)](checks_box-5.gif)  
 Box 50%
+
+~~~{.hide}
+convert checks_box-1.gif -scale 1000% checks_box-1_mag.gif
+convert checks_box-2.gif -scale 1000% checks_box-2_mag.gif
+convert checks_box-3.gif -scale 1000% checks_box-3_mag.gif
+convert checks_box-4.gif -scale 1000% checks_box-4_mag.gif
+convert checks_box-5.gif -scale 1000% checks_box-5_mag.gif
+~~~
 
 As you can see, more and more pixels become merged together as the image is resized smaller using a '`Box`' filter, but that the merger occurs in specific, equally spaced, rows and columns.
 This causes all sorts of artefacts and Moiré or [Aliasing](#aliasing) effects when both shrinking images and enlarging.
@@ -397,6 +425,15 @@ Box+4
 [![\[IM Output\]](checks_box+5_mag.gif)](checks_box+5.gif)  
 Box+5
 
+~~~{.hide}
+convert checks_5.gif -scale 1000% checks_5_mag.gif
+convert checks_box+1.gif -scale 1000% checks_box+1_mag.gif
+convert checks_box+2.gif -scale 1000% checks_box+2_mag.gif
+convert checks_box+3.gif -scale 1000% checks_box+3_mag.gif
+convert checks_box+4.gif -scale 1000% checks_box+4_mag.gif
+convert checks_box+5.gif -scale 1000% checks_box+5_mag.gif
+~~~
+
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > :EXPERT:
 > The [Scale Operator](../resize/#scale) also produces similar results, but with some pixel color mixing, when enlarging, unless enlarging by an integer scaling factor.
@@ -436,6 +473,14 @@ Tri-4
 [![\[IM Output\]](checks_tri-5_mag.gif)](checks_tri-5.gif)  
 Tri
 
+~~~{.hide}
+convert checks_tri-1.gif -scale 1000% checks_tri-1_mag.gif
+convert checks_tri-2.gif -scale 1000% checks_tri-2_mag.gif
+convert checks_tri-3.gif -scale 1000% checks_tri-3_mag.gif
+convert checks_tri-4.gif -scale 1000% checks_tri-4_mag.gif
+convert checks_tri-5.gif -scale 1000% checks_tri-5_mag.gif
+~~~
+
 As you can see, since the corner pixels were near perfect matches to the corners of the original image they are more visible, but toward the middle where none of the nearby pixels exactly match up with the new pixel being generated, you get a more average color of the whole neighborhood.
 
 The result for the checkerboard pixel pattern is a tendency to fade in and out of an average gray color.
@@ -470,6 +515,14 @@ Tri+4
 [![\[IM Output\]](checks_tri+5_mag.gif)](checks_tri+5.gif)  
 Tri+5
 
+~~~{.hide}
+convert checks_tri+1.gif -scale 1000% checks_tri+1_mag.gif
+convert checks_tri+2.gif -scale 1000% checks_tri+2_mag.gif
+convert checks_tri+3.gif -scale 1000% checks_tri+3_mag.gif
+convert checks_tri+4.gif -scale 1000% checks_tri+4_mag.gif
+convert checks_tri+5.gif -scale 1000% checks_tri+5_mag.gif
+~~~
+
 For large scale enlargements, the result acts as if a gradient of colors was added between each and every pixel.
 For example, here I generate a very small image with a single white pixel (the display is an enlarged view).
 I then enlarge that image enormously.
@@ -488,8 +541,18 @@ Single Pixel Image
 [![\[IM Output\]](pixel_triangle.gif)](pixel_triangle.gif)  
 Triangle Filter Enlarged
 
+~~~{.hide}
+convert pixel_5.gif        -scale 2000% pixel_5_mag.gif
+~~~
+
 If you were to graph the colors in the above image (using the "`im_profile`" script), you will see a replica of the triangular filter graph.
+
+~~~{.hide}
+im_profile pixel_triangle.gif plot_triangle.gif
+~~~
+
 ![\[IM Profile\]](plot_triangle.gif)  
+
 Profile of Image
 
 As you can see, the central pixel was merged with the neighboring pixels to produce a linear gradient of colors between those points.
@@ -565,7 +628,8 @@ convert logo:  -filter Gaussian  -resize 150x logo_gaussian.png
 convert logo:                    -resize 150x logo_normal.png
 ~~~
 
-[![\[IM Output\]](logo_gaussian.png)](logo_gaussian.png) [![\[IM Output\]](logo_normal.png)](logo_normal.png)
+[![\[IM Output\]](logo_gaussian.png)](logo_gaussian.png)
+[![\[IM Output\]](logo_normal.png)](logo_normal.png)
 
 If you look closely you will see that the left '`Gaussian`' filtered image is more blurry than the normal resize.
 Especially with regard to the detail of the smaller stars around the wand and on the wizard's hat.
@@ -651,6 +715,10 @@ For example, here I resize an image with a single pixel using the smaller suppor
 convert pattern:gray5 -crop 5x1+0+3 +repage pixel_5.gif
 convert pixel_5.gif  -filter gaussian -define filter:support=1.25 \
         -resize 300x  pixel_gaussian.png
+~~~
+
+~~~{.hide}
+im_profile pixel_gaussian.png plot_gaussian.gif
 ~~~
 
 [![\[IM Output\]](pixel_5.gif)](pixel_5.gif)  
@@ -1127,9 +1195,11 @@ You can use the special expert settings to set the B,C settings that a [Cubic Fi
 To do this you need to select the general '`Cubic`' filter 'function' (or any of the other named cubic filters), and the desired '`b`' and '`c`' expert settings.
 For example...
 
-       -filter Cubic
-       -define filter:b=value
-       -define filter:c=value
+~~~{.skip}
+  -filter Cubic
+  -define filter:b=value
+  -define filter:c=value
+~~~
 
 The expert settings will override the internal defaults for the given filter when it is used by a resize or distort operator.
 As such, the order of the above options does not matter, as long as you have "`-define`" or "`-set`" all the global expert settings desired before the image processing operator is used.
@@ -1408,9 +1478,7 @@ convert hash.png -filter Lanczos -distort resize 100% hash_removed.png
 ~~~
 
 [![\[IM Output\]](hash.png)](hash.png)
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](hash_removed.png)](hash_removed.png)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -1581,7 +1649,7 @@ The setting "`filter:verbose`" is perhaps your best friend in figuring out and u
 
 For example you can verify that the Lanczos filter is defined in terms of a Sinc windowed Sinc support 3.
 
-~~~
+~~~{data-capture-out="filter_verbose.txt"}
 convert null: -filter Lanczos -define filter:verbose=1 -resize 2 null: |\
    grep '^#'
 ~~~
@@ -1592,7 +1660,7 @@ Note that internally the Lanczos filter is defined in terms of a fast polynomial
 
 Here we see that the Lanczos filter is defined as a Jinc windowed Jinc filter when used with as a cylindrical ([EWA Algorithm](../distorts/#area_resample)) "-distort" filter.
 
-~~~
+~~~{data-capture-out="filter_verbose2.txt"}
 convert null: -filter Lanczos -define filter:verbose=1 \
         -distort SRT 0   null:  | grep '^#'
 ~~~
@@ -1606,14 +1674,14 @@ These are specifically provided for graphing the filter's data, and let you furt
 
 For example, extract the data of a Welch Windowed Sinc Filter...
 
-~~~
+~~~{.skip}
 convert null: -filter Welch -define filter:verbose=1 \
         -resize 2 null:  > filter_welch.dat
 ~~~
 
 Or the raw Welch Windowing Function that was used in the above, with the window function scaled a support range of 0 to 1.
 
-~~~
+~~~{.skip}
 convert null: -define filter:filter=Box \
               -define filter:window=Welch \
               -define filter:support=1.0 \
@@ -1623,7 +1691,7 @@ convert null: -define filter:filter=Box \
 
 You can then plot that data with the "[gnuplot](http://www.gnuplot.info/)" command (like I did in [Windowed Sinc Filters](#windowed) above)...
 
-~~~
+~~~{.skip}
 gnuplot
   set grid
   plot "window_welch.dat" with lines
@@ -1632,14 +1700,18 @@ gnuplot
 #### Other Examples of Expert Filter Controls
 
 Create a 'Raw 8 lobed Sinc' filter can be set using...
-  
-      -define filter:filter=Sinc
-      -define filter:lobes=8
+
+~~~{.skip}
+  -define filter:filter=Sinc
+  -define filter:lobes=8
+~~~
 
 Use the Blackman windowing function directly as a filter (as IM did by mistake, before v6.3.6-3).
-  
-      -define filter:filter=Blackman
-      -define filter:support=4.0
+
+~~~{.skip}
+  -define filter:filter=Blackman
+  -define filter:support=4.0
+~~~
 
 The windowing function will default to 'Box' when undefined.
 
@@ -1649,40 +1721,50 @@ The only effect a box windowing function has is a clipping of windowed area of t
 See [Filter Support Expert Control](#support) above.
 
 Force the use of a raw Jinc function (explicitly setting 'Box' windowing) using...
-  
-      -define filter:filter=Jinc
-      -define filter:window=Box
-      -define filter:lobes=3
+
+~~~{.skip}
+  -define filter:filter=Jinc
+  -define filter:window=Box
+  -define filter:lobes=3
+~~~
 
 A 12 lobed 'Lanczos' windowed filter clipped to just the first 8 lobes of the resulting windowed filter...
-  
-      -filter Lanczos
-      -define filter:win-support=12
-      -define filter:support=8
+
+~~~{.skip}
+  -filter Lanczos
+  -define filter:win-support=12
+  -define filter:support=8
+~~~
 
 This makes it about four times faster, by ignoring (support clipping at 8) the window-modulated 'tail' (to 12) of the resulting windowed-sinc filter.
 This however may result in some extra but minor artefacts as a result of the support clipping.
 
 Using Gaussian to 'blur' an image!
 This is equivalent to a -gaussian 5x2 operation in a no-op resize!
-  
-      -filter Gaussian
-      -define filter:sigma=2
-      -define filter:support=5
-      -distort SRT 0
+
+~~~{.skip}
+  -filter Gaussian
+  -define filter:sigma=2
+  -define filter:support=5
+  -distort SRT 0
+~~~
 
 Note: you can not use a no-op resize for this, as it may short circuit the operation and result in the operation not being performed at all.
 
 Create a different filter from the 'Mitchell-Netravali' survey.
-  
-      -cur-its Cubic
-      -define filter:b=0.5
-      -define filter:c=0.5
+
+~~~{.skip}
+  -cur-its Cubic
+  -define filter:b=0.5
+  -define filter:c=0.5
+~~~
 
 Create your own 'Keys Cubic' filter with α value of 0.4...
-  
-      -filter Cubic
-      -define filter:c=0.4
+
+~~~{.skip}
+  -filter Cubic
+  -define filter:c=0.4
+~~~
 
 Any use of the expert options is at your own risk.
 They are not meant for production use, but as a method for exploring or producing tricky or otherwise impossible resize functions.

@@ -56,6 +56,10 @@ files/*.jpg
 files/*.png
 files/*.txt
 files/*.xyzzy
+filter/*.gif
+filter/*.jpg
+filter/*.png
+filter/*.txt
 fourier/*.gif
 fourier/*.jpg
 fourier/*.png
