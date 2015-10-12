@@ -50,6 +50,12 @@ draw/*.gif
 draw/*.jpg
 draw/*.png
 draw/*.txt
+files/*.bpm
+files/*.gif
+files/*.jpg
+files/*.png
+files/*.txt
+files/*.xyzzy
 fourier/*.gif
 fourier/*.jpg
 fourier/*.png

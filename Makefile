@@ -51,4 +51,6 @@ draw: draw/index.html draw/index.sh
 
 fourier: fourier/index.html fourier/index.sh
 
+files: files/index.html files/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

@@ -31,19 +31,25 @@ If this fails however, you will need to specify the image's file format using th
 
 Some formats will not read any files and ignore any given filename.
 These are some of the common built-in images...
-  
-      logo:      granite:     rose:
+
+~~~{.skip}
+  logo:      granite:     rose:
+~~~
 
 Some of them will generate images based on arguments given as a filename and perhaps an extra "`-size`" controlling the final image size...
-  
-      -size 30x30  canvas:red
-      -size 30x30  gradient:yellow-lime
-      -size 30x30  pattern:fishscales
-      import:
+
+~~~{.skip}
+  -size 30x30  canvas:red
+  -size 30x30  gradient:yellow-lime
+  -size 30x30  pattern:fishscales
+  import:
+~~~
 
 In some cases, you can even use multiple formats...
-  
-      -size 30x30  tile:pattern:gray95
+
+~~~{.skip}
+  -size 30x30  tile:pattern:gray95
+~~~
 
 This is however overkill in this case as the '`pattern:`' format coder has the '`tile:`' coder built into it.
 But it does make it clear what you were intending to do.
@@ -72,7 +78,7 @@ Filenames can have the special 'file meta-characters', such as '`*`' and '`?`' e
 IM will expand these characters to generate a list of filenames to be read in, avoiding the need for an external shell to do this, or problems with command line length limits.
 For example...
 
-~~~
+~~~{.skip}
 montage  '*.jpg' -geometry 50x50+2+2  image_index.gif
 ~~~
 
@@ -85,7 +91,7 @@ However, in some cases, you may find yourself hitting 'command line limits' if t
 
 Here are other examples of using a Linux shell to expand the filename...
 
-~~~
+~~~{.skip}
 convert image_[0-9].gif  image_[1-9][0-9].gif  animation.gif
 convert image_?.gif  image_??.gif  image_???.gif  animation.gif
 convert image_(?|??|???|????).gif  animation.gif
@@ -117,7 +123,7 @@ done |
 The special character '`@`' at the start of a filename, means replace the filename, with the contents of the given file.
 That is, you can read a file containing a list of files!
 
-~~~
+~~~{#filelist}
 echo "eye.gif news.gif storm.gif" > filelist.txt
 convert @filelist.txt  -frame 5x5+2+2 +append filelist.gif
 ~~~
@@ -154,6 +160,7 @@ convert -extract 32x32+20+5 rose: +repage rose_extract.gif
 ~~~
 
 [![\[IM Output\]](rose_extract.gif)](rose_extract.gif)
+
 Or you can append a read modifier to the end of the filename using square brackets '`[...]`'.
 For example...
 
@@ -192,7 +199,7 @@ This is exactly the same convention as used for the [Image Lists Operators](../b
 
 For example:
 
-~~~
+~~~{.skip}
 convert document.pdf'[0]'     first_page_of_pdf.gif
 convert animation.gif'[1-3]'  second_to_fourth_frames.gif
 convert animation.gif'[-1,2]' last_then_the_third_frame.gif
@@ -201,7 +208,7 @@ convert animation.gif'[-1,2]' last_then_the_third_frame.gif
 You can also get IM to read images based on a list of numbers.
 For example:
 
-~~~
+~~~{.skip}
 convert 'image_%03d.png[5-7]' ...
 ~~~
 
@@ -241,14 +248,14 @@ The modifier is most important when you are attempting to read in lots of very v
 
 For example, instead of...
 
-~~~
+~~~{.skip}
 montage '*.tiff'  -geometry 100x100+5+5 -frame 4  index.jpg
 ~~~
 
 which reads all the tiff files in first, then resizes them.
 You can instead do...
 
-~~~
+~~~{.skip}
 montage '*.tiff[100x100]'  -geometry 100x100+5+5 -frame 4  index.jpg
 ~~~
 
@@ -257,7 +264,7 @@ Resulting in far less memory usage, and possibly prevent disk swapping ([thrashi
 
 For JPEG images I also recommend you use the special "`-define`" setting instead, producing something like...
 
-~~~
+~~~{.skip}
 montage -define jpeg:size=200x200 '*.jpg[100x100]' -strip \
         -geometry 100x100+5+5 -frame 4  index.png
 ~~~
@@ -275,7 +282,7 @@ From IM v6.3.1 if you also add an offset, the above becomes a crop of the image 
 
 For example, to get a smaller 600x400 pixel sub-section from a much larger image.
 
-~~~
+~~~{.skip}
 convert 'image.png[600x400+1900+2900]' tileimage.png
 ~~~
 
@@ -310,73 +317,77 @@ See [Setting/Changing Image Meta-Data](../basics/#meta-data).
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    Not only does the shell handle meta-characters (unless that argument is
-    quoted) but IM also does its own form of meta-character handling in filenames.
+~~~{.skip}
+  Not only does the shell handle meta-characters (unless that argument is
+  quoted) but IM also does its own form of meta-character handling in filenames.
 
-    For example
-      convert  *.jpg ....
+  For example
+    convert  *.jpg ....
 
-    is expanded by the shell BEFORE passing the filenames to IM, while
+  is expanded by the shell BEFORE passing the filenames to IM, while
 
-      convert  '*.jpg' ....
+    convert  '*.jpg' ....
 
-    will have the shell pass "*.jpg" to ImageMagick, which then expands into
-    an internal list of filenames!  This was provided for Windows DOS support, and
-    as a method to preventing command line limit overflows in command such as
-    "mogrify" and "montage", which typically process long lists of images.
+  will have the shell pass "*.jpg" to ImageMagick, which then expands into
+  an internal list of filenames!  This was provided for Windows DOS support, and
+  as a method to preventing command line limit overflows in command such as
+  "mogrify" and "montage", which typically process long lists of images.
 
-    As such, to actually get IM to read a file literally named on disk as
-    '*.jpg'  you need to use any of the following forms...
+  As such, to actually get IM to read a file literally named on disk as
+  '*.jpg'  you need to use any of the following forms...
 
-      convert  '\*.jpg' ....
-      convert "\*.jpg" ....
-      convert "\\*.jpg" ....
-      convert \\\*.jpg ....
+    convert  '\*.jpg' ....
+    convert "\*.jpg" ....
+    convert "\\*.jpg" ....
+    convert \\\*.jpg ....
 
-    NOTE: The second line is NOT recommended as some shells (not bash) and some
-    APIs (C programs, possibly PHP) may actually remove the single backslash, and
-    pass '*.jpg' to IM which it will again expand!
+  NOTE: The second line is NOT recommended as some shells (not bash) and some
+  APIs (C programs, possibly PHP) may actually remove the single backslash, and
+  pass '*.jpg' to IM which it will again expand!
 
-    On top of '?' and '*',  IM also adds the meta-character handling of  ':', '%'
-    and '[...]' for read modifier handling.  These, however, have a different
-    meaning  (codec specification, scene number inclusion, and read modifiers) to
-    normal shell syntax of those meta-characters.
+  On top of '?' and '*',  IM also adds the meta-character handling of  ':', '%'
+  and '[...]' for read modifier handling.  These, however, have a different
+  meaning  (codec specification, scene number inclusion, and read modifiers) to
+  normal shell syntax of those meta-characters.
 
-    For example, DOS users will need to escape a 'drive-letter' in filename paths
-    being passed to ImageMagick.  For example...
+  For example, DOS users will need to escape a 'drive-letter' in filename paths
+  being passed to ImageMagick.  For example...
 
-      convert  C\:\path\to\image.jpg ....
+    convert  C\:\path\to\image.jpg ....
 
-    Another example is when loading an image containg a time code.  For example..
+  Another example is when loading an image containg a time code.  For example..
 
-      convert "time_10\:30.jpg" ....
+    convert "time_10\:30.jpg" ....
 
-    will read the filename "time_10:30.jpg" from disk.  Without the backslash, IM
-    may think that the image should be read with a non-existant image file format
-    (or delegate) "time_10:", and fail in an unexpected way.
+  will read the filename "time_10:30.jpg" from disk.  Without the backslash, IM
+  may think that the image should be read with a non-existant image file format
+  (or delegate) "time_10:", and fail in an unexpected way.
 
-    An alternative is to use a question mark...
+  An alternative is to use a question mark...
 
-      convert "time_10?30.jpg" ...
+    convert "time_10?30.jpg" ...
 
-    However, that may also match another file such as "time_10_30.jpg" as well!
+  However, that may also match another file such as "time_10_30.jpg" as well!
+~~~
 
 ### Compressing Images {#read_compressed}
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    IM will also read files that have been compressed and given the appropriate
-    suffix, or image format specification.
+~~~{.skip}
+  IM will also read files that have been compressed and given the appropriate
+  suffix, or image format specification.
 
-    That is an image saved as "image.gif.gz" will first be uncompressed, before
-    being decoded from its GIF image format.
+  That is an image saved as "image.gif.gz" will first be uncompressed, before
+  being decoded from its GIF image format.
 
-    Gzipped XPixmap (xpm) and NetPbm/PbmPlus (ppm) images are also automatically
-    handled, both by ImageMagick, and the format's normal delegate library.  As
-    such, you can use the compressed forms directly either in IM, or in other
-    programs that understand these file formats.
+  Gzipped XPixmap (xpm) and NetPbm/PbmPlus (ppm) images are also automatically
+  handled, both by ImageMagick, and the format's normal delegate library.  As
+  such, you can use the compressed forms directly either in IM, or in other
+  programs that understand these file formats.
 
-    See  Saving Compressed Images below.
+  See  Saving Compressed Images below.
+~~~
 
 ------------------------------------------------------------------------
 
@@ -406,7 +417,7 @@ If you don't, the image will default to the original image format that the image
 
 For example, here we write a IM pixel enumeration to the screen using a "`-`" to output the result to the standard output.
 
-~~~
+~~~{data-capture-out="write_stdout.txt"}
 convert tree.gif  -resize 1x3\!  txt:-
 ~~~
 
@@ -415,7 +426,7 @@ convert tree.gif  -resize 1x3\!  txt:-
 
 It is also used to pass the image, on to another command such as "`identify`" though a shell 'pipeline', without saving it to a temporary file.
 
-~~~
+~~~{data-capture-out="write_identify.txt"}
 convert tree.gif -resize 200% miff:- | identify -
 ~~~
 
@@ -509,8 +520,15 @@ Compare the size of this to a normal saved LZW compressed GIF image...
 convert rose: rose.gif
 ~~~
 
-  
 [![\[IM Output\]](rose.gif)](rose.gif)
+
+~~~{.hide data-capture-out="rose_gz_size.txt"}
+ls -l rose.gif.gz | awk '{printf "%d", $5}'
+~~~
+
+~~~{.hide data-capture-out="rose_size.txt"}
+ls -l rose.gif | awk '{printf "%d", $5}'
+~~~
 
 The "`gzip`"ed rose is [![\[IM Text\]](rose_gz_size.txt.gif)](rose_gz_size.txt) bytes in size, while a normal LZW compressed rose is [![\[IM Text\]](rose_size.txt.gif)](rose_size.txt) bytes.
 As you can see GZIP compression is actually slightly better than the LZW compression that the GIF format uses, so may be better for archiving purposes.
@@ -522,28 +540,30 @@ This includes the IM File format "[MIFF:](#miff)" and the simpler [NetPBM](../fo
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    Other Settings specific to image writing....
-        -depth  -quality  -compress -type  -loop
-        -set label   -set comment
-    Also see Image Depth,
-    Image Type,
-    JPEG Quality,
-    PNG Quality.
-    GIF loop.
+~~~{.skip}
+  Other Settings specific to image writing....
+      -depth  -quality  -compress -type  -loop
+      -set label   -set comment
+  Also see Image Depth,
+  Image Type,
+  JPEG Quality,
+  PNG Quality.
+  GIF loop.
 
-    Talk about file compressions, which are part of various image formats.
+  Talk about file compressions, which are part of various image formats.
 
-    Different compressions are used for different image formats.
+  Different compressions are used for different image formats.
 
-    Especially the JPEG to TIFF compression change needed.
+  Especially the JPEG to TIFF compression change needed.
 
-    Using or "-compress none" and "-compress" NetPBM text/binary format selection.
+  Using or "-compress none" and "-compress" NetPBM text/binary format selection.
 
-    The GIF compression and the copyright patent.
+  The GIF compression and the copyright patent.
 
-    Other than using IM to reduce -quality or changing the format to something
-    else the -compression option is rarely used.  Often it is only used internally
-    by IM to save images using the same compression the image was read with.
+  Other than using IM to reduce -quality or changing the format to something
+  else the -compression option is rarely used.  Often it is only used internally
+  by IM to save images using the same compression the image was read with.
+~~~
 
 ### Encrypted Images {#save_encrypted}
 
@@ -609,7 +629,7 @@ When that happens, directory listings will no longer list the saved images in se
 Of course there are ways to fix this.
 For example, using command line shell expressions like..
 
-~~~
+~~~{.skip}
 convert image_[0-9].gif  image_[1-9][0-9].gif  animation.gif
 convert image_?.gif  image_??.gif  image_???.gif  animation.gif
 convert image_(?|??|???|????).gif  animation.gif
@@ -743,7 +763,7 @@ The header ends in a line containing a single formfeed character.
 This header is itself a useful way of extracting basic image information in various image processing processing scripts.
 For example here are I use a GNU-sed command to list the "`miff:`" header up to the formfeed separator, showing all the attributes of the built-in "`rose:`" image.
 
-~~~
+~~~{data-capture-out="write_miff_info.txt"}
 convert rose:   miff:-  | sed -n '/^\f$/q; p'
 ~~~
 
@@ -811,7 +831,7 @@ Like "`identify`", this output format is controlled by the "`-format`" and "`-ve
 
 For example, instead of piping a MIFF image to "`identify`" as we did above (see [Saving Images](#saving_images)), we could have used the following, to retrieve the single line identification of the resulting image format.
 
-~~~
+~~~{data-capture-out="info_image.txt"}
 convert  granite:  info:-
 ~~~
 
@@ -823,7 +843,7 @@ Of course you can use a "`-format`" setting to output the desired information in
 What is so useful about "`info:`" is that you can now produce your image, while extracting extra information about it, at the same time.
 This is done by using the "`-write`" operator to save this special image format to a file (or the command's normal standard output).
 
-~~~
+~~~{data-postamble="convert label:info_paged.txt info_paged.txt.gif"}
 convert rose: -shave 12x0 -repage 64x64+9+9 \
         -format '%wx%h %g'  -write info:info_paged.txt    paged.gif
 ~~~
@@ -837,7 +857,7 @@ This makes it even easier to monitor what is happening to your images when debug
 
 For example...
 
-~~~
+~~~{data-capture-out="info_thumbnail.txt"}
 convert logo:           -identify \
         -trim           -identify \
         +repage         -identify \
@@ -855,7 +875,7 @@ And so on.
 Also like the "`identify`" command, both "`info:`" and "`-identify`", will become much more verbose if the "`-verbose`" setting is turned on.
 Here I limit the long output to just the first few lines, just so you can get a bit of an idea about it.
 
-~~~
+~~~{data-capture-out="info_verbose.txt"}
 convert  rose:  -verbose  info:  | head
 ~~~
 
@@ -919,7 +939,7 @@ If the 'pixel enumeration' is not recognized, the image will be passed to the "`
 
 For example here is a "`netscape:`" image scaled to a 2x2 pixel image, then listed using a "`txt:`" image format.
 
-~~~
+~~~{data-postamble="convert label:@txt_netscape.txt txt_netscape.txt.gif"}
 convert  netscape: -scale 2x2\! txt_netscape.txt
 ~~~
 
@@ -943,7 +963,7 @@ See the section on the [depth setting](../basics/#depth) for more information.
 But you can override the depth setting (up to the limit of your IM's Q or [Compile-time Quality](../basics/#quality) setting, by changing the image's "`-depth`".
 For example, here I output the color values as 16-bit (or values from 0 to 65535)...
 
-~~~
+~~~{data-postamble="convert label:@txt_netscape_16.txt txt_netscape_16.txt.gif"}
 convert netscape: -scale 2x2\! -depth 16 txt_netscape_16.txt
 ~~~
 
@@ -961,7 +981,7 @@ Grayscale images will use the '`rgb`' format, though all three numbers will be t
 
 For example here is the same image using a [colorspace](../color_basics/#colorspace) of '`LAB`' with an alpha channel added!
 
-~~~
+~~~{data-postamble="convert label:@txt_cspace_lab.txt txt_cspace_lab.txt.gif"}
 convert  netscape: -scale 2x2\! -colorspace LAB -matte txt_cspace_lab.txt
 ~~~
 
@@ -986,7 +1006,7 @@ IM doesn't.
 Here is an example of correctly reading a Pixel Enumeration in a shell script.
 The exact format of the TXT image is defined by the convert command, then '`tail`' is used to junk the header, '`tr`' to character replace every non-number character with a single space, so that the later '`while`' can read it easily, junking any comment numbers that may have been left.
 
-~~~
+~~~{data-capture-out="txt_shell_read.txt"}
 convert  rose: -resize 3x2\! -depth 8 -colorspace RGB +matte txt:- |
   tail -n +2 | tr -cs '0-9\n'  ' ' |
     while read x y r g b junk; do
@@ -1011,7 +1031,7 @@ When this is output to a "`txt:`" format file, you get a basic summary of the co
 For example, here are the colors used by the tree image.
 As GIF can only use 8-bit numbers, the colors are also output at the same [Depth](../basics/#depth).
 
-~~~
+~~~{data-capture-out="tree_colors.txt"}
 convert tree.gif -unique-colors txt:-
 ~~~
 
@@ -1023,7 +1043,7 @@ There is another alternative to using the IM "`txt:`" format, which is using the
 IM, by default, outputs this format as binary, but you can turn off "`-compress`" to output an ASCII text version of the NetPBM format.
 For example:
 
-~~~
+~~~{data-postamble="convert label:@tree_netpbm.ppm tree_netpbm.ppm.gif"}
 convert tree.gif -unique-colors -compress None -depth 8 tree_netpbm.ppm
 ~~~
 
@@ -1035,7 +1055,7 @@ See [Resized Gradient](../canvas/#gradient_resize) for some examples of generati
 
 If you just want the color of a specific pixel you can crop the image down to one pixel, and output it as a "`txt:`" image.
 
-~~~
+~~~{data-capture-out="rose_one.txt"}
 convert rose: -crop 1x1+12+26 txt:
 ~~~
 
@@ -1044,7 +1064,7 @@ convert rose: -crop 1x1+12+26 txt:
 
 Or you can use a special [FX Escape Format](../transform/#fx_escapes) to output the color in a form directly usable by IM.
 
-~~~
+~~~{data-capture-out="rose_pixel.txt"}
 convert rose: -format '%[pixel:u.p{12,26}]' info:
 ~~~
 
@@ -1060,7 +1080,7 @@ The output string is suitable for direct input into the [Sparse Color Operator](
 
 For example, this finds the few pixels 'closest' to a pure red color in the "`rose:`" image.
 
-~~~
+~~~{data-capture-out="rose_sparse.txt"}
 convert rose: -alpha set -fuzz 13% +transparent red sparse-color:
 ~~~
 
@@ -1079,7 +1099,7 @@ This is actually the "`miff:`" image format, but with a very large image comment
 For example, here we again list the colors present in the "tree" image, but this time including the pixel count for each color.
 The text histogram comment is extracted from the "`histogram:`" image using a secondary "`info:`" formatted identify.
 
-~~~
+~~~{data-capture-out="tree_histogram.txt"}
 convert  tree.gif  -define histogram:unique-colors=true \
          -format %c histogram:info:-
 ~~~
@@ -1093,7 +1113,7 @@ convert  tree.gif  -define histogram:unique-colors=true \
 > The "`info:`" output format was added to IM v6.2.4.
 > For IM versions before this use..
 >
-> ~~~
+> ~~~{.skip}
 > convert  tree.gif histogram:- | identify -format %c -
 > ~~~
 
@@ -1258,7 +1278,7 @@ As such, it is only good for temporary 'quick read' files, such as in holding te
 
 For example...
 
-~~~
+~~~{.skip}
 convert very_big_image.tif  very_big_image.mpc
 ~~~
 
@@ -1306,7 +1326,9 @@ Inline images let you read an image defined in a special base64 encoding.
 
 For example, to read a base64 encoded image use...
 
-`inline:base64_image.txt`
+~~~{.skip}
+inline:base64_image.txt
+~~~
 
 This encoding could be from a file, but it is more typically given directly as the read argument instead of as a file name from some external image source.
 This is more typically used as an alternative to 'blobs' on the command line, or in API image processing.
@@ -1317,7 +1339,7 @@ Or put the image data directly on the command line...
 
 For example, let's base64 encode a very small image (there are many programs that will let you do this conversion)...
 
-~~~
+~~~{data-capture-out="b64_image.txt"}
 openssl enc -base64 -in noseguy.gif
 ~~~
 
@@ -1350,7 +1372,7 @@ You do not need to have a separate external image file, making installation of a
 Basically, because this is the format used for inline images in HTML web pages.
 For example, in the following, the image on the right was included directly inline on the web page, and not as a separate external file, using HTML tag of the form...
 
-~~~
+~~~{.skip}
 <IMG SRC="data:image/gif;base64,
       R0lGODlhIAAgAPIEAAAAAB6Q/76+vvXes////wAAAAAAAAAAACH5BAEAAAUALAAA
       AAAgACAAAAOBWLrc/jDKCYG1NBcwegeaxHkeGD4j+Z1OWl4Yu6mAYAu1ebpwL/OE
@@ -1412,7 +1434,7 @@ NOTE: There is currently no way to get "animate" or "display" to signal when it 
 
 However you can have "convert" read a separate "ephemeral:" image, to notify a controlling script that it has reached a specific point in its image processing.
 
-~~~
+~~~{.skip}
 # Blur an image, and show an on-screen comparison before
 # auto-deleting and exiting.
 convert rose:  input_image.png
@@ -1439,13 +1461,13 @@ However, they are only very simple versions of the "`display`" and "`animate`" c
 
 For example, get a fast summary of images in a directory...
 
-~~~
+~~~{.skip}
 montage *.jpg show:
 ~~~
 
 See the areas that are different between two images...
 
-~~~
+~~~{.skip}
 compare image1.png image2.png show:
 ~~~
 
@@ -1468,7 +1490,7 @@ Use the left button to select the window to grab a copy of, or mark out an area 
 
 For example, to select a window using your mouse, then display the window just grabbed in another window (exit when grabbed window is displayed)...
 
-~~~
+~~~{.skip}
 convert x:  show:
 ~~~
 
@@ -1476,20 +1498,20 @@ WARNING: If you grab a window that is unmapped (iconized), or has another window
 
 To grab the whole display use '`root`' for the window name.
 
-~~~
+~~~{.skip}
 convert x:'root'  full_screen_dump.jpg
 ~~~
 
 Or use the [Read Modifiers](#read_mods) to grab a specific area of the display.
 
-~~~
+~~~{.skip}
 convert x:'root[300x400+879+122]'  part_screen_dump.jpg
 ~~~
 
 Providing a window name you can grab a specific window.
 For example this will grab the window titled '`MailEd`'...
 
-~~~
+~~~{.skip}
 convert x:'MailEd'  window.jpg
 ~~~
 
@@ -1501,7 +1523,7 @@ The X Window ID is typically looked up using the "`xwininfo`" command, but other
 
 For example, find all windows with "Mozilla Firefox" in the title or name...
 
-~~~
+~~~{.skip}
 xwininfo -root -all | grep "Mozilla Firefox"
 ~~~
 
@@ -1510,7 +1532,7 @@ I can then extract the X Window ID of the window I want from the output of the a
 Here is a little more complex bash script I have in my window manager.
 When I press a button, it looks up the ID of the window with the current 'focus', captures it, then names the file as a PNG in my current directory using the next capture number, according to any previous captures made.
 
-~~~
+~~~{.skip}
 bash -c "
   id=$(xprop -root _NET_ACTIVE_WINDOW | sed 's/.* //')
   convert x:$id capture-tmp-$$.png
@@ -1523,14 +1545,14 @@ bash -c "
 Most terminal programs will tell you the X Window ID they are using to display text in the environment variable "WINDOWID".
 As such, if you run this from a command line of a XTerm, or Gnome Terminal, you will grab a copy of the current terminal window.
 
-~~~
+~~~{.skip}
 convert x:$WINDOWID  this_terminal.png
 ~~~
 
 Now for some fun...
 Here I grab the contents of my current terminal, draw some stuff into it, and then use the "`display`" to draw it back into the same terminal window!
 
-~~~
+~~~{.skip}
 window=`xwininfo -children -id $WINDOWID |\
                 sed -n 's/^ *\(0x[^ ]*\).*/\1/p'`; \
 window="${window:-$WINDOWID}"; \
@@ -1552,7 +1574,7 @@ Once the window to use is worked out, it is grabbed, drawn on, and restored into
 Here is a simpler example, this darkens the window contents each time you run it.
 Try running this a few times in an actual "xterm" window, and you find the older the command in the terminal window the darker it gets!
 
-~~~
+~~~{.skip}
 window=`xwininfo -children -id $WINDOWID |\
                 sed -n 's/^ *\(0x[^ ]*\).*/\1/p'`; \
 window="${window:-$WINDOWID}"; \
@@ -1591,7 +1613,7 @@ This allows IM to use that 'simpler' and pre-written command, rather than requir
 
 To get a list of what delegates are available use the special command...
 
-~~~
+~~~{.skip}
 convert -list delegate
 ~~~
 
@@ -1607,7 +1629,7 @@ And it is in this second file that users should place their personal 'command de
 
 For example, I can create a personal "`delegates.xml`" file in the "`.magick`" sub-directory of my Linux/UNIX home directory, of the form...
 
-~~~
+~~~{.skip}
 <?xml version="1.0" encoding="UTF-8"?>
 <delegatemap>
   <delegate decode="flip" command="convert '%i' -flip 'miff:%o'"/>
@@ -1672,7 +1694,7 @@ Similar things are done when saving to specific image file formats that IM does 
 
 For example, by adding this delegate to your personal "`.magick/delegates.xml`" file, you can tell IM how to create a '`.xyzzy`' image file.
 
-~~~
+~~~{.skip}
 <delegate decode="gif" encode="xyzzy" command='mv "%i" "%o"'/>
 ~~~
 
@@ -1680,9 +1702,13 @@ Of course, this just quickly copies a GIF file format image as a TMP file format
 
 With that personal delegate, IM can now create your '`.xyzzy`' images, having been provided at least one method of doing so.
 
-~~~
+~~~{.skip}
 convert rose:  -negate   rose.xyzzy
 identify rose.xyzzy
+~~~
+
+~~~{.hide data-capture-out="delegate_rose_xyzzy.txt"}
+identify rose:
 ~~~
 
 [![\[IM Output\]](delegate_rose_xyzzy.txt.gif)](delegate_rose_xyzzy.txt)
@@ -1701,7 +1727,7 @@ For example, two output delegates "`show`" and "`win`" both provide simple ways 
 
 For example..
 
-~~~
+~~~{.skip}
 convert rose: label:rose -append   show:
 ~~~
 
@@ -1722,7 +1748,7 @@ The format of this file however is too complex to go into here, though it is exp
 
 A simplified summary of the delegates and conversions that IM is reading from these files can be printed using...
 
-~~~
+~~~{.skip}
 convert -list delegate
 ~~~
 
@@ -1765,7 +1791,7 @@ But only if the destination image is readable by IM as an image and the final re
 
 For example if you try this command to convert an 'Adobe Illustrator' file ("`.ai`") (which is a type of Postscript), to EPS (encapsulated postscript)...
 
-~~~
+~~~{.skip}
 convert -density 300   map.ai  map.eps
 ~~~
 
@@ -1784,7 +1810,7 @@ All the other operations and settings were added later over a very long period o
 
 You can, however, force IM to actually read-in and write-out the image, as a raster, by using the special "`-taint`" operator to mark it as being modified, without actually modifying it.
 
-~~~
+~~~{.skip}
 convert -density 300 map.ai  -taint  map.eps
 ~~~
 
@@ -1800,7 +1826,7 @@ See [Blog of John](http://blog.digitaljohn.co.uk/2007/06/19/imagemagick-cmyk-to-
 
 A alternative delegate for reading 8-bit fully processed 'raw' digital camera images (CRW, CR2, NEF, etc) is...
 
-~~~
+~~~{.skip}
 <delegate decode="dcraw8" command='dcraw -v -w -O "%o" "%i"'/>
 ~~~
 
@@ -1810,7 +1836,7 @@ That output image, in turn, is readable by ImageMagick.
 By adding this delegate, you can then use it simply, for any ImageMagick image read operation (any API, not just command line), and IM will handle all the file IO and cleanup.
 For example...
 
-~~~
+~~~{.skip}
 convert dcraw8:image.crw  image.png
 ~~~
 
@@ -1824,14 +1850,14 @@ See comments in this [IM Users Forum Discussion](../forum_link.cgi?t=15605).
 For example here is a delegate published by Mikko Koppanen, on his [Mikko’s blog](http://valokuva.org/) site.
 Add this to your personal "`delegates.xml`" file in "`.magick`" directory of your home...
 
-~~~
+~~~{.skip}
 <delegate decode="ffmpeg" command="'ffmpeg' -i '%i' -y -vcodec png -ss %s -vframes 1 -an -f rawvideo '%o'" />
 ~~~
 
 IM can now use the "`ffmpeg`" program to decode the frames from an MPEG video image.
 For example.
 
-~~~
+~~~{.skip}
 convert  "ffmpeg:test1.mpg[40]"  frame_40.png
 ~~~
 
@@ -1856,7 +1882,7 @@ If you are planning to process really large images, you may want to make sure IM
 For example, this is a *nice* way of processing a very large image over a long period of time without stopping you from using your computer for other things.
 Basically, it forces IM to cache everything to disk.
 
-~~~
+~~~{.skip}
 env MAGICK_TMPDIR=/data nice -5 \
   convert -limit memory 32 -limit map 32 \
           huge_9Gb_file.psd  -scene 1 +adjoin layer_%d.png
@@ -1868,7 +1894,7 @@ Of course, this assumes that "`/data`" has enough space to handle the image's me
 
 If you have many operations to perform on the same source image and you have plenty of disk space, you can use the [MPC image format](#mpc) which is expensive to create but has near zero overhead when loading...
 
-~~~
+~~~{.skip}
 convert mybigassimage.jpg mybigassimage.mpc
 convert mybigassimage.mpc   -resize 50%  resized.jpg
 convert mybigassimage.mpc   -rotate 90   rotated.jpg
@@ -1904,7 +1930,7 @@ As such only enough memory to hold a single line of pixels is used when processi
 For example this allows you to extract a smaller area of a very large image for further processing, without needing to read in the whole image into memory first.
 However, the output of "`stream`" is raw RGB image values, so some post-processing is recommended.
 
-~~~
+~~~{.skip}
 stream -map rgb -storage-type char -extract 600x400+1900+2900 image.png - |\
   convert -depth 8 -size 600x400 rgb:- tileimage.png
 ~~~
@@ -1912,7 +1938,7 @@ stream -map rgb -storage-type char -extract 600x400+1900+2900 image.png - |\
 You don't have to save the output to a file but can, instead, continue processing the smaller image directly.
 For example...
 
-~~~
+~~~{.skip}
 stream -map rgb -storage-type char -extract 600x400+1900+2900 image.png - |\
   convert -depth 8 -size 600x400 rgb:-  ...more_processing_here...  tile.png
 ~~~
@@ -1940,7 +1966,7 @@ As per the IM forum discussion [Extract a region of an huge jpeg](../forum_link.
 That is a lossless crop of a JPEG to another JPEG image.
 For example...
 
-~~~
+~~~{.skip}
 jpegtran -crop 100x100+0+0 -copy none huge.jpeg  crop.jpg
 ~~~
 
@@ -1953,7 +1979,7 @@ For a '`+0+0`' offset, it is already at an appropriate boundary, so the above sh
 But for other offsets you will need to so some final cleanup of the extracted region.
 For example...
 
-~~~
+~~~{.skip}
 jpegtran -crop 100x100+123+425 -copy none huge.jpeg  crop.jpg
 convert crop.jpg -gravity SouthEast -crop 100x100+0+0 +repage crop_fixed.png
 ~~~
@@ -1973,7 +1999,7 @@ While IM does not have anything to break up (tile crop) massive images using a s
 
 **Pbmplus processing of a small section** For example here I use Pbmplus tools to cut (crop) out a small section of the large image, process it, then compose that piece back into the original image.
 
-~~~
+~~~{.skip}
 tifftopnm INPUT.tif input.pam
 
 pamcut     input.pam  part.pam
@@ -2037,7 +2063,7 @@ The output is also a series of PPM images that produces a new stream of images.
 
 For example read a video, and 'flip' every frame, one by one...
 
-~~~
+~~~{.skip}
 ffmpeg input.mpg -f image2pipe -vcodec ppm | pnmtopnm -plain |
   process_ppm_pipeline -flip |
     ffmpeg -f image2pipe -vcodec jpeg output.mpg

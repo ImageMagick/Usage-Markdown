@@ -207,7 +207,7 @@ function CodeBlock(s, attr)
   elseif attr['data-capture-out'] then
       local f = attr['data-capture-out']
       return "#" .. attributes(attr) .. "\n{ " .. s ..
-             "\n} 1>" .. f .. " && convert label:@" .. f .. " " .. f .. ".gif\n"
+             "\n} 1>" .. f .. " || : && convert label:@" .. f .. " " .. f .. ".gif\n"
   elseif attr['data-capture-err'] then
     local f = attr['data-capture-err']
     return "#" .. attributes(attr) .. "\n{ " .. s ..
