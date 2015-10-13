@@ -81,6 +81,10 @@ formats/*.pgm
 formats/*.png
 formats/*.pro
 formats/*.txt
+layers/*.gif
+layers/*.jpg
+layers/*.png
+layers/*.txt
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

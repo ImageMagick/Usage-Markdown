@@ -502,23 +502,25 @@ For other examples of using this operator by distorting images to align common c
 
 Other examples of using this operator is to generate a simple series of [Overlapping Photos](../photos/#overlap).
 
-    The operation "-layers trim-bounds" can be used to ensure all
-    images get a positive offset on a minimal canvas size, while retaining there
-    relative positions, and without actually layer merging the images into one
-    final image.
+~~~{.skip}
+The operation "-layers trim-bounds" can be used to ensure all
+images get a positive offset on a minimal canvas size, while retaining there
+relative positions, and without actually layer merging the images into one
+final image.
 
-    This lets you then perform further processing of the images before they are
-    actually merged, such as placing more images relative to the that image group
-    but looking up the resulting virtual canvas bounds.
+This lets you then perform further processing of the images before they are
+actually merged, such as placing more images relative to the that image group
+but looking up the resulting virtual canvas bounds.
 
-    However if images have a transparency, it is probably a good idea to trim
-    that transparency from images first, making the ideal usage...
+However if images have a transparency, it is probably a good idea to trim
+that transparency from images first, making the ideal usage...
 
-      -alpha set -bordercolor none -border 1x1 -trim -layers trim-bounds
+  -alpha set -bordercolor none -border 1x1 -trim -layers trim-bounds
 
-    This minimizes the image layers including any and all transparent areas of
-    actual image data, while ensuring everything is contained on a valid
-    virtual (positive) canvas of minimal size.
+This minimizes the image layers including any and all transparent areas of
+actual image data, while ensuring everything is contained on a valid
+virtual (positive) canvas of minimal size.
+~~~
 
 ### Coalesce Composition - a Progressive Layering {#coalesce}
 
@@ -852,7 +854,11 @@ This example was from an IM Forum Discussion, [Layering Images with Convert](../
 
 We have a file listing the locations and colors for each of the pins we want to place in the map.
 The location name in the file is not used and is just a reference comment on the pixel location listed.
-  
+
+~~~{.hide}
+txt2gif map_venice_pins.txt
+~~~
+
 [![\[Data File\]](map_venice_pins.txt.gif)](map_venice_pins.txt)
 
 Let's read this text file, to create 'pins' in a loop.
@@ -1139,7 +1145,23 @@ However the shadow currently does not become more blurry with depth.
 Aligning distorted images can be tricky, and here I will look at aligning such images to match up at a very specific location.
 Here I have two images that highlight a specific point on each image.
 
-[![\[IM Output\]](align_blue.png)](align_blue.png) [![\[IM Output\]](align_red.png)](align_red.png)
+~~~{.hide}
+  convert -size 100x64 xc:SkyBlue -fill None \
+          -draw 'stroke Blue  rectangle 0,0 99,63   fill Black  point 59,26
+             stroke DodgerBlue
+             path "M 53,26 56,26 M 62,26 65,26 M 59,20 59,23 M 59,29 59,32"' \
+          align_blue.png
+  convert -size 60x40 xc:LightPink -fill None \
+          -draw 'stroke Tomato rectangle 0,0 59,39   fill Red point 35,14
+             stroke Tomato
+             path "M 31,10 33,12 M 37,16 39,18 M 31,18 33,16 M 37,12 39,10"' \
+          -alpha set -channel A -evaluate set 65%  align_red.png
+#  convert -size 60x40 xc:LightPink -stroke Tomato -fill LightPink \
+#          -draw 'rectangle 0,0 59,39   fill Red point 35,14' \
+~~~
+
+[![\[IM Output\]](align_blue.png)](align_blue.png)
+[![\[IM Output\]](align_red.png)](align_red.png)
 
 The second image is 65% semi-transparent, which allow you to see though it when it is composed onto the blue image, so you can see if the marked points align.
 The marked control points themselves are at the coordinates `59,26` (blue) and `35,14` (red) respectively.
@@ -1240,7 +1262,7 @@ We will need to first calculate exactly where the red point is.
 To do that we can re-run the above distortion with verbose enabled to get the perspective forward mapping coefficients.
 These can then be used to calculate as described in [Perspective Projection Distortion](../distorts/#perspective_projection).
 
-~~~
+~~~{data-capture-err="align_persp_verbose.txt"}
 convert align_red.png  -define distort:viewport=1x1  -verbose \
         +distort Perspective '0,0  10,12  0,%h 14,40
                               %w,0 68,6  %w,%h 63,48 ' null:
@@ -1262,7 +1284,7 @@ We are also not really interested in the virtual pixels, backgrounds, or anythin
 Now we can get the distort information, we need to extract the 8 perspective coefficients, from the 3rd and 4th line of the output.
 These can then be used to map the red control point to its new distorted position, and from there subtract it from the blue control point, so as to get the actual amount of translation that is needed, to align the marked red coordinate with the blue coordinate.
 
-~~~
+~~~{data-capture-out="align_persp_coord.txt"}
 bluex=59; bluey=26
 redx=35; redy=14
 
@@ -1403,13 +1425,13 @@ The exact color of each pixel will come completely from one image.
 
 The '**`Add`**' method is will of course simply add all the images together.
 
-~~~
+~~~{.skip}
 convert ... -evaluate-sequence add ...
 ~~~
 
 Which is a faster (more direct) version of using [Flatten](#flatten) to [Plus Compose](../compose/#plus) all the images together...
 
-~~~
+~~~{.skip}
 convert ... -background black -compose plus -layers flatten ...
 ~~~
 
@@ -1427,7 +1449,7 @@ Arrggggg!
 However by using a quirk of the [Linear Burn Compose Method](../compose/#linearburn) you can subtract the second and later images from the first.
 Basically by [Negating](../color_mods/#negate) all but the first image, and setting a '`white`' (negated zero) as a the starting background color you can then use [Flatten](../layering/#flatten) to subtract all the images from the first.
 
-~~~
+~~~{.skip}
 convert  ...  \
        -negate \( -clone 0 -negate \) -swap 0 +delete \
        -compose LinearBurn -background white -flatten \
@@ -1443,7 +1465,7 @@ This could be classed as a bug.
 
 In the meantime, you are better using the equivalent 'flatten' method for Multiply, which does work as expected.
 
-~~~
+~~~{.skip}
 convert ... -background white -compose multiply -layers flatten ...
 ~~~
 
@@ -1478,11 +1500,15 @@ This takes a '`rose:`' (unmodified using a weight of 1 and power-of 1), adds to 
 
 The resulting image is equivalent to...
 
-    rose + 2.0*granite - 1.0
+~~~{.skip}
+rose + 2.0*granite - 1.0
+~~~
 
 or
 
-    rose + 2.0*(granite-0.5)
+~~~{.skip}
+rose + 2.0*(granite-0.5)
+~~~
 
 In other words the rose image is given a noisy granite texture overlay (with a 50% grey bias).
 This is in fact exactly like a very strong [Hardlight](../compose/#hardlight) lighting effect but with very explicit weighting of the granite overlay.

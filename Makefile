@@ -61,6 +61,8 @@ fonts: fonts/index.html fonts/index.sh
 
 formats: formats/index.html formats/index.sh
 
+layers: layers/index.html layers/index.sh
+
 warping: warping/index.html warping/index.sh
 
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
