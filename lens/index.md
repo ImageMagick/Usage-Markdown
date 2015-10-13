@@ -51,7 +51,7 @@ leaving us with three free model parameters, so the parameter `d` is typically o
 ImageMagick will automatically calculate `d` by the non-scaling restraint, if it is omitted.
 So a typical ImageMagick command line for lens correction would look something like
 
-~~~
+~~~{.skip}
 convert input.jpg -distort barrel '0.06335 -0.18432 -0.13008' output.jpg
 ~~~
 
@@ -74,7 +74,7 @@ It comes with a complete programming interface, but all you basically need is th
 As an example, the lens correction parameters for the once popular Nikon Coolpix 995 are found in the file `compact-nikon.xml`, which resides in the directory `\data\db`.
 The file can be examined by the use of a text editor or an XML viewer:
 
-~~~
+~~~{.skip}
 <lens>
   <maker>Nikon</maker>
   <model>Standard</model>
@@ -101,7 +101,7 @@ Note that many lenses will also have values for `a` and `c` parameters as well, 
 
 If we have a photograph `DSCN0001.jpg` taken with a Nikon Coolpix 995 set to the shortest focal length, this photograph could be corrected by ImageMagick via
 
-~~~
+~~~{.skip}
 convert DSCN0001.jpg -distort barrel '0.0 -0.019966 0.0' DSCN0001_pt.jpg
 ~~~
 
@@ -217,7 +217,7 @@ For a camera with a zoom lens, one has to cover the entire range of focal length
 
 When having determined such a parameter set, give it a test in ImageMagick via
 
-~~~
+~~~{.skip}
 convert calibration_image.jpg -distort barrel 'a b c' flat.jpg
 ~~~
 
@@ -230,7 +230,9 @@ For a serious calibration, it is recommendable to manually edit the Hugin projec
 The project file is a plain text file with the extension PTO, you can open it with a simple text editor and supply a point list.
 A single line in its section `# control points` looks like this:
 
-      c n0 N0 x175.0 y87.8 X1533.3 Y62.6 t3
+~~~{.skip}
+c n0 N0 x175.0 y87.8 X1533.3 Y62.6 t3
+~~~
 
 where `x, y` are the pixel coordinates in the source image (left image on the tab) and `X, Y` are the pixel coordinates in the target image (right image on the tab) – which are actually two versions of the same image in this special case.
 (Usually these would be two different images lying next to each other in a panorama.) The intro `c n0 N0` is standard code and the trailer `t3` is the numbering of the associated straight line, starting with the index 3.
@@ -354,7 +356,7 @@ In my case I looked at "`slr-canon.xml`" which can be edited with any text edito
 Now I find the information for the specific lens I am using which in this case is an "`EF-S 17-85mm`".
 The information for that lens looks like this:
 
-~~~
+~~~{.skip}
 <lens>
   <maker>Canon</maker>
   <model>Canon EF-S 17-85mm f/4-5.6 IS USM</model>
