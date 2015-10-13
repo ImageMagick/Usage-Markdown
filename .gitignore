@@ -74,6 +74,13 @@ fourier/*.txt
 fonts/*.gif
 fonts/*.jpg
 fonts/*.png
+formats/*.gif
+formats/*.jpg
+formats/*.mng
+formats/*.pgm
+formats/*.png
+formats/*.pro
+formats/*.txt
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

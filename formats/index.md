@@ -130,10 +130,12 @@ For anything else its limitations make it a poor image file format and you may b
 
 ### GIF Limited Color Table {#gif_colors}
 
-    FUTURE: color reduction examples -- reference basic color dithering
-    Ensuring that a specific color is present in the final GIF image
-    Map color tables to color reduce.
-    See Color Quantization.
+~~~{.skip}
+FUTURE: color reduction examples -- reference basic color dithering
+Ensuring that a specific color is present in the final GIF image
+Map color tables to color reduce.
+See Color Quantization.
+~~~
 
 See [Advanced 3-D Bullet Scripting](../advanced/#3d-bullets) for an example of generating multiple images over a range of colors.
 This technique can also be used to auto-convert your image into multiple images for many different backgrounds colors and patterns.
@@ -143,7 +145,7 @@ This technique can also be used to auto-convert your image into multiple images 
 For example here we use identify to extract the transparent color, and the color table a particular GIF image file used to represent transparency.
 The perl script extracts just the specific fields of interest (which can be multi-line).
 
-~~~
+~~~{data-capture-out="hand_point.txt"}
 identify -verbose hand_point.gif |\
     perl -0777 -ne 's/^  //gm; \
           print $& while /^(Colors|Alpha|Colormap):.*?(?=^\S)/gms'
@@ -166,7 +168,7 @@ You can also actually have duplicate color values, though IM typically removes a
 
 As of IM version 6.2.9-2 (and in some older versions), IM will preserve the color table, and more specifically the transparent color value, whenever it reads, processes and writes a GIF image.
 
-~~~
+~~~{data-capture-out="hand_white.txt"}
 convert hand_point.gif    -fill white -opaque wheat   hand_white.gif
 identify -verbose hand_white.gif |\
     perl -0777 -ne 's/^  //gm; \
@@ -183,6 +185,8 @@ However if the final image has no transparency, the transparency color entry ('`
 
 ~~~
 convert hand_point.gif   -background white -flatten    hand_flatten.gif
+~~~
+~~~{data-capture-out="hand_flatten.txt"}
 identify -verbose hand_flatten.gif |\
     perl -0777 -ne 's/^  //gm; \
           print $& while /^(Colors|Alpha|Colormap):.*?(?=^\S)/gms'
@@ -195,7 +199,7 @@ identify -verbose hand_flatten.gif |\
 If you like to change the transparent color that the GIF file format is using, you can use the "`-transparent-color`" output setting (added IM v6.2.9-2).
 For example...
 
-~~~
+~~~{data-capture-out="hand_wheat.txt"}
 convert hand_point.gif -transparent-color wheat  hand_wheat.gif
 identify -verbose hand_wheat.gif |\
     perl -0777 -ne 's/^  //gm; \
@@ -221,8 +225,10 @@ Typical choices for the transparent color are '`white`' for modern browsers, OR 
 Other popular transparent color choices are '`grey`' ('`#BEBEBE`'), and '`silver`' ('`#C0C0C0`') which is what the 'hand' image above used.
 This shows just how popular that specific area of the gray-scale color range is for the transparent color.
 
-    *FUTURE: add link to color selection.*
-  
+~~~{.skip}
+*FUTURE: add link to color selection.*
+~~~
+
 > ![](../img_www/warning.gif) ![](../img_www/space.gif)
 > Before IM v6.2.9-2, and the creation of the "`-transparent-color`" output setting, IM would typically save the transparency of an image as the special color '`none`' (fully-transparent black), which is not particularly nice when transparency fails.
 
@@ -246,7 +252,8 @@ convert -size 60x60 xc:none -fill white -stroke black \
 convert circle.png -crop 10x10+40+3 +repage  -scale 600%  circle_mag.png
 ~~~
 
-[![\[IM Output\]](circle.png)](circle.png) [![\[IM Output\]](circle_mag.png)](circle_mag.png)
+[![\[IM Output\]](circle.png)](circle.png)
+[![\[IM Output\]](circle_mag.png)](circle_mag.png)
 
 As you can see the edge of the circle on the left drawn (in PNG format) as a very clean looking (though slightly fuzzy) edge to the image.
 You can see the semi-transparent pixels in its enlargement.
@@ -259,7 +266,8 @@ convert -size 60x60 xc:none -fill white -stroke black \
 convert circle.gif -crop 10x10+40+3 +repage  -scale 600%  circle_mag.gif
 ~~~
   
-[![\[IM Output\]](circle.gif)](circle.gif) [![\[IM Output\]](circle_mag.gif)](circle_mag.gif)
+[![\[IM Output\]](circle.gif)](circle.gif)
+[![\[IM Output\]](circle_mag.gif)](circle_mag.gif)
 
 The result is that the circle has a very sharp stair case effects along the outside edge of the circle, while the inside remains properly anti-aliased.
 
@@ -281,7 +289,7 @@ If you look more closely at the resulting GIF, you will find that the semi-trans
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > Because of the GIF limitations, IM performs the following set of operations before saving to the GIF file format...*
 >  
-> ~~~
+> ~~~{.skip}
 > -channel A -threshold 50%
 > if (fully-)transparent pixels are present it then...
 >   -quantize transparent -colors 255
@@ -308,7 +316,8 @@ convert circle_threshold.gif -crop 10x10+40+3 +repage \
         -scale 600%   circle_threshold_mag.gif
 ~~~
 
-[![\[IM Output\]](circle_threshold.gif)](circle_threshold.gif) [![\[IM Output\]](circle_threshold_mag.gif)](circle_threshold_mag.gif)
+[![\[IM Output\]](circle_threshold.gif)](circle_threshold.gif)
+[![\[IM Output\]](circle_threshold_mag.gif)](circle_threshold_mag.gif)
 
 The above example performs the same "`-threshold 50%`" on the alpha channel that IM now does automatically, that is if a pixel is more than 50% transparent, it will be made fully-transparent (using the color given by the "`-transparent-color`" setting if defined.
 
@@ -388,7 +397,7 @@ For example lets overlay our image onto a 'typical' bubble like background patte
 But first we need to know the average color of this background.
 A simple way to find this color is to just [scale](../resize/#scale) the image down to a single pixel, then read the resulting color.
 
-~~~
+~~~{.skip}
 convert bg.gif -scale 1x1\! -depth 8 txt:-
 ~~~
 
@@ -469,8 +478,10 @@ For this see the other sections of [Background Removal](../masking/#bg_remove).
   
 ### GIFs for non-specific backgrounds (or Dithering the Transparency) {#dither}
 
-    FUTURE: This will move into a more generalise (non-GIF specific), alpha
-    dithering section.
+~~~{.skip}
+FUTURE: This will move into a more generalise (non-GIF specific), alpha
+dithering section.
+~~~
 
 The biggest problem with the above is that it would only work if you happened to know exactly what color the background, or background pattern your image will be used on.
 If you don't know all is not lost.
@@ -563,8 +574,10 @@ Sort of mix the two methods a little to improve the overall result.
 
 Basically The more work you put into what you want to do, the better the result will be.
 
-    FUTURE: dither example with a dither color matching the light blue background
-    of this web page.
+~~~{.skip}
+FUTURE: dither example with a dither color matching the light blue background
+of this web page.
+~~~
 
 ### Non-ImageMagick GIF Processing {#gif_non-im}
 
@@ -677,7 +690,9 @@ convert -size 5x10  gradient: gradient:blue-navy  +append jpg_lossy.gif
 convert jpg_lossy.gif                  jpg_lossy.jpg
 ~~~
 
-[![\[IM Output\]](jpg_lossy_mag.gif)](jpg_lossy.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](jpg_lossy_tn.gif)](jpg_lossy.jpg)
+[![\[IM Output\]](jpg_lossy_mag.gif)](jpg_lossy.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](jpg_lossy_tn.gif)](jpg_lossy.jpg)
 
 The first image is a magnified view of the undistorted GIF format version of the image (click the image to see or download the un-magnified view).
 It only contains 20 colors, so in this case the GIF format can handle the image perfectly and actually generate a very small file size (see table below).
@@ -697,7 +712,13 @@ convert jpg_lossy.gif   -quality  20%  jpg_lossy_20.jpg
 convert jpg_lossy.gif   -quality   5%  jpg_lossy_5.jpg
 ~~~
 
-[![\[IM Output\]](jpg_lossy_mag.gif)](jpg_lossy.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](jpg_lossy_100_tn.gif)](jpg_lossy_100.jpg) [![\[IM Output\]](jpg_lossy_80_tn.gif)](jpg_lossy_80.jpg) [![\[IM Output\]](jpg_lossy_50_tn.gif)](jpg_lossy_50.jpg) [![\[IM Output\]](jpg_lossy_20_tn.gif)](jpg_lossy_20.jpg) [![\[IM Output\]](jpg_lossy_5_tn.gif)](jpg_lossy_5.jpg)
+[![\[IM Output\]](jpg_lossy_mag.gif)](jpg_lossy.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](jpg_lossy_100_tn.gif)](jpg_lossy_100.jpg)
+[![\[IM Output\]](jpg_lossy_80_tn.gif)](jpg_lossy_80.jpg)
+[![\[IM Output\]](jpg_lossy_50_tn.gif)](jpg_lossy_50.jpg)
+[![\[IM Output\]](jpg_lossy_20_tn.gif)](jpg_lossy_20.jpg)
+[![\[IM Output\]](jpg_lossy_5_tn.gif)](jpg_lossy_5.jpg)
 
 If you look closely at first image result in the above, which we saved the test image at '`100%`' or maximum quality, there is still some slight color distortion.
 It is very hard to see, but it is present.
@@ -708,7 +729,14 @@ An effect commonly known as [Ringing Artefacts](../filter/#ringing).
 
 However the reason for using compression is that the size of the resulting image is very dramatically smaller, at least initially.
 Here is a file list of the results and their size in bytes.
-  
+
+~~~{.hide data-capture-out="jpg_ls_lossy.txt"}
+ls -lS jpg_lossy*.jpg | awk '{ print $5, $6 }'
+convert jpg_lossy.gif -scale 100x100 'jpg_lossy_mag.gif'
+convert jpg_lossy*.jpg -scale 100x100 \
+        -set filename:fname '%t_tn' +adjoin '%[filename:fname].gif'
+~~~
+
 [![\[IM Text\]](jpg_ls_lossy.txt.gif)](jpg_ls_lossy.txt)
 
 Note that the GIF image in this case is very small, as large 'blocks' of color compresses extremely well in GIF.
@@ -748,7 +776,9 @@ For example let take the PNG with transparency we used above and convert it dire
 convert  a.png  a.jpg
 ~~~
 
-[![\[IM Output\]](a.png)](a.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](a.jpg)](a.jpg)
+[![\[IM Output\]](a.png)](a.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](a.jpg)](a.jpg)
 
 As you can see all transparent parts just became black.
 But depending on the image source (especially GIF images) the transparent areas could have just as easily become some other random, or other inappropriate color.
@@ -763,7 +793,7 @@ That image will be modified to allow it to compress better, reducing file space,
 Exactly how much color distortion occurs depends on the quality settings use.
 For example let us look at how many colors are in the IM built-in "`netscape:`" image...
 
-~~~
+~~~{data-capture-out="jpg_colors_none.txt"}
 identify -format "Colors: %k" netscape:
 ~~~
   
@@ -774,7 +804,7 @@ This type of image is NOT a very good image for saving to JPEG format, which mak
 
 So lets look at the number of colors a JPEG image save of this image produces...
 
-~~~
+~~~{data-capture-out="jpg_colors_def.txt"}
 convert netscape: JPG:- |\
    identify -format "Colors: %k\nFile Size: %b" -
 ~~~
@@ -786,7 +816,7 @@ Though the result would still look like the original image, the edges of the rec
 
 Saving at the highest quality setting will *not* save the image without any color distortion...
 
-~~~
+~~~{data-capture-out="jpg_colors_100.txt"}
 convert netscape: -quality 100 JPG:- |\
    identify -format "Colors: %k\nFile Size: %b" -
 ~~~
@@ -798,7 +828,7 @@ You can also see that the filesize is larger, as very little compression can be 
 
 Now let us try "Lossless"...
 
-~~~
+~~~{data-capture-out="jpg_colors_lless.txt"}
 convert netscape: -quality 100 -compress Lossless JPG:- |\
    identify -format "Colors: %k\nFile Size: %b" -
 ~~~
@@ -811,7 +841,7 @@ However remember only another patched library can read such a lossless JPG image
 
 Alternatively I recommend compiling your IM to use the JasPer library and the newer JP2 image file format.
 
-~~~
+~~~{data-capture-out="jp2_colors_lless.txt"}
 convert netscape: JP2:- |\
    identify -format "Colors: %k\nFile Size: %b" -
 ~~~
@@ -823,7 +853,7 @@ It also performs some very high compression methods on the image.
 
 However using a lower quality with the new JP2 format will again introduce the color distortions, so as to generate a smaller image, just like the normal JPEG image file format...
 
-~~~
+~~~{data-capture-out="jp2_colors_50.txt"}
 convert netscape: -quality 50% JP2:- |\
    identify -format "Colors: %k\nFile Size: %b" -
 ~~~
@@ -848,7 +878,7 @@ Typically using "`-thumbnail`" to strip any image profiles, as well.
 
 For example...
 
-~~~
+~~~{.skip}
 convert -define jpeg:size=64x64   jpeg_large.jpg jpeg_size_hint.jpg
 convert -define jpeg:size=128x128 jpeg_large.jpg \
                                -thumbnail 64x64  jpeg_thumbnail.jpg
@@ -896,7 +926,9 @@ Probably the more important option when saving JPEG images, as this controls jus
 The value is not a size percentage, just a quality value.
 The lower the value the smaller the image and the more image information is lost, producing more artifacts, and degrading the image.
 
-        FUTURE: VERY low quality example of a photo
+~~~{.skip}
+FUTURE: VERY low quality example of a photo
+~~~
 
 NOTE: a quality setting of '`100%`' is not guaranteed to save an image without any loss of quality, just a minimal amount of loss.
 (See the next option)
@@ -1108,7 +1140,7 @@ This extra newline stuffs up the use of commands ('`%c`' label formatting escape
 
 The better way is to use "comment input" ("`-ci`") to feeding in a comment (without newlines at the end), or the "comment literal" ("`-cl`") options to be a much better way...
 
-~~~
+~~~{.skip}
 jhead -cl 'Photo of some stuff, by Joe Citizen'  image_of_stuff.jpg
 ~~~
 
@@ -1118,13 +1150,13 @@ Brian Jackson &lt;brian@brianjacksonphoto.com&gt; also reports that most digital
 
 IM can extract these thumbnails using...
 
-~~~
+~~~{.skip}
 convert  image.jpg   thumbnail:thumb.jpg
 ~~~
 
 However the program "`jhead`" can also extract these thumbnails too...
 
-~~~
+~~~{.skip}
 mkdir thumbs
 jhead -st "thumbs/&i" *jpg
 ~~~
@@ -1140,7 +1172,7 @@ With the Image::ExifTool Perl module installed, this will strip out all JPEG met
 I found the following to be equivalent to the command line method for stripping EXIF data.
 In case anyone is interested in the future:
 
-~~~
+~~~{.skip}
 use Image::ExifTool;
 $exifTool = new  Image::ExifTool;
 $exifTool->SetNewValue('*');  # delete  all...
@@ -1215,6 +1247,10 @@ convert a.png  -fuzz 10% -transparent none  a_compress.png
 [![\[IM Output\]](a_compress.txt.gif)](a_compress.txt)
 [![\[IM Output\]](a.png)](a.png) [![\[IM Output\]](a_compress.png)](a_compress.png)
 
+~~~{.hide data-capture-out="a_compress.txt"}
+ls -l a.png a_compress.png | awk '{printf "%6s %s\n", $5, $NF}' -
+~~~
+
 As you can see you get a substantial improvement in image size (around 50%).
 But with a sharp cut-off for the shadow of the image.
 
@@ -1228,9 +1264,13 @@ convert a.png  -channel A -level 20,100%,0.85 +channel \
 [![\[IM Output\]](a_compress2.txt.gif)](a_compress2.txt)
 [![\[IM Output\]](a.png)](a.png) [![\[IM Output\]](a_compress2.png)](a_compress.png)
 
+~~~{.hide data-capture-out="a_compress2.txt"}
+ls -l a.png a_compress2.png | awk '{printf "%6s %s\n", $5, $NF}' -
+~~~
+
 You can also improve the compression algorithm results, and thus the final size of your PNG image by using a smaller number of colors.
 
-~~~
+~~~{.skip}
 convert image.jpg -thumbnail 200x90 -colors 256 \
         -quality 90 -depth 8  thumbnail.png
 ~~~
@@ -1369,25 +1409,25 @@ For more information see [Image Type I/O Setting](../basics/#type).
 
 You can force IM to create a image color index table (or palette) then IM will save that image using a "`PNG8:`" format...
 
-~~~
+~~~{.skip}
 convert {input_image}  -type Palette  indexed.png
 ~~~
 
 To force the use of an single 8 bit greyscale channel, but not a palette indexed image use...
 
-~~~
+~~~{.skip}
 convert {input_image}  -type GrayScale -depth 8  gray.png
 ~~~
 
 You can (added IM v6.3.5-9) also output greyscale with a transparency channel.
 
-~~~
+~~~{.skip}
 convert {input_image}  -type GrayscaleMatte  gray_with_transparency.png
 ~~~
 
 And for a simple two color image...
 
-~~~
+~~~{.skip}
 convert {input_image}  -type BiLevel  bitmap.png
 ~~~
 
@@ -1460,7 +1500,9 @@ If you want to write multiple chunks of the same type, then add a short unique s
 
 For example..
 
-      -profile PNG-chunk-b01:file01 -profile PNG-chunk-b02:file02
+~~~{.skip}
+-profile PNG-chunk-b01:file01 -profile PNG-chunk-b02:file02
+~~~
 
 [+set](../option_link.cgi?set) date:create  
 [+set](../option_link.cgi?set) date:modify  
@@ -1470,7 +1512,7 @@ They contain (respectively) the image files create time (actually permission/own
 
 Unfortunately PNG image file formats like to write such image data with the PNG image file format, and if this data is different, then the file generated will also be different, even if nothing else has changed.
 
-~~~
+~~~{.skip}
 convert logo: logo.jpg convert logo.jpg
    logo1.png
 
@@ -1491,7 +1533,7 @@ Note that as IM overwrites these properties with the times of the PNG file it ju
 
 The solution is to save PNG images without any 'time stamps'.
 
-~~~
+~~~{.skip}
 convert logo: logo.jpg
 convert logo.jpg +set date:create +set date:modify logo1.png
 
@@ -1552,7 +1594,7 @@ This is worth a look.
 
 To list what profiles are present in an image use...
 
-~~~
+~~~{.skip}
 identify -verbose image.tif | grep 'Profile-.*bytes'
 ~~~
 
@@ -1570,7 +1612,7 @@ Common Profiles (and pointer to info I have on them) include...
 You can extract these common profiles using some special output formats that IM provides for this purpose.
 For example...
 
-~~~
+~~~{.skip}
 convert -define jpeg:size=64x64  image.jpg  iptc:profile.iptc
 convert -define jpeg:size=64x64  image.jpg  xmp:profile.xmp
 ~~~
@@ -1578,8 +1620,10 @@ convert -define jpeg:size=64x64  image.jpg  xmp:profile.xmp
 The "`-define`" option in the above is used as a 'hint' to the JPEG library to reduce the amount of actual image data it reads into memory and then save a lot of processing of the data you don't actually intend to use.
 
 You can also insert or re-insert a arbitrary profile as a 'blob' or binary string containing whatever information you like.
-  
-      -profile 'profile_name:data_file'
+
+~~~{.skip}
+-profile 'profile_name:data_file'
+~~~
 
 That is the file "`data_file`" is added 'as is' to the image as the profile *profile\_name*.
 IM or any other application will ignore such profiles, unless it specifically knows about it.
@@ -1616,7 +1660,7 @@ You can download color profiles from [International Color Consortium](http://www
 
 While you can just simple convert color spaces directly like this...
 
-~~~
+~~~{.skip}
 convert cmyk_image.jpg -colorspace rgb rgb_image.jpg
 ~~~
 
@@ -1641,13 +1685,13 @@ As such to use profiles for ALL images, you will need three "`-profile`" operati
 
 For Example, If the input image already has a color profile then only one is needed.
 
-~~~
+~~~{.skip}
 convert rgb_image.jpg -profile USCoat.icm cmyk_image.jpg
 ~~~
 
 But if the image doesn't (or you know it is a RGB image, without a existing profile), you can use...
 
-~~~
+~~~{.skip}
 convert rgb_image.jpg +profile icm \
         -profile sRGB.icc  -profile USCoat.icm cmyk_image.jpg
 ~~~
@@ -1657,7 +1701,7 @@ Another CMYK profile is the SWOP.icm profile.
 
 For the reverse (image already has a profile) use...
 
-~~~
+~~~{.skip}
 convert cmyk_image.jpg -profile sRGB.icc rgb_image.jpg
 ~~~
 
@@ -1667,7 +1711,7 @@ If the original image already contains a profile, for example a CMYK profile, th
 
 For example
 
-~~~
+~~~{.skip}
 convert cmyk_image.jpg -profile "CMYK.icc" -profile "RGB.icc" \
               output_image.jpg
 ~~~
@@ -1681,14 +1725,14 @@ But as CMYK is not symmetric, the the extra conversion step can result in a disa
 The images you want to convert should all have ICC profiles embedded.
 As such to convert your images with same a CMYK ICC profile...
 
-~~~
+~~~{.skip}
 convert rgb_image.jpg -profile CMYK_PROFILE cmyk_image.jpg
 ~~~
 
 This will convert using perceptive intent, the default (see [Color Space Conversion](http://www.cambridgeincolour.com/tutorials/color-space-conversion.htm) for an detailed explanation on rendering intents).
 Because the results via perceptive intent can differ greatly depending on the software that was used to create the ICC profiles, you can use "`-black-point-compensation`" along with "`-intent relative`" to get a result that is somewhat nearer to what one might expect.
 
-~~~
+~~~{.skip}
 convert rgb_image.jpg  -intent relative -black-point-compensation \
         -profile CMYK_PROFILE     cmyk_image.jpg
 ~~~
@@ -1712,29 +1756,33 @@ The IPTC profile is used in images to store identification attributes of the ima
 
 If you want to add a IPTC profile to an image, you need a single -profile:
 
-~~~
+~~~{.skip}
 convert image.jpg -profile iptc iptc_image.jpg
 ~~~
 
 If an image contains a profile you can save it with this, so you can add that profile to other similar images:
 
-~~~
+~~~{.skip}
 convert iptc_image.jpg iptcData.iptc
 ~~~
 
 Or you can extract a text version of the profile that you can edit
 
-~~~
+~~~{.skip}
 convert iptc_image.jpg IPTCTEXT:iptcData.pro
 ~~~
 
 Here for example is a profile contributed by *[fcaserio](../forum_link.cgi?u=8641)* in the [IM Forums](../forum_link.cgi?t=8688).
-  
+
+~~~{.hide}
+txt2gif iptcData.pro
+~~~
+
 [![\[IM Text\]](iptcData.pro.gif)](iptcData.pro)
 
 You can add this profile to an image using
 
-~~~
+~~~{.skip}
 convert image.jpg +profile 8BIM -profile 8BIMTEXT:iptcData.pro \
         iptc_image.jpg
 ~~~
@@ -1742,7 +1790,7 @@ convert image.jpg +profile 8BIM -profile 8BIMTEXT:iptcData.pro \
 That image can be converted into an EPS (Encapsulated Postscript) with a TIFF preview (EPT), that also contains the IPTC profile.
 (Thanks *Tee Tanne*).
 
-~~~
+~~~{.skip}
 convert itpc_image.jpg  EPT:image.eps
 ~~~
 
@@ -1750,7 +1798,7 @@ convert itpc_image.jpg  EPT:image.eps
 
 Extract a XMP profile from a TIF image...
 
-~~~
+~~~{.skip}
 convert picture.tif metadata.xmp
 ~~~
 
@@ -1852,7 +1900,7 @@ The format was designed to to allow other programs to move and scale the image w
 IM handles it in basically the same way as postscript.
 (See above).
 
-~~~
+~~~{.skip}
 convert image.jpg -compress none eps2:image.eps
 ~~~
 
@@ -1878,7 +1926,7 @@ Use "`-channel RGBA`" before reading the image to select the '`pngalpha`' delega
 
 If all you want is the number of pages, using ghostscript can be a lot faster.
 
-~~~
+~~~{.skip}
 gs -q -sPDFname=document.pdf   pdfpagecount.ps
 %%Pages: 96
 ~~~
@@ -1925,7 +1973,7 @@ Say the tag is called "`pdfalt`" which invokes the program "`pdftoppm`" or even 
 
 Then your stream would look something like this:
 
-~~~
+~~~{.skip}
 convert pdfalt:image.pdf image.png
 ~~~
 
@@ -1985,7 +2033,7 @@ The following table equated the IM compression modes with the resulting Postscri
 
 Recommended compressions for PDF is Zip (Deflate Compression) or Group4 (Fax) compression.
 
-~~~
+~~~{.skip}
 convert image.gif -alpha off -monochrome -compress Zip -quality 100 \
         -units PixelsPerInch -density 600  image_deflate.pdf
 
@@ -2032,18 +2080,19 @@ A58)
 No, but the Perl script sam2p\_pdf\_scale.pl bundled with sam2p can post-process the file created by sam2p.
 For example, to scale and center a PDF on an A4 paper, do:
 
-~~~
+~~~{.skip}
 sam2p input.img output.pdf
 sam2p_pdf_scale.pl 595 842 output.pdf
 ~~~
 
 Unfortunately it doesn't work with default PDFs created by IM.
 -- Sebastian Krause, from the IM Users Mailing List
+
 **Multi-paged PDF Documents**...
 
 You can use perl to combine multiple PDF files, without resorting to a IM, and its rasterization problem...
 
-~~~
+~~~{.skip}
 #!/usr/bin/perl
 #  Script   pdf-combiner.pl
 use strict;
@@ -2061,7 +2110,7 @@ prEnd();
 
 You can also use a JAVA toolkit to merge IM generated images into a PDF producing a better PDF than a simpler one that IM will generate...
 
-~~~
+~~~{.skip}
 #!/bin/bash
 
 for x in ./*.jpeg
@@ -2119,7 +2168,7 @@ One example of this usage is shown in the [Histogram Redistribution Methodology]
 
 Its ASCII output is probably the cleanest method of extracting the color values from a specific image, which again makes it ideally suitable for script and simple image processing.
 
-~~~
+~~~{data-postamble="txt2gif pgm_random_values.pgm"}
 convert -size 20x2 xc: +noise random -channel G -separate +channel \
         -depth 16  -compress none   pgm_random_values.pgm
 ~~~
@@ -2200,7 +2249,7 @@ However because PbmPlus/NetPBM has a maximum depth of 65535 (16 bit) this would 
 IM will read and write a single and multiple 'comment' line in the header of the PbmPlus/NetPBM file format.
 For example...
 
-~~~
+~~~{data-capture-out="pgm_comment.pgm"}
 convert -size 2x2 xc:grey -set comment "by Anthony" -compress none PGM:-
 ~~~
 
@@ -2250,177 +2299,179 @@ The two packages work together well, and recommend both be installed and used fo
 
 ### TIFF {#tiff}
 
-      The TIFF format is the propriety format for PhotoShop.  However it is so
-      bloated with features, and has been modified by just about every application
-      that has cared to use it, that no program, not even photoshop can handle ALL
-      its variations.  Photoshop however has the best chance at reading it.
+~~~{.skip}
+The TIFF format is the propriety format for PhotoShop.  However it is so
+bloated with features, and has been modified by just about every application
+that has cared to use it, that no program, not even photoshop can handle ALL
+its variations.  Photoshop however has the best chance at reading it.
 
-      I would steer clear of the TIFF image file format unless you are
-      specifically working with photoshop, or the application accepts no other,
-      better defined, image file format.
+I would steer clear of the TIFF image file format unless you are
+specifically working with photoshop, or the application accepts no other,
+better defined, image file format.
 
-      I don't use the TIFF image file format, or Photoshop. If you use this format
-      with IM extensively, perhaps you would like to submit your findings to me,
-      to include here.  That way you  can help your fellow TIFF users.
+I don't use the TIFF image file format, or Photoshop. If you use this format
+with IM extensively, perhaps you would like to submit your findings to me,
+to include here.  That way you  can help your fellow TIFF users.
 
-      Whether a specific software package can read a TIFF, all you can do is try
-      it and see.  That is the problem with this format.
-
-
-
-      TIFF and Density (resolution) in photoshop...
-
-      See Photoshop and Density
-      for the details and solutions to this problem
+Whether a specific software package can read a TIFF, all you can do is try
+it and see.  That is the problem with this format.
 
 
 
-      JPEG to TIFF conversion...
+TIFF and Density (resolution) in photoshop...
 
-        convert image.jpg image.tif
-
-      This will either save the image inside the TIFF file using JPEG compression
-      (which was inherited from the JPEG input.  Or it will error such as...
-
-          Error: "JPEG compression support not configured"
-
-      This is caused by the TIFF library not including JPEG compression support.
-
-      Either way  THIS IS BAD.
-
-      You can get around this problem by changing the setting to use a different
-      compression algorithm:
-
-          convert image.jpg -compress zip  image.tif
-          convert image.jpg -compress lzw  image.tif
-          convert image.jpg +compress      image.tif
-
-      WARNING:  -compress Group4  with a TIFF works, but ONLY if you remove all
-      transparent and semi-transparent pixels from the image.  Typically you can
-      make sure this is done the same way as JPEG images above, using
-         -background {color} -alpha remove
-      See Removing Transparency from Images
-      just before the final save (the first only works for single images).
+See Photoshop and Density
+for the details and solutions to this problem
 
 
 
-      TIFF (and MIFF)  floating point precision files (Add to IM v6.2.6-5)...
+JPEG to TIFF conversion...
 
-      This is especially good for HDRI image processing (which uses floating point
-      inside IM itself)
+  convert image.jpg image.tif
 
-      For single precision (float) set...
-             -depth 32 -define quantum:format=floating-point
-      For do8uble precision (doubles) set...
-             -depth 64 -define quantum:format=floating-point
+This will either save the image inside the TIFF file using JPEG compression
+(which was inherited from the JPEG input.  Or it will error such as...
 
-      14 bit TIFF images...
-           convert logo: -sharpen 0x1 -depth 14 logo.tif
+    Error: "JPEG compression support not configured"
 
-           tiffinfo logo.tif
+This is caused by the TIFF library not including JPEG compression support.
 
-           Image Width: 640 Image Length: 480
-           Resolution: 72, 72 (unitless)
-           Bits/Sample: 14
-           Compression Scheme: LZW
-           Photometric Interpretation: RGB color
-           FillOrder: msb-to-lsb
-           Orientation: row 0 top, col 0 lhs
-           Samples/Pixel: 3
-           Rows/Strip: 2
-           Planar Configuration: single image plane
-           DocumentName: logo.tif
-           Software: ImageMagick 6.2.8 07/27/06 Q16 http://www.imagemagick.org
+Either way  THIS IS BAD.
 
-      12 bit TIFF images...
+You can get around this problem by changing the setting to use a different
+compression algorithm:
 
-      To convert 16-bit TIFF images to 12-bit:
-            convert image.tif -depth 12 image-12.tif
+    convert image.jpg -compress zip  image.tif
+    convert image.jpg -compress lzw  image.tif
+    convert image.jpg +compress      image.tif
 
-      Pure black and white images...
-
-           convert image ...  -type truecolor -type bilevel   image.tiff
-
-        Results in normal images and the smallest filesize, and correct
-        black/white handling in Photoshop, Microsoft Windows Picture and Fax
-        Viewer.
-           TIFF discussion,
-           RQuadling.
+WARNING:  -compress Group4  with a TIFF works, but ONLY if you remove all
+transparent and semi-transparent pixels from the image.  Typically you can
+make sure this is done the same way as JPEG images above, using
+   -background {color} -alpha remove
+See Removing Transparency from Images
+just before the final save (the first only works for single images).
 
 
-      Enden and fill-order
-        The order in which TIFF data values are stored is controled by
-           -endien                   Global order of the bytes
-           -define tiff:endian       Tiff format container endian
-           -define tiff:fill-order   Bit order within a byte
 
-        Each takes a value of either MSB (default) or LSB, however
-        the "tiff:fill-order" will be set to the value of "tiff:endian"
-        if that is defined, but not from the global endian value.
+TIFF (and MIFF)  floating point precision files (Add to IM v6.2.6-5)...
 
-        The "tiff:endian" property is the endianess of the image container. The
-        "-endian" property is the endianess of the image pixels. They may differ.
+This is especially good for HDRI image processing (which uses floating point
+inside IM itself)
 
+For single precision (float) set...
+       -depth 32 -define quantum:format=floating-point
+For do8uble precision (doubles) set...
+       -depth 64 -define quantum:format=floating-point
 
-      Save a TIFF file format with only one row pre strip
+14 bit TIFF images...
+     convert logo: -sharpen 0x1 -depth 14 logo.tif
 
-              -define tiff:rows-per-strip=1.
-        To save more rows per stripe increase the number
-              -define tiff:rows-per-strip=8
-        You can also specify the 'endian' ordering for binary integers in the format
-              -endian MSB          -endian LSB
+     tiffinfo logo.tif
 
-        For smaller TIFF images (other than by compression, you can also try to
-        use options and settings like   -depth 8   to reduce the color quality
-        or   +matte  to remove the alpha or transparency channel from the image.
+     Image Width: 640 Image Length: 480
+     Resolution: 72, 72 (unitless)
+     Bits/Sample: 14
+     Compression Scheme: LZW
+     Photometric Interpretation: RGB color
+     FillOrder: msb-to-lsb
+     Orientation: row 0 top, col 0 lhs
+     Samples/Pixel: 3
+     Rows/Strip: 2
+     Planar Configuration: single image plane
+     DocumentName: logo.tif
+     Software: ImageMagick 6.2.8 07/27/06 Q16 http://www.imagemagick.org
 
-        IM will save a greyscale image as a greyscale TIFF, if no non-grayscale
-        colors are present. You can force it to save as non-greyscale with
-              -depth 8  -type TrueColor
+12 bit TIFF images...
 
+To convert 16-bit TIFF images to 12-bit:
+      convert image.tif -depth 12 image-12.tif
 
-      Added IM 6.6.4-3
-        Allow you to set the "Software Creation:" meta-data (properity)
-        to something other than "Image Magick 6.**"
-            -set tiff:software "My Software"
+Pure black and white images...
 
+     convert image ...  -type truecolor -type bilevel   image.tiff
 
-      Windows Picture and Fax Viewer, Windows Explorer
-
-        These can can only display TIFFs that have certain Photometric
-        Interpretation values, such as RGB.  IM Options...
-            -compress LZW -type TrueColor
-
-        toggle the photometric interpretation  (Added IM 6.3.2-10)
-            -define quantum:polarity=min-is-black
-            -define quantum:polarity=min-is-white
+  Results in normal images and the smallest filesize, and correct
+  black/white handling in Photoshop, Microsoft Windows Picture and Fax
+  Viewer.
+     TIFF discussion,
+     RQuadling.
 
 
-      Multi-Page TIFF
-        If you want to split a multi-page tiff into separate pages, IM may have
-        problems as it will still use up a lot of memory to hold previous pages
-        even if you use a command like...
-            convert "a.tif[i]" b%03d.tif
+Enden and fill-order
+  The order in which TIFF data values are stored is controled by
+     -endien                   Global order of the bytes
+     -define tiff:endian       Tiff format container endian
+     -define tiff:fill-order   Bit order within a byte
 
-        This might be regarded as a bug, or perhaps a future improvement.
+  Each takes a value of either MSB (default) or LSB, however
+  the "tiff:fill-order" will be set to the value of "tiff:endian"
+  if that is defined, but not from the global endian value.
 
-        The better solution may be the non-IM "tiffsplit" program.
+  The "tiff:endian" property is the endianess of the image container. The
+  "-endian" property is the endianess of the image pixels. They may differ.
 
 
-      TIFF and EXIF profiles
+Save a TIFF file format with only one row pre strip
 
-        Cristy reported: The libtiff delegate library supports the EXIF profile
-        but it was unreliable and caused faults too often so we commented out the
-        call.
+        -define tiff:rows-per-strip=1.
+  To save more rows per stripe increase the number
+        -define tiff:rows-per-strip=8
+  You can also specify the 'endian' ordering for binary integers in the format
+        -endian MSB          -endian LSB
 
-        To get the EXIF attributes try this.
+  For smaller TIFF images (other than by compression, you can also try to
+  use options and settings like   -depth 8   to reduce the color quality
+  or   +matte  to remove the alpha or transparency channel from the image.
 
-          identify -verbose -define tiff:exif=true image.tif
+  IM will save a greyscale image as a greyscale TIFF, if no non-grayscale
+  colors are present. You can force it to save as non-greyscale with
+        -depth 8  -type TrueColor
+
+
+Added IM 6.6.4-3
+  Allow you to set the "Software Creation:" meta-data (properity)
+  to something other than "Image Magick 6.**"
+      -set tiff:software "My Software"
+
+
+Windows Picture and Fax Viewer, Windows Explorer
+
+  These can can only display TIFFs that have certain Photometric
+  Interpretation values, such as RGB.  IM Options...
+      -compress LZW -type TrueColor
+
+  toggle the photometric interpretation  (Added IM 6.3.2-10)
+      -define quantum:polarity=min-is-black
+      -define quantum:polarity=min-is-white
+
+
+Multi-Page TIFF
+  If you want to split a multi-page tiff into separate pages, IM may have
+  problems as it will still use up a lot of memory to hold previous pages
+  even if you use a command like...
+      convert "a.tif[i]" b%03d.tif
+
+  This might be regarded as a bug, or perhaps a future improvement.
+
+  The better solution may be the non-IM "tiffsplit" program.
+
+
+TIFF and EXIF profiles
+
+  Cristy reported: The libtiff delegate library supports the EXIF profile
+  but it was unreliable and caused faults too often so we commented out the
+  call.
+
+  To get the EXIF attributes try this.
+
+    identify -verbose -define tiff:exif=true image.tif
+~~~
 
 The TIFF format can have a bitmap mask in the form of a clip path, which can be enable using the "`-clip`" operator.
 You can use that 'clip' mask your image with that path using...
 
-~~~
+~~~{.skip}
 convert image_clip.tif  -clip \
         ...do_various_operations... \
         +clip-mask  image_masked.png
@@ -2432,67 +2483,68 @@ See [Write or Clip Masks](../masking/#clip-mask) for more details.
 
 ### BMP, Windows Bitmap {#bmp}
 
-      The Windows desktop icon image format BMP (short for bit-mapped) is a very
-      unfriendly image format and should probably be avoided if possible.
+~~~{.skip}
+The Windows desktop icon image format BMP (short for bit-mapped) is a very
+unfriendly image format and should probably be avoided if possible.
 
-      ImageMagick supports 8, 24, and 32-bit BMP images.
+ImageMagick supports 8, 24, and 32-bit BMP images.
 
-      Add -colors 256 to the end your command line (before the output image
-      filename) to create a 8 bit colormapped BMP image rather than a 24 bit BMP
-      format.  Extra colors can be added to images after performing operations
-      like rotates, and resize.  See Color Quantization for more info on -color.
+Add -colors 256 to the end your command line (before the output image
+filename) to create a 8 bit colormapped BMP image rather than a 24 bit BMP
+format.  Extra colors can be added to images after performing operations
+like rotates, and resize.  See Color Quantization for more info on -color.
 
-      The presence of any transparency controls whether it uses a 24 (RGB) or 32
-      bit (RGBA) format BMP image. You can use "+matte" to turn off transparency
-      in an image.
+The presence of any transparency controls whether it uses a 24 (RGB) or 32
+bit (RGBA) format BMP image. You can use "+matte" to turn off transparency
+in an image.
 
-      If all colors are gray-scale a 'directcolor' greyscale image is generated.
-      I think -type truecolor will stop this behaviour.
-
-
-      If you have an older program cannot read the default BMP4 images written by
-      ImageMagick, (for example a Windows Background Image), you can enforce the
-      generation of a BMP3 format image using...
-
-           convert image BMP3:image.bmp
-
-      This format should have no transparency and should be a 'printable image',
-      whatever that means.  In other words 'Windows' compatible.
-
-      However, if a PNG input file was used and it contains a gAMA and cHRM chunk
-      (gamma and chromaticity information) either of which forces "convert" to
-      write a BMP4. To get a BMP3 you need to get rid of that information. One way
-      may be to pipeline the image though a minimal 'image data only' image file
-      format like PPM and then re-save as BMP3.  Messy, but it should work.
-
-          convert image.png  ppm:- | convert - BMP3:image.bpm
-
-      IM can not produce BMP's at depth levels other than 8.  However you can
-      use NetPBM image processing set to do the final conversion to other depth
-      levels (This needs at least a Q16 version of IM)...
-
-           convert image +matte -colors 16 ppm:- |\
-             pnmdepth 4 | ppm2bmp > image.bmp
+If all colors are gray-scale a 'directcolor' greyscale image is generated.
+I think -type truecolor will stop this behaviour.
 
 
-      Format limitations....
+If you have an older program cannot read the default BMP4 images written by
+ImageMagick, (for example a Windows Background Image), you can enforce the
+generation of a BMP3 format image using...
 
-      The header for a BMP2: format only allows the description of the width,
-      height and bit depth (bits per pixel) of an image. The bit depth can be one of
-      1, 4, 8 or 24.
+     convert image BMP3:image.bmp
 
-      For comparison, the bmp3: format allows bit depths of 0, 1, 4, 8 ,16, 24 and
-      32 and has extra fields which specify x and y resolution (in pixels per metre)
-      and compression of the image data.
+This format should have no transparency and should be a 'printable image',
+whatever that means.  In other words 'Windows' compatible.
+
+However, if a PNG input file was used and it contains a gAMA and cHRM chunk
+(gamma and chromaticity information) either of which forces "convert" to
+write a BMP4. To get a BMP3 you need to get rid of that information. One way
+may be to pipeline the image though a minimal 'image data only' image file
+format like PPM and then re-save as BMP3.  Messy, but it should work.
+
+    convert image.png  ppm:- | convert - BMP3:image.bpm
+
+IM can not produce BMP's at depth levels other than 8.  However you can
+use NetPBM image processing set to do the final conversion to other depth
+levels (This needs at least a Q16 version of IM)...
+
+     convert image +matte -colors 16 ppm:- |\
+       pnmdepth 4 | ppm2bmp > image.bmp
+
+
+Format limitations....
+
+The header for a BMP2: format only allows the description of the width,
+height and bit depth (bits per pixel) of an image. The bit depth can be one of
+1, 4, 8 or 24.
+
+For comparison, the bmp3: format allows bit depths of 0, 1, 4, 8 ,16, 24 and
+32 and has extra fields which specify x and y resolution (in pixels per metre)
+and compression of the image data.
+~~~
 
 ------------------------------------------------------------------------
 
 ### ICO {#ico}
 
-      To create a multi-resolution ICO format image simply create all the image
-      sizes you require and write them all to the same ICO file.
+To create a multi-resolution ICO format image simply create all the image sizes you require and write them all to the same ICO file.
 
-~~~
+~~~{.skip}
 convert icon-16.bmp icon-32.bmp icon-64.bmp \
         icon-128.bmp icon-256.bmp   myicon.ico
 ~~~
@@ -2500,7 +2552,6 @@ convert icon-16.bmp icon-32.bmp icon-64.bmp \
 ------------------------------------------------------------------------
 
 ### RAW Camera Image Formats (CRW,CR2,NEF,X3F,etc.) {#crw}
-.
 
 Most digital cameras, with the exception of the Sigma Foveon sensor and some Sony cameras, convert the image produced by the lens into digital data by using millions of sensors which detect the brightness of one specific colour, Red, Green or Blue.
 In order for the camera to respond to colour in approximately the same way that the human eye does, there are twice as many green sensors as there are of red or blue because our eye is much more sensitive to green light.
@@ -2533,17 +2584,19 @@ The "`dcraw`" program can handle a large number of different raw formats includi
 You can determine whether "`dcraw`" will recognize your raw files by asking it to identify a sample.
 For example the command:
 
-~~~
+~~~{.skip}
 dcraw -i CRW_9641.CRW
 ~~~
 
 Which returns...
-  
-    CRW_9641.CRW is a Canon EOS 10D image.
+
+~~~{.skip}
+CRW_9641.CRW is a Canon EOS 10D image.
+~~~
 
 When IM calls dcraw to do a conversion, using the [delegate](../files/#delegate) (list using "`-list delegate`"), specifies two flags which affect image processing:
 
-~~~
+~~~{.skip}
 dcraw -w -4 -O output_file input_file
 ~~~
 
@@ -2582,122 +2635,124 @@ The above notes were first extracted from a IM Forum Topic [Converting RAW image
 
 ### MPEG, M2V and AVI Movies {#mpeg}
 
-      IM is not very efficient at creating movies.  It will do the job though
-      requires the external program "mpeg2encode" to do much of the dirty work.
+~~~{.skip}
+IM is not very efficient at creating movies.  It will do the job though
+requires the external program "mpeg2encode" to do much of the dirty work.
 
-      The problem is that IM is not designed to handle video, but static images or
-      small sequences of images.  That is not to say it can't do it, but that is
-      not its goal.  In particular it generally reads in all images into memory
-      and process them from there.  For a large or long video this is not very
-      efficient.
+The problem is that IM is not designed to handle video, but static images or
+small sequences of images.  That is not to say it can't do it, but that is
+not its goal.  In particular it generally reads in all images into memory
+and process them from there.  For a large or long video this is not very
+efficient.
 
-      For processing on a small sequence of frames however it really can't be
-      beat.  In fact just about every Linux Video manipulation program uses
-      ImageMagick to generate titles, fancy scene changes, and other effects to
-      complete the post-processing development of a larger video development.  The
-      process however is kept to small video sequences.
+For processing on a small sequence of frames however it really can't be
+beat.  In fact just about every Linux Video manipulation program uses
+ImageMagick to generate titles, fancy scene changes, and other effects to
+complete the post-processing development of a larger video development.  The
+process however is kept to small video sequences.
 
-      However lets have a look at what IM can do.
+However lets have a look at what IM can do.
 
-      Frames to Video
+Frames to Video
 
-      There are some reports that unless the images are the right aspect ratio is
-      correct this will fail on older mpeg players,  use the MPEG II extension
-      (m2v:) instead.
+There are some reports that unless the images are the right aspect ratio is
+correct this will fail on older mpeg players,  use the MPEG II extension
+(m2v:) instead.
 
-      Also use m2v to avoid heavy compression pixelization that can occur
-      using...
+Also use m2v to avoid heavy compression pixelization that can occur
+using...
 
-          convert *.jpg glacier.mpg
+  convert *.jpg glacier.mpg
 
-      EG instead use...
+EG instead use...
 
-          convert *.jpg m2v:glacier.mpg
+  convert *.jpg m2v:glacier.mpg
 
-      Note you may need lots of temporary space to do a large animations
-      You can specify a different directory from the normal /tmp using...
+Note you may need lots of temporary space to do a large animations
+You can specify a different directory from the normal /tmp using...
 
-          setenv MAGICK_TMPDIR /data
-          convert -limit memory 0 -limit map 0 *.jpg image.m2v
+  setenv MAGICK_TMPDIR /data
+  convert -limit memory 0 -limit map 0 *.jpg image.m2v
 
-    Alternatives...
+Alternatives...
 
-      To converting PNG images to MPEG2 Video streams, instead of MNG Multi
-      PNG-files, use the following delegation...
+To converting PNG images to MPEG2 Video streams, instead of MNG Multi
+PNG-files, use the following delegation...
 
-           png2yuv -j file%08d.png -I p -f 25 -b 1 | \
-             mpeg2enc -f 3 -q 3 -b 5000 -o out.m2v
+   png2yuv -j file%08d.png -I p -f 25 -b 1 | \
+     mpeg2enc -f 3 -q 3 -b 5000 -o out.m2v
 
-      For more info see mjpeg.sf.net
-
-
-      IM forums reported decent results with a open source project called "ffmpeg", which seems to be a fairly standard
-      linux package install.
-
-         ffmpeg -f image2 -i %03d.jpg -vcodec mjpeg -y anim.mpg
-
-      Extracting an MVG with a transparent background
-          convert -background none -size 320x240 sample.mvg out.png
+For more info see mjpeg.sf.net
 
 
-      Michael Lenh wrote...
-      I finally was able to create a very sexy video using mplayer
+IM forums reported decent results with a open source project called "ffmpeg", which seems to be a fairly standard
+linux package install.
 
-        mencoder "mf://data/p*.png" -mf fps=40 -o particle.avi -ovc lavc
+ ffmpeg -f image2 -i %03d.jpg -vcodec mjpeg -y anim.mpg
 
-      You can see the results at...
-
-        http://www.mathematik.uni-ulm.de/~lehn/particle.avi
-        http://www.mathematik.uni-ulm.de/~lehn/temperature.avi
+Extracting an MVG with a transparent background
+  convert -background none -size 320x240 sample.mvg out.png
 
 
-      mabu in a IM Forum Discussion said to
-      "USE MENCODER, wow it's like 1000 times faster and actually WORKS"...
+Michael Lenh wrote...
+I finally was able to create a very sexy video using mplayer
 
-         mencoder -nosound mf://*.jpg -mf w=800:h=371:type=jpg:fps=15 -ovc lavc -lavcopts vcodec=mpeg4:vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq -o output.mpg
+mencoder "mf://data/p*.png" -mf fps=40 -o particle.avi -ovc lavc
 
-      It probably has extra options I don't need but it makes a nice time-lapse
-      from .jpg files.
+You can see the results at...
 
-
-      Dean S. Messing uses transcode...
-
-         find . -type f -name '*.png' | sort > filelist
-         transcode -x imlist,null\
-                --use_rgb\
-                -y raw,null\
-                -f 60\
-                -i filelist\
-                -g 4096x2160 \
-                -j 540,1024,540,1024\
-                -o video.avi\
-                -H 0
-
-       You can leave out -j  (clip window) if you want. -g is output size.
-
-       Wolfgang Hugemann suggests a new alternative known as 'VirtualDub' under
-       Windows Vista, which will let you run a video, or convert directly from
-       a folder of image frames.
-
-       WARNING: "mplayer" apparentally does not like mpeg file with
-       only one frame. "ffplay" however seems to have no problems.
+http://www.mathematik.uni-ulm.de/~lehn/particle.avi
+http://www.mathematik.uni-ulm.de/~lehn/temperature.avi
 
 
-       Video to Frames
+mabu in a IM Forum Discussion said to
+"USE MENCODER, wow it's like 1000 times faster and actually WORKS"...
 
-       Both "mplayer" and
-       "mencode" are more efficient at converting video into a series
-       of frames than IM is.  On top of this is can handle just about any video
-       (and audio) codec available.
+ mencoder -nosound mf://*.jpg -mf w=800:h=371:type=jpg:fps=15 -ovc lavc -lavcopts vcodec=mpeg4:vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq -o output.mpg
 
-       For example to grab 5 frames from 1 1/2 minutes into a video, scaled to
-       320x240, you can use...
+It probably has extra options I don't need but it makes a nice time-lapse
+from .jpg files.
 
-          mplayer file.mov -vf scale=320x240 -ss 01:30 -ao null \
-                  -vo png:z=3 -frames 5
 
-       Other alternatives include the "ffmpeg" open source library, though that is also part of the
-       "mplayer" handling.
+Dean S. Messing uses transcode...
+
+ find . -type f -name '*.png' | sort > filelist
+ transcode -x imlist,null\
+        --use_rgb\
+        -y raw,null\
+        -f 60\
+        -i filelist\
+        -g 4096x2160 \
+        -j 540,1024,540,1024\
+        -o video.avi\
+        -H 0
+
+You can leave out -j  (clip window) if you want. -g is output size.
+
+Wolfgang Hugemann suggests a new alternative known as 'VirtualDub' under
+Windows Vista, which will let you run a video, or convert directly from
+a folder of image frames.
+
+WARNING: "mplayer" apparentally does not like mpeg file with
+only one frame. "ffplay" however seems to have no problems.
+
+
+Video to Frames
+
+Both "mplayer" and
+"mencode" are more efficient at converting video into a series
+of frames than IM is.  On top of this is can handle just about any video
+(and audio) codec available.
+
+For example to grab 5 frames from 1 1/2 minutes into a video, scaled to
+320x240, you can use...
+
+  mplayer file.mov -vf scale=320x240 -ss 01:30 -ao null \
+          -vo png:z=3 -frames 5
+
+Other alternatives include the "ffmpeg" open source library, though that is also part of the
+"mplayer" handling.
+~~~
 
 ------------------------------------------------------------------------
 
@@ -2766,7 +2821,7 @@ All these details will then stay with the images as they are passed between post
 
 You can add a time code to any dpx file using the following:
 
-~~~
+~~~{.skip}
 convert -define dpx:television.time.code=10000215 \
         originalFile.00001.dpx    alteredFile.00001.dpx
 ~~~
@@ -2781,39 +2836,41 @@ For example see the Perl Script [dpx\_timecode.pl](../scripts/dpx_timecode.pl).
 The above is courtesy of Seth Dubieniec &lt;seth.info\_AT\_dubieniec.co.uk&gt;, from a long IM Forum Discussion on the DPX Format.
 He is currently developing DPX applications, so more DPX info is likely to be coming.
 
-    Extra Notes (unformatted)...
+~~~{.skip}
+Extra Notes (unformatted)...
 
-    Adding  -depth 10  causes IM to output a  10 bit DPX file.
-    -- James Fancher
-
-
-    If you want to set the gamma, for example, in the output DPX image...
-         -define dpx:television.gamma=1.7
-
-    The colorspace of the DPX image is defined by the image element descriptor and
-    transfer-characteristic. If the transfer characteristic is
-    PrintingDensityColorimetric we set the colorspace to LogColorspace. Only if
-    the colorspace is Log do we apply the gamma and black/white points to convert
-    to the RGB colorspace. Its possible the program you are using is not
-    conforming to the SMPTE standard or ImageMagick is not interpreting the
-    standard correctly. Post a URL to your two DPX images and we will download and
-    try to determine if ImageMagick has a bug or if the program you are using is
-    buggy.
-
-    The following will work with ImageMagick 6.3.8-3
-
-      convert -colorspace log AfterEffectsFile.dpx -set gamma 0.5 \
-              -set reference-black 95 -set reference-white 685 image.jpg
-
-    Alternatively, take a look at the SMTPE documentation
-    -- Cristy
+Adding  -depth 10  causes IM to output a  10 bit DPX file.
+-- James Fancher
 
 
-    You can add text user data to the dpx file by using
+If you want to set the gamma, for example, in the output DPX image...
+     -define dpx:television.gamma=1.7
 
-      convert image.dpx   -set dpx:userdata "some text"    new.dpx
+The colorspace of the DPX image is defined by the image element descriptor and
+transfer-characteristic. If the transfer characteristic is
+PrintingDensityColorimetric we set the colorspace to LogColorspace. Only if
+the colorspace is Log do we apply the gamma and black/white points to convert
+to the RGB colorspace. Its possible the program you are using is not
+conforming to the SMPTE standard or ImageMagick is not interpreting the
+standard correctly. Post a URL to your two DPX images and we will download and
+try to determine if ImageMagick has a bug or if the program you are using is
+buggy.
 
-    -- Cristy
+The following will work with ImageMagick 6.3.8-3
+
+  convert -colorspace log AfterEffectsFile.dpx -set gamma 0.5 \
+          -set reference-black 95 -set reference-white 685 image.jpg
+
+Alternatively, take a look at the SMTPE documentation
+-- Cristy
+
+
+You can add text user data to the dpx file by using
+
+  convert image.dpx   -set dpx:userdata "some text"    new.dpx
+
+-- Cristy
+~~~
 
 ------------------------------------------------------------------------
 
@@ -2836,23 +2893,25 @@ I do NOT recommend using "`-delete 0`" as that will return no images at all if n
 Extra notes...
 If you can provide more information or like to submit a summary of using IM for this format, then please do...
 
-       For PSD with a CMYK image you may need to get IM to use the
-       right provide when converting (make sure you IM was installed with the LCMS
-       delegate library) ....
+~~~{.skip}
+For PSD with a CMYK image you may need to get IM to use the
+right provide when converting (make sure you IM was installed with the LCMS
+delegate library) ....
 
-         convert Test_CMYK.psd -strip -profile USWebCoatedSWOP.icc \
-                 -profile sRGB.icc Test_RGB.png
+ convert Test_CMYK.psd -strip -profile USWebCoatedSWOP.icc \
+         -profile sRGB.icc Test_RGB.png
 
-       See Profiles above for more info.
+See Profiles above for more info.
 
 
-       If a PSD image contain a 'preview' image.  This image is returned as the
-       last image of a two image read.
+If a PSD image contain a 'preview' image.  This image is returned as the
+last image of a two image read.
 
-       To ensure IM never reads the last image use...
-           convert test.psd[0--2] -flatten test.jpg
-       That is read all images, except the last. But always read the first.
-       This can not be done after the read using a "-delete".
+To ensure IM never reads the last image use...
+   convert test.psd[0--2] -flatten test.jpg
+That is read all images, except the last. But always read the first.
+This can not be done after the read using a "-delete".
+~~~
 
 ------------------------------------------------------------------------
 
@@ -2909,7 +2968,7 @@ For version 5 you need to convert your image to black and white.
 
 For example...
 
-~~~
+~~~{.skip}
 convert image.png -monochrome image.pcl
 ~~~
 
@@ -2925,7 +2984,7 @@ As users typically what the largest resolution image for processing the way to c
 
 For example...
 
-~~~
+~~~{.skip}
 convert -colorspace RGB image.pcd[5] image.jpg
 ~~~
 
@@ -2942,7 +3001,7 @@ As well as provide settings defining that data.
 
 For example to output RGB raw data...
 
-~~~
+~~~{.skip}
 convert image.jpg -depth 8  image.rgb
 ~~~
 
@@ -2957,7 +3016,7 @@ Some applications 'assume' the data is a specific size, so you may need to use I
 
 For example This resizes and pads the image to ensure it is 512x512 pixels in size.
 
-~~~
+~~~{.skip}
 convert image.jpg -resize \>512x512 \
         -background black -gravity center -extent 512x512 \
         -depth 8  image.rgb
@@ -2966,7 +3025,7 @@ convert image.jpg -resize \>512x512 \
 When reading raw RGB (or GRAY) data into ImageMagick you will need to specify how big the image is.
 For example..
 
-~~~
+~~~{.skip}
 convert -size 512x512 -depth 8 image.rgb    image.png
 ~~~
 
@@ -2977,7 +3036,7 @@ To allow IM to skip over this information you can specify an 'byte\_offset' in t
 
 For example skip a 48 byte header...
 
-~~~
+~~~{.skip}
 convert -size 512x512+48 -depth 8 image.rgb    image.png
 ~~~
 
@@ -2987,35 +3046,37 @@ For more examples of using raw image data (grayscale) see the IM Discussion foru
 
 #### Floating Point Data
 
-    You can also read (and write) RGB using normalized floating point numbers.
-    This however requires the use of special coder -define settings.
-    See HDRI floating point file formats
-       http://www.imagemagick.org/Usage/basics/#hdri_formats
+~~~{.skip}
+You can also read (and write) RGB using normalized floating point numbers.
+This however requires the use of special coder -define settings.
+See HDRI floating point file formats
+   http://www.imagemagick.org/Usage/basics/#hdri_formats
 
 
-    RGB floating point Image generated using C Code (HDRI)...
+RGB floating point Image generated using C Code (HDRI)...
 
-       float red = 1.0f;
-       float green = 1.0f;   /* appropriate data */
-       float blue = 1.0f;
+   float red = 1.0f;
+   float green = 1.0f;   /* appropriate data */
+   float blue = 1.0f;
 
-       /* for exach pixel in image... */
-       fwrite (&red, sizeof(float), 1, file);
-       fwrite (&green, sizeof(float), 1, file);
-       fwrite (&blue, sizeof(float), 1, file);
+   /* for exach pixel in image... */
+   fwrite (&red, sizeof(float), 1, file);
+   fwrite (&green, sizeof(float), 1, file);
+   fwrite (&blue, sizeof(float), 1, file);
 
-    Reading Options....
+Reading Options....
 
-      convert -size 200x100 -depth 32 -define quantum:format=floating-point
-              -define quantum:scale=65536.0   -endian lsb   input.rgb
-              output.png
+  convert -size 200x100 -depth 32 -define quantum:format=floating-point
+          -define quantum:scale=65536.0   -endian lsb   input.rgb
+          output.png
 
-    The quantum:format defines to read floating point numbers from the file.
-    While the -depth defines the floating point size (32 = floats, 64 = doubles).
+The quantum:format defines to read floating point numbers from the file.
+While the -depth defines the floating point size (32 = floats, 64 = doubles).
 
-    The quantum:scale  defines how to scale the floating point numbers from
-    normalized 0.0 to 1.0 values to the in-memory 16bit Quality levels needed
-    by my Q16 version of IM.
+The quantum:scale  defines how to scale the floating point numbers from
+normalized 0.0 to 1.0 values to the in-memory 16bit Quality levels needed
+by my Q16 version of IM.
+~~~
 
 ---
 title: Common Image Formats
