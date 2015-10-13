@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Create a animation of a waving flag (using -wave with an offset)
+#
+command='convert -delay 20 koala.gif'
+command="$command -background lightblue -bordercolor lightblue -border 5x2"
+
+for i in `seq 100 -4 0;`; do
+  command="$command \\( -clone 0 -splice ${i}x0+0+0 "
+  command="$command -wave 10x100 -chop ${i}x0+0+0 \\)"
+done
+
+# remove page offsets and delet the original image
+command="$command +repage -delete 0 -loop 0 animate_flag.gif"
+
+eval $command
+
+chmod 644 animate_flag.gif

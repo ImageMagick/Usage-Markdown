@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# Create a animation of a flexing image using wave
+#
+command='convert -delay 10 koala.gif'
+command="$command -background lightblue -bordercolor lightblue -border 0x10"
+
+for i in `seq 10 -2 -8; seq -10 2 8`; do
+  command="$command \\( -clone 0 -wave ${i}x150 \\)"
+done
+
+# remove original image
+# center all the image frames vertically by center cropping
+command="$command -delete 0 +repage -gravity center -crop 0x98+0+0"
+command="$command +repage -loop 0 animate_flex.gif"
+
+eval $command
+
+chmod 644 animate_flex.gif

@@ -74,4 +74,8 @@ fourier/*.txt
 morphology/*.gif
 morphology/*.txt
 morphology/*.png
-
+warping/*.gif
+warping/*.jpg
+warping/*.mpg
+warping/*.png
+warping/*.txt

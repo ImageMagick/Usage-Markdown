@@ -57,4 +57,6 @@ filter: filter/index.html filter/index.sh
 
 filter/nicolas: filter/nicolas/index.html filter/nicolas/index.sh
 
+warping: warping/index.html warping/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

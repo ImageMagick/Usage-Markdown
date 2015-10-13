@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Create a animation of swirling mixer
+#
+command='convert -delay 20 koala.gif'
+
+for i in `seq 10 40 360; seq 340 -40 -360; seq -340 40 0`; do
+  command="$command \\( -clone 0 -swirl $i \\)"
+done
+
+command="$command -loop 0 animate_mixer.gif"
+
+eval $command
+
+chmod 644 animate_mixer.gif

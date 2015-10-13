@@ -257,7 +257,7 @@ Microsoft "Arial" font, or even "Times-BoldItalic", should work on most systems.
 
 To see what fonts are currently available to your version of IM, run the following command...
 
-~~~
+~~~{.skip}
 convert -list type       # for IM older than v6.3.5-7
 convert -list font       # for newer versions
 ~~~
@@ -273,7 +273,7 @@ With this setup, I only need to specify the name of the font I want to use, and 
 
 For example...
 
-~~~
+~~~{.skip}
 # Instead of using the command...
 convert -font $HOME/lib/font/truetype/favorite/candice.ttf \
         -pointsize 72 label:Anthony  anthony.gif

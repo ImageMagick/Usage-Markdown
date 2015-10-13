@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Create a rotating figure using Distort SRT transformations
+#
+command='convert -delay 10 koala.gif -virtual-pixel white'
+
+for i in `seq 5 5 360`; do
+  command="$command \\( -clone 0 -distort SRT $i \\)"
+done
+
+command="$command -delete 0 -loop 0 animate_distort_rot.gif"
+
+eval $command
+
+chmod 644 animate_distort_rot.gif

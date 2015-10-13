@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# Create a animation of whirlpool sucking the image down the drain.
+# An extra border is added then later removed to ensure whole image
+# is sucked down into the center.
+#
+command='convert -delay 10 koala.gif'
+command="$command -bordercolor lightblue -border 40x40"
+
+for i in `seq 1 72`; do
+  s_arg=`echo "$i * 15" | bc`
+  i_arg=`echo "scale=2; $i / 54" | bc`
+  command="$command \\( -clone 0 -swirl $s_arg -implode $i_arg \\)"
+done
+
+command="$command -shave 40x40 +repage -loop 0 animate_whirlpool.gif"
+
+eval $command
+
+chmod 644 animate_whirlpool.gif
