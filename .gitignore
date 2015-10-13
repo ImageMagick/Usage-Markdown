@@ -71,6 +71,9 @@ fourier/*.gif
 fourier/*.jpg
 fourier/*.png
 fourier/*.txt
+fonts/*.gif
+fonts/*.jpg
+fonts/*.png
 morphology/*.gif
 morphology/*.txt
 morphology/*.png
