@@ -65,6 +65,8 @@ layers: layers/index.html layers/index.sh
 
 lens: lens/index.html lens/index.sh
 
+mapping: mapping/index.html mapping/index.sh
+
 warping: warping/index.html warping/index.sh
 
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

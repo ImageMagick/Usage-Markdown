@@ -88,6 +88,9 @@ layers/*.txt
 lens/*.gif
 lens/*.jpg
 lens/*.png
+mapping/*.gif
+mapping/*.jpg
+mapping/*.png
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

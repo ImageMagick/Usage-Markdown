@@ -25,7 +25,7 @@ You can also *edit* or further modify the mapping, to adjust or limit its effect
 And, finally, you can *save* the mapping to use it again later.
 It is the 'map' image controls the results.
 
-As the modification is 'map' controlled, there is usally very little calculation needed to be performed by ImageMagick, as such 'image mapping' is in general *very fast*.
+As the modification is 'map' controlled, there is usually very little calculation needed to be performed by ImageMagick, as such 'image mapping' is in general *very fast*.
 
 It is also *repeatable*, as you can apply the same very complex map, to any number of images, to get the exact same modification.
 That is to say you can apply it to a whole directory of images very quickly.
@@ -112,7 +112,7 @@ The 'patterns' do not have to be small images, but could just as easily be full-
 
 Added to ImageMagick version 6.5.4-0, the "`-compose`" method '`Blur`' provides you with a method of replacing each individual pixel by an Elliptical Gaussian Average (a blur) of the neighbouring pixels, according to a mapping image.
 
-~~~
+~~~{.skip}
 composite -blur {Xscale}[x{Yscale}[+{angle}]] blur_map  image   result
 convert image  blur_map  -compose blur \
     -define compose:args='{Xscale}[x{Yscale}[+{angle}]]' \
@@ -189,6 +189,19 @@ The ellipse can also be rotated from its orthogonal alignment by the given '*ang
 
 For example, in the following diagram we show how the blurred color of a single pixel will get its color from a rotated elliptical area, which is twice as large (its support factor) as the required width and height.
 The pixels in this area are then weighted averaged together according to a [Gaussian Filter](../filter/#gaussian) (using an elliptical distance formula, to produce the blurred color.
+
+~~~{.hide}
+convert koala.gif \( +clone -size 75x75 xc: \
+           -compose blur -define compose:args=5x1-30 -composite \) \
+        -compose over -bordercolor blue -border 1x1    +append \
+        -gravity North -background LightSteelBlue -splice 17x0 \
+        -draw "stroke Firebrick fill None \
+               path 'M 40,45  A 4,1 -30  0,0 40,55 \
+                              A 4,1 -30  1,0 40,45 Z' " \
+        -draw "stroke Firebrick fill None \
+               path 'M 131,50 L 56,40 M 131,50 L 35,60' " \
+        elliptical_average.gif
+~~~
 
 [![\[IM Output\]](elliptical_average.gif)](elliptical_average.gif)
 
@@ -270,8 +283,17 @@ convert black_circle.gif blur_map_aspect.gif \
       blur_aspect.gif
 ~~~
 
-[![\[IM Output\]](blur_map_r.gif)](blur_map_r.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](blur_map_g.gif)](blur_map_g.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](blur_map_aspect.gif)](blur_map_aspect.gif)  
- [![\[IM Output\]](black_circle.gif)](black_circle.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](blur_map_aspect.gif)](blur_map_aspect.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](blur_aspect.gif)](blur_aspect.gif)
+[![\[IM Output\]](blur_map_r.gif)](blur_map_r.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](blur_map_g.gif)](blur_map_g.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](blur_map_aspect.gif)](blur_map_aspect.gif)  
+
+[![\[IM Output\]](black_circle.gif)](black_circle.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](blur_map_aspect.gif)](blur_map_aspect.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](blur_aspect.gif)](blur_aspect.gif)
 
 You can, of course, still set a fixed angle to the ellipse.
 
@@ -314,8 +336,15 @@ convert koala.gif blur_map_angle.jpg \
       blur_rotated.jpg
 ~~~
 
-[![\[IM Output\]](gradient_polar.jpg)](gradient_polar.jpg) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](blur_map_angle.jpg)](blur_map_angle.jpg)  
- [![\[IM Output\]](koala.gif)](koala.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](blur_map_angle.jpg)](blur_map_angle.jpg) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](blur_rotated.jpg)](blur_rotated.jpg)
+[![\[IM Output\]](gradient_polar.jpg)](gradient_polar.jpg)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](blur_map_angle.jpg)](blur_map_angle.jpg)
+
+[![\[IM Output\]](koala.gif)](koala.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](blur_map_angle.jpg)](blur_map_angle.jpg)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](blur_rotated.jpg)](blur_rotated.jpg)
 
 The result is, as you can see, a rotationally blurred image.
 
@@ -341,8 +370,19 @@ convert koala.gif blur_map_polar.jpg \
       blur_polar.jpg
 ~~~
 
-[![\[IM Output\]](gradient_radial.jpg)](gradient_radial.jpg) ![ +](../img_www/plus.gif) [![\[IM Output\]](gradient_radial.jpg)](gradient_radial.jpg) ![ +](../img_www/plus.gif) [![\[IM Output\]](gradient_polar.jpg)](gradient_polar.jpg) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](blur_map_polar.jpg)](blur_map_polar.jpg)  
- [![\[IM Output\]](koala.gif)](koala.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](blur_map_polar.jpg)](blur_map_polar.jpg) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](blur_polar.jpg)](blur_polar.jpg)
+[![\[IM Output\]](gradient_radial.jpg)](gradient_radial.jpg)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](gradient_radial.jpg)](gradient_radial.jpg)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](gradient_polar.jpg)](gradient_polar.jpg)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](blur_map_polar.jpg)](blur_map_polar.jpg)
+
+[![\[IM Output\]](koala.gif)](koala.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](blur_map_polar.jpg)](blur_map_polar.jpg)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](blur_polar.jpg)](blur_polar.jpg)
 
 A much better result.
 
@@ -443,6 +483,10 @@ It will not change the vertical, or Y, positions of colors.
 
 So, let's try this with a simple plain gray-scale horizontal gradient for the LUT.
 
+~~~{.hide}
+convert -size 75x75 gradient: -rotate 90 map_gradient_x.gif
+~~~
+
 ~~~
 convert koala.gif \( -size 75x75 gradient: -rotate 90 \) \
       -fx 'p{v*w,j}'      distort_noop.gif
@@ -455,6 +499,10 @@ That is because the X coordinate that we looked up from the distortion map, was 
 
 However, by simply flipping the gradient over, the look-up of the pixels is also flipped, creating a mirror image.
 That is, white is on the left and 'black' is on the right, and a horizontal gradient across the image.
+
+~~~{.hide}
+convert -size 75x75 gradient: -rotate -90 map_gradient-x.gif
+~~~
 
 ~~~
 convert koala.gif \( -size 75x75 gradient: -rotate -90 \) \
@@ -526,7 +574,13 @@ convert koala.gif  map_rot45_x.png   map_rot45_y.png \
       -fx 'p{u[1]*w,u[2]*h}'      distort_rot45.gif
 ~~~
 
-[![\[IM Output\]](koala.gif)](koala.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](map_rot45_x.png)](map_rot45_x.png) ![ +](../img_www/plus.gif) [![\[IM Output\]](map_rot45_y.png)](map_rot45_y.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](distort_rot45.gif)](distort_rot45.gif)
+[![\[IM Output\]](koala.gif)](koala.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](map_rot45_x.png)](map_rot45_x.png)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](map_rot45_y.png)](map_rot45_y.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](distort_rot45.gif)](distort_rot45.gif)
 
 And we now have another way of rotating any image.
 
@@ -547,7 +601,13 @@ convert koala.gif  map_rot45b_x.png   map_rot45b_y.png \
       -fx 'p{u[1]*w,u[2]*h}'      distort_rot45_better.png
 ~~~
 
-[![\[IM Output\]](koala.gif)](koala.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](map_rot45b_x.png)](map_rot45b_x.png) ![ +](../img_www/plus.gif) [![\[IM Output\]](map_rot45b_y.png)](map_rot45b_y.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](distort_rot45_better.png)](distort_rot45_better.png)
+[![\[IM Output\]](koala.gif)](koala.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](map_rot45b_x.png)](map_rot45b_x.png)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](map_rot45b_y.png)](map_rot45b_y.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](distort_rot45_better.png)](distort_rot45_better.png)
 
 In this way, all the pixels in the LUT are defined properly, including all the edges of the rotated LUT gradients.
 However that is not the only problem.
@@ -575,7 +635,13 @@ convert koala.gif -virtual-pixel white \
       distort_rot45_final.gif
 ~~~
 
-[![\[IM Output\]](koala.gif)](koala.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](map_rot45f_x.png)](map_rot45f_x.png) ![ +](../img_www/plus.gif) [![\[IM Output\]](map_rot45f_y.png)](map_rot45f_y.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](distort_rot45_final.gif)](distort_rot45_final.gif)
+[![\[IM Output\]](koala.gif)](koala.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](map_rot45f_x.png)](map_rot45f_x.png)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](map_rot45f_y.png)](map_rot45f_y.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](distort_rot45_final.gif)](distort_rot45_final.gif)
 
 So, let's have a look at a particular example using this technique.
 
@@ -682,7 +748,7 @@ This unfortunately requires two image processing steps, one to distort the image
 ~~~
 convert koala.gif -matte   map_rot45u.png \
       \( -clone 0,1  -fx 'p{v.r*w,v.g*h}' \
-	 +clone -compose Dst_In -composite \) -delete 0,1 \
+     +clone -compose Dst_In -composite \) -delete 0,1 \
       distort_rot45_unified.png
 ~~~
 
@@ -726,7 +792,7 @@ And, to complete, we also need a shading highlight, such as developed in [Overla
 ~~~
 convert sphere_mask.png \
       \( +clone -blur 0x20 -shade 110x21.7 -contrast-stretch 0% \
-	 +sigmoidal-contrast 6x50% -fill grey50 -colorize 10%  \) \
+     +sigmoidal-contrast 6x50% -fill grey50 -colorize 10%  \) \
       -composite sphere_overlay.png
 ~~~
 
@@ -772,8 +838,8 @@ And here I apply the complete 2-dimensional unified LUT to another image...
 convert mandrill_grid_sm.jpg   spherical_unified.png  \
       \( +clone  -channel B -separate +channel \) \
       \( -clone 0,1    -fx 'p{ v.r*w, v.g*h }' \
-	 -clone 2   -compose HardLight -composite  \
-	 -clone 1  -alpha on  -compose DstIn -composite \
+     -clone 2   -compose HardLight -composite  \
+     -clone 1  -alpha on  -compose DstIn -composite \
       \) -delete 0--2       spherical_mandrill.png
 ~~~
 
@@ -798,7 +864,7 @@ convert -size 100x100 xc: -channel G  -fx 'atan(j/(i+.5))*2/pi' \
 convert -size 100x100 xc: -channel G  -fx '1-hypot(i,j)/(w*1.6)' \
       -separate   -transverse       map_p_radius.png
 convert text_image.jpg   map_p_angle.png map_p_radius.png \
-	  -fx 'p{u[1]*w,u[2]*h}'    distort_p_curved.jpg
+      -fx 'p{u[1]*w,u[2]*h}'    distort_p_curved.jpg
 ~~~
 
 [![\[IM Output\]](text_image.jpg)](text_image.jpg)  
@@ -832,15 +898,15 @@ To do that, we place the distortion map images before the color source image, so
 
 ~~~
 convert -size 100x100 xc:  -channel G \
-	-fx 'atan2(i-w/2,h/2-j)/pi/2 + .5' \
-	-separate  map_p_angular.png
+    -fx 'atan2(i-w/2,h/2-j)/pi/2 + .5' \
+    -separate  map_p_angular.png
 convert -size 100x100 xc:  -channel G \
-	-fx 'rr=hypot(i-w/2,j-h/2); (.5-rr/70)*1.2+.5' \
-	-separate  map_p_radial.png
+    -fx 'rr=hypot(i-w/2,j-h/2); (.5-rr/70)*1.2+.5' \
+    -separate  map_p_radial.png
 convert -font Candice -gravity center -size 200x50 \
-	label:'Around  the  World'    text.jpg
+    label:'Around  the  World'    text.jpg
 convert map_p_angular.png map_p_radial.png text.jpg \
-	     -fx 'u[2].p{ u*u[2].w, v*u[2].h }' distort_p_circle.jpg
+         -fx 'u[2].p{ u*u[2].w, v*u[2].h }' distort_p_circle.jpg
 ~~~
 
 [![\[IM Output\]](map_p_angular.png)](map_p_angular.png)  
@@ -936,7 +1002,7 @@ This can be hard to describe, so let's look at an example. First we create a tes
 
 ~~~
 convert -font Candice -gravity center -size 150x50 \
-	label:'Anthony'    label.jpg
+    label:'Anthony'    label.jpg
 ~~~
 
 [![\[IM Output\]](label.jpg)](label.jpg)
@@ -958,7 +1024,7 @@ For example, let's apply the displacement map to our "label" image.
 
 ~~~
 convert label.jpg  displace_map.jpg  -virtual-pixel Gray \
-	-fx 'dy=10*(2v-1); p{i,j+dy}'   displaced.jpg
+    -fx 'dy=10*(2v-1); p{i,j+dy}'   displaced.jpg
 ~~~
 
 [![\[IM Output\]](displaced.jpg)](displaced.jpg)
@@ -1004,9 +1070,9 @@ However, the IM "`composite`" command does allow the use of a special type of im
 
 Here is how you use it...
 
-~~~
+~~~{.skip}
 composite {displacement_map}   {input_image} \
-	-displace {X}x{Y}  {result}
+    -displace {X}x{Y}  {result}
 ~~~
 
 Note the order.
@@ -1018,7 +1084,7 @@ For example, here is the same Y displacement example we had above, but this time
 
 ~~~
 composite displace_map.jpg label.jpg  -virtual-pixel Gray \
-	-displace 0x10  displaced_y.jpg
+    -displace 0x10  displaced_y.jpg
 ~~~
 
 [![\[IM Output\]](displaced_y.jpg)](displaced_y.jpg)
@@ -1083,7 +1149,7 @@ composite dismap_copy.jpg label.jpg  -displace 66x0  displaced_copy.jpg
 ~~~
 
 [![\[IM Output\]](dismap_copy.jpg)](dismap_copy.jpg)  
- [![\[IM Output\]](displaced_copy.jpg)](displaced_copy.jpg)
+[![\[IM Output\]](displaced_copy.jpg)](displaced_copy.jpg)
 
 You can also create mirrored flips or flops of parts of the image, by using gradients.
 For example, here you can use a linear displacement map, to copy pixels from one side of the image to the other.
@@ -1094,7 +1160,7 @@ composite dismap_mirror.png label.jpg  -displace 150x0  displaced_mirror.jpg
 ~~~
 
 [![\[IM Output\]](dismap_mirror.png)](dismap_mirror.png)  
- [![\[IM Output\]](displaced_mirror.jpg)](displaced_mirror.jpg)
+[![\[IM Output\]](displaced_mirror.jpg)](displaced_mirror.jpg)
 
 Can you figure out how this displacement map works?
 As a hint, figure out what displacement the left-most and the right-most edges have, then see how the rest of the image fits into that.
@@ -1110,7 +1176,7 @@ composite dismap_shrink.png label.jpg  -displace 150x0  displaced_shrink.jpg
 ~~~
   
 [![\[IM Output\]](dismap_shrink.png)](dismap_shrink.png)  
- [![\[IM Output\]](displaced_shrink.jpg)](displaced_shrink.jpg)
+[![\[IM Output\]](displaced_shrink.jpg)](displaced_shrink.jpg)
 
 The above also demonstrates a particular problem that displacement maps have.
 When an area, or all, of an image gets compressed by more than 50%, you will start to generate [Aliasing Artefacts](../filter/#aliasing).
@@ -1136,12 +1202,14 @@ A much better and smoother result.
 
 Directly resulting from the above examples was an idea that by using Y displacements of a simple line, you can generate a graph of the colors of a displacement map.
 For example, here I generate a mathematical `sinc()` function (which is defined as '`sin(x)/x`'), and graph that gradient by using it as a displacement map...
-  
-      convert -size 121x100 xc: -fx 'sin(i*24/w-12)/(i*24/w-12)/1.3+.2' \
-                                                          gradient_sinc.gif
-      convert -size 121x100 xc: -draw 'line 0,50 120,50'     graph_source.gif
-      composite gradient_sinc.gif graph_source.gif \
-                                           -displace 0x49   displace_graph.gif
+
+~~~
+convert -size 121x100 xc: -fx 'sin(i*24/w-12)/(i*24/w-12)/1.3+.2' \
+                                                    gradient_sinc.gif
+convert -size 121x100 xc: -draw 'line 0,50 120,50'     graph_source.gif
+composite gradient_sinc.gif graph_source.gif \
+                                     -displace 0x49   displace_graph.gif
+~~~
 
 [![\[IM Output\]](gradient_sinc.gif)](gradient_sinc.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](graph_source.gif)](graph_source.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](displace_graph.gif)](displace_graph.gif)
 
@@ -1285,15 +1353,21 @@ But for larger displacements over a longer distance, a larger smooth gradient di
 
 ### Simple Displacement Morphing {#simple_morph}
 
-    Modifying the Size of Displacement Vectors
+~~~{.skip}
+Modifying the Size of Displacement Vectors
 
-    Two Image Morphing
+Two Image Morphing
 
-    Random 1D Displacements
+Random 1D Displacements
+~~~
 
 ### Rippled Water Reflections {#water_ripples}
 
 As mentioned before, displacement maps are especially useful for generating water and glass-like distortions.
+
+~~~{.hide}
+convert flower_md.jpg -resize 150x -crop 150x80+0+0 flower.jpg
+~~~
 
 [![\[IM Output\]](flower.jpg)](flower.jpg)
 
@@ -1340,9 +1414,9 @@ This trickiness ensures that the waves finishes at the pure-gray or 'no displace
 ~~~
 convert -size 150x80 gradient: \
       \( wave_gradient.png \
-	 +clone -compose multiply -composite \) \
+     +clone -compose multiply -composite \) \
       \( -clone 0 -negate -evaluate divide 2 \
-	 -clone 1 -compose plus -composite \) \
+     -clone 1 -compose plus -composite \) \
       -delete 0-1      waves_decreasing.png
 ~~~
 
@@ -1353,9 +1427,9 @@ I also darkened the reflected image slightly to represent some light being lost 
 
 ~~~
 composite waves_decreasing.png  flower.jpg \
-	-displace 8x8 miff:- |\
+    -displace 8x8 miff:- |\
    convert miff:-   -flip   +level 0,80% \
-	flower.jpg  +swap -append   flower_in_water.png
+    flower.jpg  +swap -append   flower_in_water.png
 ~~~
 
 [![\[IM Output\]](flower_in_water.png)](flower_in_water.png)
@@ -1367,10 +1441,12 @@ You can make it even more realistic by distorting the wave displacement maps wit
 This will give the waves a more natural look, though it is better to do it before it is 'attenuated' so that the 'depth' is added afterward.
 Try it, experiment, and let me know what you come up with.
 
-    Animated Ripples -
-      Using -function Sinusoid with phase changing
+~~~{.skip}
+Animated Ripples -
+  Using -function Sinusoid with phase changing
 
-    End with a polar-depolar version
+End with a polar-depolar version
+~~~
 
 ------------------------------------------------------------------------
 
@@ -1383,9 +1459,9 @@ By doing this, each part of the image can move in completely different direction
 
 However the "`composite`" command to this is is a little more complex.
 
-~~~
+~~~{.skip}
 composite {X displacement} {input image} {Y displacement}+ \
-	-displace {X}x{Y}    {result+}
+    -displace {X}x{Y}    {result+}
 ~~~
 
 Note the input image order.
@@ -1408,8 +1484,8 @@ convert rose: -background black -gravity south -splice 0x8 \
       \( +clone -sparse-color barycentric '0,0 black 69,0 white' \) \
       \( +clone -function arcsin 0.5 \) \
       \( -clone 1 -level 25%,75% \
-	     -function polynomial -4,4,0 -gamma 2 \
-	     +level 50%,0 \) \
+         -function polynomial -4,4,0 -gamma 2 \
+         +level 50%,0 \) \
       -delete 1 -swap 0,1  miff:- |\
   composite - -virtual-pixel black  -displace 17x7  rose_cylinder.png
 ~~~
@@ -1422,44 +1498,46 @@ The key to remember is that the two map displacement control the lookups of both
 
 I will annotate...
 
-      rose:
-            the image to wrap around the front half of a cylinder
+~~~{.skip}
+rose:
+      the image to wrap around the front half of a cylinder
 
-      -background black -gravity south -splice 0x8 \
-            add extra space at the bottom for vertical displacement
+-background black -gravity south -splice 0x8 \
+      add extra space at the bottom for vertical displacement
 
-      \( +clone -sparse-color barycentric '0,0 black 69,0 white' \) \
-            generate a gradient across the actual image part only
-            which is 70 pixels wide
+\( +clone -sparse-color barycentric '0,0 black 69,0 white' \) \
+      generate a gradient across the actual image part only
+      which is 70 pixels wide
 
-      \( +clone -function arcsin 0.5 \) \
-            generate the horizontal distortion needed - dead simple
+\( +clone -function arcsin 0.5 \) \
+      generate the horizontal distortion needed - dead simple
 
-      \( -clone 1 -level 25%,75% -function polynomial -4,4,0 \
-                   -gamma 2 +level 50%,0 \) \
-         generate a vertical displacement circular arc
-         This is also very complex, so...
-           -level 25%,75%
-                compress gradient into 50% width
-                 that will be produced by the arcsin
-           -function polynomial -4,4,0  -gamma 2
-                 the gamma 2 is equivalent to sqrt
-                 making the above   sqrt( -4u^2 + 4u )
-           +level 50%,0
-                 set the displacement gradient so edges are not
-                 displaced, and center has black (move image down) displace
+\( -clone 1 -level 25%,75% -function polynomial -4,4,0 \
+             -gamma 2 +level 50%,0 \) \
+   generate a vertical displacement circular arc
+   This is also very complex, so...
+     -level 25%,75%
+          compress gradient into 50% width
+           that will be produced by the arcsin
+     -function polynomial -4,4,0  -gamma 2
+           the gamma 2 is equivalent to sqrt
+           making the above   sqrt( -4u^2 + 4u )
+     +level 50%,0
+           set the displacement gradient so edges are not
+           displaced, and center has black (move image down) displace
 
-      -delete 1 -swap 0,1  miff:- |\
-           remove working gradient image, and get order correct for composite
-            EG:    composite  X-map  image  Y-map  -displace XxY result
+-delete 1 -swap 0,1  miff:- |\
+     remove working gradient image, and get order correct for composite
+      EG:    composite  X-map  image  Y-map  -displace XxY result
 
-      composite - -displace 17x7 show:
-           Read in the three images, and displace the image.
-           the value  17 = 1/4 width  for horizontal arcsin displacement
-           and a vertical circular arc of 7 pixels (about 1/8 the original width)
-           giving a rough 30 degree isometric view of cylinder
+composite - -displace 17x7 show:
+     Read in the three images, and displace the image.
+     the value  17 = 1/4 width  for horizontal arcsin displacement
+     and a vertical circular arc of 7 pixels (about 1/8 the original width)
+     giving a rough 30 degree isometric view of cylinder
 
-    Result...  a rose wrapped correctly into a cylinder
+Result...  a rose wrapped correctly into a cylinder
+~~~
 
 This displacement distortion method has been built into the "`cylinderize`" script by Fred Weinhaus.
 
@@ -1469,22 +1547,22 @@ You can create a 'fractured mirror' look to an image by generating random areas 
 
 ~~~
 convert dragon_sm.gif -sparse-color voronoi '  \
-	      %[fx:rand()*w],%[fx:rand()*h]  red
-	      %[fx:rand()*w],%[fx:rand()*h]  lime
-	      %[fx:rand()*w],%[fx:rand()*h]  black
-	      %[fx:rand()*w],%[fx:rand()*h]  yellow
-	   ' -interpolate integer -implode 1     mirror_areas.gif
+          %[fx:rand()*w],%[fx:rand()*h]  red
+          %[fx:rand()*w],%[fx:rand()*h]  lime
+          %[fx:rand()*w],%[fx:rand()*h]  black
+          %[fx:rand()*w],%[fx:rand()*h]  yellow
+       ' -interpolate integer -implode 1     mirror_areas.gif
 convert   mirror_areas.gif -channel R  -separate   mirror_dismap_x.gif
 convert   mirror_areas.gif -channel G  -separate   mirror_dismap_y.gif
 
 composite mirror_dismap_x.gif  dragon_sm.gif  mirror_dismap_y.gif +matte \
-	-background white -virtual-pixel background -displace 7 \
-						    mirror_displaced.gif
+    -background white -virtual-pixel background -displace 7 \
+                            mirror_displaced.gif
 
 convert   mirror_areas.gif -edge 1 -threshold 20% \
-	-evaluate multiply .7 -negate               mirror_cracks.gif
+    -evaluate multiply .7 -negate               mirror_cracks.gif
 composite mirror_displaced.gif  mirror_cracks.gif -compose multiply \
-						    mirror_cracked.gif
+                            mirror_cracked.gif
 ~~~
 
 [![\[IM Output\]](mirror_areas.gif)](mirror_areas.gif) ![==&gt;](../img_www/right.gif)
