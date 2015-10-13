@@ -1,0 +1,99 @@
+#/bin/sh
+#
+# Script from Nicolas Robidoux
+#
+# Produces the file nicolas_enlarged_lab.png
+#
+# Comparison of various recommended filters enlarging the sharp
+# aliased nearly vertical line through Lab.
+#
+# WARNING: Use the HDRI version of convert (otherwise tensor Lanczos
+# et al are affected), namely "hdri convert".
+#
+hdri convert -size 10x6 xc:grey20 +antialias              \
+  -draw 'fill white line 4,0 5,5'                         \
+  -colorspace LAB                                         \
+  \(                                                      \
+    -clone 0  -set label 'Point'                          \
+    -filter Point  -resize 100x                           \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'Cosine'                         \
+    -filter Cosine  -resize 100x                          \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'Lanczos'                        \
+    -filter Lanczos  -resize 100x                         \
+  \)                                                      \
+  \(                                                      \
+    -clone 0 -set label 'Ginseng'                         \
+    -define filter:window=Jinc -define filter:lobes=3     \
+    -resize 100x                                          \
+    +define filter:window +define filter:lobes            \
+  \)                                                      \
+  \(                                                      \
+    -clone 0 -set label 'EWA LanczosRadius3'              \
+    -filter Lanczos -define filter:blur=.9264075766146068 \
+    -distort Resize 100x                                  \
+    +define filter:blur                                   \
+  \)                                                      \
+  \(                                                      \
+    -clone 0 -set label 'Catrom'                          \
+    -filter Catrom  -resize 100x                          \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA LanczosSharp'               \
+    -filter Lanczos -define filter:blur=.9891028367558475 \
+    -distort Resize 100x                                  \
+    +define filter:blur                                   \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA RobidouxSharp'              \
+    -filter RobidouxSharp  -distort Resize 100x           \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA QuadraticJinc'              \
+    -define filter:window=Quadratic                       \
+    -distort Resize 100x                                  \
+    +define filter:window                                 \
+  \)                                                      \
+  \(                                                      \
+    -clone 0 -set label 'Mitchell'                        \
+    -filter Mitchell  -resize 100x                        \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA Robidoux'                   \
+    -filter Robidoux  -distort Resize 100x                \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA Quadratic'                  \
+    -filter Quadratic  -distort Resize 100x               \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'Quadratic'                      \
+    -filter Quadratic  -resize 100x                       \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA Spline'                     \
+    -filter Spline  -distort Resize 100x                  \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'Spline'                         \
+    -filter Spline  -resize 100x                          \
+  \)                                                      \
+  -delete 0                                               \
+  -colorspace sRGB                                        \
+  miff:-                                                  \
+| \
+montage -                               \
+  -geometry '120x65>+2+2'               \
+  -tile x3                              \
+  -background LightSteelBlue            \
+  -fill black                           \
+  -title '10x enlargements through Lab' \
+  -depth 8                              \
+  -define png:color-type=2              \
+  -define png:compression-filter=5      \
+  -define png:compression-level=9       \
+  -define png:compression-strategy=1    \
+  enlarged_lab.png

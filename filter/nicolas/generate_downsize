@@ -1,0 +1,100 @@
+#/bin/sh
+#
+# Script from Nicolas Robidoux
+#
+# Produces the file nicolas_reduced_linear.png
+#
+# Comparison of various recommended filters reducing the small rings
+# image through linear RGB 
+#
+# WARNING: Use the HDRI version of convert (otherwise tensor Lanczos
+# et al are affected), namely "hdri convert".
+#
+hdri convert rings_sm_orig.gif  -colorspace RGB           \
+  \(                                                      \
+    -clone 0  -set label 'Cosine'                         \
+    -filter Cosine  -resize 101x                          \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'Lanczos'                        \
+    -filter Lanczos  -resize 101x                         \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'Ginseng'                        \
+    -define filter:window=Jinc -define filter:lobes=3     \
+    -resize 101x                                          \
+    +define filter:window +define filter:lobes            \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA Lanczos3Sharpest'           \
+    -filter Lanczos -define filter:blur=.88549061701764   \
+    -distort Resize 101x                                  \
+    +define filter:blur                                   \
+  \)                                                      \
+  \(                                                      \
+    -clone 0 -set label 'EWA LanczosRadius3'              \
+    -filter Lanczos -define filter:blur=.9264075766146068 \
+    -distort Resize 101x                                  \
+    +define filter:blur                                   \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA LanczosSharp'               \
+    -filter Lanczos -define filter:blur=.9891028367558475 \
+    -distort Resize 101x                                  \
+    +define filter:blur                                   \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA RobidouxSharp'              \
+    -filter RobidouxSharp  -distort Resize 101x           \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA QuadraticJinc'              \
+    -define filter:window=Quadratic                       \
+    -distort Resize 101x                                  \
+    +define filter:window                                 \
+  \)                                                      \
+  \(                                                      \
+    -clone 0 -set label 'Mitchell'                        \
+    -filter Mitchell  -resize 101x                        \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA Robidoux'                   \
+    -filter Robidoux  -distort Resize 101x                \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA Triangle'                   \
+    -filter Triangle  -distort Resize 101x                \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'Triangle'                       \
+    -filter Triangle  -resize 101x                        \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA Quadratic'                  \
+    -filter Quadratic  -distort Resize 101x               \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'Quadratic'                      \
+    -filter Quadratic  -resize 101x                       \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'EWA Spline'                     \
+    -filter Spline  -distort Resize 101x                  \
+  \)                                                      \
+  \(                                                      \
+    -clone 0  -set label 'Spline'                         \
+    -filter Spline  -resize 101x                          \
+  \)                                                      \
+  -delete 0                                               \
+  -colorspace sRGB                                        \
+  miff:-                                                  \
+| \
+montage -                                \
+  -geometry '130x130>+3+1'               \
+  -tile x4                               \
+  -background LightSteelBlue             \
+  -fill black                            \
+  -title 'Downsizing through linear RGB' \
+  -depth 8                               \
+  -quality 90                            \
+  reduced_linear.png
