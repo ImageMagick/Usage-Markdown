@@ -19,7 +19,7 @@ The ImageMagick "`identify`" with a "`-verbose`" setting will display this Exif 
 
 Here is the EXIF data of a photo I took of a [Pagoda, Kunming Zoo, in Southern China](pagoda_sm.jpg).
 
-~~~
+~~~{data-capture-out="pagoda_sm_exif.txt"}
 identify -format "%[EXIF:*]" pagoda_sm.jpg |\
      sed 's/\(.\{46\}\).*/\1/' | column -c 110
 ~~~
@@ -33,8 +33,8 @@ identify -format "%[EXIF:*]" pagoda_sm.jpg |\
 
 Here is a similar example but using 'globbing' (shell-like) expression to limit output to EXIF fields involving Time...
 
-~~~
-identify -format "%[exif:*time*]" pagoda_sm.jpeg
+~~~{data-capture-out="pagoda_sm_time.txt"}
+identify -format "%[exif:*time*]" pagoda_sm.jpg
 ~~~
 
 [![\[IM Text\]](pagoda_sm_time.txt.gif)](pagoda_sm_time.txt)
@@ -95,14 +95,15 @@ The point is to only use IM to correct digital photo orientation (using "`-auto-
 
 IM can extract the current orientation (as a number) from the photo using an [Image Property Escape](http://www.imagemagick.org/script/escape.php)...
 
-~~~
+~~~{data-capture-out="orient_show.txt"}
 identify -format '%[exif:orientation]' pagoda_sm.jpg
 ~~~
 
 [![\[IM Text\]](orient_show.txt.gif)](orient_show.txt)
+
 IM provides a special "`-orient`" operator (use "`-list orientation`" to see possible values).
 
-~~~
+~~~{data-capture-out="orient_setting.txt"}
 convert pagoda_sm.jpg -orient bottom-right \
          -format '%[exif:orientation]'   info:
 ~~~
@@ -118,7 +119,7 @@ Use it before stripping the image meta-data.
 If you do want to correct the orientation of your photo, without degrading or otherwise modifying your image, I suggest you use the [JHead](http://www.sentex.net/~mwandel/jhead/) program.
 For example here I correct a photos orientation, and delete the built-in preview thumbnail all the digital photos in a directory.
 
-~~~
+~~~{.skip}
 jhead -autorot  *.jpg
 ~~~
 
@@ -144,15 +145,16 @@ The orientation (and cameras) just have no senses for these situations.
 
 Your only choice for such photos is to do the rotates yourself using the lower level non-lossy "`jpegtrans`", or IM "`-rotate`", and then either reset the EXIF orientation setting (using [JHead](http://www.sentex.net/~mwandel/jhead/) or the IM "`-orient`" operator), or just strip the EXIF profile.
 
+~~~{.skip}
+Other IM Lossy Modifications...
+  If you are also resizing or otherwise modifying the image, such as reducing
+  its quality and size for use on the web, then data loss is already a fact.
+  As such during those operations IM can do similar things, allowing you to do
+  all the required operations in a single 'load-save' cycle.
 
-    Other IM Lossy Modifications...
-      If you are also resizing or otherwise modifying the image, such as reducing
-      its quality and size for use on the web, then data loss is already a fact.
-      As such during those operations IM can do similar things, allowing you to do
-      all the required operations in a single 'load-save' cycle.
-
-      Rotate ALL images to landscape   -rotate 90\<
-                           portrait    -rotate -90\>
+  Rotate ALL images to landscape   -rotate 90\<
+                       portrait    -rotate -90\>
+~~~
 
 ----
 
@@ -177,7 +179,7 @@ See [Sigmoidal Non-linearity Contrast](../color_mods/#sigmoidal) for more detail
 Here is a minor underexposure example, which was taken at a free concert after sunset.
 This has lots of brightly lit areas, which are clear, but also dark areas I would like to make more visible.
 
-~~~
+~~~{data-postamble="mogrify -format gif -thumbnail 120x90 +repage night_club_fixed.jpg"}
 convert night_club_orig.jpg  -sigmoidal-contrast 4,0%  night_club_fixed.jpg
 ~~~
 
@@ -196,7 +198,7 @@ convert night_club_orig.jpg  -sigmoidal-contrast 4,0%  night_club_fixed.jpg
 
 And here is a major underexposed example, which was a night-time shot from my balcony looking southwards towards the city of Toronto.
 
-~~~
+~~~{data-postamble="mogrify -format gif -thumbnail 120x90 +repage night_scape_fixed.jpg"}
 convert night_scape_orig.jpg -sigmoidal-contrast 10,0%  night_scape_fixed.jpg
 ~~~
 
@@ -258,7 +260,7 @@ Walter Dnes also provided the original script [binn](binning/binn) to perform th
 
 [Binning examples 4](binning/sample4.html)
 
-----
+--------------------------------------------------------------------------------
 
 ## Photo Conversion Cookbook {#cookbook}
 
@@ -266,6 +268,10 @@ Walter Dnes also provided the original script [binn](binning/binn) to perform th
 
 Typical situation.
 You have taken a photo, but the image isn't level, and you want to correct it.
+
+~~~{.hide}
+convert beijing_md.jpg -thumbnail x150 beijing_tn.png
+~~~
 
 [![\[IM Output\]](beijing_tn.png)](beijing_md.jpg)
 
@@ -326,10 +332,9 @@ Almost as if you were taking a photo of a small, highly detailed, and brightly l
 
 The first thing we need to do, is enhance the colors in the image to give it a very high contrast, and perhaps brighten it a bit to make it look like it is very well lit with strong studio lights.
 
-~~~
+~~~{data-postamble="convert beijing_contrast.jpg -thumbnail x150 beijing_contrast_tn.gif"}
 convert beijing_md.jpg -sigmoidal-contrast 15x30% beijing_contrast.jpg
 ~~~
-
 
 [![\[IM Output\]](beijing_contrast_tn.gif)](beijing_contrast.jpg)
 
@@ -348,7 +353,7 @@ Now for the tilt-shift.
 For this we prepare a gradient image that is white at the top and bottom, and black in the middle.
 Some people might use a linear gradient for this, but I find a parabolic gradient better.
 
-~~~
+~~~{data-postamble="convert beijing_blurmap.jpg -thumbnail x150 beijing_blurmap_tn.gif"}
 convert beijing_contrast.jpg \
         -sparse-color Barycentric '0,0 black 0,%h white' \
         -function polynomial 4,-4,1   beijing_blurmap.jpg
@@ -453,7 +458,7 @@ But you can also separate images after the fact too.
 
 The images are just overlayed together...
 
-~~~
+~~~{data-postamble="convert ny_family_merged.jpg -thumbnail x100 ny_family_merged_tn.jpg"}
 convert  ny_family.jpg ny_family.png -composite   ny_family_merged.jpg
 ~~~
 
@@ -1165,7 +1170,7 @@ Basically what we want to do is divide the original photo by the grey-scale imag
 This is basically the compose method '`Divide`' which divides the 'source' image by the 'background' image.
 For example,
 
-~~~
+~~~{data-postamble="convert vegas_fixed.jpg -thumbnail 105x70 +repage vegas_fixed.gif"}
 convert nikon18-70dx_18mm_f3.5.jpg  vegas_orig.jpg \
         -compose Divide -composite  vegas_fixed.jpg
 ~~~

@@ -106,6 +106,10 @@ montage/*.shtml
 morphology/*.gif
 morphology/*.txt
 morphology/*.png
+photos/*.gif
+photos/*.jpg
+photos/*.txt
+photos/*.png
 warping/*.gif
 warping/*.jpg
 warping/*.mpg

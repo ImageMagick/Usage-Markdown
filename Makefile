@@ -73,6 +73,8 @@ misc: misc/index.html misc/index.sh
 
 montage: montage/index.html montage/index.sh
 
+photos: photos/index.html photos/index.sh
+
 warping: warping/index.html warping/index.sh
 
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
