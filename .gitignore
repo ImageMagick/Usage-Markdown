@@ -91,6 +91,10 @@ lens/*.png
 mapping/*.gif
 mapping/*.jpg
 mapping/*.png
+masking/*.gif
+masking/*.jpg
+masking/*.matte
+masking/*.png
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

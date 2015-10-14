@@ -27,7 +27,7 @@ I can demonstrate this transparency by overlaying the image onto the IM built-in
 
 ~~~
 composite -compose Dst_Over -tile pattern:checkerboard \
-	moon.png  moon_background.jpg
+    moon.png  moon_background.jpg
 ~~~
 
 [![\[IM Output\]](moon_background.jpg)](moon_background.jpg)
@@ -97,7 +97,9 @@ For example, let's use the 'crescent moon' image (from a [CopyOpacity Compositio
 convert moon.png -alpha off alpha_off.png
 ~~~
 
-[![\[IM Output\]](moon.png)](moon.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](alpha_off.png)](alpha_off.png)
+[![\[IM Output\]](moon.png)](moon.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](alpha_off.png)](alpha_off.png)
 
 Note that the moon shape completely vanished when the transparency was turned off, though that is actually rarely the case.
 Basically, even the 'transparent' areas have color, which is just not normally visible, in this case the hidden color was the fractal canvas image that was used to create the moon image.
@@ -221,7 +223,9 @@ The '`Extract`' method will simply copy the 'alpha' mask of the image as a grays
 convert moon.png -alpha extract alpha_extract.png
 ~~~
 
-[![\[IM Output\]](moon.png)](moon.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](alpha_extract.png)](alpha_extract.png)
+[![\[IM Output\]](moon.png)](moon.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](alpha_extract.png)](alpha_extract.png)
 
 Note that fully-opaque is white, while fully-transparent is pure black.
 As the image contained some semi-transparent pixels along the edges (for anti-aliasing providing the image's shape with a smoother look), this image is not pure black and white, but also contains some gray colored pixels around the edges.
@@ -261,7 +265,9 @@ That is it will turn a gray-scale image (regardless if its alpha channel is enab
 convert alpha_extract.png -alpha copy alpha_copy.png
 ~~~
 
-[![\[IM Output\]](alpha_extract.png)](alpha_extract.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](alpha_copy.png)](alpha_copy.png)
+[![\[IM Output\]](alpha_extract.png)](alpha_extract.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](alpha_copy.png)](alpha_copy.png)
 
 It does not matter if the image had an existing alpha channel or not, all it does is create the image's transparency from the image grayscale values.
 Once you have a shape mask, you can use various [Color Tinting](../color_mods/#tinting) or [Duff-Porter](../compose/#duff-porter) alpha composition methods, to color it.
@@ -275,13 +281,15 @@ To make use of a grayscale image easier, the '`Shape`' method not only creates a
 convert alpha_extract.png -background Yellow -alpha shape   alpha_shape.png
 ~~~
 
-[![\[IM Output\]](alpha_extract.png)](alpha_extract.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](alpha_shape.png)](alpha_shape.png)
+[![\[IM Output\]](alpha_extract.png)](alpha_extract.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](alpha_shape.png)](alpha_shape.png)
 
 This means you can very quickly color a grayscale mask simply by shaping the image, then flattening it onto a different background color
 
 ~~~
 convert alpha_extract.png -background Yellow -alpha shape \
-	-background Blue -alpha remove alpha_colormask.png
+    -background Blue -alpha remove alpha_colormask.png
 ~~~
 
 [![\[IM Output\]](alpha_colormask.png)](alpha_colormask.png)
@@ -362,7 +370,7 @@ Here is a summary of some image operations that are known to do this, though non
 
 ~~~
 convert moon.png \( +clone -alpha off \) \
-	-compose SrcIn   -composite   moon_black.png
+    -compose SrcIn   -composite   moon_black.png
 convert moon.png -channel RGBA  -blur 1x.000000001  moon_black.png
 convert moon.png -channel RGBA   -gaussian 1x0      moon_black.png
 convert moon.png -fuzz 0% -transparent none         moon_black.png
@@ -380,13 +388,15 @@ For example, by saving to JPEG...
 
 ~~~
 convert -size 70x60 xc:none -font Candice -pointsize 50 \
-	-fill Black -annotate +10+45 'A' -channel RGBA  -blur 0x5 \
-	-fill white -stroke black -draw "text 5,40 'A'"   a.png
+    -fill Black -annotate +10+45 'A' -channel RGBA  -blur 0x5 \
+    -fill white -stroke black -draw "text 5,40 'A'"   a.png
 
 convert  a.png  a.jpg
 ~~~
 
-[![\[IM Output\]](a.png)](a.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](a.jpg)](a.jpg)
+[![\[IM Output\]](a.png)](a.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](a.jpg)](a.jpg)
 
 Remember the [JPEG File Format](../formats/#jpg), does not save the alpha (transparency) channel, and as such simply turns it off.
 In this case, transparent parts just became black (a typical result).
@@ -412,8 +422,8 @@ Here is one such method...
 
 ~~~
 convert a.png \( +clone -alpha opaque -fill SkyBlue -colorize 100% \) \
-	+swap -geometry +0+0 -compose Over -composite  \
-	-alpha off  a_compose.jpg
+    +swap -geometry +0+0 -compose Over -composite  \
+    -alpha off  a_compose.jpg
 ~~~
 
 [![\[IM Output\]](a_compose.jpg)](a_compose.jpg)
@@ -449,7 +459,7 @@ This compose method ensures the original image's meta-data and size are preserve
 
 ~~~
 composite -compose Dst_Over -tile pattern:checkerboard \
-	a.png  a_undertile.jpg
+    a.png  a_undertile.jpg
 ~~~
 
 [![\[IM Output\]](a_undertile.jpg)](a_undertile.jpg)
@@ -458,7 +468,7 @@ composite -compose Dst_Over -tile pattern:checkerboard \
 > :REMINDER:
 > Many of the above methods, are either affected by, or may destroy any virtual canvas information an image may have, as part of its processing.
 > When the virtual canvas is involved, you may need to look at the details of individual operators more closely.
-> In many cases the virtual canavs effects can be useful to your overall image processing.
+> In many cases the virtual canvas effects can be useful to your overall image processing.
 
 ### Boolean Alpha Transparency {#boolean_transparency}
 
@@ -473,12 +483,14 @@ One way is to use [EdgeOut Morphology](../morphology/#edgeout) to quickly get al
 
 ~~~
 convert  knight.png \( +clone \
-	-channel A -morphology EdgeOut Diamond +channel \
-	+level-colors red \
-	\) -compose DstOver -composite    knight_outlined.png
+    -channel A -morphology EdgeOut Diamond +channel \
+    +level-colors red \
+    \) -compose DstOver -composite    knight_outlined.png
 ~~~
 
-[![\[IM Output\]](knight.png)](knight.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](knight_outlined.png)](knight_outlined.png)
+[![\[IM Output\]](knight.png)](knight.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](knight_outlined.png)](knight_outlined.png)
 
 This can be particularly useful when creating GIF format images from PNG images containing semi-transparent edge pixels.
 It provides a minimal amount of background color, but leaves the rest of the image fully-transparent.
@@ -488,14 +500,14 @@ To do this we [Blur](../blur/#blur) and recolor the image, then again [Under (Ds
 
 ~~~
 convert knight.png \(  +clone \
-	-channel A  -blur 0x2.5 -level 0,50% +channel \
-	+level-colors red \
-	\) -compose DstOver  -composite    knight_halo.png
+    -channel A  -blur 0x2.5 -level 0,50% +channel \
+    +level-colors red \
+    \) -compose DstOver  -composite    knight_halo.png
 ~~~
 
 [![\[IM Output\]](knight_halo.png)](knight_halo.png)
+
 This last is actually similar to using a [Soft Outline Compound Font](../fonts/#soft_outline) effect, but using a shaped image rather than annotated text.
-  
 
 ------------------------------------------------------------------------
 
@@ -515,19 +527,25 @@ Here we create a image, then by extracting and modifying its mask, before restor
 
 ~~~
 convert -size 100x100 xc:none   -stroke black  -fill steelblue \
-	-strokewidth 1   -draw "circle 60,60 35,35" \
-	-strokewidth 2   -draw "line 10,55 85,10"      drawn.png
+    -strokewidth 1   -draw "circle 60,60 35,35" \
+    -strokewidth 2   -draw "line 10,55 85,10"      drawn.png
 
 convert drawn.png -alpha extract  mask.png
 
 convert mask.png -fill black -draw "circle 40,80 60,60" mask_bite.png
 
 convert drawn.png mask_bite.png \
-	-alpha Off -compose CopyOpacity -composite \
-	drawn_bite.png
+    -alpha Off -compose CopyOpacity -composite \
+    drawn_bite.png
 ~~~
 
-[![\[IM Output\]](drawn.png)](drawn.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](mask.png)](mask.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](mask_bite.png)](mask_bite.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](drawn_bite.png)](drawn_bite.png)
+[![\[IM Output\]](drawn.png)](drawn.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](mask.png)](mask.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](mask_bite.png)](mask_bite.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](drawn_bite.png)](drawn_bite.png)
 
 Remember "black" in a mask is transparent, while white is opaque, so all we need to do is draw black over anything we don't want visible.
 Don't forget the "`-alpha Off`" operation in the above as it is vital to ensure the grayscale image does not contain unneeded transparent channel.
@@ -538,13 +556,17 @@ The mask is then again returned to the original image using [CopyOpacity Channel
 
 ~~~
 convert mask_bite.png -fill white \
-	-draw "circle 50,70 60,60" \
-	-draw "roundRectangle  78,5 98,25 5,5" \
-	-alpha off  mask_bite2.png
+    -draw "circle 50,70 60,60" \
+    -draw "roundRectangle  78,5 98,25 5,5" \
+    -alpha off  mask_bite2.png
 composite -compose CopyOpacity mask_bite2.png drawn.png drawn_bite2.png
 ~~~
 
-[![\[IM Output\]](mask_bite.png)](mask_bite.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](mask_bite2.png)](mask_bite2.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](drawn_bite2.png)](drawn_bite2.png)
+[![\[IM Output\]](mask_bite.png)](mask_bite.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](mask_bite2.png)](mask_bite2.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](drawn_bite2.png)](drawn_bite2.png)
 
 Just a word of warning about re-adding parts.
 Typically ImageMagick replaces any fully-transparent color with black, usually because that is how the mathematics behind operators work.
@@ -562,7 +584,11 @@ convert -size 100x100 xc:none -draw "circle 40,80 60,60" mask_shape.png
 convert drawn.png mask_shape.png -compose DstOut -composite drawn_bite3.png
 ~~~
 
-[![\[IM Output\]](drawn.png)](drawn.png) ![-](../img_www/minus.gif) [![\[IM Output\]](mask_shape.png)](mask_shape.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](drawn_bite3.png)](drawn_bite3.png)
+[![\[IM Output\]](drawn.png)](drawn.png)
+![-](../img_www/minus.gif)
+[![\[IM Output\]](mask_shape.png)](mask_shape.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](drawn_bite3.png)](drawn_bite3.png)
 
 As you can see, sometimes Shape Masks are easier to handle, as you avoid the need to extract and restore the alpha channel.
 However, the [Duff-Porter Alpha Composition Methods](../compose/#duff-porter), which is what I am using, will never allow you to restore colors that have been made transparent.
@@ -579,7 +605,7 @@ For this we need a mask, which I'll extract from a special 'symbol' font.
 
 ~~~
 convert -font WebDings -pointsize 24 label:Y \
-	+trim +repage  -negate   heart_mask.gif
+    +trim +repage  -negate   heart_mask.gif
 ~~~
 
 [![\[IM Output\]](heart_mask.gif)](heart_mask.gif)
@@ -602,7 +628,7 @@ Before this, the simplest solution was to negate the alpha mask into a matte [Ch
 
 ~~~
 convert heart_mask.gif -negate  \
-	-background Gold  -channel A  -combine   heart_gold.png
+    -background Gold  -channel A  -combine   heart_gold.png
 ~~~
 
 [![\[IM Output\]](heart_gold.png)](heart_gold.png)
@@ -612,8 +638,8 @@ This works and for a long time was the best technique to use, but is no longer r
 
 ~~~
 convert heart_mask.gif \( +clone \) -alpha off \
-	-compose CopyOpacity  -composite \
-	-fill HotPink  -colorize 100%    heart_hotpink.png
+    -compose CopyOpacity  -composite \
+    -fill HotPink  -colorize 100%    heart_hotpink.png
 ~~~
 
 [![\[IM Output\]](heart_hotpink.png)](heart_hotpink.png)
@@ -622,9 +648,9 @@ Now that you have a 'shaped' image, you can simply overlay the image on any back
 
 ~~~
 convert rose: -page +2+2  heart_gold.png \
-	\( +clone -repage +7+29 \)  \
-	\( +clone -repage +52+14 \)  \
-	-flatten       rose_with_love.gif
+    \( +clone -repage +7+29 \)  \
+    \( +clone -repage +52+14 \)  \
+    -flatten       rose_with_love.gif
 ~~~
 
 [![\[IM Output\]](rose_with_love.gif)](rose_with_love.gif)
@@ -634,9 +660,9 @@ One way you can make multi-colored overlays is to re-color the shaped image imme
 
 ~~~
 convert rose: \(  heart_gold.png           -repage +2+2   \) \
-	\( +clone -fill Red     -colorize 100% -repage +7+29 \) \
-	\( +clone -fill HotPink -colorize 100% -repage +52+14 \) \
-	-flatten      rose_colored_love.gif
+    \( +clone -fill Red     -colorize 100% -repage +7+29 \) \
+    \( +clone -fill HotPink -colorize 100% -repage +52+14 \) \
+    -flatten      rose_colored_love.gif
 ~~~
 
 [![\[IM Output\]](rose_colored_love.gif)](rose_colored_love.gif)
@@ -656,12 +682,15 @@ For example, let's use the larger mask image from above, to overlay a larger ima
 
 ~~~
 convert mask_bite.png -size 100x100   tile:tile_disks.jpg \
-	-compose Multiply  -composite   compose_multiply.png
+    -compose Multiply  -composite   compose_multiply.png
 convert mask_bite.png -size 100x100   tile:tile_water.jpg  \
-	-compose Screen    -composite   compose_screen.png
+    -compose Screen    -composite   compose_screen.png
 ~~~
 
-[![\[IM Output\]](mask_bite.png)](mask_bite.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](compose_multiply.png)](compose_multiply.png) [![\[IM Output\]](compose_screen.png)](compose_screen.png)
+[![\[IM Output\]](mask_bite.png)](mask_bite.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](compose_multiply.png)](compose_multiply.png)
+[![\[IM Output\]](compose_screen.png)](compose_screen.png)
 
 The '`Multiply`' alpha composition method is especially useful for replacing the background of text images (i.e.: black text on white background), such as images generated from [Postscript Documents](../text/#postscript).
 
@@ -671,7 +700,7 @@ The special three image form of [Masked Alpha Composition](../compose/#mask) all
 
 ~~~
 convert -size 100x100   tile:tile_water.jpg  tile:tile_disks.jpg \
-	mask_bite.png    -composite   compose_masked.png
+    mask_bite.png    -composite   compose_masked.png
 ~~~
 
 [![\[IM Output\]](compose_masked.png)](compose_masked.png)
@@ -689,98 +718,101 @@ In other words, the first two images need to be swapped for that command.
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
 <!-- :ATTENTION: -->
-    On aligning two masked images...
 
-    If your masks are pure boolean, you should have no problems however you
-    apply them.
-     However masks containing 'anti-aliased', 'gray', or
-    'semi-transparent' edging to make them 'smooth looking' can be serious
-    headache if you do not handle them properly and with care.
+~~~{.skip}
+On aligning two masked images...
 
-    The rest of this discussion is on 'anti-aliased' masks.
+If your masks are pure boolean, you should have no problems however you
+apply them.
+ However masks containing 'anti-aliased', 'gray', or
+'semi-transparent' edging to make them 'smooth looking' can be serious
+headache if you do not handle them properly and with care.
 
-    Anti-Aliased Masks which join together come in two styles...
+The rest of this discussion is on 'anti-aliased' masks.
 
-     * Ones which fit together like jigsaw puzzle pieces OR
-       like a shaped peg into a shaped hole (shared boundary)
+Anti-Aliased Masks which join together come in two styles...
 
-     * Masks that are ment to overlay a solid area (layered)
+ * Ones which fit together like jigsaw puzzle pieces OR
+   like a shaped peg into a shaped hole (shared boundary)
 
-    The latter is easy to handle and is the normal effect you get when you overlay
-    some colored shape over a fully-opaque image.
-    Essentially you would use 'over' composition to compose the shape.
+ * Masks that are ment to overlay a solid area (layered)
 
-    The former 'jigsaw' masks however is harder.
-    Such masks are not meant to
-    either overlap, or underlap each other.
-    And yet if you try to join them
-    using the obvious and normal 'over' composition you will end up with a
-    semi-transparent join where 'anti-aliased edges' are merged.
+The latter is easy to handle and is the normal effect you get when you overlay
+some colored shape over a fully-opaque image.
+Essentially you would use 'over' composition to compose the shape.
 
-    Example of a bad 'jigsaw mask' join (over)
+The former 'jigsaw' masks however is harder.
+Such masks are not meant to
+either overlap, or underlap each other.
+And yet if you try to join them
+using the obvious and normal 'over' composition you will end up with a
+semi-transparent join where 'anti-aliased edges' are merged.
 
-    The correct way to join masks and shaped 'jigsaw' images is to use
-    Plus composition to 'add' the images together, with either a
-    black or fully-transparent background.
+Example of a bad 'jigsaw mask' join (over)
 
-    Example of a correct 'jigsaw mask' join (plus)
+The correct way to join masks and shaped 'jigsaw' images is to use
+Plus composition to 'add' the images together, with either a
+black or fully-transparent background.
 
-
-    For another example of DIY image joining, using 'Dst-In', 'Dst-Out', and
-    'Plus' composition, see examples in...
-      http://www.imagemagick.org/Usage/compose/#dstin
-
-    I also go though this joining detail in the bug report of 3 image alpha
-    composition Composite Mask Bug
-    - Fixed.
-
-    For more on the difference between 'over' and 'plus' see 'Blend' (plus) vs 'Dissolve' (over)
-
-    Examples of correctly joining edge aligned pieces is shown in
-    3d Cubes - Affine and again in 3d Boxes - Perspective
-    and in Isometric Cube using Shears
-      http://www.imagemagick.org/Usage/warping/#sheared_cube
-
-    The Major problems in these examples is that the individual parts were NOT
-    generated using the same mask, but distorted to their final positions.
-    As such they do not quite fit together properly and joined together.
-
-    These examples need to be updated to use a 'Plus' composition method.  To
-    generate improved results, but even then they will still probably not be quite
-    'right' as the masks do not exactly 'fit' together.
+Example of a correct 'jigsaw mask' join (plus)
 
 
-    Generating Correct Edge Aligned Masks
+For another example of DIY image joining, using 'Dst-In', 'Dst-Out', and
+'Plus' composition, see examples in...
+  http://www.imagemagick.org/Usage/compose/#dstin
 
-    The best idea is to use the same mask (negated) for BOTH pieces, rather than
-    attempting to draw the two masks separately. Otherwise you have the two masks
-    overlap, OR leave a gap, exactly as you have seen.
+I also go though this joining detail in the bug report of 3 image alpha
+composition Composite Mask Bug
+- Fixed.
 
-    correct methods of mask joining..
+For more on the difference between 'over' and 'plus' see 'Blend' (plus) vs 'Dissolve' (over)
 
-        * use mask to set transparency on one piece
-          use negated mask to set transparency of other piece
-          'Plus' the two pieces together.
+Examples of correctly joining edge aligned pieces is shown in
+3d Cubes - Affine and again in 3d Boxes - Perspective
+and in Isometric Cube using Shears
+  http://www.imagemagick.org/Usage/warping/#sheared_cube
 
-        * Use mask to Add transparency to just one piece, then
-          'Over' compose that piece over a complete image.
+The Major problems in these examples is that the individual parts were NOT
+generated using the same mask, but distorted to their final positions.
+As such they do not quite fit together properly and joined together.
 
-        * use a three image masked composition
-          see http://www.imagemagick.org/Usage/compose/#mask
-          and http://www.imagemagick.org/Usage/masking/#masked_compose
-          Which uses the mask to select results from two different images.
+These examples need to be updated to use a 'Plus' composition method.  To
+generate improved results, but even then they will still probably not be quite
+'right' as the masks do not exactly 'fit' together.
 
-    Remember, 'Over' only needs the 'source' or 'overlay' image masked, the
-    background image should not have aligned semi-transparent edges.
-    But a 'plus' composition needs both images masked with and exact negative
-    mask of each other align the joined edge.
 
-    WARNING:  Draw does NOT currently allow you to generate two shapes that will
-    fit together properly without overlap!!!!
+Generating Correct Edge Aligned Masks
 
-    See Draw Fill Bounds for details.
+The best idea is to use the same mask (negated) for BOTH pieces, rather than
+attempting to draw the two masks separately. Otherwise you have the two masks
+overlap, OR leave a gap, exactly as you have seen.
 
-    I have not checked SVG to see if it has the same problem.
+correct methods of mask joining..
+
+    * use mask to set transparency on one piece
+      use negated mask to set transparency of other piece
+      'Plus' the two pieces together.
+
+    * Use mask to Add transparency to just one piece, then
+      'Over' compose that piece over a complete image.
+
+    * use a three image masked composition
+      see http://www.imagemagick.org/Usage/compose/#mask
+      and http://www.imagemagick.org/Usage/masking/#masked_compose
+      Which uses the mask to select results from two different images.
+
+Remember, 'Over' only needs the 'source' or 'overlay' image masked, the
+background image should not have aligned semi-transparent edges.
+But a 'plus' composition needs both images masked with and exact negative
+mask of each other align the joined edge.
+
+WARNING:  Draw does NOT currently allow you to generate two shapes that will
+fit together properly without overlap!!!!
+
+See Draw Fill Bounds for details.
+
+I have not checked SVG to see if it has the same problem.
+~~~
 
 ------------------------------------------------------------------------
 
@@ -796,10 +828,13 @@ For example, here I use a 'write mask' to protect the background pixels from bei
 
 ~~~
 convert rose: -mask rose_bg_mask.png \
-	-modulate 110,100,33.3  +mask rose_blue.png
+    -modulate 110,100,33.3  +mask rose_blue.png
 ~~~
 
-[![\[IM Output\]](rose.png)](rose.png) [![\[IM Output\]](rose_bg_mask.png)](rose_bg_mask.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_blue.png)](rose_blue.png)
+[![\[IM Output\]](rose.png)](rose.png)
+[![\[IM Output\]](rose_bg_mask.png)](rose_bg_mask.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_blue.png)](rose_blue.png)
 
 The mask is bit rough, but it worked well.
 Just remember that a 'write mask' is used to specify the part to be protected or preserve.
@@ -817,10 +852,13 @@ convert -size 70x70 xc:red  red_image.png
 convert -size 70x70 xc: -draw 'circle 35,35 30,5'  write_mask.png
 
 convert red_image.png  -mask write_mask.png \
-	-fill blue -opaque red   +mask    masked_color_replace.png
+    -fill blue -opaque red   +mask    masked_color_replace.png
 ~~~
 
-[![\[IM Output\]](red_image.png)](red_image.png) [![\[IM Output\]](write_mask.png)](write_mask.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](masked_color_replace.png)](masked_color_replace.png)
+[![\[IM Output\]](red_image.png)](red_image.png)
+[![\[IM Output\]](write_mask.png)](write_mask.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](masked_color_replace.png)](masked_color_replace.png)
 
 Note that the edges of both the mask and the resulting image are smooth (anti-aliased) that is because the mask is not simply a boolean mask but a blending mask.
 The 'write-mask' is a blending mask in that 'grey' pixels in the mask will produce a blending of the new pixels with the old image values, by the amount of gray that is present.
@@ -837,17 +875,21 @@ This use of masking is actually exactly how [Composition Masking](../compose/#ma
 convert -size 70x70 xc:green  green_image.png
 
 convert red_image.png  green_image.png  write_mask.png \
-	-composite    masked_composite.png
+    -composite    masked_composite.png
 ~~~
 
-[![\[IM Output\]](red_image.png)](red_image.png) [![\[IM Output\]](green_image.png)](green_image.png) [![\[IM Output\]](write_mask.png)](write_mask.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](masked_composite.png)](masked_composite.png)
+[![\[IM Output\]](red_image.png)](red_image.png)
+[![\[IM Output\]](green_image.png)](green_image.png)
+[![\[IM Output\]](write_mask.png)](write_mask.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](masked_composite.png)](masked_composite.png)
 
 Is equivalent (with a negated mask) to...
 
 ~~~
 convert write_mask.png  -negate -write MPR:mask +delete \
-	red_image.png -mask MPR:mask \
-	green_image.png  -composite  +mask  masked_composite_equiv.png
+    red_image.png -mask MPR:mask \
+    green_image.png  -composite  +mask  masked_composite_equiv.png
 ~~~
 
 [![\[IM Output\]](masked_composite_equiv.png)](masked_composite_equiv.png)
@@ -870,7 +912,7 @@ For example...
 
 ~~~
 convert red_image.png  -clip-mask write_mask.png \
-	-fill blue -opaque red   +clip-mask    clipped_modulate.png
+    -fill blue -opaque red   +clip-mask    clipped_modulate.png
 ~~~
 
 [![\[IM Output\]](clipped_modulate.png)](clipped_modulate.png)
@@ -897,7 +939,7 @@ In IM, the operators "`-clip`" and "`-clip-path`" read this 'clip-path' and conv
 As such it defines a 'write mask' that will protect the shape from modification.
 A clip-path stored in the TIFF image is defined as a [SVG Path Drawing](../draw/#paths), which you can extract from a TIFF image file format using...
 
-~~~
+~~~{.skip}
 identify -format '%[8BIM:1999,2998:#1]' image_clip.tiff
 ~~~
 
@@ -905,7 +947,7 @@ The biggest problem people often have is making everything that is not clipped t
 Which requires you to write the areas the mask write protects!
 This is one solution, which converts the whole image to transparency, then turn on the 'clip path' then make the now writable parts opaque (visible) again.
 
-~~~  
+~~~{.skip}
 convert input.tiff -alpha transparent -clip -alpha opaque -strip out.tiff
 ~~~
 
@@ -923,10 +965,13 @@ That is, we want to only blur the background part of the image, rather heavily i
 
 ~~~
 convert rose: -mask rose_fg_mask.png \
-	-blur 0x8   +mask  rose_bg_blur_fail.png
+    -blur 0x8   +mask  rose_bg_blur_fail.png
 ~~~
 
-[![\[IM Output\]](rose.png)](rose.png) [![\[IM Output\]](rose_fg_mask.png)](rose_fg_mask.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_bg_blur_fail.png)](rose_bg_blur_fail.png)  
+[![\[IM Output\]](rose.png)](rose.png)
+[![\[IM Output\]](rose_fg_mask.png)](rose_fg_mask.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_bg_blur_fail.png)](rose_bg_blur_fail.png)  
 
 The result is using a **Write-Protect Mask** and is not what was wanted.
 
@@ -949,15 +994,28 @@ Here are the steps involved, while showing intermediate images to try and make t
 
 ~~~
 convert rose: rose_bg_mask.png -alpha off \
-	-compose CopyOpacity -composite   +compose  rose_bg_only.png
+    -compose CopyOpacity -composite   +compose  rose_bg_only.png
 convert rose_bg_only.png  -channel RGBA -blur 0x8   rose_bg_blurred.png
 convert rose_bg_blurred.png      -alpha off         rose_bg_blur_opaque.png
 convert rose_bg_blur_opaque.png \
-	rose:  rose_fg_mask.png -composite    rose_bg_blur_good.png
+    rose:  rose_fg_mask.png -composite    rose_bg_blur_good.png
 ~~~
 
-[![\[IM Output\]](rose.png)](rose.png) ![==&gt;](../img_www/plus.gif) [![\[IM Output\]](rose_bg_mask.png)](rose_bg_mask.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_bg_only.png)](rose_bg_only.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_bg_blurred.png)](rose_bg_blurred.png)  
- [![\[IM Output\]](rose_bg_blurred.png)](rose_bg_blurred.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_bg_blur_opaque.png)](rose_bg_blur_opaque.png) ![==&gt;](../img_www/plus.gif) [![\[IM Output\]](rose.png)](rose.png) [![\[IM Output\]](rose_fg_mask.png)](rose_fg_mask.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_bg_blur_good.png)](rose_bg_blur_good.png)
+[![\[IM Output\]](rose.png)](rose.png)
+![==&gt;](../img_www/plus.gif)
+[![\[IM Output\]](rose_bg_mask.png)](rose_bg_mask.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_bg_only.png)](rose_bg_only.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_bg_blurred.png)](rose_bg_blurred.png)  
+ [![\[IM Output\]](rose_bg_blurred.png)](rose_bg_blurred.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_bg_blur_opaque.png)](rose_bg_blur_opaque.png)
+![==&gt;](../img_www/plus.gif)
+[![\[IM Output\]](rose.png)](rose.png)
+[![\[IM Output\]](rose_fg_mask.png)](rose_fg_mask.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_bg_blur_good.png)](rose_bg_blur_good.png)
 
 The result is the removal of the red halo effect that was previously being 'leaked' into the blurred background.
 Here is a side-by-side comparision of the write-masked and read-masked versions of the background blur, so you can clearly see how we removed the 'leakage' of the foreground color into the background.
@@ -985,7 +1043,7 @@ For example, here I color tint the whole rectangular region red...
 
 ~~~
 convert koala.gif  -region 40x33+15+5 -fill red -colorize 50% \
-	koala_region_red.gif
+    koala_region_red.gif
 ~~~
 
 [![\[IM Output\]](koala_region_red.gif)](koala_region_red.gif)
@@ -994,7 +1052,7 @@ You can also make a region transparent...
 
 ~~~
 convert koala.gif -alpha set \
-	-region 40x33+15+5 -alpha transparent   koala_region_trans.gif
+    -region 40x33+15+5 -alpha transparent   koala_region_trans.gif
 ~~~
 
 [![\[IM Output\]](koala_region_trans.gif)](koala_region_trans.gif)
@@ -1020,10 +1078,10 @@ For example, here we have a line of stripes.
 
 ~~~
 convert -size 600x70 xc:darkred \
-	-fill white -draw 'roundrectangle 5,5  595,65 5,5' \
-	-fill black -draw 'rectangle 5,25 595,31' \
-	-fill red -draw 'rectangle 5,39 595,45' \
-	lines.gif
+    -fill white -draw 'roundrectangle 5,5  595,65 5,5' \
+    -fill black -draw 'rectangle 5,25 595,31' \
+    -fill red -draw 'rectangle 5,39 595,45' \
+    lines.gif
 ~~~
 
 [![\[IM Output\]](lines.gif)](lines.gif)
@@ -1032,13 +1090,13 @@ Now, by defining regions we can distort the line in different ways in different 
 
 ~~~
 convert lines.gif \
-	-region 90x70+10+0    -swirl  400  \
-	-region 90x70+100+0   -swirl  400 \
-	-region 90x70+190+0   -swirl -400 \
-	-region 120x70+280+0  -implode 1.5 \
-	-region 100x70+380+0  -implode -7  \
-	-region 101x70+480+0  -wave 10x50 -crop 0x70+0+10\! \
-	+region lines_regions.gif
+    -region 90x70+10+0    -swirl  400  \
+    -region 90x70+100+0   -swirl  400 \
+    -region 90x70+190+0   -swirl -400 \
+    -region 120x70+280+0  -implode 1.5 \
+    -region 100x70+380+0  -implode -7  \
+    -region 101x70+480+0  -wave 10x50 -crop 0x70+0+10\! \
+    +region lines_regions.gif
 ~~~
 
 [![\[IM Output\]](lines_regions.gif)](lines_regions.gif)
@@ -1060,20 +1118,20 @@ Region works in a way that is similar to using [Image Stack Operators](../basics
 It was, for example, an integral part of IM version 5.
 For example, if you have this [Region Operation](#region)...
 
-~~~
+~~~{.skip}
       ... -region WxH+X+Y  ...simple-operators... +region ...
 ~~~
 
 the result is equivalent to this (for a single image)...
 
-~~~
+~~~{.skip}
       ... \( +clone -crop WxH+X+Y ...simple-operators... \
              \) -geometry +X+Y -composite   ...
 ~~~
 
 Or this (for multiple images)...
 
-~~~
+~~~{.skip}
       ... \( -clone 0--1 -crop WxH+X+Y ...simple-operators... \
              null: +insert \) -geometry +X+Y -layer composite ...
 ~~~
@@ -1085,7 +1143,7 @@ For example, here I intentionally turned off the transparency in the original im
 
 ~~~
 convert koala.gif -alpha off -region 30x30+10+10 \
-	-alpha on -background None  -rotate 30  koala_region_rotate_1.gif
+    -alpha on -background None  -rotate 30  koala_region_rotate_1.gif
 ~~~
 
 [![\[IM Output\]](koala_region_rotate_1.gif)](koala_region_rotate_1.gif)
@@ -1096,7 +1154,7 @@ If the original image does contain active [Transparency](#alpha) then the transp
 
 ~~~
 convert koala.gif -alpha set  -region 30x30+10+10 \
-	-background None  -rotate 30    koala_region_rotate_2.gif
+    -background None  -rotate 30    koala_region_rotate_2.gif
 ~~~
 
 [![\[IM Output\]](koala_region_rotate_2.gif)](koala_region_rotate_2.gif)
@@ -1109,7 +1167,7 @@ For example, here I resize (and color) the region image so it becomes smaller...
 
 ~~~
 convert koala.gif  -region 30x30+10+10 \
-	-resize 75% -fill red -colorize 30%  koala_region_shrink.gif
+    -resize 75% -fill red -colorize 30%  koala_region_shrink.gif
 ~~~
 
 [![\[IM Output\]](koala_region_shrink.gif)](koala_region_shrink.gif)
@@ -1120,10 +1178,11 @@ In a similar way, if the region becomes larger, more of the original image may b
 
 ~~~
 convert koala.gif  -region 30x30+10+10 \
-	-resize 150% -fill red -colorize 30%  koala_region_enlarge.gif
+    -resize 150% -fill red -colorize 30%  koala_region_enlarge.gif
 ~~~
 
 [![\[IM Output\]](koala_region_enlarge.gif)](koala_region_enlarge.gif)
+
 In both cases, the top-left offset of the region does not move.
 You can not just shrink a region image and center it within the region area, nor can you position the region image in another position.
 Caution should be exercised to prevent region images from changing size.
@@ -1165,8 +1224,8 @@ For example, here is a direct floodfill masking of an image with a solid color b
 
 ~~~
 convert cyclops.png -alpha set -channel RGBA \
-	-fuzz 1% -fill none -floodfill +0+0 white \
-	cyclops_flood_1.png
+    -fuzz 1% -fill none -floodfill +0+0 white \
+    cyclops_flood_1.png
 ~~~
 
 [![\[IM Output\]](cyclops_flood_1.png)](cyclops_flood_1.png)
@@ -1177,9 +1236,9 @@ However, for this you need to know the color of the background.
 
 ~~~
 convert cyclops.png -bordercolor white -border 1x1 \
-	-alpha set -channel RGBA -fuzz 1% \
-	-fill none -floodfill +0+0 white \
-	-shave 1x1    cyclops_flood_2.png
+    -alpha set -channel RGBA -fuzz 1% \
+    -fill none -floodfill +0+0 white \
+    -shave 1x1    cyclops_flood_2.png
 ~~~
 
 [![\[IM Output\]](cyclops_flood_2.png)](cyclops_flood_2.png)
@@ -1191,9 +1250,9 @@ However, as this image has a good black border to it, relative to the background
 
 ~~~
 convert cyclops.png -bordercolor white -border 1x1 \
-	-alpha set -channel RGBA -fuzz 20% \
-	-fill none -floodfill +0+0 white \
-	-shave 1x1    cyclops_flood_3.png
+    -alpha set -channel RGBA -fuzz 20% \
+    -fill none -floodfill +0+0 white \
+    -shave 1x1    cyclops_flood_3.png
 ~~~
 
 [![\[IM Output\]](cyclops_flood_3.png)](cyclops_flood_3.png)
@@ -1206,7 +1265,7 @@ As such, if I overlay the above image on a black background, you may see some pi
 
 ~~~
 convert cyclops_flood_3.png -background black -flatten \
-	cyclops_flood_3_over.png
+    cyclops_flood_3_over.png
 ~~~
 
 [![\[IM Output\]](cyclops_flood_3_over.png)](cyclops_flood_3_over.png)
@@ -1233,10 +1292,13 @@ By using '`ChangeMask`' we can recover that original overlaid image (if it is ve
 
 ~~~
 convert overlay_figure.gif   overlay_bgnd.gif  \
-	-compose ChangeMask  -composite  overlay_removed.png
+    -compose ChangeMask  -composite  overlay_removed.png
 ~~~
 
-[![\[IM Output\]](overlay_figure.gif)](overlay_figure.gif) [![\[IM Output\]](overlay_bgnd.gif)](overlay_bgnd.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](overlay_removed.png)](overlay_removed.png)
+[![\[IM Output\]](overlay_figure.gif)](overlay_figure.gif)
+[![\[IM Output\]](overlay_bgnd.gif)](overlay_bgnd.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](overlay_removed.png)](overlay_removed.png)
 
 Basically, what this does is determine how 'different' the pixels are from one image to the other, and if the difference is less than the current [Fuzz Factor](../color_basics/#fuzz), then make that pixel transparent.
 Only fully transparent pixels are added to the image, otherwise the original image is left as is, transparency and all.
@@ -1244,10 +1306,14 @@ We can simulate the operator by using the older '`Difference`' composition metho
 
 ~~~
 composite overlay_figure.gif   overlay_bgnd.gif  \
-	-compose Difference     overlay_difference.png
+    -compose Difference     overlay_difference.png
 ~~~
 
-[![\[IM Output\]](overlay_figure.gif)](overlay_figure.gif) ![==&gt;](../img_www/bar.gif) [![\[IM Output\]](overlay_bgnd.gif)](overlay_bgnd.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](overlay_difference.png)](overlay_difference.png)
+[![\[IM Output\]](overlay_figure.gif)](overlay_figure.gif)
+![==&gt;](../img_www/bar.gif)
+[![\[IM Output\]](overlay_bgnd.gif)](overlay_bgnd.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](overlay_difference.png)](overlay_difference.png)
 
 As you can see, the difference image is black for all the unchanged parts and a mix of colors for the parts which has changed.
   
@@ -1255,7 +1321,7 @@ By separating and adding the individual color channels together and thresholding
 
 ~~~
 convert overlay_difference.png -channel RGBA -separate +channel \
-	-evaluate-sequence add  -threshold 0   overlay_mask.png
+    -evaluate-sequence add  -threshold 0   overlay_mask.png
 ~~~
 
 [![\[IM Output\]](overlay_mask.png)](overlay_mask.png)
@@ -1264,8 +1330,8 @@ Using this mask we can set anything that has not changed to transparency.
 
 ~~~
 convert overlay_figure.gif overlay_mask.png \
-	-alpha off -compose CopyOpacity -composite \
-	overlay_removed.png
+    -alpha off -compose CopyOpacity -composite \
+    overlay_removed.png
 ~~~
 
 [![\[IM Output\]](overlay_removed.png)](overlay_removed.png)
@@ -1282,11 +1348,12 @@ We then generate a grayscale image of the differences between this image and the
 
 ~~~
 convert cyclops.png \( +clone -fx 'p{0,0}' \) \
-	-compose Difference  -composite  \
-	-modulate 100,0  -alpha off  difference.png
+    -compose Difference  -composite  \
+    -modulate 100,0  -alpha off  difference.png
 ~~~
 
-[![\[IM Output\]](cyclops.png)](cyclops.png) [![\[IM Output\]](difference.png)](difference.png)
+[![\[IM Output\]](cyclops.png)](cyclops.png)
+[![\[IM Output\]](difference.png)](difference.png)
 
 Of course this difference image is no good as a mask directly.
 If you did use it you will effectively make most of your image semi-transparent, instead of just the surrounding background.
@@ -1296,11 +1363,12 @@ We can adjust the above difference image to produce a mask of all pixels that ar
 ~~~
 convert difference.png  -threshold 0  boolean_mask.png
 convert cyclops.png  boolean_mask.png \
-	-alpha off -compose CopyOpacity -composite \
-	cyclops_boolean.png
+    -alpha off -compose CopyOpacity -composite \
+    cyclops_boolean.png
 ~~~
 
-[![\[IM Output\]](boolean_mask.png)](boolean_mask.png) [![\[IM Output\]](cyclops_boolean.png)](cyclops_boolean.png)
+[![\[IM Output\]](boolean_mask.png)](boolean_mask.png)
+[![\[IM Output\]](cyclops_boolean.png)](cyclops_boolean.png)
 
 As you can see, a boolean 'any difference' resulted in a good amount of the original background being included.
 This is because the original image is either 'anti-aliased' or blurred slightly with the background (in this case it was caused by the original image being resized from a JPEG format image).
@@ -1311,11 +1379,12 @@ By varying the "`-threshold`" you can add a 'fuzz factor' to the boolean (on/off
 ~~~
 convert difference.png  -threshold 15%  threshold_mask.png
 convert cyclops.png  threshold_mask.png \
-	-alpha Off -compose CopyOpacity -composite \
-	cyclops_threshold.png
+    -alpha Off -compose CopyOpacity -composite \
+    cyclops_threshold.png
 ~~~
 
-[![\[IM Output\]](threshold_mask.png)](threshold_mask.png) [![\[IM Output\]](cyclops_threshold.png)](cyclops_threshold.png)
+[![\[IM Output\]](threshold_mask.png)](threshold_mask.png)
+[![\[IM Output\]](cyclops_threshold.png)](cyclops_threshold.png)
 
 Notice that the eye of the cyclops image is now also regarded as being a transparent **hole**!
 This 'hole' highlights the biggest drawback with this technique.
@@ -1326,12 +1395,13 @@ You can enhance the halo effect by blurring the mask a little before applying it
 
 ~~~
 convert difference.png -bordercolor black -border 5 \
-	-threshold 10%  -blur 0x3  halo_mask.png
+    -threshold 10%  -blur 0x3  halo_mask.png
 convert cyclops.png -bordercolor white -border 5   halo_mask.png \
-	-alpha Off -compose CopyOpacity -composite  cyclops_halo.png
+    -alpha Off -compose CopyOpacity -composite  cyclops_halo.png
 ~~~
 
-[![\[IM Output\]](halo_mask.png)](halo_mask.png) [![\[IM Output\]](cyclops_halo.png)](cyclops_halo.png)
+[![\[IM Output\]](halo_mask.png)](halo_mask.png)
+[![\[IM Output\]](cyclops_halo.png)](cyclops_halo.png)
 
 The resulting 'halo' effect can be further modified by using more [Histogram Adjustments](../color_mods/#histogram) on the mask image, giving you very precise control of the results for specific images.
 With the right parameters you can adjust the surrounding halo until it is practically non-existant, though eliminating it completely in this way is difficult.
@@ -1352,9 +1422,9 @@ A shape with a shadow effect.
 
 ~~~
 convert -size 70x60 xc:none -font Candice -pointsize 50 -stroke black \
-	-fill black          -annotate +12+42 'A' -channel RGBA  -blur 0x3 \
-	-fill tile_disks.jpg -annotate +10+40 'A' \
-	tile_water.jpg  -compose DstOver -composite letter.png
+    -fill black          -annotate +12+42 'A' -channel RGBA  -blur 0x3 \
+    -fill tile_disks.jpg -annotate +10+40 'A' \
+    tile_water.jpg  -compose DstOver -composite letter.png
 ~~~
 
 [![\[IM Output\]](letter.png)](letter.png)
@@ -1364,9 +1434,9 @@ Basically by using a difference image we can remove any influence of the backgro
 
 ~~~
 convert letter.png  tile_water.jpg \
-	-compose Difference -composite \
-	-modulate 100,0 -channel B -evaluate set 0 \
-	-alpha Off  diff_mask.png
+    -compose Difference -composite \
+    -modulate 100,0 -channel B -evaluate set 0 \
+    -alpha Off  diff_mask.png
 ~~~
 
 [![\[IM Output\]](diff_mask.png)](diff_mask.png)
@@ -1425,8 +1495,8 @@ That is the parts we are sure do not contain any semi-transparency through to th
 
 ~~~
 convert diff_mask_32.png -channel blue -separate +channel -negate \
-	letter.png +swap -alpha Off -compose CopyOpacity -composite \
-	letter_inside.png
+    letter.png +swap -alpha Off -compose CopyOpacity -composite \
+    letter_inside.png
 ~~~
 
 [![\[IM Output\]](letter_inside.png)](letter_inside.png)
@@ -1441,8 +1511,8 @@ By negating and subtracting (multiplying) the masks we can generate a new mask w
 
 ~~~
 convert diff_mask_01.png -negate diff_mask_32.png \
-	-channel blue -separate +channel -compose multiply -composite \
-	mask_aliasing_area.png
+    -channel blue -separate +channel -compose multiply -composite \
+    mask_aliasing_area.png
 ~~~
 
 [![\[IM Output\]](mask_aliasing_area.png)](mask_aliasing_area.png)
@@ -1452,9 +1522,9 @@ We normalize those pixels to get a smooth transition from opaque to transparency
 
 ~~~
 convert diff_mask.png -channel red -separate +channel \
-	mask_aliasing_area.png -alpha Off -compose CopyOpacity -composite \
-	-background gray30 -compose Over -flatten -normalize \
-	mask_antialiased_pixels.png
+    mask_aliasing_area.png -alpha Off -compose CopyOpacity -composite \
+    -background gray30 -compose Over -flatten -normalize \
+    mask_antialiased_pixels.png
 ~~~
 
 [![\[IM Output\]](mask_antialiased_pixels.png)](mask_antialiased_pixels.png)
@@ -1477,8 +1547,8 @@ While we are at it, let's also re-mask the image to leave just these special edg
 
 ~~~
 convert mask_antialiased_pixels.png mask_aliasing_area.png \
-	-compose multiply -composite -negate \
-	-background '#444' -channel A  -combine letter_edging.png
+    -compose multiply -composite -negate \
+    -background '#444' -channel A  -combine letter_edging.png
 ~~~
 
 [![\[IM Output\]](letter_edging.png)](letter_edging.png)
@@ -1487,7 +1557,7 @@ All that is needed is to now layer the inside 'core' of the image with the semi-
 
 ~~~
 convert letter_inside.png letter_edging.png \
-	-background none  -flatten    letter_recovered.png
+    -background none  -flatten    letter_recovered.png
 ~~~
 
 [![\[IM Output\]](letter_recovered.png)](letter_recovered.png)
@@ -1497,7 +1567,7 @@ You can even overlay it onto a completely different background.
 
 ~~~
 convert letter_recovered.png tile_aqua.jpg \
-	-background none -compose DstOver -flatten    letter_on_aqua.png
+    -background none -compose DstOver -flatten    letter_on_aqua.png
 ~~~
 
 [![\[IM Output\]](letter_on_aqua.png)](letter_on_aqua.png)
@@ -1534,9 +1604,9 @@ Generate a difference image, then merge and maximize the differences found in ea
 
 ~~~
 convert match_navy.gif match_gold.gif \
-	-compose difference -composite -separate \
-	-evaluate-sequence max -auto-level -negate \
-	match_alpha.png
+    -compose difference -composite -separate \
+    -evaluate-sequence max -auto-level -negate \
+    match_alpha.png
 ~~~
 
 [![\[IM Output\]](match_alpha.png)](match_alpha.png)
@@ -1553,8 +1623,8 @@ For example...
 
 ~~~
 convert match_navy.gif match_alpha.png \
-	-alpha Off -compose Copy_Opacity -composite \
-	match_bad_colors.png
+    -alpha Off -compose Copy_Opacity -composite \
+    match_bad_colors.png
 ~~~
 
 [![\[IM Output\]](match_bad_colors.png)](match_bad_colors.png)
@@ -1570,9 +1640,9 @@ For example, here I restore the original colors...
 
 ~~~
 convert match_navy.gif match_alpha.png -alpha Off \
-	-fx "v==0 ? 0 : u/v - u.p{0,0}/v + u.p{0,0}" \
-	match_alpha.png -compose Copy_Opacity -composite \
-	match_recovered.png
+    -fx "v==0 ? 0 : u/v - u.p{0,0}/v + u.p{0,0}" \
+    match_alpha.png -compose Copy_Opacity -composite \
+    match_recovered.png
 ~~~
 
 [![\[IM Output\]](match_recovered.png)](match_recovered.png)
@@ -1587,21 +1657,21 @@ Here is the whole sequence all in one command.
 
 ~~~
 convert match_gold.gif match_navy.gif -alpha off \
-	\( -clone 0,1 -compose difference -composite \
-	-separate -evaluate-sequence max -auto-level -negate \) \
-	\( -clone 0,2 -fx "v==0?0:u/v-u.p{0,0}/v+u.p{0,0}" \) \
-	-delete 0,1 +swap -compose Copy_Opacity -composite \
-	match_recovered_2.png
+    \( -clone 0,1 -compose difference -composite \
+    -separate -evaluate-sequence max -auto-level -negate \) \
+    \( -clone 0,2 -fx "v==0?0:u/v-u.p{0,0}/v+u.p{0,0}" \) \
+    -delete 0,1 +swap -compose Copy_Opacity -composite \
+    match_recovered_2.png
 ~~~
 
 [![\[IM Output\]](match_recovered_2.png)](match_recovered_2.png)
-  
+
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > :WARNING:
 > In IM v6.6.8-3, if FX references a transparent pixel using 'p{}' it gets zero values rather than the actual fully-transparent color values!
 > This is a bug and was reported and fixed in IM v6.6.8-5.
 > It is not known when the bug was introduced.
-  
+
 This was only a problem, if you decide to merge the alpha image into the source image first, then try to fix semi-transparent or 'spill' colors, using the known background color.
 This time the 'gold' background image was used for the color extraction, and was selected by the '`0`' in the second "`-clone`" operation, but either source image coul have been used.
 
@@ -1615,15 +1685,18 @@ In this case the colors are always recovered from the black background image, as
 
 ~~~
 convert match_black.gif match_white.gif -alpha off \
-	\( -clone 0,1 -compose difference -composite -negate \) \
-	\( -clone 0,2 +swap -compose divide -composite \) \
-	-delete 0,1 +swap -compose Copy_Opacity -composite \
-	match_recovered_3.png
+    \( -clone 0,1 -compose difference -composite -negate \) \
+    \( -clone 0,2 +swap -compose divide -composite \) \
+    -delete 0,1 +swap -compose Copy_Opacity -composite \
+    match_recovered_3.png
 ~~~
 
-[![\[IM Input\]](match_black.gif)](match_black.gif) [![\[IM Input\]](match_white.gif)](match_white.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](match_recovered_3.png)](match_recovered_3.png)
+[![\[IM Input\]](match_black.gif)](match_black.gif)
+[![\[IM Input\]](match_white.gif)](match_white.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](match_recovered_3.png)](match_recovered_3.png)
 
-  
+
 #### Studio photos for background recovery
 
 The ideal backgrounds are a matte (non-reflective) black, and simple pure (non-reflective) white.
@@ -1638,7 +1711,7 @@ These two color background techniques should work well for transparent objects, 
 On the other hand, reflections of a constant light source on the object will be preserved!
 *If you try this please let us know, and give an example of your source photos and results for inclusion here.
 You will be named with a pointer to your site for people to look at.*
-  
+
 #### Video background recovery
 
 If you have a large enough series of images with many different but complex backgrounds (such as a video), you can try taking a minimum and maximum value of all the images to generate a near pure black and white background image for use.
