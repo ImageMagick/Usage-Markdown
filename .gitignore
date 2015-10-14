@@ -110,6 +110,9 @@ photos/*.gif
 photos/*.jpg
 photos/*.txt
 photos/*.png
+quantize/*.gif
+quantize/*.png
+quantize/*.txt
 warping/*.gif
 warping/*.jpg
 warping/*.mpg

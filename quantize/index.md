@@ -157,7 +157,7 @@ Here, I look at some of the methods you can use to determine this type of inform
 
 You extract a color palette from an image using a verbose "`identify`", using any of these methods which basically all do exactly the same thing.
 
-~~~
+~~~{.skip}
 identify -verbose  image.png
 convert  image.png miff:- | identify -verbose -
 convert  image.png  -verbose -identify null:
@@ -171,7 +171,7 @@ convert  image.png  -verbose info:
 
 The better way however is to generate a "`histogram:`" of the image and extract the comment that is included in the result.
 
-~~~
+~~~{data-capture-out="tree_histogram.txt"}
 convert  tree.gif  -format %c  -depth 8  histogram:info:-
 ~~~
 
@@ -184,7 +184,7 @@ convert  tree.gif  -format %c  -depth 8  histogram:info:-
 > The "`info:`" output format was added to IM v6.2.4.
 > For IM versions before this use..
 
-~~~
+~~~{.skip}
 convert  tree.gif histogram:- | identify -depth 8 -format %c -
 ~~~
 
@@ -197,7 +197,7 @@ The width of the image returns the number of colors, and if you need to actually
 
 For example here is the color table for the tree image.
 
-~~~
+~~~{data-capture-out="tree_colors.txt"}
 convert tree.gif -unique-colors -scale 1000%  tree_colors.gif
 convert tree.gif -unique-colors -depth 16  txt:-
 ~~~
@@ -244,7 +244,7 @@ The average color of an image can be found very quickly by using "`-scale`" to r
 Here, for example, is the average color of the built-in "`rose:`" image.
 I output the color using the [FX Escape Format](../transform/#fx_escapes) which returns a color string that can be used directly wth IM without change.
 
-~~~
+~~~{data-capture-out="rose_average.txt"}
 convert rose: -scale 1x1\! -format '%[pixel:s]' info:-
 ~~~
 
@@ -255,7 +255,7 @@ The problem with using the "`%[pixel:...]`" [FX Escape](../transform/#fx_escapes
 However, you can work around this by using three [FX Escapes](../transform/#fx_escapes) to return the actual RGB values at the bit depth wanted.
 For example...
 
-~~~
+~~~{data-capture-out="rose_fx_rgb.txt"}
 convert rose: -scale 1x1\! \
    -format '%[fx:int(255*r+.5)],%[fx:int(255*g+.5)],%[fx:int(255*b+.5)]' info:-
 ~~~
@@ -266,7 +266,7 @@ As of IM v6.3.9 there are a number of new "`-format`" escapes that can be useful
 
 For example, you can get the average red channel colour by getting the '`%[mean]`' greyscale value from of the images, red channel image.
 
-~~~
+~~~{data-capture-out="rose_red_mean.txt"}
 convert rose: -channel R -separate -format '%[mean]' info:
 ~~~
 
@@ -277,7 +277,7 @@ convert rose: -channel R -separate -format '%[mean]' info:
 From the command line there are two basic ways of extracting a specific pixel color from an image.
 Either use an [FX Escape](../transform/#fx_escapes) such as "`%[pixel:...]`" or "`%[fx:...]`" (see above) on a specific pixel location...
 
-~~~
+~~~{data-capture-out="rose_pixel.txt"}
 convert rose: -format '%[pixel:p{40,30}]' info:-
 ~~~
 
@@ -286,7 +286,7 @@ convert rose: -format '%[pixel:p{40,30}]' info:-
 Alternatively, you can simplify the image by using "`-crop`" to cut out a single pixel that you may be interested in, and just that one pixel, using any of the methods shown above.
 For example...
 
-~~~
+~~~{data-capture-out="rose_pixel_crop.txt"}
 convert rose: -crop 1x1+40+30 -depth 8 txt:-
 ~~~
 
@@ -299,7 +299,7 @@ This can be used to get the pixel count or percentage of a specific color.
 What you do is make anything not that color black, and then make that color white.
 For example, let's get the number of colors in the "`yellow`" sun in the 'tree' image.
 
-~~~
+~~~{data-capture-out="tree_sun_pixels.txt"}
 convert tree.gif -fill black +opaque yellow \
                  -fill white -opaque yellow \
                  -print "yellow sun pixels = %[fx:w*h*mean]\n"   null:
@@ -325,7 +325,7 @@ The above can also use a [Fuzz Factor](../color_basics/#fuzz) option "`-fuzz`" b
 So you have two specific colors and you want to compare them.
 You can use "**`compare`**" get the RMSE (on standard error)...
 
-~~~
+~~~{data-capture-err="compare_navy.txt"}
 compare -metric RMSE xc:Navy xc:blue null:
 ~~~
 
@@ -336,7 +336,7 @@ This is good as it will get you the distance between the two colors, both in ter
 However this method will not handle transparency properly.
 For example comparing 'fully-transparent black' vs 'fully-transparent white'.
 
-~~~
+~~~{data-capture-err="compare_transparency.txt"}
 compare -metric RMSE xc:'#0000' xc:'#FFF0' null:
 ~~~
 
@@ -348,7 +348,7 @@ As such, the above method of color distance is only suitable for comparing fully
 
 Rather than getting an actual distance, you can also use a **[Fuzz Factor](../color_basics/#fuzz)** to check if two colors are close.
 
-~~~
+~~~{data-capture-err="compare_blue-navy.txt"}
 compare -fuzz 20% -metric AE xc:Navy xc:Blue null:
 compare -fuzz 30% -metric AE xc:Navy xc:Blue null:
 ~~~
@@ -358,7 +358,7 @@ compare -fuzz 30% -metric AE xc:Navy xc:Blue null:
 Remember however that the result will be '`1`' if the pixels do not match (number of error pixels).
 To get the actual 'fuzz' factor distance that separates the values you can use the 'FUZZ' metric.
 
-~~~
+~~~{data-capture-err="compare_blue-navy_fuzz.txt"}
 compare -metric FUZZ xc:Navy xc:Blue null:
 ~~~
 
@@ -371,7 +371,7 @@ That is because the fuzz factor is designed so that any two fully-transparent co
 
 As such 'fully-transparent black' and 'fully-transparent white' are exactly equivalent (producing a value of 0 or no error pixels)...
 
-~~~
+~~~{data-capture-err="compare_fuzz_trans.txt"}
 compare -metric FUZZ xc:'#0000' xc:'#FFF0' null:
 ~~~
 
@@ -381,7 +381,7 @@ Another method of color comparing is to try and [Replace Colors](../color_basics
 
 For example...
 
-~~~
+~~~{data-capture-out="fuzz_navy.txt"}
 convert xc:Navy  -fuzz 20% -fill Blue -opaque Blue txt:
 ~~~
 
@@ -390,7 +390,7 @@ convert xc:Navy  -fuzz 20% -fill Blue -opaque Blue txt:
 As '`Navy`' did not change to '`Blue`' it is more than 20% different to '`Blue`'.
 Whereas
 
-~~~
+~~~{data-capture-out="fuzz_navy2.txt"}
 convert xc:Navy  -fuzz 30% -fill Blue -opaque Blue txt:
 ~~~
 
@@ -400,7 +400,7 @@ This did change the color to '`Blue`', so we now no know that '`Navy`' is somewh
 
 To do this in a script use something like...
 
-~~~
+~~~{.skip}
 fuzz=%1
 color1="red"
 color2="#e00"
@@ -533,8 +533,10 @@ convert gradient.png   +dither  -colors 5   colors_gradient.gif
 
 Note that the color quantization is uniform, within the current colorspace.
 
-    FUTURE: Just what are the effects of the "-treedepth"  setting?
-    Mail me if you know
+~~~{.skip}
+FUTURE: Just what are the effects of the "-treedepth"  setting?
+Mail me if you know
+~~~
 
 ### Color Quantization and ColorSpace {#quantize}
 
@@ -767,9 +769,11 @@ This quantization behaviour is automatic when IM saves to the GIF file format, b
 
 Of course you do still need to handle the semi-transparent pixels, so they are correct for what you want your image to look like.
 
-    FUTURE: This last part will probably move to a new section on 'Dithering
-    Alpha Channel' to be created in the near future. And a reference to this
-    section added here.
+~~~{.skip}
+FUTURE: This last part will probably move to a new section on 'Dithering
+Alpha Channel' to be created in the near future. And a reference to this
+section added here.
+~~~
 
 Here are some examples of dithering just the alpha channel to just a Boolean or on/off setting, without affecting the rest of the color channels in the image.
 
@@ -833,7 +837,7 @@ Which you can set using "`-dither Riemersma`".
 Now you can also select a Floyd-Steiberg Dither using "`-dither FloydSteinberg`".
 You can see what other dither methods have been implemented in your version of IM using...
 
-~~~
+~~~{data-capture-out="dithers.txt"}
 convert -list dither
 ~~~
 
@@ -880,7 +884,30 @@ convert -size 10x10 xc:'#999999' \
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](dither.gif)](dither.gif)
 
+~~~{.hide .assert}
+# check that dither actually generated a three color dither pattern.
+[ `identify -format %k dither.gif` -ne 3 ] && echo >&2 \
+"ASSERTION FAILURE: E-Dither Map did not produce a 3 color pattern\!"
+~~~
+
 As you can see, as the image's original color was not present in the specified color map, the color is approximated using a pattern of the three nearest colors that were in the given color table.
+
+~~~{.hide}
+# get the average color of the undithered and the dithered image
+convert dither_not.gif -filter box -resize 1x1\! -depth 8 txt: |\
+   tail -1 | sed 's/.*#/#/; s/ .*//;' > dither_not_avg.txt
+txt2gif dither_not_avg.txt
+convert dither.gif -filter box -resize 1x1\! -depth 8 txt: |\
+   tail -1 | sed 's/.*#/#/; s/ .*//;' > dither_avg.txt
+txt2gif dither_avg.txt
+~~~
+
+~~~{.hide .assert}
+# Compare color with original image.  (result should be about 277)
+[ `convert dither_not.gif dither.gif -filter box -resize 1x1\! miff:- |\
+   compare -metric PAE - null: 2>&1 | sed 's/ .*//'` -gt 300 ] && echo >&2 \
+"ASSERTION FAILURE: E-Dither Average larger than expected\!"
+~~~
 
 If we were to average the color generated by the above dither pattern, we would get the color [![\[IM Text\]](dither_avg.txt.gif)](dither_avg.txt), which is very close to the image's original average color of [![\[IM Text\]](dither_not_avg.txt.gif)](dither_not_avg.txt) and that is the whole point of the dither pattern that was produced.
 
@@ -901,6 +928,12 @@ convert -size 10x10 xc:'#999999'  -dither FloydSteinberg \
 [![\[IM Output\]](dither_not.gif)](dither_not.gif)
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](dither_fs.gif)](dither_fs.gif)
+
+~~~{.hide .assert}
+# check that dither actually generated a three color dither pattern.
+[ `identify -format %k dither_fs.gif` -ne 3 ] && echo >&2 \
+"ASSERTION FAILURE: E-Dither Map did not produce a 3 color pattern\!"
+~~~
 
 The "Floyd-Stienberg Dither" in particular I find produces a more 'hash' like pattern of pixels than the "Hilbert Curve Dither", and was in fact designed to do so.
 
@@ -1317,6 +1350,18 @@ As you can see, IM attempted to do a reasonable job of representing the image us
 
 Mind you, this "`colortable.gif`" image was never designed for dithering images, but rather as a color set for designing cartoon-like color icons for older more primitive X window color displays (See [Anthony's X Window Icon Library](http://www.ict.griffith.edu.au/anthony/icons/) and [AIcons Color Selection](http://www.ict.griffith.edu.au/anthony/icons/docs/colors.html) for details).
 
+~~~{.hide}
+convert remap_logo_no.gif -unique-colors \
+        -format "%w colors" info: > remap_logo_count_no.txt
+txt2gif remap_logo_count_no.txt
+convert remap_logo_rm.gif -unique-colors \
+        -format "%w colors" info: > remap_logo_count_rm.txt
+txt2gif remap_logo_count_rm.txt
+convert remap_logo_fs.gif -unique-colors \
+        -format "%w colors" info: > remap_logo_count_fs.txt
+txt2gif remap_logo_count_fs.txt
+~~~
+
 Also note that the final image did not use all 32 colors provided by this map, though more of the colors in the map will be used when some form of dithering is enabled ([![](remap_logo_count_rm.txt.gif)](remap_logo_count_rm.txt) and [![](remap_logo_count_fs.txt.gif)](remap_logo_count_fs.txt) respectively), than when it was turned off ([![](remap_logo_count_no.txt.gif)](remap_logo_count_no.txt)).
 
 This last example shows just how important selecting a good colormap is.
@@ -1535,6 +1580,12 @@ convert colorwheel.png  +dither  -posterize 6   posterize_6_cw.gif
 [![\[IM Output\]](posterize_6_cw.gif)](posterize_6_cw.gif)
 
 And here is the same thing with dithering enabled...
+
+~~~{.hide}
+convert colorwheel.png  -posterize 2   posterize_2_dither.gif
+convert colorwheel.png  -posterize 3   posterize_3_dither.gif
+convert colorwheel.png  -posterize 6   posterize_6_dither.gif
+~~~
 
 [![\[IM Output\]](colorwheel.png)](colorwheel.png)
 ![](../img_www/right.gif)
@@ -2027,7 +2078,7 @@ From IM version 6.3.0, rather than using a fixed set of maps that were built int
 
 As part of this change you can now list the available 'threshold maps' that "`-ordered-dither`" operator can use.
 
-~~~
+~~~{data-capture-out="tmaps_list.txt"}
 identify -list threshold
 ~~~
 
@@ -2042,7 +2093,12 @@ The system file "`thresholds.xml`" (the path of which is given by the above "`-l
 A format that is simple enough (with error checks by IM) to allow users to define and create their own ordered dither threshold maps.
 
 For example, here is a copy of the '`diag5x5`' threshold map I defined in my personal "`threshold.xml`" file.
-  
+
+~~~{.hide data-capture-out="tmap_diag.txt"}
+perl -ne 'print if /threshold map="diag5x5"/ .. /\/threshold/' \
+     $HOME/.magick/thresholds.xml
+~~~
+
 [![\[IM Output\]](tmap_diag.txt.gif)](tmap_diag.txt)
 
 If you look, it creates a simple 5x5 map of a single diagonal line that becomes thicker as the threshold level increases.
@@ -2150,7 +2206,7 @@ It was to allow the production the '332 colormap' that the "`-ordered-dither`" o
 
 Let's take a closer look at the level 6 [O-Dither](#ordered-dither) we just generated.
 
-~~~
+~~~{data-capture-out="logo_color_6.txt"}
 convert logo.png -ordered-dither o8x8,6 -format %k info:
 ~~~
 
@@ -2161,7 +2217,7 @@ Basically, as the image generally consists of mostly blue colors, very few shade
 
 However, by increasing the number of posterization levels, we can fill the GIF color table better, so as to produce a better [O-Dithered](#ordered-dither) Image.
 
-~~~
+~~~{data-capture-out="logo_color_13.txt"}
 convert logo.png -ordered-dither o8x8,13 -format %k info:
 ~~~
 
@@ -2412,7 +2468,7 @@ This package is generally a standard linux install so most people will have it a
 
 The "`pnmdepth`" number is again the number of gray levels that the threshold image contains.
 
-~~~
+~~~{data-postamble="txt2gif dmap_hlines.pgm"}
 convert dmap_hlines.png pgm:- | pnmdepth 9 | pnmnoraw > dmap_hlines.pgm
 ~~~
 
@@ -2420,7 +2476,12 @@ convert dmap_hlines.png pgm:- | pnmdepth 9 | pnmnoraw > dmap_hlines.pgm
 
 All the numbers (other than the '`P2`' image magic identifier) in the above are the numbers needed to generate the appropriate 'threshold map', that you can add to your personal "`thresholds.xml`" file.
 For example here is the resulting threshold map entry created from the above.
-  
+
+~~~{.hide data-capture-out="tmap_hlines.txt"}
+perl -ne 'print if /threshold map="hlines12x4"/ .. /\/threshold/' \
+     $HOME/.magick/thresholds.xml
+~~~
+
 [![\[IM Output\]](tmap_hlines.txt.gif)](tmap_hlines.txt)
 
 And here is an example of using this threshold map.
