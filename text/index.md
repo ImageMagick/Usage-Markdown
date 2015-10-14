@@ -542,6 +542,10 @@ I do!
 If the UTF-8 text you want to draw has already been generated you can read it directly from a file using '`@filename`'.
 For example, here I create a Chinese label from a [UTF-8 encoded Chinese text file](chinese_words.utf8) (without a final newline in the file).
 
+~~~{.hide data-capture-out="chinese_words.utf8"}
+env LC_CTYPE=en_AU.utf8 printf '\u6d4b\u8bd5\u7528\u7684\u6c49\u5b57'
+~~~
+
 ~~~
 convert -background lightblue -fill blue -pointsize 48 \
         -font ZenKaiUni label:@chinese_words.utf8   label_utf8.gif
@@ -831,7 +835,11 @@ This means you do not need to worry about escaping 'escapes' for text file data,
 For example, here I set and then report an image's 'label' and 'comment' meta-data using the two methods available to set that information from a text file.
 The "`info.txt`" file contains the string [![\[IM Text\]](info.txt.gif)](info.txt), (no final newline).
 
+~~~{.hide}
+printf '@ \\n %%wx%%h' > info.txt
 ~~~
+
+~~~{data-capture-out="file.txt"}
 convert -label   @info.txt  rose:      -format '%l label'   info:
 convert -comment @info.txt  rose:      -format '%c set "'   info:
 convert  rose: -set label   @info.txt  -format '%l caption' info:
@@ -1212,7 +1220,7 @@ The overall look of this image can also be improved by using the same techniques
 If you just want to know how big say an 'A5' page is at 100 dpi, then this command generates a single blank page, of that size and returns its size in pixels.
 The filename, "`/dev/null`", is a special UNIX file that is always empty.
 
-~~~
+~~~{data-capture-out="page_size.txt"}
 convert -page A5 -density 100 -units PixelsPerInch  text:/dev/null \
         -format 'Page Size at %x = %w x %h pixels'  info:
 ~~~
@@ -1791,46 +1799,45 @@ For other methods of generating gradients for tiling see [Gradients of Color](..
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
+~~~{.skip}
+As for ordering the font paths, that is simply ordering the fonts specified in
+the XML files.
 
-    As for ordering the font paths, that is simply ordering the fonts specified in
-    the XML files.
+The start point is the system fonts, followed by the system installed
+"type.xml" file, on my system this is "/etc/ImageMagick-6/type.xml".
 
-    The start point is the system fonts, followed by the system installed
-    "type.xml" file, on my system this is "/etc/ImageMagick-6/type.xml".
+This system installed "type.xml" file is typically just a list of 'include'
+other type-* files.  And the order of the includes will specify the order of
+Extra System Fonts, verses Ghostscript Fonts.
 
-    This system installed "type.xml" file is typically just a list of 'include'
-    other type-* files.  And the order of the includes will specify the order of
-    Extra System Fonts, verses Ghostscript Fonts.
+After that file other "type.xml" files are looked for, such as in 'home'
+directories, or even current directory.
 
-    After that file other "type.xml" files are looked for, such as in 'home'
-    directories, or even current directory.
+Later fonts will NOT replace earlier fonts, as such if two fonts have that
+same name, only the first one will be noted by IM. (a security measure).
 
-    Later fonts will NOT replace earlier fonts, as such if two fonts have that
-    same name, only the first one will be noted by IM. (a security measure).
+To see the fonts loaded use
 
-    To see the fonts loaded use
+    convert -list font
 
+It lists "Path:" of the type file each font list was found in, but the
+paths are listed in REVERSE order, with system fonts at the end.
+
+I have for example a personal Font named "Courier", but it is not included in
+the above list as it was defined after the "Courier" that was found in the
+"System Fonts" area, (which is listed at the end of the above output).
+
+On the other hand my own personal font "CourierNew", is included, as it does not
+clash with any system or system config defined font.
+
+To see what font glyph file is selected for some specific request
+use...
 ~~~
-convert -list font
-~~~
 
-    It lists "Path:" of the type file each font list was found in, but the
-    paths are listed in REVERSE order, with system fonts at the end.
-
-    I have for example a personal Font named "Courier", but it is not included in
-    the above list as it was defined after the "Courier" that was found in the
-    "System Fonts" area, (which is listed at the end of the above output).
-
-    On the other hand my own personal font "CourierNew", is included, as it does not
-    clash with any system or system config defined font.
-
-    To see what font glyph file is selected for some specific request
-    use...
-
-~~~
+~~~{.skip}
 convert -debug annotate xc: -font Courier \
-	-annotate 0 'Test' null: 2>&1 |
-	grep '^ *Font '
+    -annotate 0 'Test' null: 2>&1 |
+    grep '^ *Font '
 ~~~
 
 ## Determining Font Metrics, without using an API {#font_info}
@@ -1846,7 +1853,7 @@ The exception to this are 'Fixed-Width' fonts, such as "`Courier`", "`Typewriter
 The [Debugging Setting](../basics/#debug) "`-debug annotate`" can be used to get IM to directly report a TTF font's metrics, for a specific string.
 For example...
 
-~~~
+~~~{data-capture-out="font_metrics.txt"}
 convert -debug annotate  xc: -font Candice -pointsize 24 \
         -annotate 0 'Test' null: 2>&1 |\
   grep Metrics: | fmt -w80
@@ -1883,7 +1890,7 @@ convert -size 100x150 xc:lightblue -font Ravie -pointsize 72 \
 For the basic font metrics, we first draw the font itself with a transparent color ('`None`'), so that we can find the size and location of the bounding box or drawing area of this specific character, for this font.
 Note that for height information you can just draw anything.
 
-~~~
+~~~{data-capture-out="font_boxinfo.txt"}
 convert -size 100x150 xc:lightblue -font Ravie -pointsize 72 \
         -fill none -undercolor white  -annotate +20+100 'A' -trim  info:
 ~~~
@@ -1915,7 +1922,7 @@ Be warned that some Arabic fonts can, in fact, draw right to left, so the 'caret
 That gives us the font metrics for the character 'A', but what about physical dimensions of drawn 'A' relative to the 'caret' or start point.
 Well just swap the two color settings...
 
-~~~
+~~~{data-capture-out="font_drawn.txt"}
 convert -size 100x150 xc:lightblue -font Ravie -pointsize 72 \
         -fill black -undercolor none  -annotate +20+100 'A'  -trim   info:
 ~~~
@@ -2061,7 +2068,11 @@ If you do plan to do a lot of this sort of stuff, I do suggest you look into the
 
 You have a image of some standard fill in form and you want to fill in the fields which are in well known positions.
 So you have a data file such as "`text_data.txt`" shown here...
-  
+
+~~~{.hide}
+txt2gif text_data.txt
+~~~
+
 [![\[IM Text\]](text_data.txt.gif)](text_data.txt)
 
 The fields are text width, gravity (justification), color, position x, y and the actual text to place for this field.

@@ -117,6 +117,11 @@ resize/*.gif
 resize/*.jpg
 resize/*.png
 resize/*.tif
+text/*.gif
+text/*.jpg
+text/*.png
+text/*.txt
+text/*.utf8
 warping/*.gif
 warping/*.jpg
 warping/*.mpg

@@ -79,6 +79,8 @@ quantize: quantize/index.html quantize/index.sh
 
 resize: resize/index.html resize/index.sh
 
+text: text/index.html text/index.sh
+
 warping: warping/index.html warping/index.sh
 
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
