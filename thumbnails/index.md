@@ -41,7 +41,7 @@ As of IM v3.2.0, the second scheme is now also possible to do with "`mogrify`" t
 
 For example, this converts JPG images into GIF thumbnails in a "`thumbs`" sub-directory that was just created.
 
-~~~
+~~~{.skip}
 mkdir thumbs
 mogrify  -format gif -path thumbs -thumbnail 100x100 *.jpg
 ~~~
@@ -92,7 +92,7 @@ For thumbnails you can reduce the size of the final image by reducing the depth 
 
 For example, the following is suggested for small PNG thumbnails that does not involve transparency.
 
-~~~
+~~~{.skip}
 -strip  -quality 95  PNG8:thumbnail.png
 ~~~
 
@@ -123,7 +123,7 @@ Thumbnails have no need for this data and often not even the main image needs it
 
 You can also remove the profiles from your images with the IM commands...
 
-~~~
+~~~{.skip}
 convert input.jpg  -strip output.jpg
 
 mogrify -strip  *.jpg
@@ -138,7 +138,7 @@ Naturally enough this resize operation is called "`-thumbnail`".
 
 For example...
 
-~~~
+~~~{.skip}
 convert -define jpeg:size=240x180 image.jpg -thumbnail 120x90 thumbs/image.gif
 
 mogrify -path thumbs -format gif -define jpeg:size=240x180 -thumbnail 120x90 '*.jpg'
@@ -173,7 +173,7 @@ It is however no substitute for using a "`-define jpeg:size=`" setting for JPEG 
 
 As such the recommended way of resizing ANY input image format is now...
 
-~~~
+~~~{.skip}
 convert -define jpeg:size=240x180 input.img'[120x90]' \
         -strip  output_thumbnail.gif
 ~~~
@@ -224,7 +224,7 @@ The "`mogrify`" version is the same as the "`convert`" command (with no initial 
 The image argument is quoted so that IM itself will scan the directory, and not the command line shell.
 This prevents 'line limit overflow errors' on directories containing a huge number of images.
 
-~~~
+~~~{.skip}
 mogrify  -format gif -define jpeg:size=500x180 -auto-orient \
               -thumbnail 250x90 -unsharp 0x.5  '*.jpg'
 ~~~
@@ -516,7 +516,7 @@ For a quick example and starting point for generating such links look at the exa
 The "`favion.ico`" icon often looked for by web browsers on the top level web page of a web site, for that whole site.
 That image is a special multi-resolution image format and can be created as follows.
 
-~~~
+~~~{.skip}
 convert image.png  -bordercolor white -border 0 \
         \( -clone 0 -resize 16x16 \) \
         \( -clone 0 -resize 32x32 \) \
@@ -537,7 +537,7 @@ As only the smallest of images are typically used, with further color reduction,
 
 As mentioned only the "`favion.ico`" image found on the top level directory of a web site is generally used, however you can also specify the location of the link thumbnail image by adding the following HTML tag to the headers of your pages...
 
-~~~
+~~~{.skip}
 <LINK REL="icon" HREF="/path/to/favicon.ico" type="image/x-icon">
 <LINK REL="shortcut" HREF="/path/to/favicon.ico" type="image/x-icon">
 ~~~
@@ -564,7 +564,7 @@ These thumbnails are limited to 80x60 pixels so are a little on the "small" size
 
 IM understands the "`xv`" thumbnail format (which is based on the "`NetPBM`" image format), so you can generate all the thumbnails quickly using XV, then convert the XV thumbnails of the JPEG images, into GIF images for further processing...
 
-~~~
+~~~{.skip}
 xv -vsmap &               # generate thumbs with the "Update" button
 rm .xvpics/*.gif          # delete XV thumbs of existing "gif" thumbnails
 mogrify -format gif .xvpics/*.jpg
@@ -892,7 +892,7 @@ Using a [Polar Cycle Trick](../distorts/#polar_tricks) we can generate a perfect
 
 Of course we will only use the distorted image as a mask for the original image, so as to get the result.
 
-~~~
+~~~{.skip}
 convert thumbnail.gif -alpha set \
   \( +clone -distort DePolar 0 \
      -virtual-pixel HorizontalTile -background None -distort Polar 0 \) \
@@ -1496,7 +1496,7 @@ It then means the rectangle will be positioned `SW/2 - 0.5` or 1.0 pixels from t
 Here we use IM itself to do these calculations, generating the exact draw command that are need using fancy [FX escapes](../transform/#fx_escapes).
 This is saved as a [Magick Vector Graphics File](../draw/#mvg_file) that can be directly used by draw in later commands.
 
-~~~
+~~~{data-postamble="txt2gif rounded_corner.mvg"}
 convert thumbnail.gif \
         -format 'roundrectangle 1,1 %[fx:w+4],%[fx:h+4] 15,15'\
         info: > rounded_corner.mvg
@@ -1528,13 +1528,14 @@ And there we have the overlay border image, and transparency mask image, we need
 Note that the masks are for a image that is stroke width larger than the original image, and that the erasing shape mask (in white) does not cover the whole of the enlarged area, as there is a 1 pixel gap all around it.
 
 So lets apply it using the [Double Masking](#double) technique...
-  
-      convert thumbnail.gif -alpha set -bordercolor none -border 3  \
-              rounded_corner_mask.png -compose DstIn -composite \
-              rounded_corner_overlay.png -compose Over -composite \
-              rounded_border.png
 
-  
+~~~
+convert thumbnail.gif -alpha set -bordercolor none -border 3  \
+        rounded_corner_mask.png -compose DstIn -composite \
+        rounded_corner_overlay.png -compose Over -composite \
+        rounded_border.png
+~~~
+
 [![\[IM Output\]](rounded_border.png)](rounded_border.png)
 
 And there we have have a bordered our image with rounded corners.
@@ -1683,7 +1684,7 @@ The other special [Define Setting](../basics/#define) '`compose:outside-overlay=
 If you like to apply this to a lot of images you can use the "`mogrify`", using a special technique involving using "`-draw`" to do the [Mogrify Alpha Composition](../basics/#mogrify_compose).
 However this method of composition does not understand the special define setting, so it will only work with images, overlays, and masks that are all the same size.
 
-~~~
+~~~{.skip}
 pagecurl -e 0.5 -i /tmp/pagecurl  {one image} null:
 mogrify {mogrify -format and -path options} -alpha set \
         -draw 'image Over 0,0 0,0 "/tmp/pagecurl_overlay.png"' \
@@ -1759,6 +1760,21 @@ Caution is needed.
 ### Badge using Paint 'n' Mask {#badge_paint_mask}
 
 The same badge image processing seen previously in [Badge Overlay](#badge_overlay) and [Badge Mask 'n' Paint](#badge_mask_paint), can also be performed by painting then masking.
+
+~~~{.hide}
+# get transparency mask, as a shaped image
+convert badge_mask.png badge_shading.png -composite \
+        -evaluate set 0  badge_shape.png
+# get transparency mask, as a gray scale image.
+convert badge_mask.png badge_shading.png -composite \
+        -alpha extract  badge_graymask.png
+
+# generate the paint overlay,
+# However we need to extract all fully transparent colors from shade image
+convert badge_mask.png -channel A -negate -threshold 0 +channel \
+        badge_shading.png +swap -channel A -compose Screen -composite \
+        badge_paint.png
+~~~
 
 Here we first paint all the colors an shades onto the then mask out the final transparency of the image.
 

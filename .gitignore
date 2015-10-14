@@ -122,6 +122,10 @@ text/*.jpg
 text/*.png
 text/*.txt
 text/*.utf8
+thumbnails/*.gif
+thumbnails/*.jpg
+thumbnails/*.png
+thumbnails/*.txt
 warping/*.gif
 warping/*.jpg
 warping/*.mpg
