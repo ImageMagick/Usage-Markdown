@@ -46,7 +46,7 @@ As the built in rose in is 70x46 pixels, this is the result.
 
 ~~~
 convert rose: -fill none -stroke navy -strokewidth 11  \
-	-draw 'rectangle 0,0 69,45'   inside_border.jpg
+    -draw 'rectangle 0,0 69,45'   inside_border.jpg
 ~~~
 
 [![\[IM Output\]](inside_border.jpg)](inside_border.jpg)
@@ -54,7 +54,9 @@ convert rose: -fill none -stroke navy -strokewidth 11  \
 The width of the border added is controlled by the "`-strokewidth`" of the rectangle.
 That is
 
-    {stroke width}  =  {border width} * 2 - 1
+~~~{.skip}
+{stroke width}  =  {border width} * 2 - 1
+~~~
 
 As such, the above 6 pixel border needed a "`-strokewidth`" of 11.
 
@@ -118,7 +120,7 @@ It is a very long staircase!.
 
 ~~~
 convert spiral_stairs_sm.jpg -thumbnail 120x120 \
-	-bordercolor white -background black  +polaroid  poloroid.png
+    -bordercolor white -background black  +polaroid  poloroid.png
 ~~~
 
 [![\[IM Output\]](poloroid.png)](poloroid.png)
@@ -137,8 +139,8 @@ The minus form of the operator lets you control the angle of rotation of the ima
 
 ~~~
 convert spiral_stairs_sm.jpg -thumbnail 120x120 \
--borderc.olor AliceBlue -background SteelBlue4 -polaroid 5 \
-	poloroid_5.png
+    -bordercolor AliceBlue -background SteelBlue4 -polaroid 5 \
+    poloroid_5.png
 ~~~
 
 [![\[IM Output\]](poloroid_5.png)](poloroid_5.png)
@@ -148,8 +150,8 @@ That ia,s it will be word wrapped to the width of the photo.
 
 ~~~
 convert -caption '%c %f\n%wx%h' spiral_stairs_sm.jpg -thumbnail 120x120 \
-	-bordercolor Lavender  -background gray40  +polaroid \
-	poloroid_captioned.png
+    -bordercolor Lavender  -background gray40  +polaroid \
+    poloroid_captioned.png
 ~~~
 
 [![\[IM Output\]](poloroid_captioned.png)](poloroid_captioned.png)
@@ -213,7 +215,14 @@ convert rose:  -paint 10  rose_paint_10.gif
 convert rose:  -blur 0x3 -paint 10  rose_blur_paint_10.gif
 ~~~
 
-[![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_paint_1.gif)](rose_paint_1.gif) [![\[IM Output\]](rose_paint_3.gif)](rose_paint_3.gif) [![\[IM Output\]](rose_paint_5.gif)](rose_paint_5.gif) [![\[IM Output\]](rose_paint_10.gif)](rose_paint_10.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_blur_paint_10.gif)](rose_blur_paint_10.gif)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_paint_1.gif)](rose_paint_1.gif)
+[![\[IM Output\]](rose_paint_3.gif)](rose_paint_3.gif)
+[![\[IM Output\]](rose_paint_5.gif)](rose_paint_5.gif)
+[![\[IM Output\]](rose_paint_10.gif)](rose_paint_10.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_blur_paint_10.gif)](rose_blur_paint_10.gif)
 
 Notice that at a high radius for the paint blobs, the blobs start to get a squarish look to them.
 This effect can be smoothed somewhat by blurring the image slightly before hand, as shown in the last image above.
@@ -270,7 +279,11 @@ convert rose:  -charcoal 3   rose_charcoal_3.gif
 convert rose:  -charcoal 5   rose_charcoal_5.gif
 ~~~
 
-[![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_charcoal_1.gif)](rose_charcoal_1.gif) [![\[IM Output\]](rose_charcoal_3.gif)](rose_charcoal_3.gif) [![\[IM Output\]](rose_charcoal_5.gif)](rose_charcoal_5.gif)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_charcoal_1.gif)](rose_charcoal_1.gif)
+[![\[IM Output\]](rose_charcoal_3.gif)](rose_charcoal_3.gif)
+[![\[IM Output\]](rose_charcoal_5.gif)](rose_charcoal_5.gif)
 
 For a better example of using a charcoal transformation on a real image see [Charcoal Sketch of a Photo](../photos/#charcoal).
   
@@ -307,7 +320,14 @@ convert rose:  -emboss 0x1.2 rose_emboss_0x12.gif
 convert rose:  -emboss 0x2   rose_emboss_0x20.gif
 ~~~
 
-[![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_emboss_0x05.gif)](rose_emboss_0x05.gif) [![\[IM Output\]](rose_emboss_0x09.gif)](rose_emboss_0x09.gif) [![\[IM Output\]](rose_emboss_0x10.gif)](rose_emboss_0x10.gif) [![\[IM Output\]](rose_emboss_0x11.gif)](rose_emboss_0x11.gif) [![\[IM Output\]](rose_emboss_0x12.gif)](rose_emboss_0x12.gif) [![\[IM Output\]](rose_emboss_0x20.gif)](rose_emboss_0x20.gif)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_emboss_0x05.gif)](rose_emboss_0x05.gif)
+[![\[IM Output\]](rose_emboss_0x09.gif)](rose_emboss_0x09.gif)
+[![\[IM Output\]](rose_emboss_0x10.gif)](rose_emboss_0x10.gif)
+[![\[IM Output\]](rose_emboss_0x11.gif)](rose_emboss_0x11.gif)
+[![\[IM Output\]](rose_emboss_0x12.gif)](rose_emboss_0x12.gif)
+[![\[IM Output\]](rose_emboss_0x20.gif)](rose_emboss_0x20.gif)
 
 The operator is a grey-scale operator, meaning it will be applied to the three color channels, separately.
 As such should only be applied to grey-scale images.
@@ -322,7 +342,14 @@ convert rose: -colorspace Gray  -emboss 0x1.2 rose_g_emboss_0x12.gif
 convert rose: -colorspace Gray  -emboss 0x2   rose_g_emboss_0x20.gif
 ~~~
 
-[![\[IM Output\]](rose_grey.gif)](rose_grey.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rose_g_emboss_0x05.gif)](rose_g_emboss_0x05.gif) [![\[IM Output\]](rose_g_emboss_0x09.gif)](rose_g_emboss_0x09.gif) [![\[IM Output\]](rose_g_emboss_0x10.gif)](rose_g_emboss_0x10.gif) [![\[IM Output\]](rose_g_emboss_0x11.gif)](rose_g_emboss_0x11.gif) [![\[IM Output\]](rose_g_emboss_0x12.gif)](rose_g_emboss_0x12.gif) [![\[IM Output\]](rose_g_emboss_0x20.gif)](rose_g_emboss_0x20.gif)
+[![\[IM Output\]](rose_grey.gif)](rose_grey.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rose_g_emboss_0x05.gif)](rose_g_emboss_0x05.gif)
+[![\[IM Output\]](rose_g_emboss_0x09.gif)](rose_g_emboss_0x09.gif)
+[![\[IM Output\]](rose_g_emboss_0x10.gif)](rose_g_emboss_0x10.gif)
+[![\[IM Output\]](rose_g_emboss_0x11.gif)](rose_g_emboss_0x11.gif)
+[![\[IM Output\]](rose_g_emboss_0x12.gif)](rose_g_emboss_0x12.gif)
+[![\[IM Output\]](rose_g_emboss_0x20.gif)](rose_g_emboss_0x20.gif)
 
 If anyone knows exactly what the emboss algorithm is supposed to do, please let me know.
 
@@ -426,7 +453,9 @@ convert message.gif    -encipher pass_phrase.txt  \
       -depth 8 png24:message_hidden.png
 ~~~
 
-[![\[IM Output\]](message.gif)](message.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](message_hidden.png)](message_hidden.png)
+[![\[IM Output\]](message.gif)](message.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](message_hidden.png)](message_hidden.png)
 
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -461,12 +490,16 @@ For example, here I use some [Simple Non-Destructive Distorts](../warping/#simpl
 
 ~~~
 echo "password" | convert message.gif -encipher - \
-	  -transpose  -depth 8   png24:message_obfuscate.png
+      -transpose  -depth 8   png24:message_obfuscate.png
 echo "password" | convert message_obfuscate.png -transpose \
-	  -decipher -  message_restored_2.png
+      -decipher -  message_restored_2.png
 ~~~
 
-[![\[IM Output\]](message.gif)](message.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](message_obfuscate.png)](message_obfuscate.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](message_restored_2.png)](message_restored_2.png)
+[![\[IM Output\]](message.gif)](message.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](message_obfuscate.png)](message_obfuscate.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](message_restored_2.png)](message_restored_2.png)
 
 If you did not include the "`-transpose`" in the decryption command above, the image will not have deciphered correctly.
 Also note that due to the streaming cipher used (see the expert note below) using just a "`-roll`" of some sort will not prevent the image from being decrypted, at least partially.
@@ -479,12 +512,20 @@ For instance, here I use the signature of the "`rose.gif`" image to encrypt and 
 
 ~~~
 identify -format %# rose.gif |\
-	convert message.gif  -encipher - -depth 8    png24:message_signed.png
+    convert message.gif  -encipher - -depth 8    png24:message_signed.png
 identify -format %# rose.gif |\
         convert message_signed.png   -decipher -   message_restored_3.png
 ~~~
 
-[![\[IM Output\]](message.gif)](message.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](message_signed.png)](message_signed.png) ![ +](../img_www/plus.gif) [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](message_restored_3.png)](message_restored_3.png)
+[![\[IM Output\]](message.gif)](message.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](message_signed.png)](message_signed.png)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](message_restored_3.png)](message_restored_3.png)
 
 As of IM v6.4.8-0 the file used by "`-encipher`" and "`-decipher`" can be a binary file.
 As such, you could even directly use an image itself as the the passphrase.
@@ -494,7 +535,15 @@ convert message.gif   -encipher rose.gif  -depth 8  png24:message_binary.png
 convert message_binary.png   -decipher rose.gif   message_restored_4.png
 ~~~
 
-[![\[IM Output\]](message.gif)](message.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](message_binary.png)](message_binary.png) ![ +](../img_www/plus.gif) [![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](message_restored_4.png)](message_restored_4.png)
+[![\[IM Output\]](message.gif)](message.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](message_binary.png)](message_binary.png)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](message_restored_4.png)](message_restored_4.png)
   
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > :EXPERT:
@@ -531,7 +580,11 @@ convert rose:  -scale  25%  -scale 70x46\!  rose_pixelate_scaled.gif
 convert rose:  -resize 25%  -scale 70x46\!  rose_pixelate_resized.gif
 ~~~
 
-[![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](pixelate_sampled.gif)](pixelate_sampled.gif) [![\[IM Output\]](pixelate_scaled.gif)](pixelate_scaled.gif) [![\[IM Output\]](pixelate_resized.gif)](pixelate_resized.gif)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](pixelate_sampled.gif)](pixelate_sampled.gif)
+[![\[IM Output\]](pixelate_scaled.gif)](pixelate_scaled.gif)
+[![\[IM Output\]](pixelate_resized.gif)](pixelate_resized.gif)
 
 As you can see, the 'sampled' areas will have much more distinct (aliased) 'pixels', while the other two use a merged or averaged color, which tends to produce more muted, but more accurate color representation for each 'pixel'.
 
@@ -550,7 +603,9 @@ convert rose:  -crop 10x10+12+20 +resize  grid_input.png
 convert grid_input.png  -scale  1000%  grid_scale.png
 ~~~
 
-[![\[IM Output\]](grid_input.png)](grid_input.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](grid_scale.png)](grid_scale.png)
+[![\[IM Output\]](grid_input.png)](grid_input.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](grid_scale.png)](grid_scale.png)
 
 The problem with a simple scaling, is that in areas where pixels are similar in color, you can have trouble seeing the individual 'pixel blocks'.
 
@@ -578,9 +633,9 @@ Here I generate circular 'spots' of color, but this time used a [Multiply Compos
 
 ~~~
 convert -size 10x10 xc: -draw 'circle 5,5 1,3' -negate \
-	-write mpr:spot +delete \
-	grid_input.png -scale 1000% -size 101x101 tile:mpr:spot \
-	+swap -compose multiply -composite grid_spots.png
+    -write mpr:spot +delete \
+    grid_input.png -scale 1000% -size 101x101 tile:mpr:spot \
+    +swap -compose multiply -composite grid_spots.png
 ~~~
 
 [![\[IM Output\]](grid_spots.png)](grid_spots.png)
@@ -632,7 +687,9 @@ convert rose: -background SkyBlue \
       grid_tile.png
 ~~~
 
-[![\[IM Output\]](rose.gif)](rose.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](grid_tile.png)](grid_tile.png)
+[![\[IM Output\]](rose.gif)](rose.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](grid_tile.png)](grid_tile.png)
 
 Here is another method which also separates the original image into tiles, but then uses some [DIY FX Expressions](#fx_escapes) to calculate the new postion of a tile, from its old position.
 
@@ -670,7 +727,12 @@ convert mask.gif -edge 3   mask_edge_3.gif
 convert mask.gif -edge 10  mask_edge_10.gif
 ~~~
 
-[![\[IM Output\]](mask.gif)](mask.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](mask_edge_1.gif)](mask_edge_1.gif) [![\[IM Output\]](mask_edge_2.gif)](mask_edge_2.gif) [![\[IM Output\]](mask_edge_3.gif)](mask_edge_3.gif) [![\[IM Output\]](mask_edge_10.gif)](mask_edge_10.gif)
+[![\[IM Output\]](mask.gif)](mask.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](mask_edge_1.gif)](mask_edge_1.gif)
+[![\[IM Output\]](mask_edge_2.gif)](mask_edge_2.gif)
+[![\[IM Output\]](mask_edge_3.gif)](mask_edge_3.gif)
+[![\[IM Output\]](mask_edge_10.gif)](mask_edge_10.gif)
 
 As you can see, the edge is added only to areas with a color gradient that is more than 50% white!
 I don't know if this is a bug or intentional, but it means that the edge in the above is located almost completely in the white parts of the original mask image.
@@ -682,13 +744,15 @@ For example, if you are edge detecting an image containing a black outline, the 
 convert piglet.gif  -colorspace Gray  -edge 1 -negate  piglet_edge.gif
 ~~~
 
-[![\[IM Output\]](piglet.gif)](piglet.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](piglet_edge.gif)](piglet_edge.gif)
+[![\[IM Output\]](piglet.gif)](piglet.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](piglet_edge.gif)](piglet_edge.gif)
 
 However, by negating the image before doing the edge detecting, the twinned lines go inward and join together, removing the 'twin line' effect.
 
 ~~~
 convert piglet.gif -colorspace Gray \
-	-negate -edge 1 -negate    piglet_edge_neg.gif
+    -negate -edge 1 -negate    piglet_edge_neg.gif
 ~~~
 
 [![\[IM Output\]](piglet_edge_neg.gif)](piglet_edge_neg.gif)
@@ -709,7 +773,8 @@ convert rose:                   -edge 1  rose_edge.gif
 convert rose: -colorspace Gray  -edge 1  rose_edge_grey.gif
 ~~~
 
-[![\[IM Output\]](rose_edge.gif)](rose_edge.gif) [![\[IM Output\]](rose_edge_grey.gif)](rose_edge_grey.gif)
+[![\[IM Output\]](rose_edge.gif)](rose_edge.gif)
+[![\[IM Output\]](rose_edge_grey.gif)](rose_edge_grey.gif)
 
 As you can see, without converting the image to grey-scale the edges for the different color channels are generated completely independent of each other.
 
@@ -728,8 +793,12 @@ convert piglet.gif -negate -canny 0x1+10%+30%  piglet_canny_neg.gif
 convert rose:              -canny 0x1+10%+30%  rose_canny.gif
 ~~~
 
-[![\[IM Output\]](mask.gif)](mask.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](mask_canny.gif)](mask_canny.gif)  
- [![\[IM Output\]](piglet_canny.gif)](piglet_canny.gif) [![\[IM Output\]](piglet_canny_neg.gif)](piglet_canny_neg.gif) [![\[IM Output\]](rose_canny.gif)](rose_canny.gif)
+[![\[IM Output\]](mask.gif)](mask.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](mask_canny.gif)](mask_canny.gif)  
+ [![\[IM Output\]](piglet_canny.gif)](piglet_canny.gif)
+[![\[IM Output\]](piglet_canny_neg.gif)](piglet_canny_neg.gif)
+[![\[IM Output\]](rose_canny.gif)](rose_canny.gif)
 
 As you can see, it produces a much sharper result than the [Edge Operator](#edge) above.
 The fuzzy anti-aliased edge has little to no effect, on the result producing thin bitmap lines.
@@ -775,7 +844,7 @@ For example, here we find the difference image between the original image, and o
 
 ~~~
 convert voice.gif \( +clone -roll +1+0 \) -compose difference -composite \
-	-negate   voice_jitter_horiz.gif
+    -negate   voice_jitter_horiz.gif
 ~~~
 
 [![\[IM Output\]](voice_jitter_horiz.gif)](voice_jitter_horiz.gif)
@@ -806,7 +875,7 @@ Such as the outline of a GIF image containing transparency.
 
 ~~~
 convert +antialias -size 80x80 -gravity center \
-	-font WebDings label:Y   heart.gif
+    -font WebDings label:Y   heart.gif
 ~~~
 
 [![\[IM Output\]](heart.gif)](heart.gif)
@@ -853,7 +922,7 @@ A thicker edge can be generated by adding a "`-filter Cubic`" setting, or some o
 
 ~~~
 convert heart.gif -resize 400% -resize 25% \
-	-solarize 50% -evaluate multiply 2 -negate heart_resize.gif
+    -solarize 50% -evaluate multiply 2 -negate heart_resize.gif
 ~~~
 
 [![\[IM Output\]](heart_resize.gif)](heart_resize.gif)
@@ -971,8 +1040,10 @@ Basically, it is designed to examine an image, looking for white lines on a blac
 This can be very important for things like removing image rotations, or determining the perspective transformation in a image, so it can be repeated, or removed.
 
 Here is the full set of options to the operator
-  
-      -background {background} -stroke {line_color} -hough-lines {W}x{H}+{threshold}
+
+~~~{.skip}
+-background {background} -stroke {line_color} -hough-lines {W}x{H}+{threshold}
+~~~
 
 The colors (*background* and *line\_color*) are used to set the colors of lines in the resulting image (if you actually draw them), while the argument to the Hough Operator is used to define the size and treshold of the filter used to find 'peaks' in the intermedite 'search image'.
 that is is controls how well it actually 'finds' the lines we are trying to detect (see below).
@@ -984,13 +1055,15 @@ First we need to reduce the image to lines, and for a clean result the [Canny Ed
 convert shape_rectangle.gif -canny 0x1+10%+30% rectangle.gif
 ~~~
 
-[![\[IM Output\]](shape_rectangle.gif)](shape_rectangle.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](rectangle.gif)](rectangle.gif)
+[![\[IM Output\]](shape_rectangle.gif)](shape_rectangle.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](rectangle.gif)](rectangle.gif)
 
 Now let's apply the Hough Line Detector to this image.
 
 ~~~
 convert rectangle.gif -background black -stroke red \
-	-hough-lines 5x5+20   rectangle_lines.gif
+    -hough-lines 5x5+20   rectangle_lines.gif
 ~~~
 
 [![\[IM Output\]](rectangle_lines.gif)](rectangle_lines.gif)
@@ -1003,7 +1076,7 @@ This means you can list the line information for further processing.
 
 ~~~
 convert rectangle.gif -background black -stroke red \
-	-hough-lines 5x5+20   rectangle_lines.mvg
+    -hough-lines 5x5+20   rectangle_lines.mvg
 ~~~
 
 [![\[IM Text\]](rectangle_lines.mvg.gif)](rectangle_lines.mvg)
@@ -1025,8 +1098,8 @@ You can also see the intermediate 'search image', or 'accumulator' that is looki
 
 ~~~
 convert rectangle.gif \
-	-define hough-lines:accumulator=true -hough-lines 5x5+20 \
-	-delete 0 -contrast-stretch 0.1% rectangle_accumulator.gif
+    -define hough-lines:accumulator=true -hough-lines 5x5+20 \
+    -delete 0 -contrast-stretch 0.1% rectangle_accumulator.gif
 ~~~
 
 [![\[IM Output\]](rectangle_accumulator.gif)](rectangle_accumulator.gif)
@@ -1170,8 +1243,8 @@ For our demonstrations we will need a 'height field' image so let's draw one.
 
 ~~~
 convert -font Candice -pointsize 64 -background black -fill white \
-	label:A  -trim +repage -bordercolor black -border 10x5 \
-	shade_a_mask.gif
+    label:A  -trim +repage -bordercolor black -border 10x5 \
+    shade_a_mask.gif
 ~~~
 
 [![\[IM Output\]](shade_a_mask.gif)](shade_a_mask.gif)
@@ -1196,7 +1269,13 @@ For example...
       convert shade_a_mask.gif   -shade  180x45   shade_direction_180.gif
 ~~~
 
-[![\[IM Output\]](shade_a_mask.gif)](shade_a_mask.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shade_direction_0.gif)](shade_direction_0.gif) [![\[IM Output\]](shade_direction_45.gif)](shade_direction_45.gif) [![\[IM Output\]](shade_direction_90.gif)](shade_direction_90.gif) [![\[IM Output\]](shade_direction_135.gif)](shade_direction_135.gif) [![\[IM Output\]](shade_direction_180.gif)](shade_direction_180.gif)
+[![\[IM Output\]](shade_a_mask.gif)](shade_a_mask.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shade_direction_0.gif)](shade_direction_0.gif)
+[![\[IM Output\]](shade_direction_45.gif)](shade_direction_45.gif)
+[![\[IM Output\]](shade_direction_90.gif)](shade_direction_90.gif)
+[![\[IM Output\]](shade_direction_135.gif)](shade_direction_135.gif)
+[![\[IM Output\]](shade_direction_180.gif)](shade_direction_180.gif)
 
 You get the idea.
 The light can come from any direction.
@@ -1216,7 +1295,13 @@ convert shade_a_mask.gif   -shade  90x75   shade_elevation_75.gif
 convert shade_a_mask.gif   -shade  90x90   shade_elevation_90.gif
 ~~~
 
-[![\[IM Output\]](shade_elevation_0.gif)](shade_elevation_0.gif) [![\[IM Output\]](shade_elevation_15.gif)](shade_elevation_15.gif) [![\[IM Output\]](shade_elevation_30.gif)](shade_elevation_30.gif) [![\[IM Output\]](shade_elevation_45.gif)](shade_elevation_45.gif) [![\[IM Output\]](shade_elevation_60.gif)](shade_elevation_60.gif) [![\[IM Output\]](shade_elevation_75.gif)](shade_elevation_75.gif) [![\[IM Output\]](shade_elevation_90.gif)](shade_elevation_90.gif)
+[![\[IM Output\]](shade_elevation_0.gif)](shade_elevation_0.gif)
+[![\[IM Output\]](shade_elevation_15.gif)](shade_elevation_15.gif)
+[![\[IM Output\]](shade_elevation_30.gif)](shade_elevation_30.gif)
+[![\[IM Output\]](shade_elevation_45.gif)](shade_elevation_45.gif)
+[![\[IM Output\]](shade_elevation_60.gif)](shade_elevation_60.gif)
+[![\[IM Output\]](shade_elevation_75.gif)](shade_elevation_75.gif)
+[![\[IM Output\]](shade_elevation_90.gif)](shade_elevation_90.gif)
 
 As you can see, with an *elevation* of '`0`' the shape is only highlighted on the side from which the light is coming.
 Everything else is black, as no light shines on any other surface.
@@ -1258,7 +1343,7 @@ If you would like to find out just how bright 'flat areas' will be from a specif
 
 ~~~
 convert -size 50x50 xc:white -draw 'circle 25,25 20,10' \
-	-blur 0x2  -shade 0x45   -gravity center -crop 1x1+0+0 txt:-
+    -blur 0x2  -shade 0x45   -gravity center -crop 1x1+0+0 txt:-
 ~~~
 
 [![\[IM Text\]](shade_elevation_45.txt.gif)](shade_elevation_45.txt)
@@ -1277,10 +1362,14 @@ For example, let's do this to a directly shaded mask image.
 
 ~~~
 convert shade_direction_135.gif  shade_a_mask.gif \
-	-alpha Off -compose CopyOpacity -composite   shade_beveled.png
+    -alpha Off -compose CopyOpacity -composite   shade_beveled.png
 ~~~
 
-[![\[IM Output\]](shade_direction_135.gif)](shade_direction_135.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](shade_a_mask.gif)](shade_a_mask.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shade_beveled.png)](shade_beveled.png)
+[![\[IM Output\]](shade_direction_135.gif)](shade_direction_135.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](shade_a_mask.gif)](shade_a_mask.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shade_beveled.png)](shade_beveled.png)
 
 Notice that about half the bevel generated by the "`-shade`" operator, actually falls outside the masked area.
 In other words, a straight bevel is halved when masked.
@@ -1293,7 +1382,11 @@ convert shade_direction_135.gif \
       -alpha Off -compose CopyOpacity -composite   shade_beveled_edge.png
 ~~~
 
-[![\[IM Output\]](shade_direction_135.gif)](shade_direction_135.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](shade_elevation_90.gif)](shade_elevation_90.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shade_beveled_edge.png)](shade_beveled_edge.png)
+[![\[IM Output\]](shade_direction_135.gif)](shade_direction_135.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](shade_elevation_90.gif)](shade_elevation_90.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shade_beveled_edge.png)](shade_beveled_edge.png)
 
 Note, however, that the 'midday' shade image, while providing a way to mask the location (and intensity) of the effects of the "`-shade`" operator, does not actually cover those effects completely.
 
@@ -1302,7 +1395,7 @@ By combining the 'midday' shade image with the original mask you can increase th
 ~~~
 convert shade_direction_135.gif \
       \( shade_elevation_90.gif -normalize -negate \
-	 shade_a_mask.gif -compose screen -composite \) \
+     shade_a_mask.gif -compose screen -composite \) \
       -alpha Off -compose CopyOpacity -composite   shade_beveled_plus.png
 ~~~
 
@@ -1317,7 +1410,7 @@ convert -font Candice -pointsize 72 -background black -fill white \
       label:X  -trim +repage -bordercolor black -border 10x5 \
       \( -clone 0 -shade  135x45 \) \
       \( -clone 0 -shade  0x90  -normalize -negate \
-	 -clone 0 -compose screen -composite \) \
+     -clone 0 -compose screen -composite \) \
       -delete 0 -alpha Off -compose CopyOpacity -composite \
       shade_beveled_X.png
 ~~~
@@ -1361,7 +1454,14 @@ convert shade_circle_mask.gif -blur 0x4  -shade 120x45  shade_blur_4.gif
 convert shade_circle_mask.gif -blur 0x5  -shade 120x45  shade_blur_5.gif
 ~~~
 
-[![\[IM Output\]](shade_circle_mask.gif)](shade_circle_mask.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shade_blur_0.gif)](shade_blur_0.gif) [![\[IM Output\]](shade_blur_1.gif)](shade_blur_1.gif) [![\[IM Output\]](shade_blur_2.gif)](shade_blur_2.gif) [![\[IM Output\]](shade_blur_3.gif)](shade_blur_3.gif) [![\[IM Output\]](shade_blur_4.gif)](shade_blur_4.gif) [![\[IM Output\]](shade_blur_5.gif)](shade_blur_5.gif)
+[![\[IM Output\]](shade_circle_mask.gif)](shade_circle_mask.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shade_blur_0.gif)](shade_blur_0.gif)
+[![\[IM Output\]](shade_blur_1.gif)](shade_blur_1.gif)
+[![\[IM Output\]](shade_blur_2.gif)](shade_blur_2.gif)
+[![\[IM Output\]](shade_blur_3.gif)](shade_blur_3.gif)
+[![\[IM Output\]](shade_blur_4.gif)](shade_blur_4.gif)
+[![\[IM Output\]](shade_blur_5.gif)](shade_blur_5.gif)
 
 As you can see, blurring not only rounds-off the edges, but makes the lighting effects dimmer.
 You can maximize the contrast of the result by normalizing it, so as to bring the brightest and darkest points back to pure white and black colors respectively.
@@ -1370,7 +1470,9 @@ You can maximize the contrast of the result by normalizing it, so as to bring th
 convert shade_blur_3.gif   -normalize  shade_blur_3n.gif
 ~~~
 
-[![\[IM Output\]](shade_blur_3.gif)](shade_blur_3.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shade_blur_3n.gif)](shade_blur_3n.gif)
+[![\[IM Output\]](shade_blur_3.gif)](shade_blur_3.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shade_blur_3n.gif)](shade_blur_3n.gif)
 
 The only drawback with this is that it also generally darkens the shaded image.
 This is something which we'll need to take into account in [Creating Overlay Highlights](#shade_overlay).
@@ -1382,7 +1484,9 @@ convert shade_blur_3n.gif shade_circle_mask.gif \
       -alpha Off -compose CopyOpacity -composite   shade_blur_3n_mask.png
 ~~~
 
-[![\[IM Output\]](shade_blur_3n.gif)](shade_blur_3n.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shade_blur_3n_mask.png)](shade_blur_3n_mask.png)
+[![\[IM Output\]](shade_blur_3n.gif)](shade_blur_3n.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shade_blur_3n_mask.png)](shade_blur_3n_mask.png)
 
 As you can see, blurring the mask image will round off the edges of the resulting shape very nicely.
 
@@ -1464,7 +1568,12 @@ convert shade_tint_0.png -fill grey50  -colorize 50%  shade_tint_50.png
 convert shade_tint_0.png -fill grey50  -colorize 80%  shade_tint_80.png
 ~~~
 
-[![\[IM Output\]](shade_tint_0.png)](shade_tint_0.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shade_tint_10.png)](shade_tint_10.png) [![\[IM Output\]](shade_tint_30.png)](shade_tint_30.png) [![\[IM Output\]](shade_tint_50.png)](shade_tint_50.png) [![\[IM Output\]](shade_tint_80.png)](shade_tint_80.png)
+[![\[IM Output\]](shade_tint_0.png)](shade_tint_0.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shade_tint_10.png)](shade_tint_10.png)
+[![\[IM Output\]](shade_tint_30.png)](shade_tint_30.png)
+[![\[IM Output\]](shade_tint_50.png)](shade_tint_50.png)
+[![\[IM Output\]](shade_tint_80.png)](shade_tint_80.png)
 
 An alternative to just linearly tinting the highlight, is to reduce its general effect while preserving the extreme bright/dark spots of the highlight by using [Sigmoidal Non-liner Contrast](../color_mods/#sigmoidal) instead.
 This should give a more 'natural' look to the highlight effect, and can make the highlight brighter, as if the surface was more reflective.
@@ -1490,7 +1599,15 @@ convert shade_sig_0.png  +sigmoidal-contrast  5x50%  shade_sig+5.png
 convert shade_sig_0.png  +sigmoidal-contrast 10x50%  shade_sig+10.png
 ~~~
 
-[![\[IM Output\]](shade_sig-10.png)](shade_sig-10.png) [![\[IM Output\]](shade_sig-5.png)](shade_sig-5.png) [![\[IM Output\]](shade_sig-2.png)](shade_sig-2.png) ![&lt;==](../img_www/left.gif) [![\[IM Output\]](shade_sig_0.png)](shade_sig_0.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](shade_sig+2.png)](shade_sig+2.png) [![\[IM Output\]](shade_sig+5.png)](shade_sig+5.png) [![\[IM Output\]](shade_sig+10.png)](shade_sig+10.png)
+[![\[IM Output\]](shade_sig-10.png)](shade_sig-10.png)
+[![\[IM Output\]](shade_sig-5.png)](shade_sig-5.png)
+[![\[IM Output\]](shade_sig-2.png)](shade_sig-2.png)
+![&lt;==](../img_www/left.gif)
+[![\[IM Output\]](shade_sig_0.png)](shade_sig_0.png)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](shade_sig+2.png)](shade_sig+2.png)
+[![\[IM Output\]](shade_sig+5.png)](shade_sig+5.png)
+[![\[IM Output\]](shade_sig+10.png)](shade_sig+10.png)
 
 As you can see, the overall highlighting is reduced in intensity, but the bright spot from reflected light remains as bright as ever, just reduced in size.
 The result is a much more natural 'shiny' look to the shape.
@@ -1502,7 +1619,7 @@ Finally, we can combine the 'highlight spot' with a general highlight reduction 
 ~~~
 convert -size 50x50 xc:black -fill white -draw 'circle 25,25 20,10' \
       \( +clone -blur 0x4 -shade 120x21.78 -contrast-stretch 0% \
-	 +sigmoidal-contrast 7x50% -fill grey50 -colorize 10%  \) \
+     +sigmoidal-contrast 7x50% -fill grey50 -colorize 10%  \) \
       +swap -alpha Off -compose CopyOpacity -composite shade_overlay.png
 ~~~
 
@@ -1526,9 +1643,11 @@ An example of this re-use of shading overlay is with the generation of 3D DVD co
 I also highly recommend you experiment with the above techniques, as they are key to making your flat shaped images, much more realistic looking.
 If you come up with other ideas for highlighting, please let me know.
 
-    FUTURE:
-       Color Tinting the Overlay image
-       Overlay Alpha Composition with an Image
+~~~{.skip}
+FUTURE:
+   Color Tinting the Overlay image
+   Overlay Alpha Composition with an Image
+~~~
 
 ### Using a Dawn Shade Highlight {#shade_highlight}
 
@@ -1538,7 +1657,9 @@ However, the horizontal or 'dawn' shade images (using an *elevation* of '`0`')of
 It can, for example, be used as a mask for either white or black images to generate separate highlight and shading effects on shapes.
 This also can be used ensure a shape gets roughly equal amounts of light and dark areas (or even unequal amounts), as I produce them seperately but in a completely controlled way.
 
-    FUTURE: more detail here
+~~~{.skip}
+FUTURE: more detail here
+~~~
 
 See the first [Advanced 3D Logo](../advanced/#3d-logos) for an example of using this technique.
 
@@ -1650,7 +1771,11 @@ convert fx_red.gif  fx_blue.gif \
       -channel B  -fx 'v'    fx_combine.gif
 ~~~
 
-[![\[IM Output\]](fx_red.gif)](fx_red.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](fx_blue.gif)](fx_blue.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](fx_combine.gif)](fx_combine.gif)
+[![\[IM Output\]](fx_red.gif)](fx_red.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](fx_blue.gif)](fx_blue.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](fx_combine.gif)](fx_combine.gif)
 
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -1922,7 +2047,9 @@ convert -size 150x25 xc:DarkRed xc:Green xc:Blue \
       annotate_fx_%d.gif
 ~~~
 
-[![\[IM Output\]](annotate_fx_0.gif)](annotate_fx_0.gif) [![\[IM Output\]](annotate_fx_1.gif)](annotate_fx_1.gif) [![\[IM Output\]](annotate_fx_2.gif)](annotate_fx_2.gif)
+[![\[IM Output\]](annotate_fx_0.gif)](annotate_fx_0.gif)
+[![\[IM Output\]](annotate_fx_1.gif)](annotate_fx_1.gif)
+[![\[IM Output\]](annotate_fx_2.gif)](annotate_fx_2.gif)
 
 Notice how the text that is written is different for each image, as '`r`' is actually equivalent to '`s.p{0,0}.r`'.
 The same goes for the '`g`' and '`b`' color channel values.
@@ -2140,10 +2267,10 @@ Basically, I multiply each channel by the appropriate amount, then separate and 
 
 ~~~
 convert rose: -channel R  -evaluate multiply .2 \
-	-channel G  -evaluate multiply .5 \
-	-channel B  -evaluate multiply .3 \
-	+channel -separate \
-	-background black -compose plus -flatten grey_253.png
+    -channel G  -evaluate multiply .5 \
+    -channel B  -evaluate multiply .3 \
+    +channel -separate \
+    -background black -compose plus -flatten grey_253.png
 ~~~
 
 [![\[IM Output\]](grey_253.png)](grey_253.png)
@@ -2161,7 +2288,7 @@ The '**`Pow`**' function (added IM v6.4.1-9), for example, works with normalized
 
 It is exactly equivalent to the pow() C function, (using normalized color values in a 0 - 1 range)
 
-	value = pow(value, constant) 
+    value = pow(value, constant) 
 
 As such, to create a 'parabolic' gradient you can use an argument of '`2`'.
 Or use a value of '`0.5`' to create a 'square root' gradient.
@@ -2173,8 +2300,19 @@ convert gradient.png  -evaluate Pow  2   eval_pow_parabola.png
 convert gradient.png  -evaluate Pow 0.5  eval_pow_sq_root.png
 ~~~
 
-[![\[IM Output\]](gradient.png)](gradient.png) [![\[IM Output\]](eval_pow_parabola.png)](eval_pow_parabola.png) [![\[IM Output\]](eval_pow_sq_root.png)](eval_pow_sq_root.png)  
- [![\[IM Output\]](gradient_pf.gif)](gradient_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](eval_pow_parabola_pf.gif)](eval_pow_parabola_pf.gif) [![\[IM Output\]](eval_pow_sq_root_pf.gif)](eval_pow_sq_root_pf.gif)
+~~~{.hide}
+im_profile -s gradient.png  gradient_pf.gif
+im_profile -s eval_pow_parabola.png  eval_pow_parabola_pf.gif
+im_profile -s eval_pow_sq_root.png  eval_pow_sq_root_pf.gif
+~~~
+
+[![\[IM Output\]](gradient.png)](gradient.png)
+[![\[IM Output\]](eval_pow_parabola.png)](eval_pow_parabola.png)
+[![\[IM Output\]](eval_pow_sq_root.png)](eval_pow_sq_root.png)  
+ [![\[IM Output\]](gradient_pf.gif)](gradient_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](eval_pow_parabola_pf.gif)](eval_pow_parabola_pf.gif)
+[![\[IM Output\]](eval_pow_sq_root_pf.gif)](eval_pow_sq_root_pf.gif)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > :REMINDER:
@@ -2194,6 +2332,10 @@ convert -size 20x300  gradient: -rotate 90 \
       -flop \( +clone -flop \) +append  eval_circle_arc.png
 ~~~
 
+~~~{.hide}
+im_profile -s eval_circle_arc.png eval_circle_arc_pf.gif
+~~~
+
 [![\[IM Output\]](eval_circle_arc.png)](eval_circle_arc.png)
   
 [![\[IM Output\]](eval_circle_arc_pf.gif)](eval_circle_arc_pf.gif)
@@ -2210,12 +2352,18 @@ See also the more advanced [Polynomial Function](#function_polynomial).
 The '**`Log`**' function (added IM v6.4.2-1) also works with normalized values (with a 1.0 added to avoid infinities), with the given constant being used as the logarithmic base.
 The actual formula (with normalized values) is thus...
 
-        value = log(value*constant+1.0)/log(constant+1.0) 
+~~~{.skip}
+value = log(value*constant+1.0)/log(constant+1.0)
+~~~
 
 For example...
 
 ~~~
 convert gradient.png -evaluate Log 10  eval_log.png
+~~~
+
+~~~{.hide}
+im_profile -s eval_log.png eval_log_pf.gif
 ~~~
 
 [![\[IM Output\]](eval_log.png)](eval_log.png)
@@ -2239,8 +2387,10 @@ The constant is used as a multiplier for the value (and thus the angle) so that 
 
 Specifically it defines these function (using normalized values) as...
 
-       value = 0.5 * sin( constant*value*2*PI ) + 0.5
-       value = 0.5 * cos( constant*value*2*PI ) + 0.5 
+~~~{.skip}
+value = 0.5 * sin( constant*value*2*PI ) + 0.5
+value = 0.5 * cos( constant*value*2*PI ) + 0.5 
+~~~
 
 In essence, what these functions do, is re-map the image values (usually gray-scale values) into a sine/cosine curve.
 
@@ -2251,13 +2401,26 @@ convert gradient.png  -evaluate sin 1  eval_sin_1.png
 convert gradient.png  -evaluate cos 1  eval_cos_1.png
 ~~~
 
-[![\[IM Output\]](eval_sin_1.png)](eval_sin_1.png) [![\[IM Output\]](eval_cos_1.png)](eval_cos_1.png)  
- [![\[IM Output\]](gradient_pf.gif)](gradient_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](eval_sin_1_pf.gif)](eval_sin_1_pf.gif) [![\[IM Output\]](eval_cos_1_pf.gif)](eval_cos_1_pf.gif)
+~~~{.skip}
+im_profile -s eval_sin_1.png  eval_sin_1_pf.gif
+im_profile -s eval_cos_1.png  eval_cos_1_pf.gif
+~~~
+
+[![\[IM Output\]](eval_sin_1.png)](eval_sin_1.png)
+[![\[IM Output\]](eval_cos_1.png)](eval_cos_1.png)  
+ [![\[IM Output\]](gradient_pf.gif)](gradient_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](eval_sin_1_pf.gif)](eval_sin_1_pf.gif)
+[![\[IM Output\]](eval_cos_1_pf.gif)](eval_cos_1_pf.gif)
 
 Now, as the constant parameter is an angle multiplier, the value given to the evaluate method will create that many peaks over the whole gradient within an image.
 
 ~~~
 convert gradient.png -evaluate cos 5  -negate  eval_cos_5.png
+~~~
+
+~~~{.skip}
+im_profile -s eval_cos_5.png eval_cos_5_pf.gif
 ~~~
 
 [![\[IM Output\]](eval_cos_5.png)](eval_cos_5.png)
@@ -2271,6 +2434,10 @@ By negating the result you can ensure that the gradient also slopes correctly.
 
 ~~~
 convert gradient.png -evaluate cos 0.5  -negate  eval_cos.5.png
+~~~
+
+~~~{.skip}
+im_profile -s eval_cos.5.png eval_cos.5_pf.gif
 ~~~
 
 [![\[IM Output\]](eval_cos.5.png)](eval_cos.5.png)
@@ -2297,7 +2464,9 @@ However unlike the [Evaluate Operator](#evaluate), these operators like the math
 
 The '**`polynomial`**' method will take any number of values, and will modify the color values in an image according the exact expression given, much faster than the [FX Operator](#fx) can.
 
-	-function   Polynomial   a,b,c,...
+~~~{.skip}
+-function   Polynomial   a,b,c,...
+~~~
 
 Each value will be used as a coefficient from the highest order to the lowest, to produce a polynomial with the number of terms given.
 
@@ -2310,6 +2479,10 @@ That is, it will make black and white colors 'white', and make perfect grays, 'b
 convert gradient.png -function Polynomial 4,-4,1  func_parabola.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_parabola.png func_parabola_pf.gif
+~~~
+
 [![\[IM Output\]](func_parabola.png)](func_parabola.png)
   
 [![\[IM Output\]](func_parabola_pf.gif)](func_parabola_pf.gif)
@@ -2320,6 +2493,10 @@ This is typically used to adjust the colors of an image to give it various shadi
 ~~~
 convert gradient.png -function Polynomial '-25, 53, -36, 8.3, 0.2' \
       func_quartic.png
+~~~
+
+~~~{.hide}
+im_profile -s func_quartic.png func_quartic_pf.gif
 ~~~
 
 [![\[IM Output\]](func_quartic.png)](func_quartic.png)
@@ -2369,11 +2546,11 @@ See also the [Pow Evaluate Method](#evaluate_pow) for an alternative to the abov
 
 The '**`Sinusoid`**' function method is a much more advanced version of the "`-evaluate`" methods '`sin`' and '`cos`', and can, in fact, replicate those functions, but you have much better controls over how it modifies the color values in an image.
 
-	-function   Sinusoid   frequency,phase,amplitude,bias
+    -function   Sinusoid   frequency,phase,amplitude,bias
 
 It is implemented using the formula...
 
-	value = ampl * sin(2*PI( freq*value + phase/360 ) ) + bias
+    value = ampl * sin(2*PI( freq*value + phase/360 ) ) + bias
 
 This may seem complex but it ensures the function is easy to use.
 
@@ -2604,7 +2781,9 @@ convert -size 5x300 gradient: -rotate 90   math_linear.png
 convert math_linear.png  -evaluate sine 12  math_sine.png
 ~~~
 
-[![\[IM Output\]](math_linear_pf.gif)](math_linear_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif)
+[![\[IM Output\]](math_linear_pf.gif)](math_linear_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif)
 
 Now, to attenuate this, we multiply the sine wave with a linear gradient, using a [Multiply](../compose/#multiply) alpha composition...
 
@@ -2613,7 +2792,11 @@ convert math_sine.png  math_linear.png  \
       -compose Multiply -composite  math_sine_2.png
 ~~~
 
-[![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif) ![X](../img_www/multiply.gif) [![\[IM Output\]](math_linear_pf.gif)](math_linear_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](math_sine_2_pf.gif)](math_sine_2_pf.gif)
+[![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif)
+![X](../img_www/multiply.gif)
+[![\[IM Output\]](math_linear_pf.gif)](math_linear_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](math_sine_2_pf.gif)](math_sine_2_pf.gif)
 
 But to use this in say a [Water Ripples, Displacement Map](../mapping/#water_ripples) the wave must remain centered around a perfect gray.
 To do this we need to add a bias to the original image.
@@ -2625,7 +2808,11 @@ convert  math_sine_2.png  math_bias.png \
       -compose Plus -composite  math_attenuated.png
 ~~~
 
-[![\[IM Output\]](math_sine_2_pf.gif)](math_sine_2_pf.gif) ![X](../img_www/plus.gif) [![\[IM Output\]](math_bias_pf.gif)](math_bias_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](math_attenuated_pf.gif)](math_attenuated_pf.gif)
+[![\[IM Output\]](math_sine_2_pf.gif)](math_sine_2_pf.gif)
+![X](../img_www/plus.gif)
+[![\[IM Output\]](math_bias_pf.gif)](math_bias_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](math_attenuated_pf.gif)](math_attenuated_pf.gif)
 
 And so we have a linearly attenuated our Sine Wave Gradient, suitable for use in a displacement map.
 
@@ -2637,11 +2824,13 @@ convert math_linear.png  -evaluate cos 1 -negate  math_cosine_peak.png
 convert math_sine.png  math_cosine_peak.png \
       \( -clone 0,1 -compose multiply -composite \) \
       \( -clone  1  +level 50%,0 \
-	 -clone  2  -compose plus -composite \) \
+     -clone  2  -compose plus -composite \) \
       -delete 0--2  math_cosine_atten.png
 ~~~
 
-[![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif) **attenuate** [![\[IM Output\]](math_cosine_peak_pf.gif)](math_cosine_peak_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](math_cosine_atten_pf.gif)](math_cosine_atten_pf.gif)
+[![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif) **attenuate** [![\[IM Output\]](math_cosine_peak_pf.gif)](math_cosine_peak_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](math_cosine_atten_pf.gif)](math_cosine_atten_pf.gif)
 
 As of IM v6.5.4-3, it is now possible to do the all the steps above in one compose method, using the special [Mathematics Compose Method](../compose/#mathematics).
 Basically, by recognising that an attenuation operation is the formula `Sc*Dc-.5*Sc+.5` or the arguments, "`1,-.5,0,.5`".
@@ -2694,7 +2883,8 @@ convert  math_m_bias.png          -level 50%,0         math_m_abs.png
 Sign of Gradient  
 white = negative
 
-[![\[IM Output\]](math_cosine_peak_pf.gif)](math_cosine_peak_pf.gif) ![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](math_cosine_peak_pf.gif)](math_cosine_peak_pf.gif)
+![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](math_m_bias_pf.gif)](math_m_bias_pf.gif)
 
 Bias Offset
@@ -2717,11 +2907,17 @@ convert math_m_2.png   math_m_sign.png \
 
 [![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif)
 ![X](../img_www/multiply.gif)
-[![\[IM Output\]](math_m_abs_pf.gif)](math_m_abs_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](math_m_1_pf.gif)](math_m_1_pf.gif)
+[![\[IM Output\]](math_m_abs_pf.gif)](math_m_abs_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](math_m_1_pf.gif)](math_m_1_pf.gif)
 ![+](../img_www/plus.gif)
-[![\[IM Output\]](math_m_bias_pf.gif)](math_m_bias_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](math_m_2_pf.gif)](math_m_2_pf.gif)
+[![\[IM Output\]](math_m_bias_pf.gif)](math_m_bias_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](math_m_2_pf.gif)](math_m_2_pf.gif)
 sign
-[![\[IM Output\]](math_m_sign_pf.gif)](math_m_sign_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](math_multiply_pf.gif)](math_multiply_pf.gif)
+[![\[IM Output\]](math_m_sign_pf.gif)](math_m_sign_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](math_multiply_pf.gif)](math_multiply_pf.gif)
 
 And that is a perfect multiplication of two bias gradient images!
 
@@ -2733,12 +2929,16 @@ convert math_sine.png  math_cosine_peak.png \
       \( -clone  1      -solarize 50%      \) \
       \( -clone  3      -level 50%,0       \) \
       \( -clone 0,4 -compose multiply   -composite \
-	 -clone  3  -compose plus       -composite \
-	 -clone  2  -compose difference -composite \) \
+     -clone  3  -compose plus       -composite \
+     -clone  2  -compose difference -composite \) \
       -delete 0--2    math_multiply_2.png
 ~~~
 
-[![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif) ![X](../img_www/multiply.gif) [![\[IM Output\]](math_cosine_peak_pf.gif)](math_cosine_peak_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](math_multiply_2_pf.gif)](math_multiply_2_pf.gif)
+[![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif)
+![X](../img_www/multiply.gif)
+[![\[IM Output\]](math_cosine_peak_pf.gif)](math_cosine_peak_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](math_multiply_2_pf.gif)](math_multiply_2_pf.gif)
 
 One final note, unlike [Attenuation](#attenuation), this Multiply of biased gradients is commutative.
 That is, swapping the the order of the input images does not affect the final result.
@@ -2783,7 +2983,13 @@ convert wave_1.png wave_2.png wave_3.png -background gray40 \
       -flatten  added_waves.png
 ~~~
 
-[![\[IM Output\]](wave_1_pf.gif)](wave_1_pf.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](wave_2_pf.gif)](wave_2_pf.gif) ![ +](../img_www/plus.gif) [![\[IM Output\]](wave_3_pf.gif)](wave_3_pf.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](added_waves_pf.gif)](added_waves_pf.gif)
+[![\[IM Output\]](wave_1_pf.gif)](wave_1_pf.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](wave_2_pf.gif)](wave_2_pf.gif)
+![ +](../img_www/plus.gif)
+[![\[IM Output\]](wave_3_pf.gif)](wave_3_pf.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](added_waves_pf.gif)](added_waves_pf.gif)
 
 Note in the above how I used the "`-flatten`" operator with a "`-background`" setting to implement a multiple image composition.
 Or in this case a 'Biased Sum' of all the given images plus the background constant.
@@ -2797,7 +3003,7 @@ For example....
 
 ~~~
 convert gradient.png  -evaluate sin 0.5 -normalize \
-	-evaluate cos  8  math_cos_var.png
+    -evaluate cos  8  math_cos_var.png
 ~~~
 
 [![\[IM Output\]](math_cos_var.png)](math_cos_var.png)
@@ -2806,7 +3012,9 @@ convert gradient.png  -evaluate sin 0.5 -normalize \
 
 This generates a very complex function that is essentially equivalent to
 
-     cos( 8 * sin( {value}/2 ) )
+~~~{.skip}
+cos( 8 * sin( {value}/2 ) )
+~~~
 
 In other words a variable frequency, where the frequency varies with the gradient of the first sine curve.
 
@@ -2819,48 +3027,50 @@ This is actually how '*Frequency Modulation*' works, where a seemingly simple fu
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    Miscellaneous Image Transformation Techniques.
+~~~{.skip}
+Miscellaneous Image Transformation Techniques.
 
-    These have not been exampled yet, but are some basic IM developed transforms
-    that may provide useful.  If you have an interesting effect please contribute.
+These have not been exampled yet, but are some basic IM developed transforms
+that may provide useful.  If you have an interesting effect please contribute.
 
-       pixelize an image
-          resize an image down 10 then scale the image 10 to produce blocks
-          of roughly averaged color.
-          For example...
-             convert input.jpg -resize 10% -sample 1000% output.jpg
+ pixelize an image
+    resize an image down 10 then scale the image 10 to produce blocks
+    of roughly averaged color.
+    For example...
+       convert input.jpg -resize 10% -sample 1000% output.jpg
 
-      De-skew slightly rotated images
+De-skew slightly rotated images
 
-        -deskew {threshold}
-           straighten an image. A threshold of 40% works for most images.
+  -deskew {threshold}
+     straighten an image. A threshold of 40% works for most images.
 
-        Use -set option:deskew:auto-crop {width} to auto crop the image. The set
-        argument is the pixel width of the image background (e.g 40).
+  Use -set option:deskew:auto-crop {width} to auto crop the image. The set
+  argument is the pixel width of the image background (e.g 40).
 
-        Programmically we auto crop by running a median filter across the image
-        to eliminate salt-n-pepper noise.  Next we get the image bounds of the
-        median filter image with a fuzz factor (e.g. -fuzz 5%).  Finally we
-        crop the original image by the bounds.  The code looks like this:
+  Programmically we auto crop by running a median filter across the image
+  to eliminate salt-n-pepper noise.  Next we get the image bounds of the
+  median filter image with a fuzz factor (e.g. -fuzz 5%).  Finally we
+  crop the original image by the bounds.  The code looks like this:
 
-          median_image=MedianFilterImage(image,0.0,exception);
-          geometry=GetImageBoundingBox(median_image,exception);
-          median_image-DestoryImage(median_image);
+    median_image=MedianFilterImage(image,0.0,exception);
+    geometry=GetImageBoundingBox(median_image,exception);
+    median_image-DestoryImage(median_image);
 
-          print("  Auto-crop geometry: %lux%lu%+ld%+ld",
-                    geometry.width,geometry.height, geometry.x,geometry.y);
-          crop_image=CropImage(rotate_image,&geometry,exception);
+    print("  Auto-crop geometry: %lux%lu%+ld%+ld",
+              geometry.width,geometry.height, geometry.x,geometry.y);
+    crop_image=CropImage(rotate_image,&geometry,exception);
 
-        See Trimming 'Noisy' Images
+  See Trimming 'Noisy' Images
 
-      Segmentation
-        look at scripts
-           divide_vert
-           segment_image
-        for some simple scripts I wrote to segment well defined images into
-        smaller parts.   I hope to get simple segmentation functions like this
-        into the core library, to allow for things like automatic sub-division of
-        GIF animations, and seperating images and diagrams from scanned documents.
+Segmentation
+  look at scripts
+     divide_vert
+     segment_image
+  for some simple scripts I wrote to segment well defined images into
+  smaller parts.   I hope to get simple segmentation functions like this
+  into the core library, to allow for things like automatic sub-division of
+  GIF animations, and seperating images and diagrams from scanned documents.
+~~~
 
 ------------------------------------------------------------------------
 

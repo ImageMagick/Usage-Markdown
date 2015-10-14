@@ -83,6 +83,8 @@ text: text/index.html text/index.sh
 
 thumbnails: thumbnails/index.html thumbnails/index.sh
 
+transform: transform/index.html transform/index.sh
+
 warping: warping/index.html warping/index.sh
 
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
