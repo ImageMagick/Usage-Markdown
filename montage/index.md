@@ -783,7 +783,13 @@ The above commands are rather tricky so here is what happens...
 And hey presto, we have a Thumbnail index using a very small JPEG image for the thumbnail index image.
 
 Here are comparisons of the file sizes of the thumbnail index image...
-  
+
+~~~{.hide data-capture-out="photo_index_sizes.txt"}
+( ls -l photo_index.png;\
+  ls -l photo_jpeg.jpg;\
+) | awk '{printf "%6s %s\n", $5, $NF}' -
+~~~
+
 [![\[IM Text\]](photo_index_sizes.txt.gif)](photo_index_sizes.txt)
 
 That is the image used for the index is only about 15% of the size of the original PNG image.

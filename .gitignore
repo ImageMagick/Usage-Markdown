@@ -98,6 +98,11 @@ masking/*.png
 misc/*.gif
 misc/*.jpg
 misc/*.png
+montage/*.gif
+montage/*.jpg
+montage/*.png
+montage/*.txt
+montage/*.shtml
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

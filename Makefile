@@ -71,6 +71,8 @@ masking: masking/index.html masking/index.sh
 
 misc: misc/index.html misc/index.sh
 
+montage: montage/index.html montage/index.sh
+
 warping: warping/index.html warping/index.sh
 
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
