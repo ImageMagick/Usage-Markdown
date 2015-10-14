@@ -338,7 +338,7 @@ All this is to basically speed up thumbnail generation from very large files.
 
 However for thumbnails of JPEG images, you can limit the size of the image read in from disk using the special option "`-define jpeg:size={size}`" setting.
 See [Reading JPEG Images](../formats/#jpg_read) for more details.
-As such this speed improvment is rarely needed for JPEG in thumbnail generation, though profile stripping is still very important.
+As such this speed improvement is rarely needed for JPEG in thumbnail generation, though profile stripping is still very important.
 
 For other image formats, such as TIFF, both profile stripping and speed improvement is still vitally important.
 As such it is still the recommended way to resize images for thumbnail creation.
@@ -477,6 +477,13 @@ Scale
 Triangle Filter  
 Resize
 
+~~~{.hide}
+convert checks.gif          -scale 1000% checks_mag.gif
+convert checks_box.gif      -scale 1000% checks_box_mag.gif
+convert checks_scale.gif    -scale 1000% checks_scale_mag.gif
+convert checks_triangle.gif -scale 1000% checks_triangle_mag.gif
+~~~
+
 The images above have been greatly enlarged
 
 The above shows the result you get for 'purely averaged', vs, 'pixel mixed', vs, 'linear interolation'.
@@ -510,6 +517,12 @@ Scale
 [![\[IM Output\]](checks_sm_triangle_mag.gif)](checks_sm_triangle.gif)  
 Triangle Filter  
 Resize
+
+~~~{.hide}
+convert checks_sm_box.gif      -scale 1000% checks_sm_box_mag.gif
+convert checks_sm_scale.gif    -scale 1000% checks_sm_scale_mag.gif
+convert checks_sm_triangle.gif -scale 1000% checks_sm_triangle_mag.gif
+~~~
 
 The images above have been greatly enlarged
 
@@ -594,6 +607,13 @@ convert line_orig2.gif  -adaptive-resize 80x80  line_adaptive.gif
 [![\[IM Output\]](line_adaptive.gif)](line_adaptive.gif)
 
 If you look at a magnification of the two results...
+
+~~~{.hide}
+convert line_resize.gif -gravity center -crop 10x10+0+0 +repage \
+        -scale 800% line_resize_mag.gif
+convert line_adaptive.gif -gravity center -crop 10x10+0+0 +repage \
+        -scale 800% line_adaptive_mag.gif
+~~~
 
 [![\[IM Output\]](line_resize_mag.gif)](line_resize_mag.gif)
 [![\[IM Output\]](line_adaptive_mag.gif)](line_adaptive_mag.gif)
@@ -894,10 +914,6 @@ Also see [Color Processing Real Images](../color_basics/#processing) and [Drawin
 WARNING: RGB colorspace may produce clipping problems along edges involving strong primary color changes (not just between black and white).
 See later resize techniques for ways of mitigating this problem.
 
-![](../img_www/space.gif)
-
-![](../img_www/space.gif)
-
 In versions of IM older than v6.7.5, in which the default input colorspace was '`RGB`'.
 The '`sRGB`' colorspace actually meant "converted from sRGB to linear-RGB".
 The result was the two labels were swapped!
@@ -906,7 +922,7 @@ The result was the two labels were swapped!
 Because of this older versions of ImageMagick would need to do the above colorspace correction with those colorspace names swapped.
 Like this...
 
-~~~
+~~~{.skip}
 convert earth_lights_4800.tif -colorspace sRGB \
         -resize 500  -colorspace RGB  earth_lights_colorspace.png
 ~~~

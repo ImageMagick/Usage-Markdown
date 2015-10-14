@@ -113,6 +113,10 @@ photos/*.png
 quantize/*.gif
 quantize/*.png
 quantize/*.txt
+resize/*.gif
+resize/*.jpg
+resize/*.png
+resize/*.tif
 warping/*.gif
 warping/*.jpg
 warping/*.mpg
