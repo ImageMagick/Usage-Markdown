@@ -95,6 +95,9 @@ masking/*.gif
 masking/*.jpg
 masking/*.matte
 masking/*.png
+misc/*.gif
+misc/*.jpg
+misc/*.png
 morphology/*.gif
 morphology/*.txt
 morphology/*.png

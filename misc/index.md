@@ -59,13 +59,13 @@ The original image looks like the "Nearest" result, but much smaller.
 ~~~
 for method in  integer nearest blend average average9 average16 ; do
 convert \( xc:red xc:blue +append \) \
-	\( xc:yellow xc:cyan +append \) -append \
-	-bordercolor black -border 1 \
-	-filter point -interpolate $method \
-	+distort SRT 20,0 ip_color_${method}.jpg
+    \( xc:yellow xc:cyan +append \) -append \
+    -bordercolor black -border 1 \
+    -filter point -interpolate $method \
+    +distort SRT 20,0 ip_color_${method}.jpg
 convert xc: -bordercolor black -border 2 \
-	-filter point -interpolate $method \
-	+distort SRT 16,0 ip_pixel_${method}.jpg
+    -filter point -interpolate $method \
+    +distort SRT 16,0 ip_pixel_${method}.jpg
 done
 ~~~
 
@@ -170,6 +170,7 @@ convert \( xc:red xc:blue +append \) \
 ~~~
 
 [![\[IM Output\]](interpolate_tri-mesh.jpg)](interpolate_tri-mesh.jpg)
+
 As you can see the '`Mesh`' algorithm produced almost exactly the same set of color interpolations as '`Bilinear`'.
 However, if we reverse the yellow and cyan colors..
 
@@ -256,7 +257,9 @@ convert \( xc:red xc:blue +append \) \
       -fx 'v.p{3*i/(w-1)-1, 3*j/(h-1)-1}'   interpolate_catrom_black.jpg
 ~~~
 
-[![\[IM Output\]](interpolate_catrom_edge.jpg)](interpolate_catrom_edge.jpg) [![\[IM Output\]](interpolate_catrom_white.jpg)](interpolate_catrom_white.jpg) [![\[IM Output\]](interpolate_catrom_black.jpg)](interpolate_catrom_black.jpg)
+[![\[IM Output\]](interpolate_catrom_edge.jpg)](interpolate_catrom_edge.jpg)
+[![\[IM Output\]](interpolate_catrom_white.jpg)](interpolate_catrom_white.jpg)
+[![\[IM Output\]](interpolate_catrom_black.jpg)](interpolate_catrom_black.jpg)
 
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -330,7 +333,9 @@ convert \( xc:red xc:blue +append \) \
       -fx 'v.p{3*i/(w-1)-1, 3*j/(h-1)-1}'   interpolate_spline_black.jpg
 ~~~
 
-[![\[IM Output\]](interpolate_spline_edge.jpg)](interpolate_spline_edge.jpg) [![\[IM Output\]](interpolate_spline_white.jpg)](interpolate_spline_white.jpg) [![\[IM Output\]](interpolate_spline_black.jpg)](interpolate_spline_black.jpg)
+[![\[IM Output\]](interpolate_spline_edge.jpg)](interpolate_spline_edge.jpg)
+[![\[IM Output\]](interpolate_spline_white.jpg)](interpolate_spline_white.jpg)
+[![\[IM Output\]](interpolate_spline_black.jpg)](interpolate_spline_black.jpg)
 
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -387,11 +392,11 @@ Here I demonstrate the various interpolation methods by creating an image of a v
 
 ~~~
 convert -size 10x20 xc: -draw 'line 4,0 4,20' \
-	-scale 50x100 ip_line_none.gif
+    -scale 50x100 ip_line_none.gif
 for method in integer nearest bilinear mesh catrom spline;  do
    convert -size 10x20 xc: -draw 'line 5,0 5,20' \
-	-interpolate $method -filter point -distort SRT 17 \
-	-scale 50x100 ip_line_${method}.gif
+    -interpolate $method -filter point -distort SRT 17 \
+    -scale 50x100 ip_line_${method}.gif
 done
 ~~~
 
@@ -424,11 +429,11 @@ The results have a slight difference when the edge of an area is being distorted
 
 ~~~
 convert -size 10x20 xc: -draw 'rectangle 0,0 4,19' \
-	-scale 50x100 ip_edge_none.gif
+    -scale 50x100 ip_edge_none.gif
 for method in  integer nearest bilinear mesh catrom spline; do
    convert -size 10x20 xc: -draw 'rectangle 0,0 4,19' \
-	-interpolate $method -filter point  -distort SRT -17 \
-	-scale 50x100 ip_edge_${method}.gif
+    -interpolate $method -filter point  -distort SRT -17 \
+    -scale 50x100 ip_edge_${method}.gif
 done
 ~~~
 
@@ -460,7 +465,7 @@ For example, here we use the [FX DIY Operator](../transform/#fx) "`-fx`" to 'loo
 
 ~~~
 convert -size 70x70 xc:  tree.gif \
-	-fx 'v.p[-19,-19]'  virtual_default.gif
+    -fx 'v.p[-19,-19]'  virtual_default.gif
 ~~~
 
 [![\[IM Output\]](virtual_default.gif)](virtual_default.gif)
@@ -475,8 +480,8 @@ The distort method "SRT 0" does not actually distort the image result, it just l
 
 ~~~
 convert tree.gif  -set option:distort:viewport 70x70-19-19 \
-	-virtual-pixel Edge -filter point   -distort SRT 0 \
-	+repage  virtual_edge.gif
+    -virtual-pixel Edge -filter point   -distort SRT 0 \
+    +repage  virtual_edge.gif
 ~~~
 
 [![\[IM Output\]](virtual_edge.gif)](virtual_edge.gif)
@@ -671,8 +676,8 @@ By making background transparent, and overlaying that image over another fully-t
 ~~~
 convert -size 96x96 tile:balloon.gif \
       \( tree.gif -alpha set  -set option:distort:viewport 96x96 \
-	 -virtual-pixel CheckerTile  -background none \
-	 -filter point -distort SRT 0 \) \
+     -virtual-pixel CheckerTile  -background none \
+     -filter point -distort SRT 0 \) \
       -flatten  virtual_checker_2.gif
 ~~~
 
@@ -769,7 +774,7 @@ convert -size 70x70 xc:lightblue  -fill black -draw 'circle 35,65 25,55' \
 
 ~~~
 convert -size 70x70 xc:lightblue  -fill black -draw 'circle 35,65 25,55' \
-	-virtual-pixel mirror  -blur 0x8  vp_blur_2.png
+    -virtual-pixel mirror  -blur 0x8  vp_blur_2.png
 ~~~
 
 [![\[IM Output\]](vp_blur_2.png)](vp_blur_2.png)
@@ -808,8 +813,8 @@ Note how the '`red`' background I placed behind the image is visible around the 
 
 ~~~
 convert -size 70x70 xc:lightblue  -fill black -draw 'circle 35,65 25,55' \
-	-virtual-pixel background   -background blue \
-	-gaussian 0x8     vp_gaussian.png
+    -virtual-pixel background   -background blue \
+    -gaussian 0x8     vp_gaussian.png
 ~~~
 
 [![\[IM Output\]](vp_gaussian.png)](vp_gaussian.png)
@@ -817,8 +822,8 @@ However "`-radial-blur`" (really a rotational blur), produces more interesting b
 
 ~~~
 convert -size 70x70 xc:lightblue \
-	-virtual-pixel background  -background blue \
-	-radial-blur 0x30    vp_radial.png
+    -virtual-pixel background  -background blue \
+    -radial-blur 0x30    vp_radial.png
 ~~~
 
 [![\[IM Output\]](vp_radial.png)](vp_radial.png)
@@ -835,24 +840,24 @@ Note that "`-motion-blur`" can be very badly affected by edge effects.
 
 ~~~
 convert -size 70x70 xc:none  -virtual-pixel edge \
-	-fill yellow  -stroke red  -strokewidth 3 -draw 'circle 45,55 35,45' \
-	-channel RGBA -motion-blur 0x12+65  vp_motion.png
+    -fill yellow  -stroke red  -strokewidth 3 -draw 'circle 45,55 35,45' \
+    -channel RGBA -motion-blur 0x12+65  vp_motion.png
 ~~~
 
 [![\[IM Output\]](vp_motion.png)](vp_motion.png)
 
 ~~~
 convert -size 70x70 xc:none  -virtual-pixel transparent  \
-	-fill yellow  -stroke red  -strokewidth 3  -draw 'circle 45,55 35,45' \
-	-channel RGBA -motion-blur 0x12+65  vp_motion_2.png
+    -fill yellow  -stroke red  -strokewidth 3  -draw 'circle 45,55 35,45' \
+    -channel RGBA -motion-blur 0x12+65  vp_motion_2.png
 ~~~
 
 [![\[IM Output\]](vp_motion_2.png)](vp_motion_2.png)
 
 ~~~
 convert -size 70x70 xc:none  -virtual-pixel background -background blue \
-	-fill yellow  -stroke red  -strokewidth 3  -draw 'circle 45,55 35,45' \
-	-channel RGBA -motion-blur 0x12+65  vp_motion_3.png
+    -fill yellow  -stroke red  -strokewidth 3  -draw 'circle 45,55 35,45' \
+    -channel RGBA -motion-blur 0x12+65  vp_motion_3.png
 ~~~
 
 [![\[IM Output\]](vp_motion_3.png)](vp_motion_3.png)
@@ -920,7 +925,7 @@ done
 ~~~
 
 | Num Colors | Edge                | Mirror                | Tile                | White                | Black                |
-|:-----------|---------------------|-----------------------|---------------------|----------------------|----------------------|
+|:----------:|:-------------------:|:---------------------:|:-------------------:|:--------------------:|:--------------------:|
 | 2          | ![](spot2_edge.gif) | ![](spot2_mirror.gif) | ![](spot2_tile.gif) | ![](spot2_white.gif) | ![](spot2_black.gif) |
 | 3          | ![](spot3_edge.gif) | ![](spot3_mirror.gif) | ![](spot3_tile.gif) | ![](spot3_white.gif) | ![](spot3_black.gif) |
 | 4          | ![](spot4_edge.gif) | ![](spot4_mirror.gif) | ![](spot4_tile.gif) | ![](spot4_white.gif) | ![](spot4_black.gif) |
@@ -945,8 +950,18 @@ A small blur producing lots of small spots, a large blur, such as we used in the
 You can also produce a completely different set of colors and interactions by using a different color quantization color space.
 For example, here I repeat the last example (reducing to 5 colors) from above but use some more unusal "`-quantize`" color spaces for color selection - see [Color Quantization and ColorSpace](../quantize/#quantize).
 
+~~~{.hide}
+for s in   RGB YIQ HSL XYZ OHTA; do
+  for v in   edge mirror tile white black; do
+    convert spot_start.gif -virtual-pixel $v -blur 0x10 \
+            +dither -quantize $s -colors 5 spot_${s}_${v}.gif
+  done
+done
+~~~
+
+
 | Color Space | Edge                    | Mirror                    | Tile                    | White                    | Black                    |
-|:------------|-------------------------|---------------------------|-------------------------|--------------------------|--------------------------|
+|:-----------:|:-----------------------:|:-------------------------:|:-----------------------:|:------------------------:|:------------------------:|
 | RGB         | ![](spot_RGB_edge.gif)  | ![](spot_RGB_mirror.gif)  | ![](spot_RGB_tile.gif)  | ![](spot_RGB_white.gif)  | ![](spot_RGB_black.gif)  |
 | YIQ         | ![](spot_YIQ_edge.gif)  | ![](spot_YIQ_mirror.gif)  | ![](spot_YIQ_tile.gif)  | ![](spot_YIQ_white.gif)  | ![](spot_YIQ_black.gif)  |
 | HSL         | ![](spot_HSL_edge.gif)  | ![](spot_HSL_mirror.gif)  | ![](spot_HSL_tile.gif)  | ![](spot_HSL_white.gif)  | ![](spot_HSL_black.gif)  |
@@ -968,15 +983,15 @@ For this example, I choose Arial Black font, for its straight lettering so that 
 
 ~~~
 convert -font ArialB -pointsize 24 -gravity center \
-	-size 55x55 xc:white -annotate 0x0+0+0 'Text' \
-	annotate_source.jpg
+    -size 55x55 xc:white -annotate 0x0+0+0 'Text' \
+    annotate_source.jpg
 ~~~
 
 [![\[IM Output\]](annotate_source.jpg)](annotate_source.jpg)
 
 The format of this option is...
 
-~~~
+~~~{.skip}
       -annotate {SlewX}x{SlewY}+{X}+{Y} 'Text String' 
 ~~~
 
@@ -1035,7 +1050,7 @@ For example, under IM this sets the transparent areas of the star image to the "
 
 ~~~
 convert star.gif -bordercolor LimeGreen   -background Gold \
-	-border 10       star_border.gif
+    -border 10       star_border.gif
 ~~~
 
 [![\[IM Output\]](star_border.gif)](star_border.gif)
