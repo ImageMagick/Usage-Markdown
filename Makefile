@@ -21,8 +21,6 @@ clean:
 
 backgrounds: backgrounds/index.html backgrounds/index.sh
 
-morphology: morphology/index.html morphology/index.sh
-
 basics: basics/index.html basics/index.sh
 
 blur: blur/index.html blur/index.sh
@@ -49,8 +47,6 @@ distorts/affine: distorts/affine/index.html distorts/affine/index.sh
 
 draw: draw/index.html draw/index.sh
 
-fourier: fourier/index.html fourier/index.sh
-
 files: files/index.html files/index.sh
 
 filter: filter/index.html filter/index.sh
@@ -60,6 +56,8 @@ filter/nicolas: filter/nicolas/index.html filter/nicolas/index.sh
 fonts: fonts/index.html fonts/index.sh
 
 formats: formats/index.html formats/index.sh
+
+fourier: fourier/index.html fourier/index.sh
 
 layers: layers/index.html layers/index.sh
 
@@ -72,6 +70,8 @@ masking: masking/index.html masking/index.sh
 misc: misc/index.html misc/index.sh
 
 montage: montage/index.html montage/index.sh
+
+morphology: morphology/index.html morphology/index.sh
 
 photos: photos/index.html photos/index.sh
 
