@@ -19,6 +19,8 @@ all: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
 clean:
 	rm -f $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)
 
+advanced: advanced/index.html advanced/index.sh
+
 backgrounds: backgrounds/index.html backgrounds/index.sh
 
 basics: basics/index.html basics/index.sh

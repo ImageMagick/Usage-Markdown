@@ -25,13 +25,13 @@ The resulting grayscale 'shaded' image is then coloured using the "`-tint`" oper
 After that the original shape of the image provided is re-added to the colored result.
 As a bonus if the input image had only a Boolean transparency the result also has a Boolean transparency appropriate for a GIF format image.
 
-~~~
+~~~{.skip}
 convert {input_image} -matte \
-	\( +clone -channel A -separate +channel \
-	   -bordercolor black -border 5  -blur 0x2 -shade 120x30 \
-	   -normalize -blur 0x1 -fill {color} -tint 100 \) \
-	-gravity center -compose Atop -composite \
-	{output_image}
+    \( +clone -channel A -separate +channel \
+       -bordercolor black -border 5  -blur 0x2 -shade 120x30 \
+       -normalize -blur 0x1 -fill {color} -tint 100 \) \
+    -gravity center -compose Atop -composite \
+    {output_image}
 ~~~
 
 Note that the input image is only read in once by the above script.
@@ -71,7 +71,7 @@ create_bullet asterix.gif  cyan    asterix_cyan.gif
 
 # Use a heart symbol from "WebDings" font (22 point => 16x16 pixel image)
 convert -font WebDings -pointsize 22 -background none \
-	label:Y -trim +repage    heart.png
+    label:Y -trim +repage    heart.png
 create_bullet heart.png  grey    heart_grey.png
 create_bullet heart.png  red     heart_red.png
 create_bullet heart.png  green   heart_green.png
@@ -153,14 +153,14 @@ Let's first create a shape for the color background of logo example...
 ~~~
 convert -size 170x100 xc:black \
       -fill white -draw 'circle    50,50  13,50' \
-		  -draw 'circle   120,50 157,50' \
-		  -draw 'rectangle 50,13 120,87' \
+          -draw 'circle   120,50 157,50' \
+          -draw 'rectangle 50,13 120,87' \
       -fill black -draw 'circle    50,50  25,50' \
-		  -draw 'circle   120,50 145,50' \
-		  -draw 'rectangle 50,25 120,75' \
+          -draw 'circle   120,50 145,50' \
+          -draw 'rectangle 50,25 120,75' \
       -fill white -draw 'circle    60,50  40,50' \
-		  -draw 'circle   110,50 130,50' \
-		  -draw 'rectangle 60,30 110,70' \
+          -draw 'circle   110,50 130,50' \
+          -draw 'rectangle 60,30 110,70' \
       -gaussian 1x1 +matte logo_mask.png
 ~~~
 
@@ -205,8 +205,8 @@ A huge number of other background canvases can also be created, see [Background 
 ~~~
 convert logo_3D_shadowed.png \
       \( +clone +repage -alpha off -fx 'rand()' -shade 120x30 \
-	 -fill grey70 -colorize 60 \
-	 -fill lavender -tint 100 \) \
+     -fill grey70 -colorize 60 \
+     -fill lavender -tint 100 \) \
       +swap -composite logo_3D_bg.jpg
 ~~~
 
@@ -282,7 +282,7 @@ For example, let's generate a horizontal wooden floor, using a infinite tiling t
 ~~~
 convert tile_wood.gif   -set option:distort:viewport 100x100 \
       -virtual-pixel tile     -distort Perspective \
-	    '0,0 -20,65  96,0 60,40  96,96 120,55  0,96 50,99' \
+        '0,0 -20,65  96,0 60,40  96,96 120,55  0,96 50,99' \
       wooden_floor.png
 ~~~
 
@@ -461,7 +461,7 @@ convert pokemon.gif -alpha on \
   -background None -gravity South -extent 100x100 \
   \( +clone -flip \
      \( -size 100x64 gradient:'rgba(0,0,0,0.6)-none' \
-	-size 100x36 xc:none  -append \
+    -size 100x36 xc:none  -append \
      \) -compose Dst_In -composite \
      \( -size 100x100 gradient:gray5-white \
      \) -compose Blur -set option:compose:args 4x8 -composite \
@@ -474,11 +474,13 @@ convert pokemon.gif -alpha on \
 
 You would be hard pressed to get a better reflection image for flat surfaces than this.
 
-    Future: To add examples of...
-      Surface Texture effects
-        frosted - or non smooth surfaces (small scale randomised distortions)
-        rippled - water reflections
-            (very little blur or attenuation, just stronger macro distortion)
+~~~{.skip}
+Future: To add examples of...
+  Surface Texture effects
+    frosted - or non smooth surfaces (small scale randomised distortions)
+    rippled - water reflections
+        (very little blur or attenuation, just stronger macro distortion)
+~~~
 
 ------------------------------------------------------------------------
 
@@ -524,9 +526,9 @@ I can then overlay this onto the image to get a rough idea as to what is going t
 
 ~~~
 convert holocaust_md.jpg \
-	\( jigsaw_edge.png -negate \) -geometry +365+96 \
-	-compose multiply -composite \
-	-crop 100x100+365+96 +repage jigsaw_outline.png
+    \( jigsaw_edge.png -negate \) -geometry +365+96 \
+    -compose multiply -composite \
+    -crop 100x100+365+96 +repage jigsaw_outline.png
 ~~~
 
 [![\[IM Output\]](jigsaw_outline.png)](jigsaw_outline.png)
@@ -544,10 +546,10 @@ so let's cut it out and rotate it too.
 
 ~~~
 convert holocaust_md.jpg \
-	-crop 100x100+365+96\! -background none -flatten +repage \
-	\( jigsaw_tmpl.png +matte \) -compose CopyOpacity -composite \
-	-rotate -20 -gravity center -crop 100x100+0+0 +repage \
-	jigsaw_cutout.png
+    -crop 100x100+365+96\! -background none -flatten +repage \
+    \( jigsaw_tmpl.png +matte \) -compose CopyOpacity -composite \
+    -rotate -20 -gravity center -crop 100x100+0+0 +repage \
+    jigsaw_cutout.png
 ~~~
 
 [![\[IM Output\]](jigsaw_cutout.png)](jigsaw_cutout.png)
@@ -567,10 +569,10 @@ This is as per [Shade Highlight Overlays](../transform/#shade_overlay), which al
 ~~~
 convert jigsaw_cutout.png \
        \( +clone -channel A -separate +channel -negate \
-	  -background black -virtual-pixel background \
-	  -blur 0x2 -shade 120x21.78 -contrast-stretch 0% \
-	  +sigmoidal-contrast 7x50%  -fill grey50 -colorize 10% \
-	  +clone +swap -compose overlay -composite \) \
+      -background black -virtual-pixel background \
+      -blur 0x2 -shade 120x21.78 -contrast-stretch 0% \
+      +sigmoidal-contrast 7x50%  -fill grey50 -colorize 10% \
+      +clone +swap -compose overlay -composite \) \
       -compose In -composite jigsaw_bevel.png
 ~~~
 
@@ -598,9 +600,9 @@ And finally how about some shadow.
 
 ~~~
 convert jigsaw_thickness.png \
-	\( +clone   -background Black -shadow 50x3+4+4 \) \
-	-background none -compose DstOver -flatten \
-	jigsaw_shadow.png
+    \( +clone   -background Black -shadow 50x3+4+4 \) \
+    -background none -compose DstOver -flatten \
+    jigsaw_shadow.png
 ~~~
 
 [![\[IM Output\]](jigsaw_shadow.png)](jigsaw_shadow.png)
@@ -619,17 +621,17 @@ Here are just a few examples of using this script, in a number of ways.
 ~~~
 jigsaw -o +365+96 -m  null: jigsaw_tmpl.png  jigsaw_mask.png
 convert -size 800x600 xc:gray miff:- |\
-	     jigsaw -r 30 -l -h -s miff:- jigsaw_mask.png jigsaw_grey.png
+         jigsaw -r 30 -l -h -s miff:- jigsaw_mask.png jigsaw_grey.png
 jigsaw -r -60 -h -t 4 -s holocaust_md.jpg jigsaw_mask.png jigsaw_piece.png
 
 convert jigsaw_cnr.png -resize 50% -flip -flop -repage 120x90 \
-	-background black -flatten -flip -flop jigsaw_cnr_tmpl.png
+    -background black -flatten -flip -flop jigsaw_cnr_tmpl.png
 jigsaw -t 3 -s  -r 15  -d +15+7 \
-	holocaust_tn.gif jigsaw_cnr_tmpl.png   holocaust_piece_tn.png
+    holocaust_tn.gif jigsaw_cnr_tmpl.png   holocaust_piece_tn.png
 convert jigsaw_cnr_tmpl.png -negate png:- |\
   jigsaw -t 3 -s holocaust_tn.gif png:-   holocaust_puzzle_tn.png
 convert holocaust_puzzle_tn.png  holocaust_piece_tn.png \
-	-background none  -mosaic    holocaust_jigsaw_tn.png
+    -background none  -mosaic    holocaust_jigsaw_tn.png
 ~~~
 
 [![\[IM Output\]](jigsaw_mask.png)](jigsaw_mask.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](jigsaw_grey.png)](jigsaw_grey.png) [![\[IM Output\]](jigsaw_piece.png)](jigsaw_piece.png)  
@@ -664,7 +666,7 @@ Further suggestions and ideas are always welcome.
   
 If you are just wanting to cut out all the pieces from an image using a collection of masks (with or without virtual pixel offsets), then the following command will let you do ALL of them very quickly.
 
-~~~
+~~~{.skip}
 convert mask_*.png -set filename:mask %t -alpha shape \
       null: image.jpg -compose In -layers composite \
       pieces_%[filename:mask].png
@@ -694,8 +696,8 @@ In this case let's use a simple oval shape for a button...
 ~~~
 convert -size 100x60 xc:none \
       -fill red -draw 'circle    25,30  10,30' \
-		-draw 'circle    75,30  90,30' \
-		-draw 'rectangle 25,15  75,45' \
+        -draw 'circle    75,30  90,30' \
+        -draw 'rectangle 25,15  75,45' \
       gel_shape.png
 ~~~
 
@@ -705,10 +707,10 @@ Now let's add the sharp 'Gel' highlight to the colored shape, using a highly mod
 
 ~~~
 convert gel_shape.png \
-	\( +clone -alpha extract  -blur 0x12  -shade 110x0 -normalize \
-	   -sigmoidal-contrast 16,60% -evaluate multiply .5 \
-	   -roll +5+10 +clone -compose Screen -composite \) \
-	-compose In  -composite  gel_highlight.png
+    \( +clone -alpha extract  -blur 0x12  -shade 110x0 -normalize \
+       -sigmoidal-contrast 16,60% -evaluate multiply .5 \
+       -roll +5+10 +clone -compose Screen -composite \) \
+    -compose In  -composite  gel_highlight.png
 ~~~
 
 [![\[IM Output\]](gel_highlight.png)](gel_highlight.png)
@@ -728,7 +730,7 @@ Now all that is left is to darken the borders a little...
 ~~~
 convert gel_highlight.png \
       \( +clone -alpha extract  -blur 0x2 -shade 0x90 -normalize \
-	 -blur 0x2  +level 60,100%  -alpha On \) \
+     -blur 0x2  +level 60,100%  -alpha On \) \
       -compose Multiply  -composite  gel_border.png
 ~~~
 
@@ -741,10 +743,10 @@ Let's finish of the oval 'Gel' button with some text and shadow effects...
 
 ~~~
 convert gel_border.png \
-	-font Candice  -pointsize 24  -fill white  -stroke black \
-	-gravity Center  -annotate 0 "Gel"  -trim -repage 0x0+4+4 \
-	\( +clone -background navy -shadow 80x4+4+4 \) +swap \
-	-background none  -flatten    gel_button.png
+    -font Candice  -pointsize 24  -fill white  -stroke black \
+    -gravity Center  -annotate 0 "Gel"  -trim -repage 0x0+4+4 \
+    \( +clone -background navy -shadow 80x4+4+4 \) +swap \
+    -background none  -flatten    gel_button.png
 ~~~
 
 [![\[IM Output\]](gel_button.png)](gel_button.png)
@@ -800,8 +802,17 @@ It is this function that gives the overall effect, and can be difficult to deter
 To do I passed the control points needed for this 'curve' to the IM support shell script called "`im_fx_curves`".
 This then returns the the 'coefficients' for the polynomial equation needed for the 'curve that fits these control points.
 
-~~~
+~~~{data-postamble="txt2gif aqua_coeffs.txt"}
 im_fx_curves -c -p  0,30  100,80  50,50  80,50  > aqua_coeffs.txt
+~~~
+
+~~~{.hide}
+im_fx_curves -p   0,30   100,80   50,50   80,50   > aqua_equation.txt
+echo   0,.3   1,.8   .5,.5   .8,.5 |\
+           perl -pe 's/ +/\n/g; s/,/ /g;'   > aqua_fx_pts.txt
+im_histogram -d aqua_fx_pts.txt  -t "Aqua Curve Fit" \
+       -- "`sed 's/u/x/g; s/\^/**/g' aqua_equation.txt`"   aqua_plot
+rm aqua_equation.txt aqua_fx_pts.txt
 ~~~
 
 [![\[Gnuplot\]](aqua_plot.gif)](aqua_plot.jpg)
@@ -841,12 +852,12 @@ convert -background none -fill DodgerBlue \
       -font Candice -pointsize 96  label:'Aqua Text' -trim +repage \
       \
       \( +clone -bordercolor None -border 1x1 \
-	 -alpha Extract -blur 0x8  -shade 130x30 -alpha On \
-	 -background gray50 -alpha background -auto-level \
-	 -function polynomial  3.5,-5.05,2.05,0.3 \
-	 \( +clone -alpha extract  -blur 0x2 \) \
-	 -channel RGB -compose multiply -composite \
-	 +channel +compose -chop 1x1 \
+     -alpha Extract -blur 0x8  -shade 130x30 -alpha On \
+     -background gray50 -alpha background -auto-level \
+     -function polynomial  3.5,-5.05,2.05,0.3 \
+     \( +clone -alpha extract  -blur 0x2 \) \
+     -channel RGB -compose multiply -composite \
+     +channel +compose -chop 1x1 \
       \) \
       -compose Hardlight -composite  aqua_text.png
 ~~~
@@ -971,21 +982,21 @@ By combining the above with a [plasma glitter animation](../anim_mods/#glitter) 
 ~~~
 convert -size 100x100 xc: +noise Random -separate \
       null: \
-	\( xc: +noise Random -separate -threshold 50% -negate \) \
-	-compose CopyOpacity -layers composite \
+    \( xc: +noise Random -separate -threshold 50% -negate \) \
+    -compose CopyOpacity -layers composite \
       null: \
-	plasma:red-firebrick plasma:red-firebrick plasma:red-firebrick \
-	-compose Screen -layers composite \
+    plasma:red-firebrick plasma:red-firebrick plasma:red-firebrick \
+    -compose Screen -layers composite \
       null:  \
-	\( xc: +noise Random -channel R -threshold .08% \
-	  -negate -channel RG -separate +channel \
-	  \( +clone \) -compose multiply -flatten \
-	  -virtual-pixel tile  -blur 0x.4 \
-	  \( -clone 0  -motion-blur 0x15+90  -motion-blur 0x15-90 \) \
-	  \( -clone 0  -motion-blur 0x15+30  -motion-blur 0x15-150 \) \
-	  \( -clone 0  -motion-blur 0x15-30  -motion-blur 0x15+150 \) \
-	  -compose screen -background black -flatten  -normalize \) \
-	-compose multiply -layers composite \
+    \( xc: +noise Random -channel R -threshold .08% \
+      -negate -channel RG -separate +channel \
+      \( +clone \) -compose multiply -flatten \
+      -virtual-pixel tile  -blur 0x.4 \
+      \( -clone 0  -motion-blur 0x15+90  -motion-blur 0x15-90 \) \
+      \( -clone 0  -motion-blur 0x15+30  -motion-blur 0x15-150 \) \
+      \( -clone 0  -motion-blur 0x15-30  -motion-blur 0x15+150 \) \
+      -compose screen -background black -flatten  -normalize \) \
+    -compose multiply -layers composite \
       -set delay 30 -loop 0 -layers Optimize       stars_xmas.gif
 ~~~
 

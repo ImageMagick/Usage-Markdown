@@ -1,6 +1,10 @@
 # Exclude any generated HTML, or BASH files
 **/index.html
 **/index.sh
+advanced/*.gif
+advanced/*.jpg
+advanced/*.png
+advanced/*.txt
 backgrounds/*.gif
 backgrounds/*.png
 backgrounds/*.txt
