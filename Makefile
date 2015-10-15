@@ -89,4 +89,6 @@ video: video/index.html video/index.sh
 
 warping: warping/index.html warping/index.sh
 
+windows: windows/index.html windows/index.sh
+
 .SILENT: $(HTML_USAGE_FILES) $(BASH_USAGE_FILES)

@@ -131,7 +131,7 @@ This solution, although unnecessary now, can still be found all over the Interne
 The best solution to avoid possible future name conflicts is to call IM's command line tools by their full pathname in any script.
 That is, storing its location in a variable or a constant. So every batch file should start with lines like
 
-~~~
+~~~{.skip}
 SETLOCAL EnableDelayedExpansion
 SET IMCONV="%PROGRAMFILES%\ImageMagick\Convert"
 ...
@@ -146,7 +146,7 @@ The code assumes that IM was installed in a folder named "ImageMagick" below the
 There are more sophisticated and bullet-proof ways to find out about IM's installation folder, which will be treated in [Editing, Debugging and Runtime Error Testing](#debugging).
 The equivalent VB-Script code would be something like
 
-~~~  
+~~~{.skip}
 Set wsh = WScript.CreateObject("WScript.Shell")
 IMconv = wsh.ExpandEnvironmentStrings("%PROGRAMFILES%") & "\ImageMagick\Convert"
 ~~~
@@ -163,20 +163,20 @@ When using non-ASCII charcters, things will go wrong in the easy approach.
 
 For example, trying to create a label of German umlauts such as 'ä', 'ö', 'ü', you can simply use the following in Linux...
 
-~~~
+~~~{.skip}
 convert label:äöü test.png
 ~~~
 
 But this would not create the desired string under Windows.
 You can, however, read a UTF-8 coded string from a textfile:
 
-~~~
+~~~{.skip}
 convert label:umlauts.txt test.png
 ~~~
 
 and you can even create this textfile by the use of "`echo`", if you switch the codepage to UTF-8 in advance:
 
-~~~
+~~~{.skip}
 CHCP 65001
 ECHO äöü > umlauts.txt
 convert label:umlauts.txt test.png
@@ -190,7 +190,7 @@ The safest approach is to convert strings when they are needed, using an externa
 Download the setup file from [SourgeForge](http://gnuwin32.sourceforge.net/packages/libiconv.htm) and install the files into the standard directory `C:\Program Files\GnuWin32`.
 Then dump the output of the DOS command to a text file in your script and convert that file to UTF-8 in the following:
 
-~~~
+~~~{.skip}
 CHCP 1252
 DIR /B äöü.jpg > temp.txt
 "C:\Program Files\Gnuwin32\bin\iconv.exe" -f ISO-8859-1 -t UTF-8 temp.txt > title.txt
@@ -248,13 +248,13 @@ IM will determine the location of Ghostscript at runtime, quering it from the Re
 Quite extraordinarily for Windows programs, IM allows images to be written to *stdout* and read from *stdin* and thus use piping to cascade image processing tasks.
 The operation
 
-~~~
+~~~{.skip}
 convert -size 128x128 xc:white gif:- | convert - test.gif
 ~~~
 
 is equivalent to
 
-~~~
+~~~{.skip}
 convert -size 128x128 xc:white test.gif
 ~~~
 
@@ -262,14 +262,14 @@ In the first command of the pipe, the minus operator tells IM to write the image
 This way of proceeding allows avoiding the explicit use temporary files.
 It is especially useful if some command does not offer certain operations, for example trimming:
 
-~~~
+~~~{.skip}
 montage -tile 2x2 -geometry 400x300+60+60 1.png 2.png 3.png 4.png miff:- | convert - -trim montage.png
 ~~~
 
 As a consequence of this feature, textual output is usually written to *stderr* instead of *stdout*.
 For example, if you want to redirect the textual output of Compare to a text file, you would have to write
 
-~~~
+~~~{.skip}
 compare -metric PSNR 1.png 2.png dif_1_2.png 2>result.txt
 ~~~
 
@@ -417,7 +417,7 @@ Under UNIX you would instead need to add a special command or option to print co
 
 For example, following the above rules, this UNIX shell script...
 
-~~~
+~~~{.skip}
 #!/bin/sh
 # Create a negated rose image and overlay a comment
 convert -background none -fill red -gravity center \
@@ -428,7 +428,7 @@ convert -background none -fill red -gravity center \
 
 will become something like this as a Windows DOS batch file...
 
-~~~
+~~~{.skip}
 @ECHO OFF
 :: Create a negated rose image and overlay a comment
 convert -background none -fill red -gravity center  ^
@@ -444,7 +444,7 @@ Like IM is a command-driven image manipulator, SED is a command-driven editor.
 
 The SED script `cim.txt` that performs the needed manipulations looks like this (when stripped of any comments):
 
-~~~
+~~~{.skip}
 s/'/\"/g
 s/%/%%/g
 s/\\\([()!]\)/\1/g
@@ -460,13 +460,13 @@ You can download the fully commented version file [sed\_script.zip](sed_script.z
 
 If you place the SED script `cim.txt` in the same folder as the Linux shell script which is to be converted, you invoke the conversion by:
 
-~~~
+~~~{.skip}
 %programfiles%\GnuWin32\bin\SED -f  cim.txt linux.scr > windows.bat
 ~~~
 
 You can also invoke the conversion via SendTo or Drag & Drop by use of the following batch file:
 
-~~~
+~~~{.skip}
 SET SP=%programfiles%\GnuWin32\bin
 %SP%\SED -f %SP%\cim.txt "%~1"> "%~dpn1.bat"
 ~~~
@@ -485,7 +485,7 @@ In such a case, the filename will be passed to the script as a command line para
 Using these techniques, the filename handed to the DOS batch file will be a fully qualified filename, i.e. include the drive name and the directory path.
 You can test this by dropping a file onto the following batch file:
 
-~~~
+~~~{.skip}
 ECHO Filename: %1
 PAUSE
 ~~~
@@ -502,7 +502,7 @@ When using this filename in an Convert command line, this behaviour can cause tr
 Let us perform a simple conversion from any other format to JPEG.
 The most basic code would be:
 
-~~~
+~~~{.skip}
 convert %1 %1.jpg
 PAUSE
 ~~~
@@ -510,7 +510,7 @@ PAUSE
 This will produce a JPEG file (with standard quality and resolution) in the same directory, tailed with an additional ".jpg" extension.
 The above code works on any filename, whether it contains spaces or not. If you want to get rid of the original extension, things become a little trickier:
 
-~~~
+~~~{.skip}
 convert %1 "%~dpn1.jpg"
 PAUSE
 ~~~
@@ -535,7 +535,7 @@ If it doesn't, the quotes do no harm.
 The `PAUSE` statement is for testing purposes only and can be dropped in the final batch file.
 If you just want to test your code without actually invoking IM, you should write:
 
-~~~
+~~~{.skip}
 ECHO convert %1 "%~dpn1.jpg"
 PAUSE
 ~~~
@@ -549,21 +549,21 @@ which will just show the result of your string manipulation.
 The DOS `FOR` command can be used to process a series of files in a similar manner as it does under UNIX.
 In order to scale all JPEG files in the current directory by 50%, you could type the following line into a DOS box:
 
-~~~
+~~~{.skip}
 FOR %a in (*.jpg) DO convert %a -resize 50% small_%a
 ~~~
 
 Please note that the percent sign is **not** doubled.
 If, however, you place this command in a batch file you will have to replace it by
 
-~~~
+~~~{.skip}
 FOR %%a in (*.jpg) DO convert %%a -resize 50%% small_%%a
 ~~~
 
 Again, it is convenient to invoke this bulk operation by Drag & Drop or SendTo, passing a fully qualified filename (or a folder name) to a DOS batch file which is possibly located in another directory (such as `shell:sendto`).
 In this case, we should make the file's directory the current directory in the first step:
 
-~~~
+~~~{.skip}
 %~d1
 CD "%~p1"
 MD small
@@ -585,7 +585,7 @@ In case of the `CD` command, we might even have omitted the bracketing quotes, a
 Making the file's directory the current directory in the first step does make the follow-up steps a little easier, as the references to filenames become a little easier and shorter.
 We could, however, equally have written:
 
-~~~
+~~~{.skip}
 MD "%~dp1small"
 FOR %%a in ("%~dp1*.jpg") DO convert "%%a" -resize 50%% "%%~dpasmall\%%~nxa"
 PAUSE
@@ -601,7 +601,7 @@ There are several shortcomings and caveats of the `FOR` statement.
 One of them is that you basically perform only one single command after `DO`.
 You can, however, group a series of DOS commands in parantheses "(", ")" and thereby perform a simple sequence of commands:
 
-~~~
+~~~{.skip}
 @ECHO OFF
 :: Lighten darker areas of all images in a directory
 %~d1
@@ -623,7 +623,7 @@ Finally the intermediate image is deleted.
 Please note that in the above, emphasis must be put on the **simple sequence of commands**: You cannot make use of `GOTO` jumps within the block.
 If you need such behaviour, you have to call another batch file by the `FOR` loop:
 
-~~~
+~~~{.skip}
 %~d1
 CD %~p1
 MD small
@@ -635,7 +635,7 @@ The command line parameter 0 ("`%0`") is the name of the batch file itself, such
 The `FOR` statement provides just the filename, which is turned into a fully qualified filename via "`%~fa`".
 In the present case, the code in the batch file `process.bat` would be the same as the one that was put between the parantheses in the above example:
 
-~~~
+~~~{.skip}
 convert %%1 -blur 30 -negate %%1.miff
 composite %%1.miff %%1 -compose overlay "%%~dpn1_light"%%~x1
 DEL %%1.miff
@@ -646,7 +646,7 @@ This does not make any difference in this example, but we will show the benefits
 
 If you don't want to bother with two batch files, you can have the script create the second `process.bat` script (using `ECHO`), call it from the main loop, then deleted it when the job is finished:
 
-~~~
+~~~{.skip}
 ECHO convert %%1 -blur 30 -negate %%1.miff >%~dp0process.bat
 ECHO composite %%1.miff %%1 -compose overlay "%%~dpn1_light"%%~x1 >>%~dp0process.bat
 ECHO DEL %%1.miff >>%~dp0process.bat
@@ -667,7 +667,7 @@ There are several techniques to process all files in a (sub-)directory tree.
 The simplest approach is to use the "`/R`" flag in the `FOR` statement to make it loop over all the files in all sub-directories under the current directory.
 In order to convert all TIFF files in the subdirectory tree to JPEG you thus simply type:
 
-~~~
+~~~{.skip}
 FOR /R %%a IN (*.tif) DO imconv "%%~a" "%%~dpna.jpg"
 ~~~
 
@@ -678,7 +678,7 @@ As a start, we approach the problem with the help of two batch files, one perfor
 The index prints will be low-quality JPEG files named `IDX_0001.jpg, IDX_0002.jpg, IDX_0003.jpg` and so on.
 First we establish the loop:
 
-~~~
+~~~{.skip}
 DEL IDX_????.JPG
 SET COUNT=0
 FOR /F "delims=" %%a in ('DIR /S /B /AD ^|FIND /I "Porsche" ^|SORT') DO CALL c.bat "%%a"
@@ -695,7 +695,7 @@ When calling the batch file `C.BAT`, we bracket the pathname by quotes to ensure
 In the last line, we delete a temporary file that is created by the batch file `C.BAT`.
 We now come to the actual work:
 
-~~~
+~~~{.skip}
 CHCP 1252
 DIR %1\*.jpg>nul || GOTO :EOF
 
@@ -731,7 +731,7 @@ This offers the possibilty to filter the index prints within the Windows Explore
 
 We can combine the two batch files, placing the code of the "working batch" into the `FOR` loop:
 
-~~~
+~~~{.skip}
 SETLOCAL EnableDelayedExpansion
 SET ICONV="%PROGRAMFILES%\Gnuwin32\bin\iconv.exe" -f ISO-8859-1 -t UTF-8
 CHCP 1252
@@ -764,7 +764,7 @@ A reference to `%COUNT%` within the `FOR` loop therefore always retruns the same
 In order to enable the runtime evaluation of environment variables, you have to switch on delayed expansion.
 This can be done when calling the command processor via `cmd /V:on` or be generally switched on in the registry, using the following REG file:
 
-~~~
+~~~{.skip}
 Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Command Processor]
@@ -785,13 +785,13 @@ In DOS batch files, only nine command line parameters can be addressed directly 
 In former Windows versions, you could only circumvent this limitation by the `SHIFT` command, which caused a circular shift of the command line parameters.
 In newer versions, the command line parameters can be treated in a For loop:
 
-~~~
+~~~{.skip}
 FOR %%i in (%*) DO ...
 ~~~
 
 This allows us to Montage an arbitrary number of images passed by Drag & Drop:
 
-~~~
+~~~{.skip}
 @ECHO OFF
 SETLOCAL EnableDelayedExpansion
 %~d1
@@ -827,7 +827,7 @@ As has been said in [](), handing over a large number of files with long (full) 
 This error cannot be handled by the batch file, as it occurs **before** the control is handed over to the batch file.
 A possible script-based solution is to process all image files in the directory when just one file is handed to the batch:
 
-~~~
+~~~{.skip}
 %~d1 & IF EXIST %1\* (CD %1) ELSE CD %~p1
 IF "%2"=="" (
 SET PATTERN=*.jpg
@@ -854,7 +854,7 @@ By using the "`/F`" option, you can read the input for the substitution variable
 The latter is especially useful with IM.
 To get a rough idea of what IM's overlay methods really are about, you could use the following batch file:
 
-~~~
+~~~{.skip}
 @ECHO OFF
 :: compose two gradients using all compose methods available
 ::
@@ -898,7 +898,7 @@ The output files are named according to the overlay method.
 In the next example, we illustrate the color spaces which IM provides.
 We use the same gradient technique as above to generate the surfaces of a cube as spanned by the three coordinates of the colour space:
 
-~~~
+~~~{.skip}
 convert -size 256x256 gradient: gy.miff
 convert gy.miff -rotate 90 gx.miff
 convert -size 256x256 xc:black black.miff
@@ -939,13 +939,13 @@ The final picture is named after the color space (IE. "`%1`") and stored as a PN
 
 We now want to call this batch file (saved as "`cspace.bat`") from another batch file that provides the names of the colour spaces:
 
-~~~
+~~~{.skip}
 FOR /F %%A in ('convert -list colorspace') DO CALL cspace %%A
 ~~~
 
 We can also filter the output of the `-list` option by piping it in DOS:
 
-~~~
+~~~{.skip}
 convert -list colorspace | FIND "RGB" >>clist.txt
 FOR /F %%A in (clist.txt) DO CALL cspace %%A
 DEL clist.txt
@@ -955,7 +955,7 @@ In this example, we filter those lines from the output that contain "RGB" and wr
 This file is than used as the input for the `FOR /F` command.
 We can also do this in one run, avoiding the temporary file:
 
-~~~
+~~~{.skip}
 FOR /F %%A in ('convert -list colorspace ^| FIND "RGB"') DO CALL cspace %%A
 ~~~
 
@@ -966,7 +966,7 @@ In this case, the pipe symbol "`|`" has to be escaped, because it is not bracket
 This technique can also usefully be applied to a single-line output.
 We can, for example, apply an automatic gamma correction that roughly sets the average brightness of a picture to the middle of the quantum range (i.e. 127 for a color depth of 8 bit) by a technique explained on [Fred Weinhaus' website](http://www.fmwconcepts.com/imagemagick/):
 
-~~~
+~~~{.skip}
 FOR /F %%a in ('identify -format "%%[fx:log(mean)/log(0.5)]" %1') DO ^
    convert %1 -gamma %%a "%~dpn1"_c.%~x1
 ~~~
@@ -987,7 +987,7 @@ The single line output of the Identify command is saved into the "`%%a`" variabl
 
 With the same `FOR` technique, we can read from the EXIF information embedded in a photograph and write it into the top left corner of the image:
 
-~~~
+~~~{.skip}
 FOR /F "tokens=1,2" %%i IN ('identify -format "%%[EXIF:DateTime]" %1') DO ^
    convert %1 -pointsize 18 -fill white -gravity northwest ^
               -annotate +0+0 "%%i %%j" "%~dpn1"_dated%~x1
@@ -1008,7 +1008,7 @@ Thus in the example above, the standard processing would only pass the date, but
 Using the option "`tokens=1,2`" we declare our interest in both tokens, which are named consecutive, i.e. "`%x, %y`".
 We can, however, change the rather unconventional formatting of the date by the following code:
 
-~~~
+~~~{.skip}
 FOR /F "tokens=1,2,3,* delims=: " %%i IN ('identify -format "%%[EXIF:DateTime]" %1') DO ^
    convert %1 -pointsize 18 -fill white -gravity northwest ^
               -annotate +0+0 "%%j/%%k/%%i %%l" "%~dpn1"_dated%~x1
@@ -1024,7 +1024,7 @@ We have chosen the Anglo-American notation "mm/dd/yyyy" as in the above example.
 
 A technique for setting multiple values from the one ImageMagick Command is to have the command format the data, so that you can set multiple variables.
 
-~~~
+~~~{.skip}
 FOR /F %%L IN ('identify -format "Width=%%w\nHeight=%%h" %1') DO set %%L
 ~~~
 
@@ -1042,7 +1042,7 @@ IM's [FX Format Expression](../transform/#fx_escapes) can be used for floating p
 By use of the `SET` command, the result can be stored in an environment variable and used later in the batch file.
 As a simple example, we may wish to adjust the font size date-time string in the above example corresponding to the dimensions of the photograph:
 
-~~~
+~~~{.skip}
 FOR /F %%i IN ('identify -format "%%[fx:min(w,h)*0.05]" %1') DO SET psize=%%i
 
 FOR /F "tokens=1,2,3,* delims=: " %%i IN ('identify -format "%%[EXIF:DateTime]" %1') DO ^
@@ -1055,7 +1055,7 @@ This value is referred to in the next statement (`%psize%`) to set the font size
 
 And here we calculate a random angle as an integer between -15° and +15°to create a rotated thumbnail image.
 
-~~~
+~~~{.skip}
 FOR /F %%x IN ('convert null: -format "%%[fx:int(rand()*31)-15]" info:') DO SET angle=%%x
    convert %1 -thumbnail x90 -matte ^
               -background none -rotate %angle%   "%~dpn1"_rotated.png
@@ -1070,7 +1070,7 @@ This added feature, along with avoiding and further dependence on other external
 The `SET` command can perform some simple integer math and some basic string manipulation when the "`/A`" option is invoked.
 In the following example, we roughly calculate the width of the time-date string by use of the `SET` command:
 
-~~~
+~~~{.skip}
 :: Determine the font height
 FOR /F %%i IN ('identify -format "%%[fx:min(w,h)*0.05]" %1') DO SET psize=%%i
 
@@ -1100,7 +1100,7 @@ As an alternative, you can use a DOS program which provides floating point math,
 If you place this file in the IM program directory or in the Windows system directory, you can perform floating point calculations in any DOS shell window.
 By using the `EVAL` program, the `FOR` command and environment variables, we can make the color cube example from above somewhat more flexible and its various calculations more transparent:
 
-~~~
+~~~{.skip}
 convert -size 256x256 gradient: gy.gif
 convert gy.gif -rotate 90 gx.gif
 convert -size 256x256 xc:black black.gif
@@ -1153,7 +1153,7 @@ Considering runtime error messages, the general approach is to check the DOS `ER
 I found that one of the most probable error sources is that the Convert programm is not properly found on the machine running the script.
 So, if you intend to share your batch scripts with others, you should first of all check whether Convert is accessible:
 
-~~~
+~~~{.skip}
 @ECHO OFF
 convert -version 1>nul: 2>nul:
 IF NOT %errorlevel%==0 GOTO NoMagick:
@@ -1171,7 +1171,7 @@ If the call to IM's Convert fails, the system program Convert will be called ins
 You might try to determine why Convert is not found and attempt to fix the problem.
 You can determine whether IM's program path is part of the environment variable PATH:
 
-~~~
+~~~{.skip}
 @ECHO OFF
 PATH | FIND /I "ImageMagick"
 IF NOT %errorlevel%==0 GOTO NoPath:
@@ -1183,7 +1183,7 @@ IF NOT %errorlevel%==0 GOTO NoPath:
 If Find (called with the case-insensitive option /I) cannot find the string, it sets the ERRORLEVEL.
 In a more sophisticated approach, you can check the Registry entry instead, no longer relying on PATH:
 
-~~~
+~~~{.skip}
 @ECHO OFF
 FOR /F "tokens=1,2,*" %%A in ^
    ('reg  query "HKCM\Software\ImageMagick\Current" ^| FIND "BinPath"') DO ^
@@ -1198,7 +1198,9 @@ IF [%MPATH%]==[] GOTO NoMagick:
 With this code, we query IM's Registry key `Current` and search for the entry BinPath.
 The decisive line of the output is:
 
-`LibPath   REG_SZ  C:\Program Files\ImageMagick`
+~~~{.skip}
+LibPath   REG_SZ  C:\Program Files\ImageMagick
+~~~
 
 The "words" in this line of text are separated by tabs (in Windows XP) or several blanks (Windows Vista).
 These are the standard delimiters used by `For /F`.
@@ -1208,7 +1210,7 @@ A script might require a certain minimum version number of ImageMagick to be ins
 For example, the [Perspective Distortion Method](../distorts/#perspective) was first implemented in version 6.3.5-9 (in September 2007).
 So if your script deals with perspective rectification, you should test whether the installed version of IM is newer than that:
 
-~~~
+~~~{.skip}
 @ECHO OFF
 SETLOCAL EnableDelayedExpansion
 SET MINVERSION=7.5.3-0
@@ -1233,7 +1235,7 @@ We then compare this version to the minimal required version in the fourth line.
 To measure the execution time, you can display the content of the `%TIME%` environment variable.
 The following script tests various various ways to calculate the average brightness of a (large) image file, say a digital photograph:
 
-~~~
+~~~{.skip}
 IF "%1"=="" GOTO :EOF
 ECHO %TIME%
 Identify -verbose %1 | FIND "mean" & ECHO %TIME%
@@ -1256,7 +1258,7 @@ In contrast to UNIX command shells, there is no direct way to measure relative t
 The calculation of relative times within a batch file is made difficult by the fact that batch files allow only integer arithmetics.
 One can extract the seconds using the FOR command and then use IM's fx operator to perform the subtraction, allowing for 60 seconds overflow
 
-~~~
+~~~{.skip}
 FOR /F "tokens=1,2,* delims=:" %%a in ("%TIME%") DO SET START=%%c
  ... some command(s)...
 FOR /F "tokens=1,2,* delims=:" %%a in ("%TIME%") DO SET STOP=%%c
@@ -1268,7 +1270,7 @@ In contrast to VBScript, there is no way to change the locale within a batch fil
 
 As an alternative, one can convert the entire time to hundreths of seconds, which can be done in integer arithmetics, as well as computing any differences later on. The basic code is
 
-~~~
+~~~{.skip}
 for /f "tokens=1-4 delims=:., " %%a in ("%TIME%") do ^
    set /a  Start100S=1%%a * 360000 + 1%%b * 6000 + 1%%c * 100 + 1%%d - 36610100
 ~~~
@@ -1336,14 +1338,15 @@ The correction parameter(s) depend on the focal length, which is looked up via `
 
 For the correction of the Nikon 995 lens, we only need the parameter *b* (i.e. *a, c* = 0), which can be calculcated from the focal length *f* by:
 
-~~~
-*b* = 0.000005142 *f* ³ - 0.000380839 *f* ² + 0.009606325 *f* - 0.075316854
-~~~
+
+$$
+b = 0.000005142 * f^3 - 0.000380839 * f^2 + 0.009606325 * f - 0.075316854
+$$
 
 This dependency was found by means of the [lensfun database](http://lensfun.berlios.de/) which lists the barrel distortion parameters for this lens.
 So here is our VBScript:
 
-~~~
+~~~{.skip}
 SetLocale(1033)          ' US, i.e. decimal point
 const strConv = "IMCONV" ' name of the IM Convert program
 const strAdd = "_pt"    ' string attached to the filename
@@ -1391,7 +1394,7 @@ These are called either
 
 This first VBScript doesn't do anything that could not have be done by means a batch file like
 
-~~~
+~~~{.skip}
 SETLOCAL EnableDelayedExpansion
 FOR /F %%i in ('identify -format "%%[EXIF:FocalLength]" %1') DO SET FL=%%i
 FOR /F %%i IN ('Convert null: -format "%%[fx:0.000005142*(%FL%)^3 - 0.000380839 * (%FL%)^2 + 0.009606325 * %FL% - 0.075316854]" info:') DO SET B=%%i
@@ -1407,7 +1410,7 @@ One genuine advantage of VBScript in comparison to DOS batch files is that you c
 You could, for instance, pick a number of files in the Windows Explorer and combine the selected images to an index print via IM's Montage.
 The basic code would be:
 
-~~~
+~~~{.skip}
 Dim wsh
 Set wsh = CreateObject("Wscript.Shell")
 '
@@ -1426,7 +1429,7 @@ It then derives the name of a JPEG output file in the same folder by some simple
 Finally, Montage is called with apropriate parameters.
 For larger scripts it is convenient to store the filenames in an array:
 
-~~~
+~~~{.skip}
 Dim FName()
 Dim wsh
 Set wsh = CreateObject("Wscript.Shell")
@@ -1448,7 +1451,7 @@ A possible solution is to place the files in a local folder with a shorter name.
 The script-based (partial) solution is the same as for batch files: If only one filename is given, all images in the parent directory are processed.
 In order to process all GIFs within a folder, we could do something along the lines of:
 
-~~~
+~~~{.skip}
 Dim fs, folder
 Set fs = CreateObject("Scripting.FileSystemObject")
 If WScript.Arguments.Count <> 1 Then WScript.Quit(1)
@@ -1466,7 +1469,7 @@ The match of the file extension is however checked the ordinary way, as the File
 Quite often, the filenames will have to be sorted aphabetically, as Drag & Drop or SendTo will pass them to the script in random order.
 This can be achieved by a bubble sort:
 
-~~~
+~~~{.skip}
 for i = 0 to NArgs - 1
   for j = i + 1 to NArgs - 1
     if FName(i) > FName(j) then
@@ -1501,7 +1504,7 @@ An example of this approach is the "film strip" mentioned above: At the start of
 But there might be scenarios in which we want to deviate from the standard ordering of the frames.
 Thus we could place a text file named `ordering.txt` in the frames directory, which, if present, will control the ordering of the frames:
 
-~~~
+~~~{.skip}
 strTxtFile="ordering.txt"
 PDir = fs.getParentFolderName(FName(0)) & "\"
 Wsh.CurrentDirectory = PDir
@@ -1542,7 +1545,7 @@ So far we have invoked IM's command line tools (like Convert, Identify, Montage)
 If, however, we want to use IM's piping capabilities, i.e. feeding one command with the output of the preceeding one, we have to call the command line tools via a command environment.
 For example, if we want to trim the white borders of the index print genrated by the script above, the code would have to be:
 
-~~~
+~~~{.skip}
 Dim wsh
 Set wsh = CreateObject("Wscript.Shell")
 '
