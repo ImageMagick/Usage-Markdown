@@ -11,7 +11,13 @@ Here I explore techniques and examples that are specific to handling of real lif
 A software developer who uses IM to create Movie GIFs, [Benoit Rouleau](http://software.benetonfilms.com/), in discussion with me, gave me an AVI video of a [plane flying over](plane.avi), to help us mutually explore IM video conversion techniques.
 
 However, while the AVI itself is quite small, the uncompressed video is a massive [![\[IM Text\]](plane_avi_size.txt.gif)](plane_avi_size.txt) bytes in size, and involves [![\[IM Text\]](plane_avi_ncolors.txt.gif)](plane_avi_ncolors.txt) colors, over [![\[IM Text\]](plane_avi_frames.txt.gif)](plane_avi_frames.txt) frames.
-  
+
+~~~{.hide}
+ls -Hl plane.avi | awk '{printf "%d", $5}'        > plane_avi_size.txt
+convert -quiet plane.avi +append -format %k info: > plane_avi_ncolors.txt
+identify -quiet -format %n plane.avi              > plane_avi_frames.txt
+~~~
+
 IM has no real trouble converting this video into a GIF animation.
 However, be warned that you will probably get some unsupported 'AVI chunk' errors, which can be ignored by using a "`-quiet`" [control setting](../basics/#controls).
 
@@ -24,6 +30,13 @@ convert -quiet -delay 1 plane.avi plane.gif
 This used ImageMagick's default [Color Quantization and Dithering](../quantize/) methods, to produce a very reasonable conversion of the video.
 Very few color problems exist, because the video uses very few colors to start with.
 This is not always the case, especially as GIF has 256 colors per frame limit.
+
+~~~{.hide}
+ls -l plane.gif | awk '{printf "%d", $5}'  > plane_size.txt
+giftrans -L plane.gif 2>&1 | \
+              grep -c "Local Color Table:" > plane_ctables.txt
+convert -quiet plane.gif -append -format %k info: > plane_ncolors.txt
+~~~
 
 However, the animation file is [![\[IM Text\]](plane_size.txt.gif)](plane_size.txt) bytes in size, which while only 1/5th the size, due to color reduction and GIF pixel data compression, it is still rather large.
 
@@ -45,6 +58,13 @@ Here I [Generate a Single Global Color Table](../anim_opt/#colortables) for all 
 
 ~~~
 convert -quiet -delay 1 plane.avi  +map   plane_cgc.gif
+~~~
+
+~~~{.hide}
+giftrans -L plane_cgc.gif 2>&1 |\
+                 grep -c "Local Color Table:"  > plane_cgc_ctables.txt
+ls -l plane_cgc.gif | awk '{printf "%d", $5}'  > plane_cgc_size.txt
+convert plane_cgc.gif -append -format %k info: > plane_cgc_ncolors.txt
 ~~~
 
 This naturally results in [![\[IM Text\]](plane_cgc_ctables.txt.gif)](plane_cgc_ctables.txt) local color tables, and a file size of [![\[IM Text\]](plane_cgc_size.txt.gif)](plane_cgc_size.txt) bytes.
@@ -79,6 +99,12 @@ convert -quiet -delay 1 plane.avi -map colormap_332.png plane_ugc.gif
 
 [![\[IM Output\]](plane_ugc.gif)](plane_ugc.gif)
 
+~~~{.hide}
+giftrans -L plane_ugc.gif 2>&1 |\
+               grep -c "Local Color Table:"   > plane_ugc_ctables.txt
+ls -l plane_ugc.gif | awk '{printf "%d", $5}' > plane_ugc_size.txt
+~~~
+
 This animation has [![\[IM Text\]](plane_ugc_ctables.txt.gif)](plane_ugc_ctables.txt) local color tables, and as a result the animation is smaller or [![\[IM Text\]](plane_ugc_size.txt.gif)](plane_ugc_size.txt) bytes in size.
 
 The problem however is that you will often see obvious and annoying 'noise' in areas of constant color.
@@ -93,7 +119,13 @@ We could just turn off the color dithering to remove the 'dither noise'...
 
 ~~~
 convert -quiet -delay 1 plane.avi \
-	+dither -map colormap_332.png plane_ugc_nd.gif
+    +dither -map colormap_332.png plane_ugc_nd.gif
+~~~
+
+~~~{.hide}
+giftrans -L plane_ugc_nd.gif 2>&1 |\
+                    grep -c "Local Color Table:" > plane_ugc_nd_ctables.txt
+ls -l plane_ugc_nd.gif | awk '{printf "%d", $5}' > plane_ugc_nd_size.txt
 ~~~
 
 which has [![\[IM Text\]](plane_ugc_nd_ctables.txt.gif)](plane_ugc_nd_ctables.txt) local color tables, and is [![\[IM Text\]](plane_ugc_nd_size.txt.gif)](plane_ugc_nd_size.txt) bytes in size.
@@ -111,7 +143,14 @@ For example, here I used a [Ordered Dither using Posterized Color Levels](../qua
 
 ~~~
 convert -quiet -delay 1 plane.avi \
-	-ordered-dither o8x8,8,8,4 +map plane_od.gif
+    -ordered-dither o8x8,8,8,4 +map plane_od.gif
+~~~
+
+~~~{.hide}
+giftrans -L plane_od.gif 2>&1 |\
+                grep -c "Local Color Table:" > plane_od_ctables.txt
+ls -l plane_od.gif | awk '{printf "%d", $5}' > plane_od_size.txt
+convert plane_od.gif -append -format %k info: > plane_od_ncolors.txt
 ~~~
 
 which has [![\[IM Text\]](plane_od_ctables.txt.gif)](plane_od_ctables.txt) local color tables, and is [![\[IM Text\]](plane_od_size.txt.gif)](plane_od_size.txt) bytes in size.
@@ -157,6 +196,13 @@ convert -quiet -delay 1 plane.avi \
       -ordered-dither o8x8,23 +map plane_od2.gif
 ~~~
 
+~~~{.hide}
+giftrans -L plane_od2.gif 2>&1 |\
+                grep -c "Local Color Table:" > plane_od2_ctables.txt
+ls -l plane_od2.gif | awk '{printf "%d", $5}' > plane_od2_size.txt
+convert plane_od2.gif -append -format %k info: > plane_od2_ncolors.txt
+~~~
+
 which has [![\[IM Text\]](plane_od2_ctables.txt.gif)](plane_od2_ctables.txt) local color tables, is [![\[IM Text\]](plane_od2_size.txt.gif)](plane_od2_size.txt) bytes in size, and [![\[IM Text\]](plane_od2_ncolors.txt.gif)](plane_od2_ncolors.txt) colors.
   
 [![\[IM Output\]](plane_od2.gif)](plane_od2.gif)
@@ -182,6 +228,13 @@ However, we can still use a simple [Transparency Optimization](../anim_opt/#opt_
 
 ~~~
 convert plane_od2.gif  -layers OptimizeTransparency +map plane_opt.gif
+~~~
+
+~~~{.hide}
+giftrans -L plane_opt.gif 2>&1 |\
+                grep -c "Local Color Table:" > plane_opt_ctables.txt
+ls -l plane_opt.gif | awk '{printf "%d", $5}' > plane_opt_size.txt
+convert plane_opt.gif -append -format %k info: > plane_opt_ncolors.txt
 ~~~
 
 which has [![\[IM Text\]](plane_opt_ctables.txt.gif)](plane_opt_ctables.txt) local color tables, is [![\[IM Text\]](plane_opt_size.txt.gif)](plane_opt_size.txt) bytes in size, and [![\[IM Text\]](plane_opt_ncolors.txt.gif)](plane_opt_ncolors.txt) colors.
@@ -267,7 +320,7 @@ You can also use a [Pixelization Technique](../transform/#pixelate) to shrink an
   
 ~~~
 convert interlaced.png -sample 100%x50% \
-	-sample 100%x200%  deinterlace_4.png
+    -sample 100%x200%  deinterlace_4.png
 ~~~
 
 [![\[IM Output\]](deinterlace_4.png)](deinterlace_4.png)
@@ -276,7 +329,7 @@ And, with a slight variation, you can combine the lines on both sides to vertica
 
 ~~~
 convert interlaced.png -sample 100%x50% \
-	-resize 100%x200%  deinterlace_5.png
+    -resize 100%x200%  deinterlace_5.png
 ~~~
 
 [![\[IM Output\]](deinterlace_5.png)](deinterlace_5.png)
@@ -287,7 +340,7 @@ If you want to extract the other half-frame from the image you can adjust the '`
 
 ~~~
 convert interlaced.png -define sample:offset=75 \
-	-sample 100%x50%  -resize 100%x200%    deinterlace_6.png
+    -sample 100%x50%  -resize 100%x200%    deinterlace_6.png
 ~~~
 
 [![\[IM Output\]](deinterlace_6.png)](deinterlace_6.png)

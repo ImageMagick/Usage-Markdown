@@ -132,6 +132,9 @@ transform/*.mvg
 transform/*.png
 transform/*.svg
 transform/*.txt
+video/*.gif
+video/*.png
+video/*.txt
 warping/*.gif
 warping/*.jpg
 warping/*.mpg
