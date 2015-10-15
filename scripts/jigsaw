@@ -69,9 +69,9 @@ shade_surface="${shade_surface}x50%"     # sigmodial-cotrast midpoint
 shade_contrast="${shade_contrast}%"      # reduce highlight intensity
 
 # Temporary working images (with auto-clean-up on exit)
-tmp1=`mktemp "${TMPDIR:-/tmp}/$PROGNAME.XXXXXXXXXX.miff"` ||
+tmp1=`mktemp "${TMPDIR:-/tmp}/$PROGNAME.XXXXXXXXXX"`.miff ||
   { echo >&2 "$PROGNAME: Unable to create temporary file"; exit 10;}
-tmp2=`mktemp "${TMPDIR:-/tmp}/$PROGNAME.XXXXXXXXXX.miff"` ||
+tmp2=`mktemp "${TMPDIR:-/tmp}/$PROGNAME.XXXXXXXXXX"`.miff ||
   { echo >&2 "$PROGNAME: Unable to create temporary file"; exit 10;}
 trap "rm -f $tmp1 $tmp2" 0
 trap "exit 2" 1 2 3 15
