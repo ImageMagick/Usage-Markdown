@@ -364,7 +364,7 @@ First a warning...
 
 For example, let's generate a cryptic message (image) that you want to send to your fellow spy...
 
-~~~
+~~~{data-capture-out="message_size.txt"}
 convert -gravity center -size 50x40 label:"Watch\nthe\nPidgeon" message.gif
 identify message.gif
 ~~~
@@ -398,7 +398,7 @@ The larger the containing image the better the recovered image will be, so hidin
 
 Just to show you how the hidden message was distributed throughout the container image, lets do a comparison of the combined image against the original.
 
-~~~
+~~~{data-capture-err="rose_diff_pae.txt"}
 compare -metric PAE rose:  rose_message.png   rose_difference.png
 ~~~
 
@@ -582,9 +582,9 @@ convert rose:  -resize 25%  -scale 70x46\!  rose_pixelate_resized.gif
 
 [![\[IM Output\]](rose.gif)](rose.gif)
 ![==&gt;](../img_www/right.gif)
-[![\[IM Output\]](pixelate_sampled.gif)](pixelate_sampled.gif)
-[![\[IM Output\]](pixelate_scaled.gif)](pixelate_scaled.gif)
-[![\[IM Output\]](pixelate_resized.gif)](pixelate_resized.gif)
+[![\[IM Output\]](rose_pixelate_sampled.gif)](rose_pixelate_sampled.gif)
+[![\[IM Output\]](rose_pixelate_scaled.gif)](rose_pixelate_scaled.gif)
+[![\[IM Output\]](rose_pixelate_resized.gif)](rose_pixelate_resized.gif)
 
 As you can see, the 'sampled' areas will have much more distinct (aliased) 'pixels', while the other two use a merged or averaged color, which tends to produce more muted, but more accurate color representation for each 'pixel'.
 
@@ -969,14 +969,14 @@ rm -f heart_tmp.pbm
 ~~~
 
 [![\[IM Output\]](heart.gif)](heart.gif)
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Text\]](heart.svg.gif)](heart.svg)
-  
 ![==&gt;](../img_www/right.gif)
-  
 [![\[IM Output\]](heart_svg.gif)](heart_svg.gif)
+
+~~~{.hide}
+txt2gif -fmt heart.svg
+~~~
 
 As of IM v6.4.2-6 you can do the above sequence directly using the "`autotrace:`" image input delegate.
 This only requires the "`autotrace`" command to be installed.
@@ -997,6 +997,10 @@ convert heart.gif  heart_2.svg
 ~~~
 
 [![\[IM Text\]](heart_2.svg.gif)](heart_2.svg)
+
+~~~{.hide}
+txt2gif -fmt heart_2.svg
+~~~
 
 Now the SVG output will of course represent a smoothed version of the original image, which is not what we actually want in this example.
 But as we now have the shape of the bitmap in *vector form*, we can simply adjust the SVG '`style`' attributes so as to '`stroke`' the outline, rather than '`fill`' the shape.
@@ -1074,7 +1078,7 @@ The reason for the extra line is that the rectangle in the image is not perfect.
 Now, while I am displaying an raster (GIF) image result, the Hough Operator actually generates a vector image in [Magick Vector Graphics Format](../draw/#mvg).
 This means you can list the line information for further processing.
 
-~~~
+~~~{data-postamble="txt2gif rectangle_lines.mvg"}
 convert rectangle.gif -background black -stroke red \
     -hough-lines 5x5+20   rectangle_lines.mvg
 ~~~
@@ -1129,7 +1133,7 @@ It is based on the assumption that pixels in a small window will have roughly th
 
 For example
 
-~~~
+~~~{.skip}
 convert input.png -lat 17 output.png
 ~~~
 
@@ -1143,14 +1147,14 @@ This has the effect of making the threshold value selection more or less sensiti
 The window does not need to be square.
 For example...
 
-~~~
+~~~{.skip}
 convert input.png -lat 15x25 output.png
 ~~~
 
 You can also provide an offset which will be added to the calculated average color, making the local threshold value for each pixel either lighter or darker.
 This can be used, for example, to reduce the effect of noise or the effect of small changes in pixel values.
 
-~~~
+~~~{.skip}
 convert input.png -lat 15x25+2%
 ~~~
 
@@ -1162,57 +1166,61 @@ Alternatively, one could reduce the noise in the image before processing it with
 
 In summary, each pixel is thresholded using the following logic:
 
-      AVG = average value of each pixel in the window
-      IF (input pixel is > AVG + OFFSET)
-         Output pixel is BLACK
-      else
-         Output pixel is WHITE
+~~~{.skip}
+  AVG = average value of each pixel in the window
+  IF (input pixel is > AVG + OFFSET)
+     Output pixel is BLACK
+  else
+     Output pixel is WHITE
 
-    ---
+---
 
-    An alternative is to subtract a blurred copy of the original image
-    using (Modulus) Subtraction, then thresholding.
+An alternative is to subtract a blurred copy of the original image
+using (Modulus) Subtraction, then thresholding.
 
-       convert rose: -colorspace gray -lat 10x10+0% x:
+   convert rose: -colorspace gray -lat 10x10+0% x:
 
-    is roughly equivalent to...
+is roughly equivalent to...
 
-       convert rose: -colorspace gray \( +clone -blur 10x65535 \) \
-               -compose subtract -composite -threshold 50%  x:
+   convert rose: -colorspace gray \( +clone -blur 10x65535 \) \
+           -compose subtract -composite -threshold 50%  x:
 
-    The special "-blur 10x65535"  is a linear averaging blur limiting itself to a
-    10x10 window.
+The special "-blur 10x65535"  is a linear averaging blur limiting itself to a
+10x10 window.
 
-    The 'Subtract' composition being a mathematical modulus type of operation will
-    wrap the values that goes negative back round to a value greater than 50%.
+The 'Subtract' composition being a mathematical modulus type of operation will
+wrap the values that goes negative back round to a value greater than 50%.
 
-    If you want to include an offset you can do so by also subtracting a solid
-    color background image by using a -flatten...  for example
+If you want to include an offset you can do so by also subtracting a solid
+color background image by using a -flatten...  for example
 
-       convert rose: -colorspace gray -lat 10x10+10% x:
+   convert rose: -colorspace gray -lat 10x10+10% x:
 
-    is roughly equivalent to...
+is roughly equivalent to...
 
-       convert rose: -colorspace gray \( +clone -blur 10x65535 \) \
-               -compose subtract -background gray10 -flatten -threshold 50%  x:
+   convert rose: -colorspace gray \( +clone -blur 10x65535 \) \
+           -compose subtract -background gray10 -flatten -threshold 50%  x:
+~~~
 
 The above was modified from initial notes provided by D Hobson &lt;dhobson@yahoo.com&gt;
 
 ------------------------------------------------------------------------
 
-       -adaptive-sharpen
-            Sharpen images only around the edges of the images
+~~~{.skip}
+   -adaptive-sharpen
+        Sharpen images only around the edges of the images
 
-       -segment cluster-threshold x smoothing-threshold
-             Segmentation of the color space (not image objects)
-             This can produce very verbose output.
-             This applies the "fuzzy c-means algorithm" if you want to know more.
+   -segment cluster-threshold x smoothing-threshold
+         Segmentation of the color space (not image objects)
+         This can produce very verbose output.
+         This applies the "fuzzy c-means algorithm" if you want to know more.
 
-    Also related is -despeckle. to remove single off color pixels.
+Also related is -despeckle. to remove single off color pixels.
 
-    Generate a 3d stereogram of two images (one for each eye)
-    This is also known as a anaglyph
-      composite left.jpg right.jpg -stereo anaglyph.jpg
+Generate a 3d stereogram of two images (one for each eye)
+This is also known as a anaglyph
+  composite left.jpg right.jpg -stereo anaglyph.jpg
+~~~
 
 ------------------------------------------------------------------------
 
@@ -1262,11 +1270,11 @@ As such a '`0`' degree angle will be from the east (of left), '`90`' is anti-clo
 For example...
 
 ~~~
-      convert shade_a_mask.gif   -shade    0x45   shade_direction_0.gif
-      convert shade_a_mask.gif   -shade   45x45   shade_direction_45.gif
-      convert shade_a_mask.gif   -shade   90x45   shade_direction_90.gif
-      convert shade_a_mask.gif   -shade  135x45   shade_direction_135.gif
-      convert shade_a_mask.gif   -shade  180x45   shade_direction_180.gif
+convert shade_a_mask.gif   -shade    0x45   shade_direction_0.gif
+convert shade_a_mask.gif   -shade   45x45   shade_direction_45.gif
+convert shade_a_mask.gif   -shade   90x45   shade_direction_90.gif
+convert shade_a_mask.gif   -shade  135x45   shade_direction_135.gif
+convert shade_a_mask.gif   -shade  180x45   shade_direction_180.gif
 ~~~
 
 [![\[IM Output\]](shade_a_mask.gif)](shade_a_mask.gif)
@@ -1341,7 +1349,7 @@ There is no way to adjust this thickness, short of resizing images before and af
 
 If you would like to find out just how bright 'flat areas' will be from a specific *elevation* lighting angle, then you can use the following command, to shade a flat solid color surface.
 
-~~~
+~~~{data-capture-out="shade_elevation_45.txt"}
 convert -size 50x50 xc:white -draw 'circle 25,25 20,10' \
     -blur 0x2  -shade 0x45   -gravity center -crop 1x1+0+0 txt:-
 ~~~
@@ -1505,7 +1513,7 @@ Using a 30 degree elevation lighting angle with "`-shade`", is one way of produc
 
 For example, here I shade an image, then extract the top-left pixel to check the resulting color of a 'flat' part of the image.
 
-~~~
+~~~{data-capture-out="shade_30.txt"}
 convert -size 50x50 xc:black -fill white -draw 'circle 25,25 20,10' \
       -blur 0x2  -shade 120x30           shade_30.png
 convert shade_30.png   -gravity center -crop 1x1+0+0 txt:-
@@ -1523,7 +1531,7 @@ To fix this, we need a way remove this contrast effect from the rounding adjustm
 The typical way to do this is to just "`-normalize`" the image, but doing this to 30 degree shade image, results in the 'flat' areas will no longer being a perfect grey.
 For example...
 
-~~~
+~~~{data-capture-out="shade_30_norm.txt"}
 convert -size 50x50 xc:black -fill white -draw 'circle 25,25 20,10' \
       -blur 0x2  -shade 120x30 -normalize   shade_30_norm.png
 convert shade_30_norm.png   -gravity center -crop 1x1+0+0 txt:-
@@ -1535,7 +1543,7 @@ convert shade_30_norm.png   -gravity center -crop 1x1+0+0 txt:-
 
 After some further experimentation however, I found that using a 21.78 degree shade elevation angle, will after being normalized, produce the desired perfect mid-tone grey level as well as a good strong highlighting effect.
 
-~~~
+~~~{data-capture-out="shade_21_norm.txt"}
 convert -size 50x50 xc:black -fill white -draw 'circle 25,25 20,10' \
       -blur 0x2  -shade 120x21.78 -normalize   shade_21_norm.png
 convert shade_21_norm.png   -gravity center -crop 1x1+0+0 txt:-
@@ -1948,7 +1956,7 @@ However, you can limit the output from the "`debug()`" by using a ternary if-els
 For example, this will print the floating point color values for pixel 10,10 from the built-in "`rose:`" image.
 The actual image result is ignored by using the '`NULL:`' image handler.
 
-~~~
+~~~{data-capture-err="fx_debug.txt"}
 convert rose: -fx 'i==10&&j==10?debug(u):1; u' null:
 ~~~
 
@@ -2070,7 +2078,7 @@ convert -size 300x100 gradient:yellow-limegreen \
 
 You can just output the result directly using a "`-format`" with the "`identify`" command.
 
-~~~
+~~~{data-capture-out="fx_math.txt"}
 identify -format '%[fx:atan(1)*4]' null:
 ~~~
 
@@ -2082,7 +2090,7 @@ You can generate random numbers.
 For example to generate a integer between -5 and 10 inclusive.
 Here I use the "`info:`" equivalent to the "`identify`" command.
 
-~~~
+~~~{data-capture-out="fx_rand.txt"}
 convert xc: -format '%[fx:int(rand()*16)-5]' info:
 ~~~
 
@@ -2102,7 +2110,7 @@ With this operator you can use '`u[{i}]`' to access values from any image, unlik
   
 Fx Expressions can be applied to images in other colorspaces, so I can, for example, find out the 'Hue' value (in the 'red' channel) for three different colors.
 
-~~~
+~~~{data-capture-out="fx_hues.txt"}
 convert xc:red xc:green xc:blue -colorspace HSL \
       -format '%[fx: s.r ]' info:
 ~~~
@@ -2111,7 +2119,7 @@ convert xc:red xc:green xc:blue -colorspace HSL \
 
 You can also use IM for some direct color maths, such as to find out the average color of '`gold`', '`yellow`', and '`khaki`'.
 
-~~~
+~~~{data-capture-out="pixel_math.txt"}
 convert xc: -format '%[pixel:(gold+yellow+khaki)/3]' info:
 ~~~
 
@@ -2181,7 +2189,7 @@ However, it is limited to just one simple operation, using a single user-provide
 
 You can find out what functions have been built into evaluate using
 
-~~~
+~~~{.skip}
 convert -list evaluate
 ~~~
 
@@ -2288,7 +2296,9 @@ The '**`Pow`**' function (added IM v6.4.1-9), for example, works with normalized
 
 It is exactly equivalent to the pow() C function, (using normalized color values in a 0 - 1 range)
 
-    value = pow(value, constant) 
+~~~{.skip}
+value = pow(value, constant)
+~~~
 
 As such, to create a 'parabolic' gradient you can use an argument of '`2`'.
 Or use a value of '`0.5`' to create a 'square root' gradient.
@@ -2401,7 +2411,7 @@ convert gradient.png  -evaluate sin 1  eval_sin_1.png
 convert gradient.png  -evaluate cos 1  eval_cos_1.png
 ~~~
 
-~~~{.skip}
+~~~{.hide}
 im_profile -s eval_sin_1.png  eval_sin_1_pf.gif
 im_profile -s eval_cos_1.png  eval_cos_1_pf.gif
 ~~~
@@ -2419,7 +2429,7 @@ Now, as the constant parameter is an angle multiplier, the value given to the ev
 convert gradient.png -evaluate cos 5  -negate  eval_cos_5.png
 ~~~
 
-~~~{.skip}
+~~~{.hide}
 im_profile -s eval_cos_5.png eval_cos_5_pf.gif
 ~~~
 
@@ -2436,7 +2446,7 @@ By negating the result you can ensure that the gradient also slopes correctly.
 convert gradient.png -evaluate cos 0.5  -negate  eval_cos.5.png
 ~~~
 
-~~~{.skip}
+~~~{.hide}
 im_profile -s eval_cos.5.png eval_cos.5_pf.gif
 ~~~
 
@@ -2509,8 +2519,12 @@ Of course, simple linear modification is also possible, exactly as you get if yo
 convert gradient.png -function Polynomial '4, -1.5' func_linear.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_linear.png func_linear_pf.gif
+~~~
+
 [![\[IM Output\]](func_linear.png)](func_linear.png)
-  
+
 [![\[IM Output\]](func_linear_pf.gif)](func_linear_pf.gif)
 
 Note, however that you can not use '`Polynomial`' to do a full [Threshold](../quantize/#threshold) operation, due to the need for infinite coefficients to do so, though you can get pretty close.
@@ -2522,8 +2536,12 @@ In other words it is just like the "`-evaluate Set `" method, in this case to a 
 convert gradient.png -function Polynomial 0.33 func_constant.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_constant.png func_constant_pf.gif
+~~~
+
 [![\[IM Output\]](func_constant.png)](func_constant.png)
-  
+
 [![\[IM Output\]](func_constant_pf.gif)](func_constant_pf.gif)
 
 By combining a '`Polynomial`' with other math functions you can create even more complex gradient modifications.
@@ -2536,8 +2554,12 @@ convert gradient.png -function Polynomial -4,4,0 -evaluate Pow 0.5 \
       func_circle_arc.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_circle_arc.png func_circle_arc_pf.gif
+~~~
+
 [![\[IM Output\]](func_circle_arc.png)](func_circle_arc.png)
-  
+
 [![\[IM Output\]](func_circle_arc_pf.gif)](func_circle_arc_pf.gif)
 
 See also the [Pow Evaluate Method](#evaluate_pow) for an alternative to the above.
@@ -2546,11 +2568,15 @@ See also the [Pow Evaluate Method](#evaluate_pow) for an alternative to the abov
 
 The '**`Sinusoid`**' function method is a much more advanced version of the "`-evaluate`" methods '`sin`' and '`cos`', and can, in fact, replicate those functions, but you have much better controls over how it modifies the color values in an image.
 
-    -function   Sinusoid   frequency,phase,amplitude,bias
+~~~{.skip}
+-function   Sinusoid   frequency,phase,amplitude,bias
+~~~
 
 It is implemented using the formula...
 
-    value = ampl * sin(2*PI( freq*value + phase/360 ) ) + bias
+~~~{.skip}
+value = ampl * sin(2*PI( freq*value + phase/360 ) ) + bias
+~~~
 
 This may seem complex but it ensures the function is easy to use.
 
@@ -2562,8 +2588,12 @@ By default, it will generate a Sine Curve.
 convert gradient.png -function Sinusoid 1    func_sine.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_sine.png func_sine_pf.gif
+~~~
+
 [![\[IM Output\]](func_sine.png)](func_sine.png)
-  
+
 [![\[IM Output\]](func_sine_pf.gif)](func_sine_pf.gif)
 
 By adding a '*phase*' argument in degrees, you can specify the starting angle for the curve, allowing you convert the default sine curve into a cosine.
@@ -2572,8 +2602,12 @@ By adding a '*phase*' argument in degrees, you can specify the starting angle fo
 convert gradient.png -function Sinusoid 1,90   func_cosine.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_cosine.png func_cosine_pf.gif
+~~~
+
 [![\[IM Output\]](func_cosine.png)](func_cosine.png)
-  
+
 [![\[IM Output\]](func_cosine_pf.gif)](func_cosine_pf.gif)
 
 By adjusting the 'frequency', and 'phase' I can directly convert a linear gradient into a smooth sinusoidal gradient going from black to white (minimum to maximum along a Sine curve). See [Evaluate Cosine Method](#evaluate_cos) for a less direct method.
@@ -2582,8 +2616,12 @@ By adjusting the 'frequency', and 'phase' I can directly convert a linear gradie
 convert gradient.png -function Sinusoid 0.5,-90 func_sine_grad.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_sine_grad.png func_sine_grad_pf.gif
+~~~
+
 [![\[IM Output\]](func_sine_grad.png)](func_sine_grad.png)
-  
+
 [![\[IM Output\]](func_sine_grad_pf.gif)](func_sine_grad_pf.gif)
 
 The next two optional values, 'amplitude' and 'bias' control the scale and center-line of sinusoidal curve.
@@ -2593,8 +2631,12 @@ For example, here I make a wave (negated cosine curve) that oscillates between w
 convert gradient.png -function Sinusoid 5,90,.25,.75  func_sine_bias.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_sine_bias.png func_sine_bias_pf.gif
+~~~
+
 [![\[IM Output\]](func_sine_bias.png)](func_sine_bias.png)
-  
+
 [![\[IM Output\]](func_sine_bias_pf.gif)](func_sine_bias_pf.gif)
 
 Be careful with these last parameters as they could easily cause the waveform to exceed the bounds of the color value range, and thus be clipped (unless you are using a [HDRI version of ImageMagick](../basics/#hdri)).
@@ -2606,11 +2648,15 @@ This is a special curve that was needed to generate a [Cylindrical Displacement 
 
 It parameters are...
 
-    -function   Arcsin   width,center,range,bias
+~~~{.skip}
+-function   Arcsin   width,center,range,bias
+~~~
 
 And is implemented using the formula...
 
-      value = range/PI * asin(2/width*( value - center ) ) + bias
+~~~{.skip}
+value = range/PI * asin(2/width*( value - center ) ) + bias
+~~~
 
 By default values (if not defined) '`1, 0.5, 1, 0.5`' ensures the the function is centered so as to cover the whole color range from `0,0` to `1,1`.
 
@@ -2618,8 +2664,12 @@ By default values (if not defined) '`1, 0.5, 1, 0.5`' ensures the the function i
 convert gradient.png -function Arcsin 1    func_arcsin.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_arcsin.png func_arcsin_pf.gif
+~~~
+
 [![\[IM Output\]](func_arcsin.png)](func_arcsin.png)
-  
+
 [![\[IM Output\]](func_arcsin_pf.gif)](func_arcsin_pf.gif)
 
 By halving the '*width*' of the resulting curve you get...
@@ -2628,8 +2678,12 @@ By halving the '*width*' of the resulting curve you get...
 convert gradient.png -function Arcsin 0.5    func_arcsin_width.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_arcsin_width.png func_arcsin_width_pf.gif
+~~~
+
 [![\[IM Output\]](func_arcsin_width.png)](func_arcsin_width.png)
-  
+
 [![\[IM Output\]](func_arcsin_width_pf.gif)](func_arcsin_width_pf.gif)
 
 The '*center*' will let you reposition the curve according to the input grey values.
@@ -2638,8 +2692,12 @@ The '*center*' will let you reposition the curve according to the input grey val
 convert gradient.png -function Arcsin 0.4,0.7 func_arcsin_center.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_arcsin_center.png func_arcsin_center_pf.gif
+~~~
+
 [![\[IM Output\]](func_arcsin_center.png)](func_arcsin_center.png)
-  
+
 [![\[IM Output\]](func_arcsin_center_pf.gif)](func_arcsin_center_pf.gif)
 
 The '*range*' argument allows you to reduce the output range of the color values, and the '*bias*' will adjust the center of that range.
@@ -2648,8 +2706,12 @@ The '*range*' argument allows you to reduce the output range of the color values
 convert gradient.png -function Arcsin 0.5,0.5,0.5,0.5  func_arcsin_range.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_arcsin_range.png func_arcsin_range_pf.gif
+~~~
+
 [![\[IM Output\]](func_arcsin_range.png)](func_arcsin_range.png)
-  
+
 [![\[IM Output\]](func_arcsin_range_pf.gif)](func_arcsin_range_pf.gif)
 
 Note how the values that are invalid as a result of the function are handled.
@@ -2662,8 +2724,12 @@ Note that if either the '*width*' or the '*range*' are made negative the slope o
 convert gradient.png -function Arcsin -1    func_arcsin_neg.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_arcsin_neg.png func_arcsin_neg_pf.gif
+~~~
+
 [![\[IM Output\]](func_arcsin_neg.png)](func_arcsin_neg.png)
-  
+
 [![\[IM Output\]](func_arcsin_neg_pf.gif)](func_arcsin_neg_pf.gif)
 
 #### Arctan Function {#function_arctan}
@@ -2672,11 +2738,15 @@ The '**`Arctan`**' method was added to IM v6.5.3-1.
 
 Its parameters are...
 
-    -function   Arctan   slope,center,range,bias
+~~~{.skip}
+-function   Arctan   slope,center,range,bias
+~~~
 
 And is implemented using the formula...
 
-      value = range/PI * atan(slope*PI*( value - center ) ) + bias
+~~~{.skip}
+value = range/PI * atan(slope*PI*( value - center ) ) + bias
+~~~
 
 As you can see, it is almost exactly the same as the 'Arcsin' function, with only a small change to make it more useful.
 It even has the same set of default values (if not defined) '`1, 0.5, 1.0, 0.5`'.
@@ -2688,9 +2758,14 @@ For example
 convert gradient.png -function Arctan 1 func_arctan.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_arctan.png func_arctan_pf.gif
+~~~
+
 [![\[IM Output\]](func_arctan.png)](func_arctan.png)
-  
+
 [![\[IM Output\]](func_arctan_pf.gif)](func_arctan_pf.gif)
+
 That is the middle part of the gradient is actually left unchanged, with only the black and white ends becoming de-contrasted.
 As the '*slope*' of the curve becomes larger, the gradient in the center will become stronger (more compressed in the middle), by that amount.
 
@@ -2698,8 +2773,12 @@ As the '*slope*' of the curve becomes larger, the gradient in the center will be
 convert gradient.png -function Arctan 10 func_arctan_10.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_arctan_10.png func_arctan_10_pf.gif
+~~~
+
 [![\[IM Output\]](func_arctan_10.png)](func_arctan_10.png)
-  
+
 [![\[IM Output\]](func_arctan_10_pf.gif)](func_arctan_10_pf.gif)
 
 This, in many ways, is very similar to a [Sigmoidal Contrast](../color_mods/#sigmoidal-contrast) color modification operator.
@@ -2710,6 +2789,10 @@ Similarly to the previous functions, (and [Sigmoidal Contrast](../color_mods/#si
 
 ~~~
 convert gradient.png -function Arctan 10,.7 func_arctan_center.png
+~~~
+
+~~~{.hide}
+im_profile -s func_arctan_center.png func_arctan_center_pf.gif
 ~~~
 
 [![\[IM Output\]](func_arctan_center.png)](func_arctan_center.png)
@@ -2723,8 +2806,12 @@ For example, by expanding this value slightly you can ensure that it will comple
 convert gradient.png -function Arctan 5,0.7,1.2 func_arctan_range.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_arctan_range.png func_arctan_range_pf.gif
+~~~
+
 [![\[IM Output\]](func_arctan_range.png)](func_arctan_range.png)
-  
+
 [![\[IM Output\]](func_arctan_range_pf.gif)](func_arctan_range_pf.gif)
 
 However, if you are really wanting to generate curve to modify the whole contrast of an image in this way, it is more typical to use the [Sigmoidal Contrast Operator](../color_mods/#sigmoidal-contrast), which is designed for this purpose.
@@ -2738,8 +2825,12 @@ For example, this curve will modify the gradient in an image to produce very sha
 convert gradient.png -function Arctan 15,0.7,0.5,0.75 func_arctan_typ.png
 ~~~
 
+~~~{.hide}
+im_profile -s func_arctan_typ.png func_arctan_typ_pf.gif
+~~~
+
 [![\[IM Output\]](func_arctan_typ.png)](func_arctan_typ.png)
-  
+
 [![\[IM Output\]](func_arctan_typ_pf.gif)](func_arctan_typ_pf.gif)
 
 This is something that [Sigmoidal Contrast](../color_mods/#sigmoidal-contrast) can not generate.
@@ -2781,6 +2872,11 @@ convert -size 5x300 gradient: -rotate 90   math_linear.png
 convert math_linear.png  -evaluate sine 12  math_sine.png
 ~~~
 
+~~~{.hide}
+im_profile -s math_linear.png math_linear_pf.gif
+im_profile -s math_sine.png   math_sine_pf.gif
+~~~
+
 [![\[IM Output\]](math_linear_pf.gif)](math_linear_pf.gif)
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif)
@@ -2790,6 +2886,10 @@ Now, to attenuate this, we multiply the sine wave with a linear gradient, using 
 ~~~
 convert math_sine.png  math_linear.png  \
       -compose Multiply -composite  math_sine_2.png
+~~~
+
+~~~{.hide}
+im_profile -s math_sine_2.png   math_sine_2_pf.gif
 ~~~
 
 [![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif)
@@ -2806,6 +2906,11 @@ This happens to be the same function we used to multiply the original image, neg
 convert  math_linear.png -negate -evaluate divide 2  math_bias.png
 convert  math_sine_2.png  math_bias.png \
       -compose Plus -composite  math_attenuated.png
+~~~
+
+~~~{.hide}
+im_profile -s math_bias.png   math_bias_pf.gif
+im_profile -s math_attenuated.png   math_attenuated_pf.gif
 ~~~
 
 [![\[IM Output\]](math_sine_2_pf.gif)](math_sine_2_pf.gif)
@@ -2828,6 +2933,11 @@ convert math_sine.png  math_cosine_peak.png \
       -delete 0--2  math_cosine_atten.png
 ~~~
 
+~~~{.hide}
+im_profile -s math_cosine_peak.png   math_cosine_peak_pf.gif
+im_profile -s math_cosine_atten.png  math_cosine_atten_pf.gif
+~~~
+
 [![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif) **attenuate** [![\[IM Output\]](math_cosine_peak_pf.gif)](math_cosine_peak_pf.gif)
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](math_cosine_atten_pf.gif)](math_cosine_atten_pf.gif)
@@ -2841,6 +2951,10 @@ convert math_sine.png  math_cosine_peak.png \
       -composite  math_attenuate.png
 ~~~
 
+~~~{.hide}
+im_profile -s math_attenuate.png  math_attenuate_pf.gif
+~~~
+
 [![\[IM Output\]](math_attenuate_pf.gif)](math_attenuate_pf.gif)
 
 The same result can also be achieved by first adjusting the attenuation gradient using a [Polynomial Function](#function_polynomial) and then using an [Exclusion](../compose/#exclusion) compose operator, to merge the images.
@@ -2848,6 +2962,10 @@ The same result can also be achieved by first adjusting the attenuation gradient
 ~~~
 convert math_sine.png \( math_cosine_peak.png -function polynomial -.5,.5 \) \
       -compose Exclusion -composite  math_poly_excl.png
+~~~
+
+~~~{.hide}
+im_profile -s math_poly_excl.png  math_poly_excl_pf.gif
 ~~~
 
 [![\[IM Output\]](math_poly_excl_pf.gif)](math_poly_excl_pf.gif)
@@ -2878,6 +2996,12 @@ convert  math_cosine_peak.png     -solarize 50%        math_m_bias.png
 convert  math_m_bias.png          -level 50%,0         math_m_abs.png
 ~~~
 
+~~~{.hide}
+im_profile -s math_m_sign.png  math_m_sign_pf.gif
+im_profile -s math_m_bias.png  math_m_bias_pf.gif
+im_profile -s math_m_abs.png   math_m_abs_pf.gif
+~~~
+
 [![\[IM Output\]](math_m_sign_pf.gif)](math_m_sign_pf.gif)
 
 Sign of Gradient  
@@ -2903,6 +3027,12 @@ convert math_m_1.png   math_m_bias.png \
       -compose Plus -composite        math_m_2.png
 convert math_m_2.png   math_m_sign.png \
       -compose Difference -composite  math_multiply.png
+~~~
+
+~~~{.hide}
+im_profile -s math_m_1.png  math_m_1_pf.gif
+im_profile -s math_m_2.png  math_m_2_pf.gif
+im_profile -s math_multiply.png   math_multiply_pf.gif
 ~~~
 
 [![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif)
@@ -2934,6 +3064,10 @@ convert math_sine.png  math_cosine_peak.png \
       -delete 0--2    math_multiply_2.png
 ~~~
 
+~~~{.hide}
+im_profile -s math_multiply_2.png  math_multiply_2_pf.gif
+~~~
+
 [![\[IM Output\]](math_sine_pf.gif)](math_sine_pf.gif)
 ![X](../img_www/multiply.gif)
 [![\[IM Output\]](math_cosine_peak_pf.gif)](math_cosine_peak_pf.gif)
@@ -2951,6 +3085,10 @@ convert math_sine.png  math_cosine_peak.png \
       -composite  math_bias_multiply.png
 ~~~
 
+~~~{.hide}
+im_profile -s math_bias_multiply.png  math_bias_multiply_pf.gif
+~~~
+
 [![\[IM Output\]](math_bias_multiply_pf.gif)](math_bias_multiply_pf.gif)
 
 That is a vastly easier and faster method than the dozen or more steps needed without this argumented compose method.
@@ -2962,6 +3100,10 @@ As such, the following will also generate the same zero biased multiply.
 ~~~
 convert math_sine.png  math_cosine_peak.png \
       -compose exclusion -composite -negate  math_excl_neg.png
+~~~
+
+~~~{.hide}
+im_profile -s math_excl_neg.png  math_excl_neg_pf.gif
 ~~~
 
 [![\[IM Output\]](math_excl_neg_pf.gif)](math_excl_neg_pf.gif)
@@ -2981,6 +3123,13 @@ convert math_linear.png -function sinusoid 0.6,-90,.07   wave_3.png
 convert wave_1.png wave_2.png wave_3.png -background gray40 \
       -compose Mathematics -set option:compose:args 0,1,1,-.5 \
       -flatten  added_waves.png
+~~~
+
+~~~{.hide}
+im_profile -s wave_1.png wave_1_pf.gif
+im_profile -s wave_2.png wave_2_pf.gif
+im_profile -s wave_3.png wave_3_pf.gif
+im_profile -s added_waves.png added_waves_pf.gif
 ~~~
 
 [![\[IM Output\]](wave_1_pf.gif)](wave_1_pf.gif)
@@ -3004,6 +3153,10 @@ For example....
 ~~~
 convert gradient.png  -evaluate sin 0.5 -normalize \
     -evaluate cos  8  math_cos_var.png
+~~~
+
+~~~{.hide}
+im_profile -s math_cos_var.png math_cos_var_pf.gif
 ~~~
 
 [![\[IM Output\]](math_cos_var.png)](math_cos_var.png)

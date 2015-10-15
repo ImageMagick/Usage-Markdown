@@ -126,6 +126,12 @@ thumbnails/*.gif
 thumbnails/*.jpg
 thumbnails/*.png
 thumbnails/*.txt
+transform/*.gif
+transform/*.jpg
+transform/*.mvg
+transform/*.png
+transform/*.svg
+transform/*.txt
 warping/*.gif
 warping/*.jpg
 warping/*.mpg
