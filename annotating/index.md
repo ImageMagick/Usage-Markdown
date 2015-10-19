@@ -215,27 +215,29 @@ All the above examples should, of course, be adjusted to suit your own requireme
 Don't be a sheep and follow what everyone else does.
 Experiment, and give your own web site or program a distinct flavor from everyone else.
 And more importantly tell the IM community about it.
- 
-    FUTURE: select the black or white color based on the image's relative
-    intensity.  This uses a number if very advanced techniques.
 
-      convert input.jpg  -font myfont -pointsize 25 \
-          \( +clone -resize 1x1  -fx 1-intensity -threshold 50% \
-             -scale 32x32 -write mpr:color +delete \)  -tile mpr:color \
-           -annotate +10+26 'My Text'              output.jpg
+~~~{.skip}
+FUTURE: select the black or white color based on the image's relative
+intensity.  This uses a number if very advanced techniques.
 
-    Explanation:  Copy of image is resized to 1 pixel to find the image's
-    average color.  This is then inverted and greyscaled using -fx, then
-    thresholded to either black or white, as appropriate.
-    This single color pixel is now scaled to a larger tiling image, and
-    saved into a named memory register (mpr:).
+  convert input.jpg  -font myfont -pointsize 25 \
+      \( +clone -resize 1x1  -fx 1-intensity -threshold 50% \
+         -scale 32x32 -write mpr:color +delete \)  -tile mpr:color \
+       -annotate +10+26 'My Text'              output.jpg
 
-    The image is then used to set the fill tile, for the annotated text.
-    There is, however, no simple method (at this time) to set the outline -stroke
-    color of the draw text to its inverse.
+Explanation:  Copy of image is resized to 1 pixel to find the image's
+average color.  This is then inverted and greyscaled using -fx, then
+thresholded to either black or white, as appropriate.
+This single color pixel is now scaled to a larger tiling image, and
+saved into a named memory register (mpr:).
 
-    Other techniques are to use some text as a 'negate image' mask, or even a color
-    burn or color dodge compose operation, to distort the image with the text.
+The image is then used to set the fill tile, for the annotated text.
+There is, however, no simple method (at this time) to set the outline -stroke
+color of the draw text to its inverse.
+
+Other techniques are to use some text as a 'negate image' mask, or even a color
+burn or color dodge compose operation, to distort the image with the text.
+~~~
 
 ------------------------------------------------------------------------
 

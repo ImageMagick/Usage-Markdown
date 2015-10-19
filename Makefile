@@ -27,6 +27,8 @@ anim_mods: anim_mods/index.html anim_mods/index.sh
 
 anim_opt: anim_opt/index.html anim_opt/index.sh
 
+annotating: annotating/index.html annotating/index.sh
+
 backgrounds: backgrounds/index.html backgrounds/index.sh
 
 basics: basics/index.html basics/index.sh
