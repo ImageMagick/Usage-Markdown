@@ -13,6 +13,10 @@ anim_mods/*.anim
 anim_mods/*.gif
 anim_mods/*.png
 anim_mods/*.txt
+anim_opt/*.gif
+anim_opt/*.miff
+anim_opt/*.png
+anim_opt/*.txt
 backgrounds/*.gif
 backgrounds/*.png
 backgrounds/*.txt

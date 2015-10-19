@@ -187,6 +187,10 @@ gif_anim_montage moving_hole.gif moving_hole_frames.gif
 [![\[IM Output\]](moving_hole.gif)](moving_hole.gif)
 [![\[IM Output\]](moving_hole_frames.gif)](moving_hole_frames.gif)
 
+~~~{.hide data-capture-out="moving_hole_size.txt"}
+ls -l moving_hole.gif | awk '{printf "%d", $5}'
+~~~
+
 As you can see the animation works, with a round 'hole' showing the background color of this page, producing an animation file of [![\[IM Text\]](moving_hole_size.txt.gif)](moving_hole_size.txt) bytes in size.
 
 So lets try a straight-forward frame optimization for this animation.
@@ -235,6 +239,10 @@ gif_anim_montage moving_hole_dup.gif moving_hole_dup_frames.gif
 [![\[IM Output\]](moving_hole_dup.gif)](moving_hole_dup.gif)
 [![\[IM Output\]](moving_hole_dup_frames.gif)](moving_hole_dup_frames.gif)
 
+~~~{.hide data-capture-out="moving_hole_dup_size.txt"}
+ls -l moving_hole_dup.gif | awk '{printf "%d", $5}'
+~~~
+
 By doubling the first frame the animation was now reduced from [![\[IM Text\]](moving_hole_size.txt.gif)](moving_hole_size.txt) bytes down to [![\[IM Text\]](moving_hole_dup_size.txt.gif)](moving_hole_dup_size.txt) bytes in size.
 So even though the animation now has five frames, it is now much smaller in overall size, because of the massive reduction in the size of the sub-frame image overlays.
 
@@ -257,6 +265,10 @@ gif_anim_montage x2 moving_hole_double.gif moving_hole_double_frames.gif
 
 [![\[IM Output\]](moving_hole_double.gif)](moving_hole_double.gif)
 [![\[IM Output\]](moving_hole_double_frames.gif)](moving_hole_double_frames.gif)
+
+~~~{.hide data-capture-out="moving_hole_double_size.txt"}
+ls -l moving_hole_double.gif | awk '{printf "%d", $5}'
+~~~
 
 As you can see while we have almost twice as many frames, all the image sizes are much smaller, producing an animation that is [![\[IM Text\]](moving_hole_double_size.txt.gif)](moving_hole_double_size.txt) bytes in size, a smaller result, though not nearly as big a saving as the first single frame doubling we performed.
 
@@ -283,6 +295,10 @@ gif_anim_montage x2 moving_hole_oplus.gif moving_hole_oplus_frames.gif
 
 [![\[IM Output\]](moving_hole_oplus.gif)](moving_hole_oplus.gif)
 [![\[IM Output\]](moving_hole_oplus_frames.gif)](moving_hole_oplus_frames.gif)
+
+~~~{.hide data-capture-out="moving_hole_oplus_size.txt"}
+ls -l moving_hole_oplus.gif | awk '{printf "%d", $5}'
+~~~
 
 That is IM gave you the same result as our previous frame doubling example.
 Thus the GIF file is still [![\[IM Text\]](moving_hole_oplus_size.txt.gif)](moving_hole_oplus_size.txt) bytes in size.
@@ -371,6 +387,10 @@ gif_anim_montage x2 moving_hole_split_opt.gif \
 [![\[IM Output\]](moving_hole_split_opt.gif)](moving_hole_split_opt.gif)
 [![\[IM Output\]](moving_hole_split_opt_frames.gif)](moving_hole_split_opt_frames.gif)
 
+~~~{.hide data-capture-out="moving_hole_split_opt_size.txt"}
+ls -l moving_hole_split_opt.gif | awk '{printf "%d", $5}'
+~~~
+
 The addition of these 'zero delay intermediate frames', allows this animation frame optimize better than the original unoptimized animation, producing a [![\[IM Text\]](moving_hole_split_opt_size.txt.gif)](moving_hole_split_opt_size.txt) byte animation.
 However for this specific case it isn't as good as using a automated [Frame Doubling](#double) technique (See the '[OptimizePlus](#optimizeplus)' layers method above).
 
@@ -385,6 +405,10 @@ gif_anim_montage x2 moving_hole_split_oplus.gif \
 
 [![\[IM Output\]](moving_hole_split_oplus.gif)](moving_hole_split_oplus.gif)
 [![\[IM Output\]](moving_hole_split_oplus_frames.gif)](moving_hole_split_oplus_frames.gif)
+
+~~~{.hide data-capture-out="moving_hole_split_oplus_size.txt"}
+ls -l moving_hole_split_oplus.gif | awk '{printf "%d", $5}'
+~~~
 
 This animation now has two extra 'zero delay intermediate frames' per frame update.
 The first fills in the old hole, the second clearing an area that will contain transparent pixels, before finally the pixels that should not have been cleared is restored.
@@ -439,7 +463,18 @@ Optimization is one of the main purposes of such frames after all.
 ### Frame Optimization Results and Summary {#frame_results}
 
 Lets summarize our optimizations of the moving hole animation...
-  
+
+~~~{.hide data-capture-out="moving_hole_sizes.txt"}
+( ls -l moving_hole.gif; \
+  ls -l moving_hole_opt.gif; \
+  ls -l moving_hole_dup.gif; \
+  ls -l moving_hole_double.gif; \
+  ls -l moving_hole_oplus.gif; \
+  ls -l moving_hole_split_opt.gif; \
+  ls -l moving_hole_split_oplus.gif; \
+) | awk '{printf "%6s %s\n", $5, $NF}' -
+~~~
+
 [![\[IM Text\]](moving_hole_sizes.txt.gif)](moving_hole_sizes.txt)
 
 As you can see by using some complex frame handling, with the help of IM and some human intervention, we were able to frame optimize the 'moving hole' animation to almost half its original size, though with just under three times the number of frames of the original.
@@ -522,7 +557,7 @@ Definitely not what I want to achieve with this animation..
 
 If this type of transparency handling is acceptable this is the way to apply it, before continuing with your other optimizations...
 
-~~~
+~~~{.skip}
 convert teleport.miff -channel A -threshold 50% +channel \
                ...do further processing now...       teleport.gif
 ~~~
@@ -666,19 +701,19 @@ This was done also to provide a base line GIF animation for study and later comp
 
 So lets look at various details of our original animation..
 
-~~~
+~~~{data-capture-out="speed_nframes.txt"}
 identify -format "Number of Frames: %n\n" speed.miff | head -1
 ~~~
 
 [![\[IM Text\]](speed_nframes.txt.gif)](speed_nframes.txt)
 
-~~~
+~~~{data-capture-out="speed_ncf.txt"}
 identify -format "Colors in Frame %p: %k\n"  speed.miff
 ~~~
 
 [![\[IM Text\]](speed_ncf.txt.gif)](speed_ncf.txt)
 
-~~~
+~~~{data-capture-out="speed_ncolors.txt"}
 convert speed.miff +append  -format "Total Number of Colors: %k"  info:
 ~~~
 
@@ -691,7 +726,7 @@ However the GIF file format can only save a maximum of 256 color per frame, the 
 
 It reduced the number of colors of each frame in the animation (a process called [Color Quantization](../quantize/#colors))...
 
-~~~
+~~~{data-capture-out="speed_ncolors2.txt"}
 identify -format "Colors in Frame %p: %k\n"  speed.gif
 convert speed.gif +append  -format "Total Number of Colors: %k"  info:
 ~~~
@@ -704,7 +739,7 @@ This means that the GIF file has one 'Global Color Table' and it always does, bu
 The "`identify`" command cannot tell you how many such local color tables a GIF file has, as the information is too format specific, and not important to the image processing IM normally does.
 However the more specific "`Giftrans`" program can tell you how many low level local color tables were used...
 
-~~~
+~~~{data-capture-out="speed_ctables.txt"}
 giftrans -L speed.gif 2>&1 | grep -c "Local Color Table:"
 ~~~
 
@@ -803,7 +838,7 @@ Now as each and every frame has a different set of colors, IM was forced to save
 
 For example, here I used the very simple program "`Giftrans`" program to report how many frame color tables were created.
 
-~~~
+~~~{data-capture-out="speed_ctables.txt"}
 giftrans -L speed.gif 2>&1 | grep -c "Local Color Table:"
 ~~~
 
@@ -871,9 +906,25 @@ convert speed.miff  +matte +map   speed_map.gif
 
 [![\[IM Output\]](speed_map.gif)](speed_map.gif)
 
+~~~{.hide data-capture-out="speed_map_ctables.txt"}
+giftrans -L speed_map.gif 2>&1 | grep -c "Local Color Table:"
+~~~
+
+~~~{.hide .assert}
+[ "`cat speed_map_ctables.txt`" != 0 ] && echo >&2 \
+  "ASSERTION FAILURE: Map Common Palette did not remove Local Color Tables!"
+~~~
+
 This resulted in [![\[IM Text\]](speed_map_ctables.txt.gif)](speed_map_ctables.txt) 'local' (or extra unwanted) color tables in the resulting image.
 
 I will be using the single color table version of the animation for the next optimization sections, though you could actually do this at any point in your animation optimizations and especially before the final save.
+
+~~~{.hide}
+ls -l speed.gif | awk '{printf "%d", $5}' > speed_size.txt
+ls -l speed_map.gif | awk '{printf "%d", $5}' > speed_map_size.txt
+txt2gif speed_size.txt
+txt2gif speed_map_size.txt
+~~~
 
 As a result of color table optimization, the animation which was [![\[IM Text\]](speed_size.txt.gif)](speed_size.txt) bytes for our directly converted GIF, is now [![\[IM Text\]](speed_map_size.txt.gif)](speed_map_size.txt) bytes, after using the "`+map`" operator.
 The more frames (and 'local color tables') an animation has, the larger the saving.
@@ -891,11 +942,15 @@ Remember
 Note however that in all the techniques we have looked at so far all can have a dither pattern that changes from one overlay to another.
 A churning of the pixels that can look like TV static.
 
-    ... small number of colors ...
+~~~{.skip}
+... small number of colors ...
+~~~
 
 With a frame optimization of a smaller unmoving area, you can even get a rectangular areas of static that looks even worse.
 
-    ... Ordered Dither ...
+~~~{.skip}
+... Ordered Dither ...
+~~~
 
 For now refer to the more practical and less detailed [Video to GIF, Optimization Summary](../video/#gif).
 
@@ -938,6 +993,13 @@ As you can see the sub-frames now have large transparent areas, which do not eff
 Areas that need the pixels changed are still overlaid, but the areas that does not change have been made transparent.
 That includes within the object being animated as well, leaving rather horrible looking 'holes'.
 
+~~~{.hide}
+ls -lH bunny_bgnd.gif | awk '{printf "%d", $5}' > bunny_bgnd_size.txt
+ls -l  bunny_bgnd_opttrans.gif | awk '{printf "%d", $5}' > bunny_bgnd_opttrans_size.txt
+txt2gif bunny_bgnd_size.txt
+txt2gif bunny_bgnd_opttrans_size.txt
+~~~
+
 As the larger constant transparent colored areas will (in theory) compress better, the resulting 'messy' animation is a lot smaller, reducing the file size from the frame optimized result of [![\[IM Text\]](bunny_bgnd_size.txt.gif)](bunny_bgnd_size.txt) bytes down to [![\[IM Text\]](bunny_bgnd_opttrans_size.txt.gif)](bunny_bgnd_opttrans_size.txt) bytes.
 This is quite a big savings for a very small effort.
 
@@ -945,7 +1007,9 @@ Note that the optimization method did not need to be a [Coalesced Animation](../
 As such any savings is just in terms of improved compression ratios for the same number of pixels in the animation, and not in that actual number of pixels saved into the file.
 It should thus be done after you have completed any [Frame Optimization](#frame_opt) needed, as one of your final optimization steps.
 
-    FUTURE: link to a 'remove background' from animation
+~~~{.skip}
+FUTURE: link to a 'remove background' from animation
+~~~
 
 Of course like most of the other "`-layers`" methods (comparison or optimization) you can specify a [Fuzz Factor](../color_basics/#fuzz) to adjust, 'how similar' colors are thought to be.
 That lets you handle animations that were badly color dithered, though if you had studied the [Color Optimization](#color_opt) above you should not have that problem.
@@ -973,6 +1037,11 @@ gif_anim_montage bunny_bgnd_lzw_gifsicle.gif bunny_bgnd_lzw_frames.gif
 
 [![\[IM Output\]](bunny_bgnd_lzw_gifsicle.gif)](bunny_bgnd_lzw_gifsicle.gif)
 [![\[IM Output\]](bunny_bgnd_lzw_frames.gif)](bunny_bgnd_lzw_frames.gif)
+
+~~~{.hide}
+ls -l bunny_bgnd_lzw_gifsicle.gif | awk '{printf "%d", $5}' > bunny_bgnd_lzw_gifsicle_size.txt
+txt2gif bunny_bgnd_lzw_gifsicle_size.txt
+~~~
 
 LZW compression optimization reduced the image from [![\[IM Text\]](bunny_bgnd_opttrans_size.txt.gif)](bunny_bgnd_opttrans_size.txt) bytes with simple transparency optimization, to [![\[IM Text\]](bunny_bgnd_lzw_gifsicle_size.txt.gif)](bunny_bgnd_lzw_gifsicle_size.txt) bytes for '`Gifsicle`'.
 Not a large improvement.
@@ -1031,7 +1100,14 @@ However any such optimization should always be checked by a human eye before bei
 ### Compression Optimization Summary
 
 Here is a complete summary of the final file sizes achieved using compression optimizations.
-  
+
+~~~{.hide data-capture-out="bunny_bgnd_compress_sizes.txt"}
+( ls -lH bunny_bgnd.gif; \
+  ls -l  bunny_bgnd_opttrans.gif; \
+  ls -l  bunny_bgnd_lzw_gifsicle.gif; \
+) | awk '{printf "%6s %s\n", $5, $NF}' -
+~~~
+
 [![\[IM Text\]](bunny_bgnd_compress_sizes.txt.gif)](bunny_bgnd_compress_sizes.txt)
 
 As you can see only slight improvements in final animation size was achieved by using the very complex [LZW Optimization](#lwz_opt), over the built-in [Transparency Optimization](#trans_opt).

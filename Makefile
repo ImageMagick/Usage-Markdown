@@ -25,6 +25,8 @@ anim_basics: anim_basics/index.html anim_basics/index.sh
 
 anim_mods: anim_mods/index.html anim_mods/index.sh
 
+anim_opt: anim_opt/index.html anim_opt/index.sh
+
 backgrounds: backgrounds/index.html backgrounds/index.sh
 
 basics: basics/index.html basics/index.sh
