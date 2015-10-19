@@ -298,7 +298,7 @@ Before we can continue with the basics of GIF animation, their types, optimizati
 Now an animation consists of a lot of information packed into each individual frame.
 You can see some of this information using the default IM "`identify`" command.
 
-~~~
+~~~{data-capture-out="identify_prev.txt"}
 identify canvas_prev.gif
 ~~~
 
@@ -313,7 +313,7 @@ identify canvas_prev.gif
 As you can see the actual image saved for the second and later frames is only 32x32 pixels, but all the frames sits on a 100x100 pixel 'virtual canvas' with a 'virtual offset' on that larger canvas.
 To see more of the various bits of meta-data that is present you need to use some of the more specialized [percent Escape Formats](http://imagemagick.org/script/escape.php) to get IM to output it.
 
-~~~
+~~~{data-capture-out="identify_prev_more.txt"}
 identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" \
          canvas_prev.gif
 ~~~
@@ -393,7 +393,17 @@ For example, it is very difficult to figure out what this animation actually did
 convert script_k.gif  +repage  +adjoin  script_k_%02d.gif
 ~~~
 
-[![\[IM Output\]](script_k_00.gif)](script_k_00.gif) [![\[IM Output\]](script_k_01.gif)](script_k_01.gif) [![\[IM Output\]](script_k_02.gif)](script_k_02.gif) [![\[IM Output\]](script_k_03.gif)](script_k_03.gif) [![\[IM Output\]](script_k_04.gif)](script_k_04.gif) [![\[IM Output\]](script_k_05.gif)](script_k_05.gif) [![\[IM Output\]](script_k_06.gif)](script_k_06.gif) [![\[IM Output\]](script_k_07.gif)](script_k_07.gif) [![\[IM Output\]](script_k_08.gif)](script_k_08.gif) [![\[IM Output\]](script_k_09.gif)](script_k_09.gif) [![\[IM Output\]](script_k_10.gif)](script_k_10.gif)
+[![\[IM Output\]](script_k_00.gif)](script_k_00.gif)
+[![\[IM Output\]](script_k_01.gif)](script_k_01.gif)
+[![\[IM Output\]](script_k_02.gif)](script_k_02.gif)
+[![\[IM Output\]](script_k_03.gif)](script_k_03.gif)
+[![\[IM Output\]](script_k_04.gif)](script_k_04.gif)
+[![\[IM Output\]](script_k_05.gif)](script_k_05.gif)
+[![\[IM Output\]](script_k_06.gif)](script_k_06.gif)
+[![\[IM Output\]](script_k_07.gif)](script_k_07.gif)
+[![\[IM Output\]](script_k_08.gif)](script_k_08.gif)
+[![\[IM Output\]](script_k_09.gif)](script_k_09.gif)
+[![\[IM Output\]](script_k_10.gif)](script_k_10.gif)
 
 The "`-coalesce`" operation basically converts an image into exactly what the animation should look like after the previous frame has been correctly [disposed](#dispose), and the next sub-frame overlaid.
 
@@ -862,7 +872,7 @@ This is also the reason why a '`Previous`' disposal is the preferred disposal fo
 Unlike a [Overlay Animation](#overlay) which are only a special sub-set of GIF animations, ALL animations can be saved as a [Cleared Frame Animation](#cleared).
 Just [coalesce](#coalesce) the animation, and optionally [trim](../crop/#trim) any surrounding transparent edges to frame optimize it, and reset the disposals.
 
-~~~
+~~~{.skip}
 convert any_animation.gif -coalesce -trim \
         -set dispose previous   cleared_frame_animation.gif
 ~~~
@@ -928,20 +938,24 @@ A typical example of a 'Mixed Disposal Animation' is a small moving object that 
  static change in the animations background.
 A ball hitting a lever would be one example.
 
-    Simple Example wanted
+~~~{.skip}
+Simple Example wanted
+~~~
 
 Similarly animations involving two very small moving objects on a larger transparent display can only be optimized well by mixing up the disposal techniques, so that each object is moved using separate animation frames.
 
-    FUTURE,
-    A more complex animation for study.
-     * Start with a semi-transparent canvas
-     * run a little 'previous' disposal
-     * leave one frame as a new 'canvas'
-     * more previous animations
-     * erase that 'addition' using a 'background' disposal set as new canvas
-     * continue back to start point.
-    This animation should thoroughly test out not only IM disposal methods
-    but also various browser disposal methods.
+~~~{.skip}
+FUTURE,
+A more complex animation for study.
+ * Start with a semi-transparent canvas
+ * run a little 'previous' disposal
+ * leave one frame as a new 'canvas'
+ * more previous animations
+ * erase that 'addition' using a 'background' disposal set as new canvas
+ * continue back to start point.
+This animation should thoroughly test out not only IM disposal methods
+but also various browser disposal methods.
+~~~
 
 *If you like to contribute a IM example of such an animation you can get your name, and home page link here!*
 
