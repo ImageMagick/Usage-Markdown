@@ -150,7 +150,7 @@ This in turn allows you to do things previously not directly possible.
 
 For example crop the images of a GIF animation and still have it work as expected for all animations.
 
-~~~
+~~~{data-capture-err="cropped_error.txt"}
 convert  canvas_prev.gif -crop 50x50+3+30  cropped.gif
 gif_anim_montage cropped.gif cropped_frames.gif
 ~~~
@@ -161,13 +161,13 @@ gif_anim_montage cropped.gif cropped_frames.gif
 As you can see the crop worked, just like it would for a [cropping a single image](../crop/), preserving the appropriate offset and page size, so the image data is still positioned correctly, even though the area involved has been reduced.
 
 As you can see this did not change the overall virtual canvas size!
-  
+
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Do **not** use "`+repage`" to remove the crop offsets from a frame optimized GIF animation.
-Doing do will also remove the needed frame offsets that the position the sub-frames on the virtual canvas, and which later frames may rely on to animate correctly.
+> Doing do will also remove the needed frame offsets that the position the sub-frames on the virtual canvas, and which later frames may rely on to animate correctly.
 
 The above "`-crop`" operation did however produce a warning message...
-  
+
 [![\[IM Text\]](cropped_error.txt.gif)](cropped_error.txt)
 
 As the crop of one of the frames in the animation missed the sub-frame overlay image used for that frame.
@@ -206,7 +206,7 @@ gif_anim_montage crop_viewport.gif crop_viewport_frames.gif
 [![\[IM Output\]](crop_viewport.gif)](crop_viewport.gif)
 
 [![\[IM Output\]](crop_viewport_frames.gif)](crop_viewport_frames.gif)
-  
+
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 >  The '`!`' character has special significance to some UNIX shells, like "`csh`", and must be escaped with a backslash, even when placed inside quotes.
 > IM will ignore backslashes, in geometry arguments so it does not hurt to always backslash it.
@@ -234,12 +234,14 @@ As of IM v6.3.4-8 you can do this very easily using a '`TrimBounds`' layer metho
 convert  anim_bgnd.gif -layers TrimBounds anim_trim_bounds.gif
 ~~~
 
-[![\[IM Output\]](anim_bgnd.gif)](anim_bgnd.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](anim_trim_bounds.gif)](anim_trim_bounds.gif)
+[![\[IM Output\]](anim_bgnd.gif)](anim_bgnd.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](anim_trim_bounds.gif)](anim_trim_bounds.gif)
 
 For users before this version of IM you can still do the same thing, but only in a two step process (which also performs other unwanted processing).
 To do this you would use a [Layers Merge](../layers/#merge) to merge all the frames of an animation down to a single layer, and then have IM report the size and offset of that layer...
 
-~~~
+~~~{data-capture-out="anim_trim_bounds.txt"}
 convert  anim_bgnd.gif -layers merge -format '%wx%h%X%Y' info:
 ~~~
 
@@ -251,7 +253,9 @@ Now that you know the bounds of all the frames, you can just [Viewport Crop](#cr
 convert  anim_bgnd.gif -crop 89x77+5+10! anim_trim_crop.gif
 ~~~
 
-[![\[IM Output\]](anim_bgnd.gif)](anim_bgnd.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](anim_trim_crop.gif)](anim_trim_crop.gif)
+[![\[IM Output\]](anim_bgnd.gif)](anim_bgnd.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](anim_trim_crop.gif)](anim_trim_crop.gif)
 
 If you also want to trim a static background from an animation then your best bet is to delete the first frame from a [Frame Optimized](../anim_opt/#frame_opt) animation, before using the [Layers Merge](../layers/#merge) step.
 You can then use the returned bounds for the [Viewport Crop](#crop_viewport) on the original animation.
@@ -268,7 +272,9 @@ For example here we displace the second an later frames of an animation 30 pixel
 convert  canvas_prev.gif -repage 0x0+30+30\! \
          \( -clone 0 -repage +0+0 \) -swap 0,-1 +delete \
          repage_offset.gif
+~~~
 
+~~~{data-capture-out="repage_offset.txt"}
 identify repage_offset.gif
 ~~~
 
@@ -690,9 +696,11 @@ convert shadows_k.gif  null:  coalesced_k.gif \
 gif_anim_montage compose_shadow.gif compose_shadow_frames.gif
 ~~~
 
-[![\[IM Output\]](coalesced_k.gif)](coalesced_k.gif)  
- [![\[IM Output\]](shadows_k.gif)](shadows_k.gif)  
- [![\[IM Output\]](compose_shadow.gif)](compose_shadow.gif)
+[![\[IM Output\]](coalesced_k.gif)](coalesced_k.gif)
+
+[![\[IM Output\]](shadows_k.gif)](shadows_k.gif)
+
+[![\[IM Output\]](compose_shadow.gif)](compose_shadow.gif)
 [![\[IM Output\]](compose_shadow_frames.gif)](compose_shadow_frames.gif)
 
 The above example is very important, so I will explain it in detail.
@@ -898,7 +906,9 @@ convert glitter_plasma.gif null: glitter_mask_trans.gif -matte \
         -compose DstIn -layers composite        glitter_masked_trans.gif
 ~~~
 
-[![\[IM Output\]](glitter_mask_trans.gif)](glitter_mask_trans.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](glitter_masked_trans.gif)](glitter_masked_trans.gif)
+[![\[IM Output\]](glitter_mask_trans.gif)](glitter_mask_trans.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](glitter_masked_trans.gif)](glitter_masked_trans.gif)
 
 Or a black and white mask image (composited using [CopyOpacity](../compose/#copyopacity))
 
@@ -909,7 +919,9 @@ convert glitter_plasma.gif null: glitter_mask.gif +matte \
         -compose CopyOpacity -layers composite   glitter_masked.gif
 ~~~
 
-[![\[IM Output\]](glitter_mask.gif)](glitter_mask.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](glitter_masked.gif)](glitter_masked.gif)
+[![\[IM Output\]](glitter_mask.gif)](glitter_mask.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](glitter_masked.gif)](glitter_masked.gif)
 
 Ok we have a area that has been masked, you can complete the image, generally by overlaying the masked glitter on the original image.
 
@@ -937,7 +949,9 @@ As mentioned there are a lot of pre-prepared animated glitter tile images availa
 One source is a [IM Studio](http://www.imagemagick.org/MagickStudio/scripts/MagickStudio.cgi) user, *[scri8e](forum_link.cgi?u=143)* and his web site [Moons Stars](http://www.scri8e.com/stars).
 Be warned however that I find most glitter tiles to be rather horrible looking, or too fast.
 
-[![](glitter_blue.gif)](glitter_blue.gif) For this example I found and modified a blue glitter tile with some small star patterns in it.
+[![](glitter_blue.gif)](glitter_blue.gif)
+
+For this example I found and modified a blue glitter tile with some small star patterns in it.
 I thought it would be useful for giving the IM wizard a glittering clothing, making him look really magical.
 
 Probably the easiest ways to glitter an existing image is to cut holes in the image rather than trying to mask out the glitter pattern.
@@ -1057,9 +1071,11 @@ The more difficult aspects of flares is locating good 'seed' points and timing o
 
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
-    Final example I want to create...  A 'sparkle' the travels up the wizards
-    wand, then flares, and dissolves into a number of small sparkle flares over an
-    area.  Then the sequence repeats.
+~~~{.skip}
+Final example I want to create...  A 'sparkle' the travels up the wizards
+wand, then flares, and dissolves into a number of small sparkle flares over an
+area.  Then the sequence repeats.
+~~~
 
 ------------------------------------------------------------------------
 
@@ -1110,8 +1126,9 @@ For example this goes really bad...
 convert script_k.gif -resize 20x20 script_k_direct.gif
 ~~~
 
-[![\[IM Output\]](script_k.gif)](script_k.gif) 
-![==&gt;](../img_www/right.gif) [![\[IM Output\]](script_k_direct.gif)](script_k_direct.gif)
+[![\[IM Output\]](script_k.gif)](script_k.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](script_k_direct.gif)](script_k_direct.gif)
 
 Now that did not work very well, and that is because the original image has some heavy frame optimizations.
 Each 'frame' of the animation is not the same size, and the "`-resize`" will resize each and every frame image completely separately from the other images.
@@ -1128,8 +1145,9 @@ For example...
 convert script_k.gif -coalesce  -resize 20x20  script_k_direct2.gif
 ~~~
 
-[![\[IM Output\]](script_k.gif)](script_k.gif) 
-![==&gt;](../img_www/right.gif) [![\[IM Output\]](script_k_direct2.gif)](script_k_direct2.gif)
+[![\[IM Output\]](script_k.gif)](script_k.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](script_k_direct2.gif)](script_k_direct2.gif)
 
 The next problem is one of transparency colors.
 If you look at the result above you will see that the edges of the smaller animation are horribly aliased ('staircased').
@@ -1153,8 +1171,9 @@ convert script_k.gif -coalesce \
         -resize 20x20  -layers Optimize   script_k_thumbnail.gif
 ~~~
 
-[![\[IM Output\]](script_k.gif)](script_k.gif) 
-![==&gt;](../img_www/right.gif) [![\[IM Output\]](script_k_thumbnail.gif)](script_k_thumbnail.gif)
+[![\[IM Output\]](script_k.gif)](script_k.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](script_k_thumbnail.gif)](script_k_thumbnail.gif)
 
 This is the recommended solution for general GIF thumbnail handling.
 Any other method requires either human control, or a very sophisticated GIF thumbnail handling logic.
@@ -1208,13 +1227,17 @@ But merging pixels together using "`-resize`", produces far too many new colors 
 
 So the obvious solution is to do the "`-resize`" but then use the original animations colors to restore the resized animations colors, by using a colormap.
 
-    FUTURE: example with original color table restored
+~~~{.skip}
+FUTURE: example with original color table restored
+~~~
 
 This has the added advantage of not generating local color tables.
 Results however may be better with dither turned off, so as to avoid any 'dither noise'.
 This is especially true for cartoon like images that has large smoothly colored areas.
 
-    FUTURE: non dithered color table restored example
+~~~{.skip}
+FUTURE: non dithered color table restored example
+~~~
 
 ### Full Color Optimize
 
@@ -1360,6 +1383,11 @@ It does not have the luxury of an API where you can keep two separate image sequ
 I can think of three basic techniques in which to do this appending.
 Before be start however you should first study the two animations, to check on the time sequences, and other details of the animation.
 The "`gif2anim`" script is good for this, and the generated "`.anim`' file can be useful later.
+
+~~~{.hide}
+gif2anim -l bag_left.gif  > bag_left_orig.anim
+gif2anim -l bag_right.gif > bag_right_orig.anim
+~~~
 
 ~~~
 gif2anim -n bag_left.gif
@@ -1556,7 +1584,9 @@ convert    bag.gif   -coalesce  -set delay 0 \
         -separate -flatten -threshold 0 bag_areas.gif
 ~~~
 
-[![\[IM Output\]](bag.gif)](bag.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](bag_areas.gif)](bag_areas.gif)
+[![\[IM Output\]](bag.gif)](bag.gif)
+![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](bag_areas.gif)](bag_areas.gif)
 
 Now we can see that this animation could be divided into at least three areas: a 'cat' area at the top, a small 'bear' to the left, and a flapping 'wing' to the right.
 All with simple orthogonal (vertical or horizontal) cuts.
@@ -1612,6 +1642,14 @@ convert bag_wing.gif -delete 2--1 -set delay 33 \
   
 [![\[IM Output\]](bag_wing_opt.gif)](bag_wing_opt.gif)
 
+~~~{.hide data-capture-out="bag_orig_size.txt"}
+ls -lH bag_left.gif bag_right.gif | awk '{ a += $5 } END { print a }'
+~~~
+
+~~~{.hide data-capture-out="bag_opt_size.txt"}
+ls -l bag_*_opt.gif | awk '{ a += $5 } END { print a }'
+~~~
+
 As a final summary: The two original (badly split) images totalled [![\[IM Text\]](bag_orig_size.txt.gif)](bag_orig_size.txt) bytes, which is about the same as the appended version.
 After correctly splitting the animation, which allows good optimization of the sub-animations, we get a total of [![\[IM Text\]](bag_opt_size.txt.gif)](bag_opt_size.txt) bytes over three image.
 Quite a good saving.
@@ -1650,102 +1688,104 @@ The '\*' parts could be turned into a single new "`-layer`" method to time synch
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
 
-    Example, time disjoint, but same cycle time...
+~~~{.skip}
+Example, time disjoint, but same cycle time...
 
-    For example suppose you have two animations of three frame with time delays of
-        10  10  10
-        5    5  20
+For example suppose you have two animations of three frame with time delays of
+    10  10  10
+    5    5  20
 
-    Both animations are 30 time units long already so that is not a problem.
+Both animations are 30 time units long already so that is not a problem.
 
-    Now convert the above to the time index when each frame should appear...
-    and show the overall time line at which frames appear...
-       0        10    20   |__ NOTE that both animations
-       0   5    10         |   end or loop at 30
+Now convert the above to the time index when each frame should appear...
+and show the overall time line at which frames appear...
+   0        10    20   |__ NOTE that both animations
+   0   5    10         |   end or loop at 30
 
-    From this you can see that you need to insert some extra frames to make them
-    match.  The first frame of the first animation needs to be repeated at time
-    index 5
+From this you can see that you need to insert some extra frames to make them
+match.  The first frame of the first animation needs to be repeated at time
+index 5
 
-    0->5  10  20
-    0  5  10
+0->5  10  20
+0  5  10
 
-    And the last frame of the second animation also needs to be duplicated at
-    time index 20
+And the last frame of the second animation also needs to be duplicated at
+time index 20
 
-    0->5  10  20
-    0  5  10->20
+0->5  10  20
+0  5  10->20
 
-    The arrow '->' in the above means the same frame is just repeated (duplicated)
-    into the next time index. They are actually the same image.
+The arrow '->' in the above means the same frame is just repeated (duplicated)
+into the next time index. They are actually the same image.
 
-    Now that the timings of the frames in both animations are the same, you can
-    simply merge (composite) the frames together, to get final animation that is
-    4 frames long.
+Now that the timings of the frames in both animations are the same, you can
+simply merge (composite) the frames together, to get final animation that is
+4 frames long.
 
-    The four frame will thus have time delays of
-    5  5  10  10
-    which still add up to 30 time units (overall time per loop cycle)
+The four frame will thus have time delays of
+5  5  10  10
+which still add up to 30 time units (overall time per loop cycle)
 
-    Current state of development....
+Current state of development....
 
-    While IM can help gather time delay information (try the '-t' option for
-    "gif2anim") and build the animation. IM can't perform the time synchronization
-    needed for two separate coalesced animations.  This may become a special
-    built-in option.
+While IM can help gather time delay information (try the '-t' option for
+"gif2anim") and build the animation. IM can't perform the time synchronization
+needed for two separate coalesced animations.  This may become a special
+built-in option.
 
-    That is, you will need figure out and double up appropriate coalesced
-    animation frames so as to change two time-disjoint animations into two
-    time-synchronized animations.
+That is, you will need figure out and double up appropriate coalesced
+animation frames so as to change two time-disjoint animations into two
+time-synchronized animations.
 
-    Once you have the animations time synchronized, you can then simply use the
-    new "-layers Composite" method, to overlay or merge the two time-synchronized
-    animations  together very easily.
+Once you have the animations time synchronized, you can then simply use the
+new "-layers Composite" method, to overlay or merge the two time-synchronized
+animations  together very easily.
 
-    All the above however assumes the total loop time of the two animations
-    are at least roughly equal, or not a major concern.
-
-
-    Simplified Solution
-
-    A simplified limited solution has been Discussed on IM Forums, for use with fast changing animations (similes).
-
-    The solution takes each animation and expand it so that the animation has
-    a fixed frame rate.  That is all frames are duplicated so that each frame is
-    shown for a conatant 6 centi-seconds each.  As such one frame with a 22cs
-    delay may be replaced by 4 x 6cs frames (24cs total).
-
-    After this the animations are further modified so that short animations are
-    looped multiple times so that the two animations are finally of equal length.
-    That is the two animations are made the same overall length in terms of both
-    time, and number of frames.
-
-    Once both animations has the same frame-rate and the same length, Layer Composition can be used to merge/overlay the two
-    animations, in the right position.
-
-    The result can then be optimized using Remove Duplicate Frames to remove any extra unwanted frames (with
-    appropriate timing adjustments and other Optimizations applied before saving.
-
-    This method of having all your component animations in a fixed frame length
-    form is especially well suited to animation libraries.
+All the above however assumes the total loop time of the two animations
+are at least roughly equal, or not a major concern.
 
 
-    -----
-    Other example to create....
-      * Overlay two moving equal time animations into a single animation
-        (dancing butterflies, circling atoms, or birds?)
-        This should be a straight layers composition.
+Simplified Solution
 
-      * Overlaying a moving animation on a fix background.
-        (displace animation linearly with time)
+A simplified limited solution has been Discussed on IM Forums, for use with fast changing animations (similes).
 
-      * Overlay two animations with different numbers of frames but constant time
-        delays (see IM Forum Discussion).
+The solution takes each animation and expand it so that the animation has
+a fixed frame rate.  That is all frames are duplicated so that each frame is
+shown for a conatant 6 centi-seconds each.  As such one frame with a 22cs
+delay may be replaced by 4 x 6cs frames (24cs total).
 
-      * Oveylay two time disjoint animations (as outlined above)
+After this the animations are further modified so that short animations are
+looped multiple times so that the two animations are finally of equal length.
+That is the two animations are made the same overall length in terms of both
+time, and number of frames.
 
-      * Overlay a simple animated figure, on an animated background.
-        (full animation merge)
+Once both animations has the same frame-rate and the same length, Layer Composition can be used to merge/overlay the two
+animations, in the right position.
+
+The result can then be optimized using Remove Duplicate Frames to remove any extra unwanted frames (with
+appropriate timing adjustments and other Optimizations applied before saving.
+
+This method of having all your component animations in a fixed frame length
+form is especially well suited to animation libraries.
+
+
+-----
+Other example to create....
+  * Overlay two moving equal time animations into a single animation
+    (dancing butterflies, circling atoms, or birds?)
+    This should be a straight layers composition.
+
+  * Overlaying a moving animation on a fix background.
+    (displace animation linearly with time)
+
+  * Overlay two animations with different numbers of frames but constant time
+    delays (see IM Forum Discussion).
+
+  * Oveylay two time disjoint animations (as outlined above)
+
+  * Overlay a simple animated figure, on an animated background.
+    (full animation merge)
+~~~
 
 ---
 title: Animation Modifications

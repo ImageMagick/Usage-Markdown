@@ -5,9 +5,14 @@ advanced/*.gif
 advanced/*.jpg
 advanced/*.png
 advanced/*.txt
+anim_basics/*.anim
 anim_basics/*.gif
 anim_basics/*.png
 anim_basics/*.txt
+anim_mods/*.anim
+anim_mods/*.gif
+anim_mods/*.png
+anim_mods/*.txt
 backgrounds/*.gif
 backgrounds/*.png
 backgrounds/*.txt
@@ -118,6 +123,7 @@ photos/*.jpg
 photos/*.txt
 photos/*.png
 quantize/*.gif
+quantize/*.pgm
 quantize/*.png
 quantize/*.txt
 resize/*.gif
