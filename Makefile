@@ -21,6 +21,8 @@ clean:
 
 advanced: advanced/index.html advanced/index.sh
 
+anim_basics: anim_basics/index.html anim_basics/index.sh
+
 backgrounds: backgrounds/index.html backgrounds/index.sh
 
 basics: basics/index.html basics/index.sh
