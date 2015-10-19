@@ -4,7 +4,7 @@ This is a table of applying various transforms against some 'random' canvases, s
 
 The table starts with the method used to generate the initial 'random' image used to generate all the other images shown.
 Just insert the various image 'transform' into the command, to convert the raw image into something similar to that shown.
-From there you can adjust the various setting yourself to produce exactly the type of background image you want.
+From there you can adjust the various settings yourself to produce exactly the type of background image you want.
 
 Be sure to read the notes at the end, before attempting to create your own examples.
 And please mail any interesting variations you may come across.
@@ -941,15 +941,15 @@ If you have or come up with a nice background generator or image transform, plea
 ## Final Important Notes
 
 The two [Random Noise Images](../canvas/#random), being so 'random' are tilable, and we use "`-virtual-pixels`" to ensure that they remain tilable during the transformation.
-However the [Plasma Image](../canvas/#plasma) is not tilable to start with, so a enlarged version with the edges "`-shave`" off afterward is used to remove the unwanted edge effect of many operations.
+However the [Plasma Image](../canvas/#plasma) is not tilable to start with, so an enlarged version with the edges "`-shave`" off afterward is used to remove the unwanted edge effect of many operations.
 These technique is discussed further in [Modifying Tile Images](../canvas/#tile_mod).
 
-Note that the final "`-auto_level`" is applied to most images to enhance the contrast of the results, unless the transform is marked as not requiring it so as to preserve and coloring or shadings that resulted from the transformation.
+Note that the final "`-auto_level`" is applied to most images to enhance the contrast of the results, unless the transform is marked as not requiring it so as to preserve any coloring or shadings that resulted from the transformation.
 
 Because many image transformations such as, "`-blur`", "`-emboss`", and "`-edge`" are grey-scale transformations, they work on the three color channels, completely independently of each other.
 As a result, in many of the images, the result looks like three separate images have been overlaid, then shaded.
 
-The final example "`layered_levels`" was designed to works on each of the three levels simultaneously, while keeping them separate, until the final step where they are added together and color tinted.
+The final example "`layered_levels`" was designed to work on each of the three levels simultaneously, while keeping them separate, until the final step where they are added together and color tinted.
 
 This triple effect can be removed by either applying an initial gray-scaling operation, or extracting just one of the channels when finished.
 Typically I extract the '`green`' or '`G`' channel as it is normally the strongest channel in a grey scale image anyway, though any of the three channels can be used.
