@@ -20,6 +20,8 @@ anim_opt/*.txt
 annotating/*.gif
 annotating/*.jpg
 annotating/*.png
+antialiasing/*.gif
+antialiasing/*.png
 backgrounds/*.gif
 backgrounds/*.png
 backgrounds/*.txt
