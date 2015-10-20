@@ -297,29 +297,31 @@ convert tile_fill_5.gif -crop 10x10+35+4 +repage -scale 60x60 \
 
 ------------------------------------------------------------------------
 
-    FUTURE:  anti-aliasing issues on pre-exsiting images (especially JPG format).
+~~~{.skip}
+FUTURE:  anti-aliasing issues on pre-exsiting images (especially JPG format).
 
-    For Example Recoloring and overlaying text or diagram image onto a color
-    or background.
+For Example Recoloring and overlaying text or diagram image onto a color
+or background.
 
-    Also re-adding transparency to GIF files, and rescaled JPEGs for icon use.
+Also re-adding transparency to GIF files, and rescaled JPEGs for icon use.
 
-    Smoothing or anti-alising images with limited color set
-    Specifically bitmap (pure black and white) images.
+Smoothing or anti-alising images with limited color set
+Specifically bitmap (pure black and white) images.
 
-    First anti-aliasing does not work on bitmap images.
+First anti-aliasing does not work on bitmap images.
 
-    Anti-aliasing involves using a mix of colors and transparencies to try and
-    smooth the 'stair case' or 'jaggies' effect of slanted lines and color
-    boundaries.  If only two colors are available no anti-aliasing can NOT happen!
+Anti-aliasing involves using a mix of colors and transparencies to try and
+smooth the 'stair case' or 'jaggies' effect of slanted lines and color
+boundaries.  If only two colors are available no anti-aliasing can NOT happen!
 
-    The image must be converted from B&W or grey scale at the minimum before
-    anti-aliasing can be used.
+The image must be converted from B&W or grey scale at the minimum before
+anti-aliasing can be used.
 
-    A simple way to smooth edges is to use a small amount of blur after reading in
-    a B&W image or an image with a tiny palette size.
+A simple way to smooth edges is to use a small amount of blur after reading in
+a B&W image or an image with a tiny palette size.
 
-    e.g.:   convert image.xbm  -blur 0x.3  smoothed_image.png
+e.g.:   convert image.xbm  -blur 0x.3  smoothed_image.png
+~~~
 
 ---
 title: Anti-Aliasing
