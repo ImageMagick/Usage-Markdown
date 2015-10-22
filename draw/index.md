@@ -434,7 +434,7 @@ All is not lost however, as can be seen in the examples for [Background Removal]
 ### Pixel Coordinates {#coordinates}
 
 The "`-draw`" command (and many others in IM) use what is calls "Pixel Coordinates".
-That is a coordinate of '`10,10` is the center of the pixel 10 pixels down and to the left from the top-left corner.
+That is a coordinate of '`10,10` is the center of the pixel 10 pixels down and to the right from the top-left corner.
 
 In this coordinate system 0,0 is the center of the top-left pixel, and w-1,h-1 is the center of the bottom-right corner.
 The actual edges are located at -0.5,-0.5 and w-0.5,h-0.5 and the center pixel (if the image is a odd size) is located at '`(w-1)/2,(h-1)/2`'.
