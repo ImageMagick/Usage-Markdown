@@ -152,7 +152,7 @@ convert -size 70x70 xc:none -draw 'circle 35,35 20,25' \
 
 Using "[`-compose ATop`](../../compose/#atop)" does not just limit you to a simple color.
 You can use any fully-opaque colored image as a source.
-For example a simple white to grey gradient, can produce a interesting looking 'cloud' like object.
+For example a simple white to grey gradient, can produce an interesting looking 'cloud' like object.
 
 ~~~
 convert -size 70x70 xc:none  -draw 'circle 35,35 15,25' \
@@ -189,9 +189,9 @@ convert -size 70x70 xc:none -draw 'circle 35,35 20,25' \
 
 [![\[IM Output\]](blur_white.png)](blur_white.png)
 
-Note you can not use a normal color replacement for this, as was done for [Canvases with a Specific Color](../../canvas/#canvas_specific) as this image operator does understand transparency, so a transparent white is different to a opaque white.
+Note you can not use a normal color replacement for this, as was done for [Canvases with a Specific Color](../../canvas/#canvas_specific) as this image operator does understand transparency, so a transparent white is different to an opaque white.
 
-Alturnativally as all the RGB colors were black, "`-negate`" them to white.
+Alternatively, as all the RGB colors were black, "`-negate`" them to white.
 
 ~~~
 convert -size 70x70 xc:none -draw 'circle 35,35 20,25' \
