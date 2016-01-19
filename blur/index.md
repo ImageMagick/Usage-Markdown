@@ -113,7 +113,7 @@ But "`-blur`" as a grey-scale channel operator, is limited by the "`-channel`" s
 That means only the three color channels of the image were blurred, leaving the transparency or alpha channel of the image as is.
 In the above however, the image is a fully opaque circle on a background canvas of the color '`none`', which IM defines as fully-transparent black!
 That which means we have a black circle, on a transparent black background.
-In other words a image in which all the colors are black, with some parts opaque, and other parts transparent.
+In other words an image in which all the colors are black, with some parts opaque, and other parts transparent.
 
 Consequently, when we blurred the image, we only blurred black with black, which as you can probably guess, produced, black!
 Thus the result had no change in color.
@@ -472,7 +472,7 @@ The thresholding in my
 
 ## Generating Shadows {#shadow}
 
-The "`-shadow`" operator is a advanced operator that was developed with the IM example pages.
+The "`-shadow`" operator is an advanced operator that was developed with the IM example pages.
 Basically it represents a very complex blur and re-coloring of transparency shape of the given image.
 This is an operation that IM users performed all the time, but required a good deal of knowledge to figure how to achieve correctly.
 
@@ -756,7 +756,7 @@ Also it will short circuit the use of the "`-blur`" operator if the blur sigma i
 ~~~{.skip}
     FUTURE: overlaying multiple shadows
 
-    Overlaying two images with shadows, produces a unrealistic darkening of the
+    Overlaying two images with shadows, produces an unrealistic darkening of the
     shadow where the shadow overlaps.
  This darkening would be correct if each
     object was lit by separate light sources, but more commonly the objects are
