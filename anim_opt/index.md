@@ -486,7 +486,7 @@ It just needs a little care and fore-thought, which humans are good at, and comp
 >  
 > On the other hand, IM also does not look at the resulting savings in the number of pixels that may result, beyond the frames that are directly involved.
 > That is, later frames sizes may also be smaller as a result of frame doubling, or the disposal method used.
-> This is especially true when the choice is whether to use 'previous image dispose' method, which can have substantial pixel count reductions later in a animation sequence, rather than immediately in the very next frame.
+> This is especially true when the choice is whether to use 'previous image dispose' method, which can have substantial pixel count reductions later in an animation sequence, rather than immediately in the very next frame.
 > A good choice here often requires human input.
 >  
 > As such, I can make no guarantee that IM will produce the best optimization choices, for a specific animation.
@@ -494,7 +494,7 @@ It just needs a little care and fore-thought, which humans are good at, and comp
 > That is only using immediate pixel counts for its decision.
 >  
 > A recursive algorithm, one that makes a choice, then see what the best final size of the animation that results from that choice, (including recursive choices further along) can produce a guaranteed best optimization.
-> However, it could also be a extremely slow operator, and for a large animation could take years to make the final decision.
+> However, it could also be an extremely slow operator, and for a large animation could take years to make the final decision.
 > It would also need to include [compression optimization](#compress_opt") choices, as these could affect the final outcome.
 > In other words, while such an algorithm could guarantee the best optimization, it does so at a heavy computational cost.
 >  
@@ -650,7 +650,7 @@ If you just like a quick summary of the color optimization options available, I 
 GIF animations in particular, have problems in handling colors, as you know it first does not allow semi-transparent colors, then has a 256 color limit per frame, and a 256 global color limit.
 
 Finally your best frame optimization will not work very well unless the colors used for a pixel in one frame also match the same color, in the next frame, when that part of the image did NOT change!
-This may seem like an easy problem but [Color Reduction](../quantize/#intro) is itself a extremely complex field, which required its own full section in IM Examples.
+This may seem like an easy problem but [Color Reduction](../quantize/#intro) is itself an extremely complex field, which required its own full section in IM Examples.
 
 Color problems are actually why most GIF animations you find on the World Wide Web are of the cartoon variety, or are very bad looking.
 Especially if resized from a larger version of the animation.
