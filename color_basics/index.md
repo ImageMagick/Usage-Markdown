@@ -949,7 +949,7 @@ Probably one of the most well known alternative is the cyclic-hue, based system,
 Basically the RGB color cube was rotated in 3 dimentions so that the black-gray-white diagonal axis of the cube became on axis of the colorspace.
 And this specified how dark or light a color was.
 
-The key feature of this change was a a simple conversion from RGB values that spaced the primary colors equally around this axis, so as to form a Hue that cycles from red, though green, then blue and back to red.
+The key feature of this change was a simple conversion from RGB values that spaced the primary colors equally around this axis, so as to form a Hue that cycles from red, though green, then blue and back to red.
 
 How far away the color was from this axis (radially) was known as saturation or chroma.
 
@@ -1113,7 +1113,7 @@ Unlike '`RGB`' and '`sRGB`' colorspaces.
 This makes the colorspace a lot easier to process and modify in general, once you get the hang of it.
 
 More specifically '`Luv`' was designed to be 'perceptually linear'.
-That is that a a small change in color in one part of the colorspace looks to be about the same, as a similar change in another part of the colorspace.
+That is that a small change in color in one part of the colorspace looks to be about the same, as a similar change in another part of the colorspace.
 This make LUV colorspace much better suited for image difference comparisions.
 
 The two colorspaces are very similar, and generaly produce similar results when processing image.
@@ -1647,7 +1647,7 @@ convert trans_gradient.png -channel RGBA \
 [![\[IM Output\]](trans_gradient.png)](trans_gradient.png) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](fuzz_trans_100.png)](fuzz_trans_100.png) [![\[IM Output\]](fuzz_trans_75.png)](fuzz_trans_75.png) [![\[IM Output\]](fuzz_trans_40.png)](fuzz_trans_40.png) [![\[IM Output\]](fuzz_trans_00.png)](fuzz_trans_00.png)
 
 Note the use of "`-channel RGBA`" in the above is not for color matching, but for specifying the color channels to be 'filled'.
-That is without it, the above will still match the same colors, but gray 'fill' will remain semi-transparent, and not be set to a opaque gray color.
+That is without it, the above will still match the same colors, but gray 'fill' will remain semi-transparent, and not be set to an opaque gray color.
 
 If you want to match all colors regardless of their transparency, then you will need to [Turn Off Transparent Channel](../masking/#alpha_off) of the image, at least temporarilly.
 You can turn it back on again afterward, though your fill color will again have the same transparency as the original color.
