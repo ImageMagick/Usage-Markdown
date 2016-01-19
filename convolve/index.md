@@ -1,16 +1,17 @@
 # Convolution of Images
 
-Convolution uses the local 'neighbourhood' of pixels to modify images$1\nIt does this by merging and averaging all the color values around each pixel to blur images, to highlight edges and boundaries, and sharpen images.
-The convolution variation, 'Correlation' is also used for scanning and searching for specific patterns, producing a image denoting how closely images matches.
+Convolution uses the local 'neighbourhood' of pixels to modify images.
+It does this by merging and averaging all the color values around each pixel to blur images, to highlight edges and boundaries, and sharpen images.
+The convolution variation, 'Correlation' is also used for scanning and searching for specific patterns, producing an image denoting how closely images match.
 
 ------------------------------------------------------------------------
 
 ## Introduction to Convolution {#intro}
 
-The '`Convolve`' and the closely related '`Correlate`' methods, are is many ways very similar to [Morphology](../morphology/#intro).
-In fact they work in almost the exactly the same way, matching up a heighbourhood 'kernel' at each location, making them a just another special 'method' of morphology.
+The '`Convolve`' and the closely related '`Correlate`' methods, are in many ways very similar to [Morphology](../morphology/#intro).
+In fact, they work in almost the exactly the same way, matching up a neighbourhood 'kernel' at each location, making them just another special 'method' of morphology.
 
-In fact, they also use much of the same code and even the same kernel defintions that was defined in [Basic Kernels](../morphology/#kernels) and [User Defined Kernels](../morphology/#user).
+In fact, they also use much of the same code and even the same kernel defintions that were defined in [Basic Kernels](../morphology/#kernels) and [User Defined Kernels](../morphology/#user).
 For more specific kernels designed for use by this operator, (and there are many), I refer you to [Blurring Kernels](#blurring_kernels), and [Edge Detection Kernels](edgedet_kernels).
 The most important kernel being the '`Gaussian`' kernel.
 
@@ -21,7 +22,7 @@ Basically a convolution or correlation performs a 'weighted average' of all the 
 That is, it multiplies the value of each nearby pixel by the amount given in the kernel, then adds all those values together to produce the final result.
 
 As such, each pixel in the final image will generally contain at least a small part of all the other pixels locally surrounding it in the source image.
-Looking at it another way, the color of each pixel in the image will be either added to (blurred) or subtracted from (sharpen/edge detection) the colors of all its near by neighbours, as defined by then kernel used.
+Looking at it another way, the color of each pixel in the image will be either added to (blurred) or subtracted from (sharpen/edge detection) the colors of all its near by neighbours, as defined by the kernel used.
 
 Both 'convolve' and 'correlate' are the same operation, except in a very minor but important way, and for the examples and controls that we will now look, you can treat them as being basically the same thing.
 Later (See [Convolution vs Correlation](#convolve_vs_correlate)) we will examine exactly how the two operators really differ and why they differ in such a minor way.
@@ -32,7 +33,7 @@ But in most circumstances they are the same method.
 As was mentioned above the '`Convolve`' method works by weighting each of the pixels in the local neighbourhood, according to the floating point values in the kernel.
 The weighted values are then simply added together to produce the new replacement pixel in the resulting image.
 
-For example lets convolve a single pixel, using a very small [User Defined](../morphology/#user) convolution kernel.
+For example, let's convolve a single pixel, using a very small [User Defined](../morphology/#user) convolution kernel.
 I also set the special [Show Kernel Setting](../morphology/#showkernel), so you can see the details of the kernel being defined and used (displayed images have been enlarged).
 
 ~~~
@@ -58,10 +59,10 @@ convert pixel_spread.gif -scale 800% pixel_spread_mag.gif
 
 As you can see the single pixel in the image has now expanded to produce 50% gray pixels around it.
 
-That is, when the kernel's 'origin' (it's center in this case) is positioned next to the single pixel in the original image, only that single pixel has a non-zero value.
+That is, when the kernel's 'origin' (its center in this case) is positioned next to the single pixel in the original image, only that single pixel has a non-zero value.
 This pixel value is then weighted by the '`0.5`' value of the kernel, and the resulting 'half-bright' pixel is added to the resulting image.
 
-Similarly when the kernel's origin is position exactly over the original pixel, it will get a value of '`1.0`' reproducing the original pixel with no other values (black) in the neighbourhood around it adding any component to the result.
+Similarly when the kernel's origin is positioned exactly over the original pixel, it will get a value of '`1.0`' reproducing the original pixel with no other values (black) in the neighbourhood around it adding any component to the result.
 
 
 Note that any kernel value of '`0.0`' will take no part in the final calculation.
@@ -118,7 +119,7 @@ But you can also use an older, more direct operator...
 > See the "`-channel`" setting documentation, or look at [Image Channel Mathematics](../compose/#image_math) which uses the same flag in the same way, for more information.
 
   
-Eventually most of the above differences will change as it things merge with the newer morphology '`Convolve`' method.
+Eventually most of the above differences will change as things merge with the newer morphology '`Convolve`' method.
 
 If you like to see some great examples of how '`Convolve`' actually does works, I recommend you also have a look at [EECE \\ CS 253 Image Processing, Lecture 7, Spatial Convolution](http://www.archive.org/details/Lectures_on_Image_Processing/EECE253_07_Convolution.pdf).
 
@@ -146,7 +147,7 @@ kernel2image -10.1 -s '!' -mn -g 1 -ml '' \
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](face_spread.png)](face.png)
 
-As you can see the resulting image is very bright (3 times brighter in fact) as the original image.
+As you can see the resulting image is very bright, 3 times brighter in fact, than the original image.
 
 What happened is that each pixel is being shared 3 times, 4 × '`0.5`' on the sides, plus a full copy of the original pixel.
 That is the addition of all the values in the kernel is 3, making the resulting image three times as bright!
@@ -182,7 +183,7 @@ From this point on all convolution kernel images shown will always be adjusted s
 Normalizing the kernel yourself is not pleasant, and as you saw it makes the resulting kernel definition a lot harder to understand.
 As such, alternative ways are provided.
 
-As of IM v6.5.9-2 the special expert option "`-define convolve:scale={kernel_scale}`' allows you to specify a global scaling factor for the kernel, and thus adjust the brightness of the overall result.
+As of IM v6.5.9-2 the special expert option "`-define convolve:scale={kernel_scale}`" allows you to specify a global scaling factor for the kernel, and thus adjust the brightness of the overall result.
 
 ~~~
 convert face.png  -define convolve:scale=0.33333 \
@@ -198,7 +199,7 @@ This '*kernel\_scale*' factor lets you do that.
 
 ### Kernel Normalization (automatic scaling) {#normalize}
 
-Rather then working out the scaling factor (as above), you can simply ask the IM to work out this 'normalize scaling factor' internally by giving it the special '`!`' normalization flag.
+Rather than working out the scaling factor (as above), you can simply ask IM to work out this 'normalize scaling factor' internally by giving it the special '`!`' normalization flag.
 
 ~~~
 convert face.png  -define convolve:scale=\! \
@@ -433,7 +434,7 @@ kernel2image -35.2 -m "Unity"    kernel_unity.gif
 #### Unity {#unity}
 
 This is a special kernel that actually does nothing.
-Only one kernel element is specified, and as a result each pixel is replace by itself without change.
+Only one kernel element is specified, and as a result each pixel is replaced by itself without change.
 
 For example here is a no-op [Convolution](#convolve)...
 
@@ -455,7 +456,7 @@ convert face.png -morphology Convolve Unity:0.5  face_dimmed.png
 This may not seem very useful, but it can be used for generating [Soft Blurs](#soft_blur), and [Unsharpen](#unsharpen) effects, or in multi-kernel sequences where you may not be able to use [Kernel Scaling](#kernel_scaling) or [Kernel Identity Blending](#identity_addition).
 
 This kernel exact same single element kernel can also be generated using '`Disk:0.5`', which also allows you to specify a scaling argument as part of the kernels generation.
-(EG: '`Disk:0.5,0.5`' for the last example).
+(e.g.: '`Disk:0.5,0.5`' for the last example).
 
 A similar kernel (for [Convolution](#convolve)) can also be generated by the a '`Gaussian`' kernel generator with a '*sigma*' of '`0.0`'.
 However that can only produce a small 3x3 kernel, consisting of a central '`1.0`' value surrounding by 8 '`0.0`' values.
@@ -489,10 +490,10 @@ The other [Shape Kernels](#shape_kernels) can also be used in the same way to, s
 
 However while a constant averaging over an shaped area does blur images, it has a tendency to produce unusual effects (specifically [Aliasing Artefacts](../filter/#aliasing)) in the resulting image.
 
-More specifically, by using a 'flat' averaging kernel tends to convert sharp edges into a thicker linear slope with sudden change in the slope at the thickened egdes
+More specifically, by using a 'flat' averaging kernel tends to convert sharp edges into a thicker linear slope with sudden change in the slope at the thickened edges.
 
 The thickness of the result is kernel '`radius*2-1`'.
-How different edge angles effect the slope thickness and linearity of the slope depends on the shape of the 'flat' or averaging kernel.
+How different edge angles affect the slope thickness and linearity of the slope depends on the shape of the 'flat' or averaging kernel.
 
 ~~~
 convert -size 80x80 xc: -draw 'polygon 15,15 15,65 60,15' shape.png
@@ -513,7 +514,7 @@ Note that the diagonal blur in the above is different for a square kernel, than 
 
 Another way of generating square 'linear slope' blurring is to use a very large sigma with a specific radius.
 The above square kernel convolution can for example also be achieved using `-blur 5x65535`.
-This was commonly used by Fred Wienhaus in his scripts before morphology was available.
+This was commonly used by Fred Weinhaus in his scripts before morphology was available.
 
 ~~~{.hide}
 kernel2image -8.1 -mn -n -ml "Gaussian:0x2" \
@@ -525,7 +526,7 @@ kernel2image -8.1 -mn -n -ml "Gaussian:0x2" \
 #### Gaussian Kernel (2d gaussian blur) {#gaussian}
 
 As you may have gathered, the '`Gaussian`' kernel is the most commonly used kernel to [Convolve](#convolve) an image.
-This is the mathematical ideal kernel for blurring effects.
+This is the mathematically ideal kernel for blurring effects.
 
 Here for example is the [Show Kernel](../morphology/#showkernel) of a small '`Gaussian`' kernel (they can get very large very quickly)...
 
@@ -541,10 +542,10 @@ As such I used a '`:0`' [Iteration Count](../morphology/#iterate), so it does no
 Similarly I junk the resulting image output using the special '`null:`' file format.
 
 As you can see by the convolution output range, a '`Gaussian`' kernel has already been normalized (scaled) for you.
-However you will also notice that it is still quite a large kernel, filled completely with small fractional values.
+However, you will also notice that it is still quite a large kernel, filled completely with small fractional values.
 If you look closer you will find the largest value (also listed on the first line) is in the center, with the smallest values toward the edges and the corners.
 
-Here typical Gaussian blur using a convolution...
+Here is a typical Gaussian blur using a convolution...
 
 ~~~
 convert face.png   -morphology Convolve Gaussian:0x2  face_gaussian.png
@@ -552,7 +553,7 @@ convert face.png   -morphology Convolve Gaussian:0x2  face_gaussian.png
 
 [![\[IM Output\]](face.png)](face.png) ![](../img_www/mph_convolve.gif) [![\[IM Output\]](kernel_gaussian.gif)](kernel_gaussian.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](face_gaussian.png)](face_gaussian.png)
 
-The kernels syntax is straightforward...
+The kernel's syntax is straightforward...
 
 ~~~{.skip}
 Gaussian:[{radius}]x{sigma}
@@ -615,7 +616,7 @@ convert face.png -morphology Convolve Blur:0x4  face_blur.png
 
 [![\[IM Output\]](face_blur.png)](face_blur.png)
 
-The kernel's syntax is exactly like that of '`Gaussian`' but with a extra optional rotation angle.
+The kernel's syntax is exactly like that of '`Gaussian`' but with an extra optional rotation angle.
 
 ~~~{.skip}
 Blur:[{radius}]x{sigma}[,{angle}]
@@ -623,7 +624,7 @@ Blur:[{radius}]x{sigma}[,{angle}]
 
 As before the second value '*sigma*' is required, and if set to zero you will get the linear equivalent of a '`Unity`' kernel.
   
-The '*angle*' allows you rotate the kernel by 90 degrees allowing you to blur an image vertically.
+The '*angle*' allows you to rotate the kernel by 90 degrees allowing you to blur an image vertically.
 
 ~~~
 convert face.png -morphology Convolve Blur:0x4,90  face_blur_vert.png
@@ -634,7 +635,7 @@ convert face.png -morphology Convolve Blur:0x4,90  face_blur_vert.png
 At this time only a 90 degree rotation is posible.
 This may change in a later version of ImageMagick.
 
-The purpose of this kernel is actually to create a faster form of 2-dimensional image blurring that the '`Gaussian`' kernel produces.
+The purpose of this kernel is actually to create a faster form of 2-dimensional image blurring than the '`Gaussian`' kernel produces.
 See [Gaussian vs Blur Kernels](#gaussian_vs_blur) below for details of how this is done.
 
 [![\[IM Output\]](kernel_comet.gif)](kernel_comet.gif)
@@ -645,7 +646,7 @@ kernel2image -10.1 -mn -n -ml "Comet:0x3"  "Comet:9x3"  kernel_comet.gif
 
 #### Comet Kernel (half 1d gaussian blur) {#comet}
 
-The '`Comet`' kernel is almost exactly the same as a '`Blur`' kernel, but is actually only a half a blur kernel.
+The '`Comet`' kernel is almost exactly the same as a '`Blur`' kernel, but is actually only half a blur kernel.
 
 ~~~{data-capture-err="kernel_comet.txt"}
 convert xc:  -define showkernel=1 \
@@ -655,10 +656,10 @@ convert xc:  -define showkernel=1 \
 [![\[IM Text\]](kernel_comet.txt.gif)](kernel_comet.txt)
 
 Note how the defined location of the origin is on the left hand edge, and not in the center of the kernel.
-This is very unusual for a convolution kernel, and as as such produces a very unusual result.
+This is very unusual for a convolution kernel, and as such produces a very unusual result.
 
 It blurs the image out in one direction like a finger had smeared the surface of a wet painting, leaving a trail of color.
-Its a bit like the tail of a comet, or the trail left by a meteor, or falling star.
+It's a bit like the tail of a comet, or the trail left by a meteor, or falling star.
 
 ~~~
 convert face.png -morphology Convolve Comet:0x5  face_comet.png
