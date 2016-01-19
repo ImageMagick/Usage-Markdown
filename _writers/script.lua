@@ -81,7 +81,7 @@ function Doc(body, metadata, variables)
 
 ORIGINAL_DIR=$(pwd)
 SCRIPT_DIR=$(dirname ${BASH_SOURCE[0]})
-cd $SCRIPT_DIR
+cd "$SCRIPT_DIR"
 if [ -f bootstrap.sh ]
 then
   . bootstrap.sh
@@ -98,7 +98,7 @@ chmod 644 $gif
   add(bootstrap)
   add(body)
   add(version)
-  add("cd $ORIGINAL_DIR")
+  add("cd \"$ORIGINAL_DIR\"")
   return table.concat(buffer,'\n')
 end
 
@@ -117,6 +117,10 @@ end
 
 function LineBreak()
   return "\n"
+end
+
+function SoftBreak()
+  return ""
 end
 
 function Emph(s)
