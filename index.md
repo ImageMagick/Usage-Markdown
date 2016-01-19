@@ -140,7 +140,7 @@ Such e-mail generally results in improvements and expansions to these example pa
 
 ### Command Line Environments
 
-All examples are written for use on UNIX, and specifically GNU/Linux systems, using BASH scripting.
+All examples are written for use on Unix, and specifically GNU/Linux systems, using BASH scripting.
 As a consequence, some examples use shell 'for-do' loops.
 Most examples use a backslash '`\`' at the end of a line to continue that command on the next line.
 The longer commands are broken into separate lines to try to further highlight the steps being applied.
@@ -228,7 +228,7 @@ Technically, this is only problem with IE, not ImageMagick.
 Display problems can also occur when displaying images on-screen.
 Because of this, I recommend using a command like the following to tile a '`checkerboard`' pattern underneath the image, to highlight any transparent or semi-transparent pixels in it.
 
-~~~
+~~~{.skip}
 composite  -compose Dst_Over -tile pattern:checkerboard image.png x:
 ~~~
 
