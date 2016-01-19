@@ -732,7 +732,7 @@ The value '`50`' should be at more than 1/2 the size of the final cropped image.
 Note how I used a much longer graident to generate the smaller image.
 This improves the overall correctness of the result, especially as the image gets larger
 
-The closely related [Polar Distort](../distorts/#polar) can also generate such a gradient, but as it has a control over the exact position of the 'center' of the distortion you can ensure it correctly generates a odd pixel size polar gradient image.
+The closely related [Polar Distort](../distorts/#polar) can also generate such a gradient, but as it has a control over the exact position of the 'center' of the distortion you can ensure it correctly generates an odd pixel size polar gradient image.
 In this case a 75 pixel image (radius = '`36.5`' )
 
 ~~~
@@ -950,7 +950,7 @@ This makes it very well suited to generating [Color Lookup Tables](../color_mods
 For more information on the "`-interpolate`" setting see [Interpolation Setting](../misc/#interpolate).
 
 Another method of generating gradients is to use the special [Interpolation Setting](../misc/#interpolate).
-This setting is used to determine the pixel color returned when the pixel lookup is not a integer, and thus does not exactly match a specific pixel.
+This setting is used to determine the pixel color returned when the pixel lookup is not an integer, and thus does not exactly match a specific pixel.
 Interpolation then determines the color based on the pixels that surround the lookup point.
 
 The default setting of '`bilinear`' for example will linearly determine the color for a lookup that falls between two pixels.
@@ -1150,7 +1150,7 @@ convert -size 100x100 xc: +size xc:red xc:yellow \
 When going from two points to three points the ratio of how much color each 'control point' provides, is a bit more complex, and uses a technique called Inverse Distance Weighted (IDW) Interpolation.
 You can see more details math for this in [Wikipedia, IDW](http://en.wikipedia.org/wiki/Inverse_distance_weighting)
 
-Here is a inverse distance example for three points.
+Here is an inverse distance example for three points.
 
 ~~~
 convert -size 100x100 xc: +size xc:red xc:yellow xc:lime \
@@ -1163,7 +1163,7 @@ convert -size 100x100 xc: +size xc:red xc:yellow xc:lime \
 
 [![\[IM Output\]](gradient_inverse.gif)](gradient_inverse.gif)
 
-And here I use a inverse distance squared which is the more normal method used for a IDW interpolation.
+And here I use an inverse distance squared which is the more normal method used for a IDW interpolation.
 This is also known as Shepard's Interpolation method.
 
 ~~~
@@ -1363,7 +1363,7 @@ convert -size 100x100 xc:none -draw "polygon 30,10  10,80  90,90" \
 [![\[IM Output\]](sparse_bary_triangle_2.png)](sparse_bary_triangle_2.png)
 
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
-> The triangular masks used above are 1/2 pixel too big due to the way draw draws a extra line around its shapes.
+> The triangular masks used above are 1/2 pixel too big due to the way draw draws an extra line around its shapes.
 > See [Draw Fill Bounds](../draw/#bounds") for details.
 > This could be a problem when generating a generating a triangular mesh of gradients.
 
@@ -1740,7 +1740,7 @@ These effects also applies to '`Shepards`' method too!
 
 Both the [Shepards](#shepards) and [Inverse](#inverse) sparse color methods are actually the same but with different 'power levels' applied to the inverse distance weights.
 (2.0 and 1.0 respectiavally).
-As of IM v6.8.0-10, you can set this power level using a operational [define](../basics/#define), '`shepards:power`', which will be used by the '`Shepards`' method.
+As of IM v6.8.0-10, you can set this power level using an operational [define](../basics/#define), '`shepards:power`', which will be used by the '`Shepards`' method.
 
 For example
 
@@ -2115,7 +2115,7 @@ convert -size 100x100  plasma:steelblue-steelblue  plasma_steelblue.jpg
 
 [![\[IM Output\]](plasma_black.jpg)](plasma_black.jpg) [![\[IM Output\]](plasma_grey.jpg)](plasma_grey.jpg) [![\[IM Output\]](plasma_white.jpg)](plasma_white.jpg) [![\[IM Output\]](plasma_yellow.jpg)](plasma_yellow.jpg) [![\[IM Output\]](plasma_tomato.jpg)](plasma_tomato.jpg) [![\[IM Output\]](plasma_steelblue.jpg)](plasma_steelblue.jpg)
 
-Again as you can see, mid-tone colors will generate more varieties of color in the resulting image, than a extreme color, like black, white, or yellow.
+Again as you can see, mid-tone colors will generate more varieties of color in the resulting image, than an extreme color, like black, white, or yellow.
 
 The '`grey`' plasma in the above is particularly nice giving an iridescent 'mother-of-pearl' like effect, basically as grey has total freedom in the colors that the "`plasma:`" will generate.
   
@@ -2453,7 +2453,7 @@ The problem with the above is that the blur will tend to create spots of red-yel
 This is simply a consequence of the way the hue values were blurred and leveled.
 
 The ideal solution to this would be a type of modulus-blur, that would take into account the cyclic nature of the Hue values.
-However such a operator is not currently available, and perhaps never will.
+However such an operator is not currently available, and perhaps never will be.
   
 The best solution I know of is to simply add all three random channels in the image (using [Modulus-Add Composition](../compose/#modulusadd)) so as to extend the range of values.
 This also have a side effect of making the blurred spots smaller, but at least you now get a more dynamic range rainbow colors.
@@ -2781,7 +2781,7 @@ If a '*Frequency*' value with a '`0.5`' fraction is used, the first ripple aroun
 >
 > A Phase value of '`0`' is recommended when generating a 'Dispersion Maps' (see below) as this will cause minimal distortions within the enhanced 'granule' areas.
 
-As previously in [Random Flux](#random_flux), you can modify the '*Phase*' with time so as to generate a animation of the ripples moving from one set of granules to the other.
+As previously in [Random Flux](#random_flux), you can modify the '*Phase*' with time so as to generate an animation of the ripples moving from one set of granules to the other.
 This works particularly well without any contrast enhancement.
 
 ~~~
@@ -3061,7 +3061,7 @@ convert tree.gif   -write mpr:tile +delete \
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Remember that the "`tile:`" coder will replace any transparency in the image with the current background color. (see above)
 
-Or tile over a existing image, by setting the "`-tile`" or "`-fill`" fill pattern, and using "`-draw`" to do a color reset (see [Color Fill Primitives](../draw/#color))...
+Or tile over an existing image, by setting the "`-tile`" or "`-fill`" fill pattern, and using "`-draw`" to do a color reset (see [Color Fill Primitives](../draw/#color))...
 
 ~~~
 convert tree.gif  -write mpr:tile +delete \
