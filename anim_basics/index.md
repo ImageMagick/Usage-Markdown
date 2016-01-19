@@ -11,7 +11,7 @@ This is recommended reading before going further in any of the later animation s
 
 ## GIF Animations and Animation Meta-data {#gif_anim}
 
-The default way ImageMagick handles the output of a image list is to generate a multi-page image.
+The default way ImageMagick handles the output of an image list is to generate a multi-page image.
 For the GIF image format, however, this takes the special form of a 'GIF animation'.
 
 ~~~
@@ -121,7 +121,7 @@ DO NOT save the intermediate, animations which you are not finished processing, 
 You can use the IM internal format MIFF, as a temporary file format, if you want to work on an animation in series of separate processing steps.
 I repeat...
 
-**Do not use GIF as a intermediate file format, use MIFF instead**
+**Do not use GIF as an intermediate file format, use MIFF instead**
 
 If you made the big mistake of saving to GIF you would have just made the resulting animation worse, as IM would have now performed an automatic [Color Quantization](../quantize/#colors), to reduce the number of colors present.
 Not only that but it did so on each frame completely independently to every other frame, making any further processing, particularly any GIF optimizations just that much harder.
@@ -227,7 +227,7 @@ See [Zero Delay Frames](#zero) below for more specifics.
 Few animations make use of a dispose previous style of animation, the reason is that it is very difficult for computers to optimise.
 The problem is just what frame should the computer pick to become the background image?
 Simple for us humans to figure out the best image to use, but difficult for a computer decide.
-The best background image to use in an animation may not even be meant to be displayed, such as in the current example, and as such may not exist in a un-optimized version of that animation.
+The best background image to use in an animation may not even be meant to be displayed, such as in the current example, and as such may not exist in an un-optimized version of that animation.
 
 ### Dispose Background - clear to background {#background}
 
@@ -503,7 +503,7 @@ However I, and probably most other users, find the output from this command, ove
 This is where another special shell script I wrote comes in.
 The "**`gif2anim`**" script will separate the individual frames of the animation, but will also figure out exactly what IM "`convert`" options you would need in order to re-build the animation from those images.
 
-You can think of "`gif2anim`" as a animation disassembler, producing a summary of the animation in terms of IM options.
+You can think of "`gif2anim`" as an animation disassembler, producing a summary of the animation in terms of IM options.
 
 For example, lets decode the animation example we have been using to recover the original "`convert`" settings used to create it, as well as individual images used...
 
@@ -642,7 +642,7 @@ gif_anim_montage  deconstruct.gif  deconstruct_frames.gif
 
 A 'previous dispose animation' if you remember clears each frame to the last non-previous disposed frame, in this case the initial background canvas.
 As you can see "`-deconstruct`" returned the area that changed from one coalesced frame to the next.
-Resulting in a optimized [Overlay Animation](#overlay), that requires no special dispose setting.
+Resulting in an optimized [Overlay Animation](#overlay), that requires no special dispose setting.
 
 This is nowhere near as optimal as the original hand generated animation I started with, but is useful in itself.
   
@@ -689,7 +689,7 @@ gif_anim_montage compare_any.gif compare_any_frames.gif
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](compare_any_frames.gif)](compare_any_frames.gif)
 
-As you can see the second and later images, is the minimal rectangular area that contains all the pixels that have changed, whether it is a overlay of a new pixel color, or a clearing of an old pixel to transparency.
+As you can see the second and later images, is the minimal rectangular area that contains all the pixels that have changed, whether it is an overlay of a new pixel color, or a clearing of an old pixel to transparency.
 
 #### Compare\_Clear {#compareclear}
 
@@ -743,11 +743,11 @@ Knowing about these types allows you understand how that animation is being disp
 
 ### Coalesced Animations {#coalesced}
 
-A '**Coalesced Animation**' is basically a image sequence that shows what an animation should look like when displayed to a user after each 'dispose/overlay' cycle.
+A '**Coalesced Animation**' is basically an image sequence that shows what an animation should look like when displayed to a user after each 'dispose/overlay' cycle.
 The images are basically as you would see them if you were looking at an actual 'film strip' of the animation.
 It is the simplified and completely un-optimized form of any animation.
 
-This naming convention is from the name of the IM "`-coalesce`" operator that is used to convert GIF disposal animations, into a un-optimized 'Coalesced Animation'.
+This naming convention is from the name of the IM "`-coalesce`" operator that is used to convert GIF disposal animations, into an un-optimized 'Coalesced Animation'.
 
 Most video formats (MPEG, AVI etc) are actually also 'Coalesced Animations' by their very nature.
 However these also tend not to have any transparent pixels, and generally have a constant time delay between the frames of the animation.
@@ -806,7 +806,7 @@ Unfortunately using the IM's [Optimize Frame](../anim_opt/#optframe) operator, c
 However by using [Deconstruct](#deconstruct) on the animation instead of using [Optimize Frame](../anim_opt/#optframe), you can ensure the animation remains a simple 'Overlay Animation', but only if the animation is really a 'Overlay Animation'.
 If the animation isn't a 'Overlay Animation', then [Deconstruct](#deconstruct) operation can go badly wrong (See [Deconstruct](#deconstruct) above).
 
-With some human skill you can still optimize a overlay animation better, for example using [Split Frame Updates](../anim_opt/#splitting), and applying some form of [Compression Optimization](../anim_opt/#compress_opt) without destroying the 'Overlay Only' requirement of the animation.
+With some human skill you can still optimize an overlay animation better, for example using [Split Frame Updates](../anim_opt/#splitting), and applying some form of [Compression Optimization](../anim_opt/#compress_opt) without destroying the 'Overlay Only' requirement of the animation.
 
 Typically 'Overlay Animations' display no transparency at all (they can use it as part of optimization, but they don't display it).
 And if no transparency is displayed, then the animation is guaranteed to be a 'Overlay Animation'.
@@ -852,7 +852,7 @@ But it can also be overlaid onto ANY static background image really quickly.
 
 To do this we need to tighten the definition of a 'Cleared Frame Animation' slightly.
 Specifically we need to make sure all the disposals are set to '`Previous`' (which is already the case in our example).
-If that is done, then you can just pre-pend a image (with a zero delay) to underlay a background.
+If that is done, then you can just pre-pend an image (with a zero delay) to underlay a background.
   
 For example lets place our bunny on some grass....
 
@@ -957,7 +957,7 @@ This animation should thoroughly test out not only IM disposal methods
 but also various browser disposal methods.
 ~~~
 
-*If you like to contribute a IM example of such an animation you can get your name, and home page link here!*
+*If you'd like to contribute an IM example of such an animation you can get your name, and home page link here!*
 
 ------------------------------------------------------------------------
 
