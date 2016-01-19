@@ -2464,7 +2464,7 @@ Now that we have a merged threshold image, we next need to convert the above ima
 
 To do this we need to output our image as numbers representing the 9 grey levels it represents.
 This is best done using the [NetPBM or PBMplus](../formats/#netpbm) image format, with a depth adjustment using the "[NetPbm](http://netpbm.sourceforge.net/)" image processing software.
-This package is generally a standard linux install so most people will have it already, or can install it from their normal software distribution.
+This package is generally a standard Linux install so most people will have it already, or can install it from their normal software distribution.
 
 The "`pnmdepth`" number is again the number of gray levels that the threshold image contains.
 
