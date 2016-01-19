@@ -233,7 +233,7 @@ It also assumes the input text does not end with a newline, which would cause an
   
 [![\[IM Output\]](label_vertical.gif)](label_vertical.gif)
 
-Users running linux, and thus using the GNU version of the "`sed`" command, can remove the "`tr`", and replace the '`@`' with '`\n`' in the sed command, so it directly inserts the newlines between each character.
+Users running Linux, and thus using the GNU version of the "`sed`" command, can remove the "`tr`", and replace the '`@`' with '`\n`' in the sed command, so it directly inserts the newlines between each character.
 
 See also the special attribute [Inter-Line Spacing](#interline-spacing) which can be used to adjust the space between the characters.
 
@@ -1218,7 +1218,7 @@ Note how this output varies from that of [caption:](#caption) above.
 The overall look of this image can also be improved by using the same techniques given in [Postscript](#ps) section next.
 
 If you just want to know how big say an 'A5' page is at 100 dpi, then this command generates a single blank page, of that size and returns its size in pixels.
-The filename, "`/dev/null`", is a special UNIX file that is always empty.
+The filename, "`/dev/null`", is a special Unix file that is always empty.
 
 ~~~{data-capture-out="page_size.txt"}
 convert -page A5 -density 100 -units PixelsPerInch  text:/dev/null \
