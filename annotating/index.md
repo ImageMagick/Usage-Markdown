@@ -288,7 +288,7 @@ composite -geometry +31+105  hand_point.gif dragon.gif \
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](dragon_claw_pointed.jpg)](dragon_claw_pointed.jpg)
 
-Exactly how a image is drawn on the background is controlled by the "`-compose`" setting.
+Exactly how an image is drawn on the background is controlled by the "`-compose`" setting.
 The default as used above is "`-compose over`" which just overlays the image on the background.
 Most of the other compose methods provided are not very usable except in very specific situations, but here are some of them.
 For more details of this setting and its effects see [Alpha Compositing](../compose/).
@@ -374,7 +374,7 @@ All these factors are in conflict, and this is one reason why watermarking is so
 ### Watermarking with Symbols {#wmark_symbol}
 
 One of the simplest, and most annoying forms of watermarking is to just to place a very small but specific image somewhere on the image being watermarked.
-Here we generated a image (using "`logo:`") that we want to watermark, using a small 'eyes' symbol.
+Here we generated an image (using "`logo:`") that we want to watermark, using a small 'eyes' symbol.
 
 ~~~
 convert logo: -resize x180  -gravity center  -crop 180x180+0+0  logo.jpg
