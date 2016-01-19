@@ -1934,7 +1934,7 @@ radius=3.5
 circles=$(for point in $points; do
            x=$(echo "$point" | cut -d, -f1)
            y=$(echo "$point" | cut -d, -f2)
-           # use IM to do some floating point math, EG:  y2=$y+$radius
+           # use IM to do some floating point math, e.g.:  y2=$y+$radius
            y2=$(convert xc: -format '%[fx:'"$y"'+'"$radius"']' info:)
            echo "circle $x,$y $x,$y2"
          done)
@@ -2085,14 +2085,14 @@ convert points_pixels.gif -alpha off \
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Before IM v6.7.6-9 The [Combine Operator](../color_basics/#combine) requires the transparency channel of the image to be given as 'matte' values rather than alpha values, as such the resulting alpha channel created needs to be negated.
-EG:
+e.g.:
 >
 >    ... "`cat marker_A.dat`" -negate \) \
 
 Only small images should be used, with the pixel points spread out enough that the symbols do not overlap.
 This because [Convolve](../convolve/#convolve) will add together overlapping areas, making them brighter than expected.
 
-The above has been converted into a UNIX shell script "`convolve_image`", to make it easier to use.
+The above has been converted into a Unix shell script "`convolve_image`", to make it easier to use.
 
 ~~~
 convolve_image  points_pixels.gif marker.png   point_markers.png
@@ -2494,7 +2494,7 @@ It is amazing what you can do with a little bit of fore-thought.
 
 ### To Quote or Backslash? {#quote}
 
-One of the biggest problem people have with -draw is the drawing of characters that also have special significance to UNIX shells and the DOS command line or even other languages like C, Perl, PHP, R, or Visual Basic.
+One of the biggest problem people have with -draw is the drawing of characters that also have special significance to Unix shells and the DOS command line or even other languages like C, Perl, PHP, R, or Visual Basic.
 
 The biggest culprit in this regard are the two types of quoting characters, as well as variable substitutions characters like dollars '`$`' and the shell and ImageMagick escape character, backslash '`\`'.
 
@@ -2540,7 +2540,7 @@ Here are the four cases of quoting, and special character handling...
     
     It is important to remember that the backslash is the *only* special character that the IM draw string handles.
     Also its reason for existence is purely to allow you to escape any 'IM draw string quotes', such as we used above for the double quotes.
-    Beyond this, all the other weirdness is caused by the UNIX command line shell, and not IM.
+    Beyond this, all the other weirdness is caused by the Unix command line shell, and not IM.
     
     PS-DOS has its own weirdness, and I would appreciate input on escaping special characters when using IM from environment.
     
