@@ -166,7 +166,7 @@ Only one composition technique, the multi-image list [Layers Composition](../ani
 First the two lists are globally geometry positioned, using the virtual canvas size of the first image in each list (with gravity).
 Then the layer offset is applied from that global position, for each individual image to determine the final position.
 
-Of course if a overlay image does not fit into a specific destination image on the virtual canvas, then it will be clipped.
+Of course if an overlay image does not fit into a specific destination image on the virtual canvas, then it will be clipped.
 As such it is generally a good idea to only use fully-coalesced images for the destination image(s).
 
 ------------------------------------------------------------------------
@@ -237,7 +237,7 @@ The overlay image is placed 'over' the background image in the same way as an 'a
 
 
 It is so common that I doubt I really need to say much more.
-So lets present a example of overlaying a single letter image over a background image.
+So let's present an example of overlaying a single letter image over a background image.
 
 ~~~
 convert -background none  -fill white \
@@ -442,7 +442,7 @@ composite -compose Dst_Out  -gravity center \
 
 The mathematical formulae of these two compose methods are designed explicitly so that if you use '`Dst_In`' and '`Dst_Out`' on the same set of images, you can fit them back together (using '`Plus`' method) just like a jigsaw puzzle.
 
-For example here we 'add' (using '`Plus`' composition) the last two images we generated above.
+For example, here we 'add' (using '`Plus`' composition) the last two images we generated above.
 This image is exactly the same (to the pixel) as the original '`rose:`' image.
 
 ~~~
@@ -453,7 +453,7 @@ composite -compose Plus  compose_mask.png  compose_erase.png \
 [![\[IM Output\]](compose_rejoin.png)](compose_rejoin.png)
 
 Erasing part of an image is not an easy task in any graphics program.
-For example a "`-draw`" operation can only add color to an image.
+For example, a "`-draw`" operation can only add color to an image.
 It will not remove color once it has been applied to your canvas.
 Think of a painter who is painting some advertising on a glass door or window.
 He, or she, can add paint, but can't remove paint, by painting over it.
@@ -665,7 +665,7 @@ See [Mathematical Composition](../masking/#compose).
 Multiplying an image with itself is actually a useful technique to produce a squared darkening of an image, so bright colors remain prominent, but other colors become darker.
 Actually this is equivalent to a [Gamma](../color_mods/#gamma) operator with a value of "`0.5`", or an [Evaluate PowerOf](../transform/#evaluate_pow) operation with a value of "`2.0`".
 
-For example see a [Star Generator](../advanced/#stars), to produce a more realistic distribution of star intensities.
+For example, see a [Star Generator](../advanced/#stars), to produce a more realistic distribution of star intensities.
 Or it can be used on satellite cloud images before overlaying the result on a geographical map.
 
 [![\[IM Output\]](gradient_op_screen.png)](gradient_op_screen.png)
@@ -840,7 +840,7 @@ composite -compose plus  compose_R.png compose_plus_GB.png \
 > A true RGB green can be specified with the color '`lime`' as we have done in the above example.*
 
 It is also used as a mathematical operator to add together separate gradient images.
-For example in calculating a 'manhatten' [Difference Images](../compare/#difference), or in [Gradient Mathematics](../transform/#gradient_math).
+For example, in calculating a 'manhatten' [Difference Images](../compare/#difference), or in [Gradient Mathematics](../transform/#gradient_math).
 
 '`Plus`' is sometimes used to add white text to an image.
 This is NOT correct usage, and may result in some anti-aliasing inconsistencies.
@@ -978,7 +978,7 @@ Overlaying black has no effect on the background, while overlaying white negates
 
 In otherwords this operator (as well as the next) provides a image mapped [Negatation](../#color_mods/#negate) operator.
   
-For example lets negate half the rose image.
+For example, let's negate half the rose image.
 
 ~~~
 convert -size 2x1 pattern:gray50  -scale 70x50\! black_n_white.gif
@@ -1047,7 +1047,7 @@ See [Soft Blur](../convolve/#soft_blur) for a better way (using a 'blended blurr
   
 These operators work by comparing and selecting the individual RGB channel values, and as such this could result in some color distortion, especially when dealing with primary colors of the image.
 
-For example here I have create a red and blue gradient image, then use lighten to compose thme together.
+For example, here I have create a red and blue gradient image, then use lighten to compose thme together.
 
 ~~~
 convert -size 100x100 gradient:red-black -rotate 90  red_gradient.png
@@ -1091,7 +1091,7 @@ This will compare the intensity of the pixels in the two images, than select the
 That means no new colors will be added to the images, though new image will be a mix of the colors from both images.
 Also image order does not matter, except that the size and meta-data comes from the destination image.
 
-For example here take the lighter of images containing a Red and Blue gradient.
+For example, here take the lighter of images containing a Red and Blue gradient.
 
 ~~~
 convert red_gradient.png blue_gradient.png \
@@ -1113,7 +1113,7 @@ This means that all other things being equal, a '`Lighten_Intensity`' will creat
 This is NOT ideal, and may change, but its better than no alpha input.
 
 The second mode of operation will be used if you turn off the '`Sync`' channel flag (see [Using the 'Sync' Flag](#sync_flag) below).
-For example by using "`-channel All`".
+For example, by using "`-channel All`".
 The pixel selection will then be based purely on the color intensity, without any effect of alpha weighting.
 However alpha channel value will be copied with the pixel that was actually selected.
 
@@ -1139,7 +1139,7 @@ convert red_gradient.png -alpha transparent    blue_gradient.png \
 Note the alpha values in the two images do not have to be just 'on' and 'off', but could represent two sets of values (arrays), from which you pick and choose based on the color channels.
 The alpha channel could be completely different value for each image being 'merged' together.a.
 
-For example you could have a whole sequence of images, each with a different alpha channel value.
+For example, you could have a whole sequence of images, each with a different alpha channel value.
 You can then use this compose method to compare all the images resulting the alpha channel specifying which of the images had the lightest (darkest) pixel at that location.
 
 That is the composition method can be used as a sort of 'selection', or 'comparision' operator, for any long list of images, specifying which image was lighter than all the others for each pixel.
@@ -1288,7 +1288,7 @@ If the image you are using a [Mathematical Compose Methods](../compose/#math) on
 However by default the compose methods will be applied to all the color channels, with alpha blending, just as you saw above.
 This makes applying them to just a specific channel such as the alpha channel difficult.
 
-For example here I '`Multiply`' two images black images containing a transparent gradient.
+For example, here I '`Multiply`' two images black images containing a transparent gradient.
 Using the default "`-channel`" setting.
 
 ~~~
@@ -1427,7 +1427,7 @@ Overlay
 [![\[IM Output\]](compose_overlay_gradients2.jpg)](compose_overlay_gradients2.jpg)  
 Result
 
-This 'overlaying color' into a image of grey highlights is makes this method perfect for adding color to the output of the "`-shade`" operator.
+This 'overlaying color' into an image of grey highlights makes this method perfect for adding color to the output of the "`-shade`" operator.
 However you need to be very careful to generate a perfect mid-tone grey from that operator, to get correct coloring on areas without any highlights.
 See [Shade Overlay Highlights](../transform/#shade_overlay) for details.
 
@@ -1492,7 +1492,7 @@ $$
 
 So while '`Overlay`' can add color to a gray-scale shaded object, '`Hard_Light`' adds gray-scale lighting effects to an image.
 
-For example here I generate a 'lighting effect' using a blurred "`-raise`" operation of a pure gray image the same size as the original.
+For example, here I generate a 'lighting effect' using a blurred "`-raise`" operation of a pure gray image the same size as the original.
 This is then composed using '`Hard_Light`' to add those lighting effects to the image.
 
 ~~~
@@ -1564,7 +1564,7 @@ Whether this is intentional or not is unknown but it means you are better off co
 >
 > If anyone has some definitive reference, please let me know.
 
-For example here is the '`Soft_Light`' texture mapping.
+For example, here is the '`Soft_Light`' texture mapping.
 
 ~~~
 convert rose:   \( granite: -blur 0x.5 -normalize \) \
@@ -1704,7 +1704,7 @@ Its formula is: $Src + Dest - 1$
 
 In Photoshop this is not only known as '`Linear Burn`' but also as '`Subtract`'.
 That is because if you [Negate](../color_mods/#negate) one of the input images (such as the source image), that image is subtracted from the other image.
-For example here is the resulting maths when you negate the source image...
+For example, here is the resulting maths when you negate the source image...
 
 $$
 (1-Src) + Dest - 1  \Rightarrow  Dest - Src
@@ -1723,7 +1723,7 @@ Basically whichever image is negated, is the image that '`Linear Burn`' will sub
 It does not matter if the image is the source or the destination image.
 In some ways it make this compose method more versatile.
 
-For example here I subtract a image of a circle on the right (which I negate), from the one on the left.
+For example, here I subtract an image of a circle on the right (which I negate), from the one on the left.
 
 ~~~
 convert circle_left.gif \( circle_right.gif -negate \) \
@@ -1764,7 +1764,7 @@ Its formula is: $Dest / (1-Src)$
 In actual fact '`ColorDodge`' and the two '`Divide`' operators can produce the same results.
 '`ColorDodge`' however requires the image being used as a 'divisor' to be negated and used as a 'source' image for the operator.
 
-For example all these commands operating on images '`N`' (numerator) divided by the '`D`' (denominator) produce the same resulting image '`R`', if all the images are the same size.
+For example, all these commands operating on images '`N`' (numerator) divided by the '`D`' (denominator) produce the same resulting image '`R`', if all the images are the same size.
 
 ~~~{.skip}
 convert  N    D             -compose DivideSrc  -composite  R
@@ -2010,7 +2010,7 @@ Whereas the "`-dissolve`" method overlays images on top of each other, "`-blend`
 As such you can achieve the same result (except in final image size) by swapping the percentages and the image arguments.
 This is not the case with "`-dissolve`" method.
 
-In otherwords, "`-blend`" is associative (arguments are swappable), while "`-dissolve`" is not.
+In other words, "`-blend`" is associative (arguments are swappable), while "`-dissolve`" is not.
 
 ~~~{.skip}
 composite -blend {percent} overlay  bgnd  result
@@ -2275,7 +2275,7 @@ For other watermarking techniques see, [Watermarking with Images](../annotating/
 
 The "`composite`" command and "`-composite`" operator will also take a third masking image which will limit the area effected by the "`-compose`" method.
 
-For example given two images, and a *mask* image you can overlay part of the *source* image onto the *background* image, as defined by that mask.
+For example, given two images, and a *mask* image you can overlay part of the *source* image onto the *background* image, as defined by that mask.
 Please note however that the *background* image still defines the final size of the resulting image.
 
 ~~~
@@ -2289,14 +2289,14 @@ That is, the white parts can be modified, while black parts (and parts outside t
 
 Unfortunately while "`-gravity`" and "`-geometry`" settings will let you re-position the *source* image, the *mask* image is NOT re-positioned, and remains aligned with the *destination* image.
 
-So lets just be clear about this...
+So let's just be clear about this...
 
 **The mask is aligned to the original background image.
 Any gravity/geometry setting is not applied to it.**
 
 That means that if I want to re-position the mask, I need to enlarge the mask image with the appropriate amount of black rows and columns.
 See [Splice, adding rows and columns of pixels](../crop/#splice).
-For example here is a "`convert`" version (source and background image arguments are swapped), with the mask image adjusted so as to move it relative to the background image.
+For example, here is a "`convert`" version (source and background image arguments are swapped), with the mask image adjusted so as to move it relative to the background image.
 
 ~~~
 convert tile_aqua.jpg   tile_water.jpg \
@@ -2380,7 +2380,7 @@ If the mask was only used to modify the transparency of the source image the abo
 
 ~~~{.skip}
 FUTURE:  Using masked composition to overlay an object in front of a
-backdrop, but behind some foreground object.  Also develop a animated example,
+backdrop, but behind some foreground object.  Also develop an animated example,
 of something being obscured by foreground objects in the destination.
 ~~~
 
@@ -2396,7 +2396,7 @@ of something being obscured by foreground objects in the destination.
 The "`-tile`" setting in "`composite`" is very different to that same setting in either "`convert`" or "`montage`".
 If given it means that the *source* image is to be tiled over the *background* image.
   
-For example here we tile a 'color star' over a netscape color map image...
+For example, here we tile a 'color star' over a netscape color map image...
 
 ~~~
 composite  -tile star.gif   netscape:   tile.gif
@@ -2515,7 +2515,7 @@ Similarly you can generate other compose methods such as...
 |`Linear_Light`  | `0,2,1,-1`       |
 
 Note that a [Blend](#blend) composition method is actually the equivalent to putting the 'blend' arguments (as percentages) into the middle two 'mathematics' arguments (as normalized values).
-For example these produce the same results
+For example, these produce the same results
 
 ~~~
 convert compose_R.png compose_plus_GB.png \
