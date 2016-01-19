@@ -23,7 +23,7 @@ This is especially important for web pages.
 Schemes include...
 
 -   Save the main photo image in the lossy JPEG format at the size you want or need, then use the same name for the generated thumbnail but using the GIF image format.
-    EG Same filename but a different format and suffix.
+    e.g. Same filename but a different format and suffix.
     Main Image: `photo_name.jpg` ![](../img_www/space.gif) Thumbnail: `photo_name.gif`
 -   Store the thumbnails with the same name in a sub-directory called for example "`thumbs`" or whatever is convenient for you.
     Main Image: `photo_name.jpg` ![](../img_www/space.gif) Thumbnail: `thumbs/photo_name.jpg`
@@ -186,7 +186,7 @@ Well on with the practical IM thumbnail examples...
 
 ### Generate Thumbnails in General (specific height) {#height}
 
-Lets convert a [large sample JPEG image](hatching_orig.jpg) to a GIF thumbnail 90 pixels high with the width automatically adjusted (within the 250 pixel width limit) preserve the aspect ratio of the image.
+Let's convert a [large sample JPEG image](hatching_orig.jpg) to a GIF thumbnail 90 pixels high with the width automatically adjusted (within the 250 pixel width limit) preserve the aspect ratio of the image.
 
 ~~~
 convert -define jpeg:size=500x180  hatching_orig.jpg  -auto-orient \
@@ -212,7 +212,7 @@ The result is a thumbnail of a specific height, but variable width.
 I use this thumbnail for my own web pages so that a series of image in a row, will all match up height wise, forming a neat look.
 
 The 250 pixel width limit in the above is important.
-If left unset, IM would have complete width freedom (EG: using "`-thumbnail x90`" ).
+If left unset, IM would have complete width freedom (e.g.: using "`-thumbnail x90`" ).
 This could result in problems when generating thumbnails of long thin images such as those shown in [Web Line Images](http://www.cit.griffith.edu.au/images/FancyLines/Images.html).
 The result in that case would be very very long, *enlargement* of the image, instead of a small thumbnail.
 
