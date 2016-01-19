@@ -8,7 +8,7 @@ Also listed below are new enhancements and suggested development within ImageMag
 ## Future Development Proposals
 
 This is a list of existing problems, and wants in ImageMagick.
-It is also a sort of un-offical guide for things I may try to implement in IM.
+It is also a sort of unofficial guide for things I may try to implement in IM.
 
 Anything listed here is open for review, comment or suggestion, but should be taken with a grain of salt as they may never actually be implemented.
 though the more comments people make on the [ImageMagick Discussion Forum](../../forum_link.cgi?f=1) and in emails to me, the more likely it will get implemented!
@@ -75,8 +75,8 @@ The new version would have to be BOTH command line and script capable, and do wh
 
 ### Auto-levels, Stretching, Auto-Gamma, De-normalizing problem
 
-A IM Forum [Discussion](http://redux.imagemagick.org/discourse-server/viewtopic.php?p=24216) has resulted in a request for a "`-histogram-stretch`" operator which normalizes the image so that the given percentage of the brightest and darkest pixels are pegged to black and white.
-That is a single odd white or black pixel will not majorly effect the overall result.
+An IM Forum [Discussion](http://redux.imagemagick.org/discourse-server/viewtopic.php?p=24216) has resulted in a request for a "`-histogram-stretch`" operator which normalizes the image so that the given percentage of the brightest and darkest pixels are pegged to black and white.
+That is a single odd white or black pixel will not majorly affect the overall result.
 
 A "`-linear-stretch`" operator was also added recently.
   
@@ -86,7 +86,7 @@ Fit a gaussian peak to a histogram.
 This will give you a peak position, and a width for the peak (two half-widths, actually).
 Then choose a gamma value that will realign the distribution to be more centered and appropriately wide.
 
-Redistributing the Histogram based on 'equalizing' the colors to fit a gaussian peak was also suggested by a image expert *Fred Weinhaus*.
+Redistributing the Histogram based on 'equalizing' the colors to fit a gaussian peak was also suggested by an image expert *Fred Weinhaus*.
 The overall brightness and contrast of an image can then be controled by two simple arameters (mean and std).
 
     A simpler and linear transformation can be effective if one computes the
@@ -107,7 +107,7 @@ This provides a more controled normalize.
     Linear 'stretching' methods should be able to...
 
     For example woring with 8bit values and image with min = 100  and max =
-    200 (make it easy) and a autolevel parameter of say 20 (units).
+    200 (make it easy) and an autolevel parameter of say 20 (units).
 
       1/  find the max and min values than move inward by 'percentage'
           so min+20  max-20   =>  level 120,180
@@ -167,9 +167,9 @@ This provides a more controled normalize.
     Now this would be great!!!  Of course they can still contain a
     comment listing the actual value counts.
 
-    We would need to be careful of both operations when a IM Q8 is used
+    We would need to be careful of both operations when an IM Q8 is used
     or the upper values could be clipped when the data is saved back into
-    a image.   8bits means a maximum count of 255!  That is not very many
+    an image.   8bits means a maximum count of 255!  That is not very many
     pixels!  A solid color 16x16 image could exceed that!
 
     As such some expert otpions to control...
@@ -199,7 +199,7 @@ The offset positions can be kept or junked as per crop.
 
 Two operators may be needed, -divide-vert and -divide-horiz.
 
-    EG: divide-horizontally +{bw}+{nbw}
+    e.g.: divide-horizontally +{bw}+{nbw}
 
 Complementary operators such as -layers 'remove-blank' and -layers 'remove-null' may be needed to allow user to also delete 'blank' images if these are unwanted.
 
@@ -237,7 +237,7 @@ I can see 7 types of special blurs...
 |:-----------|:----------------|:----------------------------------------------|
 | linear     | one direction   | like -motion-blur                             |
 | linear     | both directions | like a 1d blur, but at any angle)             |
-| rotational | one direction   | like a electron around an atom                |
+| rotational | one direction   | like an electron around an atom               |
 | rotational | both directions | like -radial-blur                             |
 | radial     | out of          | small circles would look like asteroids speeding from the center |
 | radial     | into            | things heading toward the center              |
@@ -250,7 +250,7 @@ I propose a single 2 argument operator for specialised blurs...
 Where...
 
 -   *type* is the type of blur as a string  
-     EG: either "linear", "radial" or "rotational" and may be others in the future.
+     e.g.: either "linear", "radial" or "rotational" and may be others in the future.
 -   The *radius* and *sigma* is as normal though sigma represents an angle in degress rather than pixels in a 'rotational' blurs.
 -   *dir* is either 0 or 3 for blurs in BOTH directions (default = 0)  
      1 for blur only in one positive direction  
@@ -297,7 +297,7 @@ Implementation can ignore any existing 'virtual canvas' setting, though could us
 
 Another posible layout method is 'lines', which appends images horizontally (with given spacings), with the appropriate vertical "`-gravity`" alignment, until "`-size`" width, is reached.
 The line is then horizontally -gravity justified, and padded to the "`-size`" width.
-When the height of all the lines exceeds a optionally given "`-size`" height, a new 'page' image is started, but pages are not padded, which will allow vertical justification using "`-extent`" using a different gravity setting.
+When the height of all the lines exceeds an optionally given "`-size`" height, a new 'page' image is started, but pages are not padded, which will allow vertical justification using "`-extent`" using a different gravity setting.
 
 Similarly for a 'columns' layout method but vertically, down the 'page' images, being generated.
 
@@ -335,7 +335,7 @@ The above does NOT need to deal with frames, borders, captions, labels as these 
          * generate imagemap table (color index, rectangular positions, to image
            name or link)
 
-Note that all but the final step is really about generating a image placement list, and may only involve the images as part of that processing.
+Note that all but the final step is really about generating an image placement list, and may only involve the images as part of that processing.
 
 ------------------------------------------------------------------------
 
@@ -359,7 +359,7 @@ Also what should "`montage`" do if all three (size, tile, geometry) is given.
 One suggestion is to allow the use of a '!' flag to "`-tile`" as meaning a 'fit to this size if posible' setting.
 Of course the -tile setting (and extra boarder space) would then be the variable part of the montage generator.
 
-EG: "`-tile 800x600\!`" would mean that montage will try to adjust the tile counts to form pages that fit into a final image of this size.
+e.g.: "`-tile 800x600\!`" would mean that montage will try to adjust the tile counts to form pages that fit into a final image of this size.
 
 OR: "`-tile 800x\!`" will only adjust the number of columns to fit into 800 pixels, in a single page of appropriate length.
 
@@ -456,11 +456,11 @@ Moved to [FX and Percent Escapes](../IMv7_FX_and_Percent.html)
 
 ### Colorspace handling problems (as I have come to know them)...
 
-A "\#xxxxx" color is non-specific to the colorspace and as such can be applied ASIS to any colorspace.
-That is the value has a undefined colorspace, though an functional extension may allow you to define a colorspace for that color.
+A "\#xxxxx" color is non-specific to the colorspace and as such can be applied AS IS to any colorspace.
+That is the value has an undefined colorspace, though an functional extension may allow you to define a colorspace for that color.
 
 There is no way of specifying a named color with some transparency level.
-EG: you can not specify a 50% transparent DodgerBlue color!
+e.g.: you can not specify a 50% transparent DodgerBlue color!
 
 Named colors is actually defined as an SRGB color (it isn't actually an RGB!) and needs to be converted to the colorspace in which the color is being applied.
 This is closely related to the problem reported by the user!
@@ -474,7 +474,7 @@ GIF images especially should only save and load as SRGB!
 While NetPBM/PbmPlus images are sometimes SRGB (real images) and sometimes RGB (mathematical images and gradients).
 
 Continuing this problem... is that -colorspace SRGB of an image (currently marked as RGB) actually converts from SRGB to linear RGB for processing (marked as SRGB internally).
-EG: the colorspace definations of RGB and SRGB in IMv6 is reversed!
+e.g.: the colorspace definitions of RGB and SRGB in IMv6 are reversed!
 This should not be changed in IMv6, as it it too throughly embedded, but it should only be fixed in IMv7.
 
 The problem with this is that 'draw' functions is designed to do its anti-aliasing of lines and circles in linear RGB space.
@@ -483,7 +483,7 @@ However images which are loaded are using SRGB colorspace.
 If you (correctly) convert images to linear RGB (using -colorspace SRGB) before drawing on them, then convert back before saving the draw anti-aliasing works perfectly, producing nice smooth edge results.
 See [Drawing with Gamma and Colorspace Correction](http://www.imagemagick.org/Usage/draw/#colorspace) for examples and details of this.
 
-However as the 'SRGB named colors' are applied by draw without regard to colorspace, a image converted to linear RGB colorspace and drawn to will have the applied named colors become out 'wrong', when the drawn image gets converted back to SRGB (using -colorspace RGB) for saving!
+However as the 'SRGB named colors' are applied by draw without regard to colorspace, an image converted to linear RGB colorspace and drawn to will have the applied named colors become out 'wrong', when the drawn image gets converted back to SRGB (using -colorspace RGB) for saving!
 
 In IMv6 direct drawing with named colors works, but only because draw is drawing directly to a SRGB colorspace image, and thus getting incorrect anit-aliased results.
 Drawing correctly in linear RGB gets the anti-alising right but the colors wrong.
