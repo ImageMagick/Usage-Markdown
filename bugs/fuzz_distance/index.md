@@ -7,7 +7,7 @@ Especially with regards to transparent colors.
 
 The [Fuzzy Distance Matching](../../color/#fuzz) formula should
 
-1.  Opaque color distance should reflect the color space (EG: RGB or CMY color cubes, or HSL cones etc).
+1.  Opaque color distance should reflect the color space (e.g.: RGB or CMY color cubes, or HSL cones etc).
     Specifically Black to White color distance should be 100%
 2.  All Color with full transparency, should be classed as being identical - that is they have zero color distance.
 3.  Two colors with partial transparency should be closer than the same colors without any transparency (opaque)
