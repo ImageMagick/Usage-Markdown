@@ -1528,7 +1528,7 @@ rose:
 
 -delete 1 -swap 0,1  miff:- |\
      remove working gradient image, and get order correct for composite
-      EG:    composite  X-map  image  Y-map  -displace XxY result
+      e.g.:    composite  X-map  image  Y-map  -displace XxY result
 
 composite - -displace 17x7 show:
      Read in the three images, and displace the image.
