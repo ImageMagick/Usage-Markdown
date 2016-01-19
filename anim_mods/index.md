@@ -22,7 +22,7 @@ Just do not do the final save to GIF unless you are now sure you will not have c
 
 I repeat...
 
-**Do not use GIF as a intermediate file format, use MIFF, or PNG images.**
+**Do not use GIF as an intermediate file format, use MIFF, or PNG images.**
 
   
 ### Annotating - add a copyright notice over ALL frames {#annotating}
@@ -86,14 +86,14 @@ Note how the IM animation optimizer actually decided to just not overwrite the p
 This is actually more optimal than if it had drawn on the actual sub-frame images themselves.
 
 This method will let you overlay any sort of annotation, copyright notice, or watermark you like.
-Of course you may need to use the special [Layers Composition](#composite) technique to actually overlay a image onto every frame in a animation.
+Of course you may need to use the special [Layers Composition](#composite) technique to actually overlay an image onto every frame in an animation.
 
-If you get really good you can even do so far as doing [Animation Merging](#merging) to overlay a animated copyright notice on your animation.
+If you get really good, you can even go so far as [Animation Merging](#merging) overlaying an animated copyright notice on your animation.
   
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > While this 'coalesce-optimize' technique will work with most operations involving animations, especially with IM's optimizer, there are some operations that do such drastic changes to images, such as major color changes, and shadings, and with semi-transparency, that the resulting animation failing to optimize very well.
   
-For example just about any "`-resize`" operation is likely to produce a animation that will optimize very badly afterward due major color changes.
+For example, just about any "`-resize`" operation is likely to produce an animation that will optimize very badly afterward due to major color changes.
 See [Resizing Animations](#resize) below for solutions to this.
 
 ### Frame by Frame - modifying one frame at a time {#frame_mod}
@@ -492,7 +492,7 @@ In that case you want the final frame to have a multiplier of '`1.0`' for the fi
 This is only a sample of what can now be done easily using image indexes in '`%[fx:...]`' calculations.
 Imagine what is possible with a more complex distortions.
 
-Without the use of image index calculations, the above would have required a external shell loop, to generate each frame individually, and a separate step to collect the frames to form the final animation.
+Without the use of image index calculations, the above would have required an external shell loop, to generate each frame individually, and a separate step to collect the frames to form the final animation.
 Examples of such looped shell scripts are given in [Simple Warped Image Animations](../warping/#animations) as these operators do not allow the use of [Percent Escapes](../basics/#arg_percent) in their arguments.
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
@@ -503,7 +503,7 @@ Examples of such looped shell scripts are given in [Simple Warped Image Animatio
 
 As always there are a number of ways to actually append a label to an image.
 
-For example, for animations that has a initial background canvas, or one that only overlays new color to previous frames, then you can just append the label to the first frame of the image.
+For example, for animations that have an initial background canvas, or one that only overlays new color to previous frames, you can just append the label to the first frame of the image.
 The other frames will not remove it.
   
 Here we just add some extra space with "`-splice`", and "`-annotate`" some text in it.
@@ -809,18 +809,18 @@ You are left with just the original *destination* image list with the added comp
 The '`null:`' separator image, and all the *source* images are deleted from the current image list.
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> A API interface to this layers method, should allow you produce two separate image lists, and it will be left up to you to delete both input image lists that was used to generate the resulting list of images.
+> An API interface to this layers method, should allow you produce two separate image lists, and it will be left up to you to delete both input image lists that was used to generate the resulting list of images.
 > The '`null:`' separator should not be needed.
 
 However if one of the lists only contains a single image, that image will be composed against all the images in the other list.
 It does not matter if that single image is a *source* image or a *destination* image.
 The method will do the composition against the other image list, and preserve the GIF meta-data of the *image list*, rather than the single image, even if that image is the *destination* image.
 
-This 'compose against a single image' is a special case for [Layers Composition](#composite), and is very useful for adding a background to a animation (see next), or inserting a static object into an animation.
+This 'compose against a single image' is a special case for [Layers Composition](#composite), and is very useful for adding a background to an animation (see next), or inserting a static object into an animation.
 
 ### Static Background - compose over a larger background {#background}
 
-For example using this special [Single Image Layer Composition](#composite_single) method we can compose an animation over a a static background...
+For example using this special [Single Image Layer Composition](#composite_single) method we can compose an animation over a static background...
 
 ~~~
 convert -size 100x100 plasma:fractal null: \( script_k.gif -coalesce \) \
@@ -832,7 +832,7 @@ convert -size 100x100 plasma:fractal null: \( script_k.gif -coalesce \) \
 
 As the background image is the *destination*, it defines the final size of the animation, but all the meta-data (delays, labels, comments, etc) will come from the source image list.
 Normally that information comes from the destination image list.
-This is only time the source image provides the meta-data information during a image composition.
+This is the only time the source image provides the meta-data information during an image composition.
 
 Also note that as [Layers Composition](#composite) understands "`-gravity`", the image is properly centered, without you needing to do the calculations yourself.
 However if the source frames contained offsets, these will also be added to the gravity defined position, so that the relative position of all the sub-frames remains correct.
@@ -923,7 +923,7 @@ convert glitter_plasma.gif null: glitter_mask.gif +matte \
 ![==&gt;](../img_www/right.gif)
 [![\[IM Output\]](glitter_masked.gif)](glitter_masked.gif)
 
-Ok we have a area that has been masked, you can complete the image, generally by overlaying the masked glitter on the original image.
+Ok we have an area that has been masked, you can complete the image, generally by overlaying the masked glitter on the original image.
 
 However in our case I'll underlay a background, and overlay an border.
 
@@ -1204,7 +1204,7 @@ convert script_k.gif -coalesce  -sample 20x20  script_k_sample.gif
 However while this works, you are basically removing rows and columns of pixels from the image, loosing image data and hence quality in the process.
 With cartoon-like images, that often leaves 'dotty' borders, and missing or distorted details.
 
-If your resize is more than 50% of the animations original size, as is the case above, the result is often quite horrible, especially when texture or a other color pattern is used in the animation.
+If your resize is more than 50% of the animation's original size, as is the case above, the result is often quite horrible, especially when texture or another color pattern is used in the animation.
 
 It is not surprising then that many GIF animation libraries are filled with such horrible sample-resized animations that they have copied from all over the net.
 I often wish they would clean out this sort of crap, but that means a reducing the number of GIFs on offer, and that in turn reduces the marketing statistics of the number of GIFs available, which the advertising department does not like.
@@ -1357,7 +1357,7 @@ Just large enough to look like the invisible artist is re-positioning the pen.
 To do this we make a copy of that last frame of the first animation, then change the delay of just that frame using the "`-set`" operator.
 We then re-add that frame back into the image sequence by deleting the original un-modified image.
 
-Also as we have now set a good delay between the drawing of the letters, the initial blank canvas (just representing a initial start delay) in the second animation is now redundant, so we can just delete that frame, without problems.
+Also as we have now set a good delay between the drawing of the letters, the initial blank canvas (just representing an initial start delay) in the second animation is now redundant, so we can just delete that frame, without problems.
 If this frame actually contained part of the image, then we may need to adjust its delay, instead of removing.
 
 ~~~
