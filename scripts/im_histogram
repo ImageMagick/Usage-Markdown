@@ -64,8 +64,8 @@ name=$1; shift;
   echo 'set key left'
   echo 'set xtics .5'
   echo 'set ytics .5'
-  echo 'set mxtics .25'
-  echo 'set mytics .25'
+  # echo 'set mxtics .25'
+  # echo 'set mytics .25'
   [ "$title" ] && echo "set title \"$title\""
   if [ "$line" ]; then
     if [ "$data" ]; then
