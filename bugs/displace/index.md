@@ -67,7 +67,7 @@ The extra cresent of pixels in the above is caused by the anti-aliased edge of t
 
 Another side effect of this internal handling is that if a single source image is used, which has a transparency channel in it, and no mask image is provided, then the X offset will come from the color intensity, while the Y offset will be provided by the images transparency channel!
 
-To fix this 'masking' bugs properly, "`-displace`" should be separated from alpha composition, as it really is a image transformation, rather that alpha composition.
+To fix this 'masking' bugs properly, "`-displace`" should be separated from alpha composition, as it really is an image transformation, rather than alpha composition.
 
 ## Inconsistent Displacement Direction -- Fixed 6.2.8-1
 
@@ -86,7 +86,7 @@ This appears to be a bug, and for for now should be avoided.
 As such none of the examples above use a single map style.
 
 Results seen for -displacement arguments with one displacement map.
-(EG: no 'mask' image provided)
+(e.g.: no 'mask' image provided)
 
 ~~~
 composite dismap.png +matte dismap.png -displace 15    displaced_1.jpg
