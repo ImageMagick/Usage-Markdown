@@ -1119,7 +1119,7 @@ That is the X coordinate is the angle in degrees, and the Y coordinate the dista
 If you look closely at the lower-right peak you can see why we ended up with two lines instead of one.
 The peaks here are 'twinned' with a slight gap between them.
 
-The algorithm is based on the script "`houghlines`" by Fred Wienhaus, though with a different 'perpendicular distance' accumulation handling.
+The algorithm is based on the script "`houghlines`" by Fred Weinhaus, though with a different 'perpendicular distance' accumulation handling.
 
 ------------------------------------------------------------------------
 
