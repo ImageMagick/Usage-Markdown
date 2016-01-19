@@ -143,7 +143,7 @@ Internally the code was designed to allow simple addition of more such maps in t
 Note the "`checks`" used to be called "`2x1`", as a halftone 2x2 pattern, however it is more than that.
 It represents the most minimal dither pattern posible, for all ordered dither patterns, one that only adds a single dither pattern between any two colors.
 
-The "`threshold`" pattern is supplied as an equivalent to using a undithered "`-posterize`" operator, as well as a test map on the posterization aspects of the new "`-ordered-dither`" function.
+The "`threshold`" pattern is supplied as an equivalent to using an undithered "`-posterize`" operator, as well as a test map on the posterization aspects of the new "`-ordered-dither`" function.
 (See next section)
 
 As part of backward compatibility, all the old '`{number}x{number}`' arguments have been made aliases to the appropriate 'named' threshold map above.
@@ -155,7 +155,7 @@ They are now deprecated, but will always remain.
 
 The above consolidation of "`-ordered-dither`" code and the addition of the extra threshold mappings was not the primary purpose of the re-development of the operator.
 
-With some initial 'proof of concept' work using the "`-fx`" operator (see below), I wanted to provide a ordered dithering between multiple levels of colors (as per the "`-posterize`").
+With some initial 'proof of concept' work using the "`-fx`" operator (see below), I wanted to provide an ordered dithering between multiple levels of colors (as per the "`-posterize`").
 
 WHY?
 Because then you can generate a more deterministic dithering of images than you can achieve with 'error correction dithering'.
@@ -170,9 +170,9 @@ In this I plan to implement the extra levels with the following proprieties.
 
 -   What channels are operated on is controlled by the "-channels" setting.
 -   A single number is for all channels.
-    EG: '6' for the "web-safe colormap".
+    e.g.: '6' for the "web-safe colormap".
 -   Multiple numbers allows you to use different level counts for each channel.
-    EG: '8,8,4' will implement a '332' ordered dithered colormap.
+    e.g.: '8,8,4' will implement a '332' ordered dithered colormap.
 -   If no numbers are given, fall back to a 2 level bitmap dither.
 -   A value of zero disables posterization of that color channel.
 
@@ -266,11 +266,11 @@ as well as use personal "`threshold.xml`" data files to define your own maps.
 *This is provided as a reference to the source and prototyping of the new posterized form of ordered dither functionality that was shown above.*
 
 As part of using ImageMagick for my own images, I wanted to be able to design and use my own ordered dither patterns.
-As such I figured out a equivalent ordered dither method using the extremely slow "`-fx`" operator.
+As such I figured out an equivalent ordered dither method using the extremely slow "`-fx`" operator.
 
 For example (repeat of [DIY Horizontal Dither](../../quantize/#diy_horizontal))...
 
-Here I creates another set of dither pattern images, specifically to produce a interesting shadow shading effect.
+Here I create another set of dither pattern images, specifically to produce an interesting shading effect.
 
 ~~~
 montage dpat_hlines.gif   -filter box   -geometry 30x20+5+0 \
