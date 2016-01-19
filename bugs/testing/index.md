@@ -71,7 +71,7 @@ convert separate_CMYK_0.gif -colorspace CMYK \
 
 ### Semi-transparent, round end caps
 
-Semi-transparent strokes with end caps produce a extra overlay when it shouldn't.
+Semi-transparent strokes with end caps produce an extra overlay when it shouldn't.
 
 ~~~
 convert -size 100x60 xc:skyblue \
