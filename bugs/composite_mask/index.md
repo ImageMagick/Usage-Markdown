@@ -36,7 +36,7 @@ But it ONLY works when using a mask to select from two fully-opaque images!
 
 ------------------------------------------------------------------------
 
-The problems arise when we want to use this mask with images that already have a alpha channel.
+The problems arise when we want to use this mask with images that already have an alpha channel.
 That is we want to use the mask to limit the area in which the compose operation is applied (as defined by the SVG standard.)
 
 Lets use some colored circles for the source, background, and masking images...
@@ -143,9 +143,9 @@ Use the mask to divide the results in unchanged and changed parts
 ![==&gt;](../../img_www/right.gif)
 [![\[IM Output\]](result.png)](result.png)
 
-Add these parts together to blend the result (EG: masked blend of result)
+Add these parts together to blend the result (e.g.: masked blend of result)
 
-ASIDE: The extra step using '`CopyOpacity`' is to convert any pure greyscale mask into a image with an alpha mask.
+ASIDE: The extra step using '`CopyOpacity`' is to convert any pure greyscale mask into an image with an alpha mask.
 While this is not needed for this example, it will allow you to use a greyscale mask with the alpha composition methods, '`DstIn`' and '`DstOut`', as well as '`Plus`' to blend the images together properly.
 
 Note that the above 'blended' the images together.
