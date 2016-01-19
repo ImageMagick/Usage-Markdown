@@ -1,8 +1,8 @@
 # Usage under Windows
 
-Most of the commands in IM Examples were written specifically with LINUX and UNIX shell scripting in mind, as these systems are designed with batch processing and network servers in mind.
+Most of the commands in IM Examples were written specifically with Linux and Unix shell scripting in mind, as these systems are designed with batch processing and network servers in mind.
 However, more and more users of ImageMagick want to use it from the Windows Environment.
-This section provides details and examples of how you can use IM in that environment and, more important, how to convert a UNIX shell command (as used in the rest of the IM Examples) into its Windows DOS equivalent.
+This section provides details and examples of how you can use IM in that environment and, more important, how to convert a Unix shell command (as used in the rest of the IM Examples) into its Windows DOS equivalent.
 I wish to express specific thanks to Wolfgang Hugemann &lt;ImageMagick\_AT\_Hugemann.de&gt; who completely re-wrote the original notes and expanded them to cover a much larger range of topics, of specific concern to window users.
 What you see here is his work, and IM users are indebted to him for his time and patience.
 
@@ -66,7 +66,7 @@ Most of the scripts are intended to be run on the client computers of that netwo
 Under Windows, simple IM commands are usually run in the Windows Command Shell (a "DOS Shell" run by starting `cmd.exe`).
 For complex operations, performed in a lengthy command line or in a series of command lines, you will better write a script.
 For a series of simple commands, this will most probably be a DOS batch file, executed in the Windows Command Shell.
-This approach, however, has its shortcomings, as the batch file command set is rather limited in comparison to those of common UNIX command shells.
+This approach, however, has its shortcomings, as the batch file command set is rather limited in comparison to those of common Unix command shells.
 When running IM under Windows, you basically have the following alternatives:
 
 **The Windows command shell ("DOS window")**
@@ -75,7 +75,7 @@ When running IM under Windows, you basically have the following alternatives:
 
 **Cygwin**
 :    A bash-like command shell (<http://www.cygwin.com/>).
-     When using this shell, the IM examples presented in the rest of this usage section can be run exactly as given, as you have access to a UNIX style command line shell.
+     When using this shell, the IM examples presented in the rest of this usage section can be run exactly as given, as you have access to a Unix style command line shell.
      See [Using Cygwin](#cygwin) below.
 
 **The Windows Script Host**
@@ -186,7 +186,7 @@ But if you want to process the output of a DOS command, for example when trying 
 Switching to codepage 65001 will not work with most of the DOS commands, especially when looping through directory trees.
 And switching the codepage to and fro between, say 1252 (West European Latin) and 65001 will usually not work either or become at least rather tricky.
 
-The safest approach is to convert strings when they are needed, using an external command line program, such as "`Iconv.exe`", a UNIX tool which is also available for Windows.
+The safest approach is to convert strings when they are needed, using an external command line program, such as "`Iconv.exe`", a Unix tool which is also available for Windows.
 Download the setup file from [SourgeForge](http://gnuwin32.sourceforge.net/packages/libiconv.htm) and install the files into the standard directory `C:\Program Files\GnuWin32`.
 Then dump the output of the DOS command to a text file in your script and convert that file to UTF-8 in the following:
 
@@ -286,7 +286,7 @@ If you want to perform a montage of several images and want to find out about th
 -   [tile site:www.imagemagick.org/Usage](http://www.google.com/search?q=tile+site%3Awww.imagemagick.org/Usage)
 
 and you will quickly find out about the essentials.
-Just keep in mind that this will reveal code intended for application in a UNIX / LINUX environment, which has to be slightly adjusted in order to be applied under Windows.
+Just keep in mind that this will reveal code intended for application in a Unix/Linux environment, which has to be slightly adjusted in order to be applied under Windows.
 Another very helpful source of information is the IM discussion board, aka the [Discourse Server User Forum](../forum_link.cgi?f=1), which you should incorporate in the bookmarks / favourites of your browser.
 Becoming a member will allow you to pose questions, which are mostly answered quickly by knowledgable users.
 
@@ -308,7 +308,7 @@ But you can do a lot more by combining them together.
 
 ## Using Cygwin {#cygwin}
 
-As has been said above, ImageMagick was designed with UNIX and Linux in mind, so the easiest approach is probably to install a Bash shell on your Windows system and run the variety of IM scripts which have already been written for that system, for example [Fred Weinhaus' scripts](http://www.fmwconcepts.com/imagemagick).
+As has been said above, ImageMagick was designed with Unix and Linux in mind, so the easiest approach is probably to install a Bash shell on your Windows system and run the variety of IM scripts which have already been written for that system, for example [Fred Weinhaus' scripts](http://www.fmwconcepts.com/imagemagick).
 
 [Cygwin](http://cygwin.com),–as its developers put it, provides a "Linux-like environment for Windows".
 It consists of all the tools which are normally available in the Linux shell.
@@ -359,9 +359,9 @@ For the moment, the above information should suffice to get you started.
 
 ## Using the DOS Shell and Batch Files {#dos}
 
-### Converting Scripts: UNIX Shell to Window DOS {#conversion}
+### Converting Scripts: Unix Shell to Window DOS {#conversion}
 
-When invoking IM commands directly from the DOS command shell (using `cmd.exe`) you have to modify the scripts presented on IM's Example site (if they don't stem from this section), as most examples provided (in other sections) are generally intended to be run in a UNIX or LINUX command shell.
+When invoking IM commands directly from the DOS command shell (using `cmd.exe`) you have to modify the scripts presented on IM's Example site (if they don't stem from this section), as most examples provided (in other sections) are generally intended to be run in a Unix or Linux command shell.
 In order to run them from a DOS command shell, you have to perform the following modifications:
 
 -   Most often, double quotes '`"`' have to be used in place of single quotes '`'`' so that the command arguments remain correct.
@@ -380,23 +380,23 @@ These reserved shell characters are: '`&`', '`|`', '`(`', '`)`', '`<`', '`>`', '
 For example "`-resize 100x100^>`"
     -   Similarly the 'internal fit resize' flag '`^`' needs to be doubled to become '`^^`'.
 
--   UNIX shell escaping backslashes '`\`' are not needed to escape parenthesis '`()`' or exclamation marks '`!`'.
+-   Unix shell escaping backslashes '`\`' are not needed to escape parenthesis '`()`' or exclamation marks '`!`'.
 
--   Otherwise the UNIX shell escaping backslashes '`\`' will need to be replaced with a circumflex '`^`' character, when that escape characters such as '`<`' and '`>`'.  
+-   Otherwise the Unix shell escaping backslashes '`\`' will need to be replaced with a circumflex '`^`' character, when that escape characters such as '`<`' and '`>`'.  
      For example: "`-resize 100x100\>`" will become "`-resize 100x100^>`".
 
 -   In DOS batch files, the percent '`%`' character also has a special meaning as it references to the command line parameters.
-For example `%1, %2, ...` (in UNIX shell a '$' sign is used for the same general meaning).
+For example `%1, %2, ...` (in Unix shell a '$' sign is used for the same general meaning).
 In a DOS batch file, single percent signs (as they appear in the "`FOR` command") will need to be doubled to '`%%`'
 ImageMagick itself generally only looks to see if a percentage sign is present, and does not care if more than one has been given.
 So unless it is part of a text label or comment string, doubling all percent signs generally does not hurt.
 
 -   Keep in mind that Windows filenames can include space characters.
-Spaces can also be used under UNIX but are not so common.
+Spaces can also be used under Unix but are not so common.
 Such filenames which may contain spaces have to be included in double quotes `"file     name.jpg"` or `"file name".jpg`.
     A filename passed to a script or batchfile via Drag & Drop or SendTo as a command line parameter needs special attention, as it is passed to the script without quotes, if it doesn't contain space characters, and with quotes when it does.
 
--   Comments in UNIX shell scripts start with an unquoted '`#`' anywhere in a line and continue to the end of the line.
+-   Comments in Unix shell scripts start with an unquoted '`#`' anywhere in a line and continue to the end of the line.
 Color settings (such as "`#FF0000`" for a red color) will often be quoted with to remove this special meaning.
 This quoting is not needed under DOS, but using double quotes '`"`" around them does not matter and should be kept.
 
@@ -409,13 +409,13 @@ Makes it a lot easier for others to figure out too.
 This is just good programming practice.
 
 -   When executing a DOS batch file, the individual commands are echoed by default; that is, commands are displayed in the output DOS box.
-Under UNIX you would instead need to add a special command or option to print commands being exected in this way.
+Under Unix you would instead need to add a special command or option to print commands being exected in this way.
     You can turn off this 'echoed' output by starting your script with "`@ECHO OFF`".
 
-    The special starting comment "`#!/path/to/shell`" in UNIX shell scripts is not needed for DOS batch files.
+    The special starting comment "`#!/path/to/shell`" in Unix shell scripts is not needed for DOS batch files.
     So this line can be replaced by the "`@ECHO OFF`" command for DOS batch files.
 
-For example, following the above rules, this UNIX shell script...
+For example, following the above rules, this Unix shell script...
 
 ~~~{.skip}
 #!/bin/sh
@@ -439,7 +439,7 @@ convert -background none -fill red -gravity center  ^
 ~~~
 
 I have written a basic Linux shell to DOS batch file converter by the use of SED (**S**treaming **ED**itor).
-SED is a common UNIX / Linux text file manipulation program which is also available for Windows at <http://sed.sourceforge.net/>.
+SED is a common Unix/Linux text file manipulation program which is also available for Windows at <http://sed.sourceforge.net/>.
 Like IM is a command-driven image manipulator, SED is a command-driven editor.
 
 The SED script `cim.txt` that performs the needed manipulations looks like this (when stripped of any comments):
@@ -546,7 +546,7 @@ which will just show the result of your string manipulation.
 
 #### FOR Loops {#for_loops}
 
-The DOS `FOR` command can be used to process a series of files in a similar manner as it does under UNIX.
+The DOS `FOR` command can be used to process a series of files in a similar manner as it does under Unix.
 In order to scale all JPEG files in the current directory by 50%, you could type the following line into a DOS box:
 
 ~~~{.skip}
@@ -931,7 +931,7 @@ colorspace RGB
 [![\[IM Output\]](colorspace_sRGB.png)](colorspace_sRGB.png)  
 colorspace sRGB
 
-A similar example to the above using UNIX shell scripting is given in [Isometric Cube using Shears](../warping/#sheared_cube).
+A similar example to the above using Unix shell scripting is given in [Isometric Cube using Shears](../warping/#sheared_cube).
 
 This batch file takes the color space as a command line parameter "`%1`".
 It then generates the three sides of the cube and shears and mounts them such that we get an isometric view, where the point (0,0,0) lies at the centre of a hexagon.
@@ -1254,7 +1254,7 @@ Therefore the file is copied to the local temporary folder, whose name is stored
 
 It turns out that the simple Convert command takes just as much execution time as filtering the result of Identify, but that resizing the image to one pixel via `-resize 1x1!` significantly speeds up the operation, without changing its result too much.
 Note that we are using `ECHO %TIME%` instead of `TIME /T`, because the latter will only display hours and minutes, whereas the former will provide hundredths of a second.
-In contrast to UNIX command shells, there is no direct way to measure relative times, i.e. set a reference point, execute the statement, and then evaluate the time needed.
+In contrast to Unix command shells, there is no direct way to measure relative times, i.e. set a reference point, execute the statement, and then evaluate the time needed.
 The calculation of relative times within a batch file is made difficult by the fact that batch files allow only integer arithmetics.
 One can extract the seconds using the FOR command and then use IM's fx operator to perform the subtraction, allowing for 60 seconds overflow
 
