@@ -89,7 +89,7 @@ The problem in the above is caused by the [resize filters](../../resize/#filters
 This problem is the same problem involving blurs with transparency, and discussed in [Blur Transparency Bug](../blur_trans/), and similar solutions to this problem also works here.
 
 One workaround that works on both problems, is to set the color of the transparency to the same as the edge color of the image being resized.
-That is use a fully-transparent white (EG: '`#FFFF`' as the background instead of fully transparent black (EG: '`none`').
+That is use a fully-transparent white (e.g.: '`#FFFF`' as the background instead of fully transparent black (e.g.: '`none`').
 
 ~~~
 convert -background '#FFFF' -fill white -pointsize 72 -font Candice \
