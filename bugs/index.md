@@ -4,7 +4,7 @@ These pages demonstrate and provide workarounds for various bugs known to exist,
 
 Most of these bug demonstration pages are not updated with the current distribution of IM. So that when a particular bug is fixed, the page can still demonstrate the unfixed effects of the bug. Check the version number at the bottom of the page for the last time those examples were generated.
 
-Basically this allows for older IM users to check their implementation, and apply workarounds for their scripts. Especially when they do not have control of the versions of IM that is installed on the system (for example on a ISP controlled web server), or standard linux distro installations.
+Basically this allows for older IM users to check their implementation, and apply workarounds for their scripts. Especially when they do not have control of the versions of IM that is installed on the system (for example on an ISP controlled web server), or standard Linux distro installations.
 
 ------------------------------------------------------------------------
 
