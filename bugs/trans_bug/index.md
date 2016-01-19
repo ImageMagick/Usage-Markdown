@@ -1,9 +1,9 @@
 # Semi-Transparent Draw and Overlay Bug -- FIXED
 
-Demonstrantion of a Semi-transparent white on transparent black bug, found in ImageMagick 5.5.7 and earlier.
+Demonstration of a Semi-transparent white on transparent black bug, found in ImageMagick 5.5.7 and earlier.
 They were fixed during the ImageMagick version 6 development.
 
-The background pattern on this page was choosen so that any transparency would be visible in a web browser, that understands PNG transparency (like Mozilla basied browsers).
+The background pattern on this page was choosen so that any transparency would be visible in a web browser, that understands PNG transparency (like Mozilla based browsers).
 
 This page is for reference for older IM users who may still have to deal with this bug.
 The examples on this page have not been re-created when/if the bug was fixed.
@@ -59,7 +59,7 @@ composite alpha.png  -size 200x200 xc:white  result.png
 
 [![\[IM Output\]](result.png)](result.png)
 
-The final result above should be a only a slight whitening of the grey rectangle, where the circle overlaps.
+The final result above should be only a slight whitening of the grey rectangle, where the circle overlaps.
 Anywhere else and the white circle should disappear (semi-transparent white on white gives white!).
 
 If the bug is present you will see a grey circle instead, and due to the presence of the bug in the "`-draw`" command, the edges of the circle will appear even darker, instead of shading into the white background.
