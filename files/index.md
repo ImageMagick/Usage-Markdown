@@ -83,7 +83,7 @@ montage  '*.jpg' -geometry 50x50+2+2  image_index.gif
 ~~~
 
 This will produce a single montage index image of all the JPEG files in the current directory.
-Note, however, that I needed to quote the argument to prevent my UNIX shell from expanding the filenames rather than ImageMagick.
+Note, however, that I needed to quote the argument to prevent my Unix shell from expanding the filenames rather than ImageMagick.
 See below for a more complete "`montage`" specification.
 
 Of course, the Linux shells can also expand '`*`' and '`?`' characters passed to them unquoted.
@@ -170,11 +170,11 @@ convert 'rose:[32x32+20+5]' +repage  rose_read_modifier.gif
 
 [![\[IM Output\]](rose_read_modifier.gif)](rose_read_modifier.gif)
 
-Note however that '`[]`' characters are usually also special shell meta-characters, so if you use them it is a good idea to quote the additional modifier, to stop UNIX shells interpreting it.
+Note however that '`[]`' characters are usually also special shell meta-characters, so if you use them it is a good idea to quote the additional modifier, to stop Unix shells interpreting it.
 
 Both the "`-extract`" setting and the read modifier do the same job, though the latter will override the former.
 
-Also, when you use a modifier, you must let IM handle any special file expansion meta-characters, such as '`*`' and '`?`', as a UNIX shell will not 'find' the requested files due to the modifier.
+Also, when you use a modifier, you must let IM handle any special file expansion meta-characters, such as '`*`' and '`?`', as a Unix shell will not 'find' the requested files due to the modifier.
 What it actually does in that case is shell dependent.
 As such, the whole filename should be quoted when using read modifiers.
 
@@ -642,7 +642,7 @@ The '`%d`' formats each number to match the filename (see next).
 In any case, this is awkward and prone to mistakes, can produce errors if files are missing, and can be dependent on what type of computer system you are using.
 Better to avoid this problem altogether.
 
-If you are familiar with the 'C' language (look up the UNIX system man page for '`printf`') then you will probably know that if you use something like "`%03d`" you will always get 3 digit numbers (with leading zeroes) for the image sequence frame number.
+If you are familiar with the 'C' language (look up the Unix system man page for '`printf`') then you will probably know that if you use something like "`%03d`" you will always get 3 digit numbers (with leading zeroes) for the image sequence frame number.
 The image names would, in that case, be "`images_000.gif`", "`images_001.gif`" and so on.
 
 ~~~
@@ -1622,12 +1622,12 @@ The most well known 'delegate' program IM makes use of is "`ghostscript`" which 
 However '**Delegate Commands**' are very useful for users too, as they allow you to expand IM so that it can handle special types of images, or to provide alternative methods to read and write those images.
 
 The 'commands' themselves are listed in a file named "`delegates.xml`", and which is located in IM's system configuration directory.
-But it will also read a "`delegates.xml`" located in the user's personal "`.magick`" sub-directory of their Linux/UNIX home directory.
+But it will also read a "`delegates.xml`" located in the user's personal "`.magick`" sub-directory of their Linux/Unix home directory.
 And it is in this second file that users should place their personal 'command delegates'.
 
 ### Input Delegate Command Example {#delegate_input}
 
-For example, I can create a personal "`delegates.xml`" file in the "`.magick`" sub-directory of my Linux/UNIX home directory, of the form...
+For example, I can create a personal "`delegates.xml`" file in the "`.magick`" sub-directory of my Linux/Unix home directory, of the form...
 
 ~~~{.skip}
 <?xml version="1.0" encoding="UTF-8"?>
