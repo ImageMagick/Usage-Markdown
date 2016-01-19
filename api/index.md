@@ -103,7 +103,7 @@ The first "`pwd`" tells you the current directory in which the PHP script was ru
 This may, or may not, be the directory where the PHP script is located, and you may not be able to write in that directory form the PHP script.
 
 The next two commands tell you if "`convert`" is available on the default provided command PATH using "`type`", and if so where is it.
-The "`locate`" command should find all "`convert`" commands that exists on the server (assuming it is a linux server), but may find other non-ImageMagick "`convert`" commands, files and directories.
+The "`locate`" command should find all "`convert`" commands that exists on the server (assuming it is a Linux server), but may find other non-ImageMagick "`convert`" commands, files and directories.
 You will need to interpret the results.
 
 The next three commands, assume "`convert`" is on the command PATH, and asks it to report its version number, and what fonts IM think it has access to.
@@ -363,7 +363,7 @@ Which points to the PHP Manual on error Logging [PHP Error Handling and Logging]
 
 Ideally, for security reasons, you would want to avoid using the shell to parse a single long string into separate command and arguments.
 It is better to do it yourself!
-This means you provide the arguments to the command as an array of separate strings, instead of as a one single shell-parsed string.
+This means you provide the arguments to the command as an array of separate strings, instead of as a single shell-parsed string.
 
 By doing this, you prevent the posibility of shell syntax errors, the extra quoting burden needed by the shell, and prevent the posiblity of some hacker breaking the shell command and runing their own command (very bad).
 
@@ -512,7 +512,7 @@ An don't believe they won't do it, robots are out there, reading input forms and
 
 As a security issue, you should especially watch out for filenames that contain spaces, quotes, punctuation, control-characters, or other meta-characters, as both IM and Shells may try to expand them.
 
-The problem is that a file called '`*?@${&) .jpg`' is actually a perfectly legal filename under UNIX, but a LOT of programs will have trouble handling it if that program (like both shell and IM) also do filename expansion.
+The problem is that a file called '`*?@${&) .jpg`' is actually a perfectly legal filename under Unix, but a LOT of programs will have trouble handling it if that program (like both shell and IM) also do filename expansion.
 
 Remember, even if you prevent the shell from doing 'glob' meta-character expansion, IM itself also does this expansion (for DOS usage).
 As such, preventing all such characters (and producing an error), is probably a wise thing to do.
@@ -647,7 +647,7 @@ It will, in turn, make your script more useful.
 
 -   Don't use very very long single lines.
     Especially for complex 'convert' commands.
-    Split them up using line-continuation methods (shown above), such as '`\`' in UNIX, '`^`' in DOS, and '`.`' string concatenation in PHP.
+    Split them up using line-continuation methods (shown above), such as '`\`' in Unix, '`^`' in DOS, and '`.`' string concatenation in PHP.
 
     However I do not mean placing each and EVERY setting and operation on a separate line.
     Do one major operation or stage per line, create new image, modify image, merge with other images, etc.
@@ -739,7 +739,7 @@ It will, in turn, make your script more useful.
 These things basically give the user of your program more freedom to do what THEY want rather than what YOU think they want.
 Don't limit them, or yourself, by making assumptions on what the script will be used for.
 
-PS: My primary expertise is in UNIX script writing, over lots of different architectures and 'flavors' of UNIX, LINUX, and other UNIX-like systems, with more than 25 years experience behind me.
+PS: My primary expertise is in Unix script writing, over lots of different architectures and 'flavors' of Unix, Linux, and other Unix-like systems, with more than 25 years experience behind me.
 I should know what I am talking about with regard to the above.
 
 ------------------------------------------------------------------------
@@ -909,7 +909,7 @@ As you go down the list the speed up becomes smaller, or requires more complex c
 
 ## Compiling ImageMagick form Sources {#building}
 
-### Building ImageMagick RPMs for linux from SRPMs {#rpms}
+### Building ImageMagick RPMs for Linux from SRPMs {#rpms}
 
 You do NOT need root to actually build the RPM's though you do need root to install RPMs.
 I use this for generating and installing IM under *Fedora Linux Systems*, but it has also been [reported](../forum_link.cgi?t=12854) to work for *CentOS 5.4 (Enterprise Redhat) Linux Systems* (See more specific [IM on CentOS Notes](http://en.citizendium.org/wiki/User:Dan_Nessett/Technical/Upgrade_to_1.16#ImageMagick_6.6.2-10)).
@@ -1123,7 +1123,7 @@ convert -version
 
 I can see the more up-to-date version of IM just installed, by default.
 
-Note that the variable "`$MAGICK_HOME`" is required to be set for a Imagemagick created with a "`--disable-installed`" option.
+Note that the variable "`$MAGICK_HOME`" is required to be set for an ImageMagick installation created with a "`--disable-installed`" option.
 
 The other two environment variables ensure that we use the personal version rather than any system version that may also be installed.
   
