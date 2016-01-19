@@ -92,7 +92,7 @@ convert test.png -separate \
 [![\[IM Output\]](gray_added.png)](gray_added.png)
   
 You can use the same adding channels technique to control the weighting of the individual color channels.
-For example this is one DIY formula that you can use...
+For example, this is one DIY formula that you can use...
 
 ~~~
 convert test.png -fx '0.3*r+0.6*g+0.1*b' gray_diy.png
@@ -111,7 +111,7 @@ convert  test.png  -fx intensity  gray_intensity.png
 However as the [FX DIY operator](../transform/#fx) is interpreted, it can run very very slowly.
 For more complex operations you can use the simpler [Evaluate Operator](../transform/#evaluate), "`-evaluate`".
 
-For example here is a 2/5/3 ratio gray-scaled image, though again I make no attempt to preserve the transparency channel of the original image.
+For example, here is a 2/5/3 ratio gray-scaled image, though again I make no attempt to preserve the transparency channel of the original image.
 
 ~~~
 convert test.png -channel R -evaluate multiply .2 \
@@ -271,7 +271,7 @@ Similarly, any color values that are equal to or brighter that the 'white\_point
 The colors in between these two points are then 'stretched' linearly to fill the complete range of values.
 
 The effect of this is to improve the contrast, enhancing the colors within an image.
-For example here is a 25% contrast enhancement of our test image, using the same values as shown by the graph.
+For example, here is a 25% contrast enhancement of our test image, using the same values as shown by the graph.
 
 As you commonly adjust both the black and white points by the same amount from the `0%` and `100%` amounts, you can just specify the 'black\_point' only.
 The white point will be adjusted by the same amount inward.
@@ -293,7 +293,7 @@ Note that `25%` is a huge contrast enhancement for any image, but it clearly sho
 
 You don't have to change both the 'black' and 'white' points.
 Instead it is quite permissible to just adjust only one end of the color range.
-For example we can make a very light, or a very dark rose image.
+For example, we can make a very light, or a very dark rose image.
 
 ~~~
 convert  rose:  -level 0,75%     rose_level_light.gif
@@ -360,7 +360,7 @@ Alternatively you can use the original "`-level`" form of the operator but add a
 The arguments for this variant is exactly the same, but instead of stretching the values so as to map the 'black\_point' and 'white\_point' to 'black' and 'white', it maps 'black' and 'white' to the given points.
 In other words "`+level`" is the exact reverse of "`-level`".
 
-For example here we map 'black' to a 25% gray, and white to 75% gray, effectively de-contrasting the image in a very exact way, using the two methods of specifying the 'reversed' form.
+For example, here we map 'black' to a 25% gray, and white to 75% gray, effectively de-contrasting the image in a very exact way, using the two methods of specifying the 'reversed' form.
 
 ~~~
 convert  test.png   +level 25%    test_level_plus.png
@@ -383,7 +383,7 @@ Of course a '`25%`' is again a very large value, and it is not recommended for u
 Note that the "`-level`" and "`+level`", are in actual fact the exact reverse of each other when given the same argument.
 That is, one maps values to the range extremes, while the other maps from the range extremes.
 
-For example here we compress the colors of the test image using "`+level`", then decompress them again using "`-level`", so as to restore the image close to its original appearance.
+For example, here we compress the colors of the test image using "`+level`", then decompress them again using "`-level`", so as to restore the image close to its original appearance.
 
 ~~~
 convert  test.png  +level 20%  -level 20%  test_level_undo.png
@@ -418,7 +418,7 @@ By default this is set to a value of `1.0`', which does not do any sort of mid-t
 
 However by making this value larger, you will curve the resulting line so as to brighten the image, while shrinking that value will darken the image.
 
-For example here I use just the 'gamma' setting to brighten and darken just the mid-tones of the image.
+For example, here I use just the 'gamma' setting to brighten and darken just the mid-tones of the image.
 
 ~~~
 convert  rose:  -level 0%,100%,2.0   rose_level_gamma_light.gif
@@ -490,7 +490,7 @@ WARNING: watch out for 'transparent' colors.
   
 The plus form of the operator "`+level-colors`" on the other hand is extremely useful as it will map the 'black' and 'white' color to the given values compressing all the other colors linearly to fit the two colors you give.
 
-For example lets map '`black`' and '`white`' to '`green`', and '`gold`'...
+For example, let's map '`black`' and '`white`' to '`green`', and '`gold`'...
 
 ~~~
 convert  test.png  +level-colors green,gold   levelc_grn-gold.png
@@ -518,7 +518,7 @@ convert test.png  +level-colors Firebrick,    levelc_firebrick.png
 [![\[IM Output\]](levelc_navy.png)](levelc_navy.png) [![\[IM Output\]](levelc_darkgreen.png)](levelc_darkgreen.png) [![\[IM Output\]](levelc_firebrick.png)](levelc_firebrick.png)
 
 This makes it easy to convert grayscale images into a gradient for any color you like.
-For example here I remap a black and white gradient to a red and white gradient, (note the ',' in the argument)...
+For example, here I remap a black and white gradient to a red and white gradient, (note the ',' in the argument)...
 
 ~~~
 convert cow.gif   +level-colors red,   cow_red.gif
@@ -736,7 +736,7 @@ Almost any mathematical color transformation that one applies to an image will n
 These include linear operations such as the [Level Operator](#level) or non-linear operations such as the [Gamma Operator](#gamma), (see above).
 The mapping graphs we saw above represent how the graylevels in an image and thus how the image's histogram is to be transformed.
 
-For example, lets make a low contrast image to demonstrate.
+For example, let's make a low contrast image to demonstrate.
 However, the final result is that it not only modifies the image, but does so by modifying the image's histogram (by compressing it).
 
 ~~~
@@ -826,7 +826,7 @@ That is, 2% of the darkest grays in the image will become black and 1% of the li
 
 This is not a large loss in most images, and the overall result is that the contrast (intensity range) of the image will be automatically maximized.
 
-*A idealized diagram is needed here!*
+*An idealized diagram is needed here!*
 
 *Example using chinese chess?*
 
@@ -853,7 +853,7 @@ As of IM version 6.2.5-5, if only the default "`+channel`" setting is given, the
 This ensures that pixel colors within the image are not shifted.
 However, it also means that you may not get a pure white or black color pixel.
 
-For example here we added some extra colors (a blue to navy gradient) to our normalization test image.
+For example, here we added some extra colors (a blue to navy gradient) to our normalization test image.
 
 ~~~
 convert -size 100x100 gradient:gray70-gray30 \
@@ -954,7 +954,7 @@ Likewise with counting from the bright side of the histogram.
 With "`-linear-stretch`", the count starts at the ends of the histogram, namely, at bin 0 and bin 255.
 Thus the amount burned-in at the dark side will always be the black-point value and the amount of burn-in at the bright side will always be the white-point value.
 
-As an example, lets take a gradient of 100 pixels and look at its histogram.
+As an example, let's take a gradient of 100 pixels and look at its histogram.
 
 ~~~{data-capture-out=grad_hist_mod.txt}
 convert -size 1x100 gradient: \
@@ -966,7 +966,7 @@ convert -size 1x100 gradient: \
 As expected every bin is equally populated with a single pixel, producing a count of 1.
 (To see the full listing click on the output text image above).
 
-Now lets do the same after using "`-contrast-stretch 10x10%`"
+Now let's do the same after using "`-contrast-stretch 10x10%`"
 
 ~~~{data-capture-out=grad_cs_hist.txt}
 convert -size 1x100 gradient:   -contrast-stretch 10x10%  \
@@ -993,7 +993,7 @@ One consequence of the aforementioned difference is that "`-contrast-stretch 0x0
 In this case, the image will be stretched between the graylevels corresponding to those bins.
 On the other hand, "`-linear-stretch 0x0`" will never change the image.
 
-For example, lets take the gradient and compress its graylevels by 10% on each end.
+For example, let's take the gradient and compress its graylevels by 10% on each end.
 That is, we will move black-point up 10% to graylevel 26 and white-point down 10% to graylevel 230.
 
 ~~~{data-capture-out=grad_lv_hist.txt}
@@ -1036,7 +1036,7 @@ If they are different, then a color shift will be produced between the individua
 
 With "`-linear-stretch`", all the channels will be processed in a common way, thus assuring that no color shifts of the channels relative to each other will be produced.
 
-So lets get a verbose identify and the histogram of a real image.
+So let's get a verbose identify and the histogram of a real image.
 
 ~~~{data-capture-out=info_port.txt}
 convert port.png  -verbose -identify +verbose  histogram:port_hist.gif
@@ -1157,7 +1157,7 @@ Specifically, all the colors are preserved, without the color shift you saw prev
 
 What the script does is work on the grayscale histogram, which it then applies to all the color channels, so that all the colors are kept together.
 
-For comparison with the IM "`-equalize`" histograms, lets show the grayscale histogram results here, too.
+For comparison with the IM "`-equalize`" histograms, let's show the grayscale histogram results here, too.
 Note that the redistributed histogram appears to be a bit more leveled out (flat, or uniform) than that of IM equalize.
 
 ~~~
@@ -1204,7 +1204,7 @@ Basically it computes the histogram of the current image and that of the desired
 It then works out how the graylevel value of each 'bin' needs to be changed so that the counts in the bins best follow the desired distribution.
 Some bins may be shifted darker, while others may be shifted lighter.
 
-This is actually quite an involved process, so lets go though it step by step.
+This is actually quite an involved process, so let's go though it step by step.
 
 First, we need to get the actual histogram data from ImageMagick, rather than a graphic image of the histogram.
 Note that the data is from all the color values, combined into a grayscale.
@@ -1267,7 +1267,7 @@ These histograms are very similar to a normal histogram, except that each 'bin' 
 That is, each 'bin' is an 'accumulation' or count of all the darker 'bins'.
 
 These are actually easier to generate directly from the original image.
-So lets repeat the process, but computing and saving the 'cumulative' counts.
+So let's repeat the process, but computing and saving the 'cumulative' counts.
 
 ~~~
 convert zelda.png -colorspace gray \
@@ -1390,7 +1390,7 @@ Just some final words on the above technique.
 
 -   Using "`awk`" to do the calculations to speed up Fred Weinhaus's "`redist`" script were suggested and contributed by Anthony Thyssen.
 -   To apply the above redistribution technique to generate a 'uniform', or 'equalized' distribution, the function histogram is simply a constant.
-    This in turn results in a an integrated distribution that is simply the formula `y = x`, or simply a diagonal straight line.
+    This in turn results in an integrated distribution that is simply the formula `y = x`, or simply a diagonal straight line.
     Applying the same conversion technique leads to a CLUT image that turns out to be identical to the input image's cumulative histogram.
     In other words, for an equalization of the histogram, you can simply convert the image's cumulative histogram into a CLUT and apply it to the image directly.
 -   Most Image processing packages, including ImageMagick at this time, apply the transformation formulae directly to the values in the image itself, rather than generate an intermediate CLUT.
@@ -1412,8 +1412,8 @@ You may also be interested in Fred's "[retinex](http://www.fmwconcepts.com/image
 The various basic forms of [Level Adjustments](#level) shown above linearly adjust the colors of the image.
 
 These changes can be applied mathematically as well.
-For example by multiplying the image with a specific color, we set all pure white areas to that color.
-So lets just read in our image, create an image containing the color we want, then multiply the original image with this color using the IM free-form "`-fx`" or [DIY Operator](../transform/#fx).
+For example, by multiplying the image with a specific color, we set all pure white areas to that color.
+So let's just read in our image, create an image containing the color we want, then multiply the original image with this color using the IM free-form "`-fx`" or [DIY Operator](../transform/#fx).
 
 ~~~
 convert test.png  -size 1x1 xc:Yellow \
@@ -1426,11 +1426,12 @@ By getting "`-fx`" to read the color from a second '`v`' image makes it easy to 
 
 If you were using a fancy graphical image processing package like "`Gimp`" and "`Photoshop`" the above operation would have been applied to an image by adjusting the images color histogram graph 'curve'.
 
-[![\[IM Output\]](fx_linear_white_plot.gif)](fx_linear_white_plot.jpg) For example to the right is a "`gnuplot`" generated graph (See the script "`im_histogram`") of the mathematical formula showing what happens to just one of the three RGB channels.
+[![\[IM Output\]](fx_linear_white_plot.gif)](fx_linear_white_plot.jpg)
+For example, to the right is a "`gnuplot`" generated graph (See the script "`im_histogram`") of the mathematical formula showing what happens to just one of the three RGB channels.
 The original color (green line) is remapped to a darker color (red line) linearly.
 
 Linearly tinting the black colors is also quite simple.
-For example to linear map '`black`' to a gold like color '`rgb(204,153,51)`', (while leaving '`white`' as '`white`'), would require a mathematical formula such as...
+For example, to linear map '`black`' to a gold like color '`rgb(204,153,51)`', (while leaving '`white`' as '`white`'), would require a mathematical formula such as...
 
     result = 1-(1-color)*(1-intensity)
 
@@ -1478,7 +1479,7 @@ While linear color adjustments are important, and faster methods are available, 
 Well an alternative formula for linear adjustment is "`-fx 'v.p{0,1}+(v.p{0,0}-v.p{0,1})*u'`", which has the advantage that the '`u`' can be replaced by a single random function '`f(u)`' to produce non-linear color change.
 
 This lets you do more interesting things.
-For example what if in the last example you wanted to push all the colors toward the '`black`' side, resulting in the image being a more '`firebrick`' color.
+For example, what if in the last example you wanted to push all the colors toward the '`black`' side, resulting in the image being a more '`firebrick`' color.
 
 ~~~
 convert test.png -size 1x2  gradient:gold-firebrick \
@@ -1487,12 +1488,12 @@ convert test.png -size 1x2  gradient:gold-firebrick \
 
 [![\[IM Output\]](test.png)](test.png) ![==&gt;](../img_www/multiply.gif) [![\[IM Output\]](fx_non-linear_plot.gif)](fx_non-linear_plot.jpg) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](fx_non-linear.png)](fx_non-linear.png)
 
-In a more practical example, Adelmo Gomes needed a color adjustment for a automated [Weather Map Recoloring](http://members.aol.com/landsatcd/MOREHTML/colorize.html) script he was developing.
+In a more practical example, Adelmo Gomes needed a color adjustment for an automated [Weather Map Recoloring](http://members.aol.com/landsatcd/MOREHTML/colorize.html) script he was developing.
 
 In this case he wanted to tint pure black parts of the image to a .25 blue, but leave the rest of the gray-scale alone, especially the white and mid-tone grays of the image.
 Only the blue color needed such adjustment, which he currently was doing by hand in an image editor.
 
-For example you could use a quadratic formula like '`u^2`' to tint the black end of the histogram to a '`.25`' blue color.
+For example, you could use a quadratic formula like '`u^2`' to tint the black end of the histogram to a '`.25`' blue color.
 Only the blue channel needs to be modified, so the value was inserted directly into the formula.
 
 ~~~
@@ -1575,7 +1576,7 @@ To make it easier for users to convert control points into a histogram adjustmen
 Gabe Schaffer, also provided a perl version (using a downloaded "`Math::Polynomial`" library module) called "`im_fx_curves.pl`" to do the same thing.
 Either script can be used.
 
-For example here is a different curve with 5 control points...
+For example, here is a different curve with 5 control points...
 
 ~~~{data-capture-out=fx_curve.txt}
 im_fx_curves  0,0.2  0.3,0.7  0.6,0.5  0.8,0.8  1,0.6
@@ -1607,7 +1608,7 @@ convert label:@coefficients.txt coefficients.txt.gif
 [![\[Gnuplot\]](coefficients.txt.gif)](coefficients.txt)
 
   
-For example lets apply those curves to our test image...
+For example, let's apply those curves to our test image...
 
 ~~~
 convert test.png  -function Polynomial `cat coefficients.txt`  test_curves.png
@@ -1632,7 +1633,7 @@ Lucky for us a simpler method of bleeding a uniform color into an image is avail
 This operator blends the current "`-fill`" color, into all the images in the current image sequence.
 The alpha channel of the original image is preserved, with only the color channels being modified.
 
-For example lighten an image (gray scale or otherwise) we use "`-colorize`" to blend some amount of white into the image, making it brighter without saturating the image completely.
+For example, lighten an image (gray scale or otherwise) we use "`-colorize`" to blend some amount of white into the image, making it brighter without saturating the image completely.
 
 ~~~
 convert test.png  -fill white -colorize 50%  colorize_lighten.png
@@ -1714,7 +1715,7 @@ The green color in the test image is not a true RGB green, but a Scaled Vector G
 As such it is also a mid-tone color, and thus is affected by the "`-tint`" operator, becoming darker, unlike red and blue color spots of the test image.
 
 Also you can tint the individual color components, by using a comma separated list of percentages.
-For example "`-tint 30,40,20,10`".
+For example, "`-tint 30,40,20,10`".
 This however can be tricky to use and may need some experimentation to get right.
 Better to specify the color you want for perfect 50% grays.
   
@@ -1737,7 +1738,7 @@ The tinting operator is perfect to adjust the results of the output of "`-shade`
 You can also use "`-tint`" to brighten or darken the mid-tone colors of an image.
 This is sort of like a 'gamma adjustment' for images, though not exactly.
 
-For example using a tint value greater than 100 with a '`white`' color will brighten the mid-tones.
+For example, using a tint value greater than 100 with a '`white`' color will brighten the mid-tones.
 
 ~~~
 convert  test.png  -fill white  -tint 130 tint_lighter.png
@@ -1780,7 +1781,7 @@ The argument given is the gray-scale 'mid-point' that is to become the closest t
 
 The most common use of this is to generate a [Duotone Effect](#duotone) so as to generate 'old looking' photos (See wikipedia on [Sepia Tone](http://en.wikipedia.org/wiki/Sepia_tone#Sepia_toning)).
 
-For example here I [Tint](#tint) a contrast enhanced gray-scale rose image, using various colors, to achieve similar sepia-tone like effects.
+For example, here I [Tint](#tint) a contrast enhanced gray-scale rose image, using various colors, to achieve similar sepia-tone like effects.
 Which color you should use on the exact effect you are looking for.
 
 ~~~
@@ -1807,7 +1808,7 @@ See also [Hald Color Lookup Tables](#hald-clut) for a method by which you can sa
 ### Duotone Effect {#duotone}
 
 A 'duotone' is a printing method where you mix the grayscale of an image (black ink) with some other color to produce a better result, with a limited budget or printing equipment.
-For example the reason all the old photos you see today have a sepia-tone look about them, is because sepia-tone inks survived and did not deteriorate, or fade with time.
+For example, the reason all the old photos you see today have a sepia-tone look about them, is because sepia-tone inks survived and did not deteriorate, or fade with time.
 Other 'black and white' images formats faded into uselessness.
 See the [Sepia Tone Operator](#sepia-tone) above.
 
@@ -1884,7 +1885,7 @@ The result is not quite the same as what you would get for a normal tint.
 The special [Alpha Composition](../compose/#compose) methods '`Overlay`' and '`Hardlight`' were actually designed with color (and pattern) tinting in mind.
 These compose methods also will replace mid-tone grays leaving black and white highlights in the image alone.
   
-For example here I quickly generate a colored overlay image, and compose it to tint the original image.
+For example, here I quickly generate a colored overlay image, and compose it to tint the original image.
 
 ~~~
 convert test.png \( +clone +matte -fill gold -colorize 100% \) \
@@ -2069,7 +2070,7 @@ You can if really want to "Do It Yourself".
 You basically convert the image into the appropriate color space, modify the values, and convert back.
 Remember that in HSL [Color Space](../color_basics/#colorspace), the Green channel holds the Saturation value, and the Blue channel holds the Luminance value.
 
-For example here is the equivalent to a "`-modulate 80,120`" (darken slightly, increase color saturation), using the default HSL colorspace...
+For example, here is the equivalent to a "`-modulate 80,120`" (darken slightly, increase color saturation), using the default HSL colorspace...
 
 ~~~
 convert rose: -colorspace HSL \
@@ -2170,7 +2171,7 @@ see [Wikipedia, Cylindrical LUV, or LCHuv colorspace](http://en.wikipedia.org/wi
 > The equivalent channels of '**`LCHuv`**' and '**`LCHab`**' colorspaces are reverse to those of the '**`HCL`**' and '**`HCB`**' colorspaces.
 > That is the 'grayscale' intensity equivalent is in the first ('red') channel and Hue is in the third ('Blue') channel of the image.
 
-For example we do some hue rotations for the red rose using '**`LCHuv`**' colorspace.
+For example, we do some hue rotations for the red rose using '**`LCHuv`**' colorspace.
 Compare these with the previous set for the '**`HSL`**' colorspace above.
 
 ~~~
@@ -2273,7 +2274,7 @@ In this particular case no change is made to the image.
 The matrix forms a special array, known as an 'identity matrix'.
 
 By mixing up the rows you can use to swap the various channels around.
-For example here I swap the red and blue channel values.
+For example, here I swap the red and blue channel values.
 
 ~~~
 convert rose: -color-matrix ' 0 0 1
@@ -2319,7 +2320,7 @@ This internal handling means that you can actually simply the matrixvalue by onl
 
 This is especially useful when you need to include the 'constant' in the color calculations, or only want to modify one channel.
 
-For example invert (negate) the image.
+For example, invert (negate) the image.
 
 ~~~
 convert rose: -color-matrix '6x3: -1  0  0 0 0 1
@@ -2406,9 +2407,9 @@ convert rose:   -solarize 90%     solarize.jpg
 [![\[IM Output\]](solarize.jpg)](solarize.jpg)
 
 Basically anything above the grayscale level given is negated.
-So if you give a argument of '`0%`' you basically have a poor man's [Negate Operator](#negate).
+So if you give an argument of '`0%`' you basically have a poor man's [Negate Operator](#negate).
 
-For example here is a faked "`-solarize`" using a "`-fx`" mathematical formula.
+For example, here is a faked "`-solarize`" using a "`-fx`" mathematical formula.
 
 ~~~
 convert rose:   -fx  '.9>u ? u : 1-u'     solarize_fx.jpg
@@ -2419,7 +2420,7 @@ convert rose:   -fx  '.9>u ? u : 1-u'     solarize_fx.jpg
 
 This operator is particularly well suited to extracting the midtone gray colors from images.
 
-For example here I use very strong [Sigmoidal Contrast](#sigmoidal) operation to produce a sort of 'fuzzy' threshold at 70% gray.
+For example, here I use very strong [Sigmoidal Contrast](#sigmoidal) operation to produce a sort of 'fuzzy' threshold at 70% gray.
 I then [Solarize](#solarize) the result to generate a fuzzy-spike rather than a fuzzy-threshold.
 A final level adjustment then brings the spike to maximum brightness to generate a 'filament' effect.
 
@@ -2489,7 +2490,7 @@ The first is the image to replace color values in, the second is a gradient imag
 > The "`-clut`" operator was added to IM v6.3.5-8.
 
 If your IM is too old to understand the "`-clut`" operator or you want to do something out of the ordinary, such as a 2 dimensional color lookup table, then you can roll your own using the [General DIY Operator, FX](../transform/#fx).
-For example here is a slow, but equivalent command to the above.
+For example, here is a slow, but equivalent command to the above.
 
 ~~~
 convert gray_image.jpg  gradient_ice-sea.png \
@@ -2502,7 +2503,7 @@ The problem is that even for a simple process such as the above the "`-fx`" oper
 But it does work.
 
 The LUT does not have to be very large.
-For example here we use a very small LUT, with a very limited number of colors.
+For example, here we use a very small LUT, with a very limited number of colors.
 
 ~~~
 convert -size 1x6 gradient:navy-snow  gradient_levels.png
@@ -2585,7 +2586,7 @@ Note that the vertical gradient LUT used in the above examples appears upside-do
 Normally we humans prefer to see gradients with the black level at the bottom (thanks to our evolutionary past).
 
 If you rather save the gradient image the 'right way up' you can "`-flip`" the image as you reading it in.
-For example lets try a more complex LUT, flipping the vertical gradient before using it on the image.
+For example, let's try a more complex LUT, flipping the vertical gradient before using it on the image.
 
 ~~~
 convert -size 1x33 gradient:wheat-brown gradient:Brown-LawnGreen \
@@ -2745,7 +2746,7 @@ Hald images larger than 8 are not recommended, and would require very large imag
 
 Now these generated hald images are the 'identity' or 'no-op' CLUT images.
 That is, they are the normal colors values forming the 3D color cube, and as such will produce no change the image.
-For example let's apply a 'no-op' Hald image, using the "`-hald-clut`" operator...
+For example, let's apply a 'no-op' Hald image, using the "`-hald-clut`" operator...
 
 ~~~
 convert rose:   hald_3.png -hald-clut   rose_hald_noop.png
@@ -2756,7 +2757,7 @@ convert rose:   hald_3.png -hald-clut   rose_hald_noop.png
 This image is exactly the same as the original, and the Hald image contained no changes.
 
 However by modifying the Hald image, either by hand, or using a color modification, then you can substitute the original colors for the modified colors.
-For example here I create a blended-sepia-tone color scheme...
+For example, here I create a blended-sepia-tone color scheme...
 
 ~~~
 convert hald_3.png \( +clone -sepia-tone 60% \) -average hald_sepia.png
@@ -2770,7 +2771,7 @@ But you can now save your color modifications to reuse them, and can then be app
 That means you can spend your effort on the halt, and save it for the future.
 
 You can also send, or download Hald CLUT images for other people and even other applications.
-You could even directly edit the colors in a Hald, using a image editor like "`Gimp`" or "`Photoshop`", or if saved in a [Enumerated Pixel Text Image](../files/#txt) use a plain text editor!
+You could even directly edit the colors in a Hald, using an image editor like "`Gimp`" or "`Photoshop`", or if saved in a [Enumerated Pixel Text Image](../files/#txt) use a plain text editor!
 All this is especially the case for very complex color modifications
 
 *Please mail me any Hald CLUT images you have found interesting or useful, and I will example them here.
@@ -2779,7 +2780,7 @@ You will be credited, here as well!*
 #### Hald CLUT Limitations {#hald_limits}
 
 Unlike the simpler 1 Dimensional gradient lookup using the [CLUT Operator](#clut) you can use a Hald CLUT to rotate colors.
-For example swap red and blue colors.
+For example, swap red and blue colors.
 It is a much more versatile CLUT method.
 However it is not as good for doing simpler things like coloring a gray-scale image, or doing a histogram adjustment of color values.
 
