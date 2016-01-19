@@ -123,7 +123,7 @@ convert test.png -channel R -evaluate multiply .2 \
 [![\[IM Output\]](gray_253.png)](gray_253.png)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> The above would suffer from 'quantization' effects for a ImageMagick compiled at a 'Q8' [Quality Level](../basics/#quality).
+> The above would suffer from 'quantization' effects for an ImageMagick installation compiled at a 'Q8' [Quality Level](../basics/#quality).
 > That is because the results of the "`-evaluate`" will be saved into a small 8 bit integer, used for image values.
 > Only later are those values added together with the resulting loss of accuracy.
 >
@@ -316,7 +316,7 @@ convert  rose:  -level -25%  rose_decontrast.gif
 
 [![\[IM Output\]](rose_decontrast.gif)](rose_decontrast.gif)
   
-This method of de-contrasting an image however is very inaccurate and not recommended, unless you have a IM older than version 6.4.2 where you don't have access to the new [Reversed Level Operator](#level_plus).
+This method of de-contrasting an image however is very inaccurate and not recommended, unless you have an IM older than version 6.4.2 where you don't have access to the new [Reversed Level Operator](#level_plus).
 ![\[IM Graph\]](gp_level_neg.gif)
 
 You can use the "`-level`" operator to negate an image (as previously shown above, just by swapping the 'black' and 'white' point values given, using "`-level 100%,0`".
@@ -374,7 +374,7 @@ convert  rose:      -level 25%\!  rose_level_plus.gif
 [![\[IM Output\]](test_level_plus.png)](test_level_plus.png)
 [![\[IM Output\]](rose_level_plus.gif)](rose_level_plus.gif)
 
-If you compare the above "`+level 25%`" operation with the use of a a negative de-contrasting, "`-level -25%`" operator we showed previously, you will see that are not the same.
+If you compare the above "`+level 25%`" operation with the use of a negative de-contrasting, "`-level -25%`" operator we showed previously, you will see that they are not the same.
 The 'plus' version produces a much stronger de-contrasted image (it is greyer), but does so by mapping to the exact values you give the operator, and not the 'imaginary' values the 'minus' form used.
 This exact value usage is important, and one of the reasons why the 'plus' form of the operator was added.
 
@@ -589,7 +589,7 @@ A threshold level for the contrast function to center on (typically centered at 
 >
 > Where $\alpha$ is the threshold level, and $\beta$ the contrast factor to be applied.
 >
-> Here is a alternate version of the formula using intermediate variables.
+> Here is an alternate version of the formula using intermediate variables.
 >
 > $$
 > \begin{array}{l}
@@ -695,7 +695,7 @@ As such each bin contains a count of the number of color levels (pixel values) i
 The result is a representation of how the color values that make up an image are distributed, from black at the left, to white at at the right.
   
 The histogram can be generated for each channel separately or as a global histogram which looks at values from all the channels combined.
-The result is often displayed as a image of a bar chart.
+The result is often displayed as an image of a bar chart.
 In IM, this is done using the special [Histogram:](../files/#histogram) output format.
 For example...
 
@@ -1003,7 +1003,7 @@ convert -size 1x100 gradient:   +level 10x90%  \
 
 [![\[IM Text\]](grad_lv_hist.txt.gif)](grad_lv_hist.txt)
 
-Now, lets apply "`-contrast-stretch 0x0`" to the above de-contrasted gradient
+Now, let's apply "`-contrast-stretch 0x0`" to the above de-contrasted gradient
 
 ~~~{data-capture-out=grad_cs0_hist.txt}
 convert -size 1x100 gradient: -level 10x90%  -contrast-stretch 0x0  \
@@ -1050,7 +1050,7 @@ convert port.png  -verbose -identify +verbose  histogram:port_hist.gif
 We see that none of the channels of the above image span the full dynamic range.
 Also note that each of the channels spans a uniquely different range of values.
 
-Now lets apply "`-contrast-stretch 1x1%`" without a "`-channel`" setting.
+Now let's apply "`-contrast-stretch 1x1%`" without a "`-channel`" setting.
 
 ~~~
 convert port.png -contrast-stretch 1x1% \
@@ -1141,7 +1141,7 @@ If one does not want any color shifts between channels, then one uses the combin
 An approximation is simply to use the histogram of the image after converting it to grayscale.
 
 [Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html) has developed a script, called "[redist](http://www.fmwconcepts.com/imagemagick/redist/)" that does just that.
-It redistributes the histogram of an image into a uniform distribution, while appling the same change to all color channels equally.
+It redistributes the histogram of an image into a uniform distribution, while applying the same change to all color channels equally.
 
 ~~~
 redist -s uniform zelda.png  zelda_uniform.png
@@ -1531,7 +1531,7 @@ So a point like 0.0,0.2 basically means that a 0% gray (black) should after adju
 Now IM does not allow you to directly specify 'control points' to generate a 'curve' adjustment, what it wants is the mathematical formula of that 'curve' generated.
 Lucky for us there are programs that can generate that curve formula from the control points, including "`gnuplot`", "`fudgit`", "`mathematica`", and "`matlab`", as well as many more mathematical software packages.
 
-The following is one method you can use to generate the formula from four control points using "`gnuplot`" which is a standard extra package you can install on most linux distributions, as well as windows.
+The following is one method you can use to generate the formula from four control points using "`gnuplot`" which is a standard extra package you can install on most Linux distributions, as well as Windows.
 
 ~~~
 ( echo "0.0 0.2";  echo "1.0 0.9"; \
@@ -1558,7 +1558,7 @@ Gnuplot Fitted FX Function
 >  
 > If your histogram curve goes though the fixed control points `0,0` and `1,1`, you really only need two parameters as '`d`' will be equal to '`0`', and '`c`' will be equal to '`1-a-b`'.
 
-A more detailed usage guide to the above specifically for Windows users, but works for linux users too, has been posted on [StackOverflow: IM Curves using Gnuplot on Windows](http://stackoverflow.com/questions/27468172/).
+A more detailed usage guide to the above specifically for Windows users, but works for Linux users too, has been posted on [StackOverflow: IM Curves using Gnuplot on Windows](http://stackoverflow.com/questions/27468172/).
 
 As you can see from the extra "`gnuplot`" generated image above, the function generated fits the control points perfectly.
 Also as it generated a "[-fx](../option_link.cgi?fx)" style formula it can be used as is as an IM argument.
@@ -2462,7 +2462,7 @@ This is sometimes called channel cross-talk.
 
 ### Color (Channel) Lookup Tables {#clut}
 
-A common requirement of a image processing tool is the ability to replace the whole range of colors, from a pre-prepared table of colors.
+A common requirement of an image processing tool is the ability to replace the whole range of colors, from a pre-prepared table of colors.
 This allows you to convert images of one set of colors (generally gray-scale) into completely different set of colors, just by looking up its replacement color from a special image.
 
 Of course you do need a 'Look Up Table' image from which to read the replacement colors.
@@ -2600,14 +2600,14 @@ As you can see for a vertical gradient, flipping it before using makes a lot of 
 
 For more examples of generating gradients see [Gradients of Color](../canvas/#gradient).
 
-You may also be interested in a way of tiling greyscale images using a image for each grey level, which can produce even better 'map' like images.
+You may also be interested in a way of tiling greyscale images using an image for each grey level, which can produce even better 'map' like images.
 See [Dithering with Patterns](../quantize/#diy_symbols).
 
 ### Function to Color LUT Conversion {#fx_to_lut}
 
 These pre-prepared "Lookup Table Images" (or LUTs) can also be used to greatly increase the speed of very complex and thus slow "`-fx`" operations, so instead of IM interpreting the functional string 3 or 4 times per pixel, it can do a much faster lookup of the replacement color.
 
-The procedure for doing this is quite straightforward, either apply the function to a unmodified linear gradient, or replace the '`u`' in the function with the value '`(i/w)`' or '`(j/h)`' to calculate the replace value based on its position.
+The procedure for doing this is quite straightforward, either apply the function to an unmodified linear gradient, or replace the '`u`' in the function with the value '`(i/w)`' or '`(j/h)`' to calculate the replace value based on its position.
 
 For example, in the advanced ['Aqua' Effects](../advanced/#aqua_effects) example, I used a complex "`-fx`" function to adjust the gray-scale output of the [Shade operator](../transform/#shade)".
 Also as this gray-scale adjustment is also overlaid onto a 'DodgerBlue' shape, there is no reason why the results of both of these operators could not be combined into a single gradient lookup table.
@@ -2724,7 +2724,7 @@ convert   hald:3    hald_3.png
 [![\[IM Output\]](hald_3_lg.png)](hald_3_lg.png)
 
 The table holds a color cube with a side of '`{level}2`' colors or 9 colors.
-The full color cube contains '`9 × 9 × 9`' colors, giving a total of 729 colors, which is stored in a image of that numbers square root, or 27x27 pixels.
+The full color cube contains '`9 × 9 × 9`' colors, giving a total of 729 colors, which is stored in an image of that number's square root, or 27x27 pixels.
 
 The colors are stored so the first 9 colors (in the top-left corner) forms a gradient going from 'pure-black' to 'pure-red'.
 Every 9<sup>th</sup> color then forms a gradient in 'green', and every 81<sup>st</sup> color will form a gradient of 'blue'.
@@ -2745,7 +2745,7 @@ Hald images larger than 8 are not recommended, and would require very large imag
 
 Now these generated hald images are the 'identity' or 'no-op' CLUT images.
 That is, they are the normal colors values forming the 3D color cube, and as such will produce no change the image.
-For example lets apply a 'no-op' Hald image, using the "`-hald-clut`" operator...
+For example let's apply a 'no-op' Hald image, using the "`-hald-clut`" operator...
 
 ~~~
 convert rose:   hald_3.png -hald-clut   rose_hald_noop.png
