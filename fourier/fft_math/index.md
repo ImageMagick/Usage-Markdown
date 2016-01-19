@@ -46,7 +46,7 @@ Here is the convolution kernel image we will be using...
 # convert -size 128x128 xc:black -fill white -draw 'line 60,64 68,64' \
 #        -alpha off convolve_kernel.png
 
-# disk blur kernel (Fred Wienhaus's version)
+# disk blur kernel (Fred Weinhaus's version)
 convert -size 128x128 xc:black -fill white -draw 'circle 64,64 54,64' \
         -alpha off convolve_kernel.png
 ~~~
@@ -147,7 +147,7 @@ Alternative...
 Note that the DC value divided by DC value ==&gt; 1.0
 
 As DC value is the largest value in a magnitude spectrum, why not just normalise!
-EG: `-auto-level`"
+e.g.: `-auto-level`"
 
 This can only be done to a magnitude image, and will not work with real/imaginary pairs as they have to be stretched by the same amount.
 
@@ -612,7 +612,7 @@ title: Fourier Multiply/Divide
 created: 13 August 2009  
 updated: 6 October 2009  
 author:
-- "[Fred Wienhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink.net&gt;"
+- "[Fred Weinhaus](http://www.fmwconcepts.com/fmw/fmw.html), &lt;fmw at alink.net&gt;"
 - "with editing and formating by [Anthony Thyssen](http://www.ict.griffith.edu.au/anthony/anthony.html), &lt;[A.Thyssen@griffith.edu.au](http://www.ict.griffith.edu.au/anthony/mail.shtml)&gt;"
 version: 6.6.2-3
 url: http://www.imagemagick.org/Usage/fourier/fft_math/
