@@ -48,7 +48,7 @@ convert gradient_color.png  +dither  -colors 9   color_9.png
 > -: 3: 4: 5: 6: 7: 8: 9:   The above clearly shows that the current (IM 6.6.9) is not acceptable for low numbers of colors, which is typically the case when quantization is being specifically used.
 > Of course IM does do a great job for the most common quantization case, that of 256 color quantization for GIF images.
 > It only breaks down badly for low quantization as above.
-> A option here is the addition of new methods of quantization for low color cases.
+> An option here is the addition of new methods of quantization for low color cases.
 
 ------------------------------------------------------------------------
 
