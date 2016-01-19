@@ -348,7 +348,7 @@ convert a.png -channel A -threshold 75%   a_threshold.gif
 
 The first image is a normal save to GIF format, which as you can see thresholded the semi-transparent pixels at '`50%`', the second image was thresholded at '`75%`' allowing more semi-transparent pixels to become fully-opaque (or visible).
 
-If you just want to remove all the semi-transparent pixels (EG the shadow) you could try something like a "`-threshold 15%`", to remove just about all semi-transparent pixels.
+If you just want to remove all the semi-transparent pixels (e.g. the shadow) you could try something like a "`-threshold 15%`", to remove just about all semi-transparent pixels.
 
 ~~~
 convert a.png -channel A -threshold 15%   a_no_shadow.gif
@@ -702,7 +702,7 @@ The distortions are greatest in the blue color channel, which is not surprising 
 That is the human eye tends to 'spread out' blue colors naturally, so the JPEG algorithm takes advantage of this (by internally using a YCbCr colorspace).
 In fact without the magnification used above, you would be hard pressed to see the effect.
 
-Lets have a look at the effect of quality on the image.
+Let's have a look at the effect of quality on the image.
 
 ~~~
 convert jpg_lossy.gif   -quality 100%  jpg_lossy_100.jpg
@@ -1547,7 +1547,7 @@ This time "`diff`" reported...
 
 "`Files logo1.png and logo2.png are identical`"
 
-ASIDE: you can also use other UNIX programs such as "`cmp`", "`md5sum`", or "`sha1sum`" to compare binary image files.
+ASIDE: you can also use other Unix programs such as "`cmp`", "`md5sum`", or "`sha1sum`" to compare binary image files.
 The latter two programs is not guaranteed, but they are practically impossible to fool, and are faster for comparing more than two files (using the checksum)
 
 Thanks to some additions by GlennRP, the PNG developer you can now also use "`-define png:exclude-chunk=date`" to tell the PNG coder not to write date-related text chunks.
@@ -1860,11 +1860,11 @@ You may also find the information on [Font Size, Resolution and Pointsize](../te
 
 #### Non-IM Alternatives
 
-If you really do need to do general conversion between vector formats, the program [UniConvertor, Sk1 Project](http://sk1project.org/modules.php?name=Products&product=uniconvertor) (usually available as a standard linux package) and the [VectorSection](http://scratchcomputing.com/projects/vectorsection/) can be used to convert vector-to-vector without actually rasterizing the images.
+If you really do need to do general conversion between vector formats, the program [UniConvertor, Sk1 Project](http://sk1project.org/modules.php?name=Products&product=uniconvertor) (usually available as a standard Linux package) and the [VectorSection](http://scratchcomputing.com/projects/vectorsection/) can be used to convert vector-to-vector without actually rasterizing the images.
 
 For general conversion of Postscript to other vector formats, look at "`pstoedit`", which is typically available in your systems extra package repositories.
 Also look at "`epstopdf`" which is part of the [Comprehensive TeX Network (CTAN)](http://www.ctan.org/).
-TeX and LaTeX are UNIX documentation (book and scientific article) text processing system.
+TeX and LaTeX are Unix documentation (book and scientific article) text processing system.
 It has lots of tools to do with Postscript and PDF formats.
 
 For SVG to PDF conversion, Wolfgang Hugemann &lt;Auto@hugemann.de&gt; suggests that the easiest vector to vector conversion was to display the SVG in a browser (Firefox) and the print it using a PDF printer driver.
@@ -2176,7 +2176,7 @@ convert -size 20x2 xc: +noise random -channel G -separate +channel \
 [![\[IM Text\]](pgm_random_values.pgm.gif)](pgm_random_values.pgm)
 
 Note that when the output is plain text, and lines are not written so as to line up with the images row length.
-But you can re-format the output using the various UNIX text utilities.
+But you can re-format the output using the various Unix text utilities.
 For example you can use the "`tr`" text utility to replace and compress multiple commas and spaces to single newline, will place all values one value per line, making it easier for a script to process.
 
 Also with IM you can only specify 'depth' of 8 or 16 for the output quality for PGM and PPM.
@@ -2686,7 +2686,7 @@ For more info see mjpeg.sf.net
 
 
 IM forums reported decent results with a open source project called "ffmpeg", which seems to be a fairly standard
-linux package install.
+Linux package install.
 
  ffmpeg -f image2 -i %03d.jpg -vcodec mjpeg -y anim.mpg
 
