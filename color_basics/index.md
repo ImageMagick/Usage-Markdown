@@ -33,7 +33,7 @@ In a similar way blue-red (purple) colors do not actually exist as a single spec
 
 Note we actually have a forth vision sensor, but it is not color, but a low light detector, which is used for night vision, when cone sensors no longer work very well.
 This is why night time looks monocromatic, and moon light is all grays.
-This sensor is also probably the reason why sRGB colorspace (see below) has a odd linear component for very dark colors in it.
+This sensor is also probably the reason why sRGB colorspace (see below) has an odd linear component for very dark colors in it.
 
 ASIDE: Other animals have different sensors to us.
 Bees and most other insects have sensors for ultra violet, as such to them our printed images, TVs, and billboards would probably make very little sense.
@@ -89,7 +89,7 @@ As we 'sense' red, green, and blue colors, those are the colors we want to selec
 Consequently we use a cyan ink to remove red light, magenta to remove green light, and yellow to remove blue light.
 The amount of Cyan, Magenta, and Yellow ink needed to generate a specific color produces what is termed CMY colorspace.
 
-Here I generate a ink masks is needed to generate a rose image using just cyan, magenta and yellow inks (assuming the inks are 'linear')
+Here I generate ink masks as needed to create a rose image using just cyan, magenta and yellow inks (assuming the inks are 'linear')
 
 ![Rose](rose.gif)
 ![](../img_www/right.gif "==&gt;")
@@ -241,7 +241,7 @@ Note how the image now has far more equal amounts of light and dark colors.
 However the actual values within the image is no longer 'linear', which can cause problems when processing this image later.
 
 Gamma correction is only a rough 'quick' method of adjusting the colors to make an image 'look' correct.
-It is not the usual or even the best method of correcting a image for human response.
+It is not the usual or even the best method of correcting an image for human response.
 
 For a more specific examples of doing gamma correction for image processing see [Resize with Gamma Correction](../#resize_gamma)
 
@@ -417,9 +417,9 @@ The best guide on this is on the Official IM Website [Color Names](http://www.im
 Many colors have been given specific names, which make then easier to use.
 For example "`RoyalBlue`" is a very nice bright off blue color.
 
-[![\[IM Output\]](named_colors.png)](named_colors.png) To the right is a image containing all the named colors, including those with numbers, that is available in ImageMagick.
+[![\[IM Output\]](named_colors.png)](named_colors.png) To the right is an image containing all the named colors, including those with numbers, that are available in ImageMagick.
 The colors were first sorted into 3 groups, Off-Whites, Mid-Tones, and Dark Colors, and then plotted in three separate HSL color-wheels, each with a different vertical offset.
-Pure white and black colors appear as there own separate spots at the very top and bottom of the chart, to form the extremes of the vertical range.
+Pure white and black colors appear as their own separate spots at the very top and bottom of the chart, to form the extremes of the vertical range.
 
 The script that generated it is "`hsl_named_colors`" and follows a technique looked at in [Programmed Positioning of Layered Images](../layers/#example).
 
@@ -454,12 +454,12 @@ But there are a few colornames which produce different colors, depending on the 
 The biggest problem is the SVG color '`Green`' (half bright green) which is is different to the X11/XPM color '`Green`' (pure RGB green).
 If you want a pure green, you are better off using the SVG color name '`Lime`' which has no conflict.
 
-Wikipedia has a excellent article on the color name conflicts, as well as a good table of the actual color names, in [X11 color names](http://en.wikipedia.org/wiki/X11_color_names).
-You may also like to look at the article [Web Colors](http://en.wikipedia.org/wiki/Web_colors), which provide a set of nicely ordered table of some color ranges.
+Wikipedia has an excellent article on the color name conflicts, as well as a good table of the actual color names, in [X11 color names](http://en.wikipedia.org/wiki/X11_color_names).
+You may also like to look at the article [Web Colors](http://en.wikipedia.org/wiki/Web_colors), which provide a set of nicely ordered tables of some color ranges.
 
 The most notable conflicts are in four specific colors.
 Here is a table of the known color name conflicts.
-Remember the SVG color is what IM will use bu default.
+Remember the SVG color is what IM will use by default.
 
 | Conflict Color Name | SVG Result (IM default) | X11 Result for Name | X11 Equivalent Name | Alternative Color Name |
 |:--------------------|:------------------------|:--------------------|:--------------------|:-----------------------|
