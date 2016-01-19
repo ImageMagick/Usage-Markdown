@@ -566,7 +566,7 @@ This is just an integer, with a minimum value of 1, making the smallest kernel p
 The best idea is to always specify zero, which allows ImageMagick to calculate an appropriate radius for the '*sigma*' value provided.
 
 The second more important argument is '*sigma*' which defines how blurred or 'spread out' each pixel should become.
-The larger the value the more blurry a image will become.
+The larger the value the more blurry an image will become.
 It is a floating-point value.
 **The *sigma* value MUST be provided**.
 
@@ -608,7 +608,7 @@ The graph shown above is an actual profile of the default '`Blur`' kernel.
 It was created using the [Kernel Image](../morphology/#kernel2image) script "`kernel2image`", and that image then graphed using the "`im_profile`" script.
 It clearly shows the 'Gaussian Bell Curve' that this kernel represents.
   
-Here is an example of using this kernel to horizontally blur a image.
+Here is an example of using this kernel to horizontally blur an image.
 
 ~~~
 convert face.png -morphology Convolve Blur:0x4  face_blur.png
@@ -687,7 +687,7 @@ Hopefully proper kernel rotation will implemented to create better motion blur t
 
 ### Gaussian Curve {#gaussian_curve}
 
-The Gaussian Curve, is a classical and idealized density function, that has a area of 1 under the curve.
+The Gaussian Curve, is a classical and idealized density function, that has an area of 1 under the curve.
 The '*sigma*' value represents the distance from the center to the point at which the curve crosses 50% of the peak value.
 
 The larger the sigma value, the more spread out the curve is, and as such defines the 'neighbourhood', around the central point.
@@ -756,7 +756,7 @@ The larger the blurring argument (the size of the *sigma* argument) the bigger k
 As such the "`-blur`" operator is generally the recommended one to use.
 
 The only difference in results between the two operators are small quantum rounding effects (unless you are using HDRI) and edge effects (depending on [Virtual Pixel Setting](../misc/#virtual)).
-Both of these being caused by a loss of information generated due to saving a intermediate image between the two separate passes of the 'blur' convolutions.
+Both of these being caused by a loss of information generated due to saving an intermediate image between the two separate passes of the 'blur' convolutions.
 This difference is typically so small as to be invisible and of no concern to any practical usage.
 
 ### Softened Blurring (blending with original image) {#soft_blur}
@@ -844,7 +844,7 @@ convert face.png \( +clone -blur 0x2 \) \
 This you may have gathered is almost identical to that of [Softened Blurring](#soft_blur) but with the blurred image being subtracted from the original image instead of being added.
 A blending method known as [Extrapolated Blending](#compose/#blend_use), or blending beyond the normal 0 to 100 percent range.
 Again like you can simply specify how much of the blurred image you want to subtract from the original image.
-For example lets over do the unsharpening of the image, causing some aliasing and color distortions.
+For example let's over do the unsharpening of the image, causing some aliasing and color distortions.
 
 ~~~
 convert face.png \( +clone -blur 0x2 \) \
@@ -896,7 +896,7 @@ That means they contain negative values, but with all the values in the kernel a
 For a smooth flat color image, a [Convolution](#convolve) using such a kernel will produce a 'zero' or black image.
 However for any other image, you will have results that contain both negatative and positive values.
 
-For example here I apply a discrete '`Sobel`' edge detector on a image containing some basic shapes...
+For example here I apply a discrete '`Sobel`' edge detector on an image containing some basic shapes...
 
 ~~~
 convert -size 80x80 xc:black \
@@ -1102,7 +1102,7 @@ Here I provide built in versions of the more common ones I have been able to fin
 
 These kernel are basically calculated using a '`LoG`' kernel but scaled so as to use discrete integer values in a small kernal array.
 This allow you to use generated dedicated fast image filters that only use integer maths to process the image data.
-However ImageMagick is a more generalized image processor and as such does not provide such a ultra fast dedicated filter.
+However ImageMagick is a more generalized image processor and as such does not provide such an ultra fast dedicated filter.
 Still people like them as they are simpler to understand.
 
 None of the kernels provided here are rotatable, and most are 'anisotropic', meaning they are not perfectly circular, especially in diagonal directions.
@@ -1138,7 +1138,7 @@ convert face.png -define convolve:scale='!' -bias 50% \
 Sometimes a Laplacian, whether it is a discrete Laplacian, as in the last example, or a generated '`LoG`' or '`DoG`' produces a result that is more complex than is desired.
 In such cases, generating an unbiased, (without any [Output Bias](#kernel_bias)) will work better.
 
-So lets repeat the above without a bias, so as to only keep the brighter 'positive' edges.
+So let's repeat the above without a bias, so as to only keep the brighter 'positive' edges.
 
 ~~~
 convert face.png -define convolve:scale='!' \
@@ -1344,7 +1344,7 @@ convert face.png -define convolve:scale='150,100%' \
 
 [![\[IM Output\]](face_sharpen_150.png)](face_sharpen_150.png)
 
-You can use 2-pass methods of the [Difference of Gaussians](#dog) to produce a faster multi-step sharpen operation, but as it was shown above, such a scheme requires, 4 convolutions and a a separate blending operation to achieve the same result.
+You can use 2-pass methods of the [Difference of Gaussians](#dog) to produce a faster multi-step sharpen operation, but as it was shown above, such a scheme requires, 4 convolutions and a separate blending operation to achieve the same result.
 
 *FUTURE: add example of this*
 
@@ -1369,7 +1369,7 @@ Slopes are also used in image processing techniques known as 'embossing' and 'sh
 At this time no 'generated' kernels are available, only 'named' pre-defined kernels, such as [Sobel](#sobel) and [Roberts](#roberts).
 However I am certain that the embossing and shading kernel generation functions will be moved into the morphology/convolution kernel set, at some point in the future.
 
-So lets have a look at some of the 'named' directional kernels.
+So let's have a look at some of the 'named' directional kernels.
 
 ### Directional Kernels {#directional_kernels}
 
@@ -1388,7 +1388,7 @@ Sobel:{angle}
 
 We already saw the '*Sobel*' kernel above in the discussion of [Zero-Summing Kernels](zero-summing_kernels).
 
-This kernel is a raw directional (first derivative) kernel designed to return the slope of a edge in some specific orthogonal direction.
+This kernel is a raw directional (first derivative) kernel designed to return the slope of an edge in some specific orthogonal direction.
 By default it is designed for left to right slope detection, using a '`convolve`' operation.
 The result is essentially a X-derivative (slope) of the image.
 
@@ -1766,17 +1766,16 @@ ImageMagick.
            -delete 0 -background Black -compose Plus -flatten \
            result.pfm
 
-If a type of 10 is given then a multi-kernel list of all the weighted kernels
-is generated. This lets you use multi-kernel composition to do the above,
-much more simply...
+If a type of 10 is given then a multi-kernel list of all the weighted kernels is generated.
+This lets you use multi-kernel composition to do the above, much more simply...
 
     convert image.png  -define morphology:compose=Plus \
           -morphology Convolve FreiChen:10 \
           result.pfm
 
-I have not however found out what the supposed meaning of the results are.  If
-anyone has any experience of knowledge about how this is actually used, please
-let me know, so I can include it here for others to use.  
+I have not however found out what the supposed meaning of the results are.
+If anyone has any experience of knowledge about how this is actually used, please let me know, so I can include it here for others to use.  
+
 ~~~
   
 
@@ -1826,7 +1825,7 @@ convert pixel.gif  \
 As you can see a '`Convolve`' expanded the single pixel in the center to form the 'L' shape around it.
 Even when the origin itself was not part of the 'neighbourhood'.
 
-Now lets repeat this example but using '`Correlate`' instead.
+Now let's repeat this example but using '`Correlate`' instead.
 
 ~~~
 convert pixel.gif  \
@@ -1846,7 +1845,7 @@ On the other hand '`Convolve`' actually uses an 180 degree 'rotated' form of the
 If you like to see some great examples of how '`Convolve`' actually does work, I recommend you also have a look at [EECE \\ CS 253 Image Processing, Lecture 7, Spatial Convolution](http://www.archive.org/2/items/Lectures_on_Image_Processing/EECE253_07_Convolution.pdf).
 The diagram on page 22, where it actually applies the 'reflected' kernel to a single pixel, just as I did above.
   
-This rotation difference may not seem like much, but it means that in terms of the mathematics, a convolve operation (represented by a asterix ('`*`') symbol) is [Commutative](http://en.wikipedia.org/wiki/Commutativity) in that if both kernel and image were treated as just an array of values (or two images), then `F * G  == G * F`.
+This rotation difference may not seem like much, but it means that in terms of the mathematics, a convolve operation (represented by an asterisk ('`*`') symbol) is [Commutative](http://en.wikipedia.org/wiki/Commutativity) in that if both kernel and image were treated as just an array of values (or two images), then `F * G  == G * F`.
 It also means convolve is [Associative](http://en.wikipedia.org/wiki/Associativity) in that `( F * G ) * H  == F * ( G * H )`.
 See [Convolution Properties, Wikipedia](http://en.wikipedia.org/wiki/Convolve#Properties) for more information on this.
 
@@ -2025,7 +2024,7 @@ That is figuring out how many pixels exist in a particular area surrounding each
 
 ### Counting Neighbours {#counting}
 
-Basically by using a very simple convolution kernel you can create a image that contains a count of the number of neighbours surrounding a particular point in a binary image.
+Basically by using a very simple convolution kernel you can create an image that contains a count of the number of neighbours surrounding a particular point in a binary image.
 
 By convolving with a [Ring Kernel](../morphology/#ring) of the size '`1.5`' you get a neighbour count.
 
@@ -2094,7 +2093,7 @@ ASIDE: It seems it was posible but it was so fragile as to be impractical, which
 It also sparked major interest in the study and implementation of other forms of [Cellular Automation](http://en.wikipedia.org/wiki/Cellular_automaton), as a method of generating and studying large effects using very very simple rules at very small scales.
 Much like what really happens, but with grater complexity at the atomic level.
 
-So lets implement 'Life' using ImageMagick.
+So let's implement 'Life' using ImageMagick.
 
 First to make things easy we will make 'live' cells white, and 'dead' cells black.
 That way we are only counting 'white' pixels, surrounding each cell, in a 8 pixel neighbourhood.
@@ -2141,14 +2140,14 @@ Any other result leaves the result as black (dead).
 The [Color Lookup Table](../color_mods/#clut) is 21 pixels long because I will be dividing by a scaling factor of 20, whice means we could generate a value in the range from 0 to 20, or 21 distinct gray-scale levels.
 We could actually use a different value than 10 for the center (cells previous state), and 20 for the scaling, but these values are easy numbers to work with.
 
-In summary, we divide the convolution kernel by 20, and use a a CLUT that is 21 pixels long (with [Integer Interpolation](../misc/#integer)) to match convolution results (grey-levels) to the right output color value.
+In summary, we divide the convolution kernel by 20, and use a CLUT that is 21 pixels long (with [Integer Interpolation](../misc/#integer)) to match convolution results (grey-levels) to the right output color value.
 
 ASIDE: This 'Life Rules' CLUT, can be regarded as a general Cellular Automata Rules Table.
 The neighbourhood pattern used for neighbour counting is also part of the cellular automata.
 This technique is also outlined in [Cellular Automata Rules Lexicon](http://psoup.math.wisc.edu/mcell/ca_rules.html), in the [Rules Tables](http://psoup.math.wisc.edu/mcell/rullex_rtab.html) section, as a way of defining general 'limit-free' forms of the cellular automata that it lists.
 Basically almost any automata can be defined using such a neighbourhood/table combination, though most are defined using more simplified forms.
 
-So lets apply this to a image containing a 'life' pattern, multiple times to see how the pattern changes from one generation to the next, and to check that it is working as expected.
+So let's apply this to an image containing a 'life' pattern, multiple times to see how the pattern changes from one generation to the next, and to check that it is working as expected.
 
 ~~~
 convert -size 15x15 xc:black -fill white \
