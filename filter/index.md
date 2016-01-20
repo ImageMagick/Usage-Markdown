@@ -113,7 +113,7 @@ For some examples of resized images producing strong Moiré effects see the [Wik
 
 The classic way of checking if a resize will produce aliasing problems, is by minifying a [Rings Image](rings_sm_orig.gif) (see right).
 This image will often show Moiré effects when any form of resize is applied at any scale.
-Web browsers in particular show such Moiré effects when displaying such an image due to the use of a ultra fast (but often poor) resizing technique.
+Web browsers in particular show such Moiré effects when displaying such an image due to the use of an ultra fast (but often poor) resizing technique.
 
 Here I show the 'rings' image resized using the strongly aliasing "`-sample`" operator, the block averaging "`-scale`" operator and the normal default "`-resize`".
 
@@ -171,7 +171,7 @@ The problem is that when you resize an image you are changing the image stored a
 The two 'grids' will not match except in very special cases, and as a result, the image data has to be modified to make it fit this new pattern of dots.
 Basically, it is impossible to directly resize an image and expect it to come out nicely, though a reasonable result can be achieved.
 
-The result is a usually a slight blurring of the pixel data.
+The result is usually a slight blurring of the pixel data.
 The better the resize algorithm, the less blurring of sharp edges there is.
 
 However, some resize filters, especially ones designed specifically for enlarging images, often add a lot more blurring than necessary.
@@ -220,7 +220,7 @@ The "`-filter`" setting is the key control on how "`Image Resizing`" as well as 
 
 This has been a topic of intense study during the late 1980's, and from which [Paul Heckbert](http://www.cs.cmu.edu/~ph/), a major researcher in this field, produced and publicly released his "`zoom`" image resizing program.
 This program became the father of most image resizing programs used today, though many later programs implement it poorly, as it is easy to get it wrong.
-For example have a look at the results of testing [How web browsers resize images](http://entropymine.com/resamplescope/notes/browsers/).
+For example, have a look at the results of testing [How web browsers resize images](http://entropymine.com/resamplescope/notes/browsers/).
 
 In many ways, these filters are closely related to [Convolving Images](../convolve/#intro), and even the [Blurring Kernel](../convolve/#blur).
 They even suffer from similar problems.
@@ -653,7 +653,7 @@ Only Gaussian and Gaussian-like filters will do this.
 
 #### Gaussian Sigma Expert Control {#sigma}
 
-You can control the Gaussian Filter directly using a a special expert option "`-define filter:sigma={value}`" to specify the actual 'sigma' value of the Gaussian curve.
+You can control the Gaussian Filter directly using a special expert option "`-define filter:sigma={value}`" to specify the actual 'sigma' value of the Gaussian curve.
 
 By default this value is '`0.5`' which is also the same size as the [Box Filter](#box).
 In many ways, you can regard a Gaussian Filter as essentially a 'blurred box'.
@@ -695,7 +695,7 @@ However, it also has some negative weighting in its curve, which while producing
 
 ### Filter Support Expert Control {#support}
 
-The Gaussian filter is known as a IIR (Infinite Impulse Response) filter, which simply means that the response 'curve' it uses never reaches zero.
+The Gaussian filter is known as an IIR (Infinite Impulse Response) filter, which simply means that the response 'curve' it uses never reaches zero.
 That is, no matter how far away from the sampling point you get, you will still have some non-zero contribution to the result from very distant pixels.
 
 In mathematical terms, this is actually a good thing, as it means the result is much more mathematically perfect.
@@ -954,7 +954,7 @@ Either the Sinc or the Jinc function (depending on the image processing operator
 Yes, there are a lot of them, as windowing functions have been the subject of intense study by numerous signal processing experts.
 
 All of the windowed filter functions will generally be used to modulate a Sinc (or Jinc) weighting function using a support of either 3, or 4 for Sinc (3 or 4 lobes), depending on the class of windowing function being used (see below).
-For example a '`Blackman`' windowing filter will use 4 lobes, but '`Lanczos`' will use 3 lobes.
+For example, a '`Blackman`' windowing filter will use 4 lobes, but '`Lanczos`' will use 3 lobes.
 This is dependent on your IM version, so check the [Verbose Filter Expert Option](#options) if you want to be sure.
 
 As you can see, all the windowed filtered functions produce a muted form of the original *Sinc()* function that is also shown.
@@ -1510,7 +1510,7 @@ The way Nicolas Robidoux decided to do this was by selecting a blur (rescaling o
 
 Now, as discussed above "[`Lanczos`](#lanczos)" is normally defined as a '*Sinc()*' function used both the weighting and windowing of the filter.
 
-But when used as a EWA cylindrical filter, BOTH of the weighting functions will be replaced by the '*Jinc()*' function.
+But when used as an EWA cylindrical filter, BOTH of the weighting functions will be replaced by the '*Jinc()*' function.
 That is, not only is the weighting function replaced (as it is for the other linear windowed filters), but it also replaces the windowing function, producing a Jinc windows Jinc weighting function.
 
 As such, a 'Cylindrical Lanczos' will select a "Jinc windowed Jinc" with the same number of lobes (default 3).
@@ -1550,7 +1550,7 @@ This may not seem like much but it makes a huge difference in the amount of blur
 
 #### Lanczos Radius {#lanczos_radius}
 
-[![\[IM Output\]](graph_cyl_lanczos_3.gif)](graph_cyl_lanczos_3.jpg) This is a EWA Lanczos filter that is blurred (sharpened) so that the number of lobes used (3 by default) fits into a integer support radius.
+[![\[IM Output\]](graph_cyl_lanczos_3.gif)](graph_cyl_lanczos_3.jpg) This is an EWA Lanczos filter that is blurred (sharpened) so that the number of lobes used (3 by default) fits into an integer support radius.
 That is a 3 lobe EWA Lanczos (based on a Windowed Jinc) is sharpened to have a support of exactly radius 3.
 
 You can use the [Lobes Expert Control](#lobes), to achieve the same result, but as it involves an adjustment based on the known zero crossing of the Jinc function, but it is not an easy calculation to make.
@@ -1647,7 +1647,7 @@ You are of course welcome to use them and you can generate some very interesting
 
 The setting "`filter:verbose`" is perhaps your best friend in figuring out and understanding the other filter controls.
 
-For example you can verify that the Lanczos filter is defined in terms of a Sinc windowed Sinc support 3.
+For example, you can verify that the Lanczos filter is defined in terms of a Sinc windowed Sinc support 3.
 
 ~~~{data-capture-out="filter_verbose.txt"}
 convert null: -filter Lanczos -define filter:verbose=1 -resize 2 null: |\
@@ -1716,7 +1716,7 @@ Use the Blackman windowing function directly as a filter (as IM did by mistake, 
 The windowing function will default to 'Box' when undefined.
 
 A 'Box' windowing function will result in no windowing of the base filter function.
-For example a 'Gaussian' filter by default has a 'Box' windowing function.
+For example, a 'Gaussian' filter by default has a 'Box' windowing function.
 The only effect a box windowing function has is a clipping of windowed area of the function.
 See [Filter Support Expert Control](#support) above.
 
