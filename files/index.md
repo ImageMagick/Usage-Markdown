@@ -415,7 +415,7 @@ This image format specification becomes particularly important when you want to 
 This special filename does not have a suffix, so you *must* tell ImageMagick what format to use.
 If you don't, the image will default to the original image format that the image came from (if known).
 
-For example, here we write a IM pixel enumeration to the screen using a "`-`" to output the result to the standard output.
+For example, here we write an IM pixel enumeration to the screen using a "`-`" to output the result to the standard output.
 
 ~~~{data-capture-out="write_stdout.txt"}
 convert tree.gif  -resize 1x3\!  txt:-
@@ -483,7 +483,7 @@ This is not a recommended solution for a number of large images, or very large n
 Note that the "`+adjoin`" in this case is vital to prevent IM saving all the images into a multi-image GIF animation, using just the filename of the first image.
 
 I also ensured I preserved the original suffix of the filename using the "`%e`" escape sequence.
-Normally including the suffix in the filename setting is a bad idea, as IM does not see it when it comes from a escape sequence, for determining the output file format.
+Normally including the suffix in the filename setting is a bad idea, as IM does not see it when it comes from an escape sequence, for determining the output file format.
 In this case however, the format is not changing, so there is no problem.
 Caution is needed.
 
@@ -500,7 +500,7 @@ Also see the example in [Using Convert Instead of Morgify](../basics/#mogrify_co
 
 IM will also automatically "`gzip`" images if a "`.gz`" suffix is given.
 
-For example here I save the built-in "`rose:`" image as a "`gzip`"ed, uncompressed GIF file.
+For example, here I save the built-in "`rose:`" image as a "`gzip`"ed, uncompressed GIF file.
 I turn off the normal LZW compression of GIF, as it would prevent "`gzip`" compression from achieving its best compression.
 
 ~~~
@@ -761,7 +761,7 @@ For those interested in parsing this format, it starts with a plain text header 
 The header ends in a line containing a single formfeed character.
 
 This header is itself a useful way of extracting basic image information in various image processing processing scripts.
-For example here are I use a GNU-sed command to list the "`miff:`" header up to the formfeed separator, showing all the attributes of the built-in "`rose:`" image.
+For example, here are I use a GNU-sed command to list the "`miff:`" header up to the formfeed separator, showing all the attributes of the built-in "`rose:`" image.
 
 ~~~{data-capture-out="write_miff_info.txt"}
 convert rose:   miff:-  | sed -n '/^\f$/q; p'
@@ -888,7 +888,7 @@ convert  rose:  -verbose  info:  | head
 > It also causes some operators like "`-colors`" to output additional information.
 > As such you may like to turn it off again after using it with either "`-identify`" or the "`info:`" format.
 >
-> For example "`-verbose -write       info:image_info.txt +verbose`" * or * "`-verbose -identify +verbose`" *.*
+> For example, "`-verbose -write       info:image_info.txt +verbose`" * or * "`-verbose -identify +verbose`" *.*
 >
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > :WARNING:
@@ -937,7 +937,7 @@ This is a simple ASCII text file, which basically lists each pixel in the image,
 It is not a general text to image converter, for that see [Multi-line Text Files Examples](../text/#text).
 If the 'pixel enumeration' is not recognized, the image will be passed to the "`text:`" format coder, for rendering as a plain text file.
 
-For example here is a "`netscape:`" image scaled to a 2x2 pixel image, then listed using a "`txt:`" image format.
+For example, here is a "`netscape:`" image scaled to a 2x2 pixel image, then listed using a "`txt:`" image format.
 
 ~~~{data-postamble="convert label:@txt_netscape.txt txt_netscape.txt.gif"}
 convert  netscape: -scale 2x2\! txt_netscape.txt
@@ -979,7 +979,7 @@ convert netscape: -scale 2x2\! -depth 16 txt_netscape_16.txt
 If the image contained any transparency, a final letter '`a`' (for alpha) is also appended to the colorspace name, and an extra column of numbers added between parenthesis.
 Grayscale images will use the '`rgb`' format, though all three numbers will be the same value.
 
-For example here is the same image using a [colorspace](../color_basics/#colorspace) of '`LAB`' with an alpha channel added!
+For example, here is the same image using a [colorspace](../color_basics/#colorspace) of '`LAB`' with an alpha channel added!
 
 ~~~{data-postamble="convert label:@txt_cspace_lab.txt txt_cspace_lab.txt.gif"}
 convert  netscape: -scale 2x2\! -colorspace LAB -matte txt_cspace_lab.txt
@@ -1351,7 +1351,7 @@ It is simply ignored by the format.
 It also only uses normal ASCII characters, which is why it is used to encode binary data for email and web pages.
 It also allows binary data to be stored in programs and scripts without problems.
 
-For example I could have the following command in a shell script so the script itself has the image built into it, and thus does not need a separate external image source.
+For example, I could have the following command in a shell script so the script itself has the image built into it, and thus does not need a separate external image source.
 
 ~~~
 convert 'inline:data:image/gif;base64,
@@ -1509,7 +1509,7 @@ convert x:'root[300x400+879+122]'  part_screen_dump.jpg
 ~~~
 
 Providing a window name you can grab a specific window.
-For example this will grab the window titled '`MailEd`'...
+For example, this will grab the window titled '`MailEd`'...
 
 ~~~{.skip}
 convert x:'MailEd'  window.jpg
@@ -1675,14 +1675,14 @@ Lots of delegates of this type have already been added to the system file, so it
 >
 > Also, as always, sanitize any user (especially web user) input, as you don't want the user to make use of a delegate without you knowing about it.
 
-For example as of IM v6.4.2-6, an "`autotrace:`' delegate was added to the system delegates file, which will run the "`AutoTrace`" command while reading ANY input image.
+For example, as of IM v6.4.2-6, an "`autotrace:`' delegate was added to the system delegates file, which will run the "`AutoTrace`" command while reading ANY input image.
 IM converts the input image to the required PNG image format needed by the delegate program, filters it though the delegate, then reads the resulting SVG (typically via an external RSVG library), to generate a smooth edged version of the original input bitmap image.
 See [Raster to Vector Converter Example](../transform/#edge_vector).
 
 If a converter generates multiple image files (such a PNG), you will need to merge all those separate images into a single multi-image format such as MIFF, so that IM can read the multiple images from the one output file.
 
 Sometimes IM will string together multiple delegate programs to read in an image.
-For example to read a 'HTML' page as an image, it first calls the delegate "`html2ps`" to convert it to postscript.
+For example, to read a 'HTML' page as an image, it first calls the delegate "`html2ps`" to convert it to postscript.
 Then it converts the generated postscript file into a set of multiple images using the special "`ghostscript`" program delegate.
 
 Of course, using two, or more delegates like this can produce other problems due to the complex interactions, miss-installations, and bugs that may be present in the delegate programs.
@@ -1789,7 +1789,7 @@ For Postscript images, that usually means "`ghostscript`" is not installed, mis-
 The delegate system also allows IM to call an external program to convert an image from one format to another format, without any processing of the image by ImageMagick itself.
 But only if the destination image is readable by IM as an image and the final result of the "`convert`" was an 'untainted' copy of the image.
 
-For example if you try this command to convert an 'Adobe Illustrator' file ("`.ai`") (which is a type of Postscript), to EPS (encapsulated postscript)...
+For example, if you try this command to convert an 'Adobe Illustrator' file ("`.ai`") (which is a type of Postscript), to EPS (encapsulated postscript)...
 
 ~~~{.skip}
 convert -density 300   map.ai  map.eps
@@ -1824,7 +1824,7 @@ See [Blog of John](http://blog.digitaljohn.co.uk/2007/06/19/imagemagick-cmyk-to-
 
 #### DCRaw 8-bit processed camera image Delegate
 
-A alternative delegate for reading 8-bit fully processed 'raw' digital camera images (CRW, CR2, NEF, etc) is...
+An alternative delegate for reading 8-bit fully processed 'raw' digital camera images (CRW, CR2, NEF, etc) is...
 
 ~~~{.skip}
 <delegate decode="dcraw8" command='dcraw -v -w -O "%o" "%i"'/>
@@ -1847,7 +1847,7 @@ See comments in this [IM Users Forum Discussion](../forum_link.cgi?t=15605).
 
 #### Video decoder delegate using 'ffmpeg'
 
-For example here is a delegate published by Mikko Koppanen, on his [Mikko’s blog](http://valokuva.org/) site.
+For example, here is a delegate published by Mikko Koppanen, on his [Mikko’s blog](http://valokuva.org/) site.
 Add this to your personal "`delegates.xml`" file in "`.magick`" directory of your home...
 
 ~~~{.skip}
@@ -1927,7 +1927,7 @@ IM has also evolved a simpler pipeline processor for images called "`stream`".
 This program has a limited set of image operations that are designed to only process images one scan line (row of pixels) at a time.
 As such only enough memory to hold a single line of pixels is used when processing images in this way.
 
-For example this allows you to extract a smaller area of a very large image for further processing, without needing to read in the whole image into memory first.
+For example, this allows you to extract a smaller area of a very large image for further processing, without needing to read in the whole image into memory first.
 However, the output of "`stream`" is raw RGB image values, so some post-processing is recommended.
 
 ~~~{.skip}
@@ -1997,7 +1997,9 @@ This type of massive image storage, combined with a pyramid type multiple-resolu
 
 While IM does not have anything to break up (tile crop) massive images using a small amount of memory, the [PbmPlus/NetPBM](../formats/#pbmplus) can do this.
 
-**Pbmplus processing of a small section** For example here I use Pbmplus tools to cut (crop) out a small section of the large image, process it, then compose that piece back into the original image.
+**Pbmplus processing of a small section**
+
+For example, here I use Pbmplus tools to cut (crop) out a small section of the large image, process it, then compose that piece back into the original image.
 
 ~~~{.skip}
 tifftopnm INPUT.tif input.pam
@@ -2061,7 +2063,7 @@ This is being fixed as part of IMv7 scripted processing.
 One solution is a small perl script, "`process_ppm_pipeline`", that will accept a stream of PPM images, and run a separate "`convert`" command on each image, as it arrives.
 The output is also a series of PPM images that produces a new stream of images.
 
-For example read a video, and 'flip' every frame, one by one...
+For example, read a video, and 'flip' every frame, one by one...
 
 ~~~{.skip}
 ffmpeg input.mpg -f image2pipe -vcodec ppm | pnmtopnm -plain |
