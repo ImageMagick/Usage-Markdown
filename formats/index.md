@@ -7,7 +7,7 @@ This page deals with these special needs, and ways to improve results in those f
 
 ## A Brief Summary of Common Image File Formats {#summary}
 
-For a introduction to reading and writing image formats see [Image File Formats](../files/).
+For an introduction to reading and writing image formats see [Image File Formats](../files/).
 While a list of all the ImageMagick file formats are given on the [IM Image Formats Page](http://www.imagemagick.org/script/formats.php).
 
 Here is a very quick summary of the most common 'normal' image file formats, as well as their general advantages and disadvantages...
@@ -142,7 +142,7 @@ This technique can also be used to auto-convert your image into multiple images 
 
 ### GIF Transparency Color {#gif_trans}
 
-For example here we use identify to extract the transparent color, and the color table a particular GIF image file used to represent transparency.
+For example, here we use identify to extract the transparent color, and the color table a particular GIF image file used to represent transparency.
 The perl script extracts just the specific fields of interest (which can be multi-line).
 
 ~~~{data-capture-out="hand_point.txt"}
@@ -239,7 +239,7 @@ If you want to change a specific (exact) color to become transparent, then use t
 
 ### GIF Boolean Transparency {#boolean_trans}
 
-Because the GIF format does NOT understand semi-transparent colors, and as ImageMagick by default generates semi-transparent color as part of its normal [Anti-Aliasing Methods](../antialiasing/), when you save a image to this format it will often come out horrible looking.
+Because the GIF format does NOT understand semi-transparent colors, and as ImageMagick by default generates semi-transparent color as part of its normal [Anti-Aliasing Methods](../antialiasing/), when you save an image to this format it will often come out horrible looking.
 
 For example, here I draw a simple black circle on a transparent background.
 Also I will generate an enlarged view of the edge of the images, to make it clear what is happening.
@@ -258,7 +258,7 @@ convert circle.png -crop 10x10+40+3 +repage  -scale 600%  circle_mag.png
 As you can see the edge of the circle on the left drawn (in PNG format) as a very clean looking (though slightly fuzzy) edge to the image.
 You can see the semi-transparent pixels in its enlargement.
 
-Now lets output the same image using the "GIF" image format...
+Now let's output the same image using the "GIF" image format...
 
 ~~~
 convert -size 60x60 xc:none -fill white -stroke black \
@@ -327,7 +327,7 @@ Thresholding the alpha channel at 50% works well for most types of images.
 Especially those with a simple edge, but the technique breaks down rather badly, when you need to deal with large areas of semi-transparent pixels.
 This is what the most of the following examples for GIF handling will look at.
 
-For example suppose we want to save a image with a large [fuzzy semi-transparent shadow](../fonts/#fuzzy_shadow) such as this image (in PNG format)...
+For example, suppose we want to save an image with a large [fuzzy semi-transparent shadow](../fonts/#fuzzy_shadow) such as this image (in PNG format)...
 
 ~~~
 convert -size 70x60 xc:none -font Candice -pointsize 50 \
@@ -391,9 +391,9 @@ Also you could only guarantee it to work for a particular browser, and then only
 Not a good idea for a web page, so don't even bother to try.
 I certainly won't.
 
-Instead of trying to do a perfect match-up with the background pattern, lets just overlay it onto a color that at least matches the background we intend to use.
+Instead of trying to do a perfect match-up with the background pattern, let's just overlay it onto a color that at least matches the background we intend to use.
 
-For example lets overlay our image onto a 'typical' bubble like background pattern.
+For example, let's overlay our image onto a 'typical' bubble like background pattern.
 But first we need to know the average color of this background.
 A simple way to find this color is to just [scale](../resize/#scale) the image down to a single pixel, then read the resulting color.
 
@@ -403,7 +403,7 @@ convert bg.gif -scale 1x1\! -depth 8 txt:-
 
 See [IM Pixel Enumeration Text Format](../files/#txt) for more information on the special "`txt:`" output format used.
 
-Now lets set the background transparency of the image using "`-flatten`".
+Now let's set the background transparency of the image using "`-flatten`".
 
 ~~~
 convert a.png  -background '#BABBD7' -flatten  a_bg.gif
@@ -486,7 +486,7 @@ dithering section.
 The biggest problem with the above is that it would only work if you happened to know exactly what color the background, or background pattern your image will be used on.
 If you don't know all is not lost.
 
-As you saw above, threshold does not work well for a image with a very large area of transparency, such as a fuzzy shadow.
+As you saw above, threshold does not work well for an image with a very large area of transparency, such as a fuzzy shadow.
 But another technique known as dithering can, and does NOT require knowledge of the background it will be used on.
 
 Basically dithering limits the transparency to on/off values, creating an effect of semi-transparency over a larger area using a pattern if pixels.
@@ -564,7 +564,7 @@ By being only a little less restrictive you can randomize just the very edge of 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > The "`-random-threshold`" argument '`PxQ`', where `P` is the min threshold and `Q` is the max (the '%' symbol is required).
 > So "5x95%" says anything below is 5% of `MaxRGB` is set to 0, anything above 95% is set to `MaxRGB` otherwise we choose a random value between 5% and 95% of MaxRGB, as the threshold level to use for that pixel.
-> A argument of "5x95%" value is probably the best value to use in most situations.
+> An argument of "5x95%" value is probably the best value to use in most situations.
 
 You can improve the final look by using a darker mid-tone color (like a dark grey) instead of black for the shadow color.
 By doing this the color will tend to blur into the background more making the dither less pronounced that what is shown above.
@@ -770,7 +770,7 @@ Thus while you can overlay images onto a background color or pattern and save to
 As JPEG was designed to save real world images, and not parts of images, as such transparency was not an issue it was concerned about, when the format was created.
 Consequently the designers never worried about including an alpha channel, or other transparency information in the file format.
 
-For example let take the PNG with transparency we used above and convert it directly to JPEG.
+For example, let take the PNG with transparency we used above and convert it directly to JPEG.
 
 ~~~
 convert  a.png  a.jpg
@@ -791,7 +791,7 @@ As mentioned above, the compression algorithm JPEG used is lossy.
 That image will be modified to allow it to compress better, reducing file space, hopefully.
 
 Exactly how much color distortion occurs depends on the quality settings use.
-For example let us look at how many colors are in the IM built-in "`netscape:`" image...
+For example, let us look at how many colors are in the IM built-in "`netscape:`" image...
 
 ~~~{data-capture-out="jpg_colors_none.txt"}
 identify -format "Colors: %k" netscape:
@@ -802,7 +802,7 @@ identify -format "Colors: %k" netscape:
 As you can see this image by default has 216 colors in a large rectangular array.
 This type of image is NOT a very good image for saving to JPEG format, which makes it ideal for our purposes.
 
-So lets look at the number of colors a JPEG image save of this image produces...
+So let's look at the number of colors a JPEG image save of this image produces...
 
 ~~~{data-capture-out="jpg_colors_def.txt"}
 convert netscape: JPG:- |\
@@ -903,7 +903,7 @@ Because of this is it recommended that you specify at least double the final 're
 #### [+profile](../option_link.cgi?profile) '\*'
 #### [-strip](../option_link.cgi?strip)
 JPEG images as saved by digital cameras, scanning software and other image processing software like "photoshop" will often add large profiles of "*program comments*" to JPEG images.
-Either of these options will remove those profiles from a image, after that image read in.
+Either of these options will remove those profiles from an image, after that image is read in.
 
 The "`+profile`" operator will remove all color profiles from an image, while "`-strip`" will remove all profiles and meta-data that the image may have.
 
@@ -974,7 +974,7 @@ As such 'lossless JPEG' is *NOT recommended* and some other format (like PNG or 
 #### [-interlace](../option_link.cgi?interlace) Line
 
 Use a 'Progressive JPEG' style that allows you to see large jpeg images while it is still being loaded.
-Also see the non-IM solution for re-encoding a existing JPEG without further loss, below.
+Also see the non-IM solution for re-encoding an existing JPEG without further loss, below.
 
 #### [-sampling-factor](../option_link.cgi?sampling-factor) {*horizontal*}x{*vertical*}
 
@@ -992,7 +992,7 @@ The above setting however is stored in the JFIF header of the JPEG image file fo
 Unfortunately some programs like Photoshop will ignore this setting if a density is also present in a special photoshop specific profile ('`8BIM`') stored in the image.
 
 Density is really only important when an output device is being used, such as printers or monitors, allowing these devices to display the image scaled to real world sizes.
-For example ensuring the photo or page you scanned is printed at the right size.
+For example, ensuring the photo or page you scanned is printed at the right size.
 For more information about density see and [Image Density Meta-data](../basics/#density) and [Resample Resizing](../resize/#resample).
 
 #### [-type](../option_link.cgi?type) TrueColor
@@ -1067,7 +1067,7 @@ Basically write every N lines first, then a line between them, and so on, so you
 
 JPEG2000: The latest JPEG format with new additions.
 
-This format requires the 'JasPer jp2' library to be installed or you get a error..
+This format requires the 'JasPer jp2' library to be installed or you get an error...
 
 "`no encode delegate for this image format`"
 
@@ -1104,7 +1104,7 @@ jpegtran
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > The JPEG lossless rotation (which all the above provide) will only work correctly for images that have a size that is divisible by 8 or 16.
 > This is true with most (but not all) digital camera photos.
-> If you try this with an image that is a odd size the right or bottom edge blocks (containing the partial size) will not be positioned correctly in the final image, as these block can only exist on the right or bottom edge.
+> If you try this with an image that is an odd size the right or bottom edge blocks (containing the partial size) will not be positioned correctly in the final image, as these block can only exist on the right or bottom edge.
 >
 > For an example of this see this [specific discussion](../forum_link.cgi?t=16784&p=62157)
 
@@ -1204,7 +1204,7 @@ Basically it is very posible to do lossless JPEG, processing such as 'cropping' 
 
 This is one of the newest and most modern image formats, supporting 32 bit colors including alpha channel transparency, but can also be optimised to a GIF like 8 bit index color scheme (256 color limit).
 
-As such it makes a excellent intermediate format for image processing without loss of image information.
+As such it makes an excellent intermediate format for image processing without loss of image information.
 
 ### PNG compression {#png_quality}
 
@@ -1238,7 +1238,7 @@ This means that in many cases PNG can be made to compress better by replacing th
 
 There are two major methods you can use for this, using [Alpha Background Operator](../masking/#alpha_background) to just handle fully-transparent pixels only, or using a [Fuzz Factor with Transparency](../color_basics/#fuzz_alpha) type operation to also map near-semi-transparent colors to fully-transparent-black.
 
-For example here I take the fuzzy shadowed "`a.png`" image we generated above and replace all pixels that are within 20% of full transparency.
+For example, here I take the fuzzy shadowed "`a.png`" image we generated above and replace all pixels that are within 20% of full transparency.
 
 ~~~
 convert a.png  -fuzz 10% -transparent none  a_compress.png
@@ -1290,10 +1290,10 @@ For information on this look at my WWW Laboratory Page [PNG with Transparency an
 Other solutions are to convert the PNG to either JPEG (with the right colored background), or GIF formats.
 These methods are discussed thoroughly for [GIF Images on Backgrounds](#bgnd).
 
-Another solution is to set the color of all fully-transparent colors in a image before saving it to PNG.
+Another solution is to set the color of all fully-transparent colors in an image before saving it to PNG.
 PNG will save that fully-transparent color, but be warned that just about any other IM operation will reset fully-transparent back to fully-transparent black (as transparent color is not suppose to matter at that is the way image mathematics work).
   
-For example the standard [IM examples test image](../#PNG) uses full transparent black for any pixel that is fully-transparent.
+For example, the standard [IM examples test image](../#PNG) uses full transparent black for any pixel that is fully-transparent.
 We can verify this by either turning off the alpha channel, or saving it a JPEG...
 
 ~~~
@@ -1303,7 +1303,7 @@ convert test.png test.jpg
   
 [![\[IM Text\]](test.jpg)](test.jpg)
   
-Now lets save this so that all the fully transparent colors was replace with fully-transparent '`silver`' color (see the [Alpha Background](../masking/#alpha_background) operator)...
+Now let's save this so that all the fully transparent colors was replace with fully-transparent '`silver`' color (see the [Alpha Background](../masking/#alpha_background) operator)...
 
 ~~~
 convert test.png   -background silver -alpha Background   test_silver.png
@@ -1326,10 +1326,10 @@ convert test_silver.png test_silver.jpg
 Note however that this does NOT modify semi-transparent pixels, and these will still have their normal (non-transparent) colors without mixing that color with either the page background, or the color used for fully-transparency.
 
 As semi-transparency is no longer involved, borders can look jagged (aliased), as well as 'halo' effects, along lighter colored edges.
-For example look at the edges of the black and white circles which show the 'jaggies' aliasing effects.
+For example, look at the edges of the black and white circles which show the 'jaggies' aliasing effects.
 However using a gray replacement color should make this not as bad as as the original 'black' color used for full transparency.
 
-The other advantage of setting the color of fully-transparent pixels, is a improvement in compression of data.
+The other advantage of setting the color of fully-transparent pixels, is an improvement in compression of data.
 Sometimes, the underlying colors in transparent areas used during processing were preserved.
 These in turn do not compress as well as a solid color.
 As such setting the fully-transparent color as we did above, can produce a good saving in the final file size.
@@ -1358,7 +1358,7 @@ convert rose: -repage 0x0+40+30 png:- |\
 However, even though the PNG format will not normally save canvas size information, IM does add some virtual canvas size meta-data to PNG images.
 This data however will only be usable by IM commands, and is generally ignored by other PNG image format readers.
 
-For example the second "`convert`" command does see some virtual canvas size information...
+For example, the second "`convert`" command does see some virtual canvas size information...
 
 ~~~
 convert rose: -repage 100x100+10+10 png:- |\
@@ -1407,7 +1407,7 @@ For more information see [Image Type I/O Setting](../basics/#type).
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > The PNG48, PNG64 and PNG00 styles were added as of IM v6.8.2-0
 
-You can force IM to create a image color index table (or palette) then IM will save that image using a "`PNG8:`" format...
+You can force IM to create an image color index table (or palette) then IM will save that image using a "`PNG8:`" format...
 
 ~~~{.skip}
 convert {input_image}  -type Palette  indexed.png
@@ -1619,7 +1619,7 @@ convert -define jpeg:size=64x64  image.jpg  xmp:profile.xmp
 
 The "`-define`" option in the above is used as a 'hint' to the JPEG library to reduce the amount of actual image data it reads into memory and then save a lot of processing of the data you don't actually intend to use.
 
-You can also insert or re-insert a arbitrary profile as a 'blob' or binary string containing whatever information you like.
+You can also insert or re-insert an arbitrary profile as a 'blob' or binary string containing whatever information you like.
 
 ~~~{.skip}
 -profile 'profile_name:data_file'
@@ -1652,7 +1652,7 @@ The destination profile describes the colors in the output image after conversio
 Also, you should take great care when converting to a given destination profile: If, for example, you use a profile that describes offset printing on uncoated stock but intend to use the images for printing on coated paper, you will of course not get any good results.
 The output profile needs to be an accurate representation of your intended output condition.
 
-When converting from a subtractive into a additive color-space (or visa-versa) without using the correct profile (for both steps of conversion) you won't get 'correct' colors or brightness in most cases, although you may be lucky and hit the mark 'by accident'.
+When converting from a subtractive into an additive color-space (or visa-versa) without using the correct profile (for both steps of conversion) you won't get 'correct' colors or brightness in most cases, although you may be lucky and hit the mark 'by accident'.
 
 You can download color profiles from [International Color Consortium](http://www.color.org/srgbprofiles.xalter).
 
@@ -1689,7 +1689,7 @@ For Example, If the input image already has a color profile then only one is nee
 convert rgb_image.jpg -profile USCoat.icm cmyk_image.jpg
 ~~~
 
-But if the image doesn't (or you know it is a RGB image, without a existing profile), you can use...
+But if the image doesn't (or you know it is a RGB image, without an existing profile), you can use...
 
 ~~~{.skip}
 convert rgb_image.jpg +profile icm \
@@ -1754,7 +1754,7 @@ This attribute is meant to be "*assumed in the event of no colour profile being 
 
 The IPTC profile is used in images to store identification attributes of the image, such as caption, credit, author, keywords, etc.
 
-If you want to add a IPTC profile to an image, you need a single -profile:
+If you want to add an IPTC profile to an image, you need a single -profile:
 
 ~~~{.skip}
 convert image.jpg -profile iptc iptc_image.jpg
@@ -1829,9 +1829,9 @@ Their is more than one style of image storage in the world...
      It is very rarely seen.
 
 Why is this important?
-Because IM is a 'raster image processor', and while it can read or write images stored in one of the vector formats it does so by converting the image to and from a internal raster image.
+Because IM is a 'raster image processor', and while it can read or write images stored in one of the vector formats it does so by converting the image to and from an internal raster image.
 
-Consequently if you are trying to convert a image from a vector format, to another vector format, IM will essentially rasterize this image at the currently defined [resolution or density](../basics/#density) which will hopefully (but unlikely) be suitable for the output device you intend to use it on.
+Consequently if you are trying to convert an image from a vector format, to another vector format, IM will essentially rasterize this image at the currently defined [resolution or density](../basics/#density) which will hopefully (but unlikely) be suitable for the output device you intend to use it on.
 
 In other words, any output from IM will never be a true vector format.
 While it can convert its internal raster format into a vector format file, the result is only a superficial vector image wrapper around an image in raster format.
@@ -1919,7 +1919,7 @@ This is well beyond the scope of ImageMagick, and so it relies on a specialized 
 This also assumes that the postscript program itself does not rotate or otherwise manipulate the raster image.
 
 In fact, multiple delegates are present and selected by IM depending on the situation.
-For example the '`ps:color`' (using the '`bmpsep8`' ghostscript device) verses '`ps:alpha`' (using '`pngalpha`') is selected depending on if "`-channel RGBA`" had been set or not.
+For example, the '`ps:color`' (using the '`bmpsep8`' ghostscript device) verses '`ps:alpha`' (using '`pngalpha`') is selected depending on if "`-channel RGBA`" had been set or not.
 
 The '`ps:color`' delegate is used rather than '`ps:alpha`' by default because the '`pngalpha`' ghostscript device only supports a one page/one image and PDF's generally are multi-page.
 Use "`-channel RGBA`" before reading the image to select the '`pngalpha`' delegate method.
@@ -2055,12 +2055,12 @@ Also for text documents, using a raster image is wasteful, as plain text with fo
 Because of this, other PDF creation programs may be better suited to your needs.
 This will let you keep images as images, and text and text, allowing you position the text and images together in a nicer more logical way, as well as insert text, and overlay arrows or connecting lines, in a more logical fashion.
 
-For example I suggest you look at the support programs provided by the TeX and LaTeX system.
+For example, I suggest you look at the support programs provided by the TeX and LaTeX system.
 See [Comprehensive TeX Network (CTAN)](http://www.ctan.org/).
 
 Another tool set is [Multivalent Document Tools](http://multivalent.sourceforge.net/Tools/).
 
-Of course such programs are harder to automate, however I have in the past use the simple FIG vector graphic file format (see [Xfig](http://www.xfig.org/)) to generate Postscript and PDF documents with text and auto placed graphics in a automatic way.
+Of course such programs are harder to automate, however I have in the past use the simple FIG vector graphic file format (see [Xfig](http://www.xfig.org/)) to generate Postscript and PDF documents with text and auto placed graphics in an automatic way.
 
 **Image to PDF convertors**...
 
@@ -2090,7 +2090,7 @@ Unfortunately it doesn't work with default PDFs created by IM.
 
 **Multi-paged PDF Documents**...
 
-You can use perl to combine multiple PDF files, without resorting to a IM, and its rasterization problem...
+You can use perl to combine multiple PDF files, without resorting to an IM, and its rasterization problem...
 
 ~~~{.skip}
 #!/usr/bin/perl
@@ -2147,7 +2147,7 @@ The PPM file format is actually especially important to ImageMagick as it is the
 It is also a major format for video image processing such as from the "[ffmpeg](http://ffmpeg.org/)" command.
 
 Any 'quality' or value range can be used on input (up to 16 bit or 65535 'depth').
-For example here is a highly unusual value range of 5, to generate a 'step gradient'.
+For example, here is a highly unusual value range of 5, to generate a 'step gradient'.
 I know of no other image format that allows you to use such an odd-ball quality range.
 
 ~~~
@@ -2177,7 +2177,7 @@ convert -size 20x2 xc: +noise random -channel G -separate +channel \
 
 Note that when the output is plain text, and lines are not written so as to line up with the images row length.
 But you can re-format the output using the various Unix text utilities.
-For example you can use the "`tr`" text utility to replace and compress multiple commas and spaces to single newline, will place all values one value per line, making it easier for a script to process.
+For example, you can use the "`tr`" text utility to replace and compress multiple commas and spaces to single newline, will place all values one value per line, making it easier for a script to process.
 
 Also with IM you can only specify 'depth' of 8 or 16 for the output quality for PGM and PPM.
 While the PbmPlus formats allows the use of any 'maxval' for its values, even one that is not a power of two!
@@ -2292,7 +2292,7 @@ The two packages work together well, and recommend both be installed and used fo
 > Since then it has been redeveloped a number of times by different people, and finally seems to have become a proper open source project.
 > The various programs seem to be maturing and start to work together better.
 >  
-> However its main problems remain a of lack of meta-data and complexity.
+> However its main problems remain a lack of meta-data and complexity.
 > But its simplicity as a file format remains its biggest advantage, making it ideal for very low level image and data manipulation.
 
 ------------------------------------------------------------------------
@@ -2582,7 +2582,7 @@ Note that it is designed for raw *camera* images, and not those from, for exampl
 The "`dcraw`" program can handle a large number of different raw formats including those from cameras manufactured by Canon, Fuji, Kodak, Nikon and Sony.
 
 You can determine whether "`dcraw`" will recognize your raw files by asking it to identify a sample.
-For example the command:
+For example, the command:
 
 ~~~{.skip}
 dcraw -i CRW_9641.CRW
@@ -2629,7 +2629,7 @@ For further information look on the [DCRaw WebSite](http://www.cybercom.net/~dco
 
 Also see [DCRaw by Example](http://www.camerahacker.com/Digital/dcraw_by_example.shtml).
 
-The above notes were first extracted from a IM Forum Topic [Converting RAW images](../forum_link.cgi?p=38051), by *[jhfry](../forum_link.cgi?u=11359)*, with major re-writes by *[el\_supremo](../forum_link.cgi?u=3499)*.
+The above notes were first extracted from an IM Forum Topic [Converting RAW images](../forum_link.cgi?p=38051), by *[jhfry](../forum_link.cgi?u=11359)*, with major re-writes by *[el\_supremo](../forum_link.cgi?u=3499)*.
 
 ------------------------------------------------------------------------
 
@@ -2651,7 +2651,7 @@ ImageMagick to generate titles, fancy scene changes, and other effects to
 complete the post-processing development of a larger video development.  The
 process however is kept to small video sequences.
 
-However lets have a look at what IM can do.
+However let's have a look at what IM can do.
 
 Frames to Video
 
@@ -2685,7 +2685,7 @@ PNG-files, use the following delegation...
 For more info see mjpeg.sf.net
 
 
-IM forums reported decent results with a open source project called "ffmpeg", which seems to be a fairly standard
+IM forums reported decent results with an open source project called "ffmpeg", which seems to be a fairly standard
 Linux package install.
 
  ffmpeg -f image2 -i %03d.jpg -vcodec mjpeg -y anim.mpg
@@ -2705,7 +2705,7 @@ http://www.mathematik.uni-ulm.de/~lehn/particle.avi
 http://www.mathematik.uni-ulm.de/~lehn/temperature.avi
 
 
-mabu in a IM Forum Discussion said to
+mabu in an IM Forum Discussion said to
 "USE MENCODER, wow it's like 1000 times faster and actually WORKS"...
 
  mencoder -nosound mf://*.jpg -mf w=800:h=371:type=jpg:fps=15 -ovc lavc -lavcopts vcodec=mpeg4:vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq -o output.mpg
@@ -2744,7 +2744,7 @@ Both "mplayer" and
 of frames than IM is.  On top of this is can handle just about any video
 (and audio) codec available.
 
-For example to grab 5 frames from 1 1/2 minutes into a video, scaled to
+For example, to grab 5 frames from 1 1/2 minutes into a video, scaled to
 320x240, you can use...
 
   mplayer file.mov -vf scale=320x240 -ss 01:30 -ao null \
@@ -2813,7 +2813,7 @@ As an example, had this information been lost, reducing the brightness of an ima
 The latter is far closer to what happens in the real world.
 
 The header can contain Film and/or Television specific data related to a production.
-For example the television header can contain a SMPTE time code so that shots exported as a dpx sequence from a production's edit can be easily replaced once any effects have been added.
+For example, the television header can contain a SMPTE time code so that shots exported as a dpx sequence from a production's edit can be easily replaced once any effects have been added.
 The film header holds information about the reel of film the frames originated from and various camera settings that were used while filming.
 All these details will then stay with the images as they are passed between post-production companies.
 
@@ -2829,7 +2829,7 @@ convert -define dpx:television.time.code=10000215 \
 Carrying out this command for each of several thousand files that form a sequence from a film or animation would clearly take a very long time.
 A simple script can be used with ImageMagick to automatically increment the time code for each frame in a sequence.
 
-For example see the Perl Script [dpx\_timecode.pl](../scripts/dpx_timecode.pl).
+For example, see the Perl Script [dpx\_timecode.pl](../scripts/dpx_timecode.pl).
   
  A copy of the above was added to the main IM documentation at [Introduction to Motion Picture Formats](http://magick.imagemagick.org/script/motion-picture.php).
 
@@ -2878,7 +2878,7 @@ You can add text user data to the dpx file by using
 
 A PSD image file is the Photoshop Working image file format, just as XCF is the GIMP working file format, and [MIFF](../files/#miff) is ImageMagick's own working file format.
 
-They usually contain multi-images, with first image being a all-in-one merger of the current working image.
+They usually contain multi-images, with first image being an all-in-one merger of the current working image.
 That makes it useful for seeing the working image as it currently stands and is typically used for 'thumbnailing'.
 
 All the other images in the multi-image file format are the images that are used to generate that first combined image.
@@ -2999,7 +2999,7 @@ Information courtesy of Wolfgang Hugemann &lt;ImageMagick\_AT\_Hugemann.de&gt; f
 Imagemagick has a some file formats for dealing with raw image data, specifically "`RGB:`", and "`GRAY:`".
 As well as provide settings defining that data.
 
-For example to output RGB raw data...
+For example, to output RGB raw data...
 
 ~~~{.skip}
 convert image.jpg -depth 8  image.rgb
@@ -3014,7 +3014,7 @@ A "`-depth`" of 16 bits, will produce 2 bytes per value, in which case you may a
 Note that rgb is purely the image data, it does not even contain the width and the height of the image!
 Some applications 'assume' the data is a specific size, so you may need to use IM to ensure that data is this size.
 
-For example This resizes and pads the image to ensure it is 512x512 pixels in size.
+For example, this resizes and pads the image to ensure it is 512x512 pixels in size.
 
 ~~~{.skip}
 convert image.jpg -resize \>512x512 \
@@ -3034,7 +3034,7 @@ This will exactly define how much data Imagemagick will read in.
 Sometimes the raw data may have some extra header information attached.
 To allow IM to skip over this information you can specify an 'byte\_offset' in the "`-size`" setting.
 
-For example skip a 48 byte header...
+For example, skip a 48 byte header...
 
 ~~~{.skip}
 convert -size 512x512+48 -depth 8 image.rgb    image.png
