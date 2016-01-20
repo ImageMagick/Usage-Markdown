@@ -29,7 +29,7 @@ Of course for most people, the normal default options is good enough as they wer
 The resize operator has been very carefully designed to try to produce a very good result for real world images.
 That is not to say you can't use it for diagrams, or line drawings, though for that type of image you may need to use some of the more advanced options we'll look at later.
 
-The foremost thing you should consider when specifying a image to resize is...
+The foremost thing you should consider when specifying an image to resize is...
 
 **Do you really want to modify the image?**
 
@@ -58,7 +58,7 @@ So let me be clear...
 Aspect ratio is preserved basically so that any circles in the input image will remain a circle in the output image.
 That is the image will not be squashed or squeezed, only resized, unless you tell it otherwise.
 
-For example here I attempt to fit two source images, one larger image and one smaller image into a square box 64x64 pixels in size.
+For example, here I attempt to fit two source images, one larger image and one smaller image into a square box 64x64 pixels in size.
 
 ~~~
 convert dragon.gif    -resize 64x64  resize_dragon.gif
@@ -126,7 +126,7 @@ This option is often very important for saving disk space for images, or in thum
 
 The inverse to the previous flag is '`<`', which will only enlarges images that are smaller than the given size, is rarely used.
 
-The most notable use is with a argument such as '`1x1<`'.
+The most notable use is with an argument such as '`1x1<`'.
 This resize argument will never actually resize any image.
 In other words it's a no-op, which will allow you to short circuit a resize operation in programs and scripts which always uses "`-resize`".
 Other than that you probably do not actually want to use this feature.
@@ -187,7 +187,7 @@ See [Thumbnails, Fit to a Given Space Summary](../thumbnails/#fit_summery), for 
 >
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > The Fill Area Flag ('`^`' flag) is a special character in Window batch scripts and you will need to escape that character by doubling it.
-> For example '`^^`', or it will not work.
+> For example, '`^^`', or it will not work.
 > See [Windows Batch Scripting](../windows/) for this and other windowing particularities.
 
 ### Percentage Resize ('`%`' flag) {#percent}
@@ -217,7 +217,7 @@ As a result the actual scale may not exactly match the scaling factor you provid
 >
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > The Percentage Resize Flag ('`%`' flag) is a special character in Window batch scripts and you will need to escape that character by doubling it.
-> For example '`%%`', or it will not work.
+> For example, '`%%`', or it will not work.
 > See [Windows Batch Scripting](../windows/) for this and other windowing particularities.
 >
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
@@ -236,7 +236,7 @@ As a result the actual scale may not exactly match the scaling factor you provid
 There is one final "`-resize`" option flag.
 The "at" symbol '`@`', will resize an image to contain no more than the given number of pixels.
 This can be used for example to make a collection of images of all different sizes roughly the same size.
-For example here we resize both our images to a rough 64x64 size, or 4096 pixels in size.
+For example, here we resize both our images to a rough 64x64 size, or 4096 pixels in size.
 
 ~~~
 convert dragon.gif    -resize 4096@  pixel_dragon.gif
@@ -254,7 +254,7 @@ convert terminal.gif  -resize 4096@  pixel_terminal.gif
 Note that the final image size is not limited to 64 pixels in height or width, but will have an area that is as close to (but smaller than) this size as IM can manage.
 That means one dimension will generally be slightly larger than 64 pixels and one will be slightly smaller.
 
-In some ways this is a ideal compromise for thumbnailing images.
+In some ways this is an ideal compromise for thumbnailing images.
 See [Area Fit Thumbnail Size](../thumbnails/#areafit).
 
 You can also add the '&gt;' flag to only shrink images that have more than the calculated number of pixels, while leaving images that are already smaller than that size.
@@ -310,7 +310,7 @@ See [Montage Control Settings](../montage/#controls).
 
 In "`composite`", "`-geometry`" is also saved until the end of arguments have been reached.
 Then it is used to resize and position the overlay image (the first image given) before it is overlaid onto the background image (the second image).
-For example see [Composite Multiple Images](../layers/#composite).
+For example, see [Composite Multiple Images](../layers/#composite).
 
 As you can see it is used as a 'setting' in most IM commands, but in "`convert`" "`-geometry`" is both a special image resizing operator and a positioning setting.
 
@@ -392,7 +392,7 @@ The "`-scale`" resize operator is a simplified, faster form of the resize comman
 When enlarging an image, the pixels in the image are replicated to form a large rectangular blocks of color.
 Which is great for showing a clean unblurred magnification of an image.
 
-For example here is a magnified view of one of the built-in tile patterns...
+For example, here is a magnified view of one of the built-in tile patterns...
 
 ~~~
 convert -size 8x8 pattern:CrossHatch30 -scale 1000% scale_crosshatch.gif
@@ -402,7 +402,7 @@ convert -size 8x8 pattern:CrossHatch30 -scale 1000% scale_crosshatch.gif
 
 Generally a single percentage value that is a multiple of 100% is used for the image enlargement so as to ensure all pixels are enlarged by the same amount, otherwise you can have different size pixel rows and columns producing large scale Moiré pattern.
   
-For example here I badly scaled a smooth looking '50% gray checks' pattern, using a size that was not a multiple of the original images size.
+For example, here I badly scaled a smooth looking '50% gray checks' pattern, using a size that was not a multiple of the original images size.
 
 ~~~
 convert pattern:gray50 scale_gray_norm.gif
@@ -414,7 +414,7 @@ convert pattern:gray50 -scale 36 scale_gray_mag.gif
 [![\[IM Output\]](scale_gray_mag.gif)](scale_gray_mag.gif)
 
 When shrinking images, neighbouring pixels are averaged together to produce a new colored pixel.
-For example scaling an image to 50% of its original size will effectively average together blocks of 4 pixels to create a new pixel (assuming the image size is a multiple of 2 as well).
+For example, scaling an image to 50% of its original size will effectively average together blocks of 4 pixels to create a new pixel (assuming the image size is a multiple of 2 as well).
 
 Caution is advised however as a scale reduced image can also generate Moiré patterns, unless the new image is an exact integer reduction (a technique known as 'binning'), which also requires the original image size to be some exact integer multiple of the final size.
 
@@ -446,12 +446,12 @@ In many ways the [Scale Operator](#scale) is similar to the normal [Resize Opera
 However it actually uses a completely different algorithm that is slightly more accurate in its results than that produced by a [Box Filter](../filter/#box).
 
 The way the Box Filter works is to simply average any pixel (sample) that falls within the filters 'support window' (See [Filter Support Expert Control](../filter/#support).
-This means that when shrinking a image by a very small amount, a Box filtered Resize will only produce either exact pixel values, or an perfectly averaged pixel value.
+This means that when shrinking an image by a very small amount, a Box filtered Resize will only produce either exact pixel values, or a perfectly averaged pixel value.
 
 The [Scale Operator](#scale) however uses a different algorithm that is known (for want of a better name) [Pixel Mixing](http://entropymine.com/imageworsener/pixelmixing/).
 Rather than generate the colors based on a 'average of pixels', within the 'support window' it uses a more accurite 'area of pixels' within the support window.
 
-For example here I take 'checker board' pixel pattern, and shrink it by 2 pixels, comparing result of [Scale](#scale) against resizing using very simple [Box & Triangle Filters](../filter/#box).
+For example, here I take 'checker board' pixel pattern, and shrink it by 2 pixels, comparing result of [Scale](#scale) against resizing using very simple [Box & Triangle Filters](../filter/#box).
 
 ~~~
 convert -size 10x10 pattern:gray50  checks.gif
@@ -484,7 +484,7 @@ convert checks_scale.gif    -scale 1000% checks_scale_mag.gif
 convert checks_triangle.gif -scale 1000% checks_triangle_mag.gif
 ~~~
 
-The images above have been greatly enlarged
+The images above have been greatly enlarged.
 
 The above shows the result you get for 'purely averaged', vs, 'pixel mixed', vs, 'linear interolation'.
 
@@ -571,7 +571,7 @@ This is a typical effect of image sampling, and is known as sever [Image Aliasin
 As of IM v6.8.4-7, the exact pixel being sampled in each sampling sub-region, is now defined as being the pixel at the mid-point of each region (or top-left center pixel if the sub-region is an even number of pixels).
 That means if you make a single pixel sample of an image, you will get the middle pixel of the image.
 
-This type of information is especially useful for images that being reduced by a integer division of the original image size.
+This type of information is especially useful for images that being reduced by an integer division of the original image size.
 Such as when you are creating or sampling a pixelated image, or [De-interlacing a Video Frames](../video/#deinterlace).
 
 Also as of that version you can control exactly which pixel in each sub-region is selected using the [define](../basics/#define) "`sample:offset`, which takes one or two percentage value(s) ('`50`' by default for mid-point).
@@ -584,7 +584,7 @@ Note a percentage is used as the in the general case the 'sampling sub-regions' 
 That is why it is a percentage is needed and not a 'pixel offset'.
 However if the image size is nicely divisible by the number of samples then you can easily calculate exactly which pixel you want from each sub-region.
 
-For example if an image sampled so that you have 5 pixel sub regions, then (For example, sample 100 pixel image with 20 pixel samples), then you can use an sampling offset percentage in the range 0 to 19.9 to select the first pixel in each region, 20 to 39.9 for second, and so on.
+For example, if an image sampled so that you have 5 pixel sub regions, then (For example, sample 100 pixel image with 20 pixel samples), then you can use an sampling offset percentage in the range 0 to 19.9 to select the first pixel in each region, 20 to 39.9 for second, and so on.
 In other words you can use a percentage value of either 10,30,50,70 and 90, to specify exactly which pixel you want from each sampling region.
 
 For more on sampling offsets see the IM Forum discussion [Sample Points](../forum_link.cgi?f=3&t=23101).
@@ -593,7 +593,7 @@ For more on sampling offsets see the IM Forum discussion [Sample Points](../foru
 
 The "`-adaptive-resize`" operator uses the special [Mesh Interpolation](../misc/#mesh) method to resize images.
 
-For example here I resize a simple line, using first a normal "`-resize`", then again using "`-adaptive-resize`".
+For example, here I resize a simple line, using first a normal "`-resize`", then again using "`-adaptive-resize`".
 
 ~~~
 convert -size 50x50 xc: -draw 'line 0,49 49,0'  line_orig2.gif
@@ -648,7 +648,7 @@ If a "`-interpolate`" setting of '`Nearest`, you will essentially get the equiva
 Similarly many of the other [Simple Interpolation Methods](../misc/#interpolate_simple), will equate to using the equivalent [Interpolated Resize Filters](../filter/#interpolated).
 But there are a number of Interpolation methods such as [Mesh](../misc/#mesh) that have no equivalence as a resize filter.
 
-This is also a unscaled resize, which means it works great for enlargements, and small scale shrinking, but when shrinking by more that 50% sever [Aliasing Effects](../filter/#aliasing) can appear, as shown in the other 'sampling resize operators' above.
+This is also an unscaled resize, which means it works great for enlargements, and small scale shrinking, but when shrinking by more that 50% sever [Aliasing Effects](../filter/#aliasing) can appear, as shown in the other 'sampling resize operators' above.
 
 ### Liquid Rescale - Seam Carving {#liquid-rescale}
 
@@ -767,7 +767,7 @@ You can also do this using an [Affine](../distorts/#affine) distortion based on 
 Note however that because the edge of the image can contain partial pixels, the final image will probably be 2 to 3 pixels larger than you probably would expect.
 The extra surrounding pixels will be mixed according to the current [Virtual Pixel](../misc/#virtual-pixel) setting, which you typically set to be transparent.
 
-For example here I resize the rose image to 90% (`.9`) of its original size, without rotation (`0`), shrinking it around the center of the image (the default control point if not specified)...
+For example, here I resize the rose image to 90% (`.9`) of its original size, without rotation (`0`), shrinking it around the center of the image (the default control point if not specified)...
 
 ~~~
 convert rose: -matte -virtual-pixel transparent \
@@ -813,7 +813,7 @@ This can become especially important when doing video work, where an imprecise r
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Technically, image resizing is a simplified form of [Image Distortion](../distorts), both of which are techniques of image resampling.
-> It's very fast 2-pass filtering technique, is limited to orthogonally aligned pixel scaling, and a integer number of pixels in the final result.*
+> Its very fast 2-pass filtering technique, is limited to orthogonally aligned pixel scaling, and an integer number of pixels in the final result.*
 
 #### Affine, Transform
 
@@ -904,7 +904,7 @@ convert earth_lights_4800.tif -colorspace RGB     -resize 500    \
 [![\[IM Text\]](earth_lights_colorspace.png)](earth_lights_colorspace.png)
 
 As you can see the 'lights' in the images are much much brighter as they are not so heavilly influenced by the non-linear colorspace of the source image.
-Though most images do not have as great a impact as can be seen in the above, it is present, and can have many effects.
+Though most images do not have as great an impact as can be seen in the above, it is present, and can have many effects.
 
 The same correct colorspace handling also applies to the use of distort (elliptical filter), image blurring, and can have great effects on image quantization, dithering and ordered dithering.
 This is looked at in detail in resampling filters.
@@ -965,7 +965,7 @@ It also means that generally none of the channels are actually close to clip lim
 As such by processing images using LAB colorspace, actually works better, and avoids clipping and color skew, that you may get when using a RGB or XYZ colorspace.
 
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
-> Before IM v6.7.8-2 LAB values for A\* and B\* channels was stored using signed integers, stored in a unsigned integer memory space.
+> Before IM v6.7.8-2 LAB values for A\* and B\* channels was stored using signed integers, stored in an unsigned integer memory space.
 > This created a discontinuity between negative and positive values, that did not allow normal processing to work, only image format converstions.
 >
 > This meant that in older versions of IM, image processing in LAB colorspace did not work, especially when a color involving both positive to negative values were involved.
@@ -1030,9 +1030,9 @@ See [Colorspace](../color_basics/#colorspace_lab) for more information about the
 **Or why not use LAB or LUV for resize?**
 
 Well because like sRGB, LAB and LUV colorspace is a non-linear perceptual colorspace!
-And the mathematics was only ment to be applied to linear values.
+And the mathematics was only meant to be applied to linear values.
 
-For example here is the results of resizing the "[Earth's City Lights](http://eoimages.gsfc.nasa.gov/ve/1438/earth_lights_4800.tif)" image in '`Lab`' colorspace.
+For example, here is the results of resizing the "[Earth's City Lights](http://eoimages.gsfc.nasa.gov/ve/1438/earth_lights_4800.tif)" image in '`Lab`' colorspace.
 
 ~~~
 convert earth_lights_4800.tif -colorspace Lab     -resize 500    \
@@ -1119,7 +1119,7 @@ But this can add other [Resize Artefacts](#artefacts) to the image results.
 One method that is commonly used is to sharpen the image after resizing.
 Typically this is done using the special and weirdly named, [Unsharp Operation](../blur/#unsharp), which contains even more controls to control the quality of the results.
 
-For example, lets 'unsharp' the results of the very blurry '[Spline](../filter/#spline)' filtered image...
+For example, let's 'unsharp' the results of the very blurry '[Spline](../filter/#spline)' filtered image...
 
 ~~~
 convert logo: -filter spline -resize 150x logo_spline.png
