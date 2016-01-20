@@ -195,7 +195,7 @@ However as of IM v6.2.8-8, the "`-unique-colors`" operator will convert an image
 This means you can convert an image into a simpler color table image, listing each color present.
 The width of the image returns the number of colors, and if you need to actually list the colors you can output it to a "`txt:`" image format.
 
-For example here is the color table for the tree image.
+For example, here is the color table for the tree image.
 
 ~~~{data-capture-out="tree_colors.txt"}
 convert tree.gif -unique-colors -scale 1000%  tree_colors.gif
@@ -334,7 +334,7 @@ compare -metric RMSE xc:Navy xc:blue null:
 This is good as it will get you the distance between the two colors, both in terms of values, and as a normalized percentage of the distance from black to white.
 
 However this method will not handle transparency properly.
-For example comparing 'fully-transparent black' vs 'fully-transparent white'.
+For example, comparing 'fully-transparent black' vs 'fully-transparent white'.
 
 ~~~{data-capture-err="compare_transparency.txt"}
 compare -metric RMSE xc:'#0000' xc:'#FFF0' null:
@@ -685,7 +685,7 @@ This is a linear modification, so colors which are only half-transparent are als
 
 Because of this modification, IM Color Quantization will still generate semi-transparent colors, but will concentrate more on the opaque colors and less on the fully transparent colors in the image.
 
-For example here I generate a [Rainbow Gradient](../canvas/#gradient_colorspace) of colors, with the image fully opaque at the top, and fully transparent at the top.
+For example, here I generate a [Rainbow Gradient](../canvas/#gradient_colorspace) of colors, with the image fully opaque at the top, and fully transparent at the top.
 I have displayed the images on a background pattern so that you can see just how transparent the image is.
 
 ~~~
@@ -722,7 +722,7 @@ You can then map the most transparent color to fully transparent, and do the [Re
 
 If you really want to be sure you get both fully opaque and fully transparent colors in the resulting image you can [Normalize OR Contrast-Stretch](../color_mods/#normalize) the alpha channel.
 
-For example here I ensure the main color selects are made opaque by using "`-contrast-stretch`".
+For example, here I ensure the main color selects are made opaque by using "`-contrast-stretch`".
 Though this is probably a little heavy handed for a more normal situation.
 
 ~~~
@@ -1095,7 +1095,7 @@ The result is a very light speckling of white pixels.
 The slower the accumulation of error, the more spread out those white pixels are and the more, out-of-place, they appear.
 
 **The best solution** is to switch to some other image format that does not have a limited color table.
-For example convert your GIF format image to PNG.
+For example, convert your GIF format image to PNG.
 This will avoid the need for color quantization (reduction) and hence the need to dither the reduced colors.
 
 The next solution is to replace the use of E-dither with some other dithering method, that 'localizes' any errors, such as [Ordered Dithering](#ordered-dither).
@@ -2167,7 +2167,7 @@ As you can see, even though only 6 colors are used, with ordered dithering you i
 Not only can you define the number of posterization levels for all channels, but unlike the "`-posterize`" error correction dither option, you can specify the levels for each channel.
 The numbers are assigned to the channels as per the "`-channels`" setting.
 
-For example here we dithered the gradient using a special 332 color map (8 levels or red and green, 4 of blue) which defines a total of 256 colors.
+For example, here we dithered the gradient using a special 332 color map (8 levels or red and green, 4 of blue) which defines a total of 256 colors.
 
 ~~~
 convert gradient.png   -ordered-dither o8x8,8,8,4   od_o8x8_884.gif
@@ -2263,7 +2263,7 @@ The pattern should start with a solid black image of the right size as the first
 
 The next image should be the middle 50% grey pattern, defining the the basic style of the dithering you are trying to achieve.
 
-For example here is my initial DIY dither pattern.
+For example, here is my initial DIY dither pattern.
 Which I save into a multi-image GIF file (not a GIF animation)...
 
 ~~~
@@ -2475,7 +2475,7 @@ convert dmap_hlines.png pgm:- | pnmdepth 9 | pnmnoraw > dmap_hlines.pgm
 [![\[IM Text\]](dmap_hlines.pgm.gif)](dmap_hlines.pgm)
 
 All the numbers (other than the '`P2`' image magic identifier) in the above are the numbers needed to generate the appropriate 'threshold map', that you can add to your personal "`thresholds.xml`" file.
-For example here is the resulting threshold map entry created from the above.
+For example, here is the resulting threshold map entry created from the above.
 
 ~~~{.hide data-capture-out="tmap_hlines.txt"}
 perl -ne 'print if /threshold map="hlines12x4"/ .. /\/threshold/' \
@@ -2501,7 +2501,7 @@ And that is how you can generate a complex threshold map from a progression of i
 Now, while you can use a single threshold map or threshold image, instead of a multi-image pattern set for most dithering operations, that does not mean that multi-image maps don't have their own uses.
 
 You can use a set of lookup images to tile multiple areas all at once, rather than one at a time.
-For example by scaling a simple image, and then replace each pixel in an image with a particular symbol.
+For example, by scaling a simple image, and then replace each pixel in an image with a particular symbol.
 
 For example, here I take the very small 'eyes' image [![\[IM Output\]](eyes.gif)](eyes.gif) and replace the individual pixels with various symbols, to produce such a pattern for each pixel in the original image.
 
