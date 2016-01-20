@@ -126,7 +126,7 @@ convert dragon_long.gif  '(' font_{0,0,6,2,9}.gif +append ')' \
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > :REMINDER:
-> The parenthesis in the above must be either quoted, or escaped with a backslashed ('`\`') when used with a UNIX shell, otherwise they will be interpreted by the shell as something completely different.
+> The parenthesis in the above must be either quoted, or escaped with a backslashed ('`\`') when used with a Unix shell, otherwise they will be interpreted by the shell as something completely different.
 >
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > As only two images were involved we could have just used "`+swap`" or "`-reverse`" instead of using parenthesis.
@@ -411,7 +411,7 @@ However this will not work when multiple images are involved and, as such, is no
 
 ### Mosaic - Canvas Expanding {#mosaic}
 
-The "`-layers mosaic`" operator (or its "`-mosaic`" shortcut) is more like a expanding canvas version of the [Flatten Operator](.#flatten).
+The "`-layers mosaic`" operator (or its "`-mosaic`" shortcut) is more like an expanding canvas version of the [Flatten Operator](.#flatten).
 Rather than only creating an initial canvas based on just the canvas size of the initial image, the [Mosaic Operator](#mosaic) creates a canvas that is large enough to hold all the images (in the positive direction only).
 
 For example here I don't even set an appropriate [Virtual Canvas](../basics/#page), however the "`-mosaic`" operator will work out how big such a canvas needs to be to hold all the image layers.
@@ -629,7 +629,7 @@ convert rose: -repage +10+10 \
 
 However remember that this only re-orders the existing images, and does not effect the 'starting background canvas' that the layering methods create.
 The compose methods can also be used to produce some interesting effects.
-For example, if you draw three circles, then by overlaying them using the '`Xor`' compose method, you get a unusual and complex looking symbol, for minimal effort.
+For example, if you draw three circles, then by overlaying them using the '`Xor`' compose method, you get an unusual and complex looking symbol, for minimal effort.
 
 ~~~
 convert -size 60x60 \
@@ -722,7 +722,7 @@ The final "`+repage`" removes the final resulting negative offset of the merged 
 
 Note that the first image (right-most in result) is layered below every other image.
 If you want the layering to be truely cyclic so the last image was below this first one, you may have either: to generate and combine two versions of the above, with different ordering of the images; or overlay the first image on the last image, correctly, before generating the circle.
-Both solutions are tricky, and are left as a exercise.
+Both solutions are tricky, and are left as an exercise.
 
 This technique is powerful, but it can only position images to an integer offset.
 If you need more exact sub-pixel positioning of images then the images will need to be distorted (translated) to the right location rather than simply adjusting its virtual offset.
@@ -833,7 +833,7 @@ Here is a typical layering example, placing coloured pins in a map, at specific 
 [![\[IM Output\]](push_pin.png)](push_pin.png) To the left is a 'push pin' image.
 The end of the pin is at position `+18+41`.
 
-I also have a image of a [Map of Venice](map_venice.jpg), and want to put a pin at various points on the map.
+I also have an image of a [Map of Venice](map_venice.jpg), and want to put a pin at various points on the map.
 For example 'Accademia' is located at pixel position, `+160+283`.
 
 To align the push-pin with that position you need to subtract the location of the end of the pin from map position.
@@ -955,7 +955,7 @@ convert \
 
 The above program seems complex, but is actually quite straightforward.
 
-The first image is used to start a accumulating stack of images (image index \#0).
+The first image is used to start an accumulating stack of images (image index \#0).
 
 Note we could have actually started with a single transparent pixel ("`-size 1x1 xc:none`"), if you don't want to use that first image to initialize the stack.
 
@@ -981,7 +981,7 @@ It also make applying shadows which can generate larger images with negative off
 Now the above handles multi-layered image shadows properly, but while the shadow is offset, it is actually offset equally for all the images!
 
 What really should happen is that the shadow should become more offset and also more blurry as it falls on images deeper and deeper in the stack.
-That is a image at the top should case a very blurry shadow on the background, compared to the bottom-most image.
+That is an image at the top should case a very blurry shadow on the background, compared to the bottom-most image.
 
 This is actually harder to do as you not only need to keep a track of the stack of images, you also need to keep a track of how 'fuzzy' the shadow has become as the stack of images becomes larger.
 Thus you really need two accumulators.
@@ -1029,7 +1029,7 @@ convert xc:none xc:none \
 
 Look carefully at the result.
 The offset and blurriness of the shadow is different in different parts of the image.
-It is very thin between images in adjacent layers, but very thick when it falls on a image, or even the background much deeper down.
+It is very thin between images in adjacent layers, but very thick when it falls on an image, or even the background much deeper down.
 
 Of course in this example, the shadow offset is probably too large, but the result seems very realistic giving a better sense of depth to the layers.
 
@@ -1166,7 +1166,7 @@ Here I have two images that highlight a specific point on each image.
 The second image is 65% semi-transparent, which allow you to see though it when it is composed onto the blue image, so you can see if the marked points align.
 The marked control points themselves are at the coordinates `59,26` (blue) and `35,14` (red) respectively.
 
-If you are simply overlaying the two images, you can just subtract the offsets and 'compose' the two image on top of each other, producing a offset of `+24+12`.
+If you are simply overlaying the two images, you can just subtract the offsets and 'compose' the two image on top of each other, producing an offset of `+24+12`.
 
 ~~~
 convert align_blue.png align_red.png -geometry +24+12 \
@@ -1256,7 +1256,7 @@ convert align_blue.png \
 [![\[IM Output\]](align_persp_shape.png)](align_persp_shape.png)
 
 As you can see while the red image was distorted, the position of the red control point is no where near the blue control point we want to align.
-You can not just simply measure these two points as the red point is unlikely to be at a exact pixel position, but will have a sub-pixel offset involved.
+You can not just simply measure these two points as the red point is unlikely to be at an exact pixel position, but will have a sub-pixel offset involved.
 We will need to first calculate exactly where the red point is.
 
 To do that we can re-run the above distortion with verbose enabled to get the perspective forward mapping coefficients.
@@ -1361,7 +1361,7 @@ Though some of these (such as '`Mean`' and '`Medium`') are really only useful wh
 
 ### Mean (Average) of multiple images {#evaluate-seq_mean}
 
-Essentially both the older "`-average`" and the newer "`-evaluate-sequence mean`" will create a average of all the images provided.
+Essentially both the older "`-average`" and the newer "`-evaluate-sequence mean`" will create an average of all the images provided.
 
 For example, here is an average of the rose image using all its [Flipped and Flopped](../warping/#flip) versions.
 
