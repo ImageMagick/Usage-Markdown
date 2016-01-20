@@ -478,7 +478,7 @@ Examples are currently looked at in [GIF Boolean Transparency](../formats/#boole
 
 ### Outline or Halo Transparency {#outline}
 
-Sometimes you will like to add a outline around an image containing transparency.
+Sometimes you will like to add an outline around an image containing transparency.
 One way is to use [EdgeOut Morphology](../morphology/#edgeout) to quickly get all the neighbouring pixels to the original image, color them, and then [Under (DstOver) Compose](../compose/#dstover) it with the original image.
 
 ~~~
@@ -523,7 +523,7 @@ And which method you choose depends on the whether your image mask is a grayscal
 The mask of an image is a really useful thing to have.
 We can, for example, erase parts of an image very easily by modify a mask of the original image.
 Remember the "`-draw`" operator can not draw nothing, and currently has no erase option.
-Here we create a image, then by extracting and modifying its mask, before restoring it to the original image.
+Here we create an image, then by extracting and modifying its mask, before restoring it to the original image.
 
 ~~~
 convert -size 100x100 xc:none   -stroke black  -fill steelblue \
@@ -1031,7 +1031,7 @@ If an image also contains an alpha channel, then you need to separate and proces
 One example of this is shown in a 'distort resize' discussion, which wanted to ignore the virtual pixels that surround the image being resized using distort.
 See [Correct Resize (using distorts)](../forum_link.cgi?p=68362) for detail.
 Note that the above is also very closely related to a blurred [Hole Filling](#hole_filling) technique.
-The only difference is that it is the background that is being preserved from modification, not the foreground, which makes it a little simplier.
+The only difference is that it is the background that is being preserved from modification, not the foreground, which makes it a little simpler.
 True 'read masks' should be available IMv7 to make the above simply adding both a 'read mask' and optionally a 'write mask'.
 
 ------------------------------------------------------------------------
@@ -1287,7 +1287,7 @@ That is, both colors are known, and so exactly how transparent the edges should 
 While removal of a simple background to a 'Boolean' mask, is relatively straightforward, things get more complicated when the background is not so simple.
 However, if the background itself is known, you can use that to help in its removal from other images.
 As of IM v6.3.4 a special [Alpha Composition](../compose/compose) method was added called '`ChangeMask`' which allows for the direct removal of a known background from an image.
-For example, here we have a unaltered background image, and one that has been overlaid by a GIF image with a simple Boolean (straight on/off) transparency.
+For example, here we have an unaltered background image, and one that has been overlaid by a GIF image with a simple Boolean (straight on/off) transparency.
 By using '`ChangeMask`' we can recover that original overlaid image (if it is very different to the background).
 
 ~~~
