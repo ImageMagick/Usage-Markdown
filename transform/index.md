@@ -396,7 +396,7 @@ convert -size 50x40+15+2 stegano:rose_message.png message_recovered.gif
 
 The larger the containing image the better the recovered image will be, so hiding small images in larger ones is better than the example shown above.
 
-Just to show you how the hidden message was distributed throughout the container image, lets do a comparison of the combined image against the original.
+Just to show you how the hidden message was distributed throughout the container image, let's do a comparison of the combined image against the original.
 
 ~~~{data-capture-err="rose_diff_pae.txt"}
 compare -metric PAE rose:  rose_message.png   rose_difference.png
@@ -1041,7 +1041,7 @@ For another example of using the "`AutoTrace`" program, see [Skeleton using Auto
 
 The Hough Line Detector ("`-hough-line`" added IM v6.8.9-1), is a very complex transform with a lot of stages (for details see [Wikipedia, Hough Transform](http://en.wikipedia.org/wiki/Hough_transform)).
 Basically, it is designed to examine an image, looking for white lines on a black background, and try to return the exact location of any line segments (linear sequences pixels) present in the image.
-This can be very important for things like removing image rotations, or determining the perspective transformation in a image, so it can be repeated, or removed.
+This can be very important for things like removing image rotations, or determining the perspective transformation in an image, so it can be repeated, or removed.
 
 Here is the full set of options to the operator
 
@@ -1322,7 +1322,7 @@ The shading is not equal.
 As the light gets higher over the 'height field' image.
 The overall brightness of the image will become whiter, until at 'high-noon' or an *elevation* of '`90`' any flat areas are brilliantly white, and only slopes and edges are shaded to a grey color, with a mid grey as a maximum, or 'cliff-like' slope change.
 
-This 'noon' image is another special case that is a bit like a edge detection system, though it is between 2 and 4 pixels wide for sharp edges.
+This 'noon' image is another special case that is a bit like an edge detection system, though it is between 2 and 4 pixels wide for sharp edges.
 I have used this image in the past for generating a mask for the the beveled edge of "`-shade`" images, so as to make flat areas transparent.
 
 If the *elevation* angle goes beyond '`90`' degrees, you will get the same result as if the light was from the other direction.
@@ -1503,7 +1503,7 @@ As you can see, blurring the mask image will round off the edges of the resultin
 The output from the "`-shade`" operator is very nice, but it is rare that you actually want a plain grey scale image of your shape.
 What it needs is some color.
 
-This, however, is not so easy as the two major ways of adding color, [Color Tinting Mid-Tones](../color_mods/#tint) to just recolor a grey-scale, or '[Overlay](../compose/#overlay)' alpha composition, to replace the grey areas with a image, both rely on a special form of grey-scale image.
+This, however, is not so easy as the two major ways of adding color, [Color Tinting Mid-Tones](../color_mods/#tint) to just recolor a grey-scale, or '[Overlay](../compose/#overlay)' alpha composition, to replace the grey areas with an image, both rely on a special form of grey-scale image.
 That is a perfect mid-tone grey ('`grey50`') is replaced by the color or image, while whiter or darker greys, whiten and darken the color or image as appropriate.
 
 These special grey-scale 'overlay highlight' images with perfect mid-tone greys for un-modified areas is not so straightforward to create using "`-shade`".
@@ -2087,7 +2087,7 @@ identify -format '%[fx:atan(1)*4]' null:
 This will mathematically calculate and return the value of *PI*, though this value is available as the built-in variable '`pi`'.
 
 You can generate random numbers.
-For example to generate a integer between -5 and 10 inclusive.
+For example to generate an integer between -5 and 10 inclusive.
 Here I use the "`info:`" equivalent to the "`identify`" command.
 
 ~~~{data-capture-out="fx_rand.txt"}
