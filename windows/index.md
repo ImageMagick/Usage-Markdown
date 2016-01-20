@@ -234,7 +234,7 @@ IM's setup program offers the option to install a COM+ object for ImageMagick by
 The option is not checked by default and the installation of the COM+ object is **no prerequisite** to use IM in a VBScript, as will be proven in the following.
 Anyway, you should not rely on the COM+ object to be installed on a script target machine other than your own.
 
-When working with PostScript files, ImageMagick relies on another program, "`Ghostscript`" for the reading and conversion of PostScript and PDF files into a image format it can use.
+When working with PostScript files, ImageMagick relies on another program, "`Ghostscript`" for the reading and conversion of PostScript and PDF files into an image format it can use.
 That is to read such documents, Ghostscript needs to be installed on your computer.
 Its latest version can be downloaded at [SourceForge](http://sourceforge.net/projects/ghostscript/).
 
