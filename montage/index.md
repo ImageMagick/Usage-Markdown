@@ -104,7 +104,7 @@ montage font_[0-9].gif  -geometry 16x16+1+1  tile_0.gif
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > :REMINDER:
-> The strange "`[1-5]`" syntax is a UNIX shell shorthand, which is expanded into a list of filenames.
+> The strange "`[1-5]`" syntax is a Unix shell shorthand, which is expanded into a list of filenames.
 > The "`montage`" command itself does not see these characters, just the resulting list of files.
 
 ImageMagick is pretty good at figuring out the right "`-tile`" setting to use for a specific number of input images.
@@ -179,7 +179,7 @@ It will only fill the space row by row, no option is currently provided to do a 
 > As such, a setting such as the first "`9x1`" image would have been truncated to produce a "`7x1`" tile image.
 >  
 > Because of this, past users of "`montage`" often used large numbers such as "`999x1`" to generate a single row of images.
-> Now such a argument will produce a very long image, and could take a long time for IM to complete.
+> Now such an argument will produce a very long image, and could take a long time for IM to complete.
 > As such...
   
 **Avoid the use of very large tile numbers in IM "`montage`"!**
@@ -389,7 +389,7 @@ montage balloon.gif \
 
 [![\[IM Output\]](labeling.jpg)](labeling.jpg)
 
-The last image shows how using a space for an image label, you can create a image label space, but leave it blank.
+The last image shows how using a space for an image label, you can create an image label space, but leave it blank.
 
 This presents a good rule of thumb when using "`montage`"...
 **Either label all your images, or none of them!**
