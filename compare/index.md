@@ -292,7 +292,7 @@ Statistics from difference image...
      convert image1 image2 -compose Difference -composite \
            -colorspace gray -format '%[fx:mean*100]' info:
 
-  For non-percentage you can use the even simplier..
+  For non-percentage you can use the even simpler..
 
      convert image1 image2 -compose Difference -composite \
            -colorspace gray -format '%[mean]' info:
