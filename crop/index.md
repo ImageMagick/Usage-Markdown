@@ -73,7 +73,7 @@ For more information on this see.
 The last image in the above example (i.e.: "`crop_miss.gif`") also produced ia special empty image.
 Such images can be produced by operations such as [Crop](#crop), [Trim](#trim), [Layer Comparison](../anim_basics/#compare), and even [GIF Animation Optimizations](../anim_opt/#optframe), that generate empty or non-sensible results.
 
-For example in the previous example above, the "`-crop`" operation missed the actual image it was cropping, so it produced this special 'missed' image, as well as some informational warning messages...
+For example, in the previous example above, the "`-crop`" operation missed the actual image it was cropping, so it produced this special 'missed' image, as well as some informational warning messages...
   
 [![\[IM Text\]](crop_error.txt.gif)](crop_error.txt)
 
@@ -185,7 +185,7 @@ The last image in the above is of course the special 'crop missed' error image, 
 > For IM version 5 and earlier the "`+repage`" operation was handled by a "`-page +0+0`" argument sequence, usually just before saving to format that uses virtual canvas and offset information, such as GIF.
 > But that was only usable when either reading or writing the image to a file, preventing its use between multiple image processing operations.
 >
-> With IM version 6, [command line restructure](../basics/#cmdline), the "`-page`" option became purely a image read/create setting for use in creating [GIF animations](../anim_basics/#gif_anim) and [Layers of Images](../layers/#flatten).
+> With IM version 6, [command line restructure](../basics/#cmdline), the "`-page`" option became purely an image read/create setting for use in creating [GIF animations](../anim_basics/#gif_anim) and [Layers of Images](../layers/#flatten).
 > As such separate "`-repage`" and "`-set page`" operators were added to allow users to set or change the virtual canvas information.
 
 ### Viewport Cropping with Canvas/Page Adjustments {#crop_viewport}
@@ -218,7 +218,7 @@ identify rose.gif  crop_vp.gif crop_vp_br.gif crop_vp_tl.gif \
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > :REMINDER:
-> The '`!`' character has special significance to some UNIX shells, like "`csh`", and must be escaped with a backslash, even when placed inside quotes.
+> The '`!`' character has special significance to some Unix shells, like "`csh`", and must be escaped with a backslash, even when placed inside quotes.
 
 Notice how the canvas size of the image returned now matches the area in which the image was cropped.
 
@@ -229,7 +229,7 @@ As such this is no substitute for doing a "`+repage`" after cropping to reset pa
 However, you can follow a 'viewport crop' with a [Flatten](../layers/#flatten) to 'fill out' the images new virtual canvas with real pixels.
 That is, you will be left with an image that is guaranteed to be the size of the requested crop, with any 'missed' areas filled out with the current "`-background`" color 'viewport'.
   
-For example when [Padding out an Image](../thumbnails/#pad).
+For example, when [Padding out an Image](../thumbnails/#pad).
 
 ~~~
 convert rose: -crop 100x100-15-25\! -background skyblue -flatten \
@@ -266,7 +266,7 @@ convert rose:  -gravity Center  -crop 32x32+0+0 +repage  crop_center.gif
 
 The "`-gravity`" setting does not just effect the initial 'zero' position of the crop but it also effects the direction of the crop offset.
 
-For example if you use a "`-gravity`" of '`South`', and offset of '`+0+5`' will offset the crop area upward, instead of downward as it normally would.
+For example, if you use a "`-gravity`" of '`South`', and offset of '`+0+5`' will offset the crop area upward, instead of downward as it normally would.
 
 ~~~
 convert rose:  -gravity South  -crop 20x20+0+5   crop_south.gif
@@ -283,7 +283,7 @@ This is done with all gravity affected operations.
 ### Crop a Percentage of an Image {#crop_percent}
 
 The "`-crop`" operator also understands how to crop an image to just a percentage of its original size.
-For example this will half the size of the image.
+For example, this will half the size of the image.
 
 ~~~
 convert rose:   -crop 50%x+0+0      crop_half.gif
@@ -321,7 +321,7 @@ convert rose:  -gravity Center -crop 50x80%+0+0  crop_percent_center.gif
   
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > :REMINDER:
-> The percentage symbol '`%`' can appear anywhere in a argument, and if given will refer to both width and height numbers.
+> The percentage symbol '`%`' can appear anywhere in an argument, and if given will refer to both width and height numbers.
 > It is a flag that just declares that the 'image size' parts are a percentage fraction of the images virtual canvas or page size.
 > Offsets are always given in pixels.
 
@@ -442,7 +442,7 @@ Of course you also end up with more incomplete edge tiles.
 
 The solution was to center the input image on a virtual canvas, that was some multiple of the tile size wanted.
 
-For example to tile crop the "`rose:`" image (`70x46` pixels in size) into the maximum number of full `30x20` tiles, in the center of the image (and surrounded by reminder tiles) you would do the following.
+For example, to tile crop the "`rose:`" image (`70x46` pixels in size) into the maximum number of full `30x20` tiles, in the center of the image (and surrounded by reminder tiles) you would do the following.
 
 1.  First calculate the number of full tiles you can get from the image by dividing the image sizes...
 
@@ -649,7 +649,7 @@ In this case, you end up with a 1 pixel 'short' tile.
 Even if you expand the size of the tile to 24x16 pixels, you will still end up with a tile that is 2 pixels 'shorter' than the other tiles.
 
 This situation gets worse as the number of tiles wanted gets larger.
-For example try sub-dividing a length of 100 into 30 tiles.
+For example, try sub-dividing a length of 100 into 30 tiles.
 It is impossible.
 You either use a length of 3 and get 34 tiles, or 4 and get 25 tiles.
 Getting exactly 30 equal sized tiles is impossible!
@@ -675,7 +675,7 @@ Check it out!
 As a bonus, you can also sub-divide the image so that each tile will 'overlap' its neighbours.
 You do this by not only using a '`@`' flag but also specifying the number of pixels of overlap you want.
 
-For example lets divide the rose into quarters but with a 20 pixel overlap.
+For example, let's divide the rose into quarters but with a 20 pixel overlap.
 
 ~~~
 convert rose: -crop 2x2+20+20@  +repage  +adjoin  rose_2x2+20+20@_%d.gif
@@ -802,7 +802,7 @@ convert edged.gif -crop 5x1-8-8@ +repage +adjoin edged-8_%d.gif
   
 [![\[IM Output\]](edged-8_0.gif)](edged-8_0.gif) [![\[IM Output\]](edged-8_1.gif)](edged-8_1.gif) [![\[IM Output\]](edged-8_2.gif)](edged-8_2.gif) [![\[IM Output\]](edged-8_3.gif)](edged-8_3.gif) [![\[IM Output\]](edged-8_4.gif)](edged-8_4.gif)
 
-You can even use this as a alternative method for the [Shave Operator](#shave), by simply specifying a 1 tile crop...
+You can even use this as an alternative method for the [Shave Operator](#shave), by simply specifying a 1 tile crop...
 
 ~~~
 convert edged+6_0.gif -crop 1x1-6-6@ +repage tile-shave.gif
@@ -843,7 +843,7 @@ convert spaced.gif -crop 5x1-6-6@\! +repage +adjoin spaced-6_%d.gif
 [![\[IM Output\]](spaced-6_0.gif)](spaced-6_0.gif) [![\[IM Output\]](spaced-6_1.gif)](spaced-6_1.gif) [![\[IM Output\]](spaced-6_2.gif)](spaced-6_2.gif) [![\[IM Output\]](spaced-6_3.gif)](spaced-6_3.gif) [![\[IM Output\]](spaced-6_4.gif)](spaced-6_4.gif)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> The '`!`' character has special significance to some UNIX shells, like "`csh`", and must be escaped with a backslash, even when placed inside quotes.
+> The '`!`' character has special significance to some Unix shells, like "`csh`", and must be escaped with a backslash, even when placed inside quotes.
 
 With these formulas you should should now be able to tile crop images that form a grid, even when the images are overlapping, or spaced out.
 
@@ -1027,7 +1027,7 @@ convert rose:   -mattecolor grey  -background grey  -frame 3x3+0+3 \
 
 [![\[IM Output\]](frame_montage.gif)](frame_montage.gif)
 
-You can even use a semi-transparent "`-mattecolor`" for the frame "`-frame`" and then 'underlay' a interesting pattern (such as a [Fractal Plasma Canvas](../canvas/#plasma_fractal)), to produce a more colorful frame.
+You can even use a semi-transparent "`-mattecolor`" for the frame "`-frame`" and then 'underlay' an interesting pattern (such as a [Fractal Plasma Canvas](../canvas/#plasma_fractal)), to produce a more colorful frame.
 
 ~~~
 convert rose:  -matte -mattecolor '#CCC6' -frame 10x10+3+4 \
@@ -1119,7 +1119,7 @@ Note that the size of the virtual canvas was also increased by twice the border 
 This of course means you can not simply add a [Frame](#frame) to a typical GIF animation directly, unless you want to actually identify the individual sub-frames of the animation (for example see [Animation Frame Montage](../anim_basics/#montage)).
 If you want to add a border, you should [Coalesce](../anim_basics/#coalesce) the animation first to remove any [Frame Optimizations](../anim_opt/#frame_opt) it may have first.
 
-### Shave, removing edges from a image {#shave}
+### Shave, removing edges from an image {#shave}
 
 The reverse of the "`-border`" or "`-frame`" operators, is "`-shave`", which if given the same arguments, will remove the space added by these commands.
 
@@ -1366,7 +1366,7 @@ In other words it removes the 'boring' bits surrounding an image.
 > As such a '`0x0`' argument to crop now effectively means to crop the image into tiles, the size of the original image canvas.
 > In other words, with IM v6, the result will be the same as the original image, or a 'no-op'.
 
-For example here we take the IM logo, which we resize, and 'trim' or 'auto-crop' all the surrounding extra space in the logo.
+For example, here we take the IM logo, which we resize, and 'trim' or 'auto-crop' all the surrounding extra space in the logo.
 
 ~~~
 convert  logo: -resize 30%    -trim     trim.gif
@@ -1420,7 +1420,7 @@ convert stripes.gif  -trim +repage   stripes_trimmed.gif
 [![\[IM Output\]](stripes.gif)](stripes.gif) ![==&gt;](../img_www/right.gif) [![\[IM Output\]](stripes_trimmed.gif)](stripes_trimmed.gif)
 
 As you can see, "`-trim`" trimmed not just one color but two colors!
-In a automatic script, this can be very bad and produce unexpected results.
+In an automatic script, this can be very bad and produce unexpected results.
 
 If you know what color you want to trim from an image, then the better way is to add a small one pixel wide "`-border`" of that color to the image.
 Let's take '`red`' in this case.
@@ -1617,7 +1617,7 @@ convert noisy.jpg -crop \
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > :REMINDER:
-> The above uses a UNIX command line shell feature for 'command-substitution' method using back-quotes '`` `...` ``' to insert the generated "`-crop`" argument into the outer "`convert`" command.
+> The above uses a Unix command line shell feature for 'command-substitution' method using back-quotes '`` `...` ``' to insert the generated "`-crop`" argument into the outer "`convert`" command.
 >
 > You can do this in a [Windows Batch Script](../api/#windows), using a special `FOR..DO` construct.
 > Follow the above link for details.
@@ -1626,7 +1626,7 @@ See [Image Property Escapes](http://www.imagemagick.org/script/escape.php) for m
 
 Of course the method could be improved by expanding the area trimmed by a small amount (generally the blur 'sigma' value).
   
-For example here I use some [FX Escapes](../transform/#fx_escapes) to do the mathematics to add the appropriate amounts to the results of the blur trim.
+For example, here I use some [FX Escapes](../transform/#fx_escapes) to do the mathematics to add the appropriate amounts to the results of the blur trim.
 
 ~~~
 convert noisy.jpg -crop \
