@@ -1,0 +1,29 @@
+#!/bin/sh
+################################################################################
+# mesgs
+# Generate a (nearly fixed) message a la "mesgs" or "fortune" for systems without it
+# Mark Setchell
+################################################################################
+if [ "X$1" = "XImageResolution" ]; then
+   echo "At 300 dpi, you can tell she's wearing a swimsuit."
+   echo "At 600 dpi, you can tell it's wet."
+   echo "At 1200 dpi, you can tell it's painted on."
+   echo "I suppose at 2400dpi, you can tell if the paint is giving her a rash."
+   exit 0
+fi
+
+if [ "X$1" = "XFilePrivate" ]; then
+   echo "A file is private because the person who created it said so."
+   echo "If anyone else were to decide, they would have to look at it, and then it wouldn't be private, would it?"
+   exit 0
+fi
+
+if [ "X$1" = "XPictureWords" ]; then
+   echo "A picture may be worth a thousand words,"
+   echo "    but a thousand words takes up an awful lot less disk space."
+   exit 0
+fi
+
+echo "I poured spot remover on my dog.  Now he's gone."
+exit 0
+
