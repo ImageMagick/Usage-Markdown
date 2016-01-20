@@ -1055,11 +1055,11 @@ It does not generate an installation 'DEB' package, which is not an ideal soluti
 If anyone know how to create a 'DEB' package for Ubuntu, please let me know.
 Perhaps using [Intro into Debian Packaging](http://wiki.debian.org/IntroDebianPackaging)
 
-### Compiling on MacOSX {#mac_osx}
+### Compiling on OS X {#mac_osx}
 
-The easiest way to install ImageMagick on MacOSX is to use MacPorts.
+The easiest way to install ImageMagick on OS X is to use MacPorts.
 
-But the following are pointers to information on compiling for MacOSX.
+But the following are pointers to information on compiling for OS X.
 I don't know if it works or is going to be helpful as I have never used it.
 But see [Install ImageMagick without Fink or MacPorts](http://hints.macworld.com/article.php?story=20080818051248464) and [Install ImageMagick in Snow Leopard](http://www.icoretech.org/2009/08/install-imagemagick-in-leopard-snow-leopard/).
 

@@ -129,7 +129,7 @@ As you can see it works, but not very well.
 It does work better with a thicker font, than the default '`Times`' or '`Arial`' font.
 For more details of this technique see [Thick Stroke Compound Font](../fonts/#thick_stroke).
   
-**Draw Dim Box**: The more classical method of making the annotated text more visible is to 'dim" the image in the area the text will be added, then draw the text in the opposite color.
+**Draw Dim Box**: The more classical method of making the annotated text more visible is to *"dim"* the image in the area the text will be added, then draw the text in the opposite color.
 For example...
 
 ~~~
@@ -275,7 +275,7 @@ composite -gravity center  castle.gif  frame.gif  castle_button.gif
 [![\[IM Output\]](castle_button.gif)](castle_button.gif)
 
 You can also position the sub-images exactly.
-Here we set a hand to point out the small craws of the faerie dragon.
+Here we set a hand to point out the small claws of the faerie dragon.
 
 ~~~
 composite -geometry +31+105  hand_point.gif dragon.gif \

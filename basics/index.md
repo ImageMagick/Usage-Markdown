@@ -14,7 +14,7 @@ The problem with previous versions of IM
 
 In previous major version of ImageMagick (version 5.5.7 and earlier) the command line interface into the IM library has been prone to problems involving the order in which operations were performed. It was very haphazard, and confusing to anyone trying to make sense of what was actually going on. Also, what worked one time may not work in the same order another time, as the author of IM, constantly battled with the interface to get it to work as people expected.
 
-The cause of the problem was that ImageMagick followed a fairly standard UNIX command line style...
+The cause of the problem was that ImageMagick followed a fairly standard Unix command line style...
 
 ~~~{.skip}
 command  [options]  input_image   output_image
@@ -570,7 +570,7 @@ Not that the '`8c`' in the above result is not the number of colors within this 
 
 Adding a [`-verbose`](#verbose), [Operational Control](#controls), will produce as much information about the image that IM knows about or can easily calculate. This includes color statistics, color counts, profile information, internal image save type of the image, etc. etc.. However be warned that the output really is... *verbose*!
 
-Specific information can be obtained and output in specific ways by using the "`-format`" setting, and IM special percent ('`%`') escapes to output [Image Properties](http://www.imagemagick.org/script/escape.php). However typically you need to specify an EOL (newline under UNIX or MacOSX) as part of that argument (changed in IM v6.8.5-8).
+Specific information can be obtained and output in specific ways by using the "`-format`" setting, and IM special percent ('`%`') escapes to output [Image Properties](http://www.imagemagick.org/script/escape.php). However typically you need to specify an EOL (newline under Unix or OS X) as part of that argument (changed in IM v6.8.5-8).
 
 For example you can just extract a count of the number of colors within an image.
 
