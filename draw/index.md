@@ -160,7 +160,7 @@ The two control points define the direction and how fast the curve deviates from
 
 To join two curves smoothly, the control point from the end should be mirrored through the 'knot' to form the control point in the next Bezier curve.
 
-For example here I draw two bezier curves that join smoothly together.
+For example, here I draw two bezier curves that join smoothly together.
 Note how the control lines and points (also drawn) mirror straight though the join coordinate, both in angle and in length.
 This is important or the curve will not be smooth.
 
@@ -437,7 +437,7 @@ The "`-draw`" command (and many others in IM) use what is calls "Pixel Coordinat
 That is a coordinate of '`10,10` is the center of the pixel 10 pixels down and to the right from the top-left corner.
 
 In this coordinate system 0,0 is the center of the top-left pixel, and w-1,h-1 is the center of the bottom-right corner.
-The actual edges are located at -0.5,-0.5 and w-0.5,h-0.5 and the center pixel (if the image is a odd size) is located at '`(w-1)/2,(h-1)/2`'.
+The actual edges are located at -0.5,-0.5 and w-0.5,h-0.5 and the center pixel (if the image is an odd size) is located at '`(w-1)/2,(h-1)/2`'.
 
 However when you are processing an image mathematically (such as when using distort) actual pixels have no real meaning, as such it uses "Image Coordinates".
 In this system the actual edge of the image is at '`0,0`' and '`w,h`'.
@@ -453,7 +453,7 @@ As with almost all ImageMagick operations, "`-draw`" is a linear operator.
 And as such works in a linear RGB colorspace.
 This means to get nice smooth edges you may need to do some gamma correction of images, before you save them so they are stored using non-linear (gamma corrected) sRGB colorspace.
   
-For example if you draw a large circle, and just save it...
+For example, if you draw a large circle, and just save it...
 
 ~~~
 convert -size 81x81 xc:black -fill white -draw 'circle 40,40 40,3' \
@@ -796,7 +796,7 @@ It is also a floating point value!
 A 2.5 pixel wide line is perfectly valid.
   
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
-> These results are caused by not only a buggy stroke width 0, causing a color beat, but also the 'fill color' being drawn with a extra 1.0 diameter thickness, when there is no actual area to be filled.
+> These results are caused by not only a buggy stroke width 0, causing a color beat, but also the 'fill color' being drawn with an extra 1.0 diameter thickness, when there is no actual area to be filled.
 > This I also regard as a bug.
 > See [Draw Fill Bounds](#bounds).
 
@@ -827,8 +827,8 @@ Unfortunately it is NOT correct for advanced users.
 What that means is that if you draw two polygons using fill color only, that share an edge, that edge will overlap by 1 pixel as each polygon is ½ pixel bigger along all its edges.
 In other words polygons and other shapes do not fit together, but overlap!
 
-For example here I try use draw to divide an image into two halves (drawing black on white).
-To do this I draw two polygons that share a edge, exactly without overlap.
+For example, here I try use draw to divide an image into two halves (drawing black on white).
+To do this I draw two polygons that share an edge, exactly without overlap.
 The resulting 'tiny' images, have been enlarged for display.
 
 ~~~
@@ -1097,7 +1097,7 @@ The SVG path is the basic drawing primitive of SVG.
 It is used to draw lines shapes, circles, curves, arcs and so on.
 The full specification of the SVG Paths can be found in the [SVG Path Specification](http://www.w3.org/TR/SVG/paths.html#PathDataGeneralInformation) document.
 
-This however is not a easy document to read as it is really for programmers, not users, so I'll simplify and summarize the path specification...
+This however is not an easy document to read as it is really for programmers, not users, so I'll simplify and summarize the path specification...
 
 
 -   Letters are commands, while all numbers (floating point) are arguments.
@@ -1178,7 +1178,7 @@ Note however that all paths are visible, as they are actually the same object.
 
 The direction in which paths are drawn is very important, and in general all the paths should be drawn in exactly the same direction relative to the 'inside' of the object.
 
-For example here I draw the second object in the reverse direction to the first.
+For example, here I draw the second object in the reverse direction to the first.
 As such when the two objects overlap that area is circled '*zero*' times.
 That is it will be unfilled no matter what '`fill-rule`' is used, creating a 'hole'.
 
@@ -1294,7 +1294,7 @@ Note that if the line is too long to fit the given ellipse size at the angle giv
 
 This means that by using small numbers for the axis radii, you can just specify a ratio of axis lengths, and guarantee the direct line path goes though the center point of the ellipse.
 That is the path forms an elliptical diameter from one side of the ellipse to the other.
-This is not necessarily the major or minor axis of the ellipse, just a elliptical diameter.
+This is not necessarily the major or minor axis of the ellipse, just an elliptical diameter.
 
 ~~~
 convert -size 100x60 xc:skyblue -fill white -stroke black \
@@ -1346,7 +1346,7 @@ convert -size 100x60 xc:skyblue -fill white -stroke black \
 This type of arc is a key feature.
 It allows you to give what is an otherwise straight line, a small but distinct curve very easily.
 
-For example instead of a simple triangle like this...
+For example, instead of a simple triangle like this...
 
 ~~~
 convert -size 100x60 xc:skyblue -fill white -stroke black \
@@ -1398,7 +1398,7 @@ You can of course 'mix-n-match' by using both.
 
 #### Pie Chart Example
 
-To finish off using arcs, lets give an example of using for them to generate circular wedges.
+To finish off using arcs, let's give an example of using for them to generate circular wedges.
 Of course you may need to use some external trigonometric mathematics (how good was your senior high school math?) to determine the end path points that are required.
 
 ~~~
@@ -1510,7 +1510,7 @@ For more examples of this path function see, [SVG: Cubic Bezier Curve Commands](
 
 **Interactive Curve Generation** is also possible by using some vector graphic editors.
 
-For example *Luis Guerra* reports that "[Inkscape](http://www.inkscape.org/)" generated bezier curves can be made accessible using the "Edit -&gt; XML Editor" function then selecting the path or shape you want the control points for.
+For example, *Luis Guerra* reports that "[Inkscape](http://www.inkscape.org/)" generated bezier curves can be made accessible using the "Edit -&gt; XML Editor" function then selecting the path or shape you want the control points for.
 
 > Do you know of other ways of extracting a bezier curve (giving either two or one control point per point on curve) using a GUI tool.
 > Or perhaps some other technique for generating such curves?
@@ -1557,7 +1557,7 @@ convert -size 100x60 xc:skyblue -fill white -stroke black \
 
 [![\[IM Output\]](triangle_bulge_2.gif)](triangle_bulge_2.gif)
 
-In this case the arcs are not so uniform, and you get something like a upside-down shark fin, rather than a sail.
+In this case the arcs are not so uniform, and you get something like an upside-down shark fin, rather than a sail.
 
 Remember Quadratic Arcs are parabolas, while Elliptical Arcs basically generate circular segments.
 This may be the key to determined which type of arc'ing line segment you should use.
@@ -1571,7 +1571,7 @@ On top of these abilities, the drawing surface on which the objects are drawn ca
 First you can apply some general drawing surface modifications such as...
 '`translate`', '`rotate`', '`scale`', '`skewX`', '`skewY`', and '`affine`'.
 
-For example given a 'path' of lines we can "translate" the origin or 0,0 point of the drawing surface to another location.
+For example, given a 'path' of lines we can "translate" the origin or 0,0 point of the drawing surface to another location.
 
 ~~~
 convert -size 100x60 xc:skyblue \
@@ -1708,7 +1708,7 @@ These scripts convert things like a rotation angle and center point into affine 
 ### Push/Pop Context {#push_context}
 
 Some MVG primitives actually rely on the use of these transforms to be used properly.
-For example the [Ellipse Primitive](#primitive_circle) can only be directly specified with orthogonally aligned axis.
+For example, the [Ellipse Primitive](#primitive_circle) can only be directly specified with orthogonally aligned axis.
 
 ~~~
 convert -size 100x60 xc:skyblue -fill white -stroke black \
@@ -1835,8 +1835,8 @@ convert    mvg_circles2.mvg    mvg_image.gif
 ![==&gt;](../img_www/right.gif) [![\[IM Output\]](mvg_image.gif)](mvg_image.gif)
   
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
-> There is currently only one way of reading a external MVG file from inside a MVG argument string, and that is using a '`image`' drawing primitive.
-> Unfortunately this converts the MVG include into a raster image BEFORE overlaying that image onto the drawing surface.
+> There is currently only one way of reading an external MVG file from inside a MVG argument string, and that is using an '`image`' drawing primitive.
+> Unfortunately this converts the MVG into a raster image BEFORE overlaying that image onto the drawing surface.
 > In other words there is currently no MVG 'include' function.
 > ` :-( `
 
@@ -1891,7 +1891,7 @@ Unfortunately at this time IM does not have commands to draw such symbols easily
 
 The trick to drawing multiple symbols in a given list of locations, is to generate the MVG drawing commands using a shell script, or whatever API you are using, so as to transform the given a set of points into the appropriate set of drawing commands.
 
-For example here I convert a line of points, into a 'plus' at each of those points...
+For example, here I convert a line of points, into a 'plus' at each of those points...
 
 ~~~
 # Define a string of X and Y coordinates
@@ -1919,7 +1919,7 @@ Just about any programming language can do this.
 For the above shell script case I just found "`awk`" to be the simplest and fastest means.
 
 Actually you can even use Imagemagick itself to do that 'macro' expansion using the "`convert`" format option...
-For example here I use it to calculate a point on the circumference of the circle, for this 'point symbol'.
+For example, here I use it to calculate a point on the circumference of the circle, for this 'point symbol'.
 
 ~~~
 # Define a string of X and Y coordinates
@@ -1980,7 +1980,7 @@ If your IM is older than this, the above (and next) examples may not draw anythi
 > You can fix this for older versions by replacing the relative moves '`m`' in the above with an appropriate sequence of relative lines, '`l`'.
 
 Now you can take this even one step further, feed a fully formed MVG file, complete with draw canvas specification, directly into IM as a pipeline of drawing commands.
-This time lets do a 'cross' which is similar to the first 'plus' example above which needed a lot of calculations.
+This time let's do a 'cross' which is similar to the first 'plus' example above which needed a lot of calculations.
 
 ~~~
 # Define a string of X and Y coordinates
@@ -2021,7 +2021,7 @@ You can also use small pre-defined but colorful images for this too.
 However this may have trouble exactly positioning the font relative to a specific pixel.
 That is to say it is not a very precise technique.
 But you can compose any image at any pixel location.
-For example these symbols were extracted from a number of fonts, for specific use in these example pages.
+For example, these symbols were extracted from a number of fonts, for specific use in these example pages.
 
 ![&lt;=](../img_www/left.gif) ![](../img_www/space.gif) ![=&gt;](../img_www/right.gif) ![](../img_www/space.gif) ![x](../img_www/multiply.gif) ![](../img_www/space.gif) ![+](../img_www/plus.gif) ![](../img_www/space.gif) ![+](../img_www/union.gif) ![](../img_www/space.gif) ![+](../img_www/intersection.gif) ![](../img_www/space.gif) ![o](../img_www/mph_hitmiss.gif) ![](../img_www/space.gif) ![o](../img_www/mph_thinning.gif) ![](../img_www/space.gif) ![o](../img_www/mph_dilate.gif) ![](../img_www/space.gif) ![o](../img_www/fft_convolve.gif)
 
@@ -2218,7 +2218,7 @@ Can you think of other ways to draw circles?
 
 ### Drawing Arrows -- position, rotate and scale symbols {#arrows}
 
-Using the above techniques you can create a special symbols such as a arrow head, that you can position so its point is at the very end of a line, and draw over it..
+Using the above techniques you can create special symbols such as an arrow head, that you can position so its point is at the very end of a line, and draw over it.
 If you draw the arrow after the line (typical situation) then the arrow will be drawn on top of the line.
 
 However their are three types of arrows, that can be defined, and each type is defined in different ways depending on the use it is put to.
@@ -2226,7 +2226,7 @@ However their are three types of arrows, that can be defined, and each type is d
 -   **Measurement** where you simply want to mark the ends of a line with an arrow head to indicate the limits of a measurement in some engineering diagram.
     Very simple.
 -   **Vectors**, showing direction and intensity of some value.
-    For example in a weather wind chart.
+    For example, in a weather wind chart.
     A tail is required and the 0,0 point is the end of the tail.
     Often a large grid of such vectors is created.
 -   **Indicators**, that point out some detail.
@@ -2234,8 +2234,8 @@ However their are three types of arrows, that can be defined, and each type is d
 
 #### Measurement Arrows {#arrows_measurement}
 
-Simply adding a arrow head to the end a line is relatively easy to do.
-You basically create a 'arrow head' [symbol](#symbols), and draw it at the right position.
+Simply adding an arrow head to the end a line is relatively easy to do.
+You basically create an 'arrow head' [symbol](#symbols), and draw it at the right position.
 
 For example...
 
@@ -2256,7 +2256,7 @@ This way it can draw backward on top of the previously draw line, making a very 
 Arrows however have a direction associated.
 You could create a huge number of arrow definitions at many different angles, and many programs do this.
 But as the arrow is a vector, so why not rotate the arrow as a vector.
-The IM draw command has drawing rotations ([Canvas Warping](../draw/#transform)) built-in, so lets use them.
+The IM draw command has drawing rotations ([Canvas Warping](../draw/#transform)) built-in, so let's use them.
 
 This also has the advantage of moving the position out of the '`path`' definition of the arrow head, allowing you to specify the whole path as a 'constant'...
 
@@ -2412,7 +2412,7 @@ If this is a problem put in a request on the IM bugs forum, and hopefully text j
 You don't have to completely enlose a fill area with a path or outline to create various shapes.
 Using very large and wide [Strokes](#stroke) you can generate big areas and swatches of color on a canvas.
   
-For example a broad stroke elliptical arc can generate a nice area of color that I have actually seen used in creating a poster.
+For example, a broad stroke elliptical arc can generate a nice area of color that I have actually seen used in creating a poster.
 
 ~~~
 convert -size 100x100 xc: -fill none -stroke powderblue \
@@ -2481,7 +2481,7 @@ cylinder_bar 95 cylinder_95.png
 
 [![\[IM Output\]](cylinder_95.png)](cylinder_95.png)
 
-The script can generate a image of any size, adjusting all parameters appropriately biased on that size and other settings defined at the top of the script.
+The script can generate an image of any size, adjusting all parameters appropriately biased on that size and other settings defined at the top of the script.
 In also includes the concept of a 'glass thickness', to create a gap between an enclosing semi-transparent glass cylinder, and the colored cylinder within.
 
 Note the very subtile shadings of the cylinder especially when the end of the green cylinder overlaps the glass cylinder end!
@@ -2526,7 +2526,7 @@ Here are the four cases of quoting, and special character handling...
     The simplest technique for handling draw text strings is to use a single quote for the wrapping shell argument.
     This however means that to include an apostrophe in the drawn string you need to leave the shells 'single quote mode' and supply that apostrophe outside the shells single quotes.
     
-    For example here is how to handle the four special characters I talked about.
+    For example, here is how to handle the four special characters I talked about.
     
     ~~~
     convert -size 250x50 xc:none  -box white  -pointsize 20 -gravity center \
@@ -2676,7 +2676,7 @@ convert -size 200x50 xc:none -box white -pointsize 20 -gravity center \
 
 However all annotation quotes and escapes are completely ignored if you use the at '`@`' escape to read the string from a file.
 
-For example here we include information on an images width and height!
+For example, here we include information on an images width and height!
 
 ~~~
 convert -size 200x50 xc:none -box white -pointsize 20 -gravity center \
@@ -2685,7 +2685,7 @@ convert -size 200x50 xc:none -box white -pointsize 20 -gravity center \
 
 [![\[IM Output\]](annotate_percents.gif)](annotate_percents.gif)
 
-However all escapes are completely ignored when read a annotation string from a file.
+However all escapes are completely ignored when read an annotation string from a file.
 
 ~~~
 echo -n '@ %w\n%h' |\
@@ -2708,7 +2708,7 @@ The engine needs to handle all its aspects, as defined by the [SVG -- Scalable V
 Something that requires a lot of programming effort, and time.
 
 Therefore, ImageMagick provides two methods in the handling of SVG format images.
-The first is to use a open source RSVG library, to convert the SVG format into a raster image that IM has no problems handling.
+The first is to use an open source RSVG library, to convert the SVG format into a raster image that IM has no problems handling.
 This engine is complete in just about all aspects of SVG handling.
 
 The second method is for IM to try to convert SVG into MVG, using a built-im method called **MSVG**.
@@ -2783,7 +2783,7 @@ Instead it is 'drawn' or 'rendered' at a particular "`-density`" just like posts
 
 Also if the SVG does not 'paint' the background, you can specify the background color to use by using the "`-background`" setting.
 
-For example here is another small SVG image "`home.svg`", which has been 'rendered' using 3 different densities, with 3 different backgrounds, including a transparent background.
+For example, here is another small SVG image "`home.svg`", which has been 'rendered' using 3 different densities, with 3 different backgrounds, including a transparent background.
 
 ~~~
 convert -density 36                      home.svg  home_1.gif
@@ -2814,7 +2814,7 @@ A simple fix is typically just change all 'pixels' units in the SVG to 'points',
 As of IM v6.4.2, IM can convert ANY bitmap image into an SVG vector graphic!
 The conversion is not always successful, but larger and/or simpler images (like a bitmap mask) will convert very well.
 
-For example here I convert a horrible bitmap shape into a SVG image, then convert it back again, so as to smooth the bitmap into a proper anti-aliased shape.
+For example, here I convert a horrible bitmap shape into a SVG image, then convert it back again, so as to smooth the bitmap into a proper anti-aliased shape.
 
 ~~~
 convert -pointsize 72 -font Candice label:A -threshold 50% \
