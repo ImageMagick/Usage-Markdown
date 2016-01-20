@@ -163,7 +163,7 @@ convert -size 70x70 xc:none  -draw 'circle 35,35 15,25' \
 
 [![\[IM Output\]](blur_gradient.png)](blur_gradient.png)
 
-While on the subject of re-adding colors, some of the simplier colors can be also be added by using one or two "`-fx`" operators.
+While on the subject of re-adding colors, some of the simpler colors can be also be added by using one or two "`-fx`" operators.
 Here is a blur that is re-colored as '`navy`' or half-bright blue.
 Only the blue channel is replaced, as the red and green channels are already 0 in value as the source image is black.
 
