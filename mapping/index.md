@@ -126,7 +126,7 @@ Note that this [Image Composition](../compose) requires the use of an operationa
 See [Globally Defined Artifacts](../basics/#artifact) for more details.
 By using a variable map to control the blur you can blur one part of an image, while leaving another part completely alone, or you can produce effects such as [Tilt-Shift Effect](../photos/#tilt_shift), where a real world image is made to appear more like a small artifical model.
 
-For example, here I blur one half of a image of a koala while leaving the other half completely un-blurred...
+For example, here I blur one half of an image of a koala while leaving the other half completely un-blurred...
 
 ~~~
 convert -size 37x75 xc:black -size 38x75 xc:white +append  blur_map_bool.gif
