@@ -3,7 +3,7 @@
 Morphology modifies an image in various ways based on the nearby 'neighbourhood' of the other pixels that surround it.
 This in turn can provide a huge range of effects, Shape expansion and contraction (dilate/erode), to distance from edge, to thining down to a skeleton, or mid-line axis.
 
-Even the more anchiet method of 'convolution' techniques that provide blurring and sharpening techniques (next section), is in a way a type of morphology method.
+Even the more ancient method of 'convolution' techniques that provide blurring and sharpening techniques (next section), is in a way a type of morphology method.
 
 Essentially morphology is for the modification, determination, and discovery of the shapes of objects found within an image.
 
@@ -15,7 +15,7 @@ Morphology was originally developed as a method by which the structure of shapes
 It works by comparing each pixel in the image against its neighbours in various ways, so as to either add or remove, brighten or darken that pixel.
 Applied over a whole image, perhaps repetitively, specific shapes can be found and/or removed and modified.
 
-For example if an pixel is white and completely surrounded by other white pixels, then that pixel is obviously not on the edge of the image.
+For example, if a pixel is white and completely surrounded by other white pixels, then that pixel is obviously not on the edge of the image.
 You may then like to make that pixel black, so as to leave only edge pixels turned on.
 A method known as '`EdgeIn`' (see below).
 
@@ -100,7 +100,7 @@ We will go though the various methods, and the kernels that those methods may us
 As the kernel is common to all the morphology methods, and the results of the various methods depend heavily on the actual kernel selected, we will first look at how you can define or select a kernel to use.
 
 A good selection of kernels have already predefined for you and often you need look no further than these.
-You can get a list of the pre-defined built-in kernels by using "`-listkernel`" All kernels have a specific size, typically a square which has a odd number of pixels per side, the center of which is the 'origin' of the kernel.
+You can get a list of the pre-defined built-in kernels by using "`-listkernel`" All kernels have a specific size, typically a square which has an odd number of pixels per side, the center of which is the 'origin' of the kernel.
 However as you will see the "`-morphology`" operator is not restricted to this limitation.
 
 The most common *k\_argument* used for built-in kernels, and generally the first argument given is a '*radius*'.
@@ -255,7 +255,7 @@ Because of this the default octagon size is of radius '`2`'.
 
 The '`Disk`' kernel is as you would expect, a circular shape.
 And is commonly used when a very large morphological kernel is needed.
-Note however it is a aliased boolean circle.
+Note however it is an aliased boolean circle.
 
 However the *radius* argument for a disk can be a floating point number, which allows you to produce a quite a range of shapes, using small radii.
 
@@ -281,7 +281,7 @@ Note that a value less than one (but not zero) will always produce a single pixe
 After that the kernel tends to mostly produce kernels that can also be generated using the previous kernel types.
 It is only as the radius gets large that true disk-shaped kernels start to emerge.
 
-The most important thing to note is that a disk with a fractional radius works a lot better than using a integer radius.
+The most important thing to note is that a disk with a fractional radius works a lot better than using an integer radius.
 Adding a fraction of about 0.3 to 0.5 is generally recommended, to avoid generating an off looking single pixel on the sides of the disk.
 
 [![\[IM Output\]](kernel_plus.gif)](kernel_plus.gif)
@@ -402,16 +402,16 @@ You are not restricted to just the built-in kernels, but can also specify your o
 
 The '*geometry*' specification is basically exactly like that of the argument previous '`Rectangle`' kernel.
 It gives the size of the kernel, and even the 'offset' of the neighbourhood 'origin'.
-If only one number is supplied, it is the dimensions for a a square kernel will be assumed.
+If only one number is supplied, it is the dimensions for a square kernel will be assumed.
 Remember this is NOT a 'radius' argument.
 
-If no '*geometry*' or '`:`' is specified, then you are using a 'old' style specification, and a odd sized square kernel big enough to hold all the values given will be generated.
+If no '*geometry*' or '`:`' is specified, then you are using a 'old' style specification, and an odd sized square kernel big enough to hold all the values given will be generated.
 This is not recommended and only provided for backward compatibility with older versions of ImageMagick.
 
 After the '`:`' (which is required after a '*geometry*' specification) you then supply *width* × *height* floating point values separated by commas and/or spaces.
 A special value of '`NaN`' (meaning "Not a Number") or a '`-`' on its own, can be used to specify that this point in the kernel is not part of the neighbourhood.
 
-For example here is a specification for a square kernel of width 3, that can be used as for convolution blurring of the single pixel image.
+For example, here is a specification for a square kernel of width 3, that can be used as for convolution blurring of the single pixel image.
 
 ~~~
 convert pixel.gif   -morphology Convolve \
@@ -463,7 +463,7 @@ As you can see user kernel specification is very flexible, allowing you to speci
 As you seen from the above you can generate a larger kernel, so as to apply a morphology over a larger neighbourhood.
 
 However in some cases a faster alternative to using a larger kernel is to simply repeat (iterate or loop) the morphology operator multiple times.
-This means that the effect of that operator will be carried further, having the same basic effect as a using a larger kernel, but without the added computational cost of using a larger kernel.
+This means that the effect of that operator will be carried further, having the same basic effect as using a larger kernel, but without the added computational cost of using a larger kernel.
 
 For example, to produce the same result as a '`Diamond:3`' you could repeat the operation three times using the default radius 1 kernel...
 
@@ -489,7 +489,7 @@ convert pixel.gif   -morphology Dilate:3 Diamond -scale 800%  k_diamond_3.gif
 
 Using an '*iteration*' to make the effective neighbourhood bigger, works for most 'circular' kernels, such as a '`Square`' and '`Diamond`'.
 But **it does not work for all kernel types**.
-For example for a non-convex kernel such as a '`Plus`' (which is not a convex shape) it will produce a very unusual results.
+For example, for a non-convex kernel such as a '`Plus`' (which is not a convex shape) it will produce a very unusual results.
 
 For example...
 
@@ -521,10 +521,10 @@ Caution and some experimentation with your specific situation may be needed.
 ### Verbose Output of Changes {#verbose}
 
 If you want to see the results of iterating (repeating) a morphological operation, you can set the "`-verbose`" option, which turns on the [Verbose Operational Control](../basics/#verbose).
-As the morphology operator iterates, it will report a incrementing count of the iteration, and how many pixels in the image were changed by each iterated step.
+As the morphology operator iterates, it will report an incrementing count of the iteration, and how many pixels in the image were changed by each iterated step.
 The output is to standard error, so that you can still pipe the image results..
 
-For example lets '`Dilate`' the single pixel image using the larger '`Octagon`' kernel until the whole image has been filled with white and no more changes can be made to the image.
+For example, let's '`Dilate`' the single pixel image using the larger '`Octagon`' kernel until the whole image has been filled with white and no more changes can be made to the image.
 Remember an iteration limit of '`-1`' means iterate forever, or until no more changes are seen.
 
 ~~~{data-capture-err=verbose_iterate.txt}
@@ -551,7 +551,7 @@ This is done to prevent ImageMagick from going into a never ending loop.
 Typically however operations will finish long before that internal limit is reached.
 
 Some morphology methods are actually defined in terms of simpler more primitive methods.
-For example a '`Smooth`' method for example is one such compound method.
+For example, a '`Smooth`' method for example is one such compound method.
 The "`-verbose`" output that is generated when using this method, shows the multiple internal steps that goes to make up its processing.
 
 ~~~{data-capture-err=verbose_compound.txt}
@@ -590,7 +590,7 @@ Each line consists of...
 
 :   This is a report of the results of applying the morphology primitive to the image.
 
-    The 'hash' number is a incremental count of the number of primitive passes though the image.
+    The 'hash' number is an incremental count of the number of primitive passes though the image.
     This gives you a good idea of how computationally intensive a compound morphology operator is.
 
     You then get a the actual number of pixels that were changed in some way during that pass.
@@ -657,7 +657,7 @@ Also notice that this specific kernel's 'origin' (the pixel that it effects), is
 The size and spacing of the values in the output can be controlled by the special [Precision Operational Control](../basics/#precision).
 That was added to IM at about the same time as the morphology operator.
 
-For example here is a repeat of the previous example but using "`-precision`" to limit the number of significant digits from the default of 6 to 3.
+For example, here is a repeat of the previous example but using "`-precision`" to limit the number of significant digits from the default of 6 to 3.
 
 ~~~{data-capture-err=k_precision.txt}
 convert xc:  -define showkernel=1 -precision 3 \
@@ -676,12 +676,12 @@ convert xc:  -define showkernel=1 -precision 3 \
 
 ### Generating an Image of the Kernel {#kernel2image}
 
-To make it easier to see kernels, rather than using [Dilating](#dilate) or [Convolution](../convolve/#convolve) on a a single pixel image to see what it produces, I created a special script called "`kernel2image`".
-This script extracts the exact [Show Kernel](#showkernel) output, and converts it into a image of the kernel.
+To make it easier to see kernels, rather than using [Dilating](#dilate) or [Convolution](../convolve/#convolve) on a single pixel image to see what it produces, I created a special script called "`kernel2image`".
+This script extracts the exact [Show Kernel](#showkernel) output, and converts it into an image of the kernel.
 
 The "`kernel2image` script has lots of options, from output the raw image of the kernel (the default) to specifying the amount of scaling, inter-pixel gaps, montage, labeling, and even coloring of the resultant 'kernel image'.
 
-For example here is how I generated the "`Octagon`" kernel image, which has now been shown a number times in these examples.
+For example, here is how I generated the "`Octagon`" kernel image, which has now been shown a number times in these examples.
 
 ~~~
 kernel2image -10.1  -m "Octagon"  kernel_octagon.gif
@@ -705,7 +705,7 @@ kernel2image -20.2 -ml 'L-Shape'  "3: 1,-,-  1,-,-  1,1,- " kernel_lman.gif
 
 This script makes it a lot easier to view and understand the various kernels, and is used extensivally in these programs.
 
-If you want to create a kernel from an existing image, a script "`image2kernel`" can be used to create a kernel data file from a image.
+If you want to create a kernel from an existing image, a script "`image2kernel`" can be used to create a kernel data file from an image.
 This script normally takes a gray-scale image, but if a multi-colored image is given each channel of the image is converted as a separate kernel data file.
 
 For an example of using kernels generated from images see the convolution method of [Alternatives to Drawing Symbols](../draw/#symbol_alts).
@@ -722,7 +722,7 @@ As of IM v6.6.2-0 you can specify multiple kernels which will be applied to the 
 To specify multiple kernels you would just append each kernel definition together, separated by a semicolon '`;`'.
 A final semicolon at the end is optional.
 
-For example here I define a special kernel list containing a list that can be used for 'pattern matching' corner pixels.
+For example, here I define a special kernel list containing a list that can be used for 'pattern matching' corner pixels.
 
 ~~~{.skip}
    3: 0,0,- 0,1,1 -,1,-  ;     
@@ -787,14 +787,14 @@ The three special flags are...
 
     *(mnemonic: '`<`' is a mirror of a right angle)*
 
-For example that same kernel above be specified more simply as...
+For example, that same kernel above be specified more simply as...
 
 ~~~{.skip}
  ' 3>:  0,0,-  0,1,1  -,1,- '
 ~~~
 
 This defines one kernel, which the '`>`' flag then tells IM to expand into a 90 degree rotated list.
-And here is a image of the resulting multi-kernel list
+And here is an image of the resulting multi-kernel list
 
 ~~~
  kernel2image -20.2 -ml '' -mt x1 \
@@ -813,7 +813,7 @@ And here I rotate a 3x3 kernel in a 'cyclic' 45 degree rotation, expanding it to
 [![\[IM Text\]](kernel_rotated_list2.gif)](kernel_rotated_list2.gif)
 
 You can also do the same for any 'single' built-in named kernel IM, using the same flags in the argument section of those kernels.
-For example here I take a symmetrical '`Blur`' kernel and expand it into a 90 degree rotated list using a '`>`' flag.
+For example, here I take a symmetrical '`Blur`' kernel and expand it into a 90 degree rotated list using a '`>`' flag.
 
 ~~~
  kernel2image -12.1 -n -ml ''   "Blur:0x1>"  blur_kernels.gif
@@ -887,7 +887,7 @@ See [Gaussian vs Blur Kernels](../convolve/#gaussian_vs_blur) which demonstrates
 By setting the '`{compose_method}`' to any method other than '`None`', the operation will NOT be *re-iterated*.
 Instead each kernel will be applied *to the original image*, and the resulting images will be then be [Composited](../compose/) together using the '`{compose_method}`' method specified.
 
-For example if I use a '`Lighten`' morphology method to generate a [Union](../compose/#set_theory) of the separate results, we would get..
+For example, if I use a '`Lighten`' morphology method to generate a [Union](../compose/#set_theory) of the separate results, we would get..
 
 ~~~
 convert pixel.gif  -define morphology:compose=Lighten \
@@ -931,7 +931,7 @@ convert blur_1.gif blur_2.gif -compose Lighten -composite \
 [![\[IM Output\]](blur_union_mag.gif)](blur_union.gif)
 
 If you are not sure what IM is actually doing during a morphology, turn on the [Verbose Output of Changes](#verbose).
-For example here the verbose output of re-iterating with each kernel...
+For example, here the verbose output of re-iterating with each kernel...
 
 ~~~{data-capture-err=blur_re-iterate.txt}
 convert pixel.gif  -define morphology:compose=None \
@@ -964,7 +964,7 @@ The default is the compose value of '`None`' meaning to simply 're-iterate' resu
 
 ## Basic Morphology Methods {#basic}
 
-Morphological Methods is a image processing technique for the finding, and analysis of shapes of objects withing an image.
+Morphological Methods is an image processing technique for the finding, and analysis of shapes of objects withing an image.
 Expanding, shrinking, locating specific shapes, and so on.
 
 It was original developed with binary (pure black and white) images in mind, and because of this it most commonly applied to [Thresholded](../quantize/#threshold) images containing simple black and white shapes.
@@ -981,7 +981,7 @@ Such kernels are often called 'Structure Elements' as they are typically used to
 As the name implies the '`Erode`' method 'eats away' the white shape, from any background pixel making it smaller.
 You can also think of it as expanding the black areas of the image.
 
-For example here is a simple binary 'man-like' shape that has been eroded using a '`Octagon`' kernel.
+For example, here is a simple binary 'man-like' shape that has been eroded using a '`Octagon`' kernel.
 
 ~~~
 convert man.gif   -morphology Erode Octagon  erode_man.gif
@@ -1018,7 +1018,7 @@ The size and shape of the kernel determines how many pixels were are added aroun
 
 The '`Dilate`' and '`Erode`' are dual.
 That is (at least with a symmetrical kernel) by negating the image before and after the applying the morphological method, you will actually perform the other form of the operator.
-For example here I perform a erosion by using '`Dilate`' on the [Negated Images](../color_mods/#negate).
+For example, here I perform an erosion by using '`Dilate`' on the [Negated Images](../color_mods/#negate).
 
 ~~~
 convert man.gif -negate \
@@ -1208,7 +1208,7 @@ As a result...
 
 Because of their nature the [Intensity Methods](#intensity) will ignore the current "`-channel`" setting completely.
 
-For example here I use the binary and intensity variants of '`Dilate`' Morphology (expand bright areas), on the built-in "`rose:`" image.
+For example, here I use the binary and intensity variants of '`Dilate`' Morphology (expand bright areas), on the built-in "`rose:`" image.
 
 ~~~
 convert rose: -morphology Dilate          Octagon:3  rose_dilate.gif
@@ -1227,7 +1227,7 @@ The second intensity dilation however preserves the full color of the brightest 
 The intensity methods also has a short hand naming scheme, by replacing the word '`Intensity`' with just a '`I`'.
 As such here I use a '`CloseIntensity`' method but use the short hand name of '`CloseI`'.
 
-For example here are the results of using each of the four 'Intensity' variants on the built-in rose image.
+For example, here are the results of using each of the four 'Intensity' variants on the built-in rose image.
 
 ~~~
 convert rose: -morphology ErodeI Octagon:3 rose_erode_intensity.gif
@@ -1266,8 +1266,7 @@ If I do not hear comments, nothing more will be added!
 ~~~{.skip}
 For people with versions of IM older than v6.5.9-0 you can still implement some basic morphology methods.
 
-You can generate a kernel that is all ones.
-For example a 7x7 array of 1's (radius=3), by use a extremely large sigma and specify the appropriate radius, using a Gaussian blur.
+You can generate a kernel that is all ones, for example a 7x7 array of 1's (radius=3), by usng an extremely large sigma and specifying the appropriate radius, using a Gaussian blur.
 
 As such
     -convolve 1,1,1,1,1,.....
@@ -1433,7 +1432,7 @@ All the above basic morphology methods are channel methods, as such they are app
 
 This means you can apply these methods to color images, provided you are not too fussy about 'color leakage' from undefined transparent areas.
 
-For example lets '`Erode`' the alpha channel of the original 'man figure' image, without modifying the color channels.
+For example, let's '`Erode`' the alpha channel of the original 'man figure' image, without modifying the color channels.
 
 ~~~
 convert figure.gif -channel A  -morphology Erode Diamond:3 \
@@ -1483,7 +1482,7 @@ However this requires a 'counting' method (to be added) to implement fully.*
 #### Historical note...
 
 This usage was in fact the original driving force behind the original creation of morphology methods, at a Paris mining company, in the 1960's.
-It allowed the creators to create a automated system to analyze the grain structure of microscopic photos of mineral samples to determine their suitability for mining.
+It allowed the creators to create an automated system to analyze the grain structure of microscopic photos of mineral samples to determine their suitability for mining.
 That is locate and count the size and amount of mineral in samples.
 
 For example: Two mineral ores may have the same amount of desired mineral (usually as grains or crystals in the rock), but only the ore with larger grains could be effectively mined as it allowed you to more easily separate the large pure mineral from the surrounding ore bearing rock.
@@ -1491,8 +1490,8 @@ This was a very labour intensive task, which morphology made a lot easier.
 
 ### Asymmetric Kernel Effects (Basic Method Tests) {#asymmetric}
 
-Lets have a look at how these basic method work when used with a kernel which is not symmetrical.
-For example here I apply a user defined 'L' shape against a special morphological test image (enlarged for viewing individual pixels).
+Let's have a look at how these basic method work when used with a kernel which is not symmetrical.
+For example, here I apply a user defined 'L' shape against a special morphological test image (enlarged for viewing individual pixels).
 
 ~~~
 for method in  erode dilate open close; do
@@ -1547,7 +1546,7 @@ It does this by looking for a specific configuration of 'foreground' and 'backgr
 > As of IM v6.6.9-4, you can use any of the method names '`HitAndMiss`', '`Hit_N_Miss`' or just '`HMT`', and the variants, to specify this morphology method.
 > Before this version only the '`HitAndMiss`' method name could be used.
 
-For example we could look for a 'foreground' pixel, which has a 'background' pixel immediately to its right.
+For example, we could look for a 'foreground' pixel, which has a 'background' pixel immediately to its right.
 
 ~~~
 convert man.gif   -morphology Hit-and-Miss '2x1:1,0'  hmt_right.gif
@@ -1567,7 +1566,7 @@ The 'Kernel' or 'Structuring Element' used can contain a pattern of 3 types of e
 What value you use for the 'origin' is very important as it will define whether you only want to 'hit' the foreground shape, or the background pattern.
 But if you specifically set the 'origin' value to a value of 'I Don't Care', then you can match either foreground and background pixels who has the correct surrounding neighbourhood.
 
-For example if I use a structured element like...
+For example, if I use a structured element like...
 
 ~~~
 convert man.gif   -morphology Hit-and-Miss '3x1:1,-,0'  hmt_right2.gif
@@ -1625,7 +1624,7 @@ As you can see the '`Hit-And-Miss`' method locates and returns ALL the pixel pos
 > You can, and as you see, use the results to modify the original image so as to generate a slightly different image.
 
 You can use a set of kernels that are more selective of what you are specifically interested in.
-For example suppose you are interested in the points where three lines meet.
+For example, suppose you are interested in the points where three lines meet.
 Then you can use the '`LineJunctions`' kernel set, which is designed specifically for this purpose.
 
 ~~~
@@ -1692,7 +1691,7 @@ If you really only want a Boolean (on/off) result of what pixels actually match 
 
 The '`Thicken`' method will add pixels to the original shape at every matching location.
 
-For example here I look for a background pixel that is two pixels away from the right edge of the shape.
+For example, here I look for a background pixel that is two pixels away from the right edge of the shape.
 
 ~~~
 convert man.gif   -morphology Thicken '3x1+2+0:1,0,0'  thick_right.gif
@@ -1808,7 +1807,7 @@ When handling a gray-scale image '`Thicken`' will **add** the '`Hit-And-Miss`' f
 
 This can thus be used to make the matching pixels brighter, even when the 'origin' pixel is not in the 'background' set.
 
-For example, lets repeat the corner-find example from above but with a 50% grey version of the shape.
+For example, let's repeat the corner-find example from above but with a 50% grey version of the shape.
 
 ~~~
 convert man.gif   -evaluate multiply 0.5   man_grey.gif
@@ -1827,7 +1826,7 @@ When using a [HDRI version of Imagemagick](../basics/#hdri) with '`Thicken`' it 
 The '`Thinning`' method is the dual of '`Thicken`'.
 Rather than adding pixels, this method subtracts them from the original image.
 
-For example lets remove any pixel that is 4 pixels in from the right edge.
+For example, let's remove any pixel that is 4 pixels in from the right edge.
 
 ~~~
 convert man.gif   -morphology Thinning '5x1+0+0:1,1,1,1,0' thin_right.gif
@@ -1878,7 +1877,7 @@ One of the most common uses of thinning is to reduce the threshold output of an 
 Which, as will be discussed later, are meant to be the center line of pixels between any two (or more) edges of the shape.
 
 A skeleton is important as it provides a very good description of a very complex shape.
-For example processing the image to find the number of loops, line segments, and how they are arranged, will tell you a lot about the shape that you have.
+For example, processing the image to find the number of loops, line segments, and how they are arranged, will tell you a lot about the shape that you have.
 
 So let's produce a '*Thinned Skeleton*' by '`Thinning`' the edges of the man shape down repeatedly, until only the center lines are left.
 
@@ -1897,7 +1896,7 @@ This is a serious failing of this specific skeleton thinning kernel, and is caus
 
 You can use sets of skeleton thinning kernels to solve this problem.
 
-A simplier solution is to [Erode](#erode) the image slightly to give the kernels something to work with.
+A simpler solution is to [Erode](#erode) the image slightly to give the kernels something to work with.
 I will also only erode and thin the 'Red' and 'Green' channels, so as to leave original shape in blue.
 
 ~~~
@@ -1967,7 +1966,7 @@ Basically because the side of the diagonals that is removed is controlled purely
 The alternative is to take a 'traditional' skeleton, and thin it so that the diagonals are always thinned on the 'outside' of the diagonal, as defined by the end points of the diagonal.
 
 The special '`Diagonals`' thinning kernel, is designed to do this, with a '`Corners`' kernel being used afterward to 'finish'.
-So lets thin the previous 'traditional' skeleton further..
+So let's thin the previous 'traditional' skeleton further..
 
 ~~~
 convert man_skeleton.gif -channel RG \
@@ -1990,7 +1989,7 @@ In any case by starting with a 'traditional' 4-connected skeleton, you can then 
 #### Skeleton Information {#skeleton_info}
 
 When you have a skeleton (perhaps even both a 4 and 8 connected version) the next step is usually to find out more information about the skeleton.
-For example how many 'free end of lines', 'line junctions', and 'line loops' are present.
+For example, how many 'free end of lines', 'line junctions', and 'line loops' are present.
 
 ##### Number of Line Ends
 
@@ -2040,7 +2039,7 @@ If you did try this kernel directly with a traditional 4-connected skeleton, you
 The result as you can see are 12 line junctions, which for this specific shape is correct.
 
 However for some junctions the '`LineJunctions`' kernel is inaccurate.
-For example a 4-line diagonal '`X`' junction will only produce 1 match, while a orthogonal '`+`' junction, will produce 4 matches.
+For example, a 4-line diagonal '`X`' junction will only produce 1 match, while a orthogonal '`+`' junction, will produce 4 matches.
 Both of these special junctions should produce 2 matches, to keep the line junction count correct.
 
 As such to get an accurate count you will need to add 1 more value for every '`X`' junction, and subtract 2 counts for every '`+`' junction.
@@ -2154,7 +2153,7 @@ Yes this seems like a lot of steps, but believe me it is still a lot faster than
 
 If you were to do one single 'pruning' of the end of the line segments, and compare it to the original image you will find that more often than not a line segment was pruned anywhere from 2 to 4 times, depending on the exact shape and orientation of the lines.
 
-For example (resulting image enlarged) is is a default line ends thinning
+For example, (resulting image enlarged) is is a default line ends thinning
 
 ~~~
 convert -size 10x10 xc:black -fill white \
@@ -2266,7 +2265,7 @@ They are especially useful to improve the contrast of a [Correlation Pattern Mat
 #### Edges {#edges}
 
 The '`Edges`' kernel set, will match any pixel on a flat edge of a shape.
-It does not match pixels on a sharp ninety degree corner, though it will match a corner pixel on a octagonal shape.
+It does not match pixels on a sharp ninety degree corner, though it will match a corner pixel on an octagonal shape.
 
 [![\[IM Output\]](kernel_edges.gif)](kernel_edges.gif)
 
@@ -2628,7 +2627,7 @@ Be warned however that some kernels, such as '`ThinSE:44`', which while designed
 All the kernels do not define the central origin value, which means you can these 'thinning kernels' are not only for '[Thinning Shapes](#thinning)', but also can be used '[Thicken Shapes](#thicken)' as well, to generate SKIZ (zones of influence).
 
 If you look carefully, you will probably note that each of the 4-connected kernels are actually also present in a negative and 180 rotated form in the 8-connected set, and visa-versa.
-For example '`ThinSE:41`' and '`ThinSE:84`' are negated rotations of each other.
+For example, '`ThinSE:41`' and '`ThinSE:84`' are negated rotations of each other.
 
 The reason is that 4 and 8 connectivity is closely related to each other via the duality of thinning and thicken morphological methods (using negated images).
 Essentially, a 4-connection preserving 'thinning kernel', which is then used to thicken an image, will result in a 8-connected background skeleton (unpruned SKIZ) around the shape, and visa-versa.
@@ -2642,7 +2641,7 @@ The '`Distance`' morphology method is the first of the many specialized methods 
 What it does is use a specialized kernel to measure the distance of each foreground pixel from the shapes 'edge'.
 More specially it measures the pixels distance from a 'zero' or 'black' color value.
 
-It however only works with pure binary (white on black) shapes, though as you will see later you can modify a anti-aliased shape to work with the distance method.
+It however only works with pure binary (white on black) shapes, though as you will see later you can modify an anti-aliased shape to work with the distance method.
 And only with specially designed [Distance Kernels](#distance_kernels).
 
 The distance kernel is applied to the image so that each pixel is assigned the smallest pixel value plus the kernel value for that distance.
@@ -2697,7 +2696,7 @@ The result is that pixels along the very edge of a shape will be assigned a 100 
 The next pixel further in will be given 100 units more.
 Exactly how many units will be assigned is given by the [Distance Kernel](#distance_kernels) that is used.
 
-So lets look at the largest color value that was set in the above image.
+So let's look at the largest color value that was set in the above image.
 
 ~~~{data-capture-out=distance_max.txt}
 identify -verbose distance.png | grep max:
@@ -2708,7 +2707,7 @@ identify -verbose distance.png | grep max:
 That is the largest color value in the resulting image was '`1616`' making the 'brightest' pixel in the image a very dark 2.5% grey, and its distance from the nearest edge, 16.16 pixels away.
 In other words, we see a very dark, but not really completely black image.
 
-Lets use the mathematical "`-auto-level`" to adjust the resulting color values so the brightest, or most distant pixel from an edge is set to white.
+Let's use the mathematical "`-auto-level`" to adjust the resulting color values so the brightest, or most distant pixel from an edge is set to white.
 This way we can actually see the full effect of the 'distance gradient' generated.
 
 ~~~
@@ -2814,7 +2813,7 @@ convert man_floodfill.gif    -morphology Distance Euclidean \
 ### Distance Kernels {#distance_kernels}
 
 The kernel given is very special, as it is used to define the actual distance measurements that is to be assigned to each pixel.
-For example here the [Show Kernel](#showkernel) output of one of the built-in 'Distance Kernels'.
+For example, here the [Show Kernel](#showkernel) output of one of the built-in 'Distance Kernels'.
 
 ~~~{data-capture-err=k_chebyshec_3.txt}
 convert xc: -define showkernel=1 -precision 3 \
@@ -2829,7 +2828,7 @@ This is very important.
 That 'origin' is then surrounded by larger values, which increase linearly with greater distance from that 'origin'.
 If the kernel is not defined in this specific way, unexpected and strange effects may result.
 
-The value given in the kernel is the actual 'value' that will be added to a already 'known' distance, assigned to a pixel if that value is smaller than what is already assigned.
+The value given in the kernel is the actual 'value' that will be added to an already 'known' distance, assigned to a pixel if that value is smaller than what is already assigned.
 The result is that 'white' pixels are made darker the closer they are to an edge, and linearly brighter (adding to previously assigned values) the further it gets from the edge.
 
 All the provided built-in Distance kernels can take two optional *k\_arguments*...
@@ -2900,8 +2899,8 @@ You can find out more about this measure on [Wikipedia, Chebyshev Distance](http
 Using a '`Chebyshev`' distance measure, the final distance of a pixel is the largest X or Y value to the closest edge.
 However as the diagonal distance is only 1 unit, the maximum distance within an image is usually smaller than you would expect.
 
-Lets generate a 'distance gradient' using this kernel 'metric'.
-However so we can see what is going on lets use a slower '`Iterative Distance`' morphology method using a infinite iteration count.
+Let's generate a 'distance gradient' using this kernel 'metric'.
+However so we can see what is going on let's use a slower '`Iterative Distance`' morphology method using an infinite iteration count.
 
 ~~~{data-capture-err=chebyshev_gradient.txt}
 convert man.gif -threshold 50% +depth \
@@ -2942,7 +2941,7 @@ Specially 14 pixel radius or a square of approximately (R-1)\*2+1 =&gt; 27 pixel
 
 As all the distances units in this kernel are always multiples of '100' then this final distance value should always be a multiple of '100', and will never have any fractional component.
 
-Basically this kernel will produce a integer distance, and you can a simple '1 unit' *scale* with this kernel without loss of any distance information.
+Basically this kernel will produce an integer distance, and you can a simple '1 unit' *scale* with this kernel without loss of any distance information.
 This is recommended if you are using a [Q8 version of ImageMagick](../basics/#quality), or are applying this to very very large images.
 
 Here is an magnification of the gradient between the shapes 'legs' which highlights the features of the distance gradient generated.
@@ -2983,7 +2982,7 @@ Note that the diagonals now have a value of '200' or 2 units from the center.
 That is to reach a diagonal pixel you would have to travel through two pixels in the gird-like movements mentioned.
 As a result of this, diagonals tend to be larger than expected, as such the final distance measurements also tends to be larger.
 
-Lets again get extract the maximum distance and the 'distance gradient' image using this 'metric'.
+Let's again extract the maximum distance and the 'distance gradient' image using this 'metric'.
 
 ~~~
 convert man.gif -threshold 50% +depth \
@@ -3029,7 +3028,7 @@ It is created by generating first a [Manhattan](#manhattan) distance for the pix
 It then repeats using [Manhattan](#manhattan) distance for the 3 unit distance pixels, and so on.
 The result is an 'interleaving' or 'averaging' of distance resulting from using the two simpler kernels.
 
-As this kernel is based on a interleaving of two integer distance kernels, it is also an integer distance kernel.
+As this kernel is based on an interleaving of two integer distance kernels, it is also an integer distance kernel.
 As such a *scale* of '1 unit' can be used to produce smaller values, for lower quality ImageMagick versions, or very large distance measurements.
 
 The distance shape is also a mixture of the two kernels and as such produces a the equivalent of the '`Octagon`' shaped kernel.
@@ -3088,11 +3087,11 @@ You can also see that the diagonal was generated using an interleaving of thick 
 *A named distance kernel has not been provided.
 But it fits into the distance kernel sequence we are studing nicely at this point.*
 
-You can generate another type of integer distance kernel using a octagonal shape.
+You can generate another type of integer distance kernel using an octagonal shape.
 However the integer distance in this case uses a unit value of 2 per pixel, so really the distance values generated needs to be halved, generating a frational value from the small integers that are generated.
 This the name "Fractional Octogon".
 
-To do this we use a integer distance of 2 between neighbouring pixels, and 3 for the diagonal.
+To do this we use an integer distance of 2 between neighbouring pixels, and 3 for the diagonal.
 
 ~~~{.skip}
     '3: 3,2,3
@@ -3135,7 +3134,7 @@ rm fractional_gradient.png
 
 [![\[IM Text\]](fractional_distance.txt.gif)](fractional_distance.txt)
 
-The result of '`34`' is an 'integer' distance, but needs to be divided by 2 to produce a actual maximum distance result of 17.
+The result of '`34`' is an 'integer' distance, but needs to be divided by 2 to produce an actual maximum distance result of 17.
 However while this is also an integer, it could just as easilly come out as being a fractional distance of 16.5.
 
 This fractional aspect of distance results is why most kernels are defined using units of 100, and will in later kernels become more prevelent as we move away from purely integer distance kernels.
@@ -3160,7 +3159,7 @@ convert fractional_magnify.gif -fill red -opaque gray53 \
 
 [![\[IM Output\]](fractional_magnify_shape.gif)](fractional_magnify_shape.gif)
 
-As you can see pixels of the same value are generally separated in a 'knight's move' pattern, but form lines that generate a octagonal shape.
+As you can see pixels of the same value are generally separated in a 'knight's move' pattern, but form lines that generate an octagonal shape.
 The octogon is however rotated 45 degrees from the [Octagonal Distance Kernel](octagonal)
 
 It is also this shape difference that causes the final maximum distance to be larger.
@@ -3176,19 +3175,19 @@ It is however another octagonal type distance metric.
         4,3,4'
 ~~~
 
-The [Euclidean (Knights Move) Distance Kernel](#knight) below also generates a octagonal style of shape (all 3x3 distance kernels do), but tries to be as accurite as posible along the diagonals.
+The [Euclidean (Knights Move) Distance Kernel](#knight) below also generates an octagonal style of shape (all 3x3 distance kernels do), but tries to be as accurate as possible along the diagonals.
 This may or may not be the best idea, but it is the most mathematically logical octagonal distance kernel of this type.
 
 #### Chamfer Distance Kernels {#chamfer}
 
 *A named distance kernel has not been provided.
-But it fits into the distance kernel sequence we are studing nicely at this point.*
+But it fits into the distance kernel sequence we are studying nicely at this point.*
 
 A 'Chamfer' Distance kernel (not yet implemented), is defined using just the numbers (typically integers) that is to be used to fill in the distance matrix.
 
 You can for example give it 2 numbers to define any 3x3 'octagonal' type distance kernel, as described above.
 
-Here are the definitions of the pervious interget kernels,
+Here are the definitions of the previous integer kernels,
 
 +---------------------------------+---------------+-------+
 | Chebyshev                       | Chamfer:1,1   |       |
@@ -3200,12 +3199,12 @@ Here are the definitions of the pervious interget kernels,
 | Fractional Octagon Alternative | Chamfer:3,4  |  /3  |
 +---------------------------------+---------------+-------+
 
-All these kernals are simple radius 1 kernels.
+All these kernels are simple radius 1 kernels.
 The values give can be regarded as the actual 'distance scaling' values it should be using.
 
 Note however that the previous Integer [Octagonal](#octagonal) kernel requires a 3 number radius 2 Chamfor Kernel to define it.
 
-The most well known Chamfer kernel is as radius 2 kernel, 'Chamfer:5,7,11', which generates a very accurate distance, and also generates a integer distance values making it well suited for Q8 users.
+The most well known Chamfer kernel is as radius 2 kernel, 'Chamfer:5,7,11', which generates a very accurate distance, and also generates an integer distance values making it well suited for Q8 users.
 Traditionally the kernel (chamfor 5,7,11) is of the form...
 
 ~~~{.skip}
@@ -3302,7 +3301,7 @@ It is just plain luck that it came out as a simple multiple of '`100`' and that 
 The actual distance to a pixel is actually the sum of the diagonal distance, plus the orthogonal (axis) distance.
 That is not quite a perfect Euclidean distance, but it is the closest to it you can get while using the smallest distance kernel posible (of radius 1).
 
-Here is an magnification of the gradient between the shapes 'legs'.
+Here is a magnification of the gradient between the shape's 'legs'.
 
 ~~~
 convert knight_gradient.gif -crop 25x20+39+69 +repage \
@@ -3433,7 +3432,7 @@ Calculating distance from a single point will be looked at again later in [Const
 You are not limited to the distance kernels that have been provided for you.
 As long as you stick to the rules, of using a zero value at the 'origin', and an increasing distance value surrounding it, you can generate other very interesting distance effects.
 
-For example here I apply a very small [User Defined Kernel](#user) that simply says make any pixel to the right larger in value.
+For example, here I apply a very small [User Defined Kernel](#user) that simply says make any pixel to the right larger in value.
 
 ~~~
 convert man.gif -threshold 50% +depth \
@@ -3545,7 +3544,7 @@ As it is we still need to restore the 'shape' of the original shape.
 
 The above technique can be applied to the Alpha Channel of a shape so as to properly 'feather' the object.
 
-For example here is a 10 pixel 'smoothed' feather around an shaped object.
+For example, here is a 10 pixel 'smoothed' feather around an shaped object.
 
 ~~~
  convert rose_orig.png \
@@ -3578,7 +3577,7 @@ The "`-level`" operator then convert that into a linear gradient form the edge (
 The "`-virtual-pixel`" setting is also provided to ensure the any shape that touches the edge of the rectangular image container is also thought to be surrounded by transparency.
 
 The result of the distance function in this case is a 'linear ramp' or 'bevel' which can produce some sharp looking effects.
-As such a a small "`-sigmoidal-contrast`" modification will smooth this transition from transparency to opaque.
+As such a small "`-sigmoidal-contrast`" modification will smooth this transition from transparency to opaque.
 The higher the strength ('`3`' in the above) the sharper the feathering will be at the edge.
 If you like to have the feather 'taper' more smoothly into transparency, replace the '`0%`' in the above code, with '`50%`' to place the 'shoulder' of the sigmoidal curve in the middle of the 10 pixel feather.
 
@@ -3734,7 +3733,7 @@ In summary a [Conditional Dialation](#dilate_conditional) could be regarded as a
 The [Distance](#distance) morphology method can be easily used to find how far a point within an object is from an edge.
 But it can also be used to find how distant each point within the object is from another point.
 
-For example here I discover how far each point is from a single 'seed' point (as the crow flys)...
+For example, here I discover how far each point is from a single 'seed' point (as the crow flys)...
 
 ~~~
 convert -size 100x100 xc: -draw 'point 20,80'  distance_start.png
@@ -3862,7 +3861,7 @@ The distance transform method is more suited to this, and it is probably faster 
 SKIZ (Skeleton by Influence Zones) is a skeleton of the background, the negative of the operation.
 That is dividing the regions closest to each foreground object.  (generated by thickening)
 
-Generally a SKIZ is pruned down to simple areas, or basins, by also eroding end of line segments, unless they are attached to a image edge.
+Generally a SKIZ is pruned down to simple areas, or basins, by also eroding end of line segments, unless they are attached to an image edge.
 
 Identifying shape by their skeletons.
 
