@@ -1,3 +1,4 @@
+PATH=$PATH:../scripts
 ln -s ../images/dragon_md.gif dragon.gif
 ln -s ../images/tile_rings.jpg rings.jpg
 ln -s ../images/{castle,frame,eyes}.gif .
