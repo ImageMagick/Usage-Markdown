@@ -49,7 +49,7 @@ For example:
 -   The '`FocalLength`' of '`37mm` shows that I did not make use of my cameras 'Optical Zoom' feature.
     My camera could go up to a 6X optical zoom for a '`FocalLength`' of '`366/10`' or '`222mm`.
 -   And '`DigitalZoomRatio`' shows I did not digitally zoom either.
--   The camera also used a fast 1/8 second '`ExposureTime`', and a aperture '`MaxApertureValue`' of 3mm, or '`FNumber`' of  '`5.6`' and a '`ISOSpeedRating`' of '`64`'.
+-   The camera also used a fast 1/8 second '`ExposureTime`', and an aperture '`MaxApertureValue`' of 3mm, or '`FNumber`' of  '`5.6`' and a '`ISOSpeedRating`' of '`64`'.
 -   The flash ('`LightSource`') was not used.
 -   The original image was 1728 by 2304 pixels ('`ExifImageLength`' and '`ExifImageWidth`').
     Though the actual image, if you like to check is smaller, so I must have cropped and/or resized it.
@@ -73,7 +73,7 @@ As such you may like to remove EXIF data from your images before actually publis
 Also the size of an image from a digital camera usually very large, allowing you to print it at photo quality level, but is far too large for use of the WWW, and especially not for thumbnails.
 As such unless you want users to actually print photo quality images, I would not publish the original image directly.
 
-The above image for example has been cropped and resized for IM examples usage, but I purposely left the EXIF data intact for the example.
+The above image, for example, has been cropped and resized for IM examples usage, but I purposely left the EXIF data intact for the example.
 Normally I would strip this information.
 
 ----
@@ -111,13 +111,13 @@ convert pagoda_sm.jpg -orient bottom-right \
 [![\[IM Text\]](orient_setting.txt.gif)](orient_setting.txt)
 
 These meta-data setting methods, allow you to adjust the orientation of photos you have modified, especially ones you have rotated.
-Note that a correctly orientated photo has a orientation of '`Top-Left`' or 1.
+Note that a correctly orientated photo has an orientation of '`Top-Left`' or 1.
 
 Of course you should not remove the EXIF meta-data (using either "`-strip`" or "`-thumbnail`"), if you plan to use "`-auto-orient`" later in the image processing.
 Use it before stripping the image meta-data.
 
 If you do want to correct the orientation of your photo, without degrading or otherwise modifying your image, I suggest you use the [JHead](http://www.sentex.net/~mwandel/jhead/) program.
-For example here I correct a photos orientation, and delete the built-in preview thumbnail all the digital photos in a directory.
+For example, here I correct a photo's orientation, and delete the built-in preview thumbnail all the digital photos in a directory.
 
 ~~~{.skip}
 jhead -autorot  *.jpg
@@ -129,11 +129,11 @@ jhead -autorot  *.jpg
 > :WARNING:
 > The JPEG lossless rotation will only work correctly for images that have a size that is divisible by 8 or 16.
 > This is true with most (but not all) digital camera photos.
-> If you try this with an image that is a odd size the right or bottom edge blocks (containing the partial size) will not be positioned correctly in the final image, as these block can only exist on the right or bottom edge.
+> If you try this with an image that is an odd size the right or bottom edge blocks (containing the partial size) will not be positioned correctly in the final image, as these block can only exist on the right or bottom edge.
 >
 > For an example of this see this [specific discussion](../forum_link.cgi?t=16784&p=62157)
 
-The [JHead](http://www.sentex.net/~mwandel/jhead/) program will also let you adjust the photos date (if your camera time was set wrong, or you have travelled to different time zones), extract/remove/replace the preview thumbnail, set the comment field of the image, remove photoshop profiles, and do basic image cropping (to remove that stranger exposing himself ;-) so on, without degrading the JPEG image data.
+The [JHead](http://www.sentex.net/~mwandel/jhead/) program will also let you adjust the photo's date (if your camera time was set wrong, or you have travelled to different time zones), extract/remove/replace the preview thumbnail, set the comment field of the image, remove Photoshop profiles, and do basic image cropping (to remove that stranger exposing himself ;-) so on, without degrading the JPEG image data.
 
 I recommend this program, or other programs like it (see [Other JPEG Processing Programs](../formats/#jpg_non-im)), to fix this information.
 Just be sure that it does not actually decode/re-encode the JPEG image data.
@@ -275,7 +275,7 @@ convert beijing_md.jpg -thumbnail x150 beijing_tn.png
 
 [![\[IM Output\]](beijing_tn.png)](beijing_md.jpg)
 
-For example here is a photo I took using a hand held camera in Beijing, 2008, from the hill in Jingshan Park, immediately behind the Forbidden City.
+For example, here is a photo I took using a hand held camera in Beijing, 2008, from the hill in Jingshan Park, immediately behind the Forbidden City.
 No it isn't of the Forbidden City itself, but a temple on the other side of the hill.
 
 *Click on the thumbnail, to see a larger image.*
@@ -319,7 +319,7 @@ And remember in image rotations a left or anti-clockwise rotation is negative (d
 Also remember that if at all possible, always apply operations to the original image, avoiding the use intermediate images (and especially intermediate JPEG images).
 It is always better to apply any photo modification starting with the original source than any saved intermediate copy.
 
-### Tilt-Shift Effect -- make scenery look like a artificial model {#tilt_shift}
+### Tilt-Shift Effect -- make scenery look like an artificial model {#tilt_shift}
 
 [![\[IM Output\]](beijing_tn.png)](beijing_md.jpg)
 
@@ -346,7 +346,7 @@ I also brightened the image a bit by offsetting the center of the contrast thres
 If the colors of the contrast enhanced image does not come out cartoonish enough, you may like to try increasing the color saturation of the image, using the [Modulate Operator](../color_mods/#modulate).
 This image did not need it as it as the tiled roof and bright green trees already provides enough color effects.
 
-If you look at a enlargement of the image (*Click on the thumbnail*), you will see that even just enhancing colors gives the image a feel of artificial lights, though it does not look like a model, with too much detail to the cars in the background, and people in the foreground.
+If you look at an enlargement of the image (*Click on the thumbnail*), you will see that even just enhancing colors gives the image a feel of artificial lights, though it does not look like a model, with too much detail to the cars in the background, and people in the foreground.
 
 Now for the tilt-shift.
 
@@ -397,7 +397,7 @@ The [Solarize & Level](../color_mods/#solarize) technique was used to make the l
 However I find that the area of focus in a linear gradient too small and not very practical.
 
 There are many other way of generating a suitable gradient for a tilt shift effect.
-For example using [Resized Gradients](../canvas/#gradient_resize).
+For example, using [Resized Gradients](../canvas/#gradient_resize).
 Or horizontally scaling a [Shepards Sparse Color](../canvas/#shepards) of single column of pixels.
 Sine curve gradients may also be useful.
 
@@ -406,7 +406,7 @@ Sine curve gradients may also be useful.
 The [Variable Blur Mapping](../mapping/#blur) operation is essentially using a single pass 2-dimensional blurring method (equivalent to a uniform Gaussaian Blur).
 However you can get a general speed boost by doing the bluring operation in two 1-dimensional variable blur operations.
 
-For example here I first blur horizontaly, the vertially...
+For example, here I first blur horizontally, then vertically...
 
 ~~~
 convert beijing_md.jpg -sigmoidal-contrast 15x30% \
@@ -491,7 +491,7 @@ Next we need a mask.
 This needs to black one one side, white on the other, with a 40 pixel gradient in the middle, the size of the final output image.
 That is 120 pixels - 40 pixel gives an 80 pixel area for each of the two non-overlapped areas.
 
-So lets generate a masking image...
+So let's generate a masking image...
 
 ~~~
 convert -size 90x80 xc:white xc:black   -size 90x40 gradient: \
@@ -589,8 +589,8 @@ With digital images it is even easier as you have even better control of the ima
 Basically...
 *Seeing may be believing, but cameras lie!*
 
-For example suppose I wanted a image in which I appear in twice! Well that is easy to do.
-Here for example are the thumbnails of two quick photos I took specifically for this example, using a tripod and timer, which I'll use directly.
+For example, suppose I wanted an image in which I appear twice! Well that is easy to do.
+Here, for example, are the thumbnails of two quick photos I took specifically for this example, using a tripod and timer, which I'll use directly.
 
 [![\[IM Output\]](anthony_1.jpg)](anthony_1.jpg)
 [![\[IM Output\]](anthony_2.jpg)](anthony_2.jpg)
@@ -668,7 +668,7 @@ convert anthony_removed.jpg anthony_2.jpg \
 
 [![\[IM Output\]](anthony_automask.jpg)](anthony_automask.jpg)
 
-Now lets use this mask to mix my 'ghosts' image with the original image so it looks like my conscience is 'haunting' me for making such 'impossible' pictures.
+Now let's use this mask to mix my 'ghosts' image with the original image so it looks like my conscience is 'haunting' me for making such 'impossible' pictures.
 
 ~~~
 convert anthony_1.jpg anthony_ghosts.jpg anthony_mask.jpg \
@@ -698,7 +698,7 @@ In the above, a close examination of the floor will show that the right 'Jacob' 
 But you would really need to study the photo well to notice this!
 
 Now think of the possibilities you can use this 'double exposure' technique for.
-For example how about some [Funny Mirrors](http://todaypictures.blogspot.com/2006/03/funny-mirror.html).
+For example, how about some [Funny Mirrors](http://todaypictures.blogspot.com/2006/03/funny-mirror.html).
 Email me your results!
 
 If you like to get into this further the research paper "[Interactive Digital Photomontage](http://grail.cs.washington.edu/projects/photomontage/photomontage.pdf)", goes into using "Double Exposures" (or as it terms it "photo montage"), but making use of user selections expanded using "image segmentation", to select what parts of the image is to come from where.
@@ -709,7 +709,7 @@ You can use this technique to select which person comes from which image so that
 ### Protect Someone's Anonymity -- fuzzing out some part of a photo {#anonymity}
 
 The above technique of using a 3 image composite mask can also be used in other ways.
-For example you can 'pixelate' and image, then use a mask to limit the effect to just the face of a person, so as to "Protect their Identity".
+For example, you can 'pixelate' and image, then use a mask to limit the effect to just the face of a person, so as to "Protect their Identity".
 
 ~~~
 convert zelda_tn.gif -scale 25%  -scale 400%  zelda_pixelate.gif
@@ -750,7 +750,7 @@ Often you have an image with unwanted text or logo on it.
 If that text or logo is in a clean area of the image it is usually quite easy to just paint it out, but with photos that use very rarely the case.
 More commonly than not, the text is written somewhere within the image proper.
 
-For example here I create a image with some ugly text overlaid.
+For example, here I create a image with some ugly text overlaid.
 
 ~~~
 convert zelda_tn.gif -gravity Southwest -annotate +8+20 Zelda zelda_text.jpg
@@ -856,7 +856,7 @@ convert zelda_tn.gif \( +clone -gamma 0 -stroke white -strokewidth 4 \
 [![\[IM Output\]](zelda_lips_removed.jpg)](zelda_lips_removed.jpg)
 
 There are other ways of 'hole-filling' a particular area of an image, rather than simply blurring (averaging nearby colors).
-For example filling in color using color morphology can produce a much better result.
+For example, filling in color using color morphology can produce a much better result.
 This is shown by Fred Weinhaus's reply in the IM Discussion Forum on [Text Removal](../forum_link.cgi?p=41498).
 
 Another method is the use of [Sparse-Color](../canvas/#sparse-color) image generation, using the pixels along the edges of the hole.
@@ -869,7 +869,7 @@ One of the best publically available algorithms for this is part of [GrayCStatio
 
 The [Hardlight](../compose/#hardlight) alpha compositing method or even any of the various [Lighting Composition Methods](../compose/#light) provide ways to give an image a texture pattern.
 
-For example here I add a texture of course fabric to a photo I took of a pagoda at the Kunming Zoo, in southern China.
+For example, here I add a texture of course fabric to a photo I took of a pagoda at the Kunming Zoo, in southern China.
 
 ~~~
 convert tile_fabric.gif -colorspace gray  -normalize \
@@ -891,14 +891,14 @@ Also note that when adding a texture like this, the smaller details in the origi
 
 To use an image pattern as a texture it should be modified so that a perfect gray color is used for areas that is unchanged in the original image.
 That is the average color of the image should be about 50% gray.
-In the example I demonstrate one way that you can do this with just about any tileable image, though this specific method may not always work well.
+In the example, I demonstrate one way that you can do this with just about any tileable image, though this specific method may not always work well.
 
 Such textures can be found all over the web, as various background patterns for web pages.
 They may not even look like a texture, be colorful, or even very bright or very dark.
 After adjustment however you will find that you can get some very interesting effects.
 
 Just as we did previously, you can limit what parts of an image is actually textured by creating an appropriate mask.
-For example lets create a mask of just the near 'white' sky in the pagoda photo.
+For example, let's create a mask of just the near 'white' sky in the pagoda photo.
 
 ~~~
 convert pagoda_sm.jpg -fuzz 10% -transparent white \
@@ -1008,11 +1008,11 @@ When the resulting image is later resized these small defects will (hopefully) a
 The real problem with this specific example, is the 'key color' is so close to a normal skin color you are really just asking for trouble! This is why people using this technique use 'green' and 'blue' screens, as those colors are as different as possible from 'skin' color of people in front of the screen.
 
 Note that you are better off NOT using JPEG as your source or working images.
-Really JPEG should only be used for your final images only! This is part of the reason why so many 'mask defects' was generated in the first place.
+Really JPEG should only be used for your final images! This is part of the reason why so many 'mask defects' was generated in the first place.
 
 ### Green Screen {#green_screen}
 
-*FUTURE: example, using Chroma Key Masking of a 'green screen background'. Expanded from the wikipedia artical, [Chroma Key](http://en.wikipedia.org/wiki/Chroma_key)*
+*FUTURE: example, using Chroma Key Masking of a 'green screen background'. Expanded from the wikipedia article, [Chroma Key](http://en.wikipedia.org/wiki/Chroma_key)*
 
 Real problems in 'green screen' handling is the 'color spill', with fine light color hair (blonde) and semi-transparent areas producing the worse color spill effects.
 
@@ -1143,7 +1143,7 @@ There are probably better, faster but more complicated ways of doing this.
 This is not the final version, as the operator misses some edge enhancement aspects needed for outline some of the more lighter but sharp color changes in the image.
 Can you improve the above?
 
-The above algorithm was built into IM as a artistic transform "`-sketch`", though without the "`-resize`" smoothing for the generated 'pencil tile'...
+The above algorithm was built into IM as an artistic transform "`-sketch`", though without the "`-resize`" smoothing for the generated 'pencil tile'...
 
 ~~~
 convert pagoda_sm.jpg -colorspace gray -sketch 0x20+120 sketch_new.gif
@@ -1200,7 +1200,7 @@ convert vegas_orig.jpg \( nikon18-70dx_18mm_f3.5.jpg -colorspace Gray \) \
 If you look carefully at the enlarged photos, particularly the top-left and top-right 'sky' corners, you can see the vignetting effects, and the correction that was made.
 
 It is not a perfect solution, and could use a little more tweaking.
-For example rather than using a scaling pixel, we could pre-process the 'white page' image, and also adjust it for a better vignette removal result.
+For example, rather than using a scaling pixel, we could pre-process the 'white page' image, and also adjust it for a better vignette removal result.
 
 Note that using JPEG is not recommended for any sort of photographic work, as the format can introduce some artifacts and inconsistencies in the results.
 The format is only good for storage and display of the final results.
@@ -1212,7 +1212,7 @@ Things that can effect vignettation include...
 -   Distance of film from lens, further away means more light spread.
 -   Area of the aperture 'circle' (lens or pinhole) due to angle of light.
 -   Arrangement of camera material around the aperture.
-    For example the lens holder or pinhole thickness.
+    For example, the lens holder or pinhole thickness.
 
 ---
 title: Digital Photo Handling
