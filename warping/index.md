@@ -17,7 +17,7 @@ Basically it just rearranges the pixels, without destroying, overwriting, copyin
 
 ### Flipping, and Mirroring {#flip}
 
-For these examples lets use this cute looking koala image...
+For these examples let's use this cute looking koala image...
   
 The simplest image distortion is to rearrange the pixels in the image so as to "[`-flip`](../option_link.cgi?flip)" it upside-down.
 
@@ -82,7 +82,7 @@ See [Rotate](#rotate) below.
   
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > You may notice that a positive angle of rotation is clock-wise, which seems to be logically incorrect.
-> Internally however, it is mathematically correct and is caused by use a of negated Y-axis.
+> Internally however, it is mathematically correct and is caused by use of a negated Y-axis.
 > That is the Y-axis goes from 0 at the top and positive downward.
 > Because of this the coordinate system in reversed, and thus the angle of rotation is also reversed mathematically.
 >
@@ -196,7 +196,7 @@ If a '`>`' symbol is added to the rotate argument (before or after the number), 
 That is a '`90>`' will only rotate 'landscape' (wide) style images into 'portrait' (tall) style images, so that all th images are 'portrait' style.
 
 The other flag '`<`' does the opposite, only rotate images that are taller than it is wide.
-For example '`90<`' will make sure all images are 'landscape'.
+For example, '`90<`' will make sure all images are 'landscape'.
 
 Another use of this flag is to rotate 'portrait' and 'landscape' images by different amounts.
 That is you can just give two different "[`-rotate`](../option_link.cgi?rotate)" operations such that you angle 'portrait' one direction, and angle 'landscape' another direction.
@@ -225,7 +225,7 @@ However the library function that did rotates as 'shears' is still available and
 Also you can not control the mixing of colors during the [Image Rotation](#rotate) using the [Interpolation Setting](../misc/#interpolation).
 Which means you can not preserve the original colors of the image.
   
-For example here I rotated a simple vertical line of pixels by 17 degrees, which I then scaled so as to show the effect of the individual pixels in the resulting image.
+For example, here I rotated a simple vertical line of pixels by 17 degrees, which I then scaled so as to show the effect of the individual pixels in the resulting image.
 
 ~~~
 convert -size 10x30 xc: -draw 'line 5,0 5,30' \
@@ -259,7 +259,7 @@ Basically we apply the operation to an image that is at least twice (or more) th
 After rotating the image, the image is resized down to its final size so as to produce a very sharp lines, edges, and much cleaner looking fonts.
 See [Polaroid Transform](../transform/#polaroid) for an example of this.
 
-The distort operator also provides an [Output Scaling](../distorts/#distort_scale) expert setting to allow you to generate a enlarged result from the distortion, to let you generate a [Super Sampled](../distorts/#super_sample) image for vastly improved results.
+The distort operator also provides an [Output Scaling](../distorts/#distort_scale) expert setting to allow you to generate an enlarged result from the distortion, to let you generate a [Super Sampled](../distorts/#super_sample) image for vastly improved results.
 
 For a more deeper understanding of the various image rotation algorithms, how they work, and the issues involved see [Leptonica Rotation](http://www.leptonica.com/rotation.html).
 And the examples used in [General Distortion Techniques](../distorts/#summary).
@@ -317,14 +317,14 @@ The built-in "[Rotate Operator](#rotate)" (see above) is actually implemented in
 >  
 > As a result the areas added to the image is only filled by the current "[`-background`](../option_link.cgi?background)" color, and there is no method provided to preserve the original colors of the image.
 
-For a alternative method that allows the use of image filters, interpolation, and virtual pixels see [Affine Distortion](../distorts/#affine).
+For an alternative method that allows the use of image filters, interpolation, and virtual pixels see [Affine Distortion](../distorts/#affine).
 For information on using Affine Matrices to implement shears, see [Affine Shearing](../distorts/affine/#affine_shear).
 Neither method however allow you to specify the shears using angles arguments.
 
 #### Isometric Cube using Shears {#sheared_cube}
 
 While shears aren't the nicest or simplest of operators to use, that does not mean you can't do fancy things with them.
-The following is an example of using "[`-shear`](../option_link.cgi?shear)" to create a isometric cube.
+The following is an example of using "[`-shear`](../option_link.cgi?shear)" to create an isometric cube.
 
 ~~~
 # Create some square images for the cube
@@ -389,7 +389,7 @@ convert koala.gif -background Blue  -wave 10x64  wave.jpg
   
 Note that because pixels can be displaced up to the given *amplitude*, that much extra space will always be added to both the top and bottom of the image, even if that space is not actually needed.
   
-For example by adjusting the arguments so that the *wavelength* is double the width of the image, you can make the image into a arc.
+For example, by adjusting the arguments so that the *wavelength* is double the width of the image, you can make the image into an arc.
 
 ~~~
 convert koala.gif -background Blue  -wave 20x150  arched.jpg
@@ -452,7 +452,7 @@ This means wave will tend to blur pixels slightly in vertical bands across the i
 So far the image distortions have been rather mild, with very little stretching, expanding or compressing of the image data.
 That is the data remains pretty well unchanged.
 
-These next few image operators can result in a image that is so distorted, the original image can not be determined.
+These next few image operators can result in an image that is so distorted, the original image can not be determined.
 The colors are twisted into a blurry mess.
 
 It also happens that they limit the distorting effects to a circular area with little to no distortion of the original image at the edge of the image rectangle.
@@ -469,7 +469,7 @@ Its sort of like sticking a vacuum, or 'black hole' in the center of the image a
 Caution however is advised to only use very small values, to start with, and slowly increase those values until you get the desired result.
 Most novice users tend to use too large a value and get disappointed by the result.
   
-For example this is a typical image implosion...
+For example, this is a typical image implosion...
 
 ~~~
 convert koala.gif -implode .6 implode.gif
@@ -488,7 +488,7 @@ convert koala.gif -implode 5 implode_big.gif
 However be warned that using any "[`-implode`](../option_link.cgi?implode)" value larger than '`1.0`' is also effected by the [Virtual Pixel Setting](../misc/#virtual-pixel), as the algorithm starts to make color references beyond the boundaries of actual image itself.
 As the default the "[`-virtual-pixel`](../option_link.cgi?virtual-pixel)" setting is 'edge', the edge color or surrounding frame on an image can have a major effect on the result.
 
-For example these two images are the same except one had white border added to it.
+For example, these two images are the same except one had white border added to it.
 this basically shows the area which is using colors looked up from beyond the bounds of the image proper.
 The area normally defined by the "[`-virtual-pixel`](../option_link.cgi?virtual-pixel)" setting.
 
@@ -504,9 +504,9 @@ convert rose: -gravity center -crop 44x44+0+0 +repage \
 Using different [Virtual Pixel](../misc/#virtual-pixel) settings such as '`Background`' will produce the same effect as adding "[`-border`](../option_link.cgi?border)", but without enlarging the image.
 
 Other [Virtual Pixel](../misc/#virtual-pixel) settings can produce much more interesting effects in the central imploded region.
-For example using a '`Tile`' setting can add highly distorted copies of the image.
+For example, using a '`Tile`' setting can add highly distorted copies of the image.
 
-For example here I implode simple box image using this setting...
+For example, here I implode simple box image using this setting...
 
 ~~~
 convert -size 94x94 xc:red -bordercolor white -border 3 \
@@ -617,7 +617,7 @@ I have animated these swirling effects, which you can see below in [Animations](
 
 ## Animations (fun examples) {#animations}
 
-To finish off with lets generate some GIF animations of some of these distorts.
+To finish off with let's generate some GIF animations of some of these distorts.
 For these I generated some simple shells scripts to generate the animated image, which you can also download and play with, using your own test images.
 
 This brings me to an important point.
@@ -629,7 +629,7 @@ All the scripts use a '**Generated "`convert`" Command**' technique, to create t
 That is a shell script creates a long single command, which is then executed.
 This avoids the need to generate temporary files, though can be difficult to debug.
 
-Another alternative is to use a method known as a [MIFF Image Streaming](../files/#miff_stream), which generates a individual images in a loop, and 'pipes' it into a final 'merging' command.
+Another alternative is to use a method known as a [MIFF Image Streaming](../files/#miff_stream), which generates individual images in a loop, and 'pipes' it into a final 'merging' command.
 This is demonstrated more clearly in the examples [Programmed Positioning of Layered Images](../layers/#layer_prog) and [Pins in a Map](../layers/#layer_pins).
 
 [![\[IM Output\]](animate_mixer.gif)](animate_mixer.gif)
