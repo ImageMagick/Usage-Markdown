@@ -100,10 +100,8 @@ convert  canvas_prev.gif -coalesce  -layers OptimizeFrame  optframe.gif
 gif_anim_montage optframe.gif optframe_frames.gif
 ~~~
 
-[![\[IM Output\]](optframe.gif)](optframe.gif)
-[![\[IM Output\]](coalesce_frames.gif)](coalesce_frames.gif)
-![==&gt;](../img_www/space.gif)  
-![==&gt;](../img_www/right.gif)
+[![\[IM Output\]](optframe.gif)](optframe.gif)  
+[![\[IM Output\]](coalesce_frames.gif)](coalesce_frames.gif)  
 [![\[IM Output\]](optframe_frames.gif)](optframe_frames.gif)
 
 As you can see, "`-layers OptimizeFrame`' correctly returned our animation back into its original frame optimized form, using [Previous Disposal](../anim_basics/#previous).
@@ -115,7 +113,7 @@ convert  canvas_bgnd.gif -coalesce -layers OptimizeFrame optframe_erase.gif
 gif_anim_montage optframe_erase.gif optframe_erase_frames.gif
 ~~~
 
-[![\[IM Output\]](optframe_erase.gif)](optframe_erase.gif)
+[![\[IM Output\]](optframe_erase.gif)](optframe_erase.gif)  
 [![\[IM Output\]](optframe_erase_frames.gif)](optframe_erase_frames.gif)
 
 The animation is perfectly frame optimized using [Background Disposal](../anim_basics/#background).
@@ -184,7 +182,7 @@ convert +antialias -size 100x100 -delay 100 xc:SkyBlue -loop 0 \
 gif_anim_montage moving_hole.gif moving_hole_frames.gif
 ~~~
 
-[![\[IM Output\]](moving_hole.gif)](moving_hole.gif)
+[![\[IM Output\]](moving_hole.gif)](moving_hole.gif)  
 [![\[IM Output\]](moving_hole_frames.gif)](moving_hole_frames.gif)
 
 ~~~{.hide data-capture-out="moving_hole_size.txt"}
@@ -200,7 +198,7 @@ convert moving_hole.gif  -layers OptimizeFrame  moving_hole_opt.gif
 gif_anim_montage moving_hole_opt.gif moving_hole_opt_frames.gif
 ~~~
 
-[![\[IM Output\]](moving_hole_opt.gif)](moving_hole_opt.gif)
+[![\[IM Output\]](moving_hole_opt.gif)](moving_hole_opt.gif)  
 [![\[IM Output\]](moving_hole_opt_frames.gif)](moving_hole_opt_frames.gif)
 
 Hang on, nothing happened!
@@ -236,7 +234,7 @@ convert moving_hole.gif[0] -set delay 0   moving_hole.gif \
 gif_anim_montage moving_hole_dup.gif moving_hole_dup_frames.gif
 ~~~
 
-[![\[IM Output\]](moving_hole_dup.gif)](moving_hole_dup.gif)
+[![\[IM Output\]](moving_hole_dup.gif)](moving_hole_dup.gif)  
 [![\[IM Output\]](moving_hole_dup_frames.gif)](moving_hole_dup_frames.gif)
 
 ~~~{.hide data-capture-out="moving_hole_dup_size.txt"}
@@ -263,7 +261,7 @@ convert moving_hole.gif  \( -clone 0--1 -set delay 0 \) \
 gif_anim_montage x2 moving_hole_double.gif moving_hole_double_frames.gif
 ~~~
 
-[![\[IM Output\]](moving_hole_double.gif)](moving_hole_double.gif)
+[![\[IM Output\]](moving_hole_double.gif)](moving_hole_double.gif)  
 [![\[IM Output\]](moving_hole_double_frames.gif)](moving_hole_double_frames.gif)
 
 ~~~{.hide data-capture-out="moving_hole_double_size.txt"}
@@ -293,7 +291,7 @@ convert moving_hole.gif  -layers OptimizePlus   moving_hole_oplus.gif
 gif_anim_montage x2 moving_hole_oplus.gif moving_hole_oplus_frames.gif
 ~~~
 
-[![\[IM Output\]](moving_hole_oplus.gif)](moving_hole_oplus.gif)
+[![\[IM Output\]](moving_hole_oplus.gif)](moving_hole_oplus.gif)  
 [![\[IM Output\]](moving_hole_oplus_frames.gif)](moving_hole_oplus_frames.gif)
 
 ~~~{.hide data-capture-out="moving_hole_oplus_size.txt"}
@@ -384,7 +382,7 @@ gif_anim_montage x2 moving_hole_split_opt.gif \
                     moving_hole_split_opt_frames.gif
 ~~~
 
-[![\[IM Output\]](moving_hole_split_opt.gif)](moving_hole_split_opt.gif)
+[![\[IM Output\]](moving_hole_split_opt.gif)](moving_hole_split_opt.gif)  
 [![\[IM Output\]](moving_hole_split_opt_frames.gif)](moving_hole_split_opt_frames.gif)
 
 ~~~{.hide data-capture-out="moving_hole_split_opt_size.txt"}
@@ -403,7 +401,7 @@ gif_anim_montage x2 moving_hole_split_oplus.gif \
                     moving_hole_split_oplus_frames.gif
 ~~~
 
-[![\[IM Output\]](moving_hole_split_oplus.gif)](moving_hole_split_oplus.gif)
+[![\[IM Output\]](moving_hole_split_oplus.gif)](moving_hole_split_oplus.gif)  
 [![\[IM Output\]](moving_hole_split_oplus_frames.gif)](moving_hole_split_oplus_frames.gif)
 
 ~~~{.hide data-capture-out="moving_hole_split_oplus_size.txt"}

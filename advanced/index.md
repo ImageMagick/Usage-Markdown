@@ -221,6 +221,7 @@ You have to deal with aspects such as surface color and texture, and also with h
 Basically what should be a relatively simple matter, very quickly becomes quite a complex one.
 
 [![\[IM Output\]](pokemon.gif)](pokemon.gif)
+
 So, let's start with the reflection of a relatively simple image, in this case an image of a Pokemon character, Azumarill.
 Substitute your own image if you like.
 
@@ -242,7 +243,7 @@ It's more like a 'mirror tile' of the original image, which is also true.
 Even a normal bathroom mirror does not reflect all the light hitting it, and it is about the best mirror you can get.
 So the first rule of reflections is...
 
-**Reflections are never ever perfect.**
+>**Reflections are never ever perfect.**
 
 All reflections are never a 100% reflection, and as such are colored by the surface (or the surrounding environment).
 It is an imperfect world, and reflections enhance and demonstrate these imperfections very well.
@@ -321,7 +322,7 @@ Which is obviously wrong.
 It looks like the image is distorted, but remains flat on to the original user.
 Why because...
 
-**Objects that are in contact with the surface will also contact their reflection.**
+>**Objects that are in contact with the surface will also contact their reflection.**
 
 It seems pretty obvious, but I have seen people get this wrong.
 Of course, if the object is floating above the surface then it will not make contact.
@@ -346,13 +347,13 @@ It is even more difficult as a simple change to the first distortion requires a 
 
 There are two more rules that will tell you how the coordinates of the reflected distortion should be calculated.
 
-**Reflections in a horizontal surface are always directly downward.**
+>**Reflections in a horizontal surface are always directly downward.**
 
 That is a reflection is always toward the user, which as a user is directly in front of an image, will mean that any reflection in a horizontal surface will be downward, directly toward the user.
 This is a law of physics, and that is one thing you do not want to break, if you want your images to be at least semi-realistic.
 And finally one other rule that you should remember.
 
-**Vertical surfaces, reflected in horizontal surfaces have reflections the same height as the reflected object**
+>**Vertical surfaces, reflected in horizontal surfaces have reflections the same height as the reflected object**
 
 It does not matter how 'distant' the object appears to be in an image, the height of its reflection in the final image should be the same height as the object being reflected! It is not obvious, and very easy to get wrong.
 
@@ -402,7 +403,7 @@ A seemingly smooth surface is actually not smooth at smaller scales and this, in
 That effect also grows stronger with the distance the reflected light has to travel between the object and the point of reflection.
 As such...
 
-**Reflections get weaker and more distorted,  the further they are from the source image.**
+>**Reflections get weaker and more distorted,  the further they are from the source image.**
 
 The simplest way to create a distance effect is to make the reflection weaker the further it is from the surface.
 For this is is usually acceptable to make the reflection a little brighter close to the image.
@@ -769,6 +770,7 @@ convert -background none -fill DodgerBlue \
 ~~~
 
 [![\[IM Output\]](aqua_shape.png)](aqua_shape.png)
+
 Note that I added a one pixel transparent border around the image.
 This makes the next processing steps just that little bit easier.
 
@@ -954,7 +956,7 @@ convert -size 250x100 xc: +noise Random -channel R -threshold .4% \
 
 [![\[IM Output\]](star_inward.gif)](star_inward.gif)  
   
- [![\[IM Output\]](star_spiral.gif)](star_spiral.gif)
+[![\[IM Output\]](star_spiral.gif)](star_spiral.gif)
  
 Here we motion blur the stars in six directions (in pairs) then merge them together to create a field of 'star bursts', such as you get in a glass lens.
 

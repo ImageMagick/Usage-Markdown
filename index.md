@@ -18,11 +18,11 @@
     * [RubbleWebs, PHP using IM CLI](http://www.rubblewebs.co.uk/imagemagick/)  
     * [MagickWand Examples in C](http://members.shaw.ca/el.supremo/MagickWand/)
 
-These Web pages presents a set of examples using [ImageMagick](http://imagemagick.org/) ("IM," for short) from the command line.
+These Web pages present a set of examples using [ImageMagick](http://imagemagick.org/) ("IM," for short) from the command line.
 However, they also illustrate what can be done using the ImageMagick Application Programming Interface (API).
 As such, these pages should be the first stop for IM users after reading the terse [Command Line (CLI) Option manuals](http://www.imagemagick.org/script/command-line-options.php).
 
-Often, the same questions of "*How do I...*" gets asked, over and over again on the network.
+Often, the same questions of "*How do I...*" get asked, over and over again on the network.
 The examples in these web pages, I hope, will answer most of the common "how-to" questions that arise.
 
 
@@ -104,7 +104,7 @@ Older version warnings
 ### What is ImageMagick? A No-Holds-Barred Summary
 
 [ImageMagick](http://www.imagemagick.org/script/index.php) is designed for batch processing of images.
-That is, it allow you to combine image processing operations in a script (shell, DOS, Perl, PHP, etc.) so the operations can be applied to many images, or as a sub-system of some other tool, such as a Web application, video processing tool, panorama generator, etc.
+That is, it allows you to combine image processing operations in a script (shell, DOS, Perl, PHP, etc.) so the operations can be applied to many images, or as a sub-system of some other tool, such as a Web application, video processing tool, panorama generator, etc.
 *It is not a GUI image editor*.
 
 ImageMagick is, first of all, an image-to-image converter.
@@ -112,7 +112,7 @@ That is what it was originally designed to do.
 That is, it will convert an image in just about any image format (tell us if it can't) to any other image format.
 
 But it is also a library of *image processing algorithms*.
-These can be access via the command line and shell/DOS scripts (which these example pages demonstrate), or via a large number of programming languages, such as C, C++, Perl, Ruby, PHP, etc.
+These can be accessed via the command line and shell/DOS scripts (which these example pages demonstrate), or via a large number of programming languages, such as C, C++, Perl, Ruby, PHP, etc.
 See: [ImageMagick APIs](http://www.imagemagick.org/script/api.php).
 
 Speed was never a major feature of IM, which places more emphasis on the quality of the images it generates.
@@ -133,7 +133,7 @@ However, while the present pages were designed for you to look at, the hints and
 So, it may be vague or chaotic in places.
 You are welcome to look at it, learn, and make comments on it.
 
-Other examples were grabbed or developed from answers to users' questions on he [IM Forums](http://www.imagemagick.org/Usage/forum_link.cgi?f=1), or contributed to me as solutions to various problems.
+Other examples were grabbed or developed from answers to users' questions on the [IM Forums](http://www.imagemagick.org/Usage/forum_link.cgi?f=1), or contributed to me as solutions to various problems.
 
 I look forward to suggestions and e-mail from other IM users.
 Such e-mail generally results in improvements and expansions to these example pages.

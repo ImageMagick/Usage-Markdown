@@ -22,7 +22,7 @@ Just do not do the final save to GIF unless you are now sure you will not have c
 
 I repeat...
 
-**Do not use GIF as an intermediate file format, use MIFF, or PNG images.**
+>**Do not use GIF as an intermediate file format, use MIFF, or PNG images.**
 
   
 ### Annotating - add a copyright notice over ALL frames {#annotating}
@@ -39,7 +39,7 @@ convert canvas_prev.gif -gravity center \
 gif_anim_montage annotate.gif annotate_frames.gif
 ~~~
 
-[![\[IM Output\]](annotate.gif)](annotate.gif)
+[![\[IM Output\]](annotate.gif)](annotate.gif)  
 [![\[IM Output\]](annotate_frames.gif)](annotate_frames.gif)
 
 The reason this works, is that "`-annotate`" will position text relative to the virtual canvas of an image, and not relative to the actual image data.
@@ -63,7 +63,7 @@ convert canvas_prev.gif -fill LimeGreen -stroke SeaGreen \
 gif_anim_montage draw_circle_fail.gif draw_circle_fail_frames.gif
 ~~~
 
-[![\[IM Output\]](draw_circle_fail.gif)](draw_circle_fail.gif)
+[![\[IM Output\]](draw_circle_fail.gif)](draw_circle_fail.gif)  
 [![\[IM Output\]](draw_circle_fail_frames.gif)](draw_circle_fail_frames.gif)
 
 Well as you can see "`-draw`" drew the circle relative to the 'actual image', rather than the larger virtual (page) canvas the image is part of.
@@ -79,7 +79,7 @@ convert canvas_prev.gif -coalesce \
 gif_anim_montage draw_circle.gif draw_circle_frames.gif
 ~~~
 
-[![\[IM Output\]](draw_circle.gif)](draw_circle.gif)
+[![\[IM Output\]](draw_circle.gif)](draw_circle.gif)  
 [![\[IM Output\]](draw_circle_frames.gif)](draw_circle_frames.gif)
 
 Note how the IM animation optimizer actually decided to just not overwrite the part that was drawn on.
@@ -116,7 +116,7 @@ convert canvas_prev.gif -coalesce -gravity center \
 gif_anim_montage frame_mod.gif frame_mod_frames.gif
 ~~~
 
-[![\[IM Output\]](frame_mod.gif)](frame_mod.gif)
+[![\[IM Output\]](frame_mod.gif)](frame_mod.gif)  
 [![\[IM Output\]](frame_mod_frames.gif)](frame_mod_frames.gif)
 
 Note the use of [Parenthesis](../basics/#parenthesis), to limit the effect of the "`-annotate`" operation to just a simple 'clone' of one frame of the animation.
@@ -140,12 +140,11 @@ This is not a problem for a static annotation that was drawn over all the frames
 
 This brings us to an important point about GIF animations.
 
-**Study an animation before attempting to modifying it.\
- It can make a BIG difference to the final result.**
+>**Study an animation before attempting to modifying it. It can make a BIG difference to the final result.**
 
 ### Cropping - limit the area of animation {#crop}
 
-IM has endeavored to make the "`-crop`" image operation work correctly relative to an images virtual canvas rather than to the actual image (IM version 6.1.1 onward).
+IM has endeavored to make the "`-crop`" image operation work correctly relative to an image's virtual canvas rather than to the actual image (IM version 6.1.1 onward).
 This in turn allows you to do things previously not directly possible.
 
 For example crop the images of a GIF animation and still have it work as expected for all animations.
@@ -196,7 +195,7 @@ This is known as a 'viewport crop', as the result will be as if you are looking 
 Not only is the size of the virtual canvas set to the size of the crop area, but the offset of each frame in the animation is adjusted to keep things correct.
 (See [Viewport Crop with Canvas/Page Adjustments](../crop/#crop_viewport)).
 
-For example lets repeat the previous crop, but also crop the canvas information using the '`!`' flag...
+For example let's repeat the previous crop, but also crop the canvas information using the '`!`' flag...
 
 ~~~
 convert  canvas_prev.gif -quiet -crop 50x50+3+30\!  crop_viewport.gif
@@ -208,7 +207,7 @@ gif_anim_montage crop_viewport.gif crop_viewport_frames.gif
 [![\[IM Output\]](crop_viewport_frames.gif)](crop_viewport_frames.gif)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
->  The '`!`' character has special significance to some UNIX shells, like "`csh`", and must be escaped with a backslash, even when placed inside quotes.
+>  The '`!`' character has special significance to some Unix shells, like "`csh`", and must be escaped with a backslash, even when placed inside quotes.
 > IM will ignore backslashes, in geometry arguments so it does not hurt to always backslash it.
 
 As you can see the result is more like what you probably really wanted to achieve when cropping an animated image.
@@ -274,12 +273,12 @@ convert  canvas_prev.gif -repage 0x0+30+30\! \
          repage_offset.gif
 ~~~
 
+[![\[IM Output\]](repage_offset.gif)](repage_offset.gif)
+
 ~~~{data-capture-out="repage_offset.txt"}
 identify repage_offset.gif
 ~~~
 
-[![\[IM Output\]](repage_offset.gif)](repage_offset.gif)
-  
 [![\[IM Text\]](repage_offset.txt.gif)](repage_offset.txt)
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
@@ -577,7 +576,7 @@ Coloring the first frame will not work for all GIF animations.
 It only works for simple [Overlay Animations](../anim_basics/#overlay).
 
 For a general method of removing the transparency from an animation, you need to first "`-coalesce`" the animation, and then actually [Remove Transparency](../masking/#remove) from all the frames, using the [Alpha Remove Operator](../masking/#alpha_remove).
-This time lets do this using a '`Tomato`' background color.
+This time let's do this using a '`Tomato`' background color.
 
 ~~~
 convert script_k.gif -coalesce   -background Tomato -alpha remove \
@@ -682,7 +681,7 @@ With IM v6.3.3-7 the "`-layers`" method, '`Composite`' was added allowing you co
 To do this on the command line, a special '`null:`' marker image is needed to define where the first *destination* list of images ends and the overlaid *source* image list begins.
 But that is the only real complication of this method.
 
-So lets try it out by creating a set of shadows from set of images, then overlaying the original image over those shadow images...
+So let's try it out by creating a set of shadows from set of images, then overlaying the original image over those shadow images...
 
 ~~~
 convert script_k.gif -coalesce  coalesced_k.gif
@@ -744,8 +743,7 @@ Basically these examples shows that the [Layers Composite Operator](#composite) 
 But the [Layers Composite Operator](#composite) also understands the use of a Composite Geometry ("`-geometry`") offset (zero by default), to control the overall placement of the whole overlay image sequence.
 It even understands the effects of "`-gravity`" on that global offset.
 
-For example..
-let's overlay our original 'K' animation 'South' of the generated shadow animation...
+For example, let's overlay our original 'K' animation 'South' of the generated shadow animation...
 
 ~~~
 convert shadows_k.gif  null:  coalesced_k.gif  \
@@ -958,7 +956,7 @@ Probably the easiest ways to glitter an existing image is to cut holes in the im
 This however only works for images that do not contain transparency to start with.
 Alternatively, you could remove the transparency from an image, and when finished, re-add the original transparency.
 
-So lets take the IM Examples logo, and use [Color Replacement](../color_basics/#replace) to cut out all the blue parts of the image.
+So let's take the IM Examples logo, and use [Color Replacement](../color_basics/#replace) to cut out all the blue parts of the image.
 Sort of giving our wizard a cloak of invisibility ;-)
 
 ~~~
@@ -986,7 +984,7 @@ convert glitter_blue.gif -virtual-pixel tile \
 
 [![\[IM Output\]](glitter_blue_tiled.gif)](glitter_blue_tiled.gif)
   
-Now lets dress our wizard in his new cloths, by placing the above tiled glitter under the 'holey' image.
+Now let's dress our wizard in his new clothes, by placing the above tiled glitter under the 'holey' image.
 
 ~~~
 convert logo_holed.gif null: glitter_blue_tiled.gif \
@@ -997,7 +995,7 @@ convert logo_holed.gif null: glitter_blue_tiled.gif \
 [![\[IM Output\]](logo_glittered.gif)](logo_glittered.gif)
   
 You can of course do all these steps all in the one command.
-Here I limit the hole generation to just the wizards cloak, which has two separate specific parts.
+Here I limit the hole generation to just the wizard's cloak, which has two separate specific parts.
 
 ~~~
 convert logo.gif -matte -fuzz 10% -fill none \
@@ -1029,7 +1027,7 @@ You cannot use the original shading or background of the image.
 
 Also the glitter is completely restricted to the area that was masked.
 It can not extend beyond the bounds of the area involved.
-As such some small areas, such as the wizards 'hat' in the previous example, does not handle glitter very well.
+As such some small areas, such as the wizard's 'hat' in the previous example, does not handle glitter very well.
 
 Sparkles are different, in that the animation added is mostly transparent.
 As a consequence the original image, can still show through.
@@ -1072,9 +1070,8 @@ The more difficult aspects of flares is locating good 'seed' points and timing o
 **![](../img_www/const_barrier.gif) Under Construction ![](../img_www/const_hole.gif)**
 
 ~~~{.skip}
-Final example I want to create...  A 'sparkle' the travels up the wizards
-wand, then flares, and dissolves into a number of small sparkle flares over an
-area.  Then the sequence repeats.
+Final example I want to create...  a 'sparkle' the travels up the wizard's wand, then flares, and dissolves into a number of small sparkle flares over an area.
+Then the sequence repeats.
 ~~~
 
 ------------------------------------------------------------------------
@@ -1288,16 +1285,15 @@ Now I'd like to join these images so when one animation completes the next one s
 
 Here are the letters, the 'animation sequence' and the details of the internals of these two animations.
 
-~~~
+~~~{data-postamble="txt2gif script_o.anim; txt2gif script_k.anim"}
 gif2anim -n script_o.gif
 gif2anim -n script_k.gif
 ~~~
 
+[![\[IM Text\]](script_o.anim.gif)](script_o.anim.gif)
+[![\[IM Output\]](script_o.gif)](script_o.gif)  
 
-[![\[IM Text\]](script_o.anim.gif)](script_o.anim)
-  
-[![\[IM Text\]](script_k.anim.gif)](script_k.anim)
-[![\[IM Output\]](script_o.gif)](script_o.gif)
+[![\[IM Text\]](script_k.anim.gif)](script_k.anim.gif)
 [![\[IM Output\]](script_k.gif)](script_k.gif)
 
 These sequences start with an empty canvas then just slowly add and modify pixels to this canvas.
@@ -1318,10 +1314,10 @@ This delay will also need to be preserved, meaning we can't just change all the 
 Something that is not shown in the above, is that the first frame of both animations is actually blank canvas.
 We will probably want to junk that canvas on the second animation as a useless waste of time, though it should be kept on the first animation as a starting delay.
 
-Now that we have examined the two animations, lets try to join them together so one follows the other in time.
+Now that we have examined the two animations, let's try to join them together so one follows the other in time.
 
 Time appending animations is actually a very simple operation, just append the two animated images on the command line.
-So lets just try that...
+So let's just try that...
 
 ~~~
 convert script_o.gif script_k.gif   script_ok_try1.gif
@@ -1410,11 +1406,13 @@ Actually this animation was badly 'split' (see [splitting animation](#split) in 
 Other modifications resulted in a very slight timing difference, which only made the division more obvious.
 This was a problem that was presented to me by *[gmabrys](../forum_link.cgi?u=8005)* in a discussion on [IM Forums](../forum_link.cgi?f=7&t=8068), though the actual problem he gave was far, far, worse.
 
-![\[left\]](bag_right.gif)![\[right\]](bag_left.gif) Now browsers usually animate each of the separate GIF images, without any synchronization.
+![\[left\]](bag_right.gif)![\[right\]](bag_left.gif)
+
+Now browsers usually animate each of the separate GIF images, without any synchronization.
 As such the two animations may become out-of-sync with each other, producing a 'cat' that appears to have been part of a chainsaw massacre.
 You may be able to see this effect to the right where I placed two animations side-by-side on the browser's page, especially if you are on a distant server via slow links.
 
-Now lets attempt to append them together into one, properly synchronized animated image.
+Now let's attempt to append them together into one, properly synchronized animated image.
 
 #### Appending separate files
 
@@ -1561,7 +1559,7 @@ Check it out yourself.
 
 ### Splitting up an Animation {#split}
 
-Now that we have the animation rejoined together, lets attempt to split it up correctly for use on a web servers, so that the individual parts can animate separately, without interfering with each other.
+Now that we have the animation rejoined together, let's attempt to split it up correctly for use on a web servers, so that the individual parts can animate separately, without interfering with each other.
 
 This is actually reasonably hard, and I will not attempt to completely automate the process.
 There are however tools on the WWW that can do this.
@@ -1591,7 +1589,7 @@ convert    bag.gif   -coalesce  -set delay 0 \
 Now we can see that this animation could be divided into at least three areas: a 'cat' area at the top, a small 'bear' to the left, and a flapping 'wing' to the right.
 All with simple orthogonal (vertical or horizontal) cuts.
   
-So lets just do this, with some simple [Viewport Crops of the Animation](#crop_viewport).
+So let's just do this, with some simple [Viewport Crops of the Animation](#crop_viewport).
 
 ~~~
 convert bag.gif -coalesce  -crop 97x39+0+0\!   bag_cat.gif
