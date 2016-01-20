@@ -2948,7 +2948,7 @@ This gets a perfect image of the page but limited to the window size of the brow
 Another variation is to have the browser output the page as postscript rather than have IM convert it.
 This should page the website into smaller pages quite nicely.
 
-Under LINUX you can to start a virtual X windows Display server that is large enough to run a browser that shows the whole web site.
+Under Linux you can to start a virtual X windows Display server that is large enough to run a browser that shows the whole web site.
 This can be a VERY tall display.
 The browser is then run in it and set to fill the entire display.
 The web site is loaded and again grabs a screen shot.

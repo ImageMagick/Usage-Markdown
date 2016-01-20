@@ -80,7 +80,7 @@ In fact the images were only enlarged or reduced just enough so as to best fit i
 
 If you want you can force "`-resize`" to ignore the aspect ratio and distort the image so it always generates an image exactly the size specified.
 This is done by adding the character '`!`' to the size.
-Unfortunately this character is also sometimes used for special purposes by various UNIX command line shells.
+Unfortunately this character is also sometimes used for special purposes by various Unix command line shells.
 So you may have to escape the character somehow to preserve it.
 
 ~~~
@@ -119,7 +119,7 @@ convert terminal.gif  -resize 64x64\>  shrink_terminal.gif
 This option is often very important for saving disk space for images, or in thumbnail generation, when enlarging images generally may not desirable as it tends to produce 'fuzzy' enlargements.
 
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
-> The Only Shrink Flag ('`>`' flag) is a special character in both UNIX Shell and in Window batch scripts, and you will need to escape that character (using backslash '`\>`' in shell, and '`^>`' in windows batch).
+> The Only Shrink Flag ('`>`' flag) is a special character in both Unix Shell and in Windows batch scripts, and you will need to escape that character (using backslash '`\>`' in shell, and '`^>`' in windows batch).
 > It is also special in and HTML web pages, so PHP scripts also may need some special handling.
 
 ### Only Enlarge Smaller Images ('`<`' flag) {#enlarge}
@@ -135,7 +135,7 @@ One such example of using this 'short circuit' argument is for the "`-geometry`"
 See [Montage and Geometry, caution needed](../montage/#zero_geometry) for more details.
 
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
-> The Only Enlarge Flag ('`<`' flag) is a special character in both UNIX Shell and in Window batch scripts, and you will need to escape that character (using backslash '`\<`' in shell, and '`^<`' in windows batch).
+> The Only Enlarge Flag ('`<`' flag) is a special character in both Unix Shell and in Windows batch scripts, and you will need to escape that character (using backslash '`\<`' in shell, and '`^<`' in windows batch).
 > It is also special in and HTML web pages, so PHP scripts also may need some special handling.
 
 ### Fill Area Flag ('`^`' flag) {#fill}

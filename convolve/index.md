@@ -210,7 +210,7 @@ convert face.png  -define convolve:scale=\! \
 [![\[IM Output\]](face_spread_normalize.png)](face_spread_normalize.png)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> The '`!`' character is also sometimes used for special purposes by various UNIX command line shells.
+> The '`!`' character is also sometimes used for special purposes by various Unix command line shells.
 > So you may have to escape the character using a backslash, even in quotes.
 > Caution is advised.
 

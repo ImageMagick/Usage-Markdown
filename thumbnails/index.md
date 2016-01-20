@@ -461,7 +461,7 @@ The final setup of my images are..
     This image is resized to fit a 800x800 pixel box, which is a size suitable for viewing by most web users.
     I typically add a "`_md`" for medium sized image, in the filename.
 -   And lastly a GIF thumbnail resized to a fixed 90 pixel high, and variable width.
-    This allows centered rows of thumbnails on web pages to look reasonable neat and tidy, but which automatically fills the browser windows width, no matter what size browser they are using.
+    This allows centered rows of thumbnails on web pages to look reasonably neat and tidy, but which automatically fills the browser windows width, no matter what size browser they are using.
     Again I typically now include a "`_tn`" in the images filename, to denote that it is a thumbnail.
 
 I first generate the web viewable JPEG images (medium size) using "`mogrify`" from the original scanned image.

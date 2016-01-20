@@ -575,7 +575,7 @@ env LC_CTYPE=en_AU.utf8 \
 
 [![\[IM Output\]](label_quotes.gif)](label_quotes.gif)
 
-On other systems (like Mac OSX and Windows) you can use the perl "`printf`" to output a UTF-8 encoded character string from unicode character codes.
+On other systems (like OS X and Windows) you can use the perl "`printf`" to output a UTF-8 encoded character string from unicode character codes.
 
 ~~~
 perl -e 'binmode(STDOUT, ":utf8"); \
@@ -1006,7 +1006,7 @@ Or if you find such as test, please let me know.*
 
 The "`pango:`" text coder (fully working as of IM v6.7.6-3) works in much the same way as the [Label](#label) and [Caption](#caption) coders.
 It provides a limited text formatting language on systems in which "Pango" is installed.
-On Linux and MacOSX systems pango is standard, on Windows it is optional.
+On Linux and OS X systems pango is standard, on Windows it is optional.
 
 Here is a simple example without using any special pango formatting...
 
@@ -2130,7 +2130,7 @@ You have full control, or can leave it to make the decisions.
 They provide a way of generating any type of document, from a simple page, newsletter or even a full book.
 If you are serious about document generation, then these tools are well worth looking at and learning.
 
-Pango (Linux and MacOSX only) also provides an alternative.
+Pango (Linux and OS X only) also provides an alternative.
 It provides many text to image processing features not available in ImageMagick.
 For example TABs, justification, margins, headers, and so on.
 It even has a markup language of some kind to allow font changes in the middle of text.
