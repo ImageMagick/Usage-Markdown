@@ -11,7 +11,7 @@ Also included on this page are some tables demonstrating the results of versions
 The "`-interpolate`" setting is used when looking up a color in a source image, but that 'lookup point' falls between the pixels of the source image.
 This is done in various image operations, such as the "`-fx`" ([DIY Special Effects Operator](../transform/#fx)), and "`-distort`" ([Generalized Image Distortion Operator](../distorts/#distort)), as well as other related operators like the [Circular Distortions](../warping/#circular).
 
-Basically 'interpolation' tells IM how to interpret a [Direct Color Lookup](../distorts/#lookup) from an image, when the point does not exactly match a actual pixel in an image, but falls in the space between pixels.
+Basically 'interpolation' tells IM how to interpret a [Direct Color Lookup](../distorts/#lookup) from an image, when the point does not exactly match an actual pixel in an image, but falls in the space between pixels.
 
 For example, if you look up the color at pixel location `3,4` you should get the exact pixel color.
 But what should IM return if you looked up the color of an image at the point `3.23,4.75`?
@@ -23,7 +23,7 @@ Interpolation is in some ways similar to pixel resampling, such as provided by [
 The essential difference is that resampling has a 'scale', 'area' or variable 'window' from which a color that represents all the pixels in the area is returned.
 Interpolation does not have a 'scale' involved, only a single 'point' of lookup, and only a fixed sized 'area' around that point from which to determine the color to use at that point.
 
-Of course, most area resampling algorithms tend to devolve to a interpolative method when the area of resampling reaches a minimim working 'window', and this naturally happens when images are being enlarged, or upsampled.
+Of course, most area resampling algorithms tend to devolve to an interpolative method when the area of resampling reaches a minimim working 'window', and this naturally happens when images are being enlarged, or upsampled.
 This is why [Interpolated Filters](../filter/#interpolated) and [Gaussian Blurring Filters](filter/#gaussian) tend to work better for enlarging images.
 Interpolation is basically a lower form of sampling, and is basically used when you want a simple and fast answer to the 'what color' question.
 
@@ -287,7 +287,7 @@ For more information and examples of this problem see [Resizing in LAB colorspac
 > After IM v6.7.7-7 '`BiCubic`' is simply an alias to '`Catrom`', which is typically regarded as a good 'cubic interpolator' (b=0, c=1/2).
 > You should use the name '`Catrom`' rather than '`BiCubic`' so as to be clear what you are using for interpolation.
   
-> Before IM v6.7.7-7 '`BiCubic`' actually used an extreme 'Cardinal Cubic' filter (b=0, c=1) which has a overly strong negative ringing effect.
+> Before IM v6.7.7-7 '`BiCubic`' actually used an extreme 'Cardinal Cubic' filter (b=0, c=1) which has an overly strong negative ringing effect.
 > This has been completely replaced by '`Catrom`', and is no longer available as an interpolative function.
   
 > Before IM v6.3.5-3 '`BiCubic`' was implemented as a very blurry '`Spline`' cubic interpolator.
@@ -1066,7 +1066,7 @@ montage star.gif  -frame 6  -geometry '64x64+5+5>' star_montage.gif
 If the transparency was preserved then the "`montage`" results above would not look nearly as good.
   
 That does not mean that you can't preserve the transparency of images when using "`-border`" or "`-frame`" operators.
-It just means you need to supply a extra "`-compose`" setting to tell IM to preserve the transparency.
+It just means you need to supply an extra "`-compose`" setting to tell IM to preserve the transparency.
 
 ~~~
 convert star.gif  -bordercolor LimeGreen \
