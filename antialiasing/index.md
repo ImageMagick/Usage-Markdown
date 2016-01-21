@@ -8,7 +8,7 @@ This page tries to cover these problems and present solutions to them.
 
 ## Anti-Aliasing Introduction {#intro}
 
-ImageMagick when it draws images, does so in a very particular way.
+ImageMagick, when it draws images, does so in a very particular way.
 It draws them with an operation call "anti-aliasing".
 
 To demonstrate, I'll draw an image on a transparent background, then magnify a small part of the image so you can see what is happening.
@@ -48,10 +48,10 @@ convert drawn_jaggies.png -crop 10x10+50+5 +repage -scale 80x80 \
 This time the image really does only have three colors.
 But the result is not very nice at all.
 On the latest IM, a single line of pixels is drawn, in a staircase-like manner.
-On older IM's, the line would have also be quite thick in appearence, making it look even worse.
-Basically this is not something you would normally want to do.
+On older IM's, the line would have also been quite thick in appearance, making it look even worse.
+Basically, this is not something you would normally want to do.
 
-The straircase of 'aliasing' effects, also commonly called the 'jaggies', is what IM was trying to avoid.
+The staircase of 'aliasing' effects, also commonly called the 'jaggies', is what IM was trying to avoid.
 But, if you want specific colors, then you will need to accept this, or use other techniques (such as color quantization) to ensure you only use certain colors.
 
 Note that there are actually two forms of anti-aliasing happening.
@@ -164,23 +164,23 @@ convert -size 15x15 xc: -fill none -stroke black +antialias \
 Here is a table of good "`-strokewidth`", to generate a thin single pixel wide circle of specific radius.
 Note that the best value to use varies depending on if the circle is centered either on an *actual* pixel (such as '` 5 , 5 `'), or on a *half* pixel boundry (such as '` 5.5 , 5.5 `')
 
-| Circle Radius | SW Actual | SW half |
-|---------------|-----------|---------|
-| 1             | 0.3       | 0.3 ¶   |
-| 1.5           | 0.5 ¶     | 0.3     |
-| 2             | 0.3       | 0.3 §   |
-| 2.5           | 0.5 ¶     | 0.3 ¤   |
-| 3             | 0.3 ¤     | 0.3     |
-| 3.5           | 0.5       | 0.3 ¤   |
-| 4             | 0.5 §     | 0.3     |
-| 4.5           | 0.5       | 0.3     |
-| 5             | 0.4       | 0.3     |
-| 5.5           | 0.5 ¶     | 0.3     |
-| 6             | 0.3       | 0.5 §   |
-| 6.5           | 0.5       | 0.43    |
-| 7             | 0.5       | 0.434   |
-| 7.5           | 0.5 §     | 0.5 §   |
-| 8             | 0.4       | 0.5     |
+| Circle Radius | SW Actual   | SW half |
+|---------------|-------------|---------|
+| 1             | 0.3         | 0.3 ¶   |
+| 1.5           | 0.5 ¶       | 0.3     |
+| 2             | 0.3         | 0.3 §   |
+| 2.5           | 0.5 ¶       | 0.3 ¤   |
+| 3             | 0.3 ¤       | 0.3     |
+| 3.5           | 0.5         | 0.3 ¤   |
+| 4             | 0.5 §       | 0.3     |
+| 4.5           | 0.5         | 0.3     |
+| 5             | 0.4         | 0.3     |
+| 5.5           | 0.5 ¶       | 0.3     |
+| 6             | 0.3         | 0.5 §   |
+| 6.5           | 0.5         | 0.43    |
+| 7             | 0.5         | 0.434   |
+| 7.5           | 0.5 §       | 0.5 §   |
+| 8             | 0.4         | 0.5     |
 
 
 -------------------------
