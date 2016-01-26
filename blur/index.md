@@ -12,9 +12,9 @@ It is also very useful for smoothing the effects of the 'jaggies' to [anti-alias
 
 Blurring is so important it is an integral part of [Image Resizing](../resize/), though a different method of blurring, which is restricted to within the boundaries of a single pixel of the original image.
 
-Their are two general image blurring operators in ImageMagick.
+Theere are two general image blurring operators in ImageMagick.
 The "`-gaussian-blur`" spread and "`-blur`".
-The results of the two as very close, but as "`-blur`" is a faster algorithm, it is generally preferred to the former even though the former is more mathematically correct.
+The results of the two are very close, but as "`-blur`" is a faster algorithm, it is generally preferred to the former even though the former is more mathematically correct.
 (See [Blur vs the Gaussian Blur Operator](#blur_gaussian).)
 
 ### Blur/Gaussian Arguments {#blur_args}
@@ -26,7 +26,7 @@ The arguments for "`-blur`" and "`-gaussian-blur`" are the same, but to someone 
 ~~~
 
 The important setting in the above is the second *sigma* value.
-It can be thought of as an approximation of just how much your want the image to 'spread' or blur, in pixels.
+It can be thought of as an approximation of just how much you want the image to 'spread' or blur, in pixels.
 Think of it as the size of the brush used to blur the image.
 The numbers are floating point values, so you can use a very small value like '`0.5`'.
 
@@ -60,7 +60,7 @@ This is especially visible in the output for "`-blur 5x8`".
 This is caused by the small square neighbourhood 'cutting off' the area blurred, producing sudden stops in the smooth Gaussian curve of the blur, and thus producing [Ringing Artefacts](../filter/#ringing) along sharp edges.
 So...
 
-**Never use a *radius* smaller than the *sigma* for blurs**
+>**Never use a *radius* smaller than the *sigma* for blurs**
 
 The ideal solution is to simply set *radius* to '`0x`' as shown by the last line of the above table.
 In that case, the operator will try to automatically determine the best *radius* for the *sigma* given.
@@ -68,7 +68,7 @@ The smallest radius IM would use is 3, and is typically 3 \* *sigma* for a Q16 v
 The only time I would use a non-zero *radius* was for a very small *sigma* or for specialized specialized blurs.
 So..
 
-**When possible use a *radius* of zero for blurring operations**
+>**When possible use a *radius* of zero for blurring operations**
 
 Small values for the *sigma* are typically only used to fuzz lines and smooth edges on images for which no anti-aliasing was used (see [Anti-Aliasing](../antialiasing/) for more info).
 In that situation I find a blur of '`1x0.3`' a useful value to remove most of the 'jaggies' from images.
@@ -145,8 +145,8 @@ Just to summarize...
 > Some image formats such as GIF and JPEG do not handle semi-transparent pixels.
 > As such, I suggest you use PNG format for any images with some form of semi-transparent colors, if possible.
 
-As you can see from the above, the "`-channel`" setting is very important for a grey-scale operator such as "`-blur`".
-But is not the only thing that can be important when using such an operator.
+As you can see from the above, the "`-channel`" setting is very important for a grey-scale operator such as "`-blur`",
+but it is not the only thing that can be important when using such an operator.
 
 For example, let's try that last 'forgot the "`-channel`" setting' example again, but this time with a yellow circle.
 
@@ -163,7 +163,7 @@ Yuck!
 
 This problem is caused by a fact that few new IM users realise.
 
-**Transparent pixels have a color, even if you can't see it.**
+>**Transparent pixels have a color, even if you can't see it.**
 
 In the above case, that transparent color was black, which leaked into the yellow circle.
 
@@ -305,7 +305,7 @@ The downsizing step is the one that produces the speedup but you should have at 
 
 This is just an example of the technique.
 It is really meant to be used for very very large sigma values on very very large images.
-For example in blurs using a sigma of 10 or more on modern digital photos.
+For example, in blurs using a sigma of 10 or more on modern digital photos.
 
 This technique is also used to generate multi-level blur of a single image in a [Sparse Color Shepards, Alternative](../canvas/#sparse_blur).
   
@@ -324,38 +324,33 @@ Basically what they are doing is attempting to recover the fine detail of an ima
 Sharpen Arguments? (expand)
 
 ~~~{.skip}
-    The most important factor is the sigma.
-As it is the real control of the
-    sharpening operation.
- It is only due to historical accident it is the second
-    term in the above.
-    It can be any floating point value from  .1  for practically no sharpening to
-    3 or more for sever sharpening.
-  0.5 to 1.0 is rather good. 
+    The most important factor is the sigma, as it is the real control of the sharpening operation.
+    It is only due to historical accident that it is the second term in the above.
+    It can be any floating point value from  0.1 (for practically no sharpening) to 3, or more, for severe sharpening.
+    0.5 to 1.0 is rather good. 
 
     Radius is just a limit of the effect as is the threshold.
 
-    Radius is only in integer units as that is the way the algorithm works, the
-    larger it is the slower it is.
- But it should be at a minimum 1 or better
-    still 2 times the sigma.
+    Radius is only in integer units as that is the way the algorithm works, the larger it is the slower it is.
+    But it should be at a minimum 1, or better still, 2 times the sigma.
 ~~~
 
-First forget the first number, just use 0 which will then use the best number for the 'sigma' factor you give.
+ELEPHANT
+
+First, forget the first number, just use 0 which will then use the best number for the 'sigma' factor you give.
 The larger the sigma the more it sharpens.
 
-|                |                              |
-|----------------|------------------------------|
-| -sharpen 0x.4  | very small                   |
-| -sharpen 0x1.0 | about one pixel size sharpen |
-| -sharpen 0x3.0 | probably getting too large   |
-
+| Sharpen Setting Used          | Comment                      |
+|:------------------------------|:----------------------------:|
+| -sharpen 0x.4                 | very small                   |
+| -sharpen 0x1.0                | about one pixel size sharpen |
+| -sharpen 0x3.0                | probably getting too large   |
 
 The "`-sharpen`" operator is sort of an inverted blur.
-In fact it works in just about the same way.
+In fact, it works in just about the same way.
 For examples which show how this is related to blur see, [Image Processing By Interpolation and Extrapolation](http://netpbm.sourceforge.net/doc/extendedopacity.html).
 
-For example lets blur a simple image then attempt to sharpen it again to remove the blur.
+For example, let's blur a simple image then attempt to sharpen it again to remove the blur.
 
 ~~~
 convert  -font Gecko -pointsize 72 label:A  A_original.jpg
@@ -476,9 +471,9 @@ The "`-shadow`" operator is an advanced operator that was developed with the IM 
 Basically it represents a very complex blur and re-coloring of transparency shape of the given image.
 This is an operation that IM users performed all the time, but required a good deal of knowledge to figure how to achieve correctly.
 
-The operator will take an image (usually a clone, and may already have some transparency) and convert it into a shadow image that can then be positioned under the original image at given offset, (generally by using the special [Layer Merge](../layers/#merge) operator.
+The operator will take an image (usually a clone, and may already have some transparency) and convert it into a shadow image that can then be positioned under the original image at given offset, generally by using the special [Layer Merge](../layers/#merge) operator.
 
-Here for example is a standard method of shadowing an existing image, using a navy shadow color to match this web page.
+Here, for example, is a standard method of shadowing an existing image, using a navy shadow color.
 
 ~~~
 convert rose: \( +clone  -background navy  -shadow 80x3+5+5 \) +swap \
@@ -488,7 +483,7 @@ convert rose: \( +clone  -background navy  -shadow 80x3+5+5 \) +swap \
 [![\[IM Output\]](shadow.png)](shadow.png)
 
 Note how the shadow image is correctly offset from the image.
-You can even zero the blur '*sigma*' value and create a hard shadow, but semi-transparent shadow.
+You can even zero the blur '*sigma*' value and create a hard, but semi-transparent shadow.
 
 ~~~
 convert rose: \( +clone  -background navy  -shadow 60x0+4+4 \) +swap \
@@ -553,7 +548,7 @@ That is, if you blur a shadow using '`x3`', it will enlarge the image by 12 pixe
 To compensate for this enlargement, a shadow image is also given an appropriate negative [Virtual Canvas Offset](../basics/#page) so that it will be positioned correctly relative to the image being shadowed.
 For a normal image that means the shadow image generated will have a negative offset.
 
-This however generates a problem when your IM does not have a the "`-layers`" method '`merge`' available.
+This however generates a problem when your IM does not have the "`-layers`" method '`merge`' available.
 For example, here we try to add a shadow on the left side, of the image as if a light shone from the upper right.
 
 ~~~
@@ -647,7 +642,7 @@ Note that the centered geometry offset is negative as the image order was swappe
 
 ### Shadow Outlines {#shadow_outline}
 
-You can also use "`-shadow`" to generate a fuzzy outlines of shapes, such as text.
+You can also use "`-shadow`" to generate fuzzy outlines of shapes, such as text.
 By using [Layers Merge](../layers/#merge) IM will automatically add the extra space needed for the semi-transparent blur.
 
 ~~~
@@ -754,27 +749,18 @@ The actual "`-shadow`" operator, does not change any of the global settings, suc
 Also it will short circuit the use of the "`-blur`" operator if the blur sigma is set to 0, to prevent the blur function from giving a warning for a zero sigma or radius.
 
 ~~~{.skip}
-    FUTURE: overlaying multiple shadows
+FUTURE: overlaying multiple shadows
 
-    Overlaying two images with shadows, produces an unrealistic darkening of the
-    shadow where the shadow overlaps.
- This darkening would be correct if each
-    object was lit by separate light sources, but more commonly the objects are
-    lit by the same light source.
+Overlaying two images with shadows, produces an unrealistic darkening of the shadow where the shadow overlaps.
+This darkening would be correct if each object was lit by separate light sources, but more commonly the objects are lit by the same light source.
 
-    The solution is to overlay the one image over the other, applying the shadow
-    effects to the opaque parts of each layer image in turn.
-That is the
-    background shadow should be generated separately into each layer.
- Remember
-    the shadow cast by the top most layer should become fuzzier than the shadow
-    contribution of the bottom most layer.
+The solution is to overlay the one image over the other, applying the shadow effects to the opaque parts of each layer image in turn.
+That is, the background shadow should be generated separately into each layer.
+Remember the shadow cast by the top-most layer should become fuzzier than the shadow contribution of the bottom-most layer.
 
-    This complexity gets worse when you have three objects shadowing each other.
-    Also the offset and blurring from the shadow of each object should technically
-    be separate.
- To generate that level of complexity, probably a 3-d ray-tracing
-    program should be used instead (sigh).
+This complexity gets worse when you have three objects shadowing each other.
+Also, the offset and blurring from the shadow of each object should technically be separate.
+To generate that level of complexity, probably a 3-d ray-tracing program should be used instead (sigh).
 ~~~
 
 ------------------------------------------------------------------------
@@ -784,16 +770,15 @@ That is the
 There are a few other sorts of blurs that have been added to IM version 6, which have very special uses.
 These operate in specific ways, and not in all directions as most other 'convolve'-style operations do.
 They also may not work as well as other methods of generating specialized blurs, such as distorting images before and after an more normal blur.
-For example see [Polar Cycle Tricks](../distorts/#polar_tricks), and [Elliptical (mapped) Blurring](../compose/#blur_ellipse).
+For example, see [Polar Cycle Tricks](../distorts/#polar_tricks), and [Elliptical (mapped) Blurring](../compose/#blur_ellipse).
 
 **WARNING: All these blurs are experimental, and syntax may change!**
 
 ### Radial Blur {#radial-blur}
 
-You can blur the image around in a circle using a "`-radial-blur`", as if it was spinning around and around.
-Though technically this is a rotational or angular blur, rather than a radial blur.
+You can blur the image around in a circle using a "`-radial-blur`", as if it was spinning around - though technically, this is a rotational or angular blur, rather than a radial blur.
 
-Note however that like a normal "`-blur`" operator, "`-radial-blur`" is affected by the "`-channel`" setting.
+Note, however, that like a normal "`-blur`" operator, "`-radial-blur`" is affected by the "`-channel`" setting.
 
 ~~~
 convert -size 70x70 xc:none \
@@ -891,8 +876,7 @@ convert -size 70x70 xc:none -channel RGBA \
 
 [![\[IM Output\]](motion_blur_redraw.png)](motion_blur_redraw.png)
 
-Multiple motion blurs can be made to effect some spread of the trailing tail of the moving object.
-Sort of like dissipating smoke or flames.
+Multiple motion blurs can be made to effect some spread of the trailing tail of the moving object - sort of like dissipating smoke or flames.
 
 ~~~
 convert -size 70x70 xc:none -channel RGBA \
@@ -941,7 +925,7 @@ When you are cutting out a shape from an image, you often want to feather or blu
 
 Basically instead of having a 'hard' edge to some shape, soften it to 'fake' anti-aliasing, or lens blurring, so that the paste is more seamless.
   
-For example here I have a GIF image which I overlay a light colored background
+For example, here I have a GIF image which I overlay onto a light colored background
 
 ~~~
 convert  shape.gif -background wheat -flatten  overlaid.png

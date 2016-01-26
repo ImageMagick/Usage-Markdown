@@ -17,4 +17,4 @@ montage -tile 6x  -geometry +4+2  -pointsize 10 \
         $list blur_montage.png
 
 rm -f blur_[0-9]*.png
-chmod 644 blur_montage.jpg
+chmod 644 blur_montage.png
