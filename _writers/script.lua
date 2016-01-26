@@ -88,12 +88,11 @@ then
 fi
 ]=]
   local version = [=[
-gif=version.gif
-echo "Generating IM \"$gif\" image"
-convert -list configure | egrep 'LIB_VERSION_NUMBER|RELEASE_DATE' |\
-tr -d '\012' | sed 's/LIB[^ ]* /IM v/;s/REL.* / /;s/,/./;s/,/./;s/,/-/' |\
-  convert -background transparent -pointsize 18 label:@-  $gif
-chmod 644 $gif
+gif="version.gif"
+echo "Generating IM version image"
+convert -format "%[version]" xc: info: | awk '{print $1,$2,$3,$5}' | \
+  convert -background transparent -pointsize 18 label:@- "$gif"
+chmod 644 "$gif"
 ]=]
   add(bootstrap)
   add(body)
