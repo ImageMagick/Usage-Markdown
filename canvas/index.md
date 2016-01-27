@@ -11,10 +11,10 @@ Here we look at just some of the methods that can be used to generate a whole ra
 ### Direct Generation {#solid_direct}
 
 Generating a canvas of a specific color and size is very simple to do.
-You just specify "`-size`" (defaulting to "`1x1`" is no size given), and then use "`canvas:`" to generate a canvas of the color given.
+You just specify "`-size`" (defaulting to "`1x1`" if no size given), and then use "`canvas:`" to generate a canvas of the color given.
 If no color is specified a '`white`' canvas is generated.
   
-For example... here I generate a '`khaki`' colors canvas.
+For example, here I generate a '`khaki`' colors canvas.
 
 ~~~
 convert -size 100x100 canvas:khaki  canvas_khaki.gif
@@ -22,8 +22,8 @@ convert -size 100x100 canvas:khaki  canvas_khaki.gif
 
 [![\[IM Output\]](canvas_khaki.gif)](canvas_khaki.gif)
   
-More commonly a short hand (and more traditional) format of "`xc:`" (which meant "X Constant Image").this is generally what I use.
-For example here is an image using the X window color of '`wheat`'.
+Rather than use "`canvas:`", a short-hand, and more traditional, format of "`xc:`" (which meant "X Constant Image") can be used.
+For example, here is an image using the X window color of '`wheat`'.
 
 ~~~
 convert -size 100x100 xc:wheat  canvas_wheat.gif
@@ -38,6 +38,7 @@ convert canvas_khaki.gif -fill tomato -opaque khaki canvas_opaque.gif
 ~~~
 
 [![\[IM Output\]](canvas_opaque.gif)](canvas_opaque.gif)
+
 You can even grab a single pixel from an existing image, and expand it to the canvas size you want.
 We use "`-scale`" for a simple and fast resizing of the single pixel.
   
@@ -51,17 +52,17 @@ convert rose:  -crop 1x1+40+30 +repage -scale 100x100\! canvas_pick.gif
 
 ### Create Image of same size {#sized}
 
-One most basic techniques, when using ImageMagick, is to generate a canvas of the same size as some existing image.
+One of the most basic techniques, when using ImageMagick, is to generate a canvas of the same size as some existing image.
 This can be done by converting that existing image into the canvas needed, but preserving the image's original size.
 
-Generally it is not just the images size that needs to be preserved, but all the images meta-data as well.
-That in things such as labels, comments, color profiles, time delays, as well as the save compression and depth.
-This meta-data can be important if you want to annotate those such information on the newly blanked canvas, or you plan to overlay the original image onto the new canvas.
+Generally, it is not just the image's size that needs to be preserved, but all the image's meta-data as well.
+That is, things such as labels, comments, color profiles, time delays, as well as the save compression and depth.
+This meta-data can be important if you want to annotate such information onto the newly blanked canvas, or you plan to overlay the original image onto the new canvas.
 
-Naturally IM provides a large number of ways to do this, usually as a side-effect of using various image operations.
-Only a few are very obvious about there use in clearing an image to a solid color.
+Naturally, IM provides a large number of ways to do this, usually as a side-effect of using various image operations.
+Only a few are very obvious about their use in clearing an image to a solid color.
   
-To the left is a test image...
+Here is a test image...
 Don't worry above how I actually generated this image, it is not important for the exercise.
 I did design it to contain a range of colors, transparencies and other features, specifically to give IM a good workout when used.
   
@@ -75,7 +76,7 @@ I did design it to contain a range of colors, transparencies and other features,
 ### Overlay a Specific Color {#specific}
 
   
-As of IM v6.4.2-1 you can use the "`+level-colors`" with a single color and no comma's, to set all the colors.
+As of IM v6.4.2-1 you can use the "`+level-colors`" with a single color and no commas, to set all the colors.
 
 ~~~
 convert test.png  -alpha Opaque +level-colors Sienna  color_levelc.gif
@@ -84,10 +85,10 @@ convert test.png  -alpha Opaque +level-colors Sienna  color_levelc.gif
 [![\[IM Output\]](color_levelc.gif)](color_levelc.gif)
 
 Note the use of the "`-alpha`" operator to set the transparency to something useful before (or after) the color has been added.
-Altrunativally you could use "`-channel All`" to ensure the transparency channel is also set by the color resetting operation.
+Alternatively, you could use "`-channel All`" to ensure the transparency channel is also set by the color resetting operation.
   
 Another older technique is to use "`-colorize`" to overlay the fill color but with a fully opaque value.
-However before IM v6.7.9 it did not change the the original images alpha channel, so it is a good idea if to disable the alpha channel first, using "`-alpha Off`", or make it opaque with "`-alpha Opaque`" even though you would get the same result without it.
+However, before IM v6.7.9 it did not change the the original image's alpha channel, so it is a good idea to disable the alpha channel first, using "`-alpha Off`", or make it opaque with "`-alpha Opaque`" even though you would get the same result without it.
 
 ~~~
 convert test.png -alpha off -fill Chocolate -colorize 100%  color_colorize.gif
@@ -98,9 +99,9 @@ convert test.png -alpha off -fill Chocolate -colorize 100%  color_colorize.gif
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Note that "`-alpha Off`" (or the older equivalent "`+matte`") only disables the alpha channel.
 > If you turn it [On](../masking/#alpha_on) again afterwards, the original alpha channel (which was preserved) will be restored.
-> If was automatically done before IM v6.7.9
+> It was automatically done before IM v6.7.9
 >  
-> As of IM v6.4.3-0 you can use the "`-sparse-color`" operator to set a single point to the color wanted, using just about any method it provides (see [Sparse Points of Color](#sparse-color) below).
+> As of IM v6.4.3-0 you can use the "`-sparse-color`" operator to set a single point to the color wanted, using just about any method it provides,  see [Sparse Points of Color](#sparse-color) below.
 
 ~~~
 convert test.png  -alpha Off \
@@ -123,7 +124,7 @@ The major complaint about all the above 'simple' methods is that none simply res
 There are a huge number of other methods as well but are more complex as it they involve multi-image [Alpha Composition](../compose/) to force various operators to replace the image with the desired color.
 These techniques work with operators that use "`-compose`".
   
-For example you can use the "`-flatten`" (See [Flatten onto Background](../layers/#flatten_bgnd) example), which creates a canvas using the "`-background`" color.
+For example, you can use the "`-flatten`" (See [Flatten onto Background](../layers/#flatten_bgnd) example), which creates a canvas using the "`-background`" color.
 
 ~~~
 convert test.png   -background Wheat \
@@ -134,7 +135,7 @@ convert test.png   -background Wheat \
 
 The above works as uses a '`Dst`' compose method to place the background canvas the operator created in front of the original image.
   
-If you are just wanting to grab the original images meta-data (such as the comment or label data), but replace the image itself with a specific color and size of canvas image, then "`-extent`" operator (See [Extent, Direct Image Size Adjustment](../crop/#extent)) may be the best solution.
+If you are just wanting to grab the original image's meta-data (such as the comment or label data), but replace the image itself with a specific color and size of canvas image, then "`-extent`" operator (See [Extent, Direct Image Size Adjustment](../crop/#extent)) may be the best solution.
 Color will again come from the "`-background`" setting.
 
 ~~~
@@ -153,15 +154,14 @@ convert test.png   -bordercolor Khaki \
 
 [![\[IM Output\]](color_border.gif)](color_border.gif)
 
-This last method has the added advantage of also letting you slightly enlarge the image canvas, relative to the original images size.
+This last method has the added advantage of also letting you slightly enlarge the image canvas, relative to the original image's size.
   
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > The "`-border`" method of generating canvases will not work with versions of IM before version 6.1.4.
-Before this the background generated by the "`-border`" operator was not a simple solid color, but a black canvas surrounded by the border color.
-Not very useful.
+Before this, the background generated by the "`-border`" operator was not a simple solid color, but a black canvas surrounded by the border color - not very useful.
 
 A more flexible (but very slow) method of canvas generation was provided by the "`FX, DIY Operator`" operator.
-You will also need to turn off the input image's transparency channel as by default "`-fx`" will not touch the transparency channel.
+You will also need to turn off the input image's transparency channel as, by default, "`-fx`" will not touch the transparency channel.
 
 ~~~
 convert test.png -alpha off -fx Gold  color_fx_constant.gif
@@ -170,7 +170,7 @@ convert test.png -alpha off -fx Gold  color_fx_constant.gif
 [![\[IM Output\]](color_fx_constant.gif)](color_fx_constant.gif)
   
 The "`-fx`" operator will even let you do a little color mathematics.
-For example how about a 70% dark gold color...
+For example, how about a 70% dark gold color...
 
 ~~~
 convert test.png -alpha off -fx "Gold*.7"  color_fx_math.gif
@@ -179,10 +179,9 @@ convert test.png -alpha off -fx "Gold*.7"  color_fx_math.gif
 [![\[IM Output\]](color_fx_math.gif)](color_fx_math.gif)
 
 All the above methods cannot only fill using a fully-opaque color, but can also use semi-transparent colors.
-However it is a good idea to ensure the image you have a transparency channel before hand.
+However, it is a good idea to ensure the image has a transparency channel beforehand.
   
-Here for example we create a canvas with a semi-transparent red.
-However when overlaid on the web pages 'bluish' background we get an off purple-pink color.
+Here, for example, we create a canvas with a semi-transparent red.
 
 ~~~
 convert test.png -alpha set -fill '#FF000040' -draw 'color 0,0 reset' \
@@ -197,8 +196,9 @@ Also note that when using "`-fx`" operator with transparency, you will need to s
 
 Blanking images using a color from the original image is also posible, though can be tricky.
 It is a useful technique when you want to use a specific pixel as a 'background color'.
-For example pixel 0,0 is a common choice.
-[![\[IM Output\]](rose.png)](rose.png) In the following examples I will select colors from various pixels from the built in rose image (shown left), as I blank the image.
+For example, pixel 0,0 is a common choice.  
+[![\[IM Output\]](rose.png)](rose.png)  
+In the following examples I will select colors from various pixels from the built in rose image, as I blank the image.
 
 The most obvious (though slow) method is to simply use the "`FX, DIY Operator`" to select the pixel to use color blanking.
 
@@ -208,7 +208,7 @@ convert rose: -fx 'p{0,0}'  color_pick_fx.png
 
 [![\[IM Output\]](color_pick_fx.png)](color_pick_fx.png)
 
-However this can be speeded up by only selecting the pixel once
+However, this can be speeded up by only selecting the pixel once.
 This can be done by using the fx formula as an argument for [Sparse Color](#sparse-color).
 It may seem less simple, but it is much faster.
 
@@ -238,15 +238,14 @@ convert rose: -set option:distort:viewport '%wx%h+0+0' \
   
 ### Other Canvas Techniques {#other}
 
-Their lots of other ways of generating canvases of very specific colors, but they are rather obtuse.
-As such without some heavy commenting, it may not be obvious which you are doing when you look at your IM script months or years later.
+There are lots of other ways of generating canvases of very specific colors, but they are rather obtuse.
+As such, without some heavy commenting, it may not be obvious what you are doing when you look at your IM script months or years later.
 
 I don't recommend these techniques, but are useful to know if you are using older less flexible versions of IM.
 
 #### Black Canvas
 
-  
-Traditionally you can create a black canvas by using "`-threshold`", and then turn off the transparency channel.
+Traditionally, you can create a black canvas by using "`-threshold`", and then turn off the transparency channel.
 
 ~~~
 convert  test.png -threshold 100% -alpha off  black_threshold.png
@@ -263,7 +262,7 @@ convert  test.png -level 100%,100% -alpha off  black_level.png
 [![\[IM Output\]](black_level.png)](black_level.png)
   
 The "`-fx`" operator provides a more obvious way of creating a black canvas by clearing all the pixels to zero.
-However you will also need to reset the alpha channel to make it fully opaque.
+However, you will also need to reset the alpha channel to make it fully opaque.
 
 ~~~
 convert test.png  -fx 0 -alpha off   black_fx.png
@@ -279,7 +278,7 @@ convert  test.png  -evaluate set 0  -alpha off  black_evaluate.png
 
 [![\[IM Output\]](black_evaluate.png)](black_evaluate.png)
   
-You can also mis-use the "`-gamma`" operator to make an image all black.
+You can also misuse the "`-gamma`" operator to make an image all black.
 
 ~~~
 convert  test.png  -gamma 0  -alpha off  black_gamma.png
@@ -287,7 +286,7 @@ convert  test.png  -gamma 0  -alpha off  black_gamma.png
 
 [![\[IM Output\]](black_gamma.png)](black_gamma.png)
   
-A less obvious way is to 'posterize' the image will too few color levels, resulting in only one color being used, black.
+A less obvious way is to 'posterize' the image with too few color levels, resulting in only one color being used, black.
 
 ~~~
 convert  test.png  -posterize 1 -alpha off black_posterize.png
@@ -295,7 +294,7 @@ convert  test.png  -posterize 1 -alpha off black_posterize.png
 
 [![\[IM Output\]](black_posterize.png)](black_posterize.png)
   
-You can ensure the image is fully transparent then '`extract`' the images mask, using the [Alpha Operator](../basics/#alpha)
+You can ensure the image is fully transparent then '`extract`' the image's mask, using the [Alpha Operator](../basics/#alpha)
 
 ~~~
 convert test.png  -alpha transparent -alpha extract  black_alpha.png
@@ -307,7 +306,7 @@ convert test.png  -alpha transparent -alpha extract  black_alpha.png
 
   
 The traditional way is again using "`-threshold`".
-The value however must be a negative number, just to be sure that all colors will be mapped to white, in all versions of IM.
+The value, however, must be a negative number, just to be sure that all colors will be mapped to white, in all versions of IM.
 
 ~~~
 convert  test.png  -threshold -1 -alpha off   white_threshold.png
@@ -315,7 +314,7 @@ convert  test.png  -threshold -1 -alpha off   white_threshold.png
 
 [![\[IM Output\]](white_threshold.png)](white_threshold.png)
   
-Providing the "`-level`" operator with same argument for both 'black' and 'white' points will have the same effect.
+Providing the "`-level`" operator with the same argument for both 'black' and 'white' points will have the same effect.
 
 ~~~
 convert  test.png -level -1,-1 -alpha off  white_level.png
@@ -323,7 +322,7 @@ convert  test.png -level -1,-1 -alpha off  white_level.png
 
 [![\[IM Output\]](white_level.png)](white_level.png)
   
-You can of course set the pixel values directly using the "`-fx`" operator.
+You can, of course, set the pixel values directly using the "`-fx`" operator.
 
 ~~~
 convert test.png -fx 1.0 -alpha off  white_fx.png
@@ -339,7 +338,7 @@ convert  test.png  -evaluate set 100%  -alpha off  white_evaluate.png
 
 [![\[IM Output\]](white_evaluate.png)](white_evaluate.png)
   
-You can also mis-use the "`-gamma`" operator to make an image all white, by using a negative argument.
+You can also misuse the "`-gamma`" operator to make an image all white, by using a negative argument.
 
 ~~~{.ignore-err}
 convert  test.png  -gamma -1  -alpha off  white_gamma.png
@@ -355,7 +354,7 @@ convert  test.png -posterize 1 -alpha off -negate  white_posterize.png
 
 [![\[IM Output\]](white_posterize.png)](white_posterize.png)
   
-You can ensure the image is fully opaque (no transparency) then '`extract`' the images mask, using the [Alpha Operator](../basics/#alpha)
+You can ensure the image is fully opaque (no transparency) then '`extract`' the image's mask, using the [Alpha Operator](../basics/#alpha)
 
 ~~~
 convert test.png  -alpha opaque -alpha extract  white_alpha.png
@@ -367,7 +366,7 @@ convert test.png  -alpha opaque -alpha extract  white_alpha.png
 
 Probably the most important canvas you want to generate from an existing image is a transparent canvas.
   
-The fastest and easiest way it to just get IM to directly clear the image to transparency, using the "`-alpha transparent`" operator (added IM v6.4.3-7).
+The fastest and easiest way is to just get IM to directly clear the image to transparency, using the "`-alpha transparent`" operator (added IM v6.4.3-7).
 
 ~~~
 convert test.png  -alpha transparent trans_alpha.png
@@ -377,7 +376,7 @@ convert test.png  -alpha transparent trans_alpha.png
 
 However as this is a very recent addition it is probably not widely available yet.
 
-We can make a fully-transparent 'black' canvas using the '[Clear](../compose/#clear) alpha composition operator, with any overlay image (a single pixel "`null:`" in this case) as it will be ignored.
+We can make a fully-transparent 'black' canvas using the [Clear](../compose/#clear) alpha composition operator, with any overlay image (a single pixel "`null:`" in this case) as it will be ignored.
 
 ~~~
 convert test.png  null: -alpha set -compose Clear -composite -compose Over \
@@ -394,6 +393,7 @@ convert test.png -alpha set -fill none  -draw 'matte 0,0 reset' color_matte.png
 ~~~
 
 [![\[IM Output\]](color_matte.png)](color_matte.png)
+
 We can also do this more directly with the "`-fx`" operator.
 
 ~~~
@@ -419,7 +419,7 @@ convert test.png -channel A -threshold -1 +channel trans_threshold.png
 
 [![\[IM Output\]](trans_threshold.png)](trans_threshold.png)
 
-Actually in this case we are mathematically dealing with a 'matte' channel, using threshold to set it to the maximum value, rather than zero as we did with the "`-fx`" operator.
+Actually, in this case, we are mathematically dealing with a 'matte' channel, using threshold to set it to the maximum value, rather than zero as we did with the "`-fx`" operator.
 This is why a '`-1`' was used in the above, rather than something like `101%`'.
 
 The original RGB colors are still present in many of the images above.
@@ -444,7 +444,7 @@ See the examples on [Controlling Image Transparency](../masking/#alpha).
 Other than using a specific color, only the "`-gamma`" operator is truly flexible enough to generate a canvas of any primary/secondary color.
 You basically use `0` to zero out a channel, and `-1` to maximize a channel values.
   
-For example here I generate a yellow canvas...
+For example, here I generate a yellow canvas...
 
 ~~~
 convert  test.png  -gamma -1,-1,0  -alpha off  yellow_gamma.png
@@ -464,13 +464,13 @@ convert  test.png  +level 40%,40%  -alpha off  grey_level.png
 
 ## Gradients of Color {#gradient}
 
-As you saw above you can create canvases of solid colors easy enough.
+As you saw above, you can create canvases of solid colors easily enough.
 But sometimes you want something more interesting.
 And ImageMagick provides a number of special image creation operators that will let you do this.
 
-The full list of these creation operators are listed on the [ImageMagick formats](http://www.imagemagick.org/www/formats.html).
+The full list of these creation operators is on the [ImageMagick formats](http://www.imagemagick.org/www/formats.html).
 
-It is difficult however to find all the good image generators available in IM as they are all mixed up with the specific image file formats.
+It is difficult, however, to find all the good image generators available in IM as they are all mixed up with the specific image file formats.
 And then not all the options and capabilities are detailed.
 I will try to rectify that.
   
@@ -497,17 +497,17 @@ convert -size 100x100  gradient:tomato-steelblue  gradient_range5.jpg
 
 [![\[IM Output\]](gradient_range1.jpg)](gradient_range1.jpg) [![\[IM Output\]](gradient_range2.jpg)](gradient_range2.jpg) [![\[IM Output\]](gradient_range3.jpg)](gradient_range3.jpg) [![\[IM Output\]](gradient_range4.jpg)](gradient_range4.jpg) [![\[IM Output\]](gradient_range5.jpg)](gradient_range5.jpg)
 
-Notice that when given a single color the second color will be either '`white`' or '`black`', which ever produces the largest color distance from the given color.
-As such '`blue`' produces a '`blue-white`' gradient, while '`yellow`' generated a '`yellow-black`' gradient.
+Notice that when given a single color the second color will be either '`white`' or '`black`', whichever produces the larger color distance from the given color.
+As such, '`blue`' produces a '`blue-white`' gradient, while '`yellow`' generates a '`yellow-black`' gradient.
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Gradients cannot currently be specified at other angles or involving more than two colors.
-> However as this ability is in integral part of SVG gradients, this situation will likely change, with a major improvement in gradient options.
+> However, as this ability is an integral part of SVG gradients, this situation will likely change, with a major improvement in gradient options.
 >
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > "`gradient:`" currently does not understand non-RGB [Color Space](../color_basics/#colorspace) representations.
-> As such you can not use it to generate multi-color 'rainbow' gradients (using HSV space).
-> However you can 'fudge' such gradients relatively simply.
+> As such, you can not use it to generate multi-color 'rainbow' gradients (using HSV space).
+> However, you can 'fudge' such gradients relatively simply.
 > See [Gradients in other Colorspaces](#gradient_colorspace) below.
   
 Some particularly nice gradients include...
@@ -527,12 +527,12 @@ convert -size 10x120  gradient:darkcyan-snow      gradient_snow_scape.jpg
 [![\[IM Output\]](gradient_snow_scape.jpg)](gradient_snow_scape.jpg)
 
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
-> As of IM v6.3.1 the algorithm used to generate gradients now produce a perfect gradients, such that all the pixels of each row in an image being assigned the same color.
+> As of IM v6.3.1 the algorithm used to generate gradients now produces perfect gradients, such that all the pixels of each row in an image are assigned the same color.
 > That is one color per row.
 >
-> Before this version the "`gradient:`" operator worked by ignoring the width of the image, and just assigning the next increment of color, going row-by-row from top-left corner to the bottom-right of the image.
+> Before this version, the "`gradient:`" operator worked by ignoring the width of the image, and just assigning the next increment of color, going row-by-row from top-left corner to the bottom-right of the image.
 > 
-> As a result the gradient was a predominately vertical gradient, just as it is now, but not a perfect one.
+> As a result, the gradient was a predominantly vertical gradient, just as it is now, but not a perfect one.
 > Usually this fact was only important in special case such as test images, and for use in [Image Mapping](../mapping/#intro).
 
 ## Radial Gradients {#radial-gradient}
@@ -606,7 +606,7 @@ convert -size 100x100 gradient:none-black \
 
 You can create a non-linear gradient by applying some form of histogram adjustment to a linear gradient.
 
-For example you can use a [Sigmoidal Contrast](../color_mods/#sigmoidal) function to create a more natural looking gradient.
+For example, you can use a [Sigmoidal Contrast](../color_mods/#sigmoidal) function to create a more natural looking gradient.
 
 ~~~
 convert -size 100x100 gradient: -sigmoidal-contrast 6,50% \
@@ -616,6 +616,7 @@ convert -size 100x100 gradient: -sigmoidal-contrast 6,50% \
 [![\[IM Output\]](gradient_sigmoidal.jpg)](gradient_sigmoidal.jpg)
 
 This type of gradient is especially good for generating [Overlapping Photos](../photos/#overlap), as it removed the sharp gradient changes at the beginning of the overlapping region.
+
 ### Evaluate/Function Gradients {#gradient_functions}
 
 You can also use the [Evaluate Operator](../transform/#evaluate) and related [Function Operator](../transform/#function) to modify a simple linear gradient.
@@ -627,7 +628,7 @@ convert -size 100x100 gradient: -evaluate cos 0.5 -negate \
 
 [![\[IM Output\]](gradient_cosine.jpg)](gradient_cosine.jpg)
 
-Or take it a step further and make a smooth parabolic peek in the center of the linear gradient.
+Or take it a step further and make a smooth parabolic peak in the center of the linear gradient.
 
 ~~~
 convert -size 100x100 gradient: -function Polynomial -4,4,0 \
@@ -712,12 +713,12 @@ convert -size 100x100 gradient: -distort Arc '360 0 50 0' \
 
 [![\[IM Output\]](gradient_circle.jpg)](gradient_circle.jpg)
 
-Though the new "`radial-gradient:`" is probably the more simpler method for generating these gradients.
+Though the new "`radial-gradient:`" is probably the simpler method for generating these gradients.
 
-A very useful but harder to generate gradient is a polar angle gradient.
+A very useful, but harder to generate, gradient is a polar angle gradient.
 
 The exact form of this gradient depends on if the gradient should be centered on an even sized image, or an odd sized image.
-For example an [Arc Distort](../distorts/#arc) can be used to generate images with an even number of pixel dimensions, 76 pixels in this case.
+For example, an [Arc Distort](../distorts/#arc) can be used to generate images with an even number of pixel dimensions, 76 pixels in this case.
 
 ~~~
 convert -size 1x1000 gradient: -rotate 90 \
@@ -729,8 +730,8 @@ convert -size 1x1000 gradient: -rotate 90 \
 
 The '`-90`' in the above sets the angle for the 'discontinuity' where 'zero' and 'maximum' wraps around to the same value.
 The value '`50`' should be at more than 1/2 the size of the final cropped image.
-Note how I used a much longer graident to generate the smaller image.
-This improves the overall correctness of the result, especially as the image gets larger
+Note how I used a much longer gradient to generate the smaller image.
+This improves the overall correctness of the result, especially as the image gets larger.
 
 The closely related [Polar Distort](../distorts/#polar) can also generate such a gradient, but as it has a control over the exact position of the 'center' of the distortion you can ensure it correctly generates an odd pixel size polar gradient image.
 In this case a 75 pixel image (radius = '`36.5`' )
@@ -743,7 +744,7 @@ convert -size 1x1000 gradient: -rotate 90 \
 
 [![\[IM Output\]](gradient_angle_odd.png)](gradient_angle_odd.png)
 
-The last two images may seem very similar, except for thier size, but the handling of the center-most pixels is slightly different.
+The last two images may seem very similar, except for their size, but the handling of the center-most pixels is slightly different.
 If you look closely you will see that the last example has a perfect grey center pixel, where the previous example does not have a single center pixel, but four of them.
 
 The final size of the image was determined by the value '`36.5`' which is half of the '`75`' pixels wanted.
@@ -751,7 +752,7 @@ The '`.5`' offsets is the important aspect for correct handling of the polar cen
 
 Note that by default the distortion places the discontinuity at the top of the image, as such the [Transverse Warp](../warping/#transverse) corrects the angle and location of the discontinuity to match that produced by the [Arc Distort](../distorts/#arc).
 
-Here is a slightly different varient that generates an angular gradient but with a transparent circular mask.
+Here is a slightly different variant that generates an angular gradient but with a transparent circular mask.
 
 ~~~
 convert -size 50x1000 gradient: -rotate 90 -alpha set \
@@ -761,11 +762,11 @@ convert -size 50x1000 gradient: -rotate 90 -alpha set \
 
 [![\[IM Output\]](gradient_angle_masked.png)](gradient_angle_masked.png)
 
-The value '`49`' is the radius minus 1 as by default a distort adds a 1 pixel anti-aliasing buffer around the resulting image.
-As such final image is 100x100 pixels.
+The value '`49`' is the radius minus 1 as, by default, a distort adds a 1 pixel anti-aliasing buffer around the resulting image.
+As such, the final image is 100x100 pixels.
 
 Circular shapes and gradients can be warped to produce some interesting non-linear gradients.
-For example arcing it using a [Wave Distortion](../warping/#wave) can generate roughly triangular shaped gradient.
+For example, arcing it using a [Wave Distortion](../warping/#wave) can generate roughly triangular shaped gradient.
 
 ~~~
 convert -size 100x100 radial-gradient: \
@@ -775,7 +776,7 @@ convert -size 100x100 radial-gradient: \
 
 [![\[IM Output\]](gradient_triangle.jpg)](gradient_triangle.jpg)
 
-Or a very odd looking bird like shape, generated by polar distortion alonge the top edge of the circular shape.
+Or a very odd looking bird-like shape, generated by polar distortion alonge the top edge of the circular shape.
 
 ~~~
 convert -size 100x100 radial-gradient: \
@@ -788,7 +789,7 @@ convert -size 100x100 radial-gradient: \
 ### Gradients by Composition {#gradient_compose}
 
 You can also modify gradients by combining them using various composition methods.
-For example you can use the [Modulus\_Add](../compose/#modulus_add) compose method to produce venetian blind types of gradients.
+For example, you can use the [Modulus\_Add](../compose/#modulus_add) compose method to produce venetian blind types of gradients.
 
 ~~~
 convert -size 100x100 gradient: \( +clone +clone \) \
@@ -818,9 +819,10 @@ convert -size 100x100 gradient:yellow-blue \
 ~~~
 
 [![\[IM Output\]](gradient_colormap.jpg)](gradient_colormap.jpg)
+
 ### Gradients in other Colorspaces {#gradient_colorspace}
 
-While "`gradient:`" generator currently cannot generate gradients directly in some another [Color Spaces](../color_basics/#colorspace), (only RGB gradients are created) you can transfer gradients into a different color space to generate interesting effects.
+While the "`gradient:`" generator currently cannot generate gradients directly in some another [Color Spaces](../color_basics/#colorspace), (only RGB gradients are created) you can transfer gradients into a different color space to generate interesting effects.
 For example...
 
 ~~~
@@ -832,12 +834,12 @@ convert -size 30x600 xc:red -colorspace HSB \
 [![\[IM Output\]](gradient_rainbow.jpg)](gradient_rainbow.jpg)
 
 This first converts a highly saturated color ('`red`') into HSL colorspace.
-That correctly sets the images saturation and brightness channels to the appropriate values.
-After this a gradient is generated and copied into the 'red' (or 'hue') channel of out HSL colorspace image.
+That correctly sets the image's saturation and brightness channels to the appropriate values.
+After this a gradient is generated and copied into the 'red' (or 'hue') channel of our HSL colorspace image.
 And hey presto when we convert the HSL image back to RGB, we get a full rainbox of bright fully-saturated colors.
 
 Another method is to generate a gradient of just the right values for one of these colorspaces, then change the colorspace (using "`-set`") without changing those color values.
-now when we convert back to RGB we get the same rainbow of values.
+Now when we convert back to RGB we get the same rainbow of values.
 
 ~~~
 convert -size 30x600 gradient:'#FFF-#0FF' -rotate 90 \
@@ -870,7 +872,7 @@ One trick that was brought up on the [ImageMagick Mailing List](http://www.image
 The [Resize Operator](../resize/#resize) tries to smooth out enlarged images, to make them look better at the larger scale.
 It is this smoothing that we use to generate a non-linear gradient.
   
-For example here we generate the small image using a 'portable bitmap' (or PBM format) image and feed it into IM for enlargement.
+For example, here we generate the small image using a 'portable bitmap' (or PBM format) image and feed it into IM for enlargement.
 
 ~~~
 echo "P1 1 2   0  1 " | \
@@ -896,7 +898,7 @@ convert -size 1x2  gradient:khaki-tomato \
 
 [![\[IM Output\]](gradient_resize2.jpg)](gradient_resize2.jpg)
   
-Of course you are not limited to just a single dimension, with this technique.
+Of course, you are not limited to just a single dimension, with this technique.
 Here I use a four pixel 'portable greymap' (or PGM image format) to generate a 2-dimensional gradient.
 
 ~~~
@@ -942,7 +944,7 @@ convert xc:black xc:red xc:yellow xc:green1 xc:cyan xc:blue xc:black \
 
 [![\[IM Output\]](gradient_rs_rainbow.jpg)](gradient_rs_rainbow.jpg)
 
-With this method you can use any color combination and order for the gradients generation.
+With this method you can use any color combination and order for the gradient generation.
 This makes it very well suited to generating [Color Lookup Tables](../color_mods/#color_lut).
 
 ### Interpolated Lookup Gradients {#gradient_interpolate}
@@ -975,7 +977,7 @@ convert -size 30x600 gradient: -rotate 90 \
 
 [![\[IM Output\]](gradient_clut_recolored.jpg)](gradient_clut_recolored.jpg)
 
-Using this method also allows to to generate multi-colored gradients.
+Using this method also allows generation of multi-colored gradients.
 
 ~~~
 convert -size 30x600 gradient: -rotate 90  -interpolate Bicubic \
@@ -987,11 +989,11 @@ convert -size 30x600 gradient: -rotate 90  -interpolate Bicubic \
 
 The limitation however is that the colors can only be defined with equal spacing.
 You can not simply shift the position of the middle color, except by roughly modifying the input gradient to some non-linear form, so as to shift that center.
-For more than three color is situation becomes worse.
+For more than three colors, the situation becomes worse.
 
-The above is also a good technique for coloring greyscale images using [Duotones](../color_mods/#duotone), with a gurantee on exactly defining the mid-tone color (unlike using the [Tint Operator](../color_mods/#tint)).
+The above is also a good technique for coloring greyscale images using [Duotones](../color_mods/#duotone), with a guarantee on exactly defining the mid-tone color (unlike using the [Tint Operator](../color_mods/#tint)).
 
-Interpolated lookup gradients can also be expanded to 2 dimensions, and generate square linear gradients ([Bilinear Interpolation](../misc/#bilinear)), just as easily as purely one dimensions gradients.
+Interpolated lookup gradients can also be expanded to 2 dimensions, and generate square linear gradients ([Bilinear Interpolation](../misc/#bilinear)), just as easily as purely one dimensional gradients.
 
 ~~~
 convert \( xc:red xc:blue +append \) \
@@ -1041,14 +1043,14 @@ As the two diagonally opposite yellow corners are the same, a diagonal of yellow
 With the other colors linearly mapped to those triangles.
 If the two diagonal colors are not the same, you may get a different diagonal division.
 
-### Roll your own gradient {#gradient_fx}
+###Roll your own gradient {#gradient_fx}
 
 The [FX DIY Operator](../transform/#fx), lets you define your own gradients or other image generation, based on the current pixel position.
 
 As this operator requires an image to work with, you can generate your gradients or other images to match that image.
 That is you don't have to know the size of the image to generate a gradient for it!
 
-For example you can easily generate a linear gradient, sized correctly for the image you may be working on.
+For example, you can easily generate a linear gradient, sized correctly for the image you may be working on.
 
 ~~~
 convert  rose:  -channel G -fx 'i/w' -separate   gradient_fx_linear.gif
@@ -1134,8 +1136,8 @@ This last example can be generated faster by [Distorting a Gradient](#gradient_d
 
 ### More Complex DIY Gradients {#gradient_complex}
 
-Of course an FX function can generate color gradients.
-For example here is a gradient based on distance ratios, using an extremely complex FX expression.
+Of course, an FX function can generate color gradients.
+For example, here is a gradient based on distance ratios, using an extremely complex FX expression.
 
 ~~~
 convert -size 100x100 xc: +size xc:red xc:yellow \
@@ -1147,8 +1149,8 @@ convert -size 100x100 xc: +size xc:red xc:yellow \
 
 [![\[IM Output\]](gradient_dist_ratio.gif)](gradient_dist_ratio.gif)
 
-When going from two points to three points the ratio of how much color each 'control point' provides, is a bit more complex, and uses a technique called Inverse Distance Weighted (IDW) Interpolation.
-You can see more details math for this in [Wikipedia, IDW](http://en.wikipedia.org/wiki/Inverse_distance_weighting)
+When going from two points to three points the ratio of how much color each 'control point' provides, is a bit more complex, and uses a technique called *"Inverse Distance Weighted (IDW) Interpolation"*.
+You can see more details of the mathematics for this in [Wikipedia, IDW](http://en.wikipedia.org/wiki/Inverse_distance_weighting).
 
 Here is an inverse distance example for three points.
 
@@ -1163,7 +1165,7 @@ convert -size 100x100 xc: +size xc:red xc:yellow xc:lime \
 
 [![\[IM Output\]](gradient_inverse.gif)](gradient_inverse.gif)
 
-And here I use an inverse distance squared which is the more normal method used for a IDW interpolation.
+And here I use an inverse distance squared which is the more normal method used for an IDW interpolation.
 This is also known as Shepard's Interpolation method.
 
 ~~~
@@ -1180,7 +1182,7 @@ convert -size 100x100 xc: +size xc:red xc:yellow xc:lime \
 Note that the '`hypot()`' function was not used in the above as there is no need to generate a square root of the distance.
 
 The above has now been implemented using the [Sparse Color](#sparse-color) methods '`Inverse`' and '`Shepard's`'.
-As such the above can now be done far more simply using...
+As such, the above can now be done far more simply using...
 
 ~~~
 convert -size 100x100 xc: \
@@ -1193,16 +1195,16 @@ convert -size 100x100 xc: \
 
 [![\[IM Output\]](gradient_inverse_alt.gif)](gradient_inverse_alt.gif) [![\[IM Output\]](gradient_shepards_alt.gif)](gradient_shepards_alt.gif)
 
-The problem with using either 'Inverse Distance' or 'Shepard's Method' (inverse squared distance) is that all the 'control points' has a global effect over the whole image.
-As a result you get a sort of underlying 'average color' in between the points, and especially at a large distance from all control points.
+The problem with using either 'Inverse Distance' or 'Shepard's Method' (inverse squared distance) is that all the 'control points' have a global effect over the whole image.
+As a result, you get a sort of underlying 'average color' in between the points, and especially at a large distance from all control points.
 This, in turn, produces 'spots' of color rather than a smooth gradient of color.
 
 ### DIY Gradients and Hues {#gradient_complex_hues}
 
 -- (Hues are hard to deal with)
 
-The above works well but I wanted to try and to do better.
-I thought perhaps I could generate a bright rainbow gradient of colors between the points, rather than generating spots that merges into an average color.
+The above works well, but I wanted to try and do better.
+I thought perhaps I could generate a bright rainbow gradient of colors between the points, rather than generating spots that merge into an average color.
 
 So to generate a hue gradient, I tried to do the [Inverse Distance Weighted Interpolation](http://en.wikipedia.org/wiki/Inverse_distance_weighting) in HSB colorspace, though I switched the yellow to blue, to make the colors more equally spaced around the hue, and hopefully provide another way of generating a color wheel (see [Gradients in Other Colorspaces](#gradient_colorspace) above).
 
@@ -1217,15 +1219,15 @@ convert -size 100x100 xc: +size xc:red xc:blue xc:lime -colorspace HSB \
 
 [![\[IM Output\]](gradient_shepards_HSB.gif)](gradient_shepards_HSB.gif)
 
-As you can see all the colors were nice an bright as we are only generating a hue gradient.
-However it also appears very strange, which is caused by the 'cyclic' nature of the 'Hue' color channel.
-As a consequence the area between the blue and the red goes the long way round though a green hue, rather than that the shorter 'modulus' path via a purple hue.
+As you can see, all the colors were nice and bright as we are only generating a hue gradient.
+However, it also appears very strange, which is caused by the 'cyclic' nature of the 'Hue' color channel.
+As a consequence, the area between the blue and the red goes the long way round though a green hue, rather than that the shorter 'modulus' path via a purple hue.
 
 After much research I finally discovered how to do the modulus mathematics needed to do the above correctly by using a [Circular Mean](http://en.wikipedia.org/wiki/Circular_mean) for the weighted average of distances.
 
 This involves converting the Hue as a polar angle, into X and Y rectangular coordinates.
 That allows you to perform linear mathematics, letting us perform a linear weighting of the values, appropriately.
-The result is then then converting back into an angular Hue.
+The result is then then converted back into an angular Hue.
 
 ~~~
 convert -size 100x100 xc: +size xc:red xc:blue xc:lime \
@@ -1244,19 +1246,19 @@ convert -size 100x100 xc: +size xc:red xc:blue xc:lime \
 
 [![\[IM Output\]](gradient_circular_mean_hue.gif)](gradient_circular_mean_hue.gif)
 
-NOTE: The above only performed its operations on the hue channel only.
-For real image, we would still need to operate (as normal) on saturation and brilliance channels.
+NOTE: The above performs its operations on the hue channel only.
+For real images, we would still need to operate (as normal) on saturation and brilliance channels.
 
-As you can see we now get a correct gradient between the red and blue, though the method when applied to just primary colors that have a high angular separation, tends to generate very sudden gradient changes in the middle.
-That is while the result is correct the angular hue variation is not linear for very large changes in hue effects.
-It would work well for averaging lots of near hues, but not for these widely spaced primaries.
+As you can see, we now get a correct gradient between the red and blue, though the method when applied to just primary colors that have a high angular separation, tends to generate very sudden gradient changes in the middle.
+That is, while the result is correct, the angular hue variation is not linear for very large changes in hue.
+It would work well for averaging lots of closely spaced hues, but not for these widely spaced primaries.
 
 I even switched to using a stronger 'Inverse Weighting' rather than the more usual 'Inverse Squared' or 'Shepard's' method (see above) and while it improved things, the hue changes were still compressing in the center due to the non-linear effects.
 
 As the input colors are constant, pre-converting them into hue-x, and hue-y coordinates, doing the shepard's weighting on those channels, then converting back again would actually make the process even faster.
-That is convert colors from a HSB colorspace to a Hx,Hy,S,B colorspace, to apply the technique.
+That is, convert colors from a HSB colorspace to a Hx,Hy,S,B colorspace, to apply the technique.
 
-If this is done, then central point and even gradient between the points, would shade to white (the center point of a HSB colorspace).
+If this is done, the central point and even gradients between the points, would shade to white (the center point of a HSB colorspace).
 If this was performed in HSL colorspace that area would shade toward a mid-tone gray.
 
 This conversion from a polar Hue to X-Y coordinates would in some ways be similar to just doing the calculations in a non-polar RGB space, which shows that same shade toward gray effects (see previous examples).
@@ -1275,7 +1277,7 @@ convert gradient_inverse_RGB.png -colorspace HSB \
 [![\[IM Output\]](gradient_inverse_RGB.png)](gradient_inverse_RGB.png) ![=&gt;](../img_www/right.gif) [![\[IM Output\]](gradient_inverse_RGB_Hue.gif)](gradient_inverse_RGB_Hue.gif)
 
 As you can see we get practically exactly the same result as before, but with all the complex 'modulus mathematics' removed.
-However I am still no closer to getting a more linear spread of hues between the starting points of color.
+However, I am still no closer to getting a more linear spread of hues between the starting points of color.
 
 The moral of all this is that working with Hues is hard, not only due to the 'red discontinuity', but also because of non-linear effects that happen when colors are very widely spaced.
 And in the end the result was the same as if I have done the task directly linear RGB space and saturating the colors.
@@ -1297,7 +1299,7 @@ That is of the form...
 -sparse-color {method}  'x,y color   x,y color   x,y color ...'
 ~~~
 
-The rest of the pixels (limited according to the "`-channel`" setting) will then be mapped according to there relation to these isolated points of color, so as to smooth out the colors between those points.
+The rest of the pixels (limited according to the "`-channel`" setting) will then be mapped according to their relation to these isolated points of color, so as to smooth out the colors between those points.
 The *method* defines what that relationship will be.
 
 Naturally there are lots of ways to define what the intervening color should be, and which method you choose really depends on what you are attempting to achieve.
@@ -1305,15 +1307,15 @@ Naturally there are lots of ways to define what the intervening color should be,
 It can also actually be classed as a completely free-form version of 2-dimensional interpolation (See [Interpolation, Wikipedia](http://en.wikipedia.org/wiki/Interpolation)).
 
 Image enlargement, or [Resize](../resize/#resize) is actually a specialized sub-set of this, but one where you start with a complete fixed grid of pixels to be enlarged.
-Unfortunately few of the [Resize Filters](../filter/#filter) or [Interpolate Methods](../misc/#interpolate) that are specifically designed to dealing with a grid of points, will translate directly into a free form set of sparsely separated points of color.
+Unfortunately, few of the [Resize Filters](../filter/#filter) or [Interpolate Methods](../misc/#interpolate) that are specifically designed to deal with a grid of points, will translate directly into a free-form set of sparsely separated points of color.
 
-That is to say resize involving incolplete grid just does not work.
+That is to say, resize involving an incomplete grid just does not work.
 
 This is also related to "Geographical Information System (GIS)" methods where landscapes are measured using sparsely separated points of height (which are rarely in a strict grid), with the the rest of the landscape being determined from those isolated points.
-In a similar situation meteorology often has isolated points of air pressure and temperature, which then needs to be interpolated.
-Typically after interpolation the maps are further processed to generate 'iso-lines' showing points of equal value (height, pressure, temperature), producing the various weather maps almost everyone are familiar with.
+In a similar vein, meteorology often has isolated points of air pressure and temperature, which then need to be interpolated.
+Typically, after interpolation, the maps are further processed to generate 'iso-lines' showing points of equal value (height, pressure, temperature), producing the various weather maps almost everyone is familiar with.
 
-In this case you would think of the generated image as being a simple gray-scale 'height map' of the input data, or perhaps even of all three variables simultaneously, each to a separate image 'channel'.
+In this case, you would think of the generated image as being a simple gray-scale 'height map' of the input data, or perhaps even of all three variables simultaneously, each to a separate image 'channel'.
 
 ### Barycentric (triangle gradient) {#barycentric}
 
@@ -1331,12 +1333,12 @@ convert -size 100x100 xc: -sparse-color  Barycentric \
 
 [![\[IM Output\]](sparse_barycentric.png)](sparse_barycentric.png)
 
-If four or more points are given a 'best fit' will be performed, over all the points given, and as a result the actual points may not get the exact color specified for those points.
+If four or more points are given, a 'best fit' will be performed, over all the points, and as a result, the actual points may not get the exact color specified for those points.
 
-However be warned that the gradient does not just 'stop' but continues to change beyond those points.
-Traditionally a barycentric gradient will be limited to within the enveloping triangle of the points used to generate it.
+However, be warned that the gradient does not just 'stop' but continues to change beyond those points.
+Traditionally, a barycentric gradient will be limited to within the enveloping triangle of the points used to generate it.
 
-For example..
+For example...
 
 ~~~
 convert -size 100x100 xc: \
@@ -1365,10 +1367,10 @@ convert -size 100x100 xc:none -draw "polygon 30,10  10,80  90,90" \
 > ![](../img_www/expert.gif)![](../img_www/space.gif)
 > The triangular masks used above are 1/2 pixel too big due to the way draw draws an extra line around its shapes.
 > See [Draw Fill Bounds](../draw/#bounds") for details.
-> This could be a problem when generating a generating a triangular mesh of gradients.
+> This could be a problem when generating a triangular mesh of gradients.
 
-The '`barycentric`' method is in reality a mapping of a linear affine equation to each of the three color channels separately.
-As such if I separate each of the color channels of the above three point example, you get three simple linear gradients in each color channel.
+The '`barycentric`' method is, in reality, a mapping of a linear affine equation to each of the three color channels separately.
+As such, if I separate each of the color channels of the above three point example, you get three simple linear gradients in each color channel.
 
 ~~~
 convert sparse_barycentric.png -separate sparse_bary_%d.gif
@@ -1385,7 +1387,7 @@ But you will always get a simple linear gradient in each separate channel of the
 This parallel effect of the triangular barycentric gradient is actually very useful.
 If two of the points were set to the same color, then those to points will define the 'angle' of the gradient between them and the other colored point.
 
-For example by making two of the points '`red`' the gradient will be made parallel to the two '`red`' points...
+For example, by making two of the points '`red`' the gradient will be made parallel to the two '`red`' points...
 
 ~~~
 convert -size 100x100 xc: -sparse-color  Barycentric \
@@ -1413,7 +1415,7 @@ convert -size 100x100 xc: -sparse-color  Barycentric \
 
 This provides a simple way of generating any linear diagonal gradient using just two colors.
 
-For example here is a particularly nice way of creating a diagonal gradient, going from one corner to another corner, for ANY sized input image.
+For example, here is a particularly nice way of creating a diagonal gradient, going from one corner to another corner, for ANY sized input image.
 
 ~~~
 convert -size 600x60 xc: -sparse-color barycentric \
@@ -1454,10 +1456,10 @@ convert -size 100x100 xc: -sparse-color  Barycentric \
 
 #### Generating the Perfect Gradient {#perfect_gradients}
 
-Generating perfect mathematical gradient (such as for [Fourier Transforms](../fourier/), Mathematical Tiling, or [Image Mapping](../mapping/#distort), requires special gradients that is different to the gradients we have so far looked at.
+Generating perfect mathematical gradients (such as for [Fourier Transforms](../fourier/), Mathematical Tiling, or [Image Mapping](../mapping/#distort), requires special gradients that are different from the gradients we have so far looked at.
   
 What do I mean by this?
-Well here is a small 1x5 pixel "`gradient:`" image, that I have [Scaled](../resize/#scale) so you can see the individual pixel colors.
+Well, here is a small 1x5 pixel "`gradient:`" image, that I have [Scaled](../resize/#scale) so you can see the individual pixel colors.
 
 ~~~
 convert  -size 1x5 gradient:  -scale 2000% gradient.png
@@ -1465,8 +1467,8 @@ convert  -size 1x5 gradient:  -scale 2000% gradient.png
 
 [![\[IM Output\]](gradient.png)](gradient.png)
 
-This image creates a gradient that goes from an exact 'white' color along the very top row, to an exact 'black' color along the bottom most row.
-It is an 'idealized' gradient, and typically exactly what a user wants, as it actually contains the actual colors the user specified.
+This image creates a gradient that goes from an exact 'white' color along the very top row, to an exact 'black' color along the bottom row.
+It is an 'idealized' gradient, and typically exactly what a user wants, as it contains the actual colors the user specified.
 
 Here I generate the [Barycentric Sparse Color](#barycentric) gradient that is exactly the same.
 
@@ -1479,25 +1481,25 @@ convert -size 1x5 xc: \
 [![\[IM Output\]](gradient_equiv.png)](gradient_equiv.png)
 
 Note that the black (bottom-most) pixel location is one pixel shorter than the number of pixels in the image.
-That is because pixel positions start at zero (0), and one.
+That is because pixel positions start at zero (0), and not one.
 
-What is more important about this example is that [Sparse Color](#sparse-color) uses Pixel Coordinates for determinaing the color of each pixel in the image.
-The [Draw Operator also uses pixel coodinates](../draw/), so the 'circle markers' I am using in previous examples is aligned properly with the color control points I used.
+What is more important about this example is that [Sparse Color](#sparse-color) uses Pixel Coordinates for determining the color of each pixel in the image.
+The [Draw Operator also uses pixel coordinates](../draw/), so the 'circle markers' I am using in previous examples are aligned properly with the color control points I used.
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Note that [Distort](../distort/#distort), uses image coordinates, and not pixel coordinates (see [Image Coordinates vs Pixel Coordinates](../distorts/#control_coordinates)).
-> So while sparse-color and distort have internally shared code, the corresponding control points are shufted by 1/2 a pixel.
+> So while sparse-color and distort have internally shared code, the corresponding control points are shifted by 1/2 a pixel.
 
 While pixel coordinates for [Sparse Color](#sparse-color) is what most users expect, when they specify a 'pixel' as being a speific color, mathematically it is not correct.
 
 The location of a 'pixel' is not exactly on the 'edge' of an image.
-That is pixels have an 'area', and in pixel coordinated you are specifing a location in the center of the area the pixel occupies.
+That is pixels have an 'area', and in pixel coordinates you are specifing a location in the center of the area the pixel occupies.
 
 Mathematically images start at the edge.
 As such to generate a perfect mathematical gradient, you need to specify the color locations at the edge of the image, in pixel coordinates.
-As such in image coordinates, the positions are displaced by 1/2 a pixel, and the image size is exactly the the number of pixels in the image (a distance), rather than a llocation that is 1 pixel smaller that the images size.
+As such in image coordinates, the positions are displaced by 1/2 a pixel, and the image size is exactly the the number of pixels in the image (a distance), rather than a location that is 1 pixel smaller than the image's size.
 
-That means the top coodinate needs to be 1/2 pixel smaller, and the bottom pixel coordinate 1/2 a pixle larger.
+That means the top coordinate needs to be 1/2 pixel smaller, and the bottom pixel coordinate 1/2 a pixel larger.
 
 So here is a perfect mathematical gradient, placing colors on the actual image edge using pixel coodinates.
 
@@ -1509,8 +1511,8 @@ convert -size 1x5 xc: \
 
 [![\[IM Output\]](gradient_math.png)](gradient_math.png)
 
-If you were to look closely at this image you will find that the top and bottom most pixels are *not white or black in color*.
-The pixel is the color of the gradent at the pixels center, and that center is not aligned to the edge of the image, so are mathematically not exactly white or black.
+If you were to look closely at this image you will find that the top and bottom pixels are *not white or black in color*.
+The pixel is the color of the gradent at the pixel's center, and that center is not aligned to the edge of the image, so are mathematically not exactly white or black.
 
 Because this gradient is mathematically correct, this gradient will 'tile' correctly when used in special 'tiling' or 'cyclic' situations.
 
@@ -1537,9 +1539,9 @@ convert -size 1x6 gradient: -chop 0x1 -scale 2000%  gradient_chopped.png
 
 [![\[IM Output\]](gradient_chopped.png)](gradient_chopped.png)
 
-**In summary...** A little thought about exactly what you want from your gradient can make a big difference in the accuracy of your final results.
+**In summary...** a little thought about exactly what you want from your gradient can make a big difference in the accuracy of your final results.
 
-But if it does not matter, than don't worry about it, use whatever is simplest for the task at hand.
+But if it does not matter, then don't worry about it, use whatever is simplest for the task at hand.
 
 ### Bilinear (4 point gradient) {#bilinear}
 
@@ -1568,8 +1570,8 @@ Note how the equation produces curves (quadratic curves actually).
 However if the 4 points form parallel lines, the gradient generated will become linear.
 This method is actually equivalent to the [Bilinear Interpolation](../misc/#bilinear) method (see [Interpolated Lookup Gradients](#gradient_interpolate) below), when the 4 points are aligned to an orthogonal (rectangular) grid.
 
-If less than 4 points are given the above function will be replaced by a 3 point '`Barycentric`' method (see above).
-If more than four points are given it will do a best fit of all the points, and thus may not actually match the given color at the point specified.
+If less than 4 points are given, the above function will be replaced by a 3 point '`Barycentric`' method (see above).
+If more than four points are given, it will do a best fit of all the points, and thus may not actually match the given color at the point specified.
 This is not recommended.
 
 ### Voronoi (nearest color) {#voronoi}
@@ -1595,8 +1597,8 @@ The edge of each cell actually falls exactly midway between each point's nearest
 This can be used for example to generate masks to cut up the image in various ways.
 Just assign one point as white and all the rest as black to extract one single 'cell' from the image.
 
-If you want to smooth (anti-alias) the result you can either use some form of [Super Sampling](../distorts/#super_sampling) to smooth the image.
-For example generate one 4 times as big, and "`-scale`" it back to the desired size.
+If you want to smooth (anti-alias) the result, you can either use some form of [Super Sampling](../distorts/#super_sampling) to smooth the image.
+For example, generate one 4 times as big, and "`-scale`" it back to the desired size.
 
 ~~~
 convert -size 400x400 xc: -sparse-color  Voronoi \
@@ -1622,7 +1624,7 @@ convert -size 100x100 xc: -sparse-color  Voronoi \
 
 [![\[IM Output\]](sparse_voronoi_smoothed.png)](sparse_voronoi_smoothed.png)
 
-By blurring generated image by a large amount you can set up some non-linear gradients between the 'cells' that was generated.
+By blurring the generated image by a large amount you can set up some non-linear gradients between the 'cells' that were generated.
 
 ~~~
 convert -size 100x100 xc: -sparse-color  Voronoi \
@@ -1636,7 +1638,7 @@ convert -size 100x100 xc: -sparse-color  Voronoi \
 [![\[IM Output\]](sparse_voronoi_blur.png)](sparse_voronoi_blur.png)
 
 The larger the "`-blur`", the larger the gradient between the various 'cells'.
-However be warned that this may not preserve small colored cells, or ensure the original point remains the color that was given, if it is close to the edge (and another point) of a different color.
+However, be warned that this may not preserve small colored cells, or ensure the original point remains the color that was given, if it is close to the edge (and another point) of a different color.
 
 By using a special 'linear blur' technique, developed by Fred Weinhaus, you can produce a fixed width linear gradient between the cells.
 
@@ -1674,10 +1676,10 @@ convert -size 100x100 xc: -sparse-color  Shepards \
 
 [![\[IM Output\]](sparse_shepards.png)](sparse_shepards.png)
 
-By surrounding a specific area with a similar color you can generate a plateau of that specific color, though the boundaries between the edging points may 'leak', and the center of the 'plateau' may sag to form shallow bowl (depending on distance to other color points).
+By surrounding a specific area with a similar color, you can generate a plateau of that specific color, though the boundaries between the edging points may 'leak', and the center of the 'plateau' may sag to form shallow bowls (depending on distance to other color points).
 
 This method is also what is used to generate a displacement field, such as what is used in [Shepards Image Distortions](../distorts/#shepards).
-In that case X and Y displacement vectors is what is being mapped rather than color R,G,B values.
+In that case, X and Y displacement vectors are what are being mapped rather than color R,G,B values.
 
 ### Inverse (sharp points of color) {#inverse}
 
@@ -1699,14 +1701,13 @@ convert -size 100x100 xc: -sparse-color  Inverse \
 
 [![\[IM Output\]](sparse_inverse.png)](sparse_inverse.png)
 
-As you can see it generates sharp points of color, that quickly merges into the background 'average color'.
-In comparision to [Shepards Method](#shepards) which generates rounded spots, with a 'flat' color around the color points.
+As you can see it generates sharp points of color, that quickly merge into the background 'average color' - in conmtrast to [Shepards Method](#shepards) which generates rounded spots, with a 'flat' color around the color points.
 
-It does however work better when generating linear gradients where all the control points form a line.
-That is for generating 1 dimentional gradients along a specific line in the image.
+It does, however, work better when generating linear gradients where all the control points form a line.
+That is, for generating 1 dimensional gradients along a specific line in the image.
 
-However there is one more point to be made.
-The speed of how fast these points of color drops to a near 'average' level is controlled my how close they are.
+However, there is one more point to be made.
+The speed of how fast these points of color drop to a near 'average' level is controlled by how close they are.
 Placing two point sources close together, and they drop quickly, the further apart they are and the larger individual colors influence results.
 
 ~~~
@@ -1734,7 +1735,7 @@ convert -size 100x100 xc: -sparse-color Inverse \
 
 [![\[IM Output\]](sparse_inverse_stronger.png)](sparse_inverse_stronger.png)
 
-These effects also applies to '`Shepards`' method too!
+These effects apply to '`Shepards`' method too!
 
 ### Shepards Power Factor {#shepards_power}
 
@@ -1742,28 +1743,28 @@ Both the [Shepards](#shepards) and [Inverse](#inverse) sparse color methods are 
 (2.0 and 1.0 respectiavally).
 As of IM v6.8.0-10, you can set this power level using an operational [define](../basics/#define), '`shepards:power`', which will be used by the '`Shepards`' method.
 
-For example
+For example...
 
 ~~~
-  convert -size 100x100 xc: -define shepards:power=0.5 \
+convert -size 100x100 xc: -define shepards:power=0.5 \
      -sparse-color Shepards '30,10 red  10,80 blue  70,60 lime  80,20 yellow' \
      -fill white -stroke black \
      -draw 'circle 30,10 30,12  circle 10,80 10,82' \
      -draw 'circle 70,60 70,62  circle 80,20 80,22' \
      sparse_shepards_pow0.5.png
-  convert -size 100x100 xc: -define shepards:power=1 \
+convert -size 100x100 xc: -define shepards:power=1 \
      -sparse-color Shepards '30,10 red  10,80 blue  70,60 lime  80,20 yellow' \
      -fill white -stroke black \
      -draw 'circle 30,10 30,12  circle 10,80 10,82' \
      -draw 'circle 70,60 70,62  circle 80,20 80,22' \
      sparse_shepards_pow1.png
-  convert -size 100x100 xc: -define shepards:power=2 \
+convert -size 100x100 xc: -define shepards:power=2 \
      -sparse-color Shepards '30,10 red  10,80 blue  70,60 lime  80,20 yellow' \
      -fill white -stroke black \
      -draw 'circle 30,10 30,12  circle 10,80 10,82' \
      -draw 'circle 70,60 70,62  circle 80,20 80,22' \
      sparse_shepards_pow2.png
-  convert -size 100x100 xc: -define shepards:power=3 \
+convert -size 100x100 xc: -define shepards:power=3 \
      -sparse-color Shepards '30,10 red  10,80 blue  70,60 lime  80,20 yellow' \
      -fill white -stroke black \
      -draw 'circle 30,10 30,12  circle 10,80 10,82' \
@@ -1794,11 +1795,11 @@ power 3.0
 [![\[IM Output\]](sparse_shepards_pow8.png)](sparse_shepards_pow8.png)  
 power 8.0
 
-As you can see the 'spots of color' expand from very sharp points, to rounded spots, and on to large areas of color.
+As you can see, the 'spots of color' expand from very sharp points, to rounded spots, and on to large areas of color.
 At very high power levels it will eventually reproduce the same pattern as a [Voronoi Sparse Color Method](#voronoi).
 
-This define not only effects [Shepards Sparse Color](#shepards), but also will have similar effects on [Shepards Distortion Method](../distorts/#shepards) which is based on displacement maps generated by the sparse color method.
-However it does not effect the [Inverse](#inverse) sparse color method, which always uses a power-level of 1.0.
+This define not only affects [Shepards Sparse Color](#shepards), but also will have similar effects on [Shepards Distortion Method](../distorts/#shepards) which is based on displacement maps generated by the sparse color method.
+However, it does not affect the [Inverse](#inverse) sparse color method, which always uses a power-level of 1.0.
 
 ### Summary of Sparse Color Methods {#sparse_summary}
 
@@ -1817,7 +1818,8 @@ Shepards
 Inverse
   
 [![\[IM Output\]](sparse_bilinear.png)](sparse_bilinear.png)  
-Bilinear
+Bilinear  
+
 And here is a summary of the various, 3 point methods.
   
 [![\[IM Output\]](sparse_voronoi_3.gif)](sparse_voronoi_3.gif)  
@@ -1842,10 +1844,10 @@ If you have any ideas mail them to me.*
 
 ### Channel and Sparse Color {#sparse_channel}
 
-The "`-sparse-color`" operator is effected by the "`-channel`" setting which means you can use that setting to limit its effects to just a single channel, or expand it to the transparency channel.
+The "`-sparse-color`" operator is affected by the "`-channel`" setting which means you can use that setting to limit its effects to just a single channel, or expand it to the transparency channel.
 
 You can also use the "`-channel`" setting to speed up processing of gray-scale images by only operating on one channel, then "`-separate`" that channel (see [Channel Handling](../color_basics/#channel) for more detail).
-For example..
+For example...
 
 ~~~
 convert -size 100x100 xc: -channel G -sparse-color Shepards \
@@ -1858,9 +1860,9 @@ convert -size 100x100 xc: -channel G -sparse-color Shepards \
 
 [![\[IM Output\]](sparse_shepards_gray.gif)](sparse_shepards_gray.gif)
 
-As of IM v6.6.8-5 unmodified channels is preserved, as such you can now use [Sparse Color](#sparse-color) with the "`-channel`" setting to add a transparent gradient to any image, quickly and easily.
+As of IM v6.6.8-5 unmodified channels are preserved, as such, you can now use [Sparse Color](#sparse-color) with the "`-channel`" setting to add a transparent gradient to any image, quickly and easily.
 
-For example here I add a transparent [Diagonal Gradient](#diagonal_gradient), that is aligned so that 50% transparency is along the diagonal of the built-in "`rose:` image.
+For example, here I add a transparent [Diagonal Gradient](#diagonal_gradient), that is aligned so that 50% transparency is along the diagonal of the built-in "`rose:` image.
 
 ~~~
 convert rose: -alpha set -channel A \
@@ -1879,12 +1881,12 @@ convert rose: -alpha set -channel A \
 >
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > 
-> Before IM v6.6.8-5 any channels not selected by the "`-channel`" setting was reset to zero (black) values.
-> This severely limited its effective usefulness
+> Before IM v6.6.8-5 any channels not selected by the "`-channel`" setting were reset to zero (black) values.
+> This severely limited its effective usefulness.
 
 [Sparse Color](#sparse-color) also accepts normalized floating point values instead of a color name.
 Exactly how many values need to be provided to replace the color name depends on the current "`-channel`" setting, and whether that channel is 'active' in the image being processed.
-The easiest way is to limited the processing to a single channel.
+The easiest way is to limit the processing to a single channel.
 Also note that when using raw numbers, rather than color names, transparency values are 'matte' values (0=opaque) and not 'alpha' values (1=opaque) (for IMv6).
 
 As such in the above I could have used numbers instead of color names...
@@ -1899,8 +1901,8 @@ This may be easier to handle in programmed scripts, and in API's, which may not 
 
 One of the original reasons for creating the [Sparse Color Operator](#sparse-color), was so that you could give an image containing just a small number of fixed points of color, and from this 'fill-in' the rest of the undefined colors.
 
-For example here I have drawn a small number of pixels.
-The "`+antialias`" setting was specifically turned off so no semi-transparent, or mixed colors have been drawn, as such the image only contains the four exact colors specified an no others.
+For example, here I have drawn a small number of pixels.
+The "`+antialias`" setting was specifically turned off so no semi-transparent, or mixed colors have been drawn, as such the image only contains the four exact colors specified and no others.
 
 ~~~
 convert -size 100x100 xc:none +antialias -fill none -strokewidth 0.5 \
@@ -1926,10 +1928,9 @@ convert sparse_source.gif txt:- |\
 The "`sed`" command in the above takes the [Enumerated Text File Format](../files/#txt), deletes the first header line and any line containing transparency, before re-formating it into a list of pixel coordinates and colors.
 That list is then 'pipelined' into the [Sparse Color Operator](#sparse-color) using the special "`@-`" argument.
 
-Yes the above is very tricky, but works.
-At least for a very small number of points.
-However the more points that are provided, the slower the operation becomes.
-This is because [Sparse Color](#sparse-color) is 'point' orientated in its provessing, rather than image or [Morphology](../morphology) orientated.
+Yes, the above is very tricky, but works; at least for a very small number of points.
+However, the more points that are provided, the slower the operation becomes.
+This is because [Sparse Color](#sparse-color) is 'point' orientated in its processing, rather than image or [Morphology](../morphology) orientated.
 
 Eventually I hope to be able to provide a set of morphology orientated, 'hole-filling' methods, where you can just give the above image as-is and have it fill in the transparent areas automatically.
 
@@ -1948,7 +1949,7 @@ convert shape_edge_in_lights.png shape.gif -composite shape_in_lights.png
 [![\[IM Output\]](shape.gif)](shape.gif) ![=&gt;](../img_www/right.gif) [![\[IM Output\]](shape_edge_pixels.gif)](shape_edge_pixels.gif) ![=&gt;](../img_www/right.gif) [![\[IM Output\]](shape_edge_in_lights.png)](shape_edge_in_lights.png) ![=&gt;](../img_www/right.gif) [![\[IM Output\]](shape_in_lights.png)](shape_in_lights.png)
 
 Note that the resulting image is exactly the same as the input, but with the transparent background replaced with a distance blurred 'edge colors'.
-this is why the edges of the image have become in-distinct.
+This is why the edges of the image have become in-distinct.
 
 This image was specifically developed to try and generate better 'edge feathering' techniques.
 See [Blur Feathering](../blur/#feathering) and [Distance Feathering](../morphology/#distance_feather) for other feathering techniques.
@@ -1956,7 +1957,7 @@ See [Blur Feathering](../blur/#feathering) and [Distance Feathering](../morpholo
 ### Sparse Color Shepards, a Blur Alternative {#sparse_blur}
 
 One alternative to using "`-sparse-color`" is to take the image of pixels on a transparent background, and [Blur](../blur/#blur) it.
-Afterward the transparency is junked.
+Afterwards the transparency is junked.
 
 ~~~
 convert sparse_source.gif   -channel RGBA -blur 0x15 \
@@ -1965,11 +1966,11 @@ convert sparse_source.gif   -channel RGBA -blur 0x15 \
 
 [![\[IM Output\]](sparse_source.gif)](sparse_source.gif) ![=&gt;](../img_www/right.gif) [![\[IM Output\]](sparse_blur_simple.png)](sparse_blur_simple.png)
 
-The problem with this is that the original colors not preserved, and you also have the problem of exact what '*sigma*' value should be used.
+The problem with this is that the original colors not preserved, and you also have the problem of exactly what '*sigma*' value should be used.
 
 Also it does not take into account just now 'near' each color is, as such two colored pixels close together (less than the '*sigma*' value) will swamp each other, and become blurred together.
 
-A better method is to generate multiple layers of blurred images with progressivally smaller '*sigma*' values, and the original unblurred image on top.
+A better method is to generate multiple layers of blurred images with progressivelly smaller '*sigma*' values, and the original unblurred image on top.
 
 ~~~
 for sigma in  64 32 16 8 4 2 1 0;  do
@@ -1984,7 +1985,7 @@ done |
 This layered blurring technique is equivalent to the result of a '`Shepards`' method on the same image, though not as exact, it is very close.
 However it is likely to be much faster when a lot of input pixels are involved, as it is image (morphology) oriented, rather than calculating using individual points.
 
-An other layered blur method is to use [Resize](../resize/#resize) to generate a 'pyramid' of blurred images.
+Another layered blur method is to use [Resize](../resize/#resize) to generate a 'pyramid' of blurred images.
 This technique is detailed in [Large Blurs using Resize](../blur/#blur_resize).
 
 ~~~
@@ -2006,10 +2007,10 @@ This will work very fast with very large images without needing large '*sigma*' 
 
 Essentially it is using a faster image resizing technique to generate the blurred layers of the previous example.
 It is not as exact, but will generate a good approximation of the correct result.
-However it works best for images which are a square, and a power of two in size, or it will be less accurite.
+However, it works best for images which are a square, and a power of two in size, or it will be less accurate.
 
-The special operator "`-layers RemoveDups`" in the above will remove any extra 'single average pixel' images that was generated, by the multiple 'clone-resize' operations.
-The images are then resize back to the original size using a [Gaussian Resize Filter](../filter/#gaussian) (the equivalent to a blur).
+The special operator "`-layers RemoveDups`" in the above will remove any extra 'single average pixel' images that was generated, by the multiple '+clone -resize' operations.
+The images are then resized back to the original size using a [Gaussian Resize Filter](../filter/#gaussian) (the equivalent to a blur).
 The image order is then reversed so as to place the original on top, and the more blurry layers underneath, before flattening together as before.
 
 It has the advantage of only needing to read the image once, doing all the work in a single command.
@@ -2022,7 +2023,7 @@ The extra and useless 'resized image layers' are then dealt with automatically u
 The only real problem is the posibility of the resized images becoming 'out of sync' when handling an image that is not a power-of-two in size.
 How severe this problem is is not known, but shouldn't be too great, as those images are also the most blurred.
 
-Of course it still has the 'leakage' problem of the '`Shepards`' method, so lets look at this problem in more detail.
+Of course, it still has the 'leakage' problem of the '`Shepards`' method, so let's look at this problem in more detail.
 
 ### Shepards Method 'Leaks' {#shepards_leakage}
 
@@ -2051,7 +2052,7 @@ convert sparse_lines_near_source.gif txt:- |\
 
 [![\[IM Output\]](sparse_lines_near.png)](sparse_lines_near.png)
 
-This leakage of colors is the main problem with using [Shepards Method](#shepards) for 'hole filling' especially when multiple holes are involved, as the colors involved with one hole, can and will leak into and effect the colors in a completely different hole.
+This leakage of colors is the main problem with using [Shepards Method](#shepards) for 'hole filling' especially when multiple holes are involved, as the colors involved with one hole, can and will leak into and affect the colors in a completely different hole.
 And visa-versa.
 
 It is an understanding of boundaries that forms the difference between [Shepards Method](#shepards), and another form of color 'hole-filling' known as '*Color Diffusion*'.
@@ -2074,8 +2075,8 @@ While gradients provide a smooth range of colors, another image creation operato
 One that is ideally suited to generating a random backdrop of color for your images.
 
 First of all I should point out that "`plasma:`" is a randomized image.
-As such it can and will produce a different image every time it is run.
-For example here we generate three separate 'standard' plasma images, and each image is different from each other, even though the same command was used to generate them.
+As such, it can, and will, produce a different image every time it is run.
+For example, here we generate three separate 'standard' plasma images, and each image is different from each other, even though the same command was used to generate them.
 
 ~~~
 convert -size 100x100  plasma:  plasma1.jpg
@@ -2085,9 +2086,9 @@ convert -size 100x100  plasma:  plasma3.jpg
 
 [![\[IM Output\]](plasma1.jpg)](plasma1.jpg) [![\[IM Output\]](plasma2.jpg)](plasma2.jpg) [![\[IM Output\]](plasma3.jpg)](plasma3.jpg)
 
-You can also see that plasma images are also a type of randomized gradient of colors, and like "`gradient:`" started with white at the top and black at the bottom.
+You can see that plasma images are also a type of randomized gradient of colors, and like "`gradient:`" started with white at the top and black at the bottom.
 
-What isn't well document is that you can specify color for the plasma gradient in the exact same way as you can for linear gradients above.
+What isn't well documented is that you can specify color for the plasma gradient in the exact same way as you can for linear gradients above.
 
 ~~~
 convert -size 100x100  plasma:blue              plasma_range1.jpg
@@ -2115,7 +2116,7 @@ convert -size 100x100  plasma:steelblue-steelblue  plasma_steelblue.jpg
 
 [![\[IM Output\]](plasma_black.jpg)](plasma_black.jpg) [![\[IM Output\]](plasma_grey.jpg)](plasma_grey.jpg) [![\[IM Output\]](plasma_white.jpg)](plasma_white.jpg) [![\[IM Output\]](plasma_yellow.jpg)](plasma_yellow.jpg) [![\[IM Output\]](plasma_tomato.jpg)](plasma_tomato.jpg) [![\[IM Output\]](plasma_steelblue.jpg)](plasma_steelblue.jpg)
 
-Again as you can see, mid-tone colors will generate more varieties of color in the resulting image, than an extreme color, like black, white, or yellow.
+Again as you can see, mid-tone colors will generate more varieties of color in the resulting image, than extreme colors, like black, white, or yellow.
 
 The '`grey`' plasma in the above is particularly nice giving an iridescent 'mother-of-pearl' like effect, basically as grey has total freedom in the colors that the "`plasma:`" will generate.
   
@@ -2203,7 +2204,7 @@ Now the plasma generator will always generate color, even on a pure black solid 
 However it is often useful to generate a pure grey-scale plasma.
 Well there are two simple ways of doing this.
   
-The simplest way is to take the plasma image and converted it to grey scale.
+The simplest way is to take the plasma image and convert it to grey scale.
 
 ~~~
 convert -size 100x100 plasma:fractal -blur 0x2 \
@@ -2307,7 +2308,7 @@ As you can see the same pattern of colors is present in all the above images, th
 
 Just one final word of warning.
 Other IM operators can also use the random number generator, such as the "`-fx`" '`rand()`' function, the "`-virtual-pixel`" '`random`' setting the "`-random-threshold`" dither operator, and the "`-noise`" operator.
-As such is a good idea to seed the generator immediately before your specific use of the random number generator.
+As such, is a good idea to seed the generator immediately before your specific use of the random number generator.
 
 As of IM v6.3.4-3, you can also re-randomize the generator using "`+seed`".
 So placing this setting after your 'seeded plasma' will ensure that any later operators correctly generate a randomized result if desired.
@@ -2330,7 +2331,7 @@ There is no simple solution to this, so unless this is what you are wanting, cau
 There is also a definite top-left to bottom-right diagonal warp in the plasma image that should not exist.
 That is there is some sort of 'spatial bias' flaw in the algorithm.
 
-For example as Thomas Maus &lt;thomas.maus\_AT\_alumni.uni-karlsruhe.de&gt; pointed out if you mirror and append the same plasma image, you will always see a distinct 'V' in the resulting image...
+For example, as Thomas Maus &lt;thomas.maus\_AT\_alumni.uni-karlsruhe.de&gt; pointed out if you mirror and append the same plasma image, you will always see a distinct 'V' in the resulting image...
 
 ~~~
 convert -size 60x60 plasma: \( +clone -flop \) +append plasma_flaw.jpg
@@ -2364,7 +2365,7 @@ convert -size 100x100 xc: -fx 'rand()'   random_fx.png
 
 [![\[IM Output\]](random_fx.png)](random_fx.png)
   
-Or for speed you can use the "`-spread`" operator to randomize a gradient (separatally for the three color channels) or by using some other image.
+Or, for speed, you can use the "`-spread`" operator to randomize a gradient (separately for the three color channels) or by using some other image.
 
 ~~~
 convert -size 100x100 gradient: -separate \
@@ -2381,7 +2382,7 @@ Generating images of scattered random pixels can also be very useful.
 
 Just remember that each of the three [Color Channels](../color_basics/#channels) of a random image can be thought of as separate random gray-scale image and these channels can be merged together in various ways.
   
-For example you generate a mask of random dots by first [Thresholding](../quantize/#threshold) a color channel ('`G`' or the green channel), and separating it out as a gray-scale image.
+For example, you generate a mask of random dots by first [Thresholding](../quantize/#threshold) a color channel ('`G`' or the green channel), and separating it out as a gray-scale image.
 
 ~~~
 convert random.png  -channel G -threshold 5% -separate \
@@ -2456,7 +2457,7 @@ The ideal solution to this would be a type of modulus-blur, that would take into
 However such an operator is not currently available, and perhaps never will be.
   
 The best solution I know of is to simply add all three random channels in the image (using [Modulus-Add Composition](../compose/#modulusadd)) so as to extend the range of values.
-This also have a side effect of making the blurred spots smaller, but at least you now get a more dynamic range rainbow colors.
+This also has the side effect of making the blurred spots smaller, but at least you now get a more dynamic range rainbow colors.
 *Anyone got a better idea?*
 
 ~~~
@@ -2474,7 +2475,7 @@ For more methods of processing a random images, see [Plasma Images](#plasma) abo
 As you can see from the above you get an image with various blobs of primary colors.
 That is because each channel is being processed completely separately to each other as gray-scale images.
 
-Lets extract one of the channels of each of the above image so you can see the structure of the blurred image...
+Let's extract one of the channels of each of the above images so you can see the structure of the blurred image...
 
 ~~~
 convert random.png     -channel G  -separate   random_0_gray.png
@@ -2512,7 +2513,7 @@ For more examples of using random images, see [Background Images](../backgrounds
 Now remember all the blurred random images were generated from the same initial random image, thus they are all related.
 But every new random image generated will have a completely different pattern, though the patterns will more or less look similar in structure.
   
-But first lets give a full example of generating a 'blured random image' from scratch...
+But first let's give a full example of generating a 'blurred random image' from scratch...
 
 ~~~
 convert -size 100x100 xc:  -channel G +noise Random \
@@ -2541,21 +2542,21 @@ First I would like to point out how we get roughly equal amounts of light and da
 
 Now the individual blobs or 'granules' varies from area to area across the image, but they all roughy average at about a diameter of about *three to four times* the value used to blur the initial random image.
 
-This blur value is known as the '*granularity*' of the image is a very important value, as it basically represents the average size of the circular structures the random image produces.
+This blur value is known as the '*granularity*' of the image, and is a very important value, as it basically represents the average size of the circular structures the random image produces.
 
-Some times it is called the 'curviness' of the image.
-The larger the value the larger and slower these curves are within the image.
+Sometimes it is called the 'curviness' of the image.
+The larger the value, the larger and slower these curves are within the image.
 
-This is the most important factor describing a Blurred Random image, so lets make it very clear...
+This is the most important factor describing a Blurred Random image, so let's make it very clear...
 
 **The '*Granularity*' of a random image (or blur factor)  
  determines the size of the circular structures within**
 
-Of course the smaller the 'blur factor' or '*Granularity*', the smaller or tighter the curves become, until you reach a value of '`0`', at which point, all the clumping or 'blobs' within the image vanishes, and you are least with a purely random 'noise', 'snow', or 'pixel dust' type of effect.
+Of course, the smaller the 'blur factor' or '*Granularity*', the smaller or tighter the curves become, until you reach a value of '`0`', at which point, all the clumping or 'blobs' within the image vanishes, and you are left with a purely random 'noise', 'snow', or 'pixel dust' type of effect.
 
 ASIDE: Actually the size of the actual 'granules' themselves can vary depending on the threshold factor used to generate them.
 What the factor really describes is the average distance between centers of the white and black areas.
-The larger the value the larger the distance, and the larger and more spread out the spots have to be to accomidate that increased distance.
+The larger the value the larger the distance, and the larger and more spread out the spots have to be to accomnodate that increased distance.
 
 This becomes more obvious when we start looking at [Random Ripples](#random_ripples) below.
 
@@ -2583,7 +2584,7 @@ The animation was generated using the shell script "`animate_granularity`", whic
 
 Note that as the same random image is used as a source the 'granules' or spots do not really move, but just sort of grow together, or fade away, so as to produce larger 'granules' with increasing granularity.
 
-Also remember that while I have reduced the number of colors in the animation, the structure of the full random image is actually smooth gradient between two sets of white and black granules.
+Also remember that while I have reduced the number of colors in the animation, the structure of the full random image is actually a smooth gradient between two sets of white and black granules.
 This gradient is what makes the image useful in other techniques.
 
 ### Random Flux (animation cycles) {#random_flux}
@@ -2615,13 +2616,13 @@ convert random.png   -function Sinusoid 1,{time} \
 Where '`{time}`' goes from '`0`' to '`360`' over the complete animation cycle.
 
 The result is that instead of each pixel having a 'static' random value, we now have one that cycles in a loop between black and white over a period of time.
-Each pixel will follow this same cycle, but as each pixel has a completely different 'phase', and will cycle independently of all the other pixels.
+Each pixel will follow this same cycle, but as each pixel has a completely different 'phase', it will cycle independently of all the other pixels.
 That is, the image is still random, but smoothly changing with the provided 'time' value.
 
 For the scientifically minded this is a bit like looking at the 'quantum flux' that exists at sub-atomic level, where space is far from the 'static' state we see at normal scales.
 Hence the name '**Random Flux**'.
 
-For example lets generate a time sequence of 12 images...
+For example, let's generate a time sequence of 12 images...
 
 ~~~
 for i in `seq 0 30 359`; do
@@ -2634,30 +2635,30 @@ convert flux_{?,??,???}.png -set delay 20 -loop 0 flux_anim.gif
 
 [![\[IM Output\]](flux_0.png)](flux_0.png)
 ![=&gt;](../img_www/right.gif) [![\[IM Output\]](flux_30.png)](flux_30.png) [![\[IM Output\]](flux_60.png)](flux_60.png) [![\[IM Output\]](flux_90.png)](flux_90.png) [![\[IM Output\]](flux_120.png)](flux_120.png)
-[![\[IM Output\]](flux_150.png)](flux_150.png)
+[![\[IM Output\]](flux_150.png)](flux_150.png)  
 ![=&gt;](../img_www/up.gif)
-![=&gt;](../img_www/down.gif)
+![=&gt;](../img_www/down.gif)  
 [![\[IM Output\]](flux_330.png)](flux_330.png)
 [![\[IM Output\]](flux_300.png)](flux_300.png) [![\[IM Output\]](flux_270.png)](flux_270.png) [![\[IM Output\]](flux_240.png)](flux_240.png) [![\[IM Output\]](flux_210.png)](flux_210.png) ![=&gt;](../img_www/left.gif)
 [![\[IM Output\]](flux_180.png)](flux_180.png)
 
-And your one random image can now generates a whole sequence images forming a cycle.
+And your one random image can now generate a whole sequence of images forming a cycle.
 
 Note that the 'time' extraction has to happen before any other processing such as blurring, which is probably the slowest part of the whole generation process.
 
 The other thing to notice is that at phase '`180`' (bottom right), you actually get the exact negative of the first image (top-left).
-That is 'white' granules has become 'black' granules, and visa-versa.
-In fact the whole second half of the animation is actually the negative of the first half.
+That is 'white' granules have become 'black' granules, and visa-versa.
+In fact, the whole second half of the animation is actually the negative of the first half.
 This can be used to cut down the generation time of a simple 'Random Flux' animation.
 
 Because the image is a negative at a 180 degree phase, you will find that each 'white' granule slowly moves so as to swap places with a neighbouring 'black' granule.
-But as the whole second half is a negative of the first the it can't just simply shuffle back-and-forth, but must continue move forward to return to the original image, or circle around in a loop, or simply fade and appear appropriatally.
+But as the whole second half is a negative of the first the it can't just simply shuffle back-and-forth, but must continue move forward to return to the original image, or circle around in a loop, or simply fade and appear appropriately.
 
-In other words the white and black granules move in far more complex cycle.
+In other words, the white and black granules move in far more complex cycle.
 
 [![\[IM Output\]](flux_anim.gif)](flux_anim.gif)
 
-To the right is an animation of the above frames...
+Here is an animation of the above frames...
 
 The fluctuating pattern is completely random, but smoothly changing from frame to frame, and when the animation loops.
 You can see no beginning or end to the result.
@@ -2667,7 +2668,7 @@ It is totally random.
 
 **In summary**: The same properties present in [Blurred Random Images](#random) are also present in this animation.
 The image remains a roughly equal division between white and black segments, and it forms blobs of about *three times* the size of the blur or [Granularity](#granularity) of the image.
-But on top of this you are guarantied that all parts of the image will form some cycle between both lighter and darker colors, as half the cycle is the negative of the other half.
+But on top of this you are guaranteed that all parts of the image will form some cycle between both lighter and darker colors, as half the cycle is the negative of the other half.
 
 One thing you may not have noticed is that due to the conversion of a random linear value into a sinusoid waveform, you will get a sharper white and black separation of colors (contrast).
 As such you may like to use the de-contrasting aspect of [Sigmoidal Contrast](../color_mods/#sigmoidal) operator to make the resulting image less 'blob' like, and enhance the gradient between the granules, rather than the granules themselves.
@@ -2675,7 +2676,7 @@ As such you may like to use the de-contrasting aspect of [Sigmoidal Contrast](..
 Now this is only a starting point for what you can do with a cyclic random animation.
 Everything that you can do with a [Random Image](#random), such as described in [Generating Backgrounds](../backgrounds/), can also be applied to '*Random Flux Animation*'
   
-For example, lets just show the movement of just the 'white' granules...
+For example, let's just show the movement of just the 'white' granules...
 
 ~~~
 convert flux_anim.gif -threshold 70% flux_thres_anim.gif
@@ -2693,8 +2694,8 @@ convert flux_anim.gif  \
 
 [![\[IM Output\]](filaments_anim.gif)](filaments_anim.gif)
 
-Note that due to fact that half the cycle is a negation of the first half and we use a [Solarize](../color_mods/#solarize) to fold the white and black colors in half, the cycle is actually repeating twice over one animation cycle.
-It really needs a lot more frames to remove some of very fast changes that is taking place.
+Note that due to fact that the second half of the cycle is a negation of the first half and we use a [Solarize](../color_mods/#solarize) to fold the white and black colors in half, the cycle is actually repeating twice over one animation cycle.
+It really needs a lot more frames to remove some of very fast changes that are taking place.
 
 To make the motion less predictable for a longer cyclic sequence, you can also use some [Gradient Math](../transform/#gradient_math) to combine multiple Sinusoidal Cycles, from multiple random images, or even just using the other color channels of the same random image.
 
@@ -2707,9 +2708,9 @@ FUTURE: Create even less predictable, long time 'harmonic' cycles.
 By adding another variation to a [Blurred Random Image](#random_blur) we can add another level of complexity that makes these images far more useful, and gives use another control variable beyond its [Granularity](#granularity).
 
 But first you need to remember that the random image does not consist of just bright and dark areas, but also contains a slope between those areas.
-Using that slope as into to the [Sinusoid Function](../transform/#function_sinusoid), you can generate ripples between the spots in the image.
+Using that slope as input to the [Sinusoid Function](../transform/#function_sinusoid), you can generate ripples between the spots in the image.
 
-Note that key difference to this use of the [Sinusoid Function](../transform/#function_sinusoid) to the previous [Random Flux](#random_flux) examples was that this time the function is being applied to the image AFTER it was smoothed using blur, instead of before.
+Note that key difference to this use of the [Sinusoid Function](../transform/#function_sinusoid) from the previous [Random Flux](#random_flux) examples was that this time the function is being applied to the image AFTER it was smoothed using blur, instead of before.
 Also in this case it is the '*Frequency*' value, and not the second '*Phase*' value that is more important.
 
 For example...
@@ -2761,9 +2762,9 @@ convert random_enhanced.png  -function Sinusoid 3,270   ripples_3e270.png
 
 The color of the 'white' granule, will depend on both the '*Phase*', and the fraction of the '*Frequency*' that use applied.
 An integer '*Frequency*' value will cause both white and black granules to vary in color together (according to the '*Phase*').
-as such with a phase of '`90`' both will be white.
+As such, with a phase of '`90`' both will be white.
   
-However if you apply a fractional '*Frequency*' value of say '`0.5`', the 'white source' granule, will be the negative of the 'black source' granule (as determined by the '*Phase*').
+However, if you apply a fractional '*Frequency*' value of say '`0.5`', the 'white source' granule, will be the negative of the 'black source' granule (as determined by the '*Phase*').
 
 ~~~
 convert random_enhanced.png  -function Sinusoid 3.5,90    ripples_3.5e.png
@@ -2777,9 +2778,9 @@ If a '*Frequency*' value with a '`0.5`' fraction is used, the first ripple aroun
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > Other 'Frequencies' other than integers, or '`0.5`' are not recommended as the two sets of granules will not be synchronized in some way.
 >
-> Similarly Phases other multiple of 90 degrees are not recommended unless generating a 'ripple animation' (see below).
+> Similarly Phases other than multiples of 90 degrees are not recommended unless generating a 'ripple animation' (see below).
 >
-> A Phase value of '`0`' is recommended when generating a 'Dispersion Maps' (see below) as this will cause minimal distortions within the enhanced 'granule' areas.
+> A Phase value of '`0`' is recommended when generating 'Dispersion Maps' (see below) as this will cause minimal distortions within the enhanced 'granule' areas.
 
 As previously in [Random Flux](#random_flux), you can modify the '*Phase*' with time so as to generate an animation of the ripples moving from one set of granules to the other.
 This works particularly well without any contrast enhancement.
@@ -2796,12 +2797,12 @@ done |
 ASIDE: the technique used in the above is known as a "Pipelined [MIFF:](../files/#miff)" and is possible as the [MIFF:](../files/#miff)" file format can simply 'concatenate' images to generate a multiple image file.
 
 One point is that the animation seem to change much much slower than a [Flux Animation](#random_flux) we created above.
-That is because over the one animation cycle a ripple will only travel a short distance, where in a 'flux' animation thge change will travel from the large scale white to black granules in just half the cycle and back again.
+That is because over the one animation cycle, a ripple will only travel a short distance, whereas in a 'flux' animation, the change will travel from the large scale white to black granules in just half the cycle and back again.
 
 Now you can combine the above ripple animation with an underlying 'flux' animation from the same random image source to generate a much more dynamic and flowing form, but be warned of that animation speed difference.
   
-For example here I just take the previous [Flux Animation](#random_flux) created above, and add ripples to it.
-The ripples will in this case move only because the gradient in the flux animation moves.
+For example, here I just take the previous [Flux Animation](#random_flux) created above, and add ripples to it.
+The ripples will, in this case, move only because the gradient in the flux animation moves.
 
 ~~~
 convert flux_anim.gif -function Sinusoid 3.5,0 flux_rippled_anim.gif
@@ -2812,7 +2813,7 @@ convert flux_anim.gif -function Sinusoid 3.5,0 flux_rippled_anim.gif
 You can also animate the ripples within the animation.
 Though you may need to use a much larger 'phase cycle rate' (the 'j = 5 \* i' expression) for the ripples themselves.
 Also as you are generating a cycle within a cycle, you will need to generate a much longer animation 60 frames in this case.
-However that has the benefit of slowing the larger 'flux' movements down too.
+However, that has the benefit of slowing the larger 'flux' movements down too.
 
 ~~~
 for i in `seq 0 10 359`; do
@@ -2839,7 +2840,7 @@ A better multi-cycled flux cycle generator should remove this slight weirdness b
 
 Tile images can be very large or very small, are designed to fit together side-by-side and vertically to cover large areas of space.
 
-Thanks to the World Wide Web, there as been an explosion of tile images available for use (finding what you want is another matter).
+Thanks to the World Wide Web, there has been an explosion of tile images available for use (finding what you want is another matter).
 Below are a set of tiled images which I copied from [Anthony's Icon Library](http://www.ict.griffith.edu.au/anthony/icons/) for use through out these example pages.
   
 [![\[IM Output\]](bg.gif)](bg.gif)  
@@ -2860,7 +2861,7 @@ tile\_disks.jpg
 [![\[IM Output\]](tile_weave.gif)](tile_weave.gif)  
 tile\_weave.gif
 
-Currently there are quite a number of way in which you can tile an image, over a large area.
+Currently there are quite a number of ways in which you can tile an image, over a large area.
 
 You can "`-tile`" any image so as to completely replace the original background image (using the "`Copy`" compose operator).
 (For more details see [Tile Compositing](../compose/#tile)).
@@ -2876,6 +2877,9 @@ Another way is to read in the tile image using the "`tile:`" coder, and tile it 
 ~~~
 convert -size 60x60 tile:bg.gif  tile_size.gif
 ~~~
+
+ELEPHANT
+
 
 [![\[IM Output\]](tile_size.gif)](tile_size.gif)
 
@@ -2896,7 +2900,7 @@ convert test.png -size 200x200 tile:tile_disks.jpg \
 
 [![\[IM Output\]](tile_over.gif)](tile_over.gif)
 
-By specify a tile as 'tile fill pattern' for the "`-draw`" operator, you can draw the tile image over another image, to create any shape or figure you like.
+By specifying a tile as 'tile fill pattern' for the "`-draw`" operator, you can draw the tile image over another image, to create any shape or figure you like.
 
 This is because the "`-tile`" setting will override any of the "`-fill`" color setting used by draw.
 See [MVG Drawing Settings](../draw/#settings).
@@ -2911,7 +2915,7 @@ convert -size 60x60 xc: -tile tile_aqua.jpg \
 This only works for "`-draw`" and operators like "`-annotate`" that also make use of "`-draw`" to perform their function.
 It will not work for image operators that use "`-fill`" color directly, like "`label:`", "`caption:`", and "`text:`".
   
-However "`-draw`" has built in to it some special [color primitives](../draw/#color), such as completely resetting all the pixels in the image to the fill color or tile pattern (if set).
+However "`-draw`" has built into it some special [color primitives](../draw/#color), such as completely resetting all the pixels in the image to the fill color or tile pattern (if set).
 
 ~~~
 convert test.png   -tile tile_water.jpg  -draw "color 0,0 reset" \
@@ -2954,7 +2958,7 @@ convert -size 80x80 -tile-offset +20+20 \
 
 > ![](../img_www/warning.gif)![](../img_www/space.gif)
 > [Tile Offset](../crop/#tile-offset) setting was broken before IM version 6.3.9-9 in that the 'X' offset was being used for both 'X' and 'Y' offset values (the given 'Y' value was ignored).
-> This means that while the above examples would have worked (both X and Y offsets are the same) you may not get the expected results when the two values differ.*
+> This means that while the above examples would have worked (both X and Y offsets are the same) you may not get the expected results when the two values differ.
 >
 > This also works for the "`montage`" background "`-texture`" setting.
 
@@ -2978,7 +2982,7 @@ convert -tile-offset +30+30  -tile rose: \
 However there is one major problem with offset tiling.
 
 The problem is that due to the use of [Legacy Command Line Style](../basics/#legacy), the above will fail when using built-in "`pattern:`" tiles.
-For example here I tried the same thing as the above using a '`checkerboard`' tile pattern.
+For example, here I tried the same thing as the above using a '`checkerboard`' tile pattern.
 
 ~~~
 convert -tile-offset +20+20 -tile pattern:checkerboard \
@@ -2987,14 +2991,13 @@ convert -tile-offset +20+20 -tile pattern:checkerboard \
 
 [![\[IM Output\]](offset_pattern_fail.gif)](offset_pattern_fail.gif)
 
-What is happening is that the first real 'operator' in the above is '`xc:`', all the other options given before this are simply 'settings' that is used by that and later operators.
-Because of the [Legacy Command Line Style](../basics/#legacy) reads in all the 'settings' and applies them before actually processing the command line in the correct order.
+What is happening is that the first real 'operator' in the above is '`xc:`', all the other options given before this are simply 'settings' that are used by that, and later, operators, because the [Legacy Command Line Style](../basics/#legacy) reads in all the 'settings' and applies them before actually processing the command line in the correct order.
 
 Because of this 'legacy problem' the "`-size`" setting gets set BEFORE the "`-tile`" setting applies the "`pattern:`" operator.
-As a consequence a 80 by 80 pixel 'tile' was generated.
+As a consequence, an 80 by 80 pixel 'tile' was generated.
 This pre-sized tile is then rolled by the "`-tile-offset`" option, when it is applied by the '`xc:`' operator.
 
-In other words the "`-tile`" setting will create a 80x80 pixel tile, AFTER the -size setting has been defined, and as such the 'tile' is no longer tilable, when used by the draw command.
+In other words, the "`-tile`" setting will create an 80x80 pixel tile, AFTER the -size setting has been defined, and as such the 'tile' is no longer tilable, when used by the draw command.
 
 This is probably one of the few examples where this legacy handling is detrimental to normal IM 'do it as you see it' option handling by IM commands.
 
@@ -3008,7 +3011,7 @@ convert -size 80x80  xc: \
 
 [![\[IM Output\]](offset_pattern_good.gif)](offset_pattern_good.gif)
 
-In any case it is probably best to define the tile offset and tile image just before its first use, which has the same result as the above solution.
+In any case, it is probably best to define the tile offset and tile image just before its first use, which has the same result as the above solution.
 
 ### Tiling with an Image already In Memory {#tile_memory}
 
@@ -3018,7 +3021,7 @@ Tiling an image you have in memory (created or modified) is not straightforward,
 
 If you are not worried about the exact size of the tiled image, you can just append the image together multiple times.
 
-For example here we tile the image in a 3x3 array.
+For example, here we tile the image in a 3x3 array.
 
 ~~~
 convert tree.gif \
@@ -3040,16 +3043,16 @@ convert tree.gif \
 
 [![\[IM Output\]](tile_clone_flip.gif)](tile_clone_flip.gif)
 
-In general this method is only practical when you have some idea of how big the image being tiled is.
-Also as clones are actually very fast and efficient it is a fairly simple and fast tiling method, especially if you use the results to further tile the larger image.
+In general, this method is only practical when you have some idea of how big the image being tiled is.
+Also, as clones are actually very fast and efficient, it is a fairly simple and fast tiling method, especially if you use the results to further tile the larger image.
 
 #### Tile using MPR: (Memory Program Register)
 
 A better method is to save the image into a special 'In Memory' file format "`mpr:`", or named 'memory program register'.
 
-From this register you can then either use a "`-tile`" setting, or use the special "`tile:`" image file reader, both of which can only be set from a 'saved' image file format.
+From this register, you can then either use a "`-tile`" setting, or use the special "`tile:`" image file reader, both of which can only be set from a 'saved' image file format.
   
-For example using "`tile:`" to create a tiled image of a specific size...
+For example, using "`tile:`" to create a tiled image of a specific size...
 
 ~~~
 convert tree.gif   -write mpr:tile +delete \
@@ -3059,9 +3062,9 @@ convert tree.gif   -write mpr:tile +delete \
 [![\[IM Output\]](tile_mpr.gif)](tile_mpr.gif)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
-> Remember that the "`tile:`" coder will replace any transparency in the image with the current background color. (see above)
+> Remember that the "`tile:`" coder will replace any transparency in the image with the current background color.
 
-Or tile over an existing image, by setting the "`-tile`" or "`-fill`" fill pattern, and using "`-draw`" to do a color reset (see [Color Fill Primitives](../draw/#color))...
+Or tile over an existing image, by setting the "`-tile`" or "`-fill`" fill pattern, and using "`-draw`" to do a color reset - see [Color Fill Primitives](../draw/#color)...
 
 ~~~
 convert tree.gif  -write mpr:tile +delete \
@@ -3073,7 +3076,7 @@ convert tree.gif  -write mpr:tile +delete \
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
 > If tiling with an image containing transparency, ensure the destination image also has transparency by using "`-alpha set`".
-> If you do not the resulting image will show the tiles 'hidden' transparency color.
+> If you do not, the resulting image will show the tile's 'hidden' transparency color.
 
 Or draw using some other [Draw Primitive](../draw/#primitives), such as a circle, using the fill pattern.
 
@@ -3085,12 +3088,12 @@ convert tree.gif -write mpr:tile +delete \
 
 [![\[IM Output\]](tile_mpr_fill.gif)](tile_mpr_fill.gif)
 
-The name given after "`mpr:`" can be anything you like, it is only a label on 'mpr' register name used to store the image, (in memory).
+The name given after "`mpr:`" can be anything you like, it is only a label or 'mpr' register name used to store the image in memory.
 It can even be a label, number, color, or even a filename.
 
 #### Tiling using Virtual Pixels via Distort
 
-In this method we use the [Virtual Pixel Setting](../misc/#virtual-pixel) to generate a large tiled canvas.
+In this method, we use the [Virtual Pixel Setting](../misc/#virtual-pixel) to generate a large tiled canvas.
 This setting defines how the area surronding the actual image (outside the normal image bounds) should look.
 
 The easiest way to extract virtual pixels is to use the [Distort Operator](../distorts/#distort) with a special [Distort Viewport](../distorts/#distort_viewport) setting.
@@ -3133,9 +3136,9 @@ convert tree.gif -set option:distort:viewport 100x100-50-50 \
 See the full list of [ImageMagick Built In Images and Patterns](http://www.imagemagick.org/script/formats.php#builtin-images).
 There are a lot of such patterns, but I'll only look at one or two here.
 
-Now the built-in patterns are generally very very small images, which can tile to cover large areas.
+Now the built-in patterns are generally very, very small images, which can tile to cover large areas.
 However, on their own they are very plain looking and rather useless.
-For example, here is one of the larger more interesting patterns that is provided...
+For example, here is one of the larger, more interesting patterns that is provided...
 
 ~~~
 convert  pattern:checkerboard  pattern_default.gif
@@ -3143,7 +3146,7 @@ convert  pattern:checkerboard  pattern_default.gif
 
 [![\[IM Output\]](pattern_default.gif)](pattern_default.gif)
 
-Pattern images are usually tiled over an larger areas, either as part of canvas creation, by setting a "`-size`", or as a fill tile (see [Tiled Canvases](#tile) above).
+Pattern images are usually tiled over larger areas, either as part of canvas creation, by setting a "`-size`", or as a fill tile (see [Tiled Canvases](#tile) above).
 Without a size setting the default tile size of the pattern will be used, `30x30` pixels in this case.
 
 Now you will probably notice that all the patterns currently provided by IM are all pure black and white, with the single exception of the '`checkerboard`' pattern I used in the last example.
@@ -3156,7 +3159,7 @@ convert -size 60x60 pattern:hexagons  pattern_hexagons.gif
 
 [![\[IM Output\]](pattern_hexagons.gif)](pattern_hexagons.gif)
 
-If you are not happy with these colors you can replace them using the "`-opaque`" image operator.
+If you are not happy with these colors, you can replace them using the "`-opaque`" image operator.
 
 ~~~
 convert -size 60x60 pattern:hexagons \
@@ -3167,7 +3170,7 @@ convert -size 60x60 pattern:hexagons \
 [![\[IM Output\]](pattern_colored.gif)](pattern_colored.gif)
 
 If you want to color the "`checkerboard`" pattern, then that is best done by first using "`-auto-level`" to map the two greys to black and white before substituting those two colors.
-Here instead of using "`-opaque`" to replace the colors, I use a "`+level-colors`" operator (add IM v6.2.4-1), which is a bit simpler to use.
+Here, instead of using "`-opaque`" to replace the colors, I use a "`+level-colors`" operator (add IM v6.2.4-1), which is a bit simpler to use.
 
 ~~~
 convert -size 60x60 pattern:checkerboard -auto-level \
@@ -3177,8 +3180,8 @@ convert -size 60x60 pattern:checkerboard -auto-level \
 [![\[IM Output\]](pattern_color_checks.gif)](pattern_color_checks.gif)
 
 You can also use "`-floodfill`" operator to color the pattern.
-However for this to work properly you need to do this, *before* you tile the modified pattern.
-In this case I also need to expand the tile three times to color it with the regular pattern of colors I wanted.
+However, for this to work properly you need to do this, *before* you tile the modified pattern.
+In this case, I also needed to expand the tile three times to color it with the regular pattern of colors I wanted.
 
 ~~~
 convert -size 30x54 pattern:hexagons \
@@ -3198,7 +3201,7 @@ I used a pipeline of two commands in the above to separate the colored pattern c
 If you like to do this with a single command see [Tiling an Image In Memory](#tile_memory) above.
   
 You can also warp and distort a simple tiling pattern to produce interesting variations.
-For example a 'wrinkling' effect (technique courtesy of the wrinkle IM effect from [Font Image Generator](http://interactimage.com/)) on a hexagon pattern I found particularly interesting.
+For example, a 'wrinkling' effect (technique courtesy of the wrinkle IM effect from [Font Image Generator](http://interactimage.com/)) on a hexagon pattern I found particularly interesting.
 
 ~~~
 convert -size 160x100 pattern:hexagons \
@@ -3239,7 +3242,7 @@ convert pattern:hexagons  -rotate 90  -virtual-pixel tile \
 
 [![\[IM Output\]](tile_mod_vpixels.jpg)](tile_mod_vpixels.jpg)
 
-Here is another example where I join two related tile patterns together, and use various effects to create unusual brick wall tile.
+Here is another example where I join two related tile patterns together, and use various effects to create an unusual brick wall tile.
 
 ~~~
 convert pattern:leftshingle pattern:rightshingle +append \
@@ -3254,7 +3257,7 @@ convert pattern:leftshingle pattern:rightshingle +append \
 
 There is an alternative to relying on [Virtual Pixels](../misc/#virtual-pixel).
 
-Basically we provide the 'virtual edge pixels' ourselves before operating on the image, so as to avoid any edge effects that may be present.
+Basically, we provide the 'virtual edge pixels' ourselves before operating on the image, so as to avoid any edge effects that may be present.
 And that is done by tiling the image over a slightly larger area first.
 After modifying the image, we can re-extract the tile, avoiding the edge distortions that were introduced.
 
@@ -3263,7 +3266,7 @@ I have found 15 to 40 pixels should stop all edge effects in the final result.
 
 To re-extract the image we can either "`-shave`" off the extra pixels, or "`-crop`" the original tile size from the middle of the processed image.
 
-For example here I create a 3d "`-shade`" effect using the built-in '`hexagons`' pattern.
+For example, here I create a 3d "`-shade`" effect using the built-in '`hexagons`' pattern.
 
 ~~~
 convert -size 60x60 tile:pattern:hexagons  -rotate 90 \
@@ -3277,9 +3280,9 @@ convert -size 60x60 tile:pattern:hexagons  -rotate 90 \
 Note the exact position of the extracted tile does not matter.
 A tilable image can be cut anywhere from the tiled image, as long as it is away from the distorted edges, and you use the same original size of the tile.
 
-Here instead of tiling the image over a larger area, we use a 'double clone' technique to double the area the tile covers.
-When finished we then just center crop 50% of the image to recover our modified tile.
-This means we have no need to know the exact size of the tile you are processing.
+Here, instead of tiling the image over a larger area, we use a 'double clone' technique to double the area the tile covers.
+When finished, we just center crop 50% of the image to recover our modified tile.
+This means we have no need to know the exact size of the tile we are processing.
 
 ~~~
 convert pattern:circles \( +clone \) +append \( +clone \) -append \
@@ -3293,9 +3296,9 @@ convert pattern:circles \( +clone \) +append \( +clone \) -append \
 ### Generating Tile Images {#tile_gen}
 
 The biggest problem you face when generating images that can tile together is trying to match the edges and corners of the image so that they can fit together seamlessly.
-If this is not done then all you get is a set of square boxes each with a repeated copy of the image.
+If this is not done, then all you get is a set of square boxes each with a repeated copy of the image.
 
-This is not an easy matter and can be a very frustrating and hair pulling experience.
+This is not an easy matter and can be a very frustrating and hair-pulling experience.
 An object appearing in the tile on one edge must re-appear on the other side of the image in order to re-form the whole when the image is tiled.
 While you can do this fairly easily with computer generated images, it is next to impossible to produce a good tiling image featuring real-world photographs.
 
@@ -3318,14 +3321,14 @@ Generating Escher-like tile patterns.
 
 ### Random Noise Tile {#tile_random}
 
-Because a raw random noise canvas has no edges characteristics to begin with (every pixel color is completely independent of any of its neighbours), you can tile it without worry about edge distortions.
-Basically it is so extremely random at the pixel level, no edges match to begin with, so we don't lose anything, by tiling.
+Because a raw random noise canvas has no edge characteristics to begin with (every pixel color is completely independent of any of its neighbours), you can tile it without worrying about edge distortions.
+Basically, it is so extremely random at the pixel level, no edges match to begin with, so we don't lose anything, by tiling.
 
-Unfortunately very few situations would use a raw random noise image, as is, for any real purpose.
+Unfortunately, very few situations would use a raw random noise image, as is, for any real purpose.
 It is just so horribly random that it is useless.
-However by modifying the image while preserving its inherent tilability, we can make just about any randomized tile pattern we want.
+However, by modifying the image while preserving its inherent tilability, we can make just about any randomized tile pattern we want.
   
-For example lets look at the a basic "`-blur`" of the original tile, using the same 'modifying a tile' technique we used in the last example.
+For example, let's look at a basic "`-blur`" of the original tile, using the same 'modifying a tile' technique we used in the last example.
 
 ~~~
 convert -size 64x64 xc: +noise Random \
@@ -3358,10 +3361,10 @@ See that page for lots of other image random image transformations, and examples
 
 ### Hexagonal Tiling {#tile_hex}
 
-Rather than tile in a square fashion, the 'random noise' image allows use to generate a very different sort of tile.
+Rather than tile in a square fashion, the 'random noise' image allows us to generate a very different sort of tile.
 By doubling the image dimensions and re-laying the tile in the extra space, but offset by half, we can generate a basic random noise hexagonal tile pattern.
   
-This is the same sort of tiling effect we get when we tile the special "`pattern:hexagons`" built-in of ImageMagick.
+This is the same sort of tiling effect we get when we tile the special "`pattern:hexagons`" built into ImageMagick.
 
 ~~~
 convert  pattern:hexagons  tile_hexagons.gif
@@ -3422,7 +3425,7 @@ Of course, just as I did when coloring the "`hexagons`" pattern, the final tile 
 The variations between the three tiles generated must not be too different, and should survive any post-processing, otherwise you will not get the benefits of the technique.
 This means the initial tile must be reasonably large as well, so any distinct features present will be preserved.
 
-For example here we take a very simple line drawing, and rotate it to produce 3 similar variations.
+For example, here we take a very simple line drawing, and rotate it to produce 3 similar variations.
 These rotated images are then tiled seven times onto a larger canvas (6 times larger) to produce the triple image hex pattern.
 
 ~~~
@@ -3445,11 +3448,11 @@ convert -size 120x120  tile:tile_hex_lines.jpg  tiled_hex_lines.jpg
 [![\[IM Output\]](tile_hex_lines.jpg)](tile_hex_lines.jpg)  
 [![\[IM Output\]](tiled_hex_lines.jpg)](tiled_hex_lines.jpg)
 
-The above however only works for tiling a small shape in the middle of the original image.
+The above, however, only works for tiling a small shape in the middle of the original image.
 It does not work well for a general image.
 
-For a general image hex tiling we also need to mask out an equilateral triangles.
-The pieces are then rotated so the equilateral trianlge edges are mirrored.
+For a general image hex tiling, we also need to mask out a equilateral triangles.
+The pieces are then rotated so the equilateral triangle edges are mirrored.
 This is not an easy task.
 
 ### Diagonal Mirror Tiling {#tile_diagonal}
