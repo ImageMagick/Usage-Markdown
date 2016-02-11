@@ -335,16 +335,14 @@ Sharpen Arguments? (expand)
     But it should be at a minimum 1, or better still, 2 times the sigma.
 ~~~
 
-ELEPHANT
-
 First, forget the first number, just use 0 which will then use the best number for the 'sigma' factor you give.
 The larger the sigma the more it sharpens.
 
-| Sharpen Setting Used          | Comment                      |
-|:------------------------------|:----------------------------:|
-| -sharpen 0x.4                 | very small                   |
-| -sharpen 0x1.0                | about one pixel size sharpen |
-| -sharpen 0x3.0                | probably getting too large   |
+Here are some indications of the effect of the various settings:
+
+* -sharpen 0x.4  => very small amount of sharpening
+* -sharpen 0x1.0 => about one pixel size sharpening
+* -sharpen 0x3.0 => probably getting too large
 
 The "`-sharpen`" operator is sort of an inverted blur.
 In fact, it works in just about the same way.
