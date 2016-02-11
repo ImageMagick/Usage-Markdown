@@ -5,6 +5,16 @@
 # Convert all named colors known by IM into three HSL colorwheels
 # Off-Whites,  Mid-Tones,  and  Dark Colors.
 #
+# SETCHELL
+# OSX doesn't have "tac", but it does have "tail -r"
+which tac >/dev/null
+if [ $? -ne 0 ]
+then
+   tac() {
+      tail -r
+   }
+   export -f tac
+fi
 
 (
   # Draw a gradient line for the HSL axis. (offset by color spot center)
@@ -21,16 +31,7 @@
           miff:-
 
   # Read known named colors, with only numbered greys.
-  convert -list color |
-    sed '/^\(Path\|Name\|----\)/d;
-        /[a-z] [a-z]/d;     # color with space in name! - Yuck
-        s/ .*//; /^$/d' |
-
-        # don't output colors containing numbers
-        #s/ .*//; /^$/d; /[0-9]/d' |
-
-        # output 10% gray color scale too.
-        #s/ .*//; /^$/d; /^gray[0-9]*0$/p; /[0-9]/d' |
+  convert -list color | grep -Ev "^Path|Name|^$|--" | awk '{print $1}' |
 
   # reverse order so most common is given last
   tac |
@@ -46,16 +47,17 @@
     esac
 
     # Now convert the named color to HSL color space color
-    hsl=`convert xc:$color -colorspace HSL -depth 16 txt: |
-          sed '1d; s/^.*: (//; s/).*//; s/,/ /g;' `
+    # hsl=`convert xc:$color -colorspace HSL -depth 16 txt: |
+    #      sed '1d; s/^.*: (//; s/).*//; s/,/ /g;' `
+    hsl=`convert xc:$color -depth 16 -format "%[fx:int(u.hue*65535)] %[fx:int(u.saturation*65535)] %[fx:int(u.lightness*65535)]" info:`
 
     # Luminance  or how bright the color is...
     # Separate colors into three groups  Off White, Dark, Midtone
     # Make the saturation radius of dark and light colors smaller.
     lum=`echo $hsl | awk '{print int($3/65536*100)}'` # percentage
-    if   [ $lum -lt 40 ]; then lum=40   radius=50     # dark colorwheel
-    elif [ $lum -gt 80 ]; then lum=210  radius=50     # off-white colorwheel
-                          else lum=125  radius=100    # midtone colorwheel
+    if   [ $lum -lt 40 ]; then lum=40;   radius=50     # dark colorwheel
+    elif [ $lum -gt 80 ]; then lum=210;  radius=50     # off-white colorwheel
+                          else lum=125;  radius=100    # midtone colorwheel
     fi
 
     # Saturation determines the radius.
