@@ -2878,9 +2878,6 @@ Another way is to read in the tile image using the "`tile:`" coder, and tile it 
 convert -size 60x60 tile:bg.gif  tile_size.gif
 ~~~
 
-ELEPHANT
-
-
 [![\[IM Output\]](tile_size.gif)](tile_size.gif)
 
 > ![](../img_www/reminder.gif)![](../img_www/space.gif)
