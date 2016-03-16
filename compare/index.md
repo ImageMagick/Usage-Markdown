@@ -1042,10 +1042,9 @@ From such an image a simple statistical analysis of the image will determine if 
 
 For example...
 
-~~~{data-postamble="convert wmark_stats.txt wmark_stats.txt.gif"}
+~~~{data-postamble="txt2gif wmark_stats.txt"}
 convert wmark_dragon.jpg  -solarize 50% -colorspace Gray  wmark_bw_test.png
-identify -verbose -alpha off wmark_bw_test.png | \
-    sed -n '/Histogram/q; /Colormap/q; /statistics:/,$ p'  > wmark_stats.txt
+identify -verbose -alpha off wmark_bw_test.png | grep -A6 "Channel statistics:"  > wmark_stats.txt
 ~~~
 
 [![\[IM Output\]](wmark_dragon.jpg)](wmark_dragon.jpg)
@@ -1062,11 +1061,10 @@ When that happens it means the solarized image has very little near pure black i
 That is very few pure black or white colors are present.
 Let's repeat this test using the built-in granite image.
 
-~~~{data-postamble="convert granite_stats.txt granite_stats.txt.gif"}
+~~~{data-postamble="txt2gif granite_stats.txt"}
 convert granite: granite.jpg
 convert granite.jpg -solarize 50% -colorspace Gray  granite_bw_test.png
-identify -verbose -alpha off granite_bw_test.png | \
-  sed -n '/Histogram/q; /Colormap/q; /statistics:/,$ p' > granite_stats.txt
+identify -verbose -alpha off granite_bw_test.png | grep -A6 "Channel statistics:" > granite_stats.txt
 ~~~
 
 [![\[IM Output\]](granite.jpg)](granite.jpg)
@@ -1090,7 +1088,7 @@ If you have an almost pure black and white image then you can try to see if the 
 Text will have lots of small disconnected objects, generally grouped into horizontal lines.
 On the other hand, line drawings should have everything mostly connected together as a whole, and involving many different angles.
 
-Note that cartoon-like color images could also be turned into a line drawing for simpler image comparing, so a line drawing comparison method would be a useful thing to have.
+Note that cartoon-like color images could also be turned into a line drawing for simpler image comparison, so a line drawing comparison method would be a useful thing to have.
 Anyone?
 
 A line drawing image may also be better for matching images with shifted positions, and or rotations.

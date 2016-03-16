@@ -23,7 +23,8 @@ im_graph '+level 30%,30%' gp_level_const.gif
 im_graph '-level 0%,100%,2.0' gp_level_glt.gif
 im_graph '-level 0%,100%,0.5' gp_level_gdk.gif
 im_graph '+level 25%,100%,.6'  gp_level_blue.gif
-im_graph '-fx "(1/(1+exp(10*(.5-u)))-0.0067)*1.0136"' gp_sigmoidal.gif
+# SETCHELL - cannot make next line work
+# im_graph '-fx "(1/(1+exp(10*(.5-u)))-0.0067)*1.0136"' gp_sigmoidal.gif
 # Assert what?
 [ "`identify -format '%[fx:saturation]' normalize.jpg`" != 0 ] && echo >&2 \
   "ASSERTION FAILURE: Normalize channels were not tied together."

@@ -13,37 +13,37 @@ It is associated with **Alpha Composition** which describes the result based on 
 Image Composition is used for blending and averaging images, transfering image channels, cutting, joining, or layering odd shaped segments of images.
 Or, as part of complex mathematical operations.
 
-A good alternate introduction on Image Composition is [SVG Compositing in 30 Minutes](http://www.svgopen.org/2005/papers/abstractsvgopen/).
+A good alternative introduction on Image Composition is [SVG Compositing in 30 Minutes](http://www.svgopen.org/2005/papers/abstractsvgopen/).
 Or you can discover precise mathematical details by reading the [SVG Alpha Compositing](http://www.w3.org/TR/2009/WD-SVGCompositing-20090430/) page, which describes the more important image composition methods.
 
 The following commands are the two direct image 'composite' methods available in ImageMagick...
 
 ~~~{.skip}
-composite {overlay} {background} [{mask}] [-compose {method}]   {result}
+composite {overlay} {background} [{mask}] [-compose {method}]              {result}
 
-convert  {background} {overlay} [{mask}] [-compose {method}] -composite   {result}
+convert   {background} {overlay} [{mask}] [-compose {method}] -composite   {result}
 ~~~
 
 The "`composite`" command is the conventional method of compositing in IM.
 Having a dedicated command demonstrates just how important Image Composition is.
 
 The "`convert`" operator "`-composite`" can also do Image Composition as part of a larger image processing task.
-&lt;/&gt; Note the reversed order of the images when using "`convert`".
+Note the reversed order of the images when using "`convert`".
 The order is practical as you are generally working with a primary canvas over which you prepare and merge images forming a new image.
-The order of the images is important.
+The order of the images is significant.
 
 Practical examples of both techniques (and more) can be reviewed in [Layers of Multiple Images](../layers/#composite), and is recomended reading before continuing.
 
 ### Definition and Terms {#compose_terms}
 
 The more important image is the *background* image often called the *destination* image as this image is the one which is modified by Image Composition.
-The *background* sets not only the final size of the Image Composition but *meta-data*, such as 'comments', 'labels', 'density', 'profiles' and so on, are also preserved.
-It's position is fixed and usually forms the canvas which you are building, thus the name *background*.
+The *background* sets not only the final size of the Image Composition but also the *meta-data* - such as 'comments', 'labels', 'density', 'profiles' and so on.
+Its position is fixed and usually forms the canvas which you are building, thus the name *background*.
 Remember this!
 
 The *overlay* image is often called the *source* image as it controls how the "`-compose`" method should modify the fixed *background* or *destination* image.
 The image can be re-positioned relative to the fixed *background* (usually using "`-geometry`" and "`-gravity`" settings).
-However, both the image and any meta-data it contains, is destroyed when the composite operation is finished.
+However, both the image and any meta-data it contains, are destroyed when the composite operation is finished.
 
 Sometimes a third *mask* image is added to the command.
 This image is used to define and control what parts of the *background* will be modified and to what degree by the resulting composition.
@@ -54,7 +54,6 @@ As of IM v6.5.3-4, the special [Define Setting](../basics/#define) "`compose:out
 For examples of its use see the [Copy](#copy) and [Clear](#clear) compose methods, as well as [PageCurl Corner Overlays](../thumbnails/#pagecurl).
 
 This is equivalent to (but negated) from the [SVG "clip-to-self" attribute](http://www.svgopen.org/2005/papers/abstractsvgopen/index.html#S10.).
-
 
 The actual composition *method* is controlled by the "`-compose`" setting, which defaults to a value of '[`Over`](#over)'.
 That is, the source image is drawn **Over** the *background* image, which is what most people think of when they perform image composition.
@@ -86,21 +85,20 @@ Here is a list of all operators that are known to be affected by the compose set
 
 **[Composition of Pairs of Images](../layers/#composition)**
 
-Practical examples using the primary image composition operators, both the primative "`composite`" command, as well as the [-composite](../option_link.cgi?composite)" operator for "`convert`".
+Practical examples using the primary image composition operators, both the primitive "`composite`" command, as well as the [-composite](../option_link.cgi?composite)" operator for "`convert`".
 
-This low-level methods uses [Geometry/Gravity Settings](#geometry) to determine the position of the overlay image.
+These low-level methods use [Geometry/Gravity Settings](#geometry) to determine the position of the overlay image.
 
 **[Layering Operators](../layers/#flatten)**
 
-The image 'layerimage' operators "`flatten`", "`mosaic`", and "`-layers     merge`" overlay all multiple images in the current image sequence, onto a single new canvas, the size and position of which is determined by the layering operator chosen.
+The 'layerimage' operators "`flatten`", "`mosaic`", and "`-layers merge`" all overlay multiple images in the current image sequence, onto a single new canvas, the size and position being determined by the layering operator chosen.
 
 This uses [Virtual Canvas/Page Offset Settings](#page) to determine the position of the overlay image.
 
 **[Edge Expansion Operators](../crop/#border)**
 
-Operators that overlay each individual image on internally prepared canvases.
-This includes operators such as "`-border`", "`-frame`", and "`-extent`".
-(See [Adding/Removing Image Edges](../crop/#border)).
+Operators that overlay each individual image onto internally prepared canvases.
+This includes operators such as "`-border`", "`-frame`", and "`-extent`" - see [Adding/Removing Image Edges](../crop/#border).
 
 No positioning information is used, though "`-extent`" will make use of gravity and geometry offsets, to overlay on a solid color background image.
 
@@ -111,8 +109,7 @@ The "`-draw 'image...'`" image overlay method will overlay a single external *so
 It is the only image composition technique available to "`mogrify`".
 It gets the 'overlay' image from an external source allowing it to overcome that command's no-list-operator limitation.
 
-
-Resize and Position information is also given by the user, and these may be gravity effected.
+Resize and Position information is also given by the user, and these may be gravity affected.
 
 **[Multi-List Layers Composite](../anim_mods/#composite)**
 
@@ -121,8 +118,6 @@ It also composes a sequence of images with a single image (which can be either a
 It is also the ONLY composition operator to allow you to use BOTH the universal "`-gravity`" affected "`-geometry`" offset (globally), and the virtual canvas "`-page`" offsets of individual images, from that global position.
 
 This composition operator is especially important for composing [Image Animations](../anim_mods/#merge), or other image sequences, as a whole, rather than needing a script to process each pair of images at a time.
-
-  
 
 ------------------------------------------------------------------------
 
@@ -142,11 +137,11 @@ In Alpha Composition only two images are involved, the 'source' and the 'destina
 
 ### Layer Canvas/Page Offsets {#page}
 
-The composition of Layered Images use a very different philosophy.
+The composition of Layered Images uses a very different philosophy.
 All the images (as many as you like) are treated equally in the order given.
-They all have a "`-page`" or [Page Offset](../basic/#page) that position each image's top-left corner relative to a virtual canvas 'origin' (the default offset) but without gravity.
+They all have a "`-page`" or [Page Offset](../basic/#page) that positions each image's top-left corner relative to a virtual canvas 'origin' (the default offset) but without gravity.
 
-To process multiple images a new background image is generated using the current "`-background`" color with a size that is dependent on the operation being performed.
+To process multiple images, a new background image is generated using the current "`-background`" color with a size that is dependent on the operation being performed.
 This is assumed to be the 'destination' image (canvas).
 ALL the images are composited onto this new canvas one at a time in sequence.
 
@@ -163,11 +158,11 @@ The two styles are very different positioning techniques and it is important you
 
 Only one composition technique, the multi-image list [Layers Composition](../anim_mods/#composite) operator, allows you to use BOTH positioning methods simultaneously.
 
-First the two lists are globally geometry positioned, using the virtual canvas size of the first image in each list (with gravity).
+First, the two lists are globally geometry positioned, using the virtual canvas size of the first image in each list (with gravity).
 Then the layer offset is applied from that global position, for each individual image to determine the final position.
 
-Of course if an overlay image does not fit into a specific destination image on the virtual canvas, then it will be clipped.
-As such it is generally a good idea to only use fully-coalesced images for the destination image(s).
+Of course, if an overlay image does not fit into a specific destination image on the virtual canvas, then it will be clipped.
+As such, it is generally a good idea to only use fully-coalesced images for the destination image(s).
 
 ------------------------------------------------------------------------
 
@@ -237,12 +232,11 @@ The overlay image is placed 'over' the background image in the same way as an 'a
 
 
 It is so common that I doubt I really need to say much more.
-So let's present an example of overlaying a single letter image over a background image.
+So let's present an example of overlaying a single letter image onto a background image.
 
 ~~~
-convert -background none  -fill white \
-        -font Ravie  -pointsize 36   label:A   label_A_white.png
-composite -gravity center label_A_white.png   rose:   compose_over.gif
+convert -background none -fill white -font Ravie -pointsize 36 label:A label_A_white.png
+composite -gravity center label_A_white.png rose: compose_over.gif
 ~~~
 
 [![\[IM Output\]](label_A_white.png)](label_A_white.png)
@@ -251,12 +245,11 @@ composite -gravity center label_A_white.png   rose:   compose_over.gif
 The overlay can be centered with gravity as above, or positioned exactly using a "`-geometry`" setting.
 If it is positioned outside the bounds of the background it will be clipped, or ignored, as appropriate.
 
-In this example, the image is overlaid using the "`convert -composite`" operator, but positioned half way above the background.
+In this example, the image is overlaid using the "`convert -composite`" operator, but positioned partially above the background.
 Note the reversal of the image order.
 
 ~~~
-convert  rose:   label_A_white.png \
-        -geometry +5-15   -composite   convert_over.gif
+convert rose: label_A_white.png -geometry +5-15 -composite convert_over.gif
 ~~~
 
 [![\[IM Output\]](convert_over.gif)](convert_over.gif)
@@ -270,15 +263,13 @@ The result is that only the parts of our source or overlay image not hidden by t
 This is NOT exactly the same as '`Over`' with argument images swapped, as the size, positioning and other image meta-data, still comes from the background or destination image.
 Remember the output image size is the same as the 'background' image, and position of the source image is relative to the background (using "`-geometry`" and "`-gravity`").
 
-For example, here we overlay a black 'A; label 'under' our original white A.
+For example, here we overlay a black 'A' label under our original white A.
 We can reposition the black A, relative to the white A background.
-As you can see this is great for adding a hard shadow, without needing to worry about expanding the image size.
+As you can see, this is great for adding a hard shadow, without needing to worry about expanding the image size.
 
 ~~~
-convert -background none  -fill black \
-        -font Ravie  -pointsize 36   label:A   label_A_black.png
-composite -compose Dst_Over  -geometry +5+5 \
-        label_A_black.png  label_A_white.png   compose_under.png
+convert -background none -fill black -font Ravie -pointsize 36 label:A label_A_black.png
+composite -compose Dst_Over -geometry +5+5 label_A_black.png label_A_white.png compose_under.png
 ~~~
 
 [![\[IM Output\]](label_A_black.png)](label_A_black.png)
@@ -291,8 +282,7 @@ The "`-tile`" setting of "`composite`" also makes this form of 'over' very usefu
 For example, tile the built in checkerboard pattern underneath the shadowed letter we just created.
 
 ~~~
-composite  -compose Dst_Over -tile pattern:checkerboard \
-           compose_under.png   compose_under_tiled.jpg
+composite -compose Dst_Over -tile pattern:checkerboard compose_under.png compose_under_tiled.jpg
 ~~~
 
 [![\[IM Output\]](compose_under_tiled.jpg)](compose_under_tiled.jpg)
@@ -312,26 +302,24 @@ Second, the size of the final image does not change even though the image conten
 That is, the resulting image has the same size as the original background.
 As such you can effectively use this operator to either crop or add a border to the source or overlay image so that it becomes the same size as the given background image (along with the background meta-data).
 
-For example, suppose you want to make a plasma image and clip it so it is the same size at the built-in rose image.
+For example, suppose you want to make a plasma image and clip it so it is the same size as the built-in rose image.
 This will let you do it without needing to know just how big the rose image is.
 
 ~~~
-composite -compose Src  -size 100x100  plasma:tomato-dodgerblue \
-          rose:   compose_crop.gif
+composite -compose Src -size 100x100 plasma:tomato-dodgerblue rose: compose_crop.gif
 ~~~
 
 [![\[IM Output\]](compose_crop.gif)](compose_crop.gif)
 
-Of course the above is equivalent to a "`-crop`" of the plasma image, not a 'resize'.
+Of course, the above is equivalent to a "`-crop`" of the plasma image, not a 'resize'.
 The original image's meta-data is also preserved.
-That is even though this is now a plasma image, the image meta-data says it is still a 'rose' image and came from the "rose:" image source.
+That is, even though this is now a plasma image, the image meta-data says it is still a 'rose' image and came from the "rose:" image source.
   
-If the overlay is smaller then the rest of the background image is replaced with transparency to fill it out.
+If the overlay is smaller than the rest of the background image is replaced with transparency to fill it out.
 Please note however that the background must have an alpha channel, or it will fill the extra space with black (the color that '`none`' or '`transparent`' has without any alpha channel).
 
 ~~~
-composite -compose Src -gravity South \
-          hand_point.gif   rose:   -alpha set   compose_expand.gif
+composite -compose Src -gravity South hand_point.gif rose: -alpha set compose_expand.gif
 ~~~
 
 [![\[IM Output\]](hand_point.gif)](hand_point.gif)  
@@ -350,8 +338,7 @@ This in turn allows you to optimize image processing of very large images.
 Here is the same example I used above, but using '`Copy`' instead of '`Src`', showing how IM will not waste time clearing out the rest of the background as demanded by the 'Duff-Porter' algorithm.
 
 ~~~
-composite -compose Copy -gravity South \
-          hand_point.gif   rose:   -alpha set   compose_copy.gif
+composite -compose Copy -gravity South hand_point.gif rose: -alpha set compose_copy.gif
 ~~~
 
 [![\[IM Output\]](compose_copy.gif)](compose_copy.gif)
@@ -363,8 +350,8 @@ Internally, it uses a special composition control setting that tells IM not to m
 
 #### Outside-Overlay Control {#outside-overlay}
 
-As of IM v6.5.3-4 the ability to control if a composition method will effect also areas outside the area overlaid was made user controlable by [Defining](../basics/#define) "`compose:outside-overlay`".
-It is 'on' by default but you can turn it off by setting it's value to "`false`".
+As of IM v6.5.3-4 the ability to control if a composition method will affect also areas outside the area overlaid was made user-controlable by [Defining](../basics/#define) "`compose:outside-overlay`".
+It is 'on' by default but you can turn it off by setting its value to "`false`".
 For example, here is an equivalent to the [Copy Composition Method](#copy) but using the more traditional [Src Composition Method](#src)..
 
 ~~~
@@ -380,7 +367,7 @@ That is when enabled, composition is restricted to just the overlaid region, and
 
 For more information see [SVG Composition 'clip-to-self' property](http://www.w3.org/TR/SVGCompositing/#clip-to-self-property) or [Understanding SVG 1.2 composition, clip-to-self](http://www.svgopen.org/2005/papers/abstractsvgopen/index.html#S10.).
 
-Note that the use of a [Write Mask](../masking/#write_mask) can also be used to achieve this type of control, but using shaped areas according to the mask that is given.
+Note that a [Write Mask](../masking/#write_mask) can also be used to achieve this type of control, but using shaped areas according to the mask that is given.
 
 ### Dst (a 'no-op' compose) {#dst}
 
@@ -394,8 +381,7 @@ In other words, we only use the rose to set the size of the internal frame of th
 The frame, and only the frame, is the result.
 
 ~~~
-convert rose:   -alpha set  -mattecolor '#FFD700'  -bordercolor none \
-        -compose Dst   -frame 7x7+3+2   compose_frame_dst.gif
+convert rose: -alpha set -mattecolor '#FFD700' -bordercolor none -compose Dst -frame 7x7+3+2 compose_frame_dst.gif
 ~~~
 
 [![\[IM Output\]](compose_frame_dst.gif)](compose_frame_dst.gif)
@@ -413,8 +399,7 @@ It will remove the overlay image's shape from the background image like a cookie
 For example, let's use the fancy 'A' from above as a mask to cut out its shape from the rose image.
 
 ~~~
-composite -compose Dst_In  -gravity center \
-          label_A_white.png  rose: -alpha Set  compose_mask.png
+composite -compose Dst_In -gravity center label_A_white.png rose: -alpha Set compose_mask.png
 ~~~
 
 [![\[IM Output\]](compose_mask.png)](compose_mask.png)
@@ -422,8 +407,9 @@ composite -compose Dst_In  -gravity center \
 Unlike the '`Copy_Opacity`' method you can NOT use a greyscale image as the mask as only the overlay image's alpha channel is used in this operation.
 Any color in the overlay is completely ignored.
 
-> ![](../img_www/expert.gif)![](../img_www/space.gif)
-> All '`Dst_In` and '`Src_In`' methods actually does is multiply the alpha channels of the two images.
+> ![](../img_www/expert.gif)
+> EXPERT:
+> All '`Dst_In` and '`Src_In`' methods actually do is multiply the alpha channels of the two images.
 > The color of the appropriate image (according to the method) is preserved.
 
 ### Dst\_Out (or a 'erase' operation) {#dstout}
@@ -434,8 +420,7 @@ It can be used to cut holes, or take bites out of the background image, using th
 Any color in the overlay is again completely ignored.
 
 ~~~
-composite -compose Dst_Out  -gravity center \
-          label_A_white.png  rose: -alpha Set  compose_erase.png
+composite -compose Dst_Out -gravity center label_A_white.png rose: -alpha Set compose_erase.png
 ~~~
 
 [![\[IM Output\]](compose_erase.png)](compose_erase.png)
@@ -446,8 +431,7 @@ For example, here we 'add' (using '`Plus`' composition) the last two images we g
 This image is exactly the same (to the pixel) as the original '`rose:`' image.
 
 ~~~
-composite -compose Plus  compose_mask.png  compose_erase.png \
-          compose_rejoin.png
+composite -compose Plus compose_mask.png compose_erase.png compose_rejoin.png
 ~~~
 
 [![\[IM Output\]](compose_rejoin.png)](compose_rejoin.png)
@@ -466,16 +450,17 @@ For example, suppose you want to draw a crescent moon symbol on a transparent ca
 This alpha composition method makes this difficult shape easy to draw by overlaying two circles.
 
 ~~~
-convert -size 70x70 xc:none -fill white -draw 'circle 35,35 35,5' \
-        \( -size 70x70 xc:none -fill black -draw 'circle 28,30 35,5' \) \
+convert -size 70x70 xc:none -fill white -draw 'circle 35,35 35,5'    \
+     \( -size 70x70 xc:none -fill black -draw 'circle 28,30 35,5' \) \
         -alpha Set -compose Dst_Out  -composite   moon_crescent.png
 ~~~
 
 [![\[IM Output\]](moon_crescent.png)](moon_crescent.png)
 
->![](../img_www/reminder.gif)![](../img_www/space.gif)
+>![](../img_www/reminder.gif)
+> REMINDER:
 > The second image must be created and drawn in parenthesis.
-> If you don't you will find that "`-draw`" will draw onto BOTH the overlay image AND your original background which is obviously wrong.
+> If you don't, you will find that "`-draw`" will draw onto BOTH the overlay image AND your original background which is obviously wrong.
 >
 > If you did not use parentheses you will find a circle of semi-transparent black pixels around the erased part of the image.
 > I know, it happened to me while creating this example much to my own annoyance.
@@ -494,34 +479,31 @@ For example, say we have a red circle and want to add a highlight as if it is a 
 We can create the circle, and the highlight, then overlay the highlight using '`ATop`' to limit it to the circle.
 
 ~~~
-convert -size 70x70 xc:none \
-          -fill red -draw 'circle 35,35 10,30'  red_circle.png
+convert -size 70x70 xc:none -fill red -draw 'circle 35,35 10,30' red_circle.png
 
-convert -size 70x70 xc:none -draw 'circle 35,35 35,20' \
-        -negate  -channel A -blur 0x8    red_highlight.png
+convert -size 70x70 xc:none -draw 'circle 35,35 35,20' -negate -channel A -blur 0x8 red_highlight.png
 
-composite -compose ATop -geometry -13-17 red_highlight.png \
-          red_circle.png red_ball.png
+composite -compose ATop -geometry -13-17 red_highlight.png red_circle.png red_ball.png
 ~~~
 
 [![\[IM Output\]](red_circle.png)](red_circle.png) [![\[IM Output\]](red_highlight.png)](red_highlight.png) [![\[IM Output\]](red_ball.png)](red_ball.png)
 
-> ![](../img_www/reminder.gif)![](../img_www/space.gif)
+> ![](../img_www/reminder.gif)
+> REMINDER:
 > The creation of the white highlight was done using "[`-negate`](../option_link.cgi?negate)" to ensure the whole image is actually white.
 > This was used to avoid a bug in the "[`-blur`](../option_link.cgi?blur)" operator, which has now been fixed in IM version 6.2.4.
 > See [Blur with Transparency Bug](../bugs/blur_trans/) for more details of this old bug.
 
-In a similar way we can add a fuzzy shadow to our ball clipped to the boundaries of the ball itself so that it looks even more 3-D like.
+In a similar way, we can add a fuzzy shadow to our ball clipped to the boundaries of the ball itself so that it looks even more 3-D like.
 I'll leave it as an exercise to the reader to figure out how the following command achieves this result.
 
 ~~~
-convert  moon_crescent.png -fx 0 -channel A -blur 0x7 \
-         red_ball.png  +swap -compose ATop -composite  red_ball2.png
+convert moon_crescent.png -fx 0 -channel A -blur 0x7 red_ball.png +swap -compose ATop -composite red_ball2.png
 ~~~
 
 [![\[IM Output\]](red_ball2.png)](red_ball2.png)
 
-With a little more care with preparatory images the above image can be made even more realistic.
+With a little more care with preparatory images, the above image can be made even more realistic.
 For showing the usage of this compose method, it isn't bad.
 
 Further examples of using '`ATop`' compose method, can be seen in [Generating 3-D Logos](../advanced/#3d-logos).
@@ -534,22 +516,22 @@ This makes it an ideal method of creating a transparent or black canvas, the sam
 As the overlay image is not used, a single pixel "`null:`" image is a good overlay to use.
 
 ~~~
-composite -compose Clear null:  rose: -alpha Set compose_clear.png
+composite -compose Clear null: rose: -alpha Set compose_clear.png
 ~~~
 
 [![\[IM Output\]](compose_clear.png)](compose_clear.png)
 
-Of course the [Alpha Set](../basics/#alpha_set) operaton (while not needed in this case) assures the destination has an alpha channel that can be used when clearing the image to transparency.
+Of course the [Alpha Set](../basics/#alpha_set) operation (while not needed in this case) assures the destination has an alpha channel that can be used when clearing the image to transparency.
 
 If you specifically [turn off the alpha channel](#alpha_off), then the operator will clear the image to black, due to the mathematics involved.
 
 ~~~
-composite -compose Clear null:  rose: -alpha Off compose_black.png
+composite -compose Clear null: rose: -alpha Off compose_black.png
 ~~~
 
 [![\[IM Output\]](compose_black.png)](compose_black.png)
 
-The special [Define Setting](../basics/#define) "`compose:outside-overlay`" allows you limit this clearing to just the area overlaid regardless if the overlay image contains transparency or not.
+The special [Define Setting](../basics/#define) "`compose:outside-overlay`" allows you to limit this clearing to just the area overlaid regardless if the overlay image contains transparency or not.
 For example:
 
 ~~~
@@ -585,18 +567,19 @@ convert -size 60x60  compose_xor_2.png  \
 [![\[IM Output\]](compose_xor_3.png)](compose_xor_3.png)
 
 As you can see overlapping multiple images can produce some wonderful effects where any even number of images overlapping will be clear, while any odd number of overlapping images will result in the last image overlaid showing through.
-    FUTURE:  Xor effects on semi-transparent images get extremely weird.
-    Explore this and create an example demonstrating this weirdness.
+
+FUTURE:  Xor effects on semi-transparent images get extremely weird.
+Explore this and create an example demonstrating this weirdness.
 
 ------------------------------------------------------------------------
 
 ## Mathematical Compose Methods {#math}
 
 This group of compose methods lets you perform mathematics with the images.
-This may not seem very useful but for low level manipulation of images the methods allow you to do things which you may not normally think of.
+This may not seem very useful, but for low level manipulation of images, the methods allow you to do things which you may not normally think of.
 
 Unlike the previous [Duff-Porter](#duff) image composition methods they are generally greyscale methods.
-That is they are usually applied to images were either one or both images are greyscale, and usually do not contain transparency.
+That is, they are usually applied to images where either one or both images are greyscale, and usually do not contain transparency.
 That is not to say transparency can not be used (see [Mathematical Composition and Alpha](#math_blending) below), but it is not a very common practice.
 
 The default usage of Math Compositions is defined by the SVG image file format specification.
@@ -608,8 +591,7 @@ The result is produced by composing two gradient images as in the following...
 ~~~
 convert -size 64x64 gradient:             gradient_src.png
 convert -size 64x64 gradient: -rotate 90  gradient_dst.png
-composite gradient_src.png -compose Multiply gradient_dst.png \
-          gradient_result.png
+composite gradient_src.png -compose Multiply gradient_dst.png gradient_result.png
 ~~~
 
 ![Source](gradient_src.png)
@@ -753,8 +735,8 @@ In the next example I will use it as a means of background removal.
 As normalized color values are used and these normally range from 0.0 (black) to 1.0 (white), division will in fact brighten the numerator image, by the amount of 'black' that appears within the image you are 'dividing by'.
 
 
-Now dividing to images, so the 'numerator' image (the one not specified by the operator) is brightened, may sound weird.
-It is however a very useful operation.
+Now dividing two images, so the 'numerator' image (the one not specified by the operator) is brightened, may sound weird.
+It is, however, a very useful operation.
 It means you can effectively remove dark patches from an image caused either by lens vignetting, bad scanning, or tinting caused by age.
 
 
@@ -792,7 +774,8 @@ The divide operators are actually the similar to the '`Color_Dodge`' composition
 This is the composition that it typically used in Photoshop, however it may require you to swap image and [Negate Images](../color_mods).
 See '`Color_Dodge`' for equivalences.
 
-> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> ![](../img_www/warning.gif)
+> WARNING:
 > Before IM v6.6.8-5 only the original '`Divide`' method was provided (equivalent to the newer '`Divide_Dst`').
 
 [![\[IM Output\]](gradient_op_plus.png)](gradient_op_plus.png)
@@ -814,17 +797,13 @@ Merging together images which contain separate channel colors, but where only th
 For example...
 
 ~~~
-convert -size 60x60 xc:none -fill red \
-        -draw 'circle 30,21 30,3'   compose_R.png
-convert -size 60x60 xc:none -fill lime \
-        -draw 'circle 39,39 36,57'  compose_G.png
-convert -size 60x60 xc:none -fill blue \
-        -draw 'circle 21,39 24,57'  compose_B.png
+convert -size 60x60 xc:none -fill red  -draw 'circle 30,21 30,3'   compose_R.png
+convert -size 60x60 xc:none -fill lime -draw 'circle 39,39 36,57'  compose_G.png
+convert -size 60x60 xc:none -fill blue -draw 'circle 21,39 24,57'  compose_B.png
 composite -compose plus  compose_R.png compose_G.png  compose_plus_RG.png
 composite -compose plus  compose_R.png compose_B.png  compose_plus_RB.png
 composite -compose plus  compose_G.png compose_B.png  compose_plus_GB.png
-composite -compose plus  compose_R.png compose_plus_GB.png \
-          compose_plus_RGB.png
+composite -compose plus  compose_R.png compose_plus_GB.png compose_plus_RGB.png
 ~~~
 
 [![\[IM Output\]](compose_R.png)](compose_R.png)
@@ -835,12 +814,13 @@ composite -compose plus  compose_R.png compose_plus_GB.png \
 [![\[IM Output\]](compose_plus_GB.png)](compose_plus_GB.png)
 [![\[IM Output\]](compose_plus_RGB.png)](compose_plus_RGB.png)
 
-> ![](../img_www/expert.gif)![](../img_www/space.gif)
+> ![](../img_www/expert.gif)
+> EXPERT:
 > Due to IM's compliance to the SVG standard, 'green' is not a true green color (like it is in X11 color names) but a dark or half bright green.
-> A true RGB green can be specified with the color '`lime`' as we have done in the above example.*
+> A true RGB green can be specified with the color '`lime`' as we have done in the above example.
 
 It is also used as a mathematical operator to add together separate gradient images.
-For example, in calculating a 'manhatten' [Difference Images](../compare/#difference), or in [Gradient Mathematics](../transform/#gradient_math).
+For example, in calculating a 'manhattan' [Difference Images](../compare/#difference), or in [Gradient Mathematics](../transform/#gradient_math).
 
 '`Plus`' is sometimes used to add white text to an image.
 This is NOT correct usage, and may result in some anti-aliasing inconsistencies.
@@ -863,7 +843,7 @@ If it wasn't for this special blending method of '`Plus`', these special transpa
 As of IM v6.6.1-6 the ability to use the mathematical operator on alpha channels was added to all the [Mathematical Compose Methods](#math) simply by removing the default '`Sync`' flag from "`-channel`" setting, (simply specify the specific channels you want to apply it to).
 See [Image Channel Mathematics using Image Composition](#image_math) below.
 
-This means the '`Plus`' the only [Mathematical Compose Methods](#math) operator not effected by this feature as it is already applied by default.
+This means the '`Plus`' the only [Mathematical Compose Methods](#math) operator not affected by this feature as it is already applied by default.
   
 [![\[IM Output\]](gradient_op_minus.png)](gradient_op_minus.png)
 
@@ -871,7 +851,7 @@ This means the '`Plus`' the only [Mathematical Compose Methods](#math) operator 
 
 The result is one image subtracted from the other.
 
-Which image is the subtracted from the other depend on if '`Minus_Src`' or '`Minus_Dst`' is applied.
+Which image is subtracted from the other depend on if '`Minus_Src`' or '`Minus_Dst`' is applied.
 Specifically '`Minus_Dst`', means 'subtract the destination' or if applied in a "`composite`" command....
 The formula for.. '`Minus_Dst`' is $Src - Dest$ and for '`Minus_Src`' is $Dest - Src$
 
@@ -887,8 +867,7 @@ It is also the operator used to define the displayed gradient chart.
 For example, subtract a circle from the final result of the previous 'Plus' operation above.
 
 ~~~
-composite compose_plus_RGB.png  -compose minus_dst  compose_R.png \
-          compose_minus.png
+composite compose_plus_RGB.png -compose minus_dst compose_R.png compose_minus.png
 ~~~
 
 [![\[IM Output\]](compose_minus.png)](compose_minus.png)
@@ -901,7 +880,8 @@ See [Image Channel Mathematics](#image_math) below for details.
 The '`Linear Burn`' compose method can also be used for color subtraction, but works by the user negating the image to be subtracted.
 See the [Linear Burn Compose Method](#linearburn) for more details.
 
-> ![](../img_www/warning.gif)![](../img_www/space.gif)
+> ![](../img_www/warning.gif)
+> WARNING:
 > Before IM v6.6.8-5 only the original '`Minus`' method was provided (equivalent to the newer '`Minus_Dst`').
 
 [![\[IM Output\]](gradient_op_modulusadd.png)](gradient_op_modulusadd.png)
@@ -968,6 +948,8 @@ Its formula is: $abs(Src - Dest)$
 
 The '`black`' and '`white`' difference will produce a maximum result of white while any colors which are the same will produce black.
 Basically a simple form of image comparison.
+
+ELEPHANT
 
 The more common use of this composite method is for comparing two images of the same size to see how they differ, and even produce a percentage of that difference.
 
@@ -1755,7 +1737,7 @@ You could think of it as placing an object on top of an photo for a very long ti
 A pure black overlay does not change the image while a pure white overlay will make all the background colors white, except for those that were pure black.
 
 However unlike either '`Screen`' (inverted multiply) or '`Linear_Dodge`' (add) dodge compose methods, a pure black or all white destination image will remain uneffected by the lighting mask.
-In other words only areas containing grays and non-pure color is affected.
+In other words, only areas containing grays and non-pure color are affected.
 
 Its formula is: $Dest / (1-Src)$
 

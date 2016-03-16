@@ -1,7 +1,7 @@
 # Compose Tables
 
 The following tables of most of the IM compose methods with various shapes and gradients.
-They form a summary of these important alpha compositing methods, and was vital in helping me figure out exactly what each composition method did and for what purpose they can be used.
+They form a summary of these important alpha compositing methods, and were vital in helping me figure out exactly what each composition method did and for what purpose each can be used.
 
 The command that is being run is generally...
 
@@ -15,7 +15,7 @@ A shell script "`compose_table`" also generates and displays various tables (wit
 
 For these first set of tables with I am using two images which are similar to the test images used in the documentation for [SVG Alpha Compositing](http://www.w3.org/TR/SVG12/rendering.html).
 They are perfect for demonstrating the 12 'Duff-Porter' compose operators.
-They are triangular images containing no semi-transparent pixels (only transparent and opaque colors.
+They are triangular images containing no semi-transparent pixels - i.e. only fully transparent and fully opaque colors.
 
 However I have found that using overlapping circles, such as typically used in 'Ven Disgrams' for set theory to be more useful.
 
@@ -30,7 +30,7 @@ However if you do not want this you can use the operational setting "`-define co
 
 ------------------------------------------------------------------------
 
-However while the Duff-Porter methods are useful for basic image overlays, Their are a set of math methods that are much more useful with image masks.
+However while the Duff-Porter methods are useful for basic image overlays, there are a set of math methods that are much more useful with image masks.
 To demonstrate I created some black and white images of circles which overlap, so you can see the results.
 
 [![\[IM Output\]](montage_circles_1.jpg)](montage_circles_1.jpg)
@@ -43,7 +43,7 @@ They appear in '`ModulusAdd`' and '`ModulusSubtract`' as these are 'modulus wrap
 
 ------------------------------------------------------------------------
 
-Gradients make the best demonstration of the mathematical methods as well as "Channel Coping" and "Color Manupliation" alpha blending methods.
+Gradients make the best demonstration of the mathematical methods as well as "Channel Coping" and "Color Manipulation" alpha blending methods.
 
 [![\[IM Output\]](montage_gradient_1.jpg)](montage_gradient_1.jpg)
 [![\[IM Output\]](montage_gradient_2.jpg)](montage_gradient_2.jpg)

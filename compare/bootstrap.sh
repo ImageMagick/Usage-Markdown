@@ -1,3 +1,4 @@
+PATH=$PATH:../scripts
 ln -s ../images/bag_frame?.gif .
 
 # Generate a impure Black and White image...
