@@ -39,7 +39,7 @@ It generally will look better and the area left will be a perfect copy of the or
 
 Because it is often better not to resize images...
 
-**Resize will no nothing at all if the resized image is the same size.**
+**Resize will do nothing at all if the resized image is the same size.**
 
 The exception to this (there is always an exception) is if you actually specify a [Resampling Filter](../filter/#filter) using a "`-filter`" setting.
 In that case the normal "do nothing if image isn't resized" is overridden and the filter will be applied.
