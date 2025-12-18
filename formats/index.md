@@ -1478,7 +1478,7 @@ Values can be either
 
 
 ------- ---------------------------------------------------------------------
- '`0`'   for Greyscale, which allows for '`bit-depths`' of 2, 3, 4, 8 or 16.
+ '`0`'   for Greyscale, which allows for '`bit-depths`' of 1, 2, 4, 8 or 16.
  '`2`'   for RGB, which allows for '`bit-depths`' of 8 or 16.
  '`3`'   for Indexed, which allows for '`bit-depths`' of 1, 2, 4 or 8.
  '`4`'   for Gray-Matte.
